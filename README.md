@@ -32,7 +32,7 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 
 ## Credits
 - The Cirno_TV & Friends mod is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NopeTooFast](https://bsky.app/profile/nopetoofast.bsky.expert).
-- [NyongNyong[(https://bsky.app/profile/nyongnyong.bsky.social) for the art used for the Mime Joker.
+- [NyongNyong](https://bsky.app/profile/nyongnyong.bsky.social) for the art used for the Mime Joker.
 - [Turpix](https://bsky.app/profile/turpix.bsky.social) for [their art used](https://www.nexusmods.com/balatro/mods/114) for the Stone Joker.
 - This [Miku replacement mod](https://www.nexusmods.com/balatro/mods/223) for art used for the Chaos the Clown Joker.
 - The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art used for the DNA Joker (The art itself appears to not be credited to any specific contributing artist), as well as code for changing elements of the title screen, such as the logo and background vortex colours.
