@@ -9,7 +9,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 ![Showcase of Blueprint](https://i.imgur.com/Fqksaei.png)
 ![Showcase of Gluttonous Joker](https://i.imgur.com/wghmxA1.png)
-![Showcase of Playing Cards](https://i.imgur.com/QNKXW7n.png)
+![Showcase of Playing Cards](https://i.imgur.com/kQTZOGD.png)
 
 ## Installation
 This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), the latest version of [Steammodded](https://github.com/Steamodded/smods) & the latest version of [Malverk](https://github.com/Eremel/Malverk). Without these dependencies, this mod will not function.
