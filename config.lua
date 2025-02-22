@@ -7,6 +7,7 @@ return {
 	['blindRenames'] = true,
 	['deckRenames'] = true,
 	['enhancerRenames'] = true,
-	['tarotSpectralRenames'] = true
-	['miscRenames'] = true
+	['tarotSpectralRenames'] = true,
+	['miscRenames'] = true,
+	['additionalChallenges'] = false
 }

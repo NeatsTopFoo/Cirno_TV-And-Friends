@@ -10,13 +10,11 @@
 ----- playing card textures themselves.		 -----
 --------------------------------------------------
 
--- Unsure why this doesn't work. This should work. But it isn't.
-
 -- Which suits to replace
-local suits = { 'hearts', 'clubs', 'diamonds', 'spades' }
+local cardSuits = { 'hearts', 'clubs', 'diamonds', 'spades' }
 
 -- Which ranks to replaces
-local ranks = { "Jack", "Queen", "King" }
+local cardRanks = { 'Jack', 'Queen', 'King' }
 
 -- Establishes the graphic to use and sets it up so it can be read
 SMODS.Atlas{
@@ -28,16 +26,16 @@ SMODS.Atlas{
 }
 
 -- Iterates through each given suit and sets up the necessary changes in the customise deck screen
-for _, suit in ipairs(suits) do
-	SMODS.DeckSkin{
-		key = suit.."_skin",
-		suit = suit:gsub("^$1", string.upper),
-		ranks = ranks,
-		lc_atlas = 'cir_CardAtlas',
-		hc_atlas = 'cir_CardAtlas',
-		loc_txt = {
-			['en-us'] = 'Cirno_TV & Friends'
-		},
-		posStyle = 'deck'
-	}
+for _, suit in ipairs(cardSuits) do
+    SMODS.DeckSkin{
+        key = suit.."_skin",
+        suit = suit:gsub("^%l", string.upper),
+        ranks = cardRanks,
+        lc_atlas = 'cir_CardAtlas',
+        hc_atlas = 'cir_CardAtlas',
+        loc_txt = {
+            ['en-us'] = 'Cirno_TV & Friends'
+        },
+        posStyle = 'deck'
+    }
 end

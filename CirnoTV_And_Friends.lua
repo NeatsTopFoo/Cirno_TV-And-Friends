@@ -45,7 +45,7 @@ SMODS.current_mod.config_tab = function()
 										config = { align = 'tr', padding = 0.05 },
 										nodes = {
 											create_toggle({
-												label = "Enable Title Screen Colours (NOT YET FUNCTIONAL)",
+												label = "Enable Title Screen Colours (Not Currently Functional)",
 												w = 1.5,
 												text_scale = 0.7,
 												ref_table = CirnoMod.config,
@@ -59,7 +59,7 @@ SMODS.current_mod.config_tab = function()
 										config = { align = 'tr', padding = 0.05 },
 										nodes = {
 											create_toggle({
-												label = "Enable Playing Card Textures (Currently Broken???)",
+												label = "Enable Playing Card Textures",
 												w = 1.5,
 												text_scale = 0.7,
 												ref_table = CirnoMod.config,
@@ -163,6 +163,20 @@ SMODS.current_mod.config_tab = function()
 												ref_table = CirnoMod.config,
 												ref_value = 'miscRenames',
 												callback = CirnoMod.callback_miscRenamesToggle
+											})
+										}
+									},
+									{
+										n = G.UIT.R,
+										config = { align = 'tr', padding = 0.05 },
+										nodes = {
+											create_toggle({
+												label = "Enable Additional Challenges",
+												w = 1.5,
+												text_scale = 0.7,
+												ref_table = CirnoMod.config,
+												ref_value = 'additionalChallenges',
+												callback = CirnoMod.callback_additionalChallengesToggle
 											})
 										}
 									}
