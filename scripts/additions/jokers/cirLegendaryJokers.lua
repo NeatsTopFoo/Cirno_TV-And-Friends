@@ -1,0 +1,5 @@
+-- So it turns out that GitHub doesn't create directories in the repo if they are unpopulated, which makes sense, I guess.
+-- So for now, this is a placeholder lua that does nothing until I get around to adding stuff. I would like to add the
+-- me Joker if that's alright, but I don't mind not. I was thinking that maybe it's too strong and the added mult could be
+-- reduced to 0.75. Do remember that you can't use a Wheel of Fortune if all Jokers have editions, so scaling it requires
+-- at least one Joker that doesn't have an edition, plus it has anti-synergy with oops all 6s.
