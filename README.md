@@ -19,7 +19,8 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 **Installing Malverk:**
 - After following the previously linked tutorial, download the latest version of Malverk from its releases page (At time of writing, getting Malverk's "Source code" .zip *should* be fine unless that page explicitly states something specific for you to download instead).
 - Either by extracting the contents of or otherwise opening the Malverk .zip, you should get a folder of the same name as the zip file (or similar). Move that folder to the .../Balatro/mods directory you created in the previous tutorial.
-- (To be safe) Ensure that Balatro runs properly.
+- (To be safe) Ensure that Balatro runs properly. 
+
 **Installing this mod:**
 - Download the latest version of this mod from the releases page.
 - Either by extracting the contents of or otherwise opening this mod's .zip, you should get a folder of the same name as the zip file (or similar). Move that folder to the .../Balatro/mods directory you created in the previous tutorial.
