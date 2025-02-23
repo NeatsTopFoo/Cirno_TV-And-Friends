@@ -56,7 +56,7 @@ AltTexture({
 		-- 'j_droll',
 		'j_half',
 		-- 'j_merry_andy',
-		-- 'j_stone',
+		'j_stone',
 		
 		-- 'j_jugglar',
 		'j_drunkard',
