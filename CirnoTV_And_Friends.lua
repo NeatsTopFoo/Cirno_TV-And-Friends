@@ -179,6 +179,20 @@ SMODS.current_mod.config_tab = function()
 												callback = CirnoMod.callback_additionalChallengesToggle
 											})
 										}
+									},
+									{
+										n = G.UIT.R,
+										config = { align = 'tr', padding = 0.05 },
+										nodes = {
+											create_toggle({
+												label = "Enable Additional Custom Jokers",
+												w = 1.5,
+												text_scale = 0.7,
+												ref_table = CirnoMod.config,
+												ref_value = 'addCustomJokers',
+												callback = CirnoMod.callback_addCustomJokersToggle
+											})
+										}
 									}
 								}
 							}
@@ -452,6 +466,12 @@ if CirnoMod.allEnabledOptions['jokerRenames'] then
 	SMODS.load_file("scripts/renames_etc/Jokers_Rename.lua")(CirnoMod)
 end
 
+-- Additional Custom Jokers
+if CirnoMod.allEnabledOptions['addCustomJokers'] then
+	-- TODO: Iterate through all lua files in scripts\additions\jokers\ and SMODS.load_file them.
+	--       Yes, this is possible functionality that I have seen done.
+end
+
 -- Blind Renames
 if CirnoMod.allEnabledOptions['blindRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
@@ -480,4 +500,9 @@ end
 if CirnoMod.allEnabledOptions['miscRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	SMODS.load_file("scripts/renames_etc/Misc_Rename.lua")(CirnoMod)
+end
+
+-- Additional Custom Challenges
+if CirnoMod.allEnabledOptions['additionalChallenges'] then
+	-- TODO: Iterate through all lua files in scripts\additions\challenges\ and SMODS.load_file them.
 end

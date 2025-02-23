@@ -4,6 +4,7 @@ return {
 	['playingCardTextures'] = true,
 	['malverkReplacements'] = true,
 	['jokerRenames'] = true,
+	['addCustomJokers'] = true,
 	['blindRenames'] = true,
 	['deckRenames'] = true,
 	['enhancerRenames'] = true,

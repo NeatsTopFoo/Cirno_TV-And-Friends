@@ -295,6 +295,24 @@ AltTexture({
 	set = 'Back',
 	path = 'cir_DecksEnhancers.png',
 	original_sheet = true,
+	keys = {
+		'b_red',
+		'b_blue',
+		-- 'b_yellow',
+		-- 'b_green',
+		'b_black',
+		-- 'b_magic',
+		-- 'b_nebula',
+		-- 'b_ghost',
+		-- 'b_abandoned',
+		-- 'b_checkered',
+		-- 'b_zodiac',
+		-- 'b_painted',
+		-- 'b_anaglyph',
+		-- 'b_plasma',
+		-- 'b_erratic',
+		-- 'b_challenge'
+	}
 	loc_txt = {
 		name = 'Decks'
 	}
@@ -306,6 +324,16 @@ AltTexture({
 	set = 'Enhanced',
 	path = 'cir_DecksEnhancers.png',
 	original_sheet = true,
+	keys = {
+		-- 'm_bonus',
+		-- 'm_mult',
+		-- 'm_wild',
+		-- 'm_glass',
+		-- 'm_steel',
+		'm_stone',
+		-- 'm_gold',
+		-- 'm_lucky'
+	}
 	loc_txt = {
 		name = 'Enhancers'
 	}
