@@ -101,6 +101,6 @@ pattern = "if self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' or 
 position = "after"
 payload = '''
 self.ntf_wheel_success = false
-if self.ability.name == 'The Wheel of Fortune' then self.ntf_wheel_success = true end
+if self.ability.name == 'The Wheel of Fortune' then self.cirNtf_wheel_success = true end
 '''
 match_indent = false
