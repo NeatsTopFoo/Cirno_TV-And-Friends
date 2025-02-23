@@ -312,7 +312,7 @@ AltTexture({
 		-- 'b_plasma',
 		-- 'b_erratic',
 		-- 'b_challenge'
-	}
+	},
 	loc_txt = {
 		name = 'Decks'
 	}
@@ -333,7 +333,7 @@ AltTexture({
 		'm_stone',
 		-- 'm_gold',
 		-- 'm_lucky'
-	}
+	},
 	loc_txt = {
 		name = 'Enhancers'
 	}
