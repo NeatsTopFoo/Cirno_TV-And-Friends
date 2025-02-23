@@ -114,7 +114,7 @@ AltTexture({
 		
 		-- 'j_flower_pot',
 		-- 'j_ride_the_bus', 
-		-- 'j_shoot_the_moon',
+		'j_shoot_the_moon',
 		-- 'j_smeared',
 		-- 'j_oops',
 		-- 'j_four_fingers', 
