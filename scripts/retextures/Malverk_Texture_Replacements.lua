@@ -72,10 +72,11 @@ AltTexture({
 		-- 'j_troubadour',
 		-- 'j_banner',
 		-- 'j_mystic_summit',
+		-- 'j_marble',
 		-- 'j_loyalty_card',
 		'j_hack',
 		'j_misprint',
-		-- 'j_steel joker',
+		-- 'j_steel_joker',
 		'j_raised_fist',
 		-- 'j_golden',
 		
@@ -137,6 +138,7 @@ AltTexture({
 		-- 'j_arrowhead',
 		-- 'j_onyx_agate',
 		----- Legendary Jokers are their own separate AltTexture block below. -----
+		----- And they also operate super funky because of their soul_pos stuff -----
 		-- 'j_certificate',
 		'j_bootstraps',
 		
@@ -166,7 +168,7 @@ AltTexture({
 		-- 'j_vampire',
 		-- 'j_shortcut',
 		----- Hologram is funky. Let me know if you work something out for its graphic. -----
-		-- 'j_vagabond'
+		-- 'j_vagabond',
 		-- 'j_baron',
 		'j_cloud_9',
 		-- 'j_rocket'
@@ -183,7 +185,7 @@ AltTexture({
 		-- 'j_to_the_moon',
 		-- 'j_hallucination',
 		
-		-- 'j_sly'
+		-- 'j_sly',
 		-- 'j_wily',
 		'j_clever',
 		-- 'j_devious',
