@@ -129,7 +129,7 @@ AltTexture({
 		-- 'j_dusk',
 		-- 'j_throwback',
 		-- 'j_idol',
-		-- 'j_brainstorm',
+		'j_brainstorm',
 		-- 'j_satellite',
 		-- 'j_rough_gem',
 		
