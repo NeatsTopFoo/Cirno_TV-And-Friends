@@ -5,7 +5,7 @@ SMODS.process_loc_text(G.localization.descriptions.Blind.bl_eye, "name", "The 'I
 SMODS.process_loc_text(G.localization.descriptions.Blind.bl_flint, "name", "The Poison Swamp")
 SMODS.process_loc_text(G.localization.descriptions.Blind.bl_goad, "name", "The")
 SMODS.process_loc_text(G.localization.descriptions.Blind.bl_head, "name", "The... What Do I Do?")
--- SMODS.process_loc_text(G.localization.descriptions.Blind.bl_hook, "name", "")
+SMODS.process_loc_text(G.localization.descriptions.Blind.bl_hook, "name", "The Booty")
 SMODS.process_loc_text(G.localization.descriptions.Blind.bl_house, "name", "The Whale")
 SMODS.process_loc_text(G.localization.descriptions.Blind.bl_manacle, "name", "The Memory")
 SMODS.process_loc_text(G.localization.descriptions.Blind.bl_mark, "name", "The No Dabbing")

@@ -128,7 +128,7 @@ AltTexture({
 		-- 'j_astronomer',
 		-- 'j_burnt',
 		-- 'j_dusk',
-		-- 'j_throwback',
+		'j_throwback',
 		-- 'j_idol',
 		'j_brainstorm',
 		-- 'j_satellite',

@@ -3,6 +3,30 @@ SMODS.process_loc_text(G.localization.misc.labels, "gold_seal", "Full Power Seal
 SMODS.process_loc_text(G.localization.misc.labels, "purple_seal", "Life Seal")
 SMODS.process_loc_text(G.localization.misc.labels, "red_seal", "Power Seal")
 
+SMODS.process_loc_text(G.localization.descriptions.Spectral.c_deja_vu, "text", {
+                    "Add a {C:red}Power Seal{}",
+                    "to {C:attention}1{} selected",
+                    "card in your hand",
+                })
+
+SMODS.process_loc_text(G.localization.descriptions.Spectral.c_medium, "text", {
+                    "Add a {C:purple}Life Seal{}",
+                    "to {C:attention}1{} selected",
+                    "card in your hand",
+                })
+
+SMODS.process_loc_text(G.localization.descriptions.Spectral.c_talisman, "text", {
+                    "Add a {C:attention}Full Power Seal{}",
+                    "to {C:attention}1{} selected",
+                    "card in your hand",
+                })
+
+SMODS.process_loc_text(G.localization.descriptions.Spectral.c_trance, "text", {
+                    "Add a {C:blue}Point Seal{}",
+                    "to {C:attention}1{} selected",
+                    "card in your hand",
+                })
+
 SMODS.process_loc_text(G.localization.descriptions.Other.blue_seal, "name", "Point Seal")
 SMODS.process_loc_text(G.localization.descriptions.Other.gold_seal, "name", "Full Power Seal")
 SMODS.process_loc_text(G.localization.descriptions.Other.purple_seal, "name", "Life Seal")

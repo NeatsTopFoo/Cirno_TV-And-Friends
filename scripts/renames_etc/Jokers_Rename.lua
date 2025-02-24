@@ -237,6 +237,14 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_stuntman, "text", {
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_dusk, "name", "Dusk")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_throwback, "name", "Throwback")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_throwback, "text", {
+                    "{X:mult,C:white} X#1# {} Mult for each",
+                    "{C:attention}Blind{} skipped this run",
+                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+                    "{C:inactive}\"...What are you talking about?",
+                    "{C:inactive}What Bing search?! Do I have a",
+                    "{C:inactive}virus?!?!?!\""
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_idol, "name", "The Idol")
 

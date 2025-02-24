@@ -20,13 +20,21 @@
 --                 "they say, the",
 --                 "house always wins!"
 --				})
-
+if CirnoMod.allEnabledOptions['enhancerRenames'] then
 SMODS.process_loc_text(G.localization.misc.quips, "lq_5", {
-                "It looks like you're",
-                "trying to make a Red Seal",
-                "Steel King build. Would",
+                "Looks like you're",
+                "trying to make a {C:red}Power Seal{}",
+                "{C:attention}Steel King{} build. Would",
 				"you like help with that?"
             })
+else
+SMODS.process_loc_text(G.localization.misc.quips, "lq_5", {
+                "Looks like you're",
+                "trying to make a {C:red}Red Seal[]",
+                "{C:attention}Steel King{} build. Would",
+				"you like help with that?"
+            })
+end
 
 --	SMODS.process_loc_text(G.localization.misc.quips, "lq_6", {
 --					"Oh no, were you",
