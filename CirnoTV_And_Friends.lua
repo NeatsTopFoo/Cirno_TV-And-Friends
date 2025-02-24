@@ -212,7 +212,7 @@ if CirnoMod.allEnabledOptions['titleLogo'] then
 	-- Title Screen Logo Texture
 	SMODS.Atlas {
 		key = "balatro",
-		path = "cir_BalatroLogo.png",
+		path = "Vanilla_Replacements/cir_BalatroLogo.png",
 		px = 333,
 		py = 216,
 		prefix_config = { key = false }

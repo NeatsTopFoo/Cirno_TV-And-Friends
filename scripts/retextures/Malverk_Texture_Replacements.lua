@@ -23,7 +23,7 @@
 AltTexture({
 	key = 'mlvrk_NormalJokers',
 	set = 'Joker',
-	path = 'cir_Jokers.png',
+	path = 'Vanilla_Replacements/cir_Jokers.png',
 	
 	-- Sets the graphic of the mod card in Malverk UI to be Blueprint.
 	-- It's basically the face of this mod at this point.
@@ -218,7 +218,7 @@ AltTexture({
 AltTexture({
 	key = 'mlvrk_LegendaryJokers',
 	set = 'Joker',
-	path = 'cir_Legendaries.png',
+	path = 'Vanilla_Replacements/cir_Legendaries.png',
 	keys = {
 		'j_caino', -- I did say there were a bunch of these mispellings
 		'j_triboulet',
@@ -245,7 +245,7 @@ AltTexture({
 AltTexture({
 	key = 'mlvrk_Tarots',
 	set = 'Tarot',
-	path = 'cir_TarotsPlanetsSpectrals.png',
+	path = 'Vanilla_Replacements/cir_TarotsPlanetsSpectrals.png',
 	original_sheet = true,
 	keys = {
 		'c_fool',
@@ -295,7 +295,7 @@ AltTexture({
 AltTexture({
 	key = 'mlvrk_Decks',
 	set = 'Back',
-	path = 'cir_DecksEnhancers.png',
+	path = 'Vanilla_Replacements/cir_DecksEnhancers.png',
 	original_sheet = true,
 	keys = {
 		'b_red',
@@ -324,7 +324,7 @@ AltTexture({
 AltTexture({
 	key = 'mlvrk_Enhancers',
 	set = 'Enhanced',
-	path = 'cir_DecksEnhancers.png',
+	path = 'Vanilla_Replacements/cir_DecksEnhancers.png',
 	original_sheet = true,
 	keys = {
 		-- 'm_bonus',
@@ -345,7 +345,7 @@ AltTexture({
 AltTexture({
 	key = 'mlvrk_Seals',
 	set = 'Seal',
-	path = 'cir_DecksEnhancers.png',
+	path = 'Vanilla_Replacements/cir_DecksEnhancers.png',
 	original_sheet = true,
 	loc_txt = {
 		name = 'Seals'
@@ -361,7 +361,7 @@ AltTexture({
 	key = 'mlvrk_SmallBigBlind',
 	set = 'Blind',
 	original_sheet = true,
-	path = 'cir_BlindChips.png',
+	path = 'Vanilla_Replacements/cir_BlindChips.png',
 	frames = 21,
 	keys = {
 		'bl_small',
@@ -377,7 +377,7 @@ AltTexture({
 	key = 'mlvrk_Boss_Blinds',
 	set = 'Blind',
 	original_sheet = true,
-	path = 'cir_BlindChips.png',
+	path = 'Vanilla_Replacements/cir_BlindChips.png',
 	frames = 21,
 	keys = {
 		'bl_ox',
@@ -414,7 +414,7 @@ AltTexture({
 	key = 'mlvrk_Finale_Blinds',
 	set = 'Blind',
 	original_sheet = true,
-	path = 'cir_BlindChips.png',
+	path = 'Vanilla_Replacements/cir_BlindChips.png',
 	frames = 21,
 	keys = {
 		'bl_final_heart',

@@ -33,19 +33,20 @@ position = "at"
 payload = "SC = G.FUNCS.center_splash_screen_card(SC_scale)"
 match_indent = true
 
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = '''
-                local card = Card(card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
-                                  card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
-                                  card_size*G.CARD_W, card_size*G.CARD_H, pseudorandom_element(G.P_CARDS), G.P_CENTERS.c_base)
-'''
-position = "at"
-payload = '''
-local card = G.FUNCS.splash_screen_card(card_pos, card_size)
-'''
-match_indent = true
+# Disabled for now as it appears to have no effect according to the lovely patcher
+# [[patches]]
+# [patches.pattern]
+# target = "game.lua"
+# pattern = '''
+#                 local card = Card(card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
+#                                   card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
+#                                   card_size*G.CARD_W, card_size*G.CARD_H, pseudorandom_element(G.P_CARDS), G.P_CENTERS.c_base)
+# '''
+# position = "at"
+# payload = '''
+# local card = G.FUNCS.splash_screen_card(card_pos, card_size)
+# '''
+# match_indent = true
 
 # This is necessary for changing the vortex colours on the start screen.
 # As with above, lifted from Cardsauce, likely will be incompatible with it.

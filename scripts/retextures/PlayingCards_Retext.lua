@@ -21,7 +21,7 @@ SMODS.Atlas{
 	key = 'cir_CardAtlas',
 	px = 71,
 	py = 95,
-	path = 'cir_Cards.png',
+	path = 'Vanilla_Replacements/cir_Cards.png',
 	prefix_comfig = {key = false} -- Something about a Steamodded bug
 }
 
