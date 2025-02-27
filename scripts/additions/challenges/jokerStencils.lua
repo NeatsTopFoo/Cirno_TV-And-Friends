@@ -29,3 +29,53 @@
 --   the time of writing (22nd of Feb), deck should be half
 --   the size and consist entirely of Queens of Clubs and
 --   Spades. Revise if there were changes to the deck skin.
+
+local chalInfo = {
+	loc_txt = {
+		name = "5 \"Joker Stencils.\"",
+	},
+	rules = {
+		custom = {
+			{ id = "cir_jokerStencils" }, 
+			{ id = "cir_jokerStencilsA" }
+		}
+	},
+	jokers = {
+		{id = 'j_stencil', eternal = true, debuff = true},
+		{id = 'j_stencil', eternal = true, debuff = true},
+		{id = 'j_stencil', eternal = true, debuff = true},
+		{id = 'j_stencil', eternal = true, debuff = true},
+		{id = 'j_stencil', eternal = true, debuff = true}
+	},
+	consumeables = {
+	},
+	vouchers = {
+	},
+	deck = {
+		type = 'Challenge Deck'
+	},
+	restrictions = {
+            banned_cards = {
+            },
+            banned_tags = {
+            },
+			
+			-- "Other" can only be used to ban blind types.
+            banned_other = {
+				{ id = 'bl_final_leaf', type = 'blind' }
+            }
+	},
+	unlocked = function(self)
+		return true
+	end
+}
+
+G.localization.misc.v_text.ch_c_cir_jokerStencils = {
+	"Start with 5 {C:eternal}Eternal{}, {C:attention}debuffed{} "..G.localization.descriptions.Joker.j_stencil.name.."s."
+}
+
+G.localization.misc.v_text.ch_c_cir_jokerStencilsA = {
+	"Every {C:attention}2{} defeated {C:attention}Boss Blinds{} removes a debuff."
+}
+
+return chalInfo

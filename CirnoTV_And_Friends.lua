@@ -3,6 +3,15 @@ CirnoMod.path = SMODS.current_mod.path
 CirnoMod.config = SMODS.current_mod.config
 CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
 
+local cirInitConfig = {
+	customJokers = {
+		-- '',
+	},
+	additionalChallenges = {
+		'jokerStencils',
+	}
+}
+
 -- Defines Steamodded mod menu config tab
 SMODS.current_mod.config_tab = function()
 	return {
@@ -19,6 +28,14 @@ SMODS.current_mod.config_tab = function()
 				n = G.UIT.C,
 				config = { align = 'tl', minw = 2, id = 'cir_config_sidebar' },
 				nodes = {
+					create_toggle({
+										label = "Changes Apply On Restart (This Box Does Nothing, I Don't Know How To Make A Normal Label)",
+										w = 0.5,
+										text_scale = 1.5, 
+										ref_table = CirnoMod.config,
+										ref_value = 'none',
+										callback = CirnoMod.callback_noneToggle
+									}),
 					{
 						n = G.UIT.R,
 						config = { align = 'tr', id = 'cir_config_toggles' },
@@ -37,34 +54,6 @@ SMODS.current_mod.config_tab = function()
 												ref_table = CirnoMod.config,
 												ref_value = 'titleLogo',
 												callback = CirnoMod.callback_titleLogoToggle
-											})
-										}
-									},
-									{
-										n = G.UIT.R,
-										config = { align = 'tr', padding = 0.05 },
-										nodes = {
-											create_toggle({
-												label = "Enable Title Screen Colours (Not Currently Functional)",
-												w = 1.5,
-												text_scale = 0.7,
-												ref_table = CirnoMod.config,
-												ref_value = 'titleColours',
-												callback = CirnoMod.callback_titleColoursToggle
-											})
-										}
-									},
-									{
-										n = G.UIT.R,
-										config = { align = 'tr', padding = 0.05 },
-										nodes = {
-											create_toggle({
-												label = "Enable Playing Card Textures",
-												w = 1.5,
-												text_scale = 0.7,
-												ref_table = CirnoMod.config,
-												ref_value = 'playingCardTextures',
-												callback = CirnoMod.callback_cardTexturesToggle
 											})
 										}
 									},
@@ -115,12 +104,59 @@ SMODS.current_mod.config_tab = function()
 										config = { align = 'tr', padding = 0.05 },
 										nodes = {
 											create_toggle({
-												label = "Enable Deck Renames",
+												label = "Enable Tarots & Spectral Renames",
 												w = 1.5,
 												text_scale = 0.7,
 												ref_table = CirnoMod.config,
-												ref_value = 'deckRenames',
-												callback = CirnoMod.callback_deckRenamesToggle
+												ref_value = 'tarotSpectralRenames',
+												callback = CirnoMod.callback_tarotSpectralRenamesToggle
+											})
+										}
+									},
+									{
+										n = G.UIT.R,
+										config = { align = 'tr', padding = 0.05 },
+										nodes = {
+											create_toggle({
+												label = "Enable Additional Challenges",
+												w = 1.5,
+												text_scale = 0.7,
+												ref_table = CirnoMod.config,
+												ref_value = 'additionalChallenges',
+												callback = CirnoMod.callback_additionalChallengesToggle
+											})
+										}
+									}
+								}
+							},
+							{
+								n = G.UIT.C,
+								nodes = {
+									{
+										n = G.UIT.R,
+										config = { align = 'tr', padding = 0.05 },
+										nodes = {
+											create_toggle({
+												label = "Enable Title Screen Colours (Not Currently Functional)",
+												w = 1.5,
+												text_scale = 0.6,
+												ref_table = CirnoMod.config,
+												ref_value = 'titleColours',
+												callback = CirnoMod.callback_titleColoursToggle
+											})
+										}
+									},
+									{
+										n = G.UIT.R,
+										config = { align = 'tr', padding = 0.05 },
+										nodes = {
+											create_toggle({
+												label = "Enable Playing Card Texture Replacements",
+												w = 1.5,
+												text_scale = 0.7,
+												ref_table = CirnoMod.config,
+												ref_value = 'playingCardTextures',
+												callback = CirnoMod.callback_playingCardTexturesToggle
 											})
 										}
 									},
@@ -143,12 +179,12 @@ SMODS.current_mod.config_tab = function()
 										config = { align = 'tr', padding = 0.05 },
 										nodes = {
 											create_toggle({
-												label = "Enable Tarots & Spectral Renames",
+												label = "Enable Deck Renames",
 												w = 1.5,
 												text_scale = 0.7,
 												ref_table = CirnoMod.config,
-												ref_value = 'tarotSpectralRenames',
-												callback = CirnoMod.callback_tarotSpectralRenamesToggle
+												ref_value = 'deckRenames',
+												callback = CirnoMod.callback_deckRenamesToggle
 											})
 										}
 									},
@@ -163,20 +199,6 @@ SMODS.current_mod.config_tab = function()
 												ref_table = CirnoMod.config,
 												ref_value = 'miscRenames',
 												callback = CirnoMod.callback_miscRenamesToggle
-											})
-										}
-									},
-									{
-										n = G.UIT.R,
-										config = { align = 'tr', padding = 0.05 },
-										nodes = {
-											create_toggle({
-												label = "Enable Additional Challenges",
-												w = 1.5,
-												text_scale = 0.7,
-												ref_table = CirnoMod.config,
-												ref_value = 'additionalChallenges',
-												callback = CirnoMod.callback_additionalChallengesToggle
 											})
 										}
 									},
@@ -427,26 +449,6 @@ end
 --			end
 --		end
 --	end
---	
---	local main_menuRef = Game.main_menu
---	function Game:main_menu(change_context)
---		main_menuRef(self, change_context)
---		
---		local splash_args = {mid_flash = change_context == 'splash' and 1.6 or 0.}
---		ease_value(splash_args, 'mid_flash', -(change_context == 'splash' and 1.6 or 0), nil, nil, nil, 4)
---	
---		G.SPLASH_BACK:define_draw_steps({{
---			shader = 'splash',
---			send = {
---				{name = 'time', ref_table = G.TIMERS, ref_value = 'REAL'},
---				{name = 'vort_speed', val = 0.4},
---				{name = 'colour_1', ref_table = G.C, ref_value = 'COLOUR1'},
---				{name = 'colour_2', ref_table = G.C, ref_value = 'COLOUR2'},
---				{name = 'mid_flash', ref_table = splash_args, ref_value = 'mid_flash'},
---				{name = 'vort_offset', val = 0},
---			}}})
---			
---	end
 
 -- Playing Card Textures
 if CirnoMod.allEnabledOptions['playingCardTextures'] then
@@ -501,8 +503,230 @@ if CirnoMod.allEnabledOptions['miscRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	SMODS.load_file("scripts/renames_etc/Misc_Rename.lua")(CirnoMod)
 end
-
+	
 -- Additional Custom Challenges
 if CirnoMod.allEnabledOptions['additionalChallenges'] then
-	-- TODO: Iterate through all lua files in scripts\additions\challenges\ and SMODS.load_file them.
+	CirnoMod.ChalFuncs = {}
+
+	CirnoMod.ChalFuncs.jokerStencilsDebuffCheck = function(calledFromWhichEvent)
+		print(calledFromWhichEvent)
+		local currentAnte = G.GAME.round_resets.ante
+		local undebuffCounter = 0
+		local desiredUndebuffedCount = 0
+		local desiredDebuffState = false
+		local calcDebuff = false
+		
+		if
+			calledFromWhichEvent == "blindDefeat"
+			and G.GAME.blind:get_type() == 'Boss'
+		then
+			currentAnte = G.GAME.round_resets.ante + 1
+		end
+		
+			
+		-- Lua doesn't have switch case statements.
+		-- Now I understand why a bunch of this game's
+		-- code is just massives if statements...
+		-- Except a table lookup and call would be
+		-- better for the size of some of the if
+		-- statements in the game... Something this
+		-- small should be fine, though
+		if
+			currentAnte >= 3
+			and currentAnte < 11
+		then
+			calcDebuff = true			
+			if currentAnte >= 10 then
+				desiredUndebuffedCount = 4
+			elseif currentAnte >= 7 then
+				desiredUndebuffedCount = 3
+			elseif currentAnte >= 5 then
+				desiredUndebuffedCount = 2
+			elseif currentAnte >= 3 then
+				desiredUndebuffedCount = 1
+			end
+		elseif currentAnte < 3 then
+			desiredDebuffState = true
+		end
+		
+		print(currentAnte)
+		for k, v in ipairs(G.jokers.cards) do
+			if v.config.center.key == 'j_stencil' then
+				if calcDebuff then
+					desiredDebuffState = undebuffCounter >= desiredUndebuffedCount
+					undebuffCounter = undebuffCounter + 1
+				end
+				
+				if v.debuff ~= desiredDebuffState then
+					print(v.config.center.key)
+					print(desiredDebuffState)
+					
+					if
+						v.debuff
+						and not desiredDebuffState
+					then
+						SMODS.calculate_effect({ message = "Undebuffed!" }, v)
+					end
+					
+					SMODS.debuff_card(v, desiredDebuffState, "cir_jokerStencils")
+				end
+			end
+		end
+	end
+
+	-- Iterates through all lua files in scripts\additions\challenges\ and SMODS.load_file them.	
+	for i, Ch in ipairs (cirInitConfig.additionalChallenges) do
+		-- Grabs the file
+		local chalInfo = assert(SMODS.load_file('scripts/additions/challenges/'..Ch..".lua"))()
+		
+		chalInfo.key = Ch
+		
+		-- Adds the challenge.
+		local chal = SMODS.Challenge(chalInfo)
+		
+		-- I don't understand what the point of this loop is,
+		-- since the function call above does all the
+		-- lifting...? Then again, this game is held together
+		-- with duct tape and fairy tears, so it remains under
+		-- the assumption that it is necessary for something
+		for k_, Ch_ in pairs(chal) do
+			if type(Ch_) == 'function' then
+				chal[k_] = chalInfo[k_]
+			end
+		end
+		
+	end
 end
+
+local main_menuRef = Game.main_menu
+function Game:main_menu(change_context)
+	main_menuRef(self, change_context)
+	
+	if CirnoMod.allEnabledOptions['additionalChallenges'] then
+		-- Should update the joker stencil challenge text
+		-- with whatever name Joker Stencil is set to at this
+		-- point in time, but for whatever reason doesn't work
+		-- as intended.
+		--	G.E_MANAGER:add_event(Event({
+		--					trigger = 'after',
+		--					delay = 2.0,
+		--					blocking = false,
+		--					func = function()
+		--						SMODS.process_loc_text(G.localization.misc.v_text, "ch_c_cir_jokerStencils", {
+		--									"Start with 5 {C:eternal}Eternal{}, {C:attention}debuffed{} "..G.localization.descriptions.Joker.j_stencil.name.."s."
+		--								})
+		--						return true
+		--					end
+		--				}))
+		
+		-- TODO: For every new challenge that bans something, we need to run their ban functions here.
+	end
+
+----- Leftover from the attempt at changing title screen colours -----
+--		local splash_args = {mid_flash = change_context == 'splash' and 1.6 or 0.}
+--		ease_value(splash_args, 'mid_flash', -(change_context == 'splash' and 1.6 or 0), nil, nil, nil, 4)
+--	
+--		G.SPLASH_BACK:define_draw_steps({{
+--			shader = 'splash',
+--			send = {
+--				{name = 'time', ref_table = G.TIMERS, ref_value = 'REAL'},
+--				{name = 'vort_speed', val = 0.4},
+--				{name = 'colour_1', ref_table = G.C, ref_value = 'COLOUR1'},
+--				{name = 'colour_2', ref_table = G.C, ref_value = 'COLOUR2'},
+--				{name = 'mid_flash', ref_table = splash_args, ref_value = 'mid_flash'},
+--				{name = 'vort_offset', val = 0},
+--			}}})
+end
+
+CirnoMod.CirnoHooks = {}
+-- Hooks for things like challenge functionality.
+-- Challenge functionality is a little weird and
+-- primarily facilitated by checking G.GAME.modifiers
+-- for the challenge id.
+CirnoMod.CirnoHooks.onRunStart = function(args)
+	-- Check if challenges are on and the
+	-- challenge functions aren't empty
+	if
+		CirnoMod.allEnabledOptions['additionalChallenges']
+		and CirnoMod.ChalFuncs ~= nil
+	then
+		-- Is the stencil jokers challenge active?
+		-- If so, do the thing.
+		if
+			G.GAME.challenge == "c_cir_jokerStencils"
+			and type(CirnoMod.ChalFuncs.jokerStencilsDebuffCheck) == 'function'
+		then
+			CirnoMod.ChalFuncs.jokerStencilsDebuffCheck("runStart")
+		end
+	
+	end
+	return nil
+end
+
+CirnoMod.CirnoHooks.evalCardHook = function(card, context)
+	return nil -- Remove when there is a use for this hook.
+	
+	-- Check if challenges are on
+	-- if CirnoMod.allEnabledOptions['additionalChallenges'] then
+	-- 
+	-- end
+end
+
+CirnoMod.CirnoHooks.onNewJoker = function(joker, edition, silent, eternal)
+	return nil -- Remove when there is a use for this hook.
+
+	-- Check if challenges are on
+	-- if CirnoMod.allEnabledOptions['additionalChallenges'] then
+	-- 
+	-- end
+end
+
+CirnoMod.CirnoHooks.onBlindStart = function()
+	--	if G.jokers.cards[1] and G.GAME.challenge == "c_cir_jokerStencils" then
+	--		print(type(CirnoMod.ChalFuncs.jokerStencilsDebuffCheck))
+	--		SMODS.debuff_card(G.jokers.cards[1], true, "debugging")
+	--	end
+	-- Check if challenges are on and the
+	-- challenge functions aren't empty
+	if
+		CirnoMod.allEnabledOptions['additionalChallenges']
+		and CirnoMod.ChalFuncs ~= nil
+	then
+		-- Is the stencil jokers challenge active?
+		-- If so, do the thing.
+		if
+			G.GAME.challenge == "c_cir_jokerStencils"
+			and type(CirnoMod.ChalFuncs.jokerStencilsDebuffCheck) == 'function'
+		then
+			CirnoMod.ChalFuncs.jokerStencilsDebuffCheck("blindStart")
+		end
+	
+	end
+	return nil
+end
+
+CirnoMod.CirnoHooks.onBlindDefeat = function()
+	-- Check if challenges are on and the
+	-- challenge functions aren't empty
+	if
+		CirnoMod.allEnabledOptions['additionalChallenges']
+		and CirnoMod.ChalFuncs ~= nil
+	then
+		-- Is the stencil jokers challenge active?
+		-- If so, do the thing.
+		if
+			G.GAME.challenge == "c_cir_jokerStencils"
+			and type(CirnoMod.ChalFuncs.jokerStencilsDebuffCheck) == 'function'
+		then
+			CirnoMod.ChalFuncs.jokerStencilsDebuffCheck("blindDefeat")
+		end
+	
+	end
+	return nil
+end
+
+-- There appears to be no game function that can be
+-- hooked into relating to when a shop phase starts
+-- CirnoMod.onShopStart = function()
+-- 	
+-- end

@@ -105,3 +105,105 @@ self.ntf_wheel_success = false
 if self.ability.name == 'The Wheel of Fortune' then self.cirNtf_wheel_success = true end
 '''
 match_indent = false
+
+# Adds some hooks to be used for things like challenges.
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "function Game:start_run(args)"
+position = "after"
+payload = '''
+	if CirnoMod.CirnoHooks then
+		G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+				delay = 0.2,
+                blocking = false,
+                func = function()
+					CirnoMod.CirnoHooks.onRunStart(args)
+					return true
+				end
+            }))
+	end
+'''
+match_indent = false
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "function eval_card(card, context)"
+position = "after"
+payload = '''
+	if CirnoMod.CirnoHooks then
+		G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+				delay = 0.3,
+                blocking = false,
+                func = function()
+					CirnoMod.CirnoHooks.evalCardHook(card, context)
+					return true
+				end
+            }))
+	end
+'''
+match_indent = false
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "function add_joker(joker, edition, silent, eternal)"
+position = "after"
+payload = '''
+	if CirnoMod.CirnoHooks then
+		G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+				delay = 0.3,
+                blocking = false,
+                func = function()
+					CirnoMod.CirnoHooks.onNewJoker(joker, edition, silent, eternal)
+					return true
+				end
+            }))
+	end
+'''
+match_indent = false
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "delay(0.4)"
+position = "before"
+payload = '''
+	if CirnoMod.CirnoHooks then
+		G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+				delay = 0.3,
+                blocking = false,
+                func = function()
+					CirnoMod.CirnoHooks.onBlindStart()
+					return true
+				end
+            }))
+		
+	end
+'''
+match_indent = false
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "function end_round()"
+position = "after"
+payload = '''
+	if CirnoMod.CirnoHooks then
+		G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+				delay = 0.1,
+                blocking = false,
+                func = function()
+					CirnoMod.CirnoHooks.onBlindDefeat()
+					return true
+				end
+            }))
+	end
+'''
+match_indent = false

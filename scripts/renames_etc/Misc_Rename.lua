@@ -22,15 +22,15 @@
 --				})
 if CirnoMod.allEnabledOptions['enhancerRenames'] then
 SMODS.process_loc_text(G.localization.misc.quips, "lq_5", {
-                "Looks like you're",
-                "trying to make a {C:red}Power Seal{}",
+                "Looks like you're trying",
+                "to make a {C:red}Power Seal{}",
                 "{C:attention}Steel King{} build. Would",
 				"you like help with that?"
             })
 else
 SMODS.process_loc_text(G.localization.misc.quips, "lq_5", {
-                "Looks like you're",
-                "trying to make a {C:red}Red Seal[]",
+                "Looks like you're trying",
+                "to make a {C:red}Red Seal[]",
                 "{C:attention}Steel King{} build. Would",
 				"you like help with that?"
             })

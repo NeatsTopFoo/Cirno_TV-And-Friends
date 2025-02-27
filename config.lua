@@ -1,4 +1,5 @@
 return {
+	['none'] = false,
 	['titleLogo'] = true,
 	['titleColours'] = false,
 	['playingCardTextures'] = true,
