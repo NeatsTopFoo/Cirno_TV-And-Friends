@@ -5,11 +5,69 @@ CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
 
 local cirInitConfig = {
 	customJokers = {
-		-- '',
+		'cirno',
 	},
 	additionalChallenges = {
 		'jokerStencils',
 	}
+}
+
+SMODS.Atlas {
+    -- naming same as file, fewer names = less headache
+    key = "cir_Legendaries",
+    path = "Additional/cir_Legendaries.png",
+    px = 71,
+    py = 95
+}
+
+-- examples:
+-- https://github.com/Steamodded/examples/blob/master/Mods/ExampleJokersMod/ModdedVanilla.lua
+SMODS.Joker {
+	key = 'cirno',
+	loc_txt = {
+		name = 'Cirno',
+		text = {
+            "This Joker gains",
+			"{X:mult,C:white}X0.09 {} Mult for each",
+			"scored {C:attention}9 {}",
+			"{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive} Mult)"
+		}
+	},
+	config = { extra = { Xmult = 1 } },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.Xmult } }
+	end,
+	rarity = 4,
+	atlas = 'cir_Legendaries',
+	pos      = { x = 0, y = 2 },
+	soul_pos = { x = 0, y = 3 },
+	cost = 20,
+
+	calculate = function(self, card, context)
+		if context.joker_main then
+			return {
+				mult_mod = card.ability.extra.Xmult,
+				message = localize {
+                    type = 'variable',
+                    key = 'a_xmult',
+                    vars = { card.ability.extra.Xmult }
+                }
+			}
+        end
+
+        if context.individual and context.cardarea == G.play then
+            if context.other_card:get_id() == 9 then
+                card.ability.extra.Xmult = card.ability.extra.Xmult + 0.09
+                return {
+                    message = localize {
+                        type = 'variable',
+                        key = 'a_xmult',
+                        vars = { card.ability.extra.Xmult }
+                    }
+                }
+            end
+        end
+	end
 }
 
 -- Defines Steamodded mod menu config tab
