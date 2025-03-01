@@ -78,4 +78,174 @@ G.localization.misc.v_text.ch_c_cir_jokerStencilsA = {
 	"Every {C:attention}2{} defeated {C:attention}Boss Blinds{} removes a debuff."
 }
 
+CirnoMod.ChalFuncs.jokerStencilsDebuffCheck = function(calledFromWhichEvent)
+	-- print(calledFromWhichEvent)
+	local currentAnte = G.GAME.round_resets.ante
+	local currentUndebuffedCounter = 0
+	local undebuffCounter = 0
+	local desiredUndebuffedCount = 0
+	local desiredDebuffState = false
+	local calcDebuff = false
+	
+	if
+		calledFromWhichEvent == "blindDefeat"
+		and G.GAME.blind:get_type() == 'Boss'
+	then
+		-- Makes undebuffing happen on the boss blind
+		-- defeat as ante updating is slow
+		currentAnte = G.GAME.round_resets.ante + 1
+	elseif
+		calledFromWhichEvent == "runStart"
+	then
+		-- Quashing a potential issue found in testing
+		-- where undebuffed negative jokers don't properly
+		-- update the joker limit
+		local totalNegativeCount = 0
+		local undebuffedStencilNegativeCount = 0
+		for i, jkr in ipairs(G.jokers.cards) do
+			if
+				jkr.edition
+				and not jkr.debuff
+			then
+				if jkr.edition.key == 'e_negative' then
+					totalNegativeCount = totalNegativeCount + 1
+					
+					if jkr.config.center.key == 'j_stencil' then
+						undebuffedStencilNegativeCount = undebuffedStencilNegativeCount + 1
+					end
+				end
+			end
+		end
+		
+		if
+			G.jokers.config.card_limit < (5 + totalNegativeCount)
+			and undebuffedStencilNegativeCount > 0
+		then
+			G.jokers.config.card_limit = (5 + totalNegativeCount)
+		end
+	end
+	
+		
+	-- Lua doesn't have switch case statements.
+	-- Now I understand why a bunch of this game's
+	-- code is just massives if statements...
+	-- Except a table lookup and call would be
+	-- better for the size of some of the if
+	-- statements in the game... Something this
+	-- small should be fine, though
+	if
+		currentAnte >= 3
+		and currentAnte < 11
+	then
+		-- Working out the requisite amount
+		-- of undebuffed stencil jokers
+		-- per ante. 1 undebuff every 2
+		-- boss blinds.
+		calcDebuff = true			
+		if currentAnte >= 10 then
+			desiredUndebuffedCount = 4
+		elseif currentAnte >= 7 then
+			desiredUndebuffedCount = 3
+		elseif currentAnte >= 5 then
+			desiredUndebuffedCount = 2
+		elseif currentAnte >= 3 then
+			desiredUndebuffedCount = 1
+		end
+	elseif currentAnte < 3 then
+		desiredDebuffState = true
+	end
+	
+	-- Determining the amount of existing
+	-- undebuffed stencil jokers. This is
+	-- to prevent an exploit where you
+	-- could rearrange the stencil jokers
+	-- before a blind (say, to make use of)
+	-- any editions obtained to have it then
+	-- change the undebuffed joker stencil
+	-- to that joker stencil when you start
+	-- the blind, since they undebuff from
+	-- left to right. Unfortunately since
+	-- there isn't really any way to sore
+	-- unique identifiers for each stencil
+	-- joker that persist through saving
+	-- and loading the current run, we'll
+	-- just have to permit this tactic
+	-- but only after defeating a boss
+	-- blind that would give a new undebuffed
+	-- joker stencil.
+	if calcDebuff then
+		for i, jkr in ipairs(G.jokers.cards) do
+			if 
+				jkr.config.center.key == 'j_stencil'
+				and not jkr.debuff
+			then
+				currentUndebuffedCounter = currentUndebuffedCounter + 1
+			end
+		end
+	end
+	
+	if
+		(calledFromWhichEvent == "runStart" and currentAnte < 3)
+		or (currentUndebuffedCounter < desiredUndebuffedCount or (currentAnte >= 10 and currentUndebuffedCounter < 5))
+	then
+		-- Iterate through jokers
+		for i, jkr in ipairs(G.jokers.cards) do
+			-- Only stencil jokers
+			if jkr.config.center.key == 'j_stencil' then
+				-- Do we want to undebuff the joker we are looking at?
+				if calcDebuff then
+					desiredDebuffState = undebuffCounter >= desiredUndebuffedCount
+					undebuffCounter = undebuffCounter + 1
+				end
+				
+				if jkr.debuff ~= desiredDebuffState then
+					-- Edition stuff here is further attempting to
+					-- quash the negative issue mentioned earlier.
+					local isNegative = false
+					local undebuffing = false
+					if
+						jkr.debuff
+						and not desiredDebuffState
+					then
+						-- Are we undebuffing this stencil joker?
+						-- This used to be the message pop that's
+						-- now at the end, but adding this thing
+						-- with trying to deal with the negative
+						-- issue I think might introduce some
+						-- weird delays, so I instead wanted the
+						-- message after, but the actual change
+						-- changes jkr.debuff - So 
+						undebuffing = true
+					end
+					
+					if jkr.edition then
+						isNegative = jkr.edition.key == 'e_negative'
+					end
+					
+					if
+						isNegative
+						and undebuffing
+					then
+						jkr:set_edition(nil, true, true)
+					end
+					
+					-- Sets debuff state
+					SMODS.debuff_card(jkr, desiredDebuffState, "cir_jokerStencils")
+					
+					if
+						isNegative
+						and undebuffing
+					then
+						jkr:set_edition('e_negative', true, false)
+					end
+					
+					if undebuffing then
+						SMODS.calculate_effect({ message = "Undebuffed!" }, jkr)
+					end
+				end
+			end
+		end
+	end
+end
+
 return chalInfo

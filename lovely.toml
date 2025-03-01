@@ -93,7 +93,7 @@ match_indent = true
 #	'''
 #	match_indent = true
 
-# Creates a variable that is set to true whenever a wheel of fortune is used, intended to be used with the NopeTooFast legendary if we add it.
+# Creates a variable that is set to true whenever a wheel of fortune is used, intended to be used with the NopeTooFast legendary.
 # This is lifted from Cryptid, but should still be compatible as it does not directly interfere with anything.
 [[patches]]
 [patches.pattern]

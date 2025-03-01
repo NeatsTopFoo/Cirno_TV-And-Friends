@@ -2,72 +2,15 @@ CirnoMod = {}
 CirnoMod.path = SMODS.current_mod.path
 CirnoMod.config = SMODS.current_mod.config
 CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
+CirnoMod.miscItems = {}
 
 local cirInitConfig = {
 	customJokers = {
-		'cirno',
+		'customLegendaries',
 	},
 	additionalChallenges = {
 		'jokerStencils',
 	}
-}
-
-SMODS.Atlas {
-    -- naming same as file, fewer names = less headache
-    key = "cir_Legendaries",
-    path = "Additional/cir_Legendaries.png",
-    px = 71,
-    py = 95
-}
-
--- examples:
--- https://github.com/Steamodded/examples/blob/master/Mods/ExampleJokersMod/ModdedVanilla.lua
-SMODS.Joker {
-	key = 'cirno',
-	loc_txt = {
-		name = 'Cirno',
-		text = {
-            "This Joker gains",
-			"{X:mult,C:white}X0.09 {} Mult for each",
-			"scored {C:attention}9 {}",
-			"{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive} Mult)"
-		}
-	},
-	config = { extra = { Xmult = 1 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.Xmult } }
-	end,
-	rarity = 4,
-	atlas = 'cir_Legendaries',
-	pos      = { x = 0, y = 2 },
-	soul_pos = { x = 0, y = 3 },
-	cost = 20,
-
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				mult_mod = card.ability.extra.Xmult,
-				message = localize {
-                    type = 'variable',
-                    key = 'a_xmult',
-                    vars = { card.ability.extra.Xmult }
-                }
-			}
-        end
-
-        if context.individual and context.cardarea == G.play then
-            if context.other_card:get_id() == 9 then
-                card.ability.extra.Xmult = card.ability.extra.Xmult + 0.09
-                return {
-                    message = localize {
-                        type = 'variable',
-                        key = 'a_xmult',
-                        vars = { card.ability.extra.Xmult }
-                    }
-                }
-            end
-        end
-	end
 }
 
 -- Defines Steamodded mod menu config tab
@@ -520,24 +463,6 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")(CirnoMod)
 end
 
--- Joker Renames
-if CirnoMod.allEnabledOptions['jokerRenames'] then
-	-- Runs the lua only if the setting is enabled in Steamodded mod config.
-	SMODS.load_file("scripts/renames_etc/Jokers_Rename.lua")(CirnoMod)
-end
-
--- Additional Custom Jokers
-if CirnoMod.allEnabledOptions['addCustomJokers'] then
-	-- TODO: Iterate through all lua files in scripts\additions\jokers\ and SMODS.load_file them.
-	--       Yes, this is possible functionality that I have seen done.
-end
-
--- Blind Renames
-if CirnoMod.allEnabledOptions['blindRenames'] then
-	-- Runs the lua only if the setting is enabled in Steamodded mod config.
-	SMODS.load_file("scripts/renames_etc/Blinds_Rename.lua")(CirnoMod)
-end
-
 -- Deck Renames
 if CirnoMod.allEnabledOptions['deckRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
@@ -550,91 +475,86 @@ if CirnoMod.allEnabledOptions['enhancerRenames'] then
 	SMODS.load_file("scripts/renames_etc/Enhancers_Rename.lua")(CirnoMod)
 end
 
+-- Blind Renames
+if CirnoMod.allEnabledOptions['blindRenames'] then
+	-- Runs the lua only if the setting is enabled in Steamodded mod config.
+	SMODS.load_file("scripts/renames_etc/Blinds_Rename.lua")(CirnoMod)
+end
+
 -- Tarot & Spectral Renames
 if CirnoMod.allEnabledOptions['tarotSpectralRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	SMODS.load_file("scripts/renames_etc/TarotsAndSpectrals_Rename.lua")(CirnoMod)
 end
 
--- Tarot & Spectral Renames
-if CirnoMod.allEnabledOptions['miscRenames'] then
+-- Joker Renames
+if CirnoMod.allEnabledOptions['jokerRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
-	SMODS.load_file("scripts/renames_etc/Misc_Rename.lua")(CirnoMod)
+	SMODS.load_file("scripts/renames_etc/Jokers_Rename.lua")(CirnoMod)
+end
+
+-- Misc Renames
+if CirnoMod.allEnabledOptions['miscRenames'] then
+	-- SMODS.load_files the misc renames
+	-- My understanding is that using assert() makes the return value end up in the variable,
+	-- This is important to capture the string pool defined at the end of the file.
+	CirnoMod.miscItems.miscRenameTables = assert(SMODS.load_file("scripts/renames_etc/Misc_Rename.lua")())
+	
+	-- Function that randomises shop flavour text based on the pool defined in the rename file
+	CirnoMod.miscItems.pickRandShopFlavour = function()
+		SMODS.process_loc_text(G.localization.misc.dictionary, "ph_improve_run", pseudorandom_element(CirnoMod.miscItems.miscRenameTables.shopFlavourPool, pseudoseed('shopFlavourRand')))
+		return nil
+	end
+end
+
+-- Additional Custom Jokers
+if CirnoMod.allEnabledOptions['addCustomJokers'] then
+	-- Iterates through all lua files in scripts\additions\jokers\ and SMODS.load_file them.
+	-- My understanding is that using assert() makes the return value end up in the variable.
+	for i, Jkr in ipairs (cirInitConfig.customJokers) do
+		local jokerInfo = assert(SMODS.load_file('scripts/additions/jokers/'..Jkr..".lua"))()
+		
+		if
+			-- Atlas definition is required. No atlas, get out.
+			jokerInfo.atlasInfo
+			and
+			-- Checking for valid structure before proceeding
+			(
+				jokerInfo.jokerConfig -- Either this for individual jokers
+				or
+				(jokerInfo.isMultipleJokers and jokerInfo.jokerConfigs) -- Or this for multiple jokers in one.
+				-- Yes, could do just checking for either config singular or config plural, but
+				-- that makes this confusable at a quick glance since they're similar. Could
+				-- ultimately name them something else, but then you run into stuff like
+				-- "well how do you read back through this," etc. etc. It looks stupid, but
+				-- when you stop and think about it, it makes sense. It's clunky, yes, but
+				-- it makes sense.
+			)
+		then
+			SMODS.Atlas(jokerInfo.atlasInfo)
+			
+			if jokerInfo.isMultipleJokers then
+				for i_, Jkr_ in ipairs (jokerInfo.jokerConfigs) do
+					SMODS.Joker(Jkr_)
+				end
+			else
+				SMODS.Joker(jokerInfo.jokerConfig)
+			end
+		end
+	end
 end
 	
 -- Additional Custom Challenges
 if CirnoMod.allEnabledOptions['additionalChallenges'] then
+	-- Initialises a challenge functions holder.
+	-- This is then populated with any functions
+	-- the challenge needs to use, in the challenge
+	-- file itself.
 	CirnoMod.ChalFuncs = {}
 
-	CirnoMod.ChalFuncs.jokerStencilsDebuffCheck = function(calledFromWhichEvent)
-		print(calledFromWhichEvent)
-		local currentAnte = G.GAME.round_resets.ante
-		local undebuffCounter = 0
-		local desiredUndebuffedCount = 0
-		local desiredDebuffState = false
-		local calcDebuff = false
-		
-		if
-			calledFromWhichEvent == "blindDefeat"
-			and G.GAME.blind:get_type() == 'Boss'
-		then
-			currentAnte = G.GAME.round_resets.ante + 1
-		end
-		
-			
-		-- Lua doesn't have switch case statements.
-		-- Now I understand why a bunch of this game's
-		-- code is just massives if statements...
-		-- Except a table lookup and call would be
-		-- better for the size of some of the if
-		-- statements in the game... Something this
-		-- small should be fine, though
-		if
-			currentAnte >= 3
-			and currentAnte < 11
-		then
-			calcDebuff = true			
-			if currentAnte >= 10 then
-				desiredUndebuffedCount = 4
-			elseif currentAnte >= 7 then
-				desiredUndebuffedCount = 3
-			elseif currentAnte >= 5 then
-				desiredUndebuffedCount = 2
-			elseif currentAnte >= 3 then
-				desiredUndebuffedCount = 1
-			end
-		elseif currentAnte < 3 then
-			desiredDebuffState = true
-		end
-		
-		print(currentAnte)
-		for k, v in ipairs(G.jokers.cards) do
-			if v.config.center.key == 'j_stencil' then
-				if calcDebuff then
-					desiredDebuffState = undebuffCounter >= desiredUndebuffedCount
-					undebuffCounter = undebuffCounter + 1
-				end
-				
-				if v.debuff ~= desiredDebuffState then
-					print(v.config.center.key)
-					print(desiredDebuffState)
-					
-					if
-						v.debuff
-						and not desiredDebuffState
-					then
-						SMODS.calculate_effect({ message = "Undebuffed!" }, v)
-					end
-					
-					SMODS.debuff_card(v, desiredDebuffState, "cir_jokerStencils")
-				end
-			end
-		end
-	end
-
-	-- Iterates through all lua files in scripts\additions\challenges\ and SMODS.load_file them.	
+	-- Iterates through all lua files in scripts\additions\challenges\ and SMODS.load_file them.
+	-- My understanding is that using assert() makes the return value end up in the variable.
 	for i, Ch in ipairs (cirInitConfig.additionalChallenges) do
-		-- Grabs the file
 		local chalInfo = assert(SMODS.load_file('scripts/additions/challenges/'..Ch..".lua"))()
 		
 		chalInfo.key = Ch
@@ -647,9 +567,10 @@ if CirnoMod.allEnabledOptions['additionalChallenges'] then
 		-- lifting...? Then again, this game is held together
 		-- with duct tape and fairy tears, so it remains under
 		-- the assumption that it is necessary for something
-		for k_, Ch_ in pairs(chal) do
+		-- maybe it's useful later. Who knows.
+		for i_, Ch_ in pairs(chal) do
 			if type(Ch_) == 'function' then
-				chal[k_] = chalInfo[k_]
+				chal[i_] = chalInfo[i_]
 			end
 		end
 		
@@ -718,6 +639,14 @@ CirnoMod.CirnoHooks.onRunStart = function(args)
 		end
 	
 	end
+	
+	-- Randomises shop flavour text.
+	if
+		CirnoMod.allEnabledOptions['miscRenames']
+		and type(CirnoMod.miscItems.pickRandShopFlavour) == 'function'
+	then
+		CirnoMod.miscItems.pickRandShopFlavour()
+	end
 	return nil
 end
 
@@ -780,6 +709,15 @@ CirnoMod.CirnoHooks.onBlindDefeat = function()
 		end
 	
 	end
+	
+	-- Randomises shop flavour text.
+	if
+		CirnoMod.allEnabledOptions['miscRenames']
+		and type(CirnoMod.miscItems.pickRandShopFlavour) == 'function'
+	then
+		CirnoMod.miscItems.pickRandShopFlavour()
+	end
+	
 	return nil
 end
 
