@@ -23,7 +23,7 @@
 AltTexture({
 	key = 'mlvrk_NormalJokers',
 	set = 'Joker',
-	path = 'Vanilla_Replacements/cir_Jokers.png',
+	path = CirnoMod.replaceDef.getPath("joker"),
 	
 	-- Sets the graphic of the mod card in Malverk UI to be Blueprint.
 	-- It's basically the face of this mod at this point.
@@ -33,183 +33,11 @@ AltTexture({
 	-- exact dimensions of the default Balatro Joker sheet
 	original_sheet = true,
 	
-	-- Joker keys in this list as in the order they appear on the joker
-	-- sheet, from left to right, top to bottom, with whitespace gaps
-	-- representing where one line in the Joker sheet ends and another
-	-- begins. I set it up this way to increase compatibility with other
-	-- Malverk mods all the time we're not replacing every single Joker.
-	-- I will likely rewrite this to be an individual AltTexture block
-	-- for each rarity, if and when we approach replacing every single
-	-- Joker. This is because my suspicion at the time of writing is
-	-- that the discrete settings assignments in the Malverk UI (within
-	-- the mod card) are assigned per AltTexture block and so giving
-	-- people more things to toggle on and off corresponmding to
-	-- different Jokers will just ultimately be better. I think.
-	keys = {
-		'j_joker',
-		'j_wee',
-		'j_chaos',
-		-- 'j_jolly',
-		-- 'j_zany',
-		'j_mad',
-		-- 'j_crazy',
-		-- 'j_droll',
-		'j_half',
-		-- 'j_merry_andy',
-		'j_stone',
-		
-		-- 'j_jugglar',
-		'j_drunkard',
-		-- 'j_acrobat',
-		-- 'j_sock_and_buskin',
-		'j_mime',
-		'j_credit_card',
-		-- 'j_greedy_joker',
-		-- 'j_lusty_joker',
-		'j_wrathful_joker',
-		'j_gluttenous_joker', -- Yes, it's mispelled internally. LocalThunk issue. See game files
-		
-		-- 'j_troubadour',
-		-- 'j_banner',
-		-- 'j_mystic_summit',
-		-- 'j_marble',
-		-- 'j_loyalty_card',
-		'j_hack',
-		'j_misprint',
-		-- 'j_steel_joker',
-		'j_raised_fist',
-		-- 'j_golden',
-		
-		'j_blueprint',
-		-- 'j_glass',
-		-- 'j_scary_face',
-		-- 'j_abstract',
-		-- 'j_delayed_grat',
-		-- 'j_ticket',
-		-- 'j_pareidolia'
-		-- 'j_cartomancer', 
-		-- 'j_even_steven', 
-		-- 'j_odd_todd',
-		
-		-- 'j_scholar',
-		-- 'j_business',
-		'j_supernova',
-		-- 'j_mr_bones',
-		-- 'j_seeing_double',
-		-- 'j_duo',
-		-- 'j_trio',
-		-- 'j_family',
-		-- 'j_order',
-		-- 'j_tribe',
-		
-		-- 'j_8_ball',
-		-- 'j_fibonacci',
-		-- 'j_stencil',
-		-- 'j_space',
-		-- 'j_matador',
-		-- 'j_ceremonial',
-		'j_ring_master', -- Yes, this is Showman. You have no idea how mad I am that it's called this internally.
-		-- 'j_fortune_teller',
-		-- 'j_hit_the_road', 
-		-- 'j_swashbuckler', 
-		
-		-- 'j_flower_pot',
-		-- 'j_ride_the_bus', 
-		'j_shoot_the_moon',
-		-- 'j_smeared',
-		-- 'j_oops',
-		-- 'j_four_fingers', 
-		-- 'j_gros_michel',
-		'j_stuntman',
-		-- 'j_hanging_chad',
-		
-		-- 'j_drivers_license', 
-		-- 'j_invisible',
-		-- 'j_astronomer',
-		-- 'j_burnt',
-		-- 'j_dusk',
-		'j_throwback',
-		-- 'j_idol',
-		'j_brainstorm',
-		-- 'j_satellite',
-		-- 'j_rough_gem',
-		
-		-- 'j_bloodstone',
-		-- 'j_arrowhead',
-		-- 'j_onyx_agate',
-		----- Legendary Jokers are their own separate AltTexture block below. -----
-		----- And they also operate super funky because of their soul_pos stuff -----
-		-- 'j_certificate',
-		'j_bootstraps',
-		
-		'j_egg',
-		'j_burglar',
-		-- 'j_blackboard',
-		-- 'j_ice_cream',
-		-- 'j_runner',
-		'j_dna',
-		-- 'j_splash',
-		-- 'j_blue_joker',
-		-- 'j_sixth_sense',
-		-- 'j_constellation',
-		
-		'j_hiker',
-		-- 'j_faceless',
-		-- 'j_green_joker',
-		-- 'j_superposition',
-		'j_todo_list',
-		-- 'j_cavendish',
-		-- 'j_card_sharp',
-		-- 'j_red_card',
-		-- 'j_madness',
-		-- 'j_square',
-		-- 'j_seance',
-		-- 'j_riff_raff',
-		-- 'j_vampire',
-		-- 'j_shortcut',
-		----- Hologram is funky. Let me know if you work something out for its graphic. -----
-		-- 'j_vagabond',
-		-- 'j_baron',
-		'j_cloud_9',
-		-- 'j_rocket'
-		-- 'j_obelisk', -- Petition to rename this "Worst Joker in the Game."
-		
-		-- 'j_midas_mask',
-		-- 'j_luchador',
-		-- 'j_photograph',
-		-- 'j_gift',
-		-- 'j_turtle_bean',
-		-- 'j_erosion',
-		-- 'j_reserved_parking',
-		-- 'j_mail',
-		-- 'j_to_the_moon',
-		-- 'j_hallucination',
-		
-		-- 'j_sly',
-		-- 'j_wily',
-		'j_clever',
-		-- 'j_devious',
-		-- 'j_crafty',
-		-- 'j_lucky_cat',
-		'j_baseball',
-		-- 'j_bull',
-		'j_diet_cola',
-		-- 'j_trading',
-		
-		-- 'j_flash',
-		'j_popcorn',
-		-- 'j_ramen',
-		-- 'j_selzer',
-		-- 'j_spare_trousers',
-		-- 'j_campfire',
-		-- 'j_smiley',
-		-- 'j_ancient',
-		-- 'j_walkie_talkie',
-		-- 'j_castle'
-	},
+	-- Defined in Cir_Vanilla_Replacement_Definition.lua.
+	keys = CirnoMod.replaceDef.jokerReplacementKeys,
 	loc_txt = {
 		name = 'Jokers'
-	}	
+	}
 })
 
 ----------------------------
@@ -218,7 +46,7 @@ AltTexture({
 AltTexture({
 	key = 'mlvrk_LegendaryJokers',
 	set = 'Joker',
-	path = 'Vanilla_Replacements/cir_Legendaries.png',
+	path = CirnoMod.replaceDef.getPath("l_joker"),
 	keys = {
 		'j_caino', -- I did say there were a bunch of these mispellings
 		'j_triboulet',
@@ -245,7 +73,7 @@ AltTexture({
 AltTexture({
 	key = 'mlvrk_Tarots',
 	set = 'Tarot',
-	path = 'Vanilla_Replacements/cir_TarotsPlanetsSpectrals.png',
+	path = CirnoMod.replaceDef.getPath("tarot"),
 	original_sheet = true,
 	keys = {
 		'c_fool',
@@ -295,7 +123,7 @@ AltTexture({
 AltTexture({
 	key = 'mlvrk_Decks',
 	set = 'Back',
-	path = 'Vanilla_Replacements/cir_DecksEnhancers.png',
+	path = CirnoMod.replaceDef.getPath("deck"),
 	original_sheet = true,
 	keys = {
 		'b_red',
@@ -324,7 +152,7 @@ AltTexture({
 AltTexture({
 	key = 'mlvrk_Enhancers',
 	set = 'Enhanced',
-	path = 'Vanilla_Replacements/cir_DecksEnhancers.png',
+	path = CirnoMod.replaceDef.getPath("enhancer"),
 	original_sheet = true,
 	keys = {
 		-- 'm_bonus',
@@ -345,7 +173,7 @@ AltTexture({
 AltTexture({
 	key = 'mlvrk_Seals',
 	set = 'Seal',
-	path = 'Vanilla_Replacements/cir_DecksEnhancers.png',
+	path = CirnoMod.replaceDef.getPath("enhancer"),
 	original_sheet = true,
 	loc_txt = {
 		name = 'Seals'
@@ -361,7 +189,7 @@ AltTexture({
 	key = 'mlvrk_SmallBigBlind',
 	set = 'Blind',
 	original_sheet = true,
-	path = 'Vanilla_Replacements/cir_BlindChips.png',
+	path = CirnoMod.replaceDef.getPath("blindchips"),
 	frames = 21,
 	keys = {
 		'bl_small',
@@ -377,7 +205,7 @@ AltTexture({
 	key = 'mlvrk_Boss_Blinds',
 	set = 'Blind',
 	original_sheet = true,
-	path = 'Vanilla_Replacements/cir_BlindChips.png',
+	path = CirnoMod.replaceDef.getPath("blindchips"),
 	frames = 21,
 	keys = {
 		'bl_ox',
@@ -414,7 +242,7 @@ AltTexture({
 	key = 'mlvrk_Finale_Blinds',
 	set = 'Blind',
 	original_sheet = true,
-	path = 'Vanilla_Replacements/cir_BlindChips.png',
+	path = CirnoMod.replaceDef.getPath("blindchips"),
 	frames = 21,
 	keys = {
 		'bl_final_heart',
@@ -437,6 +265,11 @@ AltTexture({
 -- What switch_func? Do I have a virus?????
 TexturePack{
 	key = 'mlvrk',
+	
+	-- Malverk is VERY strict about
+	-- how you write your texture lines.
+	-- The formula is [MOD KEY]_[ALT TEXTURE KEY]
+	-- The mod key can be found in the config file.
 	textures = {
 		'cir_mlvrk_NormalJokers',
 		'cir_mlvrk_LegendaryJokers',

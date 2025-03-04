@@ -63,87 +63,12 @@ SMODS.current_mod.config_tab = function()
 										config = { align = 'tr', padding = 0.05 },
 										nodes = {
 											create_toggle({
-												label = "Enable Malverk Texture Replacements",
+												label = "Enable Mature References",
 												w = 1.5,
 												text_scale = 0.7,
 												ref_table = CirnoMod.config,
-												ref_value = 'malverkReplacements',
-												callback = CirnoMod.callback_malverkReplacementsToggle
-											})
-										}
-									},
-									{
-										n = G.UIT.R,
-										config = { align = 'tr', padding = 0.05 },
-										nodes = {
-											create_toggle({
-												label = "Enable Joker Renames",
-												w = 1.5,
-												text_scale = 0.7,
-												ref_table = CirnoMod.config,
-												ref_value = 'jokerRenames',
-												callback = CirnoMod.callback_jokerRenamesToggle
-											})
-										}
-									},
-									{
-										n = G.UIT.R,
-										config = { align = 'tr', padding = 0.05 },
-										nodes = {
-											create_toggle({
-												label = "Enable Blind Renames",
-												w = 1.5,
-												text_scale = 0.7,
-												ref_table = CirnoMod.config,
-												ref_value = 'blindRenames',
-												callback = CirnoMod.callback_blindRenamesToggle
-											})
-										}
-									},
-									{
-										n = G.UIT.R,
-										config = { align = 'tr', padding = 0.05 },
-										nodes = {
-											create_toggle({
-												label = "Enable Tarots & Spectral Renames",
-												w = 1.5,
-												text_scale = 0.7,
-												ref_table = CirnoMod.config,
-												ref_value = 'tarotSpectralRenames',
-												callback = CirnoMod.callback_tarotSpectralRenamesToggle
-											})
-										}
-									},
-									{
-										n = G.UIT.R,
-										config = { align = 'tr', padding = 0.05 },
-										nodes = {
-											create_toggle({
-												label = "Enable Additional Challenges",
-												w = 1.5,
-												text_scale = 0.7,
-												ref_table = CirnoMod.config,
-												ref_value = 'additionalChallenges',
-												callback = CirnoMod.callback_additionalChallengesToggle
-											})
-										}
-									}
-								}
-							},
-							{
-								n = G.UIT.C,
-								nodes = {
-									{
-										n = G.UIT.R,
-										config = { align = 'tr', padding = 0.05 },
-										nodes = {
-											create_toggle({
-												label = "Enable Title Screen Colours (Not Currently Functional)",
-												w = 1.5,
-												text_scale = 0.6,
-												ref_table = CirnoMod.config,
-												ref_value = 'titleColours',
-												callback = CirnoMod.callback_titleColoursToggle
+												ref_value = 'matureReferences',
+												callback = CirnoMod.callback_matureReferencesToggle
 											})
 										}
 									},
@@ -214,6 +139,95 @@ SMODS.current_mod.config_tab = function()
 												ref_table = CirnoMod.config,
 												ref_value = 'addCustomJokers',
 												callback = CirnoMod.callback_addCustomJokersToggle
+											})
+										}
+									}
+								}
+							},
+							{
+								n = G.UIT.C,
+								nodes = {
+									{
+										n = G.UIT.R,
+										config = { align = 'tr', padding = 0.05 },
+										nodes = {
+											create_toggle({
+												label = "Enable Title Screen Colours (Not Yet Implemented)",
+												w = 1.5,
+												text_scale = 0.6,
+												ref_table = CirnoMod.config,
+												ref_value = 'titleColours',
+												callback = CirnoMod.callback_titleColoursToggle
+											})
+										}
+									},
+									{
+										n = G.UIT.R,
+										config = { align = 'tr', padding = 0.05 },
+										nodes = {
+											create_toggle({
+												label = "Enable Malverk Texture Replacements",
+												w = 1.5,
+												text_scale = 0.7,
+												ref_table = CirnoMod.config,
+												ref_value = 'malverkReplacements',
+												callback = CirnoMod.callback_malverkReplacementsToggle
+											})
+										}
+									},
+									{
+										n = G.UIT.R,
+										config = { align = 'tr', padding = 0.05 },
+										nodes = {
+											create_toggle({
+												label = "Enable Joker Renames",
+												w = 1.5,
+												text_scale = 0.7,
+												ref_table = CirnoMod.config,
+												ref_value = 'jokerRenames',
+												callback = CirnoMod.callback_jokerRenamesToggle
+											})
+										}
+									},
+									{
+										n = G.UIT.R,
+										config = { align = 'tr', padding = 0.05 },
+										nodes = {
+											create_toggle({
+												label = "Enable Blind Renames",
+												w = 1.5,
+												text_scale = 0.7,
+												ref_table = CirnoMod.config,
+												ref_value = 'blindRenames',
+												callback = CirnoMod.callback_blindRenamesToggle
+											})
+										}
+									},
+									{
+										n = G.UIT.R,
+										config = { align = 'tr', padding = 0.05 },
+										nodes = {
+											create_toggle({
+												label = "Enable Tarots & Spectral Renames",
+												w = 1.5,
+												text_scale = 0.7,
+												ref_table = CirnoMod.config,
+												ref_value = 'tarotSpectralRenames',
+												callback = CirnoMod.callback_tarotSpectralRenamesToggle
+											})
+										}
+									},
+									{
+										n = G.UIT.R,
+										config = { align = 'tr', padding = 0.05 },
+										nodes = {
+											create_toggle({
+												label = "Enable Additional Challenges",
+												w = 1.5,
+												text_scale = 0.7,
+												ref_table = CirnoMod.config,
+												ref_value = 'additionalChallenges',
+												callback = CirnoMod.callback_additionalChallengesToggle
 											})
 										}
 									}
@@ -451,46 +465,61 @@ end
 --		end
 --	end
 
+-- Load vanilla replacements definitions
+CirnoMod.replaceDef = assert(SMODS.load_file("Cir_Vanilla_Replacement_Definition.lua")())
+
 -- Playing Card Textures
 if CirnoMod.allEnabledOptions['playingCardTextures'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
-	SMODS.load_file("scripts/retextures/PlayingCards_Retext.lua")(CirnoMod)
+	SMODS.load_file("scripts/retextures/PlayingCards_Retext.lua")()
 end
 
 -- Joker Textures
 if CirnoMod.allEnabledOptions['malverkReplacements'] then
-	-- Runs the lua only if the setting is enabled in Steamodded mod config.
-	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")(CirnoMod)
+	CirnoMod.replaceDef.jokerReplacementKeys = {}
+	
+	-- Processes joker kays as defined in the vanilla replacement doc and
+	-- populates the replacement keys for the malverk pack accordingly.
+	for i, k in ipairs (CirnoMod.replaceDef.jokerReplacements) do		
+		if
+			CirnoMod.allEnabledOptions['matureReferences']
+			or k.isSafeOrHasSafeVariant
+		then
+			table.insert(CirnoMod.replaceDef.jokerReplacementKeys, k.jkrKey)
+		end
+	end
+	
+	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()
 end
 
 -- Deck Renames
 if CirnoMod.allEnabledOptions['deckRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
-	SMODS.load_file("scripts/renames_etc/Decks_Rename.lua")(CirnoMod)
+	SMODS.load_file("scripts/renames_etc/Decks_Rename.lua")()
 end
 
 -- Enhancer Renames
 if CirnoMod.allEnabledOptions['enhancerRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
-	SMODS.load_file("scripts/renames_etc/Enhancers_Rename.lua")(CirnoMod)
+	SMODS.load_file("scripts/renames_etc/Enhancers_Rename.lua")()
 end
 
 -- Blind Renames
 if CirnoMod.allEnabledOptions['blindRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
-	SMODS.load_file("scripts/renames_etc/Blinds_Rename.lua")(CirnoMod)
+	SMODS.load_file("scripts/renames_etc/Blinds_Rename.lua")()
 end
 
 -- Tarot & Spectral Renames
 if CirnoMod.allEnabledOptions['tarotSpectralRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
-	SMODS.load_file("scripts/renames_etc/TarotsAndSpectrals_Rename.lua")(CirnoMod)
+	SMODS.load_file("scripts/renames_etc/TarotsAndSpectrals_Rename.lua")()
 end
 
 -- Joker Renames
 if CirnoMod.allEnabledOptions['jokerRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
-	SMODS.load_file("scripts/renames_etc/Jokers_Rename.lua")(CirnoMod)
+	SMODS.load_file("scripts/renames_etc/Jokers_Rename.lua")()
 end
 
 -- Misc Renames
