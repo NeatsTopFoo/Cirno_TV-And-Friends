@@ -11,6 +11,7 @@ local cirInitConfig = {
 	-- the respective Joker's script.
 	customJokers = {
 		{ jkrFileName = 'customLegendaries', isSafeOrHasSafeVariant = true },
+		{ jkrFileName = 'customUncommons', isSafeOrHasSafeVariant = true },
 	},
 	-- Ensure that any Challenges with mature references
 	-- and those without are implemented separately.

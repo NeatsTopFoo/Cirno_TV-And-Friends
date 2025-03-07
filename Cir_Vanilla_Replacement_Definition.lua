@@ -238,7 +238,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_ceremonial', isSafeOrHasSafeVariant = true },
 	{ jkrKey = 'j_ring_master', isSafeOrHasSafeVariant = true }, -- Yes, this is Showman. You have no idea how mad I am that it's called this internally.
 	-- { jkrKey = 'j_fortune_teller', isSafeOrHasSafeVariant = true },
-	-- { jkrKey = 'j_hit_the_road', isSafeOrHasSafeVariant = true  },
+	{ jkrKey = 'j_hit_the_road', isSafeOrHasSafeVariant = true  },
 	-- { jkrKey = 'j_swashbuckler', isSafeOrHasSafeVariant = true  },
 	
 	-- { jkrKey = 'j_flower_pot', isSafeOrHasSafeVariant = true },
