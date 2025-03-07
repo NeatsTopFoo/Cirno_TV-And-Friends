@@ -296,13 +296,14 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_caino, "text", {
 					"{s:0.8,C:inactive}get them back."
                 })
 				
-SMODS.process_loc_text(G.localization.descriptions.Joker.j_triboulet, "name", "Cirno")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_triboulet, "name", "HannahHyrule")
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_triboulet, "text", {
                     "Played {C:attention}Kings{} and",
                     "{C:attention}Queens{} each give",
                     "{X:mult,C:white} X#1# {} Mult when scored",
-					"{s:0.8,C:inactive}\"I don't mean to brag",
-					"{s:0.8,C:inactive}Chat, but I'm stupid.\""
+					"{s:0.8,C:inactive}Wow look Chat, Cirno",
+					"{s:0.8,C:inactive}finally added the Big",
+					"{s:0.8,C:inactive}Naturals mod."
                 })
 				
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_yorick, "name", "ThorW")

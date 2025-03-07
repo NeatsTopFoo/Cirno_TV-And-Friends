@@ -77,7 +77,8 @@ miscRenameTables.shopFlavourPool = {
 	"Stall for content!",
 	"Pretend to be bad at the game for content!",
 	"Chat, check this out!",
-	"Watch this, Chat."
+	"Watch this, Chat.",
+	"Immortalise your stupidity!"
 }
 
 return miscRenameTables

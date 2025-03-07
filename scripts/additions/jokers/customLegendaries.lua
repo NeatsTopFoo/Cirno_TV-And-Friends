@@ -5,8 +5,8 @@
 -- I plan on doing more multiple-in-one with most likely
 -- every Common & Uncommon we come up with, as well as
 -- probably every Rare we come up with, with the likely
--- exceptions being how complex or elaborate certain
--- jokers may be.
+-- exceptions being mature references and how complex
+-- or elaborate certain jokers may be.
 -- For example, I have an idea for a Padoru
 -- Rare that would probably have a big atlas: Essentially,
 -- the idea is it'll have 12 bases, one for each month
@@ -50,7 +50,9 @@ local jokerInfo = {
 					"This Joker gains",
 					"{X:mult,C:white}X0.09 {} Mult for each",
 					"scored {C:attention}9 {}",
-					"{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive} Mult)"
+					"{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive} Mult)",
+					"{s:0.8,C:inactive}\"I don't mean to brag",
+					"{s:0.8,C:inactive}Chat, but I'm stupid.\""
 				}
 			},
 			

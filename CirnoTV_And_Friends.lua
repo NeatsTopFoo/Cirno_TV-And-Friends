@@ -5,11 +5,19 @@ CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
 CirnoMod.miscItems = {}
 
 local cirInitConfig = {
+	-- Ensure that any Jokers with mature references
+	-- and those without are implemented separately.
+	-- Safe varianting should ideally be handled within
+	-- the respective Joker's script.
 	customJokers = {
-		'customLegendaries',
+		{ jkrFileName = 'customLegendaries', isSafeOrHasSafeVariant = true },
 	},
+	-- Ensure that any Challenges with mature references
+	-- and those without are implemented separately.
+	-- Safe varianting should ideally be handled within
+	-- the respective Challenge's script.
 	additionalChallenges = {
-		'jokerStencils',
+		{ chlFileName = 'jokerStencils', isSafeOrHasSafeVariant = true },
 	}
 }
 
@@ -541,35 +549,40 @@ if CirnoMod.allEnabledOptions['addCustomJokers'] then
 	-- Iterates through all lua files in scripts\additions\jokers\ and SMODS.load_file them.
 	-- My understanding is that using assert() makes the return value end up in the variable.
 	for i, Jkr in ipairs (cirInitConfig.customJokers) do
-		local jokerInfo = assert(SMODS.load_file('scripts/additions/jokers/'..Jkr..".lua"))()
-		
 		if
-			-- Atlas definition is required. No atlas, get out.
-			jokerInfo.atlasInfo
-			and
-			-- Checking for valid structure before proceeding
-			(
-				jokerInfo.jokerConfig -- Either this for individual jokers
-				or
-				(jokerInfo.isMultipleJokers and jokerInfo.jokerConfigs) -- Or this for multiple jokers in one.
-				-- Yes, could do just checking for either config singular or config plural, but
-				-- that makes this confusable at a quick glance since they're similar. Could
-				-- ultimately name them something else, but then you run into stuff like
-				-- "well how do you read back through this," etc. etc. It looks stupid, but
-				-- when you stop and think about it, it makes sense. It's clunky, yes, but
-				-- it makes sense.
-			)
+			CirnoMod.allEnabledOptions['matureReferences']
+			or Jkr.isSafeOrHasSafeVariant
 		then
-			SMODS.Atlas(jokerInfo.atlasInfo)
-			
-			if jokerInfo.isMultipleJokers then
-				for i_, Jkr_ in ipairs (jokerInfo.jokerConfigs) do
-					SMODS.Joker(Jkr_)
+			local jokerInfo = assert(SMODS.load_file('scripts/additions/jokers/'..Jkr.jkrFileName..".lua"))()
+		
+			if
+				-- Atlas definition is required. No atlas, get out.
+				jokerInfo.atlasInfo
+				and
+				-- Checking for valid structure before proceeding
+				(
+					jokerInfo.jokerConfig -- Either this for individual jokers
+					or
+					(jokerInfo.isMultipleJokers and jokerInfo.jokerConfigs) -- Or this for multiple jokers in one.
+					-- Yes, could do just checking for either config singular or config plural, but
+					-- that makes this confusable at a quick glance since they're similar. Could
+					-- ultimately name them something else, but then you run into stuff like
+					-- "well how do you read back through this," etc. etc. It looks stupid, but
+					-- when you stop and think about it, it makes sense. It's clunky, yes, but
+					-- it makes sense.
+				)
+			then
+				SMODS.Atlas(jokerInfo.atlasInfo)
+				
+				if jokerInfo.isMultipleJokers then
+					for i_, Jkr_ in ipairs (jokerInfo.jokerConfigs) do
+						SMODS.Joker(Jkr_)
+					end
+				else
+					SMODS.Joker(jokerInfo.jokerConfig)
 				end
-			else
-				SMODS.Joker(jokerInfo.jokerConfig)
 			end
-		end
+		end		
 	end
 end
 	
@@ -584,25 +597,17 @@ if CirnoMod.allEnabledOptions['additionalChallenges'] then
 	-- Iterates through all lua files in scripts\additions\challenges\ and SMODS.load_file them.
 	-- My understanding is that using assert() makes the return value end up in the variable.
 	for i, Ch in ipairs (cirInitConfig.additionalChallenges) do
-		local chalInfo = assert(SMODS.load_file('scripts/additions/challenges/'..Ch..".lua"))()
-		
-		chalInfo.key = Ch
-		
-		-- Adds the challenge.
-		local chal = SMODS.Challenge(chalInfo)
-		
-		-- I don't understand what the point of this loop is,
-		-- since the function call above does all the
-		-- lifting...? Then again, this game is held together
-		-- with duct tape and fairy tears, so it remains under
-		-- the assumption that it is necessary for something
-		-- maybe it's useful later. Who knows.
-		for i_, Ch_ in pairs(chal) do
-			if type(Ch_) == 'function' then
-				chal[i_] = chalInfo[i_]
-			end
-		end
-		
+		if
+			CirnoMod.allEnabledOptions['matureReferences']
+			or Ch.isSafeOrHasSafeVariant
+		then
+			local chalInfo = assert(SMODS.load_file('scripts/additions/challenges/'..Ch.chlFileName..".lua"))()
+			
+			chalInfo.key = Ch.chlFileName
+			
+			-- Adds the challenge.
+			local chal = SMODS.Challenge(chalInfo)
+		end		
 	end
 end
 
