@@ -103,7 +103,7 @@ return {
 				name= creditSources.cr_JokerArt,
 				text={
 					"{C:blue}Cirno_TV{}, edited", -- Yes, Cirno drew cirBairy.
-					"by "..creditSources.NTF -- ...Formally crediting him is funnier, trust me
+					"by "..creditSources.NTF  -- ...Formally crediting him is funnier, trust me
 				}
 			},
 			jA_JustIRLCirno={
@@ -136,9 +136,9 @@ return {
 			jA_Baseball={
 				name= creditSources.cr_JokerArt,
 				text={
-					"{s:0.8}Literally how do I credit",
-					"{s:0.8}this, it's a Seinfeld",
-					"{s:0.8}screenshot."
+					"{s:0.8}Literally how do I ",
+					"{s:0.8}credit this, it's a",
+					"{s:0.8}Seinfeld screenshot."
 				}
 			},
 			
