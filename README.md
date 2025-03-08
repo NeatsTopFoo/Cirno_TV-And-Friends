@@ -15,7 +15,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 Retextures:
-- 42 Jokers (3 filtered & 3 altered by the Mature Reference setting)
+- 43 Jokers (3 filtered & 3 altered by the Mature Reference setting)
 - All Blind Chips
 - All seals
 - 3 Decks
@@ -30,7 +30,7 @@ Renames:
 Adds:
 - Various fun flavour text to numerous Jokers.
 - 1 new custom challenge
-- 2 custom Jokers
+- 3 custom Jokers
 
 ## Installation
 This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), the latest version of [Steammodded](https://github.com/Steamodded/smods) & the latest version of [Malverk](https://github.com/Eremel/Malverk). Without these dependencies, this mod will not function.
@@ -59,3 +59,6 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 - [Turpix](https://bsky.app/profile/turpix.bsky.social) for [their art used](https://www.nexusmods.com/balatro/mods/114) for the Stone Joker.
 - This [Miku replacement mod](https://www.nexusmods.com/balatro/mods/223) for art used for the Chaos the Clown Joker.
 - The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art used for the DNA Joker (The art itself appears to not be credited to any specific contributing artist), as well as code for changing elements of the title screen, such as the logo and background vortex colours.
+- [Cirno_TV](https://www.twitch.tv/Cirno_TV/) for the art used for the Misprint Joker.
+- Credits are also included in in-game tooltips to any cards that are edited & added; Optionally disableable in the mod's config menu.
+

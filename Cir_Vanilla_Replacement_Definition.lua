@@ -172,43 +172,50 @@ replaceDef.jokerReplacements = {
 	-- Malverk UI (within the mod card) are assigned per AltTexture
 	-- block and so giving people more things to toggle on and off
 	-- corresponmding to different Jokers will just ultimately be
-	-- better. I think.
+	-- better. I think. It's pain time, yaaaaaaaay!
 	
-	{ jkrKey = 'j_joker', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_wee', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_chaos', isSafeOrHasSafeVariant = true },
+	-- The art credit keys can be found (and added to) in localization/en-us.lua.
+	
+	{ jkrKey = 'j_joker', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
+	
+	-- Even though this is treated differently, credit still goes through
+	-- this, so. I did also check with Cirno, the artist behind cirFairy
+	-- is apparently some giga old chatter from back in the day and is
+	-- to my knowledge, not any of the listed artists on his channel.
+	{ jkrKey = 'j_wee', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Unknown' },
+	{ jkrKey = 'j_chaos', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_MikuTheClown' },
 	-- { jkrKey = 'j_jolly', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_zany', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_mad', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_mad', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_crazy', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_droll', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_half', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_half', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	-- { jkrKey = 'j_merry_andy', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_stone', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_stone', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_BocchiTheRock' },
 	
 	-- { jkrKey = 'j_jugglar', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_drunkard', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_drunkard', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_acrobat', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_sock_and_buskin', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_mime', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_credit_card', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_mime', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Mime' },
+	{ jkrKey = 'j_credit_card', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_greedy_joker', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_lusty_joker', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_wrathful_joker', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_gluttenous_joker', isSafeOrHasSafeVariant = true }, -- Yes, it's mispelled internally. LocalThunk issue. See game files
+	{ jkrKey = 'j_wrathful_joker', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
+	{ jkrKey = 'j_gluttenous_joker', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' }, -- Yes, it's mispelled internally. LocalThunk issue. See game files
 	
 	-- { jkrKey = 'j_troubadour', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_banner', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_mystic_summit', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_marble', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_loyalty_card', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_hack', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_misprint', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_hack', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Hack' },
+	{ jkrKey = 'j_misprint', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Misprint' },
 	-- { jkrKey = 'j_steel_joker', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_raised_fist', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_raised_fist', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_golden', isSafeOrHasSafeVariant = true },
 	
-	{ jkrKey = 'j_blueprint', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_blueprint', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_glass', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_scary_face', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_abstract', isSafeOrHasSafeVariant = true },
@@ -221,7 +228,7 @@ replaceDef.jokerReplacements = {
 	
 	-- { jkrKey = 'j_scholar', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_business', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_supernova', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_supernova', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
 	-- { jkrKey = 'j_mr_bones', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_seeing_double', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_duo', isSafeOrHasSafeVariant = true },
@@ -236,29 +243,29 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_space', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_matador', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_ceremonial', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_ring_master', isSafeOrHasSafeVariant = true }, -- Yes, this is Showman. You have no idea how mad I am that it's called this internally.
+	{ jkrKey = 'j_ring_master', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_JustIRLCirno' }, -- Yes, this is Showman. You have no idea how mad I am that it's called this internally.
 	-- { jkrKey = 'j_fortune_teller', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_hit_the_road', isSafeOrHasSafeVariant = true  },
+	{ jkrKey = 'j_hit_the_road', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_swashbuckler', isSafeOrHasSafeVariant = true  },
 	
 	-- { jkrKey = 'j_flower_pot', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_ride_the_bus', isSafeOrHasSafeVariant = true  },
-	{ jkrKey = 'j_shoot_the_moon', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_shoot_the_moon', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_smeared', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_oops', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_four_fingers', isSafeOrHasSafeVariant = true  },
 	-- { jkrKey = 'j_gros_michel', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_stuntman', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_hanging_chad', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_stuntman', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_JustIRLCirno' },
+	{ jkrKey = 'j_hanging_chad', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	
 	-- { jkrKey = 'j_drivers_license', isSafeOrHasSafeVariant = true  },
 	-- { jkrKey = 'j_invisible', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_astronomer', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_burnt', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_burnt', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_dusk', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_throwback', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_throwback', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	-- { jkrKey = 'j_idol', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_brainstorm', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_brainstorm', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	-- { jkrKey = 'j_satellite', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_rough_gem', isSafeOrHasSafeVariant = true },
 	
@@ -269,26 +276,26 @@ replaceDef.jokerReplacements = {
 	----- Legendary Jokers are their own separate block below. -----
 	----- And they also operate super funky because of their soul_pos stuff -----
 	
-	{ jkrKey = 'j_certificate', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_bootstraps', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_certificate', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
+	{ jkrKey = 'j_bootstraps', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Unknown_NTFEdit' },
 	
-	{ jkrKey = 'j_egg', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_burglar', isSafeOrHasSafeVariant = false },
+	{ jkrKey = 'j_egg', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Egg' },
+	{ jkrKey = 'j_burglar', isSafeOrHasSafeVariant = false, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
 	-- { jkrKey = 'j_blackboard', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_ice_cream', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_runner', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_dna', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_dna', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Unknown_NTFEdit' },
 	-- { jkrKey = 'j_splash', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_blue_joker', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_sixth_sense', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_constellation', isSafeOrHasSafeVariant = true },
 	
-	{ jkrKey = 'j_hiker', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_hiker', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_JustIRLCirno' },
 	-- { jkrKey = 'j_faceless', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_green_joker', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_superposition', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_todo_list', isSafeOrHasSafeVariant = false },
-	{ jkrKey = 'j_cavendish', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_todo_list', isSafeOrHasSafeVariant = false, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
+	{ jkrKey = 'j_cavendish', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
 	-- { jkrKey = 'j_card_sharp', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_red_card', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_madness', isSafeOrHasSafeVariant = true },
@@ -302,7 +309,7 @@ replaceDef.jokerReplacements = {
 	
 	-- { jkrKey = 'j_vagabond', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_baron', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_cloud_9', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_cloud_9', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
 	-- { jkrKey = 'j_rocket' },
 	-- { jkrKey = 'j_obelisk', isSafeOrHasSafeVariant = true }, -- Petition to rename this "Worst Joker in the Game."
 	
@@ -319,19 +326,19 @@ replaceDef.jokerReplacements = {
 	
 	-- { jkrKey = 'j_sly', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_wily', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_clever', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_clever', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_devious', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_crafty', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_lucky_cat', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_baseball', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_baseball', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Baseball' },
 	-- { jkrKey = 'j_bull', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_diet_cola', isSafeOrHasSafeVariant = false },
+	{ jkrKey = 'j_diet_cola', isSafeOrHasSafeVariant = false, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
 	-- { jkrKey = 'j_trading', isSafeOrHasSafeVariant = true },
 	
 	-- { jkrKey = 'j_flash', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_popcorn', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_popcorn', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	-- { jkrKey = 'j_ramen', isSafeOrHasSafeVariant = true },
-	{ jkrKey = 'j_selzer', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_selzer', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	-- { jkrKey = 'j_spare_trousers', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_campfire', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_smiley', isSafeOrHasSafeVariant = true },

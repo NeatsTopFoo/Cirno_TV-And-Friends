@@ -11,7 +11,7 @@ local cirInitConfig = {
 	-- the respective Joker's script.
 	customJokers = {
 		{ jkrFileName = 'customLegendaries', isSafeOrHasSafeVariant = true },
-		{ jkrFileName = 'customUncommons', isSafeOrHasSafeVariant = true },
+		{ jkrFileName = 'customUncommons', isSafeOrHasSafeVariant = true }
 	},
 	-- Ensure that any Challenges with mature references
 	-- and those without are implemented separately.
@@ -72,7 +72,7 @@ SMODS.current_mod.config_tab = function()
 										config = { align = 'tr', padding = 0.05 },
 										nodes = {
 											create_toggle({
-												label = "Enable Mature References",
+												label = "Enable Mature References (Stream-Safe)",
 												w = 1.5,
 												text_scale = 0.7,
 												ref_table = CirnoMod.config,
@@ -239,6 +239,20 @@ SMODS.current_mod.config_tab = function()
 												callback = CirnoMod.callback_additionalChallengesToggle
 											})
 										}
+									},
+									{
+										n = G.UIT.R,
+										config = { align = 'tr', padding = 0.05 },
+										nodes = {
+											create_toggle({
+												label = "Enable Art Credit Tooltips",
+												w = 1.5,
+												text_scale = 0.7,
+												ref_table = CirnoMod.config,
+												ref_value = 'artCredits',
+												callback = CirnoMod.callback_artCreditsToggle
+											})
+										}
 									}
 								}
 							}
@@ -266,6 +280,22 @@ if CirnoMod.allEnabledOptions['titleLogo'] then
 else
 	-- Necessary for the below
 	G.TITLE_SCREEN_CARD = G.P_CARDS.S_A
+end
+
+CirnoMod.miscItems.artCreditKeys = {}
+-- Hate. Hate. Hate. Hate that we have to do this this
+-- way. Hatehatehatehatehate. I had a whole system set
+-- up and I had to tear it right down because apparently
+-- that's not how that fucking works and we need to do
+-- this bullshit this way because we can't easily insert
+-- thing into the other thing and do that thing and I'm
+-- onna scream, I'M CRASHING OUT AAAAAAAAAAAAAAAAAAAAA
+-- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+-- ...See the patcher toml and localization/en-us.lua
+-- for more info. Though for your sanity, it's probably
+-- best not to.
+CirnoMod.ParseVanillaCredit = function(key)
+	return { key = CirnoMod.miscItems.artCreditKeys[key], set = "Other" }
 end
 
 -- Necessary function definition for above title screen replacement stuff to both actually facilitate the replacement and also make it not error because I'm giving it a string instead
@@ -489,14 +519,44 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	
 	-- Processes joker kays as defined in the vanilla replacement doc and
 	-- populates the replacement keys for the malverk pack accordingly.
-	for i, k in ipairs (CirnoMod.replaceDef.jokerReplacements) do		
+	for i, k in ipairs (CirnoMod.replaceDef.jokerReplacements) do
 		if
 			CirnoMod.allEnabledOptions['matureReferences']
 			or k.isSafeOrHasSafeVariant
 		then
-			table.insert(CirnoMod.replaceDef.jokerReplacementKeys, k.jkrKey)
+			if k.jkrKey ~= 'j_wee' then
+				table.insert(CirnoMod.replaceDef.jokerReplacementKeys, k.jkrKey)
+			end
+			
+			if k.artCreditKey then
+				CirnoMod.miscItems.artCreditKeys[k.jkrKey] = k.artCreditKey
+			end
 		end
 	end
+	
+	-- We'll stick these here for now. Legendary credits will stay, but everything
+	-- else should probably move to Cir_Vanilla_Replacement_Definition.lua.	
+	CirnoMod.miscItems.artCreditKeys['j_caino'] = 'jA_DaemonTsun_BigNTFEdit'
+	CirnoMod.miscItems.artCreditKeys['j_triboulet'] = 'jA_DaemonTsun_BigNTFEdit'
+	CirnoMod.miscItems.artCreditKeys['j_yorick'] = 'jA_DaemonTsun_BigNTFEdit'
+	CirnoMod.miscItems.artCreditKeys['j_chicot'] = 'jA_DaemonTsun_BigNTFEdit'
+	CirnoMod.miscItems.artCreditKeys['j_perkeo'] = 'jA_DaemonTsun'
+	
+	-- Seals don't work, Decks don't work :(
+	-- Leaving seals uncommented because I've only tested it in the Collection
+	-- menu and never during an actual run, so it's possible
+	CirnoMod.miscItems.artCreditKeys['m_stone'] = 'eA_Unknown'
+	CirnoMod.miscItems.artCreditKeys['blue_seal'] = 'eA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys['red_seal'] = 'eA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys['gold_seal'] = 'eA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys['purple_seal'] = 'eA_DaemonTsun'
+	
+	-- CirnoMod.miscItems.artCreditKeys['b_red'] = 'dA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys['b_blue'] = 'dA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys['b_black'] = 'dA_DaemonTsun'
+	
+	CirnoMod.miscItems.artCreditKeys['c_fool'] = 'gA_LocalThunk_DaemonTsunEdit'
+	CirnoMod.miscItems.artCreditKeys['c_wheel_of_fortune'] = 'gA_NTF'
 	
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()
 end

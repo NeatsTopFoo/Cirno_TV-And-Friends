@@ -40,6 +40,21 @@ AltTexture({
 	}
 })
 
+---------------------
+----- Wee Joker -----
+---------------------
+AltTexture({
+	key = 'mlvrk_WeeJoker',
+	set = 'Joker',
+	path = "Vanilla_Replacements/cir_weeJoker.png",
+	
+	-- Just the Wee Joker.
+	keys = { 'j_wee' },
+	loc_txt = {
+		name = 'Wee Joker'
+	}
+})
+
 ----------------------------
 ----- Legendary Jokers -----
 ----------------------------
@@ -272,6 +287,7 @@ TexturePack{
 	-- The mod key can be found in the config file.
 	textures = {
 		'cir_mlvrk_NormalJokers',
+		'cir_mlvrk_WeeJoker',
 		'cir_mlvrk_LegendaryJokers',
 		
 		'cir_mlvrk_Tarots',

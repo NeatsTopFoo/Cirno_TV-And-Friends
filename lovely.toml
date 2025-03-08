@@ -106,6 +106,25 @@ if self.ability.name == 'The Wheel of Fortune' then self.cirNtf_wheel_success = 
 '''
 match_indent = false
 
+# Captures when a card UI tooltip is being generated and checks to see if it should add
+# the credit tooltip based on the card's key.
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "for _, v in ipairs(info_queue) do"
+position = "before"
+payload = '''
+if CirnoMod then
+	if
+		CirnoMod.allEnabledOptions['artCredits']
+		and CirnoMod.miscItems.artCreditKeys[_c.key]
+	then
+		info_queue[#info_queue + 1] = CirnoMod.ParseVanillaCredit(_c.key)
+	end
+end
+'''
+match_indent = false
+
 # Adds some hooks to be used for things like challenges.
 [[patches]]
 [patches.pattern]

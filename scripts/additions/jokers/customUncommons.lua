@@ -34,8 +34,16 @@ local jokerInfo = {
 			-- actually calls calculate(). ...Yeah. It's weird.
 			blueprint_compat = true,
 			
-			-- Unknown
+			-- Figured out what this is - This largely defines some of the 
+			-- stuff that shows up in the tooltip. So for example, if you
+			-- hover over a card that mentions Stone cards and it tells
+			-- you what Stone cards are, that's this. It's not because it
+			-- just says 'Stone card' in the description.
 			loc_vars = function(self, info_queue, card)
+				-- Art credit tooltip
+				info_queue[#info_queue + 1] = { key = "jA_Unknown_LocalThunkEdit", set = "Other" }
+				
+				-- Defines #1#.
 				return { vars = { card.ability.extra.Xmult } }
 				end,
 			

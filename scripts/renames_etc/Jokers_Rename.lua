@@ -3,7 +3,15 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_joker, "text", {
                     "{C:red,s:1.1}+#1#{} Mult",
 					"{s:0.8,C:inactive}>Yes     >No"
                 })
-SMODS.process_loc_text(G.localization.descriptions.Joker.j_wee, "name", "Wee Clippy")
+
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_wee, "name", "cirMini")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_wee, "text", {
+                    "This Joker gains",
+                    "{C:chips}+#2#{} Chips when each",
+                    "played {C:attention}2{} is scored",
+                    "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
+					"{s:0.2,C:inactive}Something about cirFairies in the chat."
+                })
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_chaos, "name", "Miku The Clown")
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_chaos, "text", {

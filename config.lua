@@ -12,5 +12,6 @@ return {
 	['enhancerRenames'] = true,
 	['tarotSpectralRenames'] = true,
 	['miscRenames'] = true,
-	['additionalChallenges'] = false
+	['additionalChallenges'] = false,
+	['artCredits'] = true
 }

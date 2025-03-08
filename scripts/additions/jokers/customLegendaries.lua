@@ -63,8 +63,16 @@ local jokerInfo = {
 			-- actually calls calculate(). ...Yeah. It's weird.
 			blueprint_compat = true,
 			
-			-- Unknown
+			-- Figured out what this is - This largely defines some of the 
+			-- stuff that shows up in the tooltip. So for example, if you
+			-- hover over a card that mentions Stone cards and it tells
+			-- you what Stone cards are, that's this. It's not because it
+			-- just says 'Stone card' in the description.
 			loc_vars = function(self, info_queue, card)
+				-- Art credit tooltip
+				info_queue[#info_queue + 1] = { key = "jA_DaemonTsun", set = "Other" }
+				
+				-- Defines #1#
 				return { vars = { card.ability.extra.Xmult } }
 				end,
 			
@@ -146,9 +154,20 @@ local jokerInfo = {
 			-- actually calls calculate(). ...Yeah. It's weird.
 			blueprint_compat = true,
 			
-			-- Unknown
+			-- Figured out what this is - This largely defines some of the 
+			-- stuff that shows up in the tooltip. So for example, if you
+			-- hover over a card that mentions Stone cards and it tells
+			-- you what Stone cards are, that's this. It's not because it
+			-- just says 'Stone card' in the description.
 			loc_vars = function(self, info_queue, center)
+				-- Adds a description of Wheel of Fortune to tooltip by appending
+				-- to info_queue
 				info_queue[#info_queue + 1] = G.P_CENTERS.c_wheel_of_fortune
+				
+				-- Art credit tooltip
+				info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEDit", set = "Other" }
+				
+				-- Here is how #1# and #2# are defined.
 				return { vars = { center.ability.extra.extra, center.ability.extra.x_mult } }
 			end,
 			
