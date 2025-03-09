@@ -1,2 +1,5 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Classify .lua files as Lua
+*.lua linguist-language=Lua
+
+# Classify the one .toml file as TOML
+*.toml linguist-language=TOML
