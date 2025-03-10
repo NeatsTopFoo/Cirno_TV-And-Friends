@@ -269,9 +269,9 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_throwback, "text", {
                     "{X:mult,C:white} X#1# {} Mult for each",
                     "{C:attention}Blind{} skipped this run",
                     "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
-                    "{s:0.8,C:inactive}\"...What are you talking about?",
-                    "{s:0.8,C:inactive}What Bing search?! Do I have a",
-                    "{s:0.8,C:inactive}virus?!?!?!\""
+                    "{s:0.8,C:inactive}\"...What are you talking",
+                    "{s:0.8,C:inactive}about, what Bing search?!",
+                    "{s:0.8,C:inactive}Do I have a virus?!?!?!\""
                 })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_idol, "name", "The Idol")
@@ -369,7 +369,14 @@ end
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_ice_cream, "name", "Ice Cream")
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_runner, "name", "Runner")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_runner, "name", "Speedrunner")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_runner, "text", {
+                    "Gains {C:chips}+#2#{} Chips",
+                    "if played hand",
+                    "contains a {C:attention}Straight{}",
+                    "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
+					"{s:0.8,C:inactive}Keep going, you're at PB pace."
+                })
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_dna, "name", "\"DNA\"")
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_dna, "text", {
@@ -428,7 +435,24 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_dna, "text", {
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_seance, "name", "Séance")
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_riff_raff, "name", "Riff Raff")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_riff_raff, "name", "Twitch Chat")
+if CirnoMod.allEnabledOptions['matureReferences'] then
+	SMODS.process_loc_text(G.localization.descriptions.Joker.j_riff_raff, "text", {
+						"When {C:attention}Blind{} is selected,",
+						"create {C:attention}#1# {C:blue}Common{C:attention} Jokers",
+						"{C:inactive}(Must have room)",
+						"{s:0.8,C:inactive}\"Barking doesn't make me a",
+						"{s:0.8,C:inactive}furry, all the furry porn I",
+						"{s:0.8,C:inactive}have makes me a furry.\""
+					})
+else
+	SMODS.process_loc_text(G.localization.descriptions.Joker.j_riff_raff, "text", {
+                    "When {C:attention}Blind{} is selected,",
+                    "create {C:attention}#1# {C:blue}Common{C:attention} Jokers",
+                    "{C:inactive}(Must have room)",
+					"{s:0.8,C:inactive}Yeah, Chat just does that."
+					})
+end
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_vampire, "name", "Vampire")
 
@@ -438,7 +462,13 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_dna, "text", {
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_vagabond, "name", "Vagabond")
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_baron, "name", "Baron")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_baron, "name", "Gigachad")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_baron, "text", {
+                    "Each {C:attention}King{}",
+                    "held in hand",
+                    "gives {X:mult,C:white} X#1# {} Mult",
+					"{s:0.8,C:inactive}You dropped your crown, king."
+                })
 				
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_cloud_9, "name", "Cloud 9")
 
@@ -513,8 +543,8 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_selzer, "text", {
                     "Retrigger all",
                     "cards played for",
                     "the next {C:attention}#1#{} hands",
-					"{s:0.8,C:inactive}...Where's the Mac n",
-					"{s:0.8,C:inactive}Cheese?"
+					"{s:0.8,C:inactive}\"...Where's the",
+					"{s:0.8,C:inactive}Mac n Cheese?\""
                 })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_spare_trousers, "name", "Spare Trousers")

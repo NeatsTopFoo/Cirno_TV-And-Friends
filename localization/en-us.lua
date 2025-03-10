@@ -11,6 +11,10 @@ creditSources.NTF = "{X:purple,C:white}NopeTooFast{}"
 -- Edit however you want, idk how you want it
 creditSources.DTsun = "DaemonTsun"
 
+-- The funny increases exponentially.
+creditSources.CirnoTV = "{X:chips,C:white}Cirno_TV{}"
+creditSources.CirnoTV_smol = "{s:0.8,X:chips,C:white}Cirno_TV{}"
+
 creditSources.solga = "Solgalestia"
 creditSources.nyong = "NyongNyong"
 creditSources.turpix = "Turpix"
@@ -102,7 +106,7 @@ return {
 			jA_Misprint={
 				name= creditSources.cr_JokerArt,
 				text={
-					"{C:blue}Cirno_TV{}, edited", -- Yes, Cirno drew cirBairy.
+					creditSources.CirnoTV ..", edited", -- Yes, Cirno drew cirBairy.
 					"by "..creditSources.NTF  -- ...Formally crediting him is funnier, trust me
 				}
 			},
@@ -111,7 +115,7 @@ return {
 				text={
 					"{s:0.8}...I don't know what to",
 					"{s:0.8}say, it's literally just",
-					"{s:0.8}a picture of {s:0.8,C:blue}Cirno_TV{}."
+					"{s:0.8}a picture of "..creditSources.CirnoTV_smol.."{s:0.8}."
 				}
 			},
 			jA_Egg={
@@ -119,8 +123,8 @@ return {
 				text={
 					"{s:0.8}...I don't know what to",
 					"{s:0.8}say, it's literally just",
-					"{s:0.8}a picture of {s:0.8,C:blue}Cirno_TV{}.",
-					"{s:0.8}DEFINITELY real, not an",
+					"{s:0.8}a picture of "..creditSources.CirnoTV_smol.."{s:0.8}.",
+					"{s:0.8,E:1}DEFINITELY{s:0.8} real, not an",
 					"{s:0.8}edit of any kind."
 				}
 			},
@@ -138,7 +142,7 @@ return {
 				text={
 					"{s:0.8}Literally how do I ",
 					"{s:0.8}credit this, it's a",
-					"{s:0.8}Seinfeld screenshot."
+					"{s:0.8}still from Seinfeld."
 				}
 			},
 			

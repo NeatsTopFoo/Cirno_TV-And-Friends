@@ -4,6 +4,9 @@ CirnoMod.config = SMODS.current_mod.config
 CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
 CirnoMod.miscItems = {}
 
+-- 
+CirnoMod.miscItems.keysOfAllCirnoModItems = {}
+
 local cirInitConfig = {
 	-- Ensure that any Jokers with mature references
 	-- and those without are implemented separately.
@@ -294,11 +297,13 @@ CirnoMod.miscItems.artCreditKeys = {}
 -- ...See the patcher toml and localization/en-us.lua
 -- for more info. Though for your sanity, it's probably
 -- best not to.
-CirnoMod.ParseVanillaCredit = function(key)
-	return { key = CirnoMod.miscItems.artCreditKeys[key], set = "Other" }
+CirnoMod.ParseVanillaCredit = function(itemKey)
+	return { key = CirnoMod.miscItems.artCreditKeys[itemKey], set = "Other" }
 end
 
--- Necessary function definition for above title screen replacement stuff to both actually facilitate the replacement and also make it not error because I'm giving it a string instead
+-- These three are necessary function definition for above
+-- title screen replacement stuff to both actually facilitate
+-- the replacement and also make it not error because I'm giving it a string instead
 function G.FUNCS.title_screen_card(self, SC_scale)
 	if type(G.TITLE_SCREEN_CARD) == "table" then
 			return Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.TITLE_SCREEN_CARD, G.P_CENTERS.c_base)
@@ -319,19 +324,20 @@ function G.FUNCS.splash_screen_card(card_pos, card_size)
 				card_size*G.CARD_W, card_size*G.CARD_H, pseudorandom_element(G.P_CARDS), G.P_CENTERS.c_base)
 end
 
-------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------
------ An attempt at lifting the code from Cardsauce that alters the shader colours,  -----
------ to try and make the vortex in the main menu Cirno themed (Blue & Cyan instead  -----
------ of Red & Blue), that is not functional and causes an error every time it tries -----
------ to load. I'm probably missing something or have done something wrong, but if   -----
------ you're willing to try and make it work, or have some other idea to accomplish  -----
------ the same thing, go ahead. I have no idea how to make this work at this point & -----
------ to be honest, I'm surprised that the Blueprint replacement stuff above works.  -----
------ Bear in mind that both the above and below code have corresponding patches in  -----
------ the lovely.toml that will likely need to be revised in order to work properly. -----
-------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+----- An attempt at lifting the code from Cardsauce (which itself I believe is lifted -----
+----- from Cryptid?) that alters the shader colours, to try and make the vortex in	  -----
+----- the main menu Cirno themed (Blue & Cyan instead of Red & Blue), that is not	  -----
+----- functional and causes an error every time it tries  to load. I'm probably		  -----
+----- missing something or have done something wrong, but if you're willing to try	  -----
+----- and make it work, or have some other idea to accomplish the same thing, go	  -----
+----- ahead. I have no idea how to make this work at this point & to be honest, I'm   -----
+----- surprised that the Blueprint replacement stuff above works. Bear in mind that   -----
+----- both the above and below code have corresponding patches in the lovely.toml	  -----
+----- that will likely need to be revised in order to work properly.				  -----
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
 --	local color_presets = {
 --		{
@@ -528,6 +534,8 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 				table.insert(CirnoMod.replaceDef.jokerReplacementKeys, k.jkrKey)
 			end
 			
+			table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, k.jkrKey)
+			
 			if k.artCreditKey then
 				CirnoMod.miscItems.artCreditKeys[k.jkrKey] = k.artCreditKey
 			end
@@ -542,6 +550,12 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	CirnoMod.miscItems.artCreditKeys['j_chicot'] = 'jA_DaemonTsun_BigNTFEdit'
 	CirnoMod.miscItems.artCreditKeys['j_perkeo'] = 'jA_DaemonTsun'
 	
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'j_caino')
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'j_triboulet')
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'j_yorick')
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'j_chicot')
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'j_perkeo')
+	
 	-- Seals don't work, Decks don't work :(
 	-- Leaving seals uncommented because I've only tested it in the Collection
 	-- menu and never during an actual run, so it's possible
@@ -551,12 +565,21 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	CirnoMod.miscItems.artCreditKeys['gold_seal'] = 'eA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys['purple_seal'] = 'eA_DaemonTsun'
 	
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'm_stone')
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'blue_seal')
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'red_seal')
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'gold_seal')
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'purple_seal')
+	
 	-- CirnoMod.miscItems.artCreditKeys['b_red'] = 'dA_DaemonTsun'
 	-- CirnoMod.miscItems.artCreditKeys['b_blue'] = 'dA_DaemonTsun'
 	-- CirnoMod.miscItems.artCreditKeys['b_black'] = 'dA_DaemonTsun'
 	
 	CirnoMod.miscItems.artCreditKeys['c_fool'] = 'gA_LocalThunk_DaemonTsunEdit'
 	CirnoMod.miscItems.artCreditKeys['c_wheel_of_fortune'] = 'gA_NTF'
+	
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'c_fool')
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'c_wheel_of_fortune')
 	
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()
 end
@@ -638,9 +661,13 @@ if CirnoMod.allEnabledOptions['addCustomJokers'] then
 				if jokerInfo.isMultipleJokers then
 					for i_, Jkr_ in ipairs (jokerInfo.jokerConfigs) do
 						SMODS.Joker(Jkr_)
+						
+						table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, Jkr_.key)
 					end
 				else
 					SMODS.Joker(jokerInfo.jokerConfig)
+				
+					table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, jokerInfo.jokerConfig.key)
 				end
 			end
 		end		

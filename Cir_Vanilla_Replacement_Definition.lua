@@ -132,11 +132,11 @@ replaceDef.getPath = function(replaceType)
 end
 
 -- IMPORTANT:
--- Since I'm adding a mature references toggle
--- for anyone that may want to stream this that
--- idk, has a PG-13 stream? (E.g. my Oshi, best
--- mayo cat villainess. All praise.) This should
--- support that. So then when the mature
+-- Since I'm adding an overt mature references
+-- toggle for anyone that may want to stream this
+-- that idk, has a PG-13 stream? (E.g. my Oshi,
+-- best mayo cat villainess. All praise.) This
+-- should support that. So then when the mature
 -- references are DISABLED, the mod will either
 -- need to not replace the graphic replacements
 -- that are mature references, or be able to
@@ -283,7 +283,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_burglar', isSafeOrHasSafeVariant = false, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
 	-- { jkrKey = 'j_blackboard', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_ice_cream', isSafeOrHasSafeVariant = true },
-	-- { jkrKey = 'j_runner', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_runner', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_dna', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Unknown_NTFEdit' },
 	-- { jkrKey = 'j_splash', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_blue_joker', isSafeOrHasSafeVariant = true },
@@ -301,14 +301,14 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_madness', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_square', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_seance', isSafeOrHasSafeVariant = true },
-	-- { jkrKey = 'j_riff_raff', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_riff_raff', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	-- { jkrKey = 'j_vampire', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_shortcut', isSafeOrHasSafeVariant = true },
 	
 	----- Hologram is funky. Let me know if you work something out for its graphic. -----
 	
 	-- { jkrKey = 'j_vagabond', isSafeOrHasSafeVariant = true },
-	-- { jkrKey = 'j_baron', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_baron', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_cloud_9', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
 	-- { jkrKey = 'j_rocket' },
 	-- { jkrKey = 'j_obelisk', isSafeOrHasSafeVariant = true }, -- Petition to rename this "Worst Joker in the Game."
@@ -341,7 +341,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_selzer', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	-- { jkrKey = 'j_spare_trousers', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_campfire', isSafeOrHasSafeVariant = true },
-	-- { jkrKey = 'j_smiley', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_smiley', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	-- { jkrKey = 'j_ancient', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_walkie_talkie', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_castle', isSafeOrHasSafeVariant = true }
