@@ -14,23 +14,23 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 ![Showcase of Playing Cards](https://i.imgur.com/kQTZOGD.png)
 
 **Cirno_TV & Friends** currently:
-Retextures:
-- 47 Jokers (3 filtered & 3 altered by the Mature Reference setting)
-- All Blind Chips
-- All seals
-- 3 Decks
-- 2 Tarots
-- 1 Enhancement
-- The title screen
+- Retextures:
+  - 47 Jokers (3 filtered & 3 altered by the Mature Reference setting)
+  - All Blind Chips
+  - All seals
+  - 3 Decks
+  - 2 Tarots
+  - 1 Enhancement
+  - The title screen
 
-Renames:
-- Most blinds
-- A significant amount of retextured Jokers.
+- Renames:
+  - Most blinds
+  - A significant amount of retextured Jokers.
 
-Adds:
-- Various fun flavour text to numerous Jokers.
-- 1 new custom challenge
-- 3 custom Jokers
+- Adds:
+  - Various fun flavour text to numerous Jokers.
+  - 1 new custom challenge
+  - 3 custom Jokers
 
 ## Installation
 This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), the latest version of [Steammodded](https://github.com/Steamodded/smods) & the latest version of [Malverk](https://github.com/Eremel/Malverk). Without these dependencies, this mod will not function.
