@@ -170,7 +170,19 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_hack, "text", {
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_supernova, "name", "Supernova")
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_mr_bones, "name", "Mr. Bones")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_mr_bones, "name", "Excuses")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_mr_bones, "text", {
+                    "Prevents Death",
+                    "if chips scored",
+                    "are at least {C:attention}25%",
+                    "of required chips",
+                    "{S:1.1,C:red,E:2}self destructs{}",
+					"{s:0.8,C:inactive}Chat, it's the RNG,",
+					"{s:0.8,C:inactive}I can't do anything",
+					"{s:0.8,C:inactive}if the game doesn't",
+					"{s:0.8,C:inactive}give me the cards I",
+					"{s:0.8,C:inactive}need."
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_seeing_double, "name", "Seeing Double")
 
@@ -299,21 +311,32 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_caino, "text", {
                     "when a {C:attention}face{} card",
                     "is destroyed",
                     "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
-					"{s:0.8,C:inactive}All of your face (cards)",
-					"{s:0.8,C:inactive}are hers. You will not",
-					"{s:0.8,C:inactive}get them back."
+					"{s:0.8,C:inactive}All of your face (cards) are",
+					"{s:0.8,C:inactive}hers. You will not get them back."
                 })
 				
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_triboulet, "name", "HannahHyrule")
-SMODS.process_loc_text(G.localization.descriptions.Joker.j_triboulet, "text", {
-                    "Played {C:attention}Kings{} and",
-                    "{C:attention}Queens{} each give",
-                    "{X:mult,C:white} X#1# {} Mult when scored",
-					"{s:0.8,C:inactive}Wow look Chat, Cirno",
-					"{s:0.8,C:inactive}finally added the Big",
-					"{s:0.8,C:inactive}Naturals mod."
-                })
-				
+if CirnoMod.allEnabledOptions['matureReferences'] then
+	SMODS.process_loc_text(G.localization.descriptions.Joker.j_triboulet, "text", {
+						"Played {C:attention}Kings{} and",
+						"{C:attention}Queens{} each give",
+						"{X:mult,C:white} X#1# {} Mult when scored",
+						"{s:0.8,C:inactive}Wow look Chat, Cirno",
+						"{s:0.8,C:inactive}finally added the Big",
+						"{s:0.8,C:inactive}Naturals mod."
+					})
+else
+	SMODS.process_loc_text(G.localization.descriptions.Joker.j_triboulet, "text", {
+						"Played {C:attention}Kings{} and",
+						"{C:attention}Queens{} each give",
+						"{X:mult,C:white} X#1# {} Mult when scored",
+						"{s:0.8,C:inactive}Hannah has a large, fearsome",
+						"{s:0.8,C:inactive}& awesome pirate armada, with",
+						"{s:0.8,C:inactive}a big galleon & a couple of",
+						"{s:0.8,C:inactive}big pirate airships."
+					})
+end
+
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_yorick, "name", "ThorW")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_yorick, "text", {

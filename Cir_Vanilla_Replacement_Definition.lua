@@ -229,7 +229,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_scholar', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_business', isSafeOrHasSafeVariant = true },
 	{ jkrKey = 'j_supernova', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
-	-- { jkrKey = 'j_mr_bones', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_mr_bones', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	-- { jkrKey = 'j_seeing_double', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_duo', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_trio', isSafeOrHasSafeVariant = true },
