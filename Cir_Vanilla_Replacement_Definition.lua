@@ -36,10 +36,10 @@ replaceDef.paths.cirBlindChipsPath = { nrm = 'Vanilla_Replacements/cir_BlindChip
 --		safe = ''
 --		}
 
---	replaceDef.paths.cirBoostersPath = {
---		nrm = '',
---		safe = ''
---		}
+replaceDef.paths.cirBoostersPath = {
+	nrm = 'Vanilla_Replacements/cir_Boosters.png',
+	-- safe = ''
+	}
 
 replaceDef.getPath = function(replaceType)
 	local RV = ""
@@ -117,7 +117,14 @@ replaceDef.getPath = function(replaceType)
 			replaceType == "booster"
 			or replaceType == "boosters"
 		then
-			print("Not implemented (CirnoMod.replaceDef.getPath(booster))")
+			if
+				not CirnoMod.allEnabledOptions['matureReferences']
+				and replaceDef.paths.cirBoostersPath.safe
+			then
+				RV = replaceDef.paths.cirBoostersPath.safe
+			else
+				RV = replaceDef.paths.cirBoostersPath.nrm
+			end
 		elseif
 			replaceType == "voucher"
 			or replaceType == "vouchers"

@@ -127,6 +127,51 @@ AltTexture({
 
 -- TODO
 
+-- Boosters
+AltTexture({
+	key = 'mlvrk_Boosters',
+	set = 'Booster',
+	path = CirnoMod.replaceDef.getPath("booster"),
+	original_sheet = true,
+	keys = {
+		'p_arcana_normal_1',
+		--	'p_arcana_normal_2',
+		--	'p_arcana_normal_3',
+		--	'p_arcana_normal_4',
+		--	'p_arcana_jumbo_1',
+		--	'p_arcana_jumbo_2',
+		--	'p_arcana_mega_1',
+		--	'p_arcana_mega_2',
+		--	'p_celestial_normal_1',
+		--	'p_celestial_normal_2',
+		--	'p_celestial_normal_3',
+		--	'p_celestial_normal_4',
+		--	'p_celestial_jumbo_1',
+		--	'p_celestial_jumbo_2',
+		--	'p_celestial_mega_1',
+		--	'p_celestial_mega_2',
+		--	'p_spectral_normal_1',
+		--	'p_spectral_normal_2',
+		--	'p_spectral_jumbo_1',
+		--	'p_spectral_mega_1',
+		--	'p_standard_normal_1',
+		--	'p_standard_normal_2',
+		--	'p_standard_normal_3',
+		--	'p_standard_normal_4',
+		--	'p_standard_jumbo_1',
+		--	'p_standard_jumbo_2',
+		--	'p_standard_mega_1',
+		--	'p_standard_mega_2',
+		'p_buffoon_normal_1',
+		--	'p_buffoon_normal_2',
+		--	'p_buffoon_jumbo_1',
+		'p_buffoon_mega_1'
+	},
+	loc_txt = {
+		name = 'Boosters'
+	}
+})
+
 ------------------------------
 ----- Decks & Enhancers ------
 ------------------------------
@@ -134,7 +179,7 @@ AltTexture({
 -- These have to be split this way
 -- because funny Malverk structure
 
--- Decls
+-- Decks
 AltTexture({
 	key = 'mlvrk_Decks',
 	set = 'Back',
@@ -290,6 +335,7 @@ TexturePack{
 		'cir_mlvrk_WeeJoker',
 		'cir_mlvrk_LegendaryJokers',
 		
+		'cir_mlvrk_Boosters',
 		'cir_mlvrk_Tarots',
 		'cir_mlvrk_Decks',
 		'cir_mlvrk_Enhancers',
