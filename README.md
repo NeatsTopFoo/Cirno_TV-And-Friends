@@ -19,6 +19,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
   - All Blind Chips
   - All seals
   - 3 Decks
+  - 3 Booster Packs
   - 2 Tarots
   - 1 Enhancement
   - The title screen
