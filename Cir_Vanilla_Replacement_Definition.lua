@@ -226,7 +226,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_glass', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_scary_face', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_abstract', isSafeOrHasSafeVariant = true },
-	-- { jkrKey = 'j_delayed_grat', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_delayed_grat', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_ticket', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_pareidolia' },
 	-- { jkrKey = 'j_cartomancer', isSafeOrHasSafeVariant = true  },

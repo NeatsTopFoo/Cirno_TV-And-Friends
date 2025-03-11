@@ -153,6 +153,22 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_hack, "text", {
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_abstract, "name", "Abstract Joker")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_delayed_grat, "name", "Delayed Gratification")
+if CirnoMod.allEnabledOptions['matureReferences'] then
+	SMODS.process_loc_text(G.localization.descriptions.Joker.j_delayed_grat, "text", {
+                    "Earn {C:money}$#1#{} per {C:attention}discard{} if",
+                    "no discards are used",
+                    "by end of the round",
+					"{C:inactive}You won't last a minute."
+                })
+else
+	SMODS.process_loc_text(G.localization.descriptions.Joker.j_delayed_grat, "text", {
+                    "Earn {C:money}$#1#{} per {C:attention}discard{} if",
+                    "no discards are used",
+                    "by end of the round",
+					"{C:inactive}Make sure to be in my",
+					"{C:inactive}vicinity if I ever get bored."
+                })
+end
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_ticket, "name", "Golden Ticket")
 

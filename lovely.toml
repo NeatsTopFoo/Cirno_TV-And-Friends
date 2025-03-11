@@ -126,6 +126,10 @@ end
 match_indent = false
 
 # Adds some hooks to be used for things like challenges.
+# Yes, I realise these are not what hooks are and hooks
+# are a very specific thing in Lua - But you get what I
+# mean, these just inject into the relevant areas so we
+# can capture certain important things
 [[patches]]
 [patches.pattern]
 target = "game.lua"
