@@ -90,30 +90,7 @@ AltTexture({
 	set = 'Tarot',
 	path = CirnoMod.replaceDef.getPath("tarot"),
 	original_sheet = true,
-	keys = {
-		'c_fool',
-		-- 'c_magician',
-		-- 'c_high_priestess',
-		-- 'c_empress',
-		-- 'c_emperor',
-		-- 'c_heirophant',
-		-- 'c_lovers',
-		-- 'c_chariot',
-		-- 'c_justice',
-		-- 'c_hermit',
-		'c_wheel_of_fortune',
-		-- 'c_strength',
-		-- 'c_hanged_man',
-		-- 'c_death',
-		-- 'c_temperance',
-		-- 'c_devil',
-		-- 'c_tower',
-		-- 'c_star',
-		-- 'c_moon',
-		-- 'c_sun',
-		-- 'c_judgement',
-		-- 'c_world'
-	},
+	keys = CirnoMod.replaceDef.tarotReplacementKeys,
 	loc_txt = {
 		name = 'Tarots'
 	}
@@ -133,40 +110,7 @@ AltTexture({
 	set = 'Booster',
 	path = CirnoMod.replaceDef.getPath("booster"),
 	original_sheet = true,
-	keys = {
-		'p_arcana_normal_1',
-		--	'p_arcana_normal_2',
-		--	'p_arcana_normal_3',
-		--	'p_arcana_normal_4',
-		--	'p_arcana_jumbo_1',
-		--	'p_arcana_jumbo_2',
-		--	'p_arcana_mega_1',
-		--	'p_arcana_mega_2',
-		--	'p_celestial_normal_1',
-		--	'p_celestial_normal_2',
-		--	'p_celestial_normal_3',
-		--	'p_celestial_normal_4',
-		--	'p_celestial_jumbo_1',
-		--	'p_celestial_jumbo_2',
-		--	'p_celestial_mega_1',
-		--	'p_celestial_mega_2',
-		--	'p_spectral_normal_1',
-		--	'p_spectral_normal_2',
-		--	'p_spectral_jumbo_1',
-		--	'p_spectral_mega_1',
-		--	'p_standard_normal_1',
-		--	'p_standard_normal_2',
-		--	'p_standard_normal_3',
-		--	'p_standard_normal_4',
-		--	'p_standard_jumbo_1',
-		--	'p_standard_jumbo_2',
-		--	'p_standard_mega_1',
-		--	'p_standard_mega_2',
-		'p_buffoon_normal_1',
-		--	'p_buffoon_normal_2',
-		--	'p_buffoon_jumbo_1',
-		'p_buffoon_mega_1'
-	},
+	keys = CirnoMod.replaceDef.boosterReplacementKeys,
 	loc_txt = {
 		name = 'Boosters'
 	}
@@ -185,24 +129,7 @@ AltTexture({
 	set = 'Back',
 	path = CirnoMod.replaceDef.getPath("deck"),
 	original_sheet = true,
-	keys = {
-		'b_red',
-		'b_blue',
-		-- 'b_yellow',
-		-- 'b_green',
-		'b_black',
-		-- 'b_magic',
-		-- 'b_nebula',
-		-- 'b_ghost',
-		-- 'b_abandoned',
-		-- 'b_checkered',
-		-- 'b_zodiac',
-		-- 'b_painted',
-		-- 'b_anaglyph',
-		-- 'b_plasma',
-		-- 'b_erratic',
-		-- 'b_challenge'
-	},
+	keys = CirnoMod.replaceDef.deckReplacementKeys,
 	loc_txt = {
 		name = 'Decks'
 	}
@@ -214,16 +141,7 @@ AltTexture({
 	set = 'Enhanced',
 	path = CirnoMod.replaceDef.getPath("enhancer"),
 	original_sheet = true,
-	keys = {
-		-- 'm_bonus',
-		-- 'm_mult',
-		-- 'm_wild',
-		-- 'm_glass',
-		-- 'm_steel',
-		'm_stone',
-		-- 'm_gold',
-		-- 'm_lucky'
-	},
+	keys = CirnoMod.replaceDef.enhancerReplacementKeys,
 	loc_txt = {
 		name = 'Enhancers'
 	}

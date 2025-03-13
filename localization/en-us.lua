@@ -28,6 +28,15 @@ creditSources.unknown = "{X:black,C:white}Unknown{}"
 return {
 	descriptions = {
 		Other = {
+			----- We need this bullshit because of how this dumb fucking system works -----
+			----- The contempt I feel for this setup is beyond human comprehension.   -----
+			----- Why are things this way? Why must LocalThunk torment us so? In this -----
+			----- essay I will														  -----
+			Joker_Art_By = { text = { creditSources.cr_JokerArt } },
+			Deck_Art_By = { text = { creditSources.cr_DeckArt } },
+			Enhancer_Art_By = { text = { creditSources.cr_EnhancerArt } },
+			Generic_Art_By = { text = { creditSources.cr_GenericArt } },
+			
 			----- Me -----
 			jA_NTF={
 				name= creditSources.cr_JokerArt,
@@ -73,8 +82,15 @@ return {
 				name= creditSources.cr_JokerArt,
 				text={creditSources.DTsun.." &", creditSources.NTF}
 			},
-			jA_DaemonTsun_NTFEDit={
+			jA_DaemonTsun_NTFEdit={
 				name= creditSources.cr_JokerArt,
+				text={
+					creditSources.DTsun..", edited",
+					"by "..creditSources.NTF
+				}
+			},
+			gA_DaemonTsun_NTFEdit={
+				name= creditSources.cr_GenericArt,
 				text={
 					creditSources.DTsun..", edited",
 					"by "..creditSources.NTF
@@ -82,6 +98,13 @@ return {
 			},
 			jA_DaemonTsun_BigNTFEdit={
 				name= creditSources.cr_JokerArt,
+				text={
+					creditSources.DTsun..", heavily",
+					"edited by "..creditSources.NTF
+				}
+			},
+			gA_DaemonTsun_BigNTFEdit={
+				name= creditSources.cr_GenericArt,
 				text={
 					creditSources.DTsun..", heavily",
 					"edited by "..creditSources.NTF

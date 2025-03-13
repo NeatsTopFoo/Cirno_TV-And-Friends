@@ -214,7 +214,8 @@ local jokerInfo = {
 							nil,
 							nil,
 							-- Message popup beneath the joker
-							{ message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }) })
+							{ message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }) }
+						)
 						
 						-- Animate wink
 						G.E_MANAGER:add_event(Event({
@@ -240,6 +241,103 @@ local jokerInfo = {
 					end
 				end
 				return nil, false
+			end
+		},
+		-- Naro Legendary.
+		{
+			-- How the Joker will be referred to internally.
+			key = 'cirL_naro',
+			
+			object_type = "Joker",
+			
+			loc_txt = {
+				-- The name the player will see in-game.
+				name = "Naro",
+				-- The description the player will see in-game.
+				text = {
+					"This Joker gains {X:mult,C:white} X#1# ",
+					"Mult for every {C:attention}"..G.localization.descriptions.Planet.c_neptune.name,
+					"used during this run",
+					"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+					"{s:0.8,C:inactive}\"Ehehehe~\""
+				}
+			},
+			
+			-- Extra will be how much the card grows. We can tweak this later if it needs rebalancing.
+			config = { extra = { extra = 1 } },
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, center)
+				-- Adds a description of Neptune to tooltip by appending
+				-- to info_queue
+				info_queue[#info_queue + 1] = G.P_CENTERS.c_neptune
+				
+				-- Art credit tooltip
+				info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
+				
+				-- Here is how #1# and #2# are defined.
+				if G.GAME.consumeable_usage then
+					if G.GAME.consumeable_usage['c_neptune'] then
+						return { vars = { center.ability.extra.extra, (G.GAME.consumeable_usage['c_neptune'].count * center.ability.extra.extra) + 1 or 1 } }
+					else
+						return { vars = { center.ability.extra.extra, 1 } }
+					end
+				else
+					return { vars = { center.ability.extra.extra, 1 } }
+				end
+			end,
+			
+			atlas = 'cir_cLegendaries',
+			pos = { x = 0, y = 2}, -- Defines base card graphic position in the atlas.
+			soul_pos = { x = 0, y = 3}, -- Defines where this card's soul overlay is in the given atlas
+			rarity = 4, -- Legendary rarity
+			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
+			eternal_compat = true,
+			perishable_compat = true,
+			
+			calculate = function(self, card, context)
+				-- This section seems to define the standard joker function? Which would be multiplying the mult by the stored around
+				if
+					context.cardarea == G.jokers -- If we are iterating through owned jokers
+					and	context.joker_main -- If the context is during the main scoring timing of jokers
+					and G.GAME.consumeable_usage -- And global consumeable usage exists
+					and mult ~= nil -- And global mult is not nil
+					and not context.before -- Context before is things that happen in the scoring loop, but before anything is scored
+					and not context.after -- Context after is things that modify the score after all cards are scored
+				then
+					return { -- Multiply the current mult by mult accrued on card?
+						message = localize(
+						{
+							type = "variable",
+							key = "a_xmult",
+							vars = {
+									(G.GAME.consumeable_usage_total and (G.GAME.consumeable_usage['c_neptune'].count * card.ability.extra.extra) + 1 or 1)
+								}
+						}), -- Message popup
+						Xmult_mod = (G.GAME.consumeable_usage_total and (G.GAME.consumeable_usage['c_neptune'].count * card.ability.extra.extra) + 1 or 1) -- Multiplies the current mult by the desired amount
+					}, true
+				elseif
+					context.blueprint_card == nil
+					and context.consumeable
+					and G.GAME.consumeable_usage
+				then
+					print(tprint(context.consumeable.ability))
+					
+					if
+						context.consumeable.ability.name == "Neptune"
+					then
+						return { -- Multiply the current mult by mult accrued on card?
+							message = localize(
+							{
+								type = "variable",
+								key = "a_xmult",
+								vars = {
+										(G.GAME.consumeable_usage_total and (G.GAME.consumeable_usage['c_neptune'].count * card.ability.extra.extra) + 1 or 1)
+									}
+							})
+						}, true
+					end
+				end
 			end
 		}
 	}

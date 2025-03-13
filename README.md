@@ -1,7 +1,7 @@
 # Cirno_TV And Friends
 A Balatro mod themed around [Cirno_TV](https://www.twitch.tv/Cirno_TV/), with various references & memes.
 
-**WARNING:** Cirno_TV & Friends isn't strictly a NSFW mod, but it does contain a handful of overt, stream-safe mature references in relation to community inside jokes. This mod is *NOT* intended for children. The mature references are disabled by default, but can be enabled in the mod's config settings (Config setting changes require a game restart to take effect).
+**WARNING:** Cirno_TV & Friends isn't strictly a NSFW mod, but it does contain a handful of overt, stream-safe mature references in relation to community inside jokes. This mod is *NOT* intended for children. These overt mature references are disabled by default, but can be enabled in the mod's config settings (Config setting changes require a game restart to take effect).
 
 ![CTVaF Logo](https://i.imgur.com/CcRk9nq.png)
 
@@ -15,12 +15,12 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 49 Jokers (3 filtered & 3 altered by the Mature Reference setting)
+  - 50 Jokers (3 filtered & 3 altered by the Mature Reference setting)
   - All Blind Chips
   - All seals
   - 3 Decks
   - 3 Booster Packs
-  - 2 Tarots
+  - 4 Tarots
   - 1 Enhancement
   - The title screen
 
@@ -31,7 +31,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 - Adds:
   - Various fun flavour text to numerous Jokers.
   - 1 new custom challenge
-  - 3 custom Jokers
+  - 4 custom Jokers
 
 ## Installation
 This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), the latest version of [Steammodded](https://github.com/Steamodded/smods) & the latest version of [Malverk](https://github.com/Eremel/Malverk). Without these dependencies, this mod will not function.

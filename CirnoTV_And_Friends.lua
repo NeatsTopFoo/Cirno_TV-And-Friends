@@ -282,18 +282,57 @@ if CirnoMod.allEnabledOptions['playingCardTextures'] then
 end
 
 -- Joker Textures
-if CirnoMod.allEnabledOptions['malverkReplacements'] then
-	CirnoMod.replaceDef.jokerReplacementKeys = {}
-	
-	-- Processes joker kays as defined in the vanilla replacement doc and
+if CirnoMod.allEnabledOptions['malverkReplacements'] then	
+	-- Processes kays as defined in the vanilla replacement doc and
 	-- populates the replacement keys for the malverk pack accordingly.
+	CirnoMod.replaceDef.deckReplacementKeys = {}
+	for i, d in ipairs (CirnoMod.replaceDef.deckReplacements) do
+		if
+			CirnoMod.allEnabledOptions['matureReferences']
+			or d.isSafeOrHasSafeVariant
+		then
+			table.insert(CirnoMod.replaceDef.deckReplacementKeys, d.dckKey)
+			
+			if d.artCreditKey then
+				CirnoMod.miscItems.artCreditKeys[d.dckKey] = d.artCreditKey
+			end
+		end
+	end
+	
+	CirnoMod.replaceDef.boosterReplacementKeys = {}
+	for i, b in ipairs (CirnoMod.replaceDef.boosterReplacements) do
+		if
+			CirnoMod.allEnabledOptions['matureReferences']
+			or b.isSafeOrHasSafeVariant
+		then
+			table.insert(CirnoMod.replaceDef.boosterReplacementKeys, b.bstKey)
+			
+			if b.artCreditKey then
+				CirnoMod.miscItems.artCreditKeys[b.bstKey] = b.artCreditKey
+			end
+		end
+	end
+	
+	CirnoMod.replaceDef.jokerReplacementKeys = {}
 	for i, k in ipairs (CirnoMod.replaceDef.jokerReplacements) do
 		if
 			CirnoMod.allEnabledOptions['matureReferences']
 			or k.isSafeOrHasSafeVariant
 		then
-			if k.jkrKey ~= 'j_wee' then
+			-- Ignore exceptional circumstances.
+			if
+				not CirnoMod.replaceDef.jkrKeysToIgnore[k.jkrKey]
+				--	k.jkrKey ~= 'j_wee'
+				--	and k.jkrKey ~= 'j_caino'
+				--	and k.jkrKey ~= 'j_triboulet'
+				--	and k.jkrKey ~= 'j_yorick'
+				--	and k.jkrKey ~= 'j_chicot'
+				--	and k.jkrKey ~= 'j_perkeo'
+				--	and k.jkrKey ~= 'j_hologram'
+			then
 				table.insert(CirnoMod.replaceDef.jokerReplacementKeys, k.jkrKey)
+			else
+				print(k.jkrKey)
 			end
 			
 			table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, k.jkrKey)
@@ -306,42 +345,56 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	
 	-- We'll stick these here for now. Legendary credits will stay, but everything
 	-- else should probably move to Cir_Vanilla_Replacement_Definition.lua.	
-	CirnoMod.miscItems.artCreditKeys['j_caino'] = 'jA_DaemonTsun_BigNTFEdit'
-	CirnoMod.miscItems.artCreditKeys['j_triboulet'] = 'jA_DaemonTsun_BigNTFEdit'
-	CirnoMod.miscItems.artCreditKeys['j_yorick'] = 'jA_DaemonTsun_BigNTFEdit'
-	CirnoMod.miscItems.artCreditKeys['j_chicot'] = 'jA_DaemonTsun_BigNTFEdit'
-	CirnoMod.miscItems.artCreditKeys['j_perkeo'] = 'jA_DaemonTsun'
+	--	CirnoMod.miscItems.artCreditKeys['j_caino'] = 'jA_DaemonTsun_BigNTFEdit'
+	--	CirnoMod.miscItems.artCreditKeys['j_triboulet'] = 'jA_DaemonTsun_BigNTFEdit'
+	--	CirnoMod.miscItems.artCreditKeys['j_yorick'] = 'jA_DaemonTsun_BigNTFEdit'
+	--	CirnoMod.miscItems.artCreditKeys['j_chicot'] = 'jA_DaemonTsun_BigNTFEdit'
+	--	CirnoMod.miscItems.artCreditKeys['j_perkeo'] = 'jA_DaemonTsun'
 	
-	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'j_caino')
-	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'j_triboulet')
-	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'j_yorick')
-	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'j_chicot')
-	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'j_perkeo')
+	CirnoMod.replaceDef.tarotReplacementKeys = {}
+	for i, t in ipairs (CirnoMod.replaceDef.tarotReplacements) do
+		if
+			CirnoMod.allEnabledOptions['matureReferences']
+			or t.isSafeOrHasSafeVariant
+		then
+			table.insert(CirnoMod.replaceDef.tarotReplacementKeys, t.trtKey)
+			
+			if t.artCreditKey then
+				CirnoMod.miscItems.artCreditKeys[t.trtKey] = t.artCreditKey
+			end
+		end
+	end
 	
-	-- Seals don't work, Decks don't work :(
-	-- Leaving seals uncommented because I've only tested it in the Collection
+	CirnoMod.replaceDef.enhancerReplacementKeys = {}
+	for i, e in ipairs (CirnoMod.replaceDef.enhancerReplacements) do
+		if
+			CirnoMod.allEnabledOptions['matureReferences']
+			or e.isSafeOrHasSafeVariant
+		then
+			table.insert(CirnoMod.replaceDef.enhancerReplacementKeys, e.enhKey)
+			
+			if e.artCreditKey then
+				CirnoMod.miscItems.artCreditKeys[e.enhKey] = e.artCreditKey
+			end
+		end
+	end
+	
+	-- TODO: Planets, Spectrals, Vouchers.
+	
+	-- Leaving these uncommented because I've only tested it in the Collection
 	-- menu and never during an actual run, so it's possible
-	CirnoMod.miscItems.artCreditKeys['m_stone'] = 'eA_Unknown'
 	CirnoMod.miscItems.artCreditKeys['blue_seal'] = 'eA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys['red_seal'] = 'eA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys['gold_seal'] = 'eA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys['purple_seal'] = 'eA_DaemonTsun'
 	
-	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'm_stone')
+	-- Also, we have no need to touch seals manually or do anything with
+	-- individual seal keys because we basically started having done them
+	-- all at the point we started getting this in-depth.
 	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'blue_seal')
 	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'red_seal')
 	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'gold_seal')
 	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'purple_seal')
-	
-	-- CirnoMod.miscItems.artCreditKeys['b_red'] = 'dA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys['b_blue'] = 'dA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys['b_black'] = 'dA_DaemonTsun'
-	
-	CirnoMod.miscItems.artCreditKeys['c_fool'] = 'gA_LocalThunk_DaemonTsunEdit'
-	CirnoMod.miscItems.artCreditKeys['c_wheel_of_fortune'] = 'gA_NTF'
-	
-	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'c_fool')
-	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'c_wheel_of_fortune')
 	
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()
 end

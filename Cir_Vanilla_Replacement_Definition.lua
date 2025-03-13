@@ -134,7 +134,7 @@ replaceDef.getPath = function(replaceType)
 	else
 		print("CirnoMod.replaceDef.getPath() called with an invalid argument")
 	end
-	print(RV)
+	-- print(RV)
 	return RV
 end
 
@@ -158,10 +158,68 @@ end
 -- its key, then a flag that states whether the
 -- graphic is safe or has a safe replacement.
 
--- Just Jokers for now. The Malverk script will
--- need to be updated if we add other things to
--- this like enhancers, tarots, planets,
--- spectrals and vouchers.
+-- The Malverk script will need to be updated
+-- if we add other things to this 
+
+----------------
+---- Decks -----
+----------------
+replaceDef.deckReplacements = { -- Deck art credits don't work unfortunately :( The tooltip just doesn't appear
+	{ dckKey = 'b_red', isSafeOrHasSafeVariant = true, artCreditKey = 'dA_DaemonTsun' },
+	{ dckKey = 'b_blue', isSafeOrHasSafeVariant = true, artCreditKey = 'dA_DaemonTsun' },
+	-- { dckKey = 'b_yellow', isSafeOrHasSafeVariant = true },
+	-- { dckKey = 'b_green', isSafeOrHasSafeVariant = true },
+	{ dckKey = 'b_black', isSafeOrHasSafeVariant = true, artCreditKey = 'dA_DaemonTsun' },
+	-- { dckKey = 'b_magic', isSafeOrHasSafeVariant = true },
+	-- { dckKey = 'b_nebula', isSafeOrHasSafeVariant = true },
+	-- { dckKey = 'b_ghost', isSafeOrHasSafeVariant = true },
+	-- { dckKey = 'b_abandoned', isSafeOrHasSafeVariant = true },
+	-- { dckKey = 'b_checkered', isSafeOrHasSafeVariant = true },
+	-- { dckKey = 'b_zodiac', isSafeOrHasSafeVariant = true },
+	-- { dckKey = 'b_painted', isSafeOrHasSafeVariant = true },
+	-- { dckKey = 'b_anaglyph', isSafeOrHasSafeVariant = true },
+	-- { dckKey = 'b_plasma', isSafeOrHasSafeVariant = true },
+	-- { dckKey = 'b_erratic', isSafeOrHasSafeVariant = true },
+	-- { dckKey = 'b_challenge, isSafeOrHasSafeVariant = true }
+}
+
+-------------------
+---- Boosters -----
+-------------------
+replaceDef.boosterReplacements = {
+	{ bstKey = 'p_arcana_normal_1', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
+	--	{ bstKey = 'p_arcana_normal_2', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_arcana_normal_3', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_arcana_normal_4', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_arcana_jumbo_1', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_arcana_jumbo_2', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_arcana_mega_1', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_arcana_mega_2', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_celestial_normal_1', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_celestial_normal_2', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_celestial_normal_3', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_celestial_normal_4', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_celestial_jumbo_1', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_celestial_jumbo_2', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_celestial_mega_1', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_celestial_mega_2', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_spectral_normal_1', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_spectral_normal_2', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_spectral_jumbo_1', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_spectral_mega_1', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_standard_normal_1', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_standard_normal_2', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_standard_normal_3', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_standard_normal_4', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_standard_jumbo_1', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_standard_jumbo_2', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_standard_mega_1', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_standard_mega_2', isSafeOrHasSafeVariant = true, },
+	{ bstKey = 'p_buffoon_normal_1', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_NTFEdit' },
+	--	{ bstKey = 'p_buffoon_normal_2', isSafeOrHasSafeVariant = true, },
+	--	{ bstKey = 'p_buffoon_jumbo_1', isSafeOrHasSafeVariant = true, },
+	{ bstKey = 'p_buffoon_mega_1', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' }
+}
 
 -----------------
 ---- Jokers -----
@@ -280,8 +338,16 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_arrowhead', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_onyx_agate', isSafeOrHasSafeVariant = true },
 	
-	----- Legendary Jokers are their own separate block below. -----
-	----- And they also operate super funky because of their soul_pos stuff -----
+	----- Legendary Jokers & Hologram don't get passed into the		 -----
+	----- Malverk script from this, because they have to be handled  -----
+	----- by a different alt texture block. However, they're present -----
+	----- for simplificiation of doing the credits, anyrway.			 -----
+	{ jkrKey = 'j_caino', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
+	{ jkrKey = 'j_triboulet', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
+	{ jkrKey = 'j_yorick', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
+	{ jkrKey = 'j_chicot', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
+	{ jkrKey = 'j_perkeo', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
+	-- { jkrKey = 'j_hologram', isSafeOrHasSafeVariant = true, artCreditKey = '' },
 	
 	{ jkrKey = 'j_certificate', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_bootstraps', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Unknown_NTFEdit' },
@@ -309,7 +375,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_square', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_seance', isSafeOrHasSafeVariant = true },
 	{ jkrKey = 'j_riff_raff', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
-	-- { jkrKey = 'j_vampire', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_vampire', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_shortcut', isSafeOrHasSafeVariant = true },
 	
 	----- Hologram is funky. Let me know if you work something out for its graphic. -----
@@ -353,7 +419,84 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_walkie_talkie', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_castle', isSafeOrHasSafeVariant = true }
 }
+replaceDef.jkrKeysToIgnore = { -- Probably a better way to do this
+	j_wee = true,
+	j_caino = true,
+	j_triboulet = true,
+	j_yorick = true,
+	j_chicot = true,
+	j_perkeo = true,
+	j_hologram = true
+}
+
+-----------------
+---- Tarots -----
+-----------------
+replaceDef.tarotReplacements = {
+	{ trtKey = 'c_fool', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun' },
+	--	{ trtKey = 'c_magician', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_high_priestess', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_empress', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_emperor', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_heirophant', isSafeOrHasSafeVariant = true }, -- Yes, also mispelled internally; Make sure to have it right... Or wrong, in this case.
+	--	{ trtKey = 'c_lovers', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_chariot', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_justice', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_hermit', isSafeOrHasSafeVariant = true },
+	{ trtKey = 'c_wheel_of_fortune', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_NTF' },
+	{ trtKey = 'c_strength', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun' },
+	--	{ trtKey = 'c_hanged_man', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_death', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_temperance', isSafeOrHasSafeVariant = true },
+	{ trtKey = 'c_devil', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun' },
+	--	{ trtKey = 'c_tower', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_star', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_moon', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_sun', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_judgement', isSafeOrHasSafeVariant = true },
+	--	{ trtKey = 'c_world', isSafeOrHasSafeVariant = true }
+}
+
+-----------------
+---- Planets ----
+-----------------
+replaceDef.planetReplacements = { -- Planets are not fully implemented yet. Just add them here as you do them and I'll get around to it.
+	--	{ plnKey = 'c_ceres', isSafeOrHasSafeVariant = true, },
+	--	{ plnKey = 'c_earth', isSafeOrHasSafeVariant = true, },
+	--	{ plnKey = 'c_eris', isSafeOrHasSafeVariant = true, },
+	--	{ plnKey = 'c_jupiter', isSafeOrHasSafeVariant = true, },
+	--	{ plnKey = 'c_mars', isSafeOrHasSafeVariant = true, },
+	--	{ plnKey = 'c_mercury', isSafeOrHasSafeVariant = true, },
+	--	{ plnKey = 'c_neptune', isSafeOrHasSafeVariant = true, },
+	--	{ plnKey = 'c_planet_x', isSafeOrHasSafeVariant = true, },
+	--	{ plnKey = 'c_pluto', isSafeOrHasSafeVariant = true, },
+	--	{ plnKey = 'c_saturn', isSafeOrHasSafeVariant = true, },
+	--	{ plnKey = 'c_uranus', isSafeOrHasSafeVariant = true, },
+	--	{ plnKey = 'c_venus', isSafeOrHasSafeVariant = true, }
+}
+
+--------------------
+---- Spectrals -----
+--------------------
+replaceDef.spectralReplacements = {
+	-- TODO
+}
+
+--------------------
+---- Enhancers -----
+--------------------
+replaceDef.enhancerReplacements = {
+	--	{ enhKey = 'm_bonus', isSafeOrHasSafeVariant = true, },
+	--	{ enhKey = 'm_mult', isSafeOrHasSafeVariant = true, },
+	--	{ enhKey = 'm_wild', isSafeOrHasSafeVariant = true, },
+	--	{ enhKey = 'm_glass', isSafeOrHasSafeVariant = true, },
+	--	{ enhKey = 'm_steel', isSafeOrHasSafeVariant = true, },
+	{ enhKey = 'm_stone', isSafeOrHasSafeVariant = true, artCreditKey = 'eA_Unknown' },
+	--	{ enhKey = 'm_gold', isSafeOrHasSafeVariant = true, },
+	--	{ enhKey = 'm_lucky' isSafeOrHasSafeVariant = true, }
+}
 
 
+-- TODO: Vouchers
 
 return replaceDef

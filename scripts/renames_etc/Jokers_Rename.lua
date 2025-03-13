@@ -354,7 +354,6 @@ else
 end
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_yorick, "name", "ThorW")
-
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_yorick, "text", {
 --                     "This Joker gains",
 --                     "{X:mult,C:white} X#1# {} Mult every {C:attention}#2#{C:inactive} [#3#]{}",
@@ -363,7 +362,6 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_yorick, "name", "Thor
 --                 })
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_chicot, "name", "ReimMomo")
-
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_chicot, "text", {
 --                     "Disables effect of",
 --                     "every {C:attention}Boss Blind",
@@ -493,7 +491,14 @@ else
 					})
 end
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_vampire, "name", "Vampire")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_vampire, "name", "Remilia Scarlet")
+--	SMODS.process_loc_text(G.localization.descriptions.Joker.j_vampire, "text", {
+--	                    "This Joker gains {X:mult,C:white} X#1# {} Mult",
+--	                    "per scoring {C:attention}Enhanced card{} played,",
+--	                    "removes card {C:attention}Enhancement",
+--	                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+--						"{s:0.8,C:inactive}"
+--	                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_shortcut, "name", "Shortcut")
 

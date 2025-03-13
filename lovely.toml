@@ -101,7 +101,7 @@ target = "card.lua"
 pattern = "if self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' or pseudorandom('wheel_of_fortune') < G.GAME.probabilities.normal/self.ability.extra then"
 position = "after"
 payload = '''
-self.ntf_wheel_success = false
+self.cirNtf_wheel_success = false
 if self.ability.name == 'The Wheel of Fortune' then self.cirNtf_wheel_success = true end
 '''
 match_indent = false

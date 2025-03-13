@@ -1,2 +1,36 @@
 -- SMODS.process_loc_text(G.localization.descriptions.Tarot.c_fool, "name", "The Fool")
+SMODS.process_loc_text(G.localization.descriptions.Tarot.c_fool, "text", {
+                    "Creates the last",
+                    "{C:tarot}Tarot{} or {C:planet}Planet{} card",
+                    "used during this run",
+                    "{s:0.8,C:tarot}The Fool{s:0.8} excluded",
+					"{s:0.8,C:inactive}\"You sorry fool... You could",
+					"{s:0.8,C:inactive}not be the chosen one...\""
+                })
+
 SMODS.process_loc_text(G.localization.descriptions.Tarot.c_wheel_of_fortune, "name", "Wheel of Nope")
+SMODS.process_loc_text(G.localization.descriptions.Tarot.c_wheel_of_fortune, "text", {
+                    "{C:green}#1# in #2#{} chance to add",
+                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
+                    "{C:dark_edition}Polychrome{} edition",
+                    "to a random {C:attention}Joker",
+					"{s:0.8,C:inactive}Just keep spinning, you'll",
+					"{s:0.8,C:inactive}get it eventually."
+                })
+
+-- SMODS.process_loc_text(G.localization.descriptions.Tarot.c_strength, "name", "Strength")
+SMODS.process_loc_text(G.localization.descriptions.Tarot.c_strength, "text", {
+                    "Increases rank of",
+                    "up to {C:attention}#1#{} selected",
+                    "cards by {C:attention}1",
+					"{s:0.8,C:inactive}Then you're gonna",
+					"{s:0.8,C:inactive}add some protein..."
+                })
+
+-- SMODS.process_loc_text(G.localization.descriptions.Tarot.c_devil, "name", "The Devil")
+--	SMODS.process_loc_text(G.localization.descriptions.Tarot.c_devil, "text", 
+--	                    "Enhances {C:attention}#1#{} selected",
+--	                    "card into a",
+--	                    "{C:attention}#2#",
+--						"{s:0.8,C:inactive}"
+--	                })
