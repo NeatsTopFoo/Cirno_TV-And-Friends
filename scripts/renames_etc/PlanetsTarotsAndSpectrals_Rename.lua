@@ -1,3 +1,12 @@
+-- SMODS.process_loc_text(G.localization.descriptions.Planet.c_neptune, "name", "Neptune")
+SMODS.process_loc_text(G.localization.descriptions.Planet.c_neptune, "text", {
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{C:attention}#2#",
+                    "{C:mult}+#3#{} Mult and",
+                    "{C:chips}+#4#{} chips",
+                    "{s:0.8,C:inactive}Nep nep!"
+                })
+
 -- SMODS.process_loc_text(G.localization.descriptions.Tarot.c_fool, "name", "The Fool")
 SMODS.process_loc_text(G.localization.descriptions.Tarot.c_fool, "text", {
                     "Creates the last",
@@ -34,3 +43,19 @@ SMODS.process_loc_text(G.localization.descriptions.Tarot.c_strength, "text", {
 --	                    "{C:attention}#2#",
 --						"{s:0.8,C:inactive}"
 --	                })
+
+SMODS.process_loc_text(G.localization.descriptions.Spectral.c_black_hole, "name", "MahoHuh")
+SMODS.process_loc_text(G.localization.descriptions.Spectral.c_black_hole, "text", {
+                    "Upgrade every",
+                    "{C:legendary,E:1}poker hand",
+                    "by {C:attention}1{} level",
+					"{s:0.8,C:inactive}You got the Maho Ending!"
+                })
+
+-- SMODS.process_loc_text(G.localization.descriptions.Spectral.c_soul, "name", "The Soul")
+SMODS.process_loc_text(G.localization.descriptions.Spectral.c_soul, "text", {
+                    "Creates a",
+                    "{C:legendary,E:1}Legendary{} Joker",
+                    "{C:inactive}(Must have room)",
+                    "{s:0.8,C:inactive}The shape of a friend."
+                })

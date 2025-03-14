@@ -161,6 +161,17 @@ end
 -- The Malverk script will need to be updated
 -- if we add other things to this 
 
+replaceDef.allKeysToIgnore = { -- There's robably a better way to do this
+	j_wee = true,
+	j_caino = true,
+	j_triboulet = true,
+	j_yorick = true,
+	j_chicot = true,
+	j_perkeo = true,
+	j_hologram = true,
+	c_soul = true
+}
+
 ----------------
 ---- Decks -----
 ----------------
@@ -347,7 +358,8 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_yorick', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	{ jkrKey = 'j_chicot', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	{ jkrKey = 'j_perkeo', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
-	-- { jkrKey = 'j_hologram', isSafeOrHasSafeVariant = true, artCreditKey = '' },
+	-- { jkrKey = 'j_hologram', isSafeOrHasSafeVariant = true, artCreditKey = '' },	
+	----- Also, Hologram is funky. Let me know if you work something out for its graphic. -----
 	
 	{ jkrKey = 'j_certificate', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_bootstraps', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Unknown_NTFEdit' },
@@ -372,13 +384,11 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_card_sharp', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_red_card', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_madness', isSafeOrHasSafeVariant = true },
-	-- { jkrKey = 'j_square', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_square', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_seance', isSafeOrHasSafeVariant = true },
 	{ jkrKey = 'j_riff_raff', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_vampire', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_shortcut', isSafeOrHasSafeVariant = true },
-	
-	----- Hologram is funky. Let me know if you work something out for its graphic. -----
 	
 	-- { jkrKey = 'j_vagabond', isSafeOrHasSafeVariant = true },
 	{ jkrKey = 'j_baron', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
@@ -419,15 +429,6 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_walkie_talkie', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_castle', isSafeOrHasSafeVariant = true }
 }
-replaceDef.jkrKeysToIgnore = { -- Probably a better way to do this
-	j_wee = true,
-	j_caino = true,
-	j_triboulet = true,
-	j_yorick = true,
-	j_chicot = true,
-	j_perkeo = true,
-	j_hologram = true
-}
 
 -----------------
 ---- Tarots -----
@@ -443,7 +444,7 @@ replaceDef.tarotReplacements = {
 	--	{ trtKey = 'c_chariot', isSafeOrHasSafeVariant = true },
 	--	{ trtKey = 'c_justice', isSafeOrHasSafeVariant = true },
 	--	{ trtKey = 'c_hermit', isSafeOrHasSafeVariant = true },
-	{ trtKey = 'c_wheel_of_fortune', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_NTF' },
+	{ trtKey = 'c_wheel_of_fortune', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun' },
 	{ trtKey = 'c_strength', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun' },
 	--	{ trtKey = 'c_hanged_man', isSafeOrHasSafeVariant = true },
 	--	{ trtKey = 'c_death', isSafeOrHasSafeVariant = true },
@@ -460,14 +461,14 @@ replaceDef.tarotReplacements = {
 -----------------
 ---- Planets ----
 -----------------
-replaceDef.planetReplacements = { -- Planets are not fully implemented yet. Just add them here as you do them and I'll get around to it.
+replaceDef.planetReplacements = {
 	--	{ plnKey = 'c_ceres', isSafeOrHasSafeVariant = true, },
 	--	{ plnKey = 'c_earth', isSafeOrHasSafeVariant = true, },
 	--	{ plnKey = 'c_eris', isSafeOrHasSafeVariant = true, },
 	--	{ plnKey = 'c_jupiter', isSafeOrHasSafeVariant = true, },
 	--	{ plnKey = 'c_mars', isSafeOrHasSafeVariant = true, },
 	--	{ plnKey = 'c_mercury', isSafeOrHasSafeVariant = true, },
-	--	{ plnKey = 'c_neptune', isSafeOrHasSafeVariant = true, },
+	{ plnKey = 'c_neptune', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
 	--	{ plnKey = 'c_planet_x', isSafeOrHasSafeVariant = true, },
 	--	{ plnKey = 'c_pluto', isSafeOrHasSafeVariant = true, },
 	--	{ plnKey = 'c_saturn', isSafeOrHasSafeVariant = true, },
@@ -479,7 +480,24 @@ replaceDef.planetReplacements = { -- Planets are not fully implemented yet. Just
 ---- Spectrals -----
 --------------------
 replaceDef.spectralReplacements = {
-	-- TODO
+	--	{ spcKey = 'c_ankh', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_aura', isSafeOrHasSafeVariant = true },
+	{ spcKey = 'c_black_hole', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_BlackHole' },
+	--	{ spcKey = 'c_cryptid', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_deja_vu', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_octoplasm', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_familiar', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_grim', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_hex', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_immolate', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_incantation', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_medium', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_ouija', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_sigil', isSafeOrHasSafeVariant = true },
+	{ spcKey = 'c_soul', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
+	--	{ spcKey = 'c_talisman', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_trance', isSafeOrHasSafeVariant = true },
+	--	{ spcKey = 'c_wraith', isSafeOrHasSafeVariant = true }
 }
 
 --------------------

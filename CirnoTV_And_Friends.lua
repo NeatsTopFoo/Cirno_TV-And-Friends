@@ -25,9 +25,11 @@ local cirInitConfig = {
 	}
 }
 
--- Defines Steamodded mod menu config tab
--- See the file for more info.
-SMODS.current_mod.config_tab = assert(SMODS.load_file("scripts/config_ui.lua")())
+-- Defines Steamodded mod menu config & extra tabs
+-- See the files for more info.
+SMODS.current_mod.config_tab = assert(SMODS.load_file("scripts/UI_bs/steamodded_mod_menu/config_ui.lua")())
+
+SMODS.current_mod.extra_tabs = assert(SMODS.load_file("scripts/UI_bs/steamodded_mod_menu/additional_mod_tabs.lua")())
 
 -- Change title screen logo to mod's logo & replace the ace that appears first with the blueprint joker (If the setting is enabled) - Has corresponding patcher code in the lovely.toml
 if CirnoMod.allEnabledOptions['titleLogo'] then
@@ -291,7 +293,12 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 			CirnoMod.allEnabledOptions['matureReferences']
 			or d.isSafeOrHasSafeVariant
 		then
-			table.insert(CirnoMod.replaceDef.deckReplacementKeys, d.dckKey)
+			-- Ignore exceptional circumstances.
+			if
+				not CirnoMod.replaceDef.allKeysToIgnore[d.dckKey]
+			then
+				table.insert(CirnoMod.replaceDef.deckReplacementKeys, d.dckKey)
+			end
 			
 			if d.artCreditKey then
 				CirnoMod.miscItems.artCreditKeys[d.dckKey] = d.artCreditKey
@@ -305,7 +312,12 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 			CirnoMod.allEnabledOptions['matureReferences']
 			or b.isSafeOrHasSafeVariant
 		then
-			table.insert(CirnoMod.replaceDef.boosterReplacementKeys, b.bstKey)
+			-- Ignore exceptional circumstances.
+			if
+				not CirnoMod.replaceDef.allKeysToIgnore[b.bstKey]
+			then
+				table.insert(CirnoMod.replaceDef.boosterReplacementKeys, b.bstKey)
+			end			
 			
 			if b.artCreditKey then
 				CirnoMod.miscItems.artCreditKeys[b.bstKey] = b.artCreditKey
@@ -321,18 +333,9 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 		then
 			-- Ignore exceptional circumstances.
 			if
-				not CirnoMod.replaceDef.jkrKeysToIgnore[k.jkrKey]
-				--	k.jkrKey ~= 'j_wee'
-				--	and k.jkrKey ~= 'j_caino'
-				--	and k.jkrKey ~= 'j_triboulet'
-				--	and k.jkrKey ~= 'j_yorick'
-				--	and k.jkrKey ~= 'j_chicot'
-				--	and k.jkrKey ~= 'j_perkeo'
-				--	and k.jkrKey ~= 'j_hologram'
+				not CirnoMod.replaceDef.allKeysToIgnore[k.jkrKey]
 			then
 				table.insert(CirnoMod.replaceDef.jokerReplacementKeys, k.jkrKey)
-			else
-				print(k.jkrKey)
 			end
 			
 			table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, k.jkrKey)
@@ -343,24 +346,59 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 		end
 	end
 	
-	-- We'll stick these here for now. Legendary credits will stay, but everything
-	-- else should probably move to Cir_Vanilla_Replacement_Definition.lua.	
-	--	CirnoMod.miscItems.artCreditKeys['j_caino'] = 'jA_DaemonTsun_BigNTFEdit'
-	--	CirnoMod.miscItems.artCreditKeys['j_triboulet'] = 'jA_DaemonTsun_BigNTFEdit'
-	--	CirnoMod.miscItems.artCreditKeys['j_yorick'] = 'jA_DaemonTsun_BigNTFEdit'
-	--	CirnoMod.miscItems.artCreditKeys['j_chicot'] = 'jA_DaemonTsun_BigNTFEdit'
-	--	CirnoMod.miscItems.artCreditKeys['j_perkeo'] = 'jA_DaemonTsun'
-	
 	CirnoMod.replaceDef.tarotReplacementKeys = {}
 	for i, t in ipairs (CirnoMod.replaceDef.tarotReplacements) do
 		if
 			CirnoMod.allEnabledOptions['matureReferences']
 			or t.isSafeOrHasSafeVariant
 		then
-			table.insert(CirnoMod.replaceDef.tarotReplacementKeys, t.trtKey)
+			-- Ignore exceptional circumstances.
+			if
+				not CirnoMod.replaceDef.allKeysToIgnore[t.trtKey]
+			then
+				table.insert(CirnoMod.replaceDef.tarotReplacementKeys, t.trtKey)
+			end
 			
 			if t.artCreditKey then
 				CirnoMod.miscItems.artCreditKeys[t.trtKey] = t.artCreditKey
+			end
+		end
+	end
+	
+	CirnoMod.replaceDef.planetReplacementKeys = {}
+	for i, p in ipairs (CirnoMod.replaceDef.planetReplacements) do
+		if
+			CirnoMod.allEnabledOptions['matureReferences']
+			or p.isSafeOrHasSafeVariant
+		then
+			-- Ignore exceptional circumstances.
+			if
+				not CirnoMod.replaceDef.allKeysToIgnore[p.plnKey]
+			then
+				table.insert(CirnoMod.replaceDef.planetReplacementKeys , p.plnKey)
+			end
+			
+			if p.artCreditKey then
+				CirnoMod.miscItems.artCreditKeys[p.plnKey] = p.artCreditKey
+			end
+		end
+	end
+		
+	CirnoMod.replaceDef.spectralReplacementKeys = {}
+	for i, s in ipairs (CirnoMod.replaceDef.spectralReplacements) do
+		if
+			CirnoMod.allEnabledOptions['matureReferences']
+			or s.isSafeOrHasSafeVariant
+		then
+			-- Ignore exceptional circumstances.
+			if
+				not CirnoMod.replaceDef.allKeysToIgnore[s.spcKey]
+			then
+				table.insert(CirnoMod.replaceDef.spectralReplacementKeys, s.spcKey)
+			end
+			
+			if s.artCreditKey then
+				CirnoMod.miscItems.artCreditKeys[s.spcKey] = s.artCreditKey
 			end
 		end
 	end
@@ -371,7 +409,12 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 			CirnoMod.allEnabledOptions['matureReferences']
 			or e.isSafeOrHasSafeVariant
 		then
-			table.insert(CirnoMod.replaceDef.enhancerReplacementKeys, e.enhKey)
+			-- Ignore exceptional circumstances.
+			if
+				not CirnoMod.replaceDef.allKeysToIgnore[e.enhKey]
+			then
+				table.insert(CirnoMod.replaceDef.enhancerReplacementKeys, e.enhKey)
+			end
 			
 			if e.artCreditKey then
 				CirnoMod.miscItems.artCreditKeys[e.enhKey] = e.artCreditKey
@@ -379,7 +422,7 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 		end
 	end
 	
-	-- TODO: Planets, Spectrals, Vouchers.
+	-- TODO: Vouchers.
 	
 	-- Leaving these uncommented because I've only tested it in the Collection
 	-- menu and never during an actual run, so it's possible
@@ -388,7 +431,7 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	CirnoMod.miscItems.artCreditKeys['gold_seal'] = 'eA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys['purple_seal'] = 'eA_DaemonTsun'
 	
-	-- Also, we have no need to touch seals manually or do anything with
+	-- Also, we have no real need to touch seals manually or do anything with
 	-- individual seal keys because we basically started having done them
 	-- all at the point we started getting this in-depth.
 	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'blue_seal')
@@ -418,9 +461,9 @@ if CirnoMod.allEnabledOptions['blindRenames'] then
 end
 
 -- Tarot & Spectral Renames
-if CirnoMod.allEnabledOptions['tarotSpectralRenames'] then
+if CirnoMod.allEnabledOptions['planetTarotSpectralRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
-	SMODS.load_file("scripts/renames_etc/TarotsAndSpectrals_Rename.lua")()
+	SMODS.load_file("scripts/renames_etc/PlanetsTarotsAndSpectrals_Rename.lua")()
 end
 
 -- Joker Renames

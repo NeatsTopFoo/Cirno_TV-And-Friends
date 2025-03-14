@@ -11,6 +11,10 @@ creditSources.NTF = "{X:purple,C:white}NopeTooFast{}"
 -- Edit however you want, idk how you want it
 creditSources.DTsun = "DaemonTsun"
 
+-- Have to do underscores here because X doesn't work with spaces.
+-- As a result, we end up with this nonsense.
+creditSources.CommunityContrib = "{s:0.6,X:inactive,C:white}(Cirno_TV{s:0.6,X:inactive,C:inactive}_{s:0.6,X:inactive,C:white}Community-Contributed{s:0.6,X:inactive,C:inactive}_{s:0.6,X:inactive,C:white}Idea)"
+
 -- The funny increases exponentially.
 creditSources.CirnoTV = "{X:chips,C:white}Cirno_TV{}"
 creditSources.CirnoTV_smol = "{s:0.8,X:chips,C:white}Cirno_TV{}"
@@ -60,11 +64,26 @@ return {
 					"by "..creditSources.NTF
 				}
 			},
+			gA_BlackHole={
+				name= creditSources.cr_JokerArt,
+				text={
+					creditSources.thunk.." & "..creditSources.unknown..",",
+					"edited by "..creditSources.NTF,
+					creditSources.CommunityContrib
+				}
+			},
 			
 			----- You -----
 			jA_DaemonTsun={
 				name= creditSources.cr_JokerArt,
 				text={creditSources.DTsun}
+			},
+			jA_DaemonTsun_ComCon={
+				name= creditSources.cr_JokerArt,
+				text={
+					creditSources.DTsun,
+					creditSources.CommunityContrib
+				}
 			},
 			dA_DaemonTsun={
 				name= creditSources.cr_DeckArt,
@@ -77,6 +96,13 @@ return {
 			gA_DaemonTsun={
 				name= creditSources.cr_GenericArt,
 				text={creditSources.DTsun}
+			},
+			gA_DaemonTsunComCon={
+				name= creditSources.cr_GenericArt,
+				text={
+					creditSources.DTsun,
+					creditSources.CommunityContrib
+				}
 			},
 			jA_DaemonTsun_NTF_Both={
 				name= creditSources.cr_JokerArt,
@@ -108,6 +134,14 @@ return {
 				text={
 					creditSources.DTsun..", heavily",
 					"edited by "..creditSources.NTF
+				}
+			},
+			gA_DaemonTsun_BigNTFEdit_ComCon={
+				name= creditSources.cr_GenericArt,
+				text={
+					creditSources.DTsun..", heavily",
+					"edited by "..creditSources.NTF,
+					creditSources.CommunityContrib
 				}
 			},
 			jA_LocalThunk_DaemonTsunEdit={

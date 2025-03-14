@@ -118,7 +118,7 @@ local configUI = function()
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
 																ref_value = 'titleLogo',
-																callback = CirnoMod.callback_titleLogoToggle
+																-- callback = CirnoMod.callback_titleLogoToggle
 															})
 														}
 													},
@@ -132,7 +132,7 @@ local configUI = function()
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
 																ref_value = 'matureReferences',
-																callback = CirnoMod.callback_matureReferencesToggle
+																-- callback = CirnoMod.callback_matureReferencesToggle
 															})
 														}
 													},
@@ -146,7 +146,7 @@ local configUI = function()
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
 																ref_value = 'playingCardTextures',
-																callback = CirnoMod.callback_playingCardTexturesToggle
+																-- callback = CirnoMod.callback_playingCardTexturesToggle
 															})
 														}
 													},
@@ -160,7 +160,7 @@ local configUI = function()
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
 																ref_value = 'enhancerRenames',
-																callback = CirnoMod.callback_enhancerRenamesToggle
+																-- callback = CirnoMod.callback_enhancerRenamesToggle
 															})
 														}
 													},
@@ -174,7 +174,7 @@ local configUI = function()
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
 																ref_value = 'deckRenames',
-																callback = CirnoMod.callback_deckRenamesToggle
+																-- callback = CirnoMod.callback_deckRenamesToggle
 															})
 														}
 													},
@@ -188,7 +188,7 @@ local configUI = function()
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
 																ref_value = 'miscRenames',
-																callback = CirnoMod.callback_miscRenamesToggle
+																-- callback = CirnoMod.callback_miscRenamesToggle
 															})
 														}
 													},
@@ -202,7 +202,7 @@ local configUI = function()
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
 																ref_value = 'addCustomJokers',
-																callback = CirnoMod.callback_addCustomJokersToggle
+																-- callback = CirnoMod.callback_addCustomJokersToggle
 															})
 														}
 													}
@@ -241,7 +241,7 @@ local configUI = function()
 																text_scale = 0.6,
 																ref_table = CirnoMod.config,
 																ref_value = 'titleColours',
-																callback = CirnoMod.callback_titleColoursToggle
+																-- callback = CirnoMod.callback_titleColoursToggle
 															})
 														}
 													},
@@ -255,7 +255,7 @@ local configUI = function()
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
 																ref_value = 'malverkReplacements',
-																callback = CirnoMod.callback_malverkReplacementsToggle
+																-- callback = CirnoMod.callback_malverkReplacementsToggle
 															})
 														}
 													},
@@ -269,7 +269,7 @@ local configUI = function()
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
 																ref_value = 'jokerRenames',
-																callback = CirnoMod.callback_jokerRenamesToggle
+																-- callback = CirnoMod.callback_jokerRenamesToggle
 															})
 														}
 													},
@@ -283,7 +283,7 @@ local configUI = function()
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
 																ref_value = 'blindRenames',
-																callback = CirnoMod.callback_blindRenamesToggle
+																-- callback = CirnoMod.callback_blindRenamesToggle
 															})
 														}
 													},
@@ -292,12 +292,12 @@ local configUI = function()
 														config = { align = 'tr', padding = 0.05 },
 														nodes = {
 															create_toggle({
-																label = "Enable Tarots & Spectral Renames",
+																label = "Enable Planets, Tarots & Spectral Renames",
 																w = 1.5,
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
-																ref_value = 'tarotSpectralRenames',
-																callback = CirnoMod.callback_tarotSpectralRenamesToggle
+																ref_value = 'planetTarotSpectralRenames',
+																-- callback = CirnoMod.callback_planetTarotSpectralRenamesToggle
 															})
 														}
 													},
@@ -311,7 +311,7 @@ local configUI = function()
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
 																ref_value = 'additionalChallenges',
-																callback = CirnoMod.callback_additionalChallengesToggle
+																-- callback = CirnoMod.callback_additionalChallengesToggle
 															})
 														}
 													},
@@ -325,7 +325,7 @@ local configUI = function()
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
 																ref_value = 'artCredits',
-																callback = CirnoMod.callback_artCreditsToggle
+																-- callback = CirnoMod.callback_artCreditsToggle
 															})
 														}
 													}
@@ -342,6 +342,5 @@ local configUI = function()
 		}
 	}
 end
-
 
 return configUI

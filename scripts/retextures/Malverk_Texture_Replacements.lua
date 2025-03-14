@@ -96,7 +96,48 @@ AltTexture({
 	}
 })
 
--- TODO: Planets, Spectrals
+AltTexture({
+	key = 'mlvrk_Planets',
+	set = 'Planet',
+	path = CirnoMod.replaceDef.getPath("planet"),
+	original_sheet = true,
+	keys = CirnoMod.replaceDef.planetReplacementKeys,
+	loc_txt = {
+		name = 'Planets'
+	}
+})
+
+AltTexture({
+	key = 'mlvrk_Spectrals',
+	set = 'Spectral',
+	path = CirnoMod.replaceDef.getPath("spectral"),
+	original_sheet = true,
+	keys = CirnoMod.replaceDef.spectralReplacementKeys,
+	loc_txt = {
+		name = 'Spectrals'
+	}
+})
+
+-- Lmao, funny soul card bullshit, very cool
+-- Can't include it in the normal spectrals
+-- because the original graphic is cross-asset,
+-- can't include it with legendaries as a kind
+-- of "collective soul pack" because you can't
+-- do cross-set. Fun!
+AltTexture({
+	key = 'mlvrk_Soul',
+	set = 'Spectral',
+	path = "Vanilla_Replacements/cir_Soul.png",
+	keys = {
+		'c_soul'
+	},
+	soul_keys = {
+		'c_soul'
+	},
+	loc_txt = {
+		name = 'Soul Card'
+	}
+})
 
 -------------------------------
 ----- Vouchers & Boosters -----
@@ -255,6 +296,9 @@ TexturePack{
 		
 		'cir_mlvrk_Boosters',
 		'cir_mlvrk_Tarots',
+		'cir_mlvrk_Planets',
+		'cir_mlvrk_Spectrals',
+		'cir_mlvrk_Soul',
 		'cir_mlvrk_Decks',
 		'cir_mlvrk_Enhancers',
 		'cir_mlvrk_Seals',
