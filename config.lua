@@ -10,6 +10,7 @@ return {
 	['blindRenames'] = true,
 	['deckRenames'] = true,
 	['enhancerRenames'] = true,
+	['planetsAreHus'] = true,
 	['planetTarotSpectralRenames'] = true,
 	['miscRenames'] = true,
 	['additionalChallenges'] = false,

@@ -41,7 +41,9 @@ local jokerInfo = {
 			-- just says 'Stone card' in the description.
 			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
-				info_queue[#info_queue + 1] = { key = "jA_Unknown_LocalThunkEdit", set = "Other" }
+				if CirnoMod.allEnabledOptions['artCredits'] then
+					info_queue[#info_queue + 1] = { key = "jA_Unknown_LocalThunkEdit", set = "Other" }
+				end
 				
 				-- Defines #1#.
 				return { vars = { card.ability.extra.Xmult } }

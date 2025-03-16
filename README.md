@@ -15,25 +15,31 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 51 Jokers (3 filtered & 3 altered by the Mature Reference setting)
+  - 54 Jokers (2 filtered & 4 altered by the Mature Reference setting)
   - All Blind Chips
   - All seals
   - 3 Decks
   - 3 Booster Packs
-  - 4 Tarots
+  - 5 Tarots
   - 2 Spectrals
-  - 1 PLanet
+  - 12 Planets
   - 1 Enhancement
   - The title screen
 
 - Renames:
   - Most blinds
-  - A significant amount of retextured Jokers.
+  - A significant amount of retextured Jokers
+  - A couple tarot cards.
+  - 1 Spectral card.
+  - Planet cards in their entirety.
 
 - Adds:
-  - Various fun flavour text to numerous Jokers.
-  - 1 new custom challenge
+  - Various fun flavour text to numerous Jokers
+  - A couple custom card skins
   - 4 custom Jokers
+  - 1 new custom challenge
+
+All retextures and renames are optional and they're somewhat mix n' match (You can't have it rename some Jokers and not others. You either get all Joker renames or none.)
 
 ## Installation
 This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), the latest version of [Steammodded](https://github.com/Steamodded/smods) & the latest version of [Malverk](https://github.com/Eremel/Malverk). Without these dependencies, this mod will not function.
@@ -61,7 +67,8 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 - [NyongNyong](https://bsky.app/profile/nyongnyong.bsky.social) for the art used for the Mime Joker.
 - [Turpix](https://bsky.app/profile/turpix.bsky.social) for [their art used](https://www.nexusmods.com/balatro/mods/114) for the Stone Joker.
 - This [Miku replacement mod](https://www.nexusmods.com/balatro/mods/223) for art used for the Chaos the Clown Joker.
+- [Muddleee for art used for The Sun Tarot card](https://github.com/Muddieee/sun_is_sus).
 - The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art used for the DNA Joker (The art itself appears to not be credited to any specific contributing artist), as well as code for changing elements of the title screen, such as the logo and background vortex colours.
+- [Aikoyori](https://bsky.app/profile/aikoyori.xyz) and other members of the Balatro modding community for help with code.
 - [Cirno_TV](https://www.twitch.tv/Cirno_TV/) for the art used for the Misprint Joker.
 - Credits are also included in in-game tooltips to any cards that are edited & added; Optionally disableable in the mod's config menu.
-

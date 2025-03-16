@@ -57,6 +57,92 @@ SMODS.process_loc_text(G.localization.misc.quips, "lq_10", {
 				"What the fluoride?"
 			})
 
+if not CirnoMod.allEnabledOptions['planetsAreHus'] then
+	-- SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_normal, "name", "Celestial Pack")
+end
+
+SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_normal, "text", {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:planet} "..G.localization.misc.labels.planet.."{} cards to",
+                    "be used immediately",
+                })
+
+if not CirnoMod.allEnabledOptions['planetsAreHus'] then
+	-- SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_jumbo, "name", "Jumbo Celestial Pack")
+end
+
+SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_jumbo, "text", {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:planet} "..G.localization.misc.labels.planet.."{} cards to",
+                    "be used immediately",
+                })
+
+if not CirnoMod.allEnabledOptions['planetsAreHus'] then
+	-- SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_mega, "name", "Mega Celestial Pack")
+end
+
+SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_mega, "text", {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:planet}"..G.localization.misc.labels.planet.."{} cards to",
+                    "be used immediately",
+                })
+
+if not CirnoMod.allEnabledOptions['planetsAreHus'] then
+	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_telescope, "name", "Telescope")
+end
+
+SMODS.process_loc_text(G.localization.descriptions.Voucher.v_telescope, "text", {
+                    "{C:attention}"..G.localization.descriptions.Other.p_celestial_normal.name.."s{} always",
+                    "contain the {C:planet}"..G.localization.misc.labels.planet,
+                    "card for your most",
+                    "played {C:attention}poker hand",
+                })
+
+if not CirnoMod.allEnabledOptions['planetsAreHus'] then
+	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "name", "Observatory")
+end
+
+SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "text", {
+                    "{C:planet}"..G.localization.misc.labels.planet.."{} cards in your",
+                    "{C:attention}consumable{} area give",
+                    "{X:red,C:white} X#1# {} Mult for their",
+                    "specified {C:attention}poker hand",
+                })
+				
+SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "unlock", {
+                    "Use a total of {C:attention}#1#",
+                    "{C:planet}"..G.localization.misc.labels.planet.."{} cards from any",
+                    "{C:planet}"..G.localization.descriptions.Other.p_celestial_normal.name,
+                    "{C:inactive}(#2#)",
+                })
+
+if not CirnoMod.allEnabledOptions['planetsAreHus'] then
+	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_merchant, "name", "Planet Merchant")
+end
+
+SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_merchant, "text", {
+                    "{C:planet}"..G.localization.misc.labels.planet.."{} cards appear",
+                    "{C:attention}#1#X{} more frequently",
+                    "in the shop",
+                })
+
+if not CirnoMod.allEnabledOptions['planetsAreHus'] then
+	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "name", "Planet Tycoon")
+end
+
+SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "text", {
+                    "{C:planet}"..G.localization.misc.labels.planet.."{} cards appear",
+                    "{C:attention}#1#X{} more frequently",
+                    "in the shop",
+                })
+
+SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "unlock", {
+                    "Buy a total of",
+                    "{C:attention}#1#{C:planet} "..G.localization.misc.labels.planet.."{} cards",
+                    "from the shop",
+                    "{C:inactive}(#2#)",
+                })
+
 SMODS.process_loc_text(G.localization.misc.dictionary, "ph_improve_run", "Lose all your money!")
 -- Pool of strings to randomise the Shop phase flavour text with.
 -- If you add stuff, probably try not to make it too long, as it

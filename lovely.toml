@@ -114,7 +114,11 @@ target = "functions/common_events.lua"
 pattern = "for _, v in ipairs(info_queue) do"
 position = "before"
 payload = '''
-if CirnoMod then
+if
+	CirnoMod
+	and card_type ~= 'Locked'
+	and card_type ~= 'Undiscovered'
+then
 	if
 		CirnoMod.allEnabledOptions['artCredits']
 		and CirnoMod.miscItems.artCreditKeys[_c.key]
@@ -123,6 +127,7 @@ if CirnoMod then
 	end
 end
 '''
+times = 1
 match_indent = false
 
 # Adds some hooks to be used for things like challenges.

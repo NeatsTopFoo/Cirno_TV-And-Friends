@@ -183,12 +183,12 @@ local configUI = function()
 														config = { align = 'tr', padding = 0.05 },
 														nodes = {
 															create_toggle({
-																label = "Enable Misc Renames",
+																label = "Planets Are Hus",
 																w = 1.5,
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
-																ref_value = 'miscRenames',
-																-- callback = CirnoMod.callback_miscRenamesToggle
+																ref_value = 'planetsAreHus',
+																-- callback = CirnoMod.callback_planetsAreHusToggle
 															})
 														}
 													},
@@ -197,12 +197,26 @@ local configUI = function()
 														config = { align = 'tr', padding = 0.05 },
 														nodes = {
 															create_toggle({
-																label = "Enable Additional Custom Jokers",
+																label = "Enable Additional Challenges",
 																w = 1.5,
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
-																ref_value = 'addCustomJokers',
-																-- callback = CirnoMod.callback_addCustomJokersToggle
+																ref_value = 'additionalChallenges',
+																-- callback = CirnoMod.callback_additionalChallengesToggle
+															})
+														}
+													},
+													{
+														n = G.UIT.R,
+														config = { align = 'tr', padding = 0.05 },
+														nodes = {
+															create_toggle({
+																label = "Enable Art Credit Tooltips",
+																w = 1.5,
+																text_scale = 1.2,
+																ref_table = CirnoMod.config,
+																ref_value = 'artCredits',
+																-- callback = CirnoMod.callback_artCreditsToggle
 															})
 														}
 													}
@@ -306,12 +320,12 @@ local configUI = function()
 														config = { align = 'tr', padding = 0.05 },
 														nodes = {
 															create_toggle({
-																label = "Enable Additional Challenges",
+																label = "Enable Misc Renames",
 																w = 1.5,
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
-																ref_value = 'additionalChallenges',
-																-- callback = CirnoMod.callback_additionalChallengesToggle
+																ref_value = 'miscRenames',
+																-- callback = CirnoMod.callback_miscRenamesToggle
 															})
 														}
 													},
@@ -320,12 +334,12 @@ local configUI = function()
 														config = { align = 'tr', padding = 0.05 },
 														nodes = {
 															create_toggle({
-																label = "Enable Art Credit Tooltips",
+																label = "Enable Additional Custom Jokers",
 																w = 1.5,
 																text_scale = 1.2,
 																ref_table = CirnoMod.config,
-																ref_value = 'artCredits',
-																-- callback = CirnoMod.callback_artCreditsToggle
+																ref_value = 'addCustomJokers',
+																-- callback = CirnoMod.callback_addCustomJokersToggle
 															})
 														}
 													}

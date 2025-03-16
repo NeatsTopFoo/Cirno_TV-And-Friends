@@ -374,8 +374,13 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 			-- Ignore exceptional circumstances.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[p.plnKey]
+				and
+				-- If we do not the planets as hus, then do not the planets as hus.
+				-- This will likely be altered later, I'll just do this for now
+				((CirnoMod.allEnabledOptions['planetsAreHus'] and p.planetsAreHus)
+				or not p.planetsAreHus)
 			then
-				table.insert(CirnoMod.replaceDef.planetReplacementKeys , p.plnKey)
+				table.insert(CirnoMod.replaceDef.planetReplacementKeys, p.plnKey)
 			end
 			
 			if p.artCreditKey then
@@ -440,6 +445,12 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'purple_seal')
 	
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()
+end
+
+-- Planets are Hus
+if CirnoMod.allEnabledOptions['planetsAreHus'] then
+	-- Runs the lua only if the setting is enabled in Steamodded mod config.
+	SMODS.load_file("scripts/other/planetsAreHus.lua")()
 end
 
 -- Deck Renames

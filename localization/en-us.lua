@@ -14,6 +14,8 @@ creditSources.DTsun = "DaemonTsun"
 -- Have to do underscores here because X doesn't work with spaces.
 -- As a result, we end up with this nonsense.
 creditSources.CommunityContrib = "{s:0.6,X:inactive,C:white}(Cirno_TV{s:0.6,X:inactive,C:inactive}_{s:0.6,X:inactive,C:white}Community-Contributed{s:0.6,X:inactive,C:inactive}_{s:0.6,X:inactive,C:white}Idea)"
+creditSources.masthir = "Masthir"
+creditSources.sanglune = "Sanglune"
 
 -- The funny increases exponentially.
 creditSources.CirnoTV = "{X:chips,C:white}Cirno_TV{}"
@@ -22,6 +24,7 @@ creditSources.CirnoTV_smol = "{s:0.8,X:chips,C:white}Cirno_TV{}"
 creditSources.solga = "Solgalestia"
 creditSources.nyong = "NyongNyong"
 creditSources.turpix = "Turpix"
+creditSources.muddle = "Muddleee"
 creditSources.thunk = "LocalThunk"
 creditSources.unknown = "{X:black,C:white}Unknown{}"
 
@@ -97,7 +100,7 @@ return {
 				name= creditSources.cr_GenericArt,
 				text={creditSources.DTsun}
 			},
-			gA_DaemonTsunComCon={
+			gA_DaemonTsun_ComCon={
 				name= creditSources.cr_GenericArt,
 				text={
 					creditSources.DTsun,
@@ -163,8 +166,8 @@ return {
 			jA_Misprint={
 				name= creditSources.cr_JokerArt,
 				text={
-					creditSources.CirnoTV ..", edited", -- Yes, Cirno drew cirBairy.
-					"by "..creditSources.NTF  -- ...Formally crediting him is funnier, trust me
+					creditSources.CirnoTV.." & "..creditSources.thunk..",", -- Yes, Cirno drew cirBairy.
+					"edited by "..creditSources.NTF  -- ...Formally crediting him is funnier, trust me
 				}
 			},
 			jA_JustIRLCirno={
@@ -204,6 +207,21 @@ return {
 			},
 			
 			----- Other -----
+			jA_Acrobat={
+				name= creditSources.cr_JokerArt,
+				text={
+					creditSources.DTsun.." edit of",
+					creditSources.masthir.." art.",
+					creditSources.CommunityContrib
+				}
+			},
+			jA_Burglar={
+				name= creditSources.cr_JokerArt,
+				text={
+					creditSources.DTsun.." edit of",
+					creditSources.sanglune.." art."
+				}
+			},
 			jA_Mime={
 				name= creditSources.cr_JokerArt,
 				text={ creditSources.nyong }
@@ -219,6 +237,13 @@ return {
 				name= creditSources.cr_JokerArt,
 				text={
 					creditSources.turpix..", edited",
+					"by "..creditSources.NTF
+				}
+			},
+			gA_Sun={
+				name= creditSources.cr_GenericArt,
+				text={
+					creditSources.muddle..", edited",
 					"by "..creditSources.NTF
 				}
 			},

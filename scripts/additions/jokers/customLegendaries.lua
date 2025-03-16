@@ -64,13 +64,15 @@ local jokerInfo = {
 			blueprint_compat = true,
 			
 			-- Figured out what this is - This largely defines some of the 
-			-- stuff that shows up in the tooltip. So for example, if you
-			-- hover over a card that mentions Stone cards and it tells
+			-- stuff that shows up in the tooltip (and more. So for example,
+			-- if you hover over a card that mentions Stone cards and it tells
 			-- you what Stone cards are, that's this. It's not because it
 			-- just says 'Stone card' in the description.
 			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
-				info_queue[#info_queue + 1] = { key = "jA_DaemonTsun", set = "Other" }
+				if CirnoMod.allEnabledOptions['artCredits'] then
+					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun", set = "Other" }
+				end
 				
 				-- Defines #1#
 				return { vars = { card.ability.extra.Xmult } }
@@ -155,8 +157,8 @@ local jokerInfo = {
 			blueprint_compat = true,
 			
 			-- Figured out what this is - This largely defines some of the 
-			-- stuff that shows up in the tooltip. So for example, if you
-			-- hover over a card that mentions Stone cards and it tells
+			-- stuff that shows up in the tooltip (and more. So for example,
+			-- if you hover over a card that mentions Stone cards and it tells
 			-- you what Stone cards are, that's this. It's not because it
 			-- just says 'Stone card' in the description.
 			loc_vars = function(self, info_queue, center)
@@ -165,7 +167,9 @@ local jokerInfo = {
 				info_queue[#info_queue + 1] = G.P_CENTERS.c_wheel_of_fortune
 				
 				-- Art credit tooltip
-				info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEDit", set = "Other" }
+				if CirnoMod.allEnabledOptions['artCredits'] then
+					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEDit", set = "Other" }
+				end
 				
 				-- Here is how #1# and #2# are defined.
 				return { vars = { center.ability.extra.extra, center.ability.extra.x_mult } }
@@ -273,7 +277,9 @@ local jokerInfo = {
 				info_queue[#info_queue + 1] = G.P_CENTERS.c_neptune
 				
 				-- Art credit tooltip
-				info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
+				if CirnoMod.allEnabledOptions['artCredits'] then
+					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
+				end
 				
 				-- Here is how #1# and #2# are defined.
 				if G.GAME.consumeable_usage then

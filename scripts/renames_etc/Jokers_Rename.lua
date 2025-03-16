@@ -66,7 +66,13 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_drunkard, "text", {
 					"{s:0.8,C:inactive}JAPANESE GOBLIN!"
                 })
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_acrobat, "name", "Acrobat")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_acrobat, "name", "Bar-Using Incel")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_acrobat, "text", {
+                    "{X:red,C:white} X#1# {} Mult on {C:attention}final",
+                    "{C:attention}hand{} of round",
+					"{s:0.8,C:inactive}Makes me sick watching",
+					"{s:0.8,C:inactive}people play DDR like this."
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_sock_and_buskin, "name", "Sock and Buskin")
 
@@ -227,7 +233,7 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_mr_bones, "text", {
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_ring_master, "name", "CirGuns")
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_ring_master, "text", {
-                    "{C:attention}Joker{}, {C:tarot}Tarot{}, {C:planet}Planet{},",
+                    "{C:attention}Joker{}, {C:tarot}Tarot{}, {C:planet}"..G.localization.misc.labels.planet.."{},",
                     "and {C:spectral}Spectral{} cards may",
                     "appear multiple times",
 					"{s:0.8,C:inactive}Ka-chow!"
@@ -279,6 +285,15 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_hanging_chad, "text",
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_invisible, "name", "Invisible Joker")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_astronomer, "name", "Astronomer")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_astronomer, "text", {
+                    "All {C:planet}"..G.localization.misc.labels.planet.."{} cards and",
+                    "{C:planet}"..G.localization.descriptions.Other.p_celestial_normal.name.."s{} in",
+                    "the shop are {C:attention}free",
+                })
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_astronomer, "unlock", {
+                    "Discover every",
+                    "{E:1,C:planet}"..G.localization.misc.labels.planet.."{} card",
+                })
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_burnt, "name", "Flandre Scarlet")
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_burnt, "text", {
@@ -303,6 +318,13 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_throwback, "text", {
                 })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_idol, "name", "The Idol")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_idol, "text", {
+                    "Each played {C:attention}#2#",
+                    "of {V:1}#3#{} gives",
+                    "{X:mult,C:white} X#1# {} Mult when scored",
+                    "{s:0.8}Card changes every round",
+                    "{s:0.8,C:inactive}Sorrgy, accident."
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_brainstorm, "name", "Brainstorm")
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_brainstorm, "text", {
@@ -311,6 +333,12 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_throwback, "text", {
 --                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_satellite, "name", "Satellite")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_satellite, "text", {
+                    "Earn {C:money}$#1#{} at end of",
+                    "round per unique {C:planet}"..G.localization.misc.labels.planet,
+                    "card used this run",
+                    "{C:inactive}(Currently {C:money}$#2#{C:inactive})",
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_rough_gem, "name", "Rough Gem")
 
@@ -400,7 +428,13 @@ end
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_egg, "name", "Egg")
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_burglar, "name", "Burglar")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_burglar, "name", "cirThief")
+--	SMODS.process_loc_text(G.localization.descriptions.Joker.j_burglar, "text", {
+--	                    "When {C:attention}Blind{} is selected,",
+--	                    "gain {C:blue}+#1#{} Hands and",
+--	                    "{C:attention}lose all discards",
+--						"{s:0.8,C:inactive}"
+--	                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_blackboard, "name", "Blackboard")
 
@@ -436,7 +470,12 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_dna, "text", {
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_sixth_sense, "name", "Sixth Sense")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_constellation, "name", "Constellation")
-
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_constellation, "text", {
+		"This Joker gains",
+		"{X:mult,C:white} X#1# {} Mult every time",
+		"a {C:planet}"..G.localization.misc.labels.planet.."{} card is used",
+		"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+	})
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_hiker, "name", "Hiker")
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_hiker, "text", {
@@ -534,7 +573,15 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_baron, "text", {
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_reserved_parking, "name", "Reserved Parking")
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_mail, "name", "Mail-In Rebate")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_mail, "name", "Idolmaster Gacha")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_mail, "text", {
+                    "Earn {C:money}$#1#{} for each",
+                    "discarded {C:attention}#2#{}, rank",
+                    "changes every round",
+					"{s:0.8,C:inactive}90% of gacha players",
+					"{s:0.8,C:inactive}stop pulling right before",
+					"{s:0.8,C:inactive}they pull who they're after."
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_to_the_moon, "name", "To The Moon")
 

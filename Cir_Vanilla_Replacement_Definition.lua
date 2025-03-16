@@ -13,12 +13,18 @@ replaceDef.paths.cirJokerPath = {
 	nrm = 'Vanilla_Replacements/cir_Jokers.png',
 	safe = 'Vanilla_Replacements/cir_SafeJokers.png' }
 
--- Legendary Jokers are basically complete. I don't see there being any
--- mature references in any changes we might make to the graphics.
-replaceDef.paths.cirLJokerPath = { nrm = 'Vanilla_Replacements/cir_Legendaries.png' }
+-- Legendary Jokers are basically complete. <strikethrough>I don't see there being any
+-- mature references in any changes we might make to the graphics.</strikethrough>
+-- I got mad at Cirno repeatedly saying he'd never install the Big Naturals mod, so I
+-- made Hannah's boobs bigger.
+replaceDef.paths.cirLJokerPath = {
+	nrm = 'Vanilla_Replacements/cir_Legendaries.png',
+	safe = 'Vanilla_Replacements/cir_SafeLegendaries.png' }
 
+-- ehh, I don't see the planets having mature references, honestly. Should be fine
 replaceDef.paths.cirTPSPath = {
-	nrm = 'Vanilla_Replacements/cir_TarotsPlanetsSpectrals.png',
+	nrm = 'Vanilla_Replacements/cir_TarotsPlanetsSpectrals_noHu.png',
+	planetsAreHus = 'Vanilla_Replacements/cir_TarotsPlanetsSpectrals.png',
 	-- safe = ''
 	}
 
@@ -84,10 +90,24 @@ replaceDef.getPath = function(replaceType)
 				RV = replaceDef.paths.cirDecksEnhancersPath.nrm
 			end
 		elseif
+			replaceType == "planet"
+			or replaceType == "planets"
+		then
+			if CirnoMod.allEnabledOptions['planetsAreHus'] then
+				RV = replaceDef.paths.cirTPSPath.planetsAreHus
+			else
+				if
+					not CirnoMod.allEnabledOptions['matureReferences']
+					and replaceDef.paths.cirTPSPath.safe
+				then
+					RV = replaceDef.paths.cirTPSPath.safe
+				else
+					RV = replaceDef.paths.cirTPSPath.nrm
+				end
+			end			
+		elseif
 			replaceType == "tarot"
 			or replaceType == "tarots"
-			or replaceType == "planet"
-			or replaceType == "planets"
 			or replaceType == "spectral"
 			or replaceType == "spectrals"
 		then
@@ -271,7 +291,7 @@ replaceDef.jokerReplacements = {
 	
 	-- { jkrKey = 'j_jugglar', isSafeOrHasSafeVariant = true },
 	{ jkrKey = 'j_drunkard', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_acrobat', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_acrobat', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Acrobat' },
 	-- { jkrKey = 'j_sock_and_buskin', isSafeOrHasSafeVariant = true },
 	{ jkrKey = 'j_mime', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Mime' },
 	{ jkrKey = 'j_credit_card', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
@@ -340,7 +360,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_burnt', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_dusk', isSafeOrHasSafeVariant = true },
 	{ jkrKey = 'j_throwback', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
-	-- { jkrKey = 'j_idol', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_idol', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	{ jkrKey = 'j_brainstorm', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	-- { jkrKey = 'j_satellite', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_rough_gem', isSafeOrHasSafeVariant = true },
@@ -365,7 +385,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_bootstraps', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Unknown_NTFEdit' },
 	
 	{ jkrKey = 'j_egg', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Egg' },
-	{ jkrKey = 'j_burglar', isSafeOrHasSafeVariant = false, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
+	{ jkrKey = 'j_burglar', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_Burglar' },
 	-- { jkrKey = 'j_blackboard', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_ice_cream', isSafeOrHasSafeVariant = true },
 	{ jkrKey = 'j_runner', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
@@ -403,7 +423,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_turtle_bean', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_erosion', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_reserved_parking', isSafeOrHasSafeVariant = true },
-	-- { jkrKey = 'j_mail', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_mail', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	-- { jkrKey = 'j_to_the_moon', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_hallucination', isSafeOrHasSafeVariant = true },
 	
@@ -435,45 +455,45 @@ replaceDef.jokerReplacements = {
 -----------------
 replaceDef.tarotReplacements = {
 	{ trtKey = 'c_fool', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun' },
-	--	{ trtKey = 'c_magician', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_high_priestess', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_empress', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_emperor', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_heirophant', isSafeOrHasSafeVariant = true }, -- Yes, also mispelled internally; Make sure to have it right... Or wrong, in this case.
-	--	{ trtKey = 'c_lovers', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_chariot', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_justice', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_hermit', isSafeOrHasSafeVariant = true },
+	{ trtKey = 'c_magician', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_high_priestess', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_empress', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_emperor', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_heirophant', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' }, -- Yes, also mispelled internally; Make sure to have it right... Or wrong, in this case.
+	{ trtKey = 'c_lovers', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_chariot', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_justice', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_hermit', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_wheel_of_fortune', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun' },
 	{ trtKey = 'c_strength', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun' },
-	--	{ trtKey = 'c_hanged_man', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_death', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_temperance', isSafeOrHasSafeVariant = true },
+	{ trtKey = 'c_hanged_man', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_death', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_temperance', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_devil', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun' },
-	--	{ trtKey = 'c_tower', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_star', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_moon', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_sun', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_judgement', isSafeOrHasSafeVariant = true },
-	--	{ trtKey = 'c_world', isSafeOrHasSafeVariant = true }
+	{ trtKey = 'c_tower', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_star', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_moon', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_sun', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_Sun' },
+	{ trtKey = 'c_judgement', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_world', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' }
 }
 
 -----------------
 ---- Planets ----
 -----------------
 replaceDef.planetReplacements = {
-	--	{ plnKey = 'c_ceres', isSafeOrHasSafeVariant = true, },
-	--	{ plnKey = 'c_earth', isSafeOrHasSafeVariant = true, },
-	--	{ plnKey = 'c_eris', isSafeOrHasSafeVariant = true, },
-	--	{ plnKey = 'c_jupiter', isSafeOrHasSafeVariant = true, },
-	--	{ plnKey = 'c_mars', isSafeOrHasSafeVariant = true, },
-	--	{ plnKey = 'c_mercury', isSafeOrHasSafeVariant = true, },
+	{ plnKey = 'c_ceres', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
+	{ plnKey = 'c_earth', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
+	{ plnKey = 'c_eris', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
+	{ plnKey = 'c_jupiter', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
+	{ plnKey = 'c_mars', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
+	{ plnKey = 'c_mercury', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
 	{ plnKey = 'c_neptune', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
-	--	{ plnKey = 'c_planet_x', isSafeOrHasSafeVariant = true, },
-	--	{ plnKey = 'c_pluto', isSafeOrHasSafeVariant = true, },
-	--	{ plnKey = 'c_saturn', isSafeOrHasSafeVariant = true, },
-	--	{ plnKey = 'c_uranus', isSafeOrHasSafeVariant = true, },
-	--	{ plnKey = 'c_venus', isSafeOrHasSafeVariant = true, }
+	{ plnKey = 'c_planet_x', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
+	{ plnKey = 'c_pluto', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
+	{ plnKey = 'c_saturn', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
+	{ plnKey = 'c_uranus', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
+	{ plnKey = 'c_venus', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true }
 }
 
 --------------------
