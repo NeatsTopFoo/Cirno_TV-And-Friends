@@ -3,6 +3,7 @@ local creditSources = {}
 creditSources.cr_JokerArt = "Joker Art By"
 creditSources.cr_DeckArt = "Deck Art By"
 creditSources.cr_EnhancerArt = "Enhancer Art By"
+creditSources.cr_CardArt = "Card Art By"
 creditSources.cr_GenericArt = "Art By"
 
 -- Boo this individual please.
@@ -42,6 +43,7 @@ return {
 			Joker_Art_By = { text = { creditSources.cr_JokerArt } },
 			Deck_Art_By = { text = { creditSources.cr_DeckArt } },
 			Enhancer_Art_By = { text = { creditSources.cr_EnhancerArt } },
+			Card_Art_By = { text = { creditSources.cr_CardArt } },
 			Generic_Art_By = { text = { creditSources.cr_GenericArt } },
 			
 			----- Me -----
@@ -98,6 +100,10 @@ return {
 			},
 			gA_DaemonTsun={
 				name= creditSources.cr_GenericArt,
+				text={creditSources.DTsun}
+			},
+			cA_DaemonTsun={
+				name= creditSources.cr_CardArt,
 				text={creditSources.DTsun}
 			},
 			gA_DaemonTsun_ComCon={

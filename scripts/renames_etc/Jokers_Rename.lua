@@ -85,7 +85,7 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_mime, "text", {
 					"{s:0.8,C:inactive}Cirno's favourite."
                 })
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_credit_card, "name", "")
+-- SMODS.process_loc_text(G.localization.descriptions.Joker.j_credit_card, "name", "Credit Card")
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_credit_card, "text", {
                     "Go up to",
                     "{C:red}-$#1#{} in debt",
@@ -95,7 +95,7 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_credit_card, "text", 
 					"{s:0.8,C:inactive}to hundreds of",
 					"{s:0.8,C:inactive}people at once?\""
                 })
-				
+
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_greedy_joker, "name", "Greedy Joker")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_lusty_joker, "name", "Lusty Joker")
@@ -103,7 +103,6 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_credit_card, "text", 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_wrathful_joker, "name", "Wrathful Biggdeck")
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_gluttenous_joker, "name", "Gluttonous Cirno")
-
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_troubadour, "name", "Troubadour")
 
@@ -131,7 +130,7 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_hack, "text", {
 					"{s:0.8,C:inactive}by watching",
 					"{s:0.8,C:inactive}his own stream."
                 })
-				
+
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_misprint, "name", "Misprint")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_steel_joker, "name", "Steel Joker")
@@ -164,15 +163,17 @@ if CirnoMod.allEnabledOptions['matureReferences'] then
                     "Earn {C:money}$#1#{} per {C:attention}discard{} if",
                     "no discards are used",
                     "by end of the round",
-					"{C:inactive}You won't last a minute."
+					"{s:0.8,C:inactive}You won't last a minute."
                 })
 else
 	SMODS.process_loc_text(G.localization.descriptions.Joker.j_delayed_grat, "text", {
                     "Earn {C:money}$#1#{} per {C:attention}discard{} if",
                     "no discards are used",
                     "by end of the round",
-					"{C:inactive}Make sure to be in my",
-					"{C:inactive}vicinity if I ever get bored."
+					"{s:0.8,C:inactive}Hey sweet one",
+					"{s:0.8,C:inactive}To the grave I won't go",
+					"{s:0.8,C:inactive}For when I am done",
+					"{s:0.8,C:inactive}Kill me all you want"
                 })
 end
 
@@ -199,11 +200,10 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_mr_bones, "text", {
                     "are at least {C:attention}25%",
                     "of required chips",
                     "{S:1.1,C:red,E:2}self destructs{}",
-					"{s:0.8,C:inactive}Chat, it's the RNG,",
-					"{s:0.8,C:inactive}I can't do anything",
-					"{s:0.8,C:inactive}if the game doesn't",
-					"{s:0.8,C:inactive}give me the cards I",
-					"{s:0.8,C:inactive}need."
+					"{s:0.8,C:inactive}Chat, it's the RNG, I",
+					"{s:0.8,C:inactive}can't do anything if",
+					"{s:0.8,C:inactive}the game doesn't give",
+					"{s:0.8,C:inactive}me the cards I need."
                 })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_seeing_double, "name", "Seeing Double")
@@ -241,7 +241,16 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_ring_master, "text", 
 				
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_fortune_teller, "name", "Fortune Teller")
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_hit_the_road, "name", "Hit The Rod")
+-- SMODS.process_loc_text(G.localization.descriptions.Joker.j_hit_the_road, "name", "Hit The Road")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_hit_the_road, "text", {
+                    "This Joker gains {X:mult,C:white} X#1# {} Mult",
+                    "for every {C:attention}Jack{}",
+                    "discarded this round",
+                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+					"{s:0.8,C:inactive}Just constantly jumping down that",
+					"{s:0.8,C:inactive}insanely long stretch of road...",
+					"{s:0.8,C:inactive}Should've taken a bus, honestly."
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_swashbuckler, "name", "Swashbuckler")
 
@@ -279,8 +288,14 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_hanging_chad, "text",
 					"{s:0.8,C:inactive}TIME!!!111"
                 })
 
-
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_drivers_license, "name", "Driver's License")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_drivers_license, "name", "Multipass")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_drivers_license, "text", {
+                    "{X:mult,C:white} X#1# {} Mult if you have",
+                    "at least {C:attention}16{} Enhanced",
+                    "cards in your full deck",
+                    "{C:inactive}(Currently {C:attention}#2#{C:inactive})",
+                    "{s:0.8,C:inactive}Hi! Lea!"
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_invisible, "name", "Invisible Joker")
 
@@ -365,9 +380,8 @@ if CirnoMod.allEnabledOptions['matureReferences'] then
 						"Played {C:attention}Kings{} and",
 						"{C:attention}Queens{} each give",
 						"{X:mult,C:white} X#1# {} Mult when scored",
-						"{s:0.8,C:inactive}Wow look Chat, Cirno",
-						"{s:0.8,C:inactive}finally added the Big",
-						"{s:0.8,C:inactive}Naturals mod."
+						"{s:0.8,C:inactive}Wow look Chat, Cirno finally",
+						"{s:0.8,C:inactive}added the Big Naturals mod."
 					})
 else
 	SMODS.process_loc_text(G.localization.descriptions.Joker.j_triboulet, "text", {
@@ -415,20 +429,24 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_certificate, "text", 
                 })
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_bootstraps, "name", "Allegations")
-if CirnoMod.allEnabledOptions['matureReferences'] then
-	SMODS.process_loc_text(G.localization.descriptions.Joker.j_bootstraps, "text", {
-						"{C:mult}+#1#{} Mult for every",
-						"{C:money}$#2#{} you have",
-						"{C:inactive}(Currently {C:mult}+#3#{C:inactive} Mult)",
-						"{s:0.8,C:inactive}I can't believe Cirno's",
-						"{s:0.8,C:inactive}body pillow was added",
-						"{s:0.8,C:inactive}to Balatro!"
-					})
-end
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_bootstraps, "text", {
+					"{C:mult}+#1#{} Mult for every",
+					"{C:money}$#2#{} you have",
+					"{C:inactive}(Currently {C:mult}+#3#{C:inactive} Mult)",
+					"{s:0.8,C:inactive}Can you believe Cirno's",
+					"{s:0.8,C:inactive}body pillow was added",
+					"{s:0.8,C:inactive}to Balatro?"
+				})
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_egg, "name", "Egg")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_egg, "text", {
+                    "Gains {C:money}$#1#{} of",
+                    "{C:attention}sell value{} at",
+                    "end of round",
+					"{s:0.8,C:inactive}Jiiiiiiiiiiiii..."
+                })
 
-SMODS.process_loc_text(G.localization.descriptions.Joker.j_burglar, "name", "cirThief")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_burglar, "name", "CirThief")
 --	SMODS.process_loc_text(G.localization.descriptions.Joker.j_burglar, "text", {
 --	                    "When {C:attention}Blind{} is selected,",
 --	                    "gain {C:blue}+#1#{} Hands and",
@@ -455,12 +473,11 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_dna, "text", {
                     "has only {C:attention}1{} card, add a",
                     "permanent copy to deck",
                     "and draw it to {C:attention}hand",
-					"{s:0.8,C:inactive}At Twitch Inc, we strive to",
-					"{s:0.8,C:inactive}foster a healthy & safe",
-					"{s:0.8,C:inactive}community. Click {}{s:0.8,C:blue}here{}{s:0.8,C:inactive} to learn",
-					"{s:0.8,C:inactive}more about our policy on",
-					"{s:0.8,C:inactive}VTuber hips and why you need",
-					"{s:0.8,C:inactive}to be protected from them."
+					"{s:0.8,C:inactive}At Twitch Inc, we strive to foster",
+					"{s:0.8,C:inactive}a healthy & safe community. Click",
+					"{s:0.8,C:blue}here {s:0.8,C:inactive}to learn more about our policy",
+					"{s:0.8,C:inactive}on VTuber hips and why you need to",
+					"{s:0.8,C:inactive}be protected from them.",
                 })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_splash, "name", "Splash")
@@ -507,7 +524,13 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_constellation, "text"
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_madness, "name", "Madness")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_square, "name", "Square Joker")
-
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_square, "text", {
+                    "This Joker gains {C:chips}+#2#{} Chips",
+                    "if played hand has",
+                    "exactly {C:attention}4{} cards",
+                    "{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips)",
+					"{s:0.8,C:inactive}Squares, famously six-sided."
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_seance, "name", "Séance")
 
@@ -531,13 +554,13 @@ else
 end
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_vampire, "name", "Remilia Scarlet")
---	SMODS.process_loc_text(G.localization.descriptions.Joker.j_vampire, "text", {
---	                    "This Joker gains {X:mult,C:white} X#1# {} Mult",
---	                    "per scoring {C:attention}Enhanced card{} played,",
---	                    "removes card {C:attention}Enhancement",
---	                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
---						"{s:0.8,C:inactive}"
---	                })
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_vampire, "text", {
+                    "This Joker gains {X:mult,C:white} X#1# {} Mult",
+                    "per scoring {C:attention}Enhanced card{} played,",
+                    "removes card {C:attention}Enhancement",
+                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+					"{s:0.8,C:inactive}\"Fairies really are completely useless.\""
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_shortcut, "name", "Shortcut")
 
@@ -552,8 +575,16 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_baron, "text", {
                     "gives {X:mult,C:white} X#1# {} Mult",
 					"{s:0.8,C:inactive}You dropped your crown, king."
                 })
-				
+
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_cloud_9, "name", "Cloud 9")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_cloud_9, "text", {
+                    "Earn {C:money}$#1#{} for each",
+                    "{C:attention}9{} in your {C:attention}full deck",
+                    "at end of round",
+                    "{C:inactive}(Currently {C:money}$#2#{}{C:inactive})",
+					"{s:0.8,C:inactive}Crazy to think the whole 9 thing",
+					"{s:0.8,C:inactive}started with the PoFV instruction manual."
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_rocket, "name", "Rocket")
 
@@ -638,11 +669,24 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_selzer, "text", {
 					"{s:0.8,C:inactive}Mac n Cheese?\""
                 })
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_spare_trousers, "name", "Spare Trousers")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_trousers, "name", "SachikoJeans")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_trousers, "text", {
+                    "This Joker gains {C:mult}+#1#{} Mult",
+                    "if played hand contains",
+                    "a {C:attention}#2#",
+                    "{C:inactive}(Currently {C:red}+#3#{C:inactive} Mult)",
+					"{s:0.8,C:inactive}Ey, I'm walkin' here."
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_campfire, "name", "Campfire")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_smiley, "name", "Smiley Face")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_smiley, "text", {
+                    "Played {C:attention}face{} cards",
+                    "give {C:mult}+#1#{} Mult",
+                    "when scored",
+					"{s:0.75,C:inactive}A smile better suits a spoiler."
+                })
 
 --SMODS.process_loc_text(G.localization.descriptions.Joker.j_ancient, "name", "Ancient Joker")
 

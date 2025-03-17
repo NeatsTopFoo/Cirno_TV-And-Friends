@@ -121,9 +121,12 @@ if
 then
 	if
 		CirnoMod.allEnabledOptions['artCredits']
-		and CirnoMod.miscItems.artCreditKeys[_c.key]
 	then
-		info_queue[#info_queue + 1] = CirnoMod.ParseVanillaCredit(_c.key)
+		local PVC_RV = CirnoMod.ParseVanillaCredit(_c, specific_vars)
+		
+		if PVC_RV.addCredit then
+			info_queue[#info_queue + 1] = PVC_RV.creditInfo		
+		end
 	end
 end
 '''

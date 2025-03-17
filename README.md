@@ -1,7 +1,7 @@
 # Cirno_TV And Friends
 A Balatro mod themed around [Cirno_TV](https://www.twitch.tv/Cirno_TV/), with various references & memes.
 
-**WARNING:** Cirno_TV & Friends isn't strictly a NSFW mod, but it does contain a handful of overt, stream-safe mature references in relation to community inside jokes. This mod is *NOT* intended for children. These overt mature references are disabled by default, but can be enabled in the mod's config settings (Config setting changes require a game restart to take effect).
+**WARNING:** Cirno_TV & Friends isn't explicitly an NSFW-oriented mod, but it does contain a handful of overt, (hopefully) stream-safe mature references in relation to community inside jokes (most particularly those with sexual connotations). This mod is *NOT* intended for children. By default, these (especially overt) mature references are significantly toned-down/altered, with the intent of having reduced mature references (in both number and intensity) experienceable in gameplay for anyone who wants to experience the mod, but is not particularly as interested in the some of the more mature references (and/or wants to stream it, but does not want to have that kind of stuff on their stream) - These changes can be disbled in the mod's config settings via the Mature References setting (Config setting changes require a game restart to take effect).
 
 ![CTVaF Logo](https://i.imgur.com/CcRk9nq.png)
 
@@ -15,7 +15,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 54 Jokers (2 filtered & 4 altered by the Mature Reference setting)
+  - 56 Jokers (2 filtered & 4 altered by the Mature Reference setting)
   - All Blind Chips
   - All seals
   - 3 Decks

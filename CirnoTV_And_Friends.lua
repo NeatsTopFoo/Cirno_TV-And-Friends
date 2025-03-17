@@ -3,8 +3,9 @@ CirnoMod.path = SMODS.current_mod.path
 CirnoMod.config = SMODS.current_mod.config
 CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
 CirnoMod.miscItems = {}
+CirnoMod.miscItems.deckSkinNames = {}
 
--- 
+-- This will be used for any effects the focus on stuff edited or introduced by this mod
 CirnoMod.miscItems.keysOfAllCirnoModItems = {}
 
 local cirInitConfig = {
@@ -61,8 +62,35 @@ CirnoMod.miscItems.artCreditKeys = {}
 -- ...See the patcher toml and localization/en-us.lua
 -- for more info. Though for your sanity, it's probably
 -- best not to.
-CirnoMod.ParseVanillaCredit = function(itemKey)
-	return { key = CirnoMod.miscItems.artCreditKeys[itemKey], set = "Other" }
+CirnoMod.ParseVanillaCredit = function(card, specific_vars)
+	local RV = { addCredit = false }
+	local keyToCheck = card.key
+	
+	if
+		specific_vars -- This is nil when it's a Joker, but needed when its a playing card
+		and G.SETTINGS.CUSTOM_DECK
+	then
+		if
+			G.SETTINGS.CUSTOM_DECK.Collabs
+			and specific_vars.playing_card
+			and specific_vars.suit
+			and specific_vars.value
+		then				
+			if
+				G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit] == CirnoMod.miscItems.deckSkinNames[string.lower(specific_vars.suit)]
+			then
+				keyToCheck = specific_vars.value.."_"..specific_vars.suit
+			end
+		end
+	end
+	
+	RV.addCredit = CirnoMod.miscItems.artCreditKeys[keyToCheck]
+	
+	if RV.addCredit then
+		RV.creditInfo = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck], set = "Other" }
+	end
+	
+	return RV
 end
 
 -- These three are necessary function definition for above
@@ -281,6 +309,9 @@ CirnoMod.replaceDef = assert(SMODS.load_file("Cir_Vanilla_Replacement_Definition
 if CirnoMod.allEnabledOptions['playingCardTextures'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	SMODS.load_file("scripts/retextures/PlayingCards_Retext.lua")()
+	
+	CirnoMod.miscItems.artCreditKeys['Queen_Clubs'] = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys['Queen_Spades'] = 'cA_DaemonTsun'
 end
 
 -- Joker Textures

@@ -354,7 +354,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_stuntman', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_JustIRLCirno' },
 	{ jkrKey = 'j_hanging_chad', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	
-	-- { jkrKey = 'j_drivers_license', isSafeOrHasSafeVariant = true  },
+	{ jkrKey = 'j_drivers_license', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	-- { jkrKey = 'j_invisible', isSafeOrHasSafeVariant = true },
 	-- { jkrKey = 'j_astronomer', isSafeOrHasSafeVariant = true },
 	{ jkrKey = 'j_burnt', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun' },
@@ -442,7 +442,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_popcorn', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_NTF' },
 	-- { jkrKey = 'j_ramen', isSafeOrHasSafeVariant = true },
 	{ jkrKey = 'j_selzer', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
-	-- { jkrKey = 'j_spare_trousers', isSafeOrHasSafeVariant = true },
+	{ jkrKey = 'j_trousers', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	-- { jkrKey = 'j_campfire', isSafeOrHasSafeVariant = true },
 	{ jkrKey = 'j_smiley', isSafeOrHasSafeVariant = true, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	-- { jkrKey = 'j_ancient', isSafeOrHasSafeVariant = true },

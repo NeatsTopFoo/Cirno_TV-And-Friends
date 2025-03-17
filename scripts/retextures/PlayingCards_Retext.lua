@@ -38,4 +38,6 @@ for _, suit in ipairs(cardSuits) do
         },
         posStyle = 'deck'
     }
+
+	CirnoMod.miscItems.deckSkinNames[suit] = "cir_"..suit.."_skin"
 end
