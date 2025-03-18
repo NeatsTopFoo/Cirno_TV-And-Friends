@@ -13,8 +13,11 @@
 -- Which suits to replace
 local cardSuits = { 'hearts', 'clubs', 'diamonds', 'spades' }
 
--- Which ranks to replaces
-local cardRanks = { 'Jack', 'Queen', 'King' }
+-- Which ranks to replace
+local cardRanks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", 'Jack', 'Queen', "King", "Ace"}
+
+-- Which ranks to display in the 'customize deck' screen
+local cardRanksDisplay = { 'Jack', 'Queen', 'King' }
 
 -- Establishes the graphic to use and sets it up so it can be read
 SMODS.Atlas{
@@ -31,12 +34,14 @@ for _, suit in ipairs(cardSuits) do
         key = suit.."_skin",
         suit = suit:gsub("^%l", string.upper),
         ranks = cardRanks,
+		display_ranks = cardRanksDisplay,
         lc_atlas = 'cir_CardAtlas',
         hc_atlas = 'cir_CardAtlas',
         loc_txt = {
             ['en-us'] = 'Cirno_TV & Friends'
         },
-        posStyle = 'deck'
+        posStyle = 'deck',
+		hc_default = true
     }
 
 	CirnoMod.miscItems.deckSkinNames[suit] = "cir_"..suit.."_skin"
