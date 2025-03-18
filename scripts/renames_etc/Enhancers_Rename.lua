@@ -39,10 +39,13 @@ SMODS.process_loc_text(G.localization.descriptions.Other.gold_seal, "name", "Ful
 SMODS.process_loc_text(G.localization.descriptions.Other.purple_seal, "name", "Life Seal")
 SMODS.process_loc_text(G.localization.descriptions.Other.red_seal, "name", "Power Seal")
 
-SMODS.process_loc_text(G.localization.descriptions.Enhanced.m_stone, "name", "Whump Card")
+-- SMODS.process_loc_text() spontaneously stopped
+-- working for stone card stuff, this is done in
+-- the mod's localization/en-us.lua instead.
+-- SMODS.process_loc_text(G.localization.descriptions.Enhanced.m_stone, "name", "Whump Card")
 
-SMODS.process_loc_text(G.localization.misc.dictionary, "k_plus_stone", "+1 Whump")
-SMODS.process_loc_text(G.localization.misc.dictionary, "ph_deck_preview_stones", "Whumps")
+-- SMODS.process_loc_text(G.localization.misc.dictionary, "k_plus_stone", "+1 Whump")
+-- SMODS.process_loc_text(G.localization.misc.dictionary, "ph_deck_preview_stones", "Whumps")
 
 if not CirnoMod.allEnabledOptions['jokerRenames'] then
 	SMODS.process_loc_text(G.localization.descriptions.Joker.j_stone, "text", {

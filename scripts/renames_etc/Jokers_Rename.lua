@@ -49,7 +49,7 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_half, "text", {
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_stone, "name", "Bocchi the Rock")
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_stone, "text", {
 						"Gives {C:chips}+#1#{} Chips for",
-						"each {C:attention}"..G.localization.descriptions.Enhanced.m_stone.name,
+						"each {C:attention}Whump Card",
 						"in your {C:attention}full deck",
 						"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
 						"{s:0.8,C:inactive}jgtkjhjngtjkhbjgfhjgfjjhfgfh"
@@ -111,11 +111,11 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_gluttenous_joker, "na
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_mystic_summit, "name", "Mystic Summit")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_marble, "name", "Marble Joker")
-SMODS.process_loc_text(G.localization.descriptions.Joker.j_marble, "text", {
-                    "Adds one {C:attention}"..G.localization.descriptions.Enhanced.m_stone.name,
-                    "to deck when",
-                    "{C:attention}Blind{} is selected",
-                })
+--	SMODS.process_loc_text(G.localization.descriptions.Joker.j_marble, "text", {
+--			"Adds one {C:attention}Whump{} card",
+--			"to deck when",
+--			"{C:attention}Blind{} is selected",
+--		}
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_loyalty_card, "name", "Loyalty Card")
 
@@ -158,22 +158,26 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_hack, "text", {
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_abstract, "name", "Abstract Joker")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_delayed_grat, "name", "Delayed Gratification")
+local dg_tColour = '{s:0.8,C:inactive}'
+if CirnoMod.allEnabledOptions['miscRenames'] then
+	dg_tColour = '{s:0.8,C:cirLucy}'
+end
 if CirnoMod.allEnabledOptions['matureReferences'] then
 	SMODS.process_loc_text(G.localization.descriptions.Joker.j_delayed_grat, "text", {
                     "Earn {C:money}$#1#{} per {C:attention}discard{} if",
                     "no discards are used",
                     "by end of the round",
-					"{s:0.8,C:inactive}You won't last a minute."
+					dg_tColour.."You won't last a minute."
                 })
 else
 	SMODS.process_loc_text(G.localization.descriptions.Joker.j_delayed_grat, "text", {
                     "Earn {C:money}$#1#{} per {C:attention}discard{} if",
                     "no discards are used",
                     "by end of the round",
-					"{s:0.8,C:inactive}Hey sweet one",
-					"{s:0.8,C:inactive}To the grave I won't go",
-					"{s:0.8,C:inactive}For when I am done",
-					"{s:0.8,C:inactive}Kill me all you want"
+					dg_tColour.."Hey sweet one",
+					dg_tColour.."To the grave I won't go",
+					dg_tColour.."For when I am done",
+					dg_tColour.."Kill me all you want"
                 })
 end
 
@@ -582,8 +586,9 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_cloud_9, "text", {
                     "{C:attention}9{} in your {C:attention}full deck",
                     "at end of round",
                     "{C:inactive}(Currently {C:money}$#2#{}{C:inactive})",
-					"{s:0.8,C:inactive}Crazy to think the whole 9 thing",
-					"{s:0.8,C:inactive}started with the PoFV instruction manual."
+					"{s:0.8,C:inactive}Crazy to think the whole 9",
+					"{s:0.8,C:inactive}thing started with the PoFV",
+					"{s:0.8,C:inactive}instruction manual."
                 })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_rocket, "name", "Rocket")

@@ -158,6 +158,34 @@ replaceDef.getPath = function(replaceType)
 	return RV
 end
 
+
+-----------------------
+---- Playing Cards ----
+---- (Art Credits  ----
+----     Only)     ----
+-----------------------
+if CirnoMod.allEnabledOptions['playingCardTextures'] then
+	-- CirnoMod.miscItems.artCreditKeys['Ace_Hearts'] = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys['King_Hearts'] = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys['Queen_Hearts'] = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys['Jack_Hearts'] = 'cA_DaemonTsun'
+	
+	-- CirnoMod.miscItems.artCreditKeys['Ace_Clubs'] = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys['King_Clubs'] = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys['Queen_Clubs'] = 'cA_DaemonTsun'
+	--CirnoMod.miscItems.artCreditKeys['Jack_Clubs'] = 'cA_DaemonTsun'
+	
+	-- CirnoMod.miscItems.artCreditKeys['Ace_Diamonds'] = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys['King_Diamonds'] = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys['Queen_Diamonds'] = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys['Jack_Diamonds'] = 'cA_DaemonTsun'
+	
+	-- CirnoMod.miscItems.artCreditKeys['Ace_Spades'] = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys['King_Spades'] = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys['Queen_Spades'] = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys['Jack_Spades'] = 'cA_DaemonTsun'
+end
+
 -- IMPORTANT:
 -- Since I'm adding an overt mature references
 -- toggle for anyone that may want to stream this

@@ -50,49 +50,6 @@ else
 	G.TITLE_SCREEN_CARD = G.P_CARDS.S_A
 end
 
-CirnoMod.miscItems.artCreditKeys = {}
--- Hate. Hate. Hate. Hate that we have to do this this
--- way. Hatehatehatehatehate. I had a whole system set
--- up and I had to tear it right down because apparently
--- that's not how that fucking works and we need to do
--- this bullshit this way because we can't easily insert
--- thing into the other thing and do that thing and I'm
--- onna scream, I'M CRASHING OUT AAAAAAAAAAAAAAAAAAAAA
--- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
--- ...See the patcher toml and localization/en-us.lua
--- for more info. Though for your sanity, it's probably
--- best not to.
-CirnoMod.ParseVanillaCredit = function(card, specific_vars)
-	local RV = { addCredit = false }
-	local keyToCheck = card.key
-	
-	if
-		specific_vars -- This is nil when it's a Joker, but needed when its a playing card
-		and G.SETTINGS.CUSTOM_DECK
-	then
-		if
-			G.SETTINGS.CUSTOM_DECK.Collabs
-			and specific_vars.playing_card
-			and specific_vars.suit
-			and specific_vars.value
-		then				
-			if
-				G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit] == CirnoMod.miscItems.deckSkinNames[string.lower(specific_vars.suit)]
-			then
-				keyToCheck = specific_vars.value.."_"..specific_vars.suit
-			end
-		end
-	end
-	
-	RV.addCredit = CirnoMod.miscItems.artCreditKeys[keyToCheck]
-	
-	if RV.addCredit then
-		RV.creditInfo = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck], set = "Other" }
-	end
-	
-	return RV
-end
-
 -- These three are necessary function definition for above
 -- title screen replacement stuff to both actually facilitate
 -- the replacement and also make it not error because I'm giving it a string instead
@@ -114,6 +71,48 @@ function G.FUNCS.splash_screen_card(card_pos, card_size)
 	return Card(card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
 				card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
 				card_size*G.CARD_W, card_size*G.CARD_H, pseudorandom_element(G.P_CARDS), G.P_CENTERS.c_base)
+end
+
+CirnoMod.miscItems.artCreditKeys = {}
+-- Hate. Hate. Hate. Hate that we have to do this this
+-- way. Hatehatehatehatehate. I had a whole system set
+-- up and I had to tear it right down because apparently
+-- that's not how that fucking works and we need to do
+-- this bullshit this way because we can't easily insert
+-- thing into the other thing and do that thing and I'm
+-- onna scream, I'M CRASHING OUT AAAAAAAAAAAAAAAAAAAAA
+-- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+-- ...See the patcher toml and localization/en-us.lua
+-- for more info. Though for your sanity, it's probably
+-- best not to.
+CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from generate_card_ui() in common_events.lua, which passes in _c and specific_vars (After checking if the specified card isn't locked or undiscovered)
+	local RV = nil
+	local keyToCheck = card.key
+	
+	if
+		specific_vars -- This is nil when it's a Joker, but needed when its a playing card
+		and G.SETTINGS.CUSTOM_DECK -- Sanity check to make sure this is initialised
+	then
+		if
+			G.SETTINGS.CUSTOM_DECK.Collabs -- Another sanity check
+			and specific_vars.playing_card -- These are edge cases where specific_vars is passed and not nil, but these values aren't present.
+			and specific_vars.suit
+			and specific_vars.value
+		then
+			if
+				G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit] == CirnoMod.miscItems.deckSkinNames[string.lower(specific_vars.suit)]
+			then
+				keyToCheck = specific_vars.value.."_"..specific_vars.suit
+			end
+		end
+	end
+	
+	-- If the key is present in the table of art keys, return the necessary localisation data
+	if CirnoMod.miscItems.artCreditKeys[keyToCheck] then
+		RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck], set = "Other" }
+	end
+	
+	return RV
 end
 
 -------------------------------------------------------------------------------------------
@@ -309,9 +308,6 @@ CirnoMod.replaceDef = assert(SMODS.load_file("Cir_Vanilla_Replacement_Definition
 if CirnoMod.allEnabledOptions['playingCardTextures'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	SMODS.load_file("scripts/retextures/PlayingCards_Retext.lua")()
-	
-	CirnoMod.miscItems.artCreditKeys['Queen_Clubs'] = 'cA_DaemonTsun'
-	CirnoMod.miscItems.artCreditKeys['Queen_Spades'] = 'cA_DaemonTsun'
 end
 
 -- Joker Textures
@@ -476,6 +472,39 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'purple_seal')
 	
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()
+end
+
+-- Hhhhhhhhhhh some things need to be done before others.
+-- And the other I need to be doing some things I want to
+-- include in other things is weird, so I gotta do it
+-- this way
+if
+	CirnoMod.allEnabledOptions['miscRenames']
+	or CirnoMod.allEnabledOptions['jokerRenames']
+then
+	-- Defines our custom colours
+	CirnoMod.miscItems.colours = {
+		cirLucky = HEX('7BB083FF'),
+		cirCyan = HEX('0AD0F7FF'),
+		cirNep = HEX('D066ADFF')
+	}
+	
+	if CirnoMod.allEnabledOptions['planetsAreHus'] then
+		-- If the planets are Hus, we have a custom
+		-- planet colour that will be grabbed instead.
+		CirnoMod.miscItems.colours['planet'] = HEX('980D50FF')
+	end
+	
+	-- Hook into localise colour and interpose with
+	-- detection for our own custom colours.
+	local old_loc_colour = loc_colour
+	function loc_colour(_c, _default)
+		if CirnoMod.miscItems.colours[_c] then
+			return CirnoMod.miscItems.colours[_c]
+		else
+			return old_loc_colour(_c, _default)
+		end
+	end
 end
 
 -- Planets are Hus

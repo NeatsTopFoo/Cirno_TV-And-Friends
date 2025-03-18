@@ -109,7 +109,6 @@ if CirnoMod.allEnabledOptions['planetTarotSpectralRenames'] then
 end
 
 if CirnoMod.allEnabledOptions['miscRenames'] then
-
 	SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_normal, "name", "Gensokyo Pack")
 	SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_jumbo, "name", "Jumbo Gensokyo Pack")
 	SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_mega, "name", "Mega Gensokyo Pack")
@@ -132,24 +131,24 @@ if CirnoMod.allEnabledOptions['miscRenames'] then
 	SMODS.process_loc_text(G.localization.misc.labels, "pluto_planet", "...Nep?!")
 	
 	local planetRelabelling = {
-		{ key = 'c_mercury', newLabelKey = 'k_planet', newLabelColour = G.C.RED },
-		{ key = 'c_venus', newLabelKey = 'k_planet', newLabelColour = G.C.RED },
-		{ key = 'c_earth', newLabelKey = 'k_planet', newLabelColour = G.C.RED },
-		{ key = 'c_mars', newLabelKey = 'k_planet', newLabelColour = G.C.RED },
-		{ key = 'c_jupiter', newLabelKey = 'k_planet', newLabelColour = G.C.RED },
-		{ key = 'c_saturn', newLabelKey = 'k_planet', newLabelColour = G.C.RED },
-		{ key = 'c_uranus', newLabelKey = 'k_planet', newLabelColour = G.C.RED },
-		{ key = 'c_neptune', newLabelKey = 'k_planet_q', newLabelColour = G.C.PINK },
-		{ key = 'c_pluto', newLabelKey = 'k_planet', newLabelColour = G.C.RED },
-		{ key = 'c_ceres', newLabelKey = 'k_planet', newLabelColour = G.C.RED },
-		{ key = 'c_eris', newLabelKey = 'k_planet', newLabelColour = G.C.RED },
-		{ key = 'c_planet_x', newLabelKey = 'k_planet', newLabelColour = G.C.RED }
+		{ key = 'mercury', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
+		{ key = 'venus', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
+		{ key = 'earth', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
+		{ key = 'mars', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
+		{ key = 'jupiter', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
+		{ key = 'saturn', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
+		{ key = 'uranus', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
+		{ key = 'neptune', newLabelKey = 'k_planet_q', newLabelColour = CirnoMod.miscItems.colours['cirNep'] },
+		{ key = 'pluto', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
+		{ key = 'ceres', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
+		{ key = 'eris', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
+		{ key = 'planet_x', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] }
 	}
 	
 	for i, p in ipairs (planetRelabelling) do
-		SMODS.Consumable:take_ownership(planetRelabelling.key, {
+		SMODS.Consumable:take_ownership(p.key, {
 			set_card_type_badge = function(self, card, badge)
-				badges[1] = create_badge(localize(planetRelabelling.newLabelKey), planetRelabelling.newLabelColour, G.C.WHITE, 1.2)
+				badge[1] = create_badge(localize(p.newLabelKey), p.newLabelColour, G.C.WHITE, 1.2)
 			end
 		})
 	end

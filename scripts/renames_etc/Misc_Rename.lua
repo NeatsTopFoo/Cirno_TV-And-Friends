@@ -83,7 +83,7 @@ end
 
 SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_mega, "text", {
                     "Choose {C:attention}#1#{} of up to",
-                    "{C:attention}#2#{C:planet}"..G.localization.misc.labels.planet.."{} cards to",
+                    "{C:attention}#2#{C:planet} "..G.localization.misc.labels.planet.."{} cards to",
                     "be used immediately",
                 })
 

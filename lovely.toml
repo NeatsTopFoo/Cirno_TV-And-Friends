@@ -124,8 +124,8 @@ then
 	then
 		local PVC_RV = CirnoMod.ParseVanillaCredit(_c, specific_vars)
 		
-		if PVC_RV.addCredit then
-			info_queue[#info_queue + 1] = PVC_RV.creditInfo		
+		if PVC_RV then
+			info_queue[#info_queue + 1] = PVC_RV
 		end
 	end
 end

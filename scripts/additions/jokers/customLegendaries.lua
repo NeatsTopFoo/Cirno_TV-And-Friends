@@ -47,7 +47,7 @@ local jokerInfo = {
 				name = 'Cirno',
 				-- The description the player will see in-game.
 				text = {
-					"This Joker gains",
+					"This {C:joker}Joker{} gains",
 					"{X:mult,C:white}X0.09 {} Mult for each",
 					"scored {C:attention}9 {}",
 					"{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive} Mult)",
@@ -130,7 +130,7 @@ local jokerInfo = {
 				name = "NopeTooFast",
 				-- The description the player will see in-game.
 				text = {
-					"This Joker gains",
+					"This {C:joker}Joker{} gains",
 					"{X:mult,C:white} X#1# {} Mult when failing",
 					"a {C:attention}"..G.localization.descriptions.Tarot.c_wheel_of_fortune.name.."{}",
 					"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
@@ -259,11 +259,12 @@ local jokerInfo = {
 				name = "Naro",
 				-- The description the player will see in-game.
 				text = {
-					"This Joker gains {X:mult,C:white} X#1# ",
-					"Mult for every {C:attention}"..G.localization.descriptions.Planet.c_neptune.name,
+					"This {C:joker}Joker{} gains {X:mult,C:white} X#1# ",
+					"Mult for every {C:cirNep}"..G.localization.descriptions.Planet.c_neptune.name,
 					"used during this run",
 					"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
-					"{s:0.8,C:inactive}\"Ehehehe~\""
+					"{s:0.8,C:inactive}He is the missile.",
+					"{s:0.8,C:inactive}He knows where he is."
 				}
 			},
 			
