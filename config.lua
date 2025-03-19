@@ -1,7 +1,7 @@
 return {
 	['none'] = false,
 	['titleLogo'] = true,
-	['titleColours'] = false,
+	['titleColours'] = true,
 	['matureReferences'] = false,
 	['playingCardTextures'] = true,
 	['malverkReplacements'] = true,

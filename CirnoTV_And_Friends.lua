@@ -2,7 +2,9 @@ CirnoMod = {}
 CirnoMod.path = SMODS.current_mod.path
 CirnoMod.config = SMODS.current_mod.config
 CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
-CirnoMod.miscItems = {}
+CirnoMod.miscItems = {
+	colours = { cirBlue = HEX('0766EBFF'), cirCyan = HEX('0AD0F7FF') }
+}
 CirnoMod.miscItems.deckSkinNames = {}
 
 -- This will be used for any effects the focus on stuff edited or introduced by this mod
@@ -109,197 +111,27 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from gen
 	
 	-- If the key is present in the table of art keys, return the necessary localisation data
 	if CirnoMod.miscItems.artCreditKeys[keyToCheck] then
-		RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck], set = "Other" }
+		if type(CirnoMod.miscItems.artCreditKeys[keyToCheck]) == 'table' then
+			if
+				CirnoMod.allEnabledOptions['planetsAreHus']
+				and CirnoMod.miscItems.artCreditKeys[keyToCheck].planetsAreHus
+			then
+				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].planetsAreHus, set = "Other" }
+			--	elseif
+			--		TODO: Mature reference option changes
+			--		
+			--	then
+			
+			elseif CirnoMod.miscItems.artCreditKeys[keyToCheck].default then
+				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].default, set = "Other" }
+			end
+		else
+			RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck], set = "Other" }
+		end
 	end
 	
 	return RV
 end
-
--------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------
------ An attempt at lifting the code from Cardsauce (which itself I believe is lifted -----
------ from Cryptid?) that alters the shader colours, to try and make the vortex in	  -----
------ the main menu Cirno themed (Blue & Cyan instead of Red & Blue), that is not	  -----
------ functional and causes an error every time it tries  to load. I'm probably		  -----
------ missing something or have done something wrong, but if you're willing to try	  -----
------ and make it work, or have some other idea to accomplish the same thing, go	  -----
------ ahead. I have no idea how to make this work at this point & to be honest, I'm   -----
------ surprised that the Blueprint replacement stuff above works. Bear in mind that   -----
------ both the above and below code have corresponding patches in the lovely.toml	  -----
------ that will likely need to be revised in order to work properly.				  -----
--------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------
-
---	local color_presets = {
---		{
---			"RED",
---			"BLUE",
---			{'50846e', "BAL_DEF_SMALLBIGGREEN"},
---			{"4f6367", "BAL_DEF_ENDLESSBLUEGREY"},
---			'default_bal'
---		},
---		{
---			"CIR_BLUE",
---			"CIR_CYAN",
---			{'4161fb', "BAL_DEF_SMALLBIGGREEN" },
---			{"92d3ff", "BAL_DEF_ENDLESSBLUEGREY"},
---			'default_cir'
---		}
---	}
---	
---	local color_presets_nums = {}
---	local color_presets_strings = {}
---	for i, v in ipairs(color_presets) do
---		local k = v[#v]
---		table.insert(color_presets_strings, k)
---		color_presets_nums[k] = i
---		for i = 1, #v - 1 do
---			local func_name, color_name
---			if type(v[i]) == "string" then
---				func_name = "cs_"..v[i].."c"
---				color_name = v[i]
---			elseif type(v[i]) == "table" then
---				G.C[v[i][2]] = HEX(v[i][1])
---				func_name = "cs_"..v[i][2].."c"
---				color_name = v[i][2]
---			end
---		end
---	end
---	
---	-- Title Screen Colours
---	if CirnoMod.allEnabledOptions['titleColours'] then
---		G.C.COLOR1 = G.C.CIR_BLUE
---		G.C.COLOR2 = G.C.CIR_CYAN
---	else
---		G.C.COLOR1 = G.C.RED
---		G.C.COLOR2 = G.C.BLUE
---	end
---	G.C.COLOUR1 = G.C.COLOR1
---	G.C.COLOUR2 = G.C.COLOR2
---	
---	local function get_matching_color(name)
---			for i, v in ipairs(color_presets) do
---				if type(v[1]) == "string" then
---					if name == v[1] then
---						return G.C[name]
---					end
---				elseif type(v[1]) == "table" then
---					if name == v[1][2] then
---						return HEX(v[1][1])
---					end
---				end
---				if type(v[2]) == "string" then
---					if name == v[2] then
---						return G.C[name]
---					end
---				elseif type(v[2]) == "table" then
---					if name == v[2][2] then
---						return HEX(v[2][1])
---					end
---				end
---			end
---		end
---	
---	function cir_save_color(colour, val)
---		local color = get_matching_color(val)
---		local set = 'CS_COLOR'..colour
---		G.SETTINGS[set] = color
---		G:save_settings()
---	end
---	
---	local colors = {}
---	for _, preset in ipairs(color_presets) do
---		for i = 1, #preset - 1 do
---			if type(preset[i]) == "string" then
---				colors[preset[i]] = true
---			elseif type(preset[i]) == "table" then
---				colors[preset[i][2]] = true
---			end
---		end
---	end
---	
---	for color, _ in pairs (colors) do
---		G.FUNCS["change_color_1_" .. color] = function()
---			G.C.COLOUR1 = G.C[color]
---			cir_save_color(1, color)
---		end
---		
---		G.FUNCS["change_color_2_" .. color] = function()
---			G.C.COLOUR2 = G.C[color]
---			cir_save_color(2, color)
---		end
---		
---		G.FUNCS["change_color_3_" .. color] = function()
---			G.C.BLIND.Small = G.C[color]
---			G.C.BLIND.Big = G.C[color]
---			cir_save_color(3, color)
---		end
---		
---		G.FUNCS["change_color_4_" .. color] = function()
---			G.C.BLIND.won = G.C[color]
---			cir_save_color(4, color)
---		end
---	end
---	
---	for i=1, 4 do
---		G.FUNCS["paste_hex_"..i] = function(e)
---			G.CONTROLLER.text_input_hook = e.UIBox:get_UIE_by_ID('hex_set_'..i).children[1].children[1]
---			G.CONTROLLER.text_input_id = 'hex_set_'..i
---			for i = 1, 6 do
---				G.FUNCS.text_input_key({key = 'right'})
---			end
---			for i = 1, 6 do
---				G.FUNCS.text_input_key({key = 'backspace'})
---			end
---			local clipboard = (G.F_LOCAL_CLIPBOARD and G.CLIPBOARD or love.system.getClipboardText()) or ''
---			for i = 1, #clipboard do
---				local c = clipboard:sub(i,i)
---				if c ~= "#" then
---					G.FUNCS.text_input_key({key = c})
---				end
---			end
---			G.FUNCS.text_input_key({key = 'return'})
---		end
---	end
---	
---	local function validHEX(str)
---		local hex = str:match("^#?(%x%x%x%x%x%x)$") or str:match("^#?(%x%x%x)$")
---		return hex ~= nil
---	end
---	
---	local function replaceReplacedChars(str)
---		return str:gsub("[Oo]", "0")
---	end
---	
---	G.FUNCS.apply_colors = function()
---		for i=1, 4 do
---			if G["CUSTOMHEX"..i] then
---				local hex = replaceReplacedChars(G["CUSTOMHEX"..i])
---				if validHEX(hex) then
---					if i== 4 then
---						G.C.BLIND.won = HEX(hex)
---						if G.GAME and G.GAME..round_resets.ante >= 9 then
---							ease_background_colour{new_colour = HEX(hex), contrast = 1}
---						end
---						G:save_settings()
---					end
---					if i==3 then
---						G.C.BLIND.Small = HEX(hex)
---						G.C.BLIND.Big = HEX(hex)
---						if G.GAME and G.GAME..round_resets.ante < 9 then
---							ease_background_colour{new_colour = HEX(hex), contrast = 1}
---						end
---						G.SETTINGS["CS_COLOR"..i] = HEX(hex)
---						G:save_settings()
---					elseif i == 1 or i == 2 then
---						G.C["COLOUR"..i] = HEX(hex)
---						G.SETTINGS["CS_COLOR"..i] = HEX(hex)
---						G:save_settings()
---					end
---				end
---			end
---		end
---	end
 
 -- Load vanilla replacements definitions
 CirnoMod.replaceDef = assert(SMODS.load_file("Cir_Vanilla_Replacement_Definition.lua")())
@@ -392,6 +224,8 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 		end
 	end
 	
+	CirnoMod.miscItems.colours.tarot = HEX('185095FF')
+	
 	CirnoMod.replaceDef.planetReplacementKeys = {}
 	for i, p in ipairs (CirnoMod.replaceDef.planetReplacements) do
 		if
@@ -482,18 +316,9 @@ if
 	CirnoMod.allEnabledOptions['miscRenames']
 	or CirnoMod.allEnabledOptions['jokerRenames']
 then
-	-- Defines our custom colours
-	CirnoMod.miscItems.colours = {
-		cirLucky = HEX('7BB083FF'),
-		cirCyan = HEX('0AD0F7FF'),
-		cirNep = HEX('D066ADFF')
-	}
-	
-	if CirnoMod.allEnabledOptions['planetsAreHus'] then
-		-- If the planets are Hus, we have a custom
-		-- planet colour that will be grabbed instead.
-		CirnoMod.miscItems.colours['planet'] = HEX('980D50FF')
-	end
+	-- Adds our custom colours
+	CirnoMod.miscItems.colours.cirLucy = HEX('7BB083FF')
+	CirnoMod.miscItems.colours.cirNep = HEX('D066ADFF')
 	
 	-- Hook into localise colour and interpose with
 	-- detection for our own custom colours.
@@ -509,6 +334,8 @@ end
 
 -- Planets are Hus
 if CirnoMod.allEnabledOptions['planetsAreHus'] then
+	CirnoMod.miscItems.colours.planet = HEX('980D50FF')
+	
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	SMODS.load_file("scripts/other/planetsAreHus.lua")()
 end
@@ -630,7 +457,34 @@ end
 
 local main_menuRef = Game.main_menu
 function Game:main_menu(change_context)
+	
+	if not G.C.SPLASH then
+		G.C.SPLASH = {}
+	end
+	
+	if CirnoMod.allEnabledOptions['titleColours'] then
+		G.C.SPLASH[1] = CirnoMod.miscItems.colours.cirBlue
+		G.C.SPLASH[2] = CirnoMod.miscItems.colours.cirCyan
+	else
+		G.C.SPLASH[1] = G.C.RED
+		G.C.SPLASH[2] = G.C.BLUE
+	end
+	
 	main_menuRef(self, change_context)
+	
+	if
+		CirnoMod.allEnabledOptions['malverkReplacements']
+		and CirnoMod.miscItems.colours.tarot
+	then
+		G.C.SECONDARY_SET.Tarot = CirnoMod.miscItems.colours.tarot
+	end
+	
+	if
+		CirnoMod.allEnabledOptions['planetsAreHus']
+		and CirnoMod.miscItems.colours.planet
+	then
+		G.C.SECONDARY_SET.Planet = CirnoMod.miscItems.colours.planet
+	end
 	
 	if CirnoMod.allEnabledOptions['additionalChallenges'] then
 		-- Should update the joker stencil challenge text
@@ -651,21 +505,6 @@ function Game:main_menu(change_context)
 		
 		-- TODO: For every new challenge that bans something, we need to run their ban functions here.
 	end
-
------ Leftover from the attempt at changing title screen colours -----
---		local splash_args = {mid_flash = change_context == 'splash' and 1.6 or 0.}
---		ease_value(splash_args, 'mid_flash', -(change_context == 'splash' and 1.6 or 0), nil, nil, nil, 4)
---	
---		G.SPLASH_BACK:define_draw_steps({{
---			shader = 'splash',
---			send = {
---				{name = 'time', ref_table = G.TIMERS, ref_value = 'REAL'},
---				{name = 'vort_speed', val = 0.4},
---				{name = 'colour_1', ref_table = G.C, ref_value = 'COLOUR1'},
---				{name = 'colour_2', ref_table = G.C, ref_value = 'COLOUR2'},
---				{name = 'mid_flash', ref_table = splash_args, ref_value = 'mid_flash'},
---				{name = 'vort_offset', val = 0},
---			}}})
 end
 
 CirnoMod.CirnoHooks = {}

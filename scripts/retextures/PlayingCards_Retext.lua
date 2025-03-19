@@ -15,6 +15,7 @@ local cardSuits = { 'hearts', 'clubs', 'diamonds', 'spades' }
 
 -- Which ranks to replace
 local cardRanks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", 'Jack', 'Queen', "King", "Ace"}
+-- local cardRanks = { 'Jack', 'Queen', 'King' }
 
 -- Which ranks to display in the 'customize deck' screen
 local cardRanksDisplay = { 'Jack', 'Queen', 'King' }
@@ -33,16 +34,38 @@ for _, suit in ipairs(cardSuits) do
     SMODS.DeckSkin{
         key = suit.."_skin",
         suit = suit:gsub("^%l", string.upper),
+        loc_txt = {
+            ['en-us'] = 'Cirno_TV & Friends'
+        },
         ranks = cardRanks,
 		display_ranks = cardRanksDisplay,
         lc_atlas = 'cir_CardAtlas',
         hc_atlas = 'cir_CardAtlas',
-        loc_txt = {
-            ['en-us'] = 'Cirno_TV & Friends'
-        },
         posStyle = 'deck',
 		hc_default = true
     }
 
 	CirnoMod.miscItems.deckSkinNames[suit] = "cir_"..suit.."_skin"
 end
+
+
+-- Attempted to do the above the 'proper' way, but it causes errors.
+--	for _, suit in ipairs(cardSuits) do
+--	    SMODS.DeckSkin{
+--	        key = suit.."_skin",
+--	        suit = suit:gsub("^%l", string.upper),
+--	        loc_txt = {
+--	            ['en-us'] = 'Cirno_TV & Friends'
+--	        },
+--			palettes = {
+--				key = 'hc',
+--				ranks = cardRanks,
+--				display_ranks = cardRanksDisplay,
+--				atlas = 'cir_CardAtlas',
+--				posStyle = 'deck',
+--				hc_default = true
+--			}
+--	    }
+--	
+--		CirnoMod.miscItems.deckSkinNames[suit] = "cir_"..suit.."_skin"
+--	end

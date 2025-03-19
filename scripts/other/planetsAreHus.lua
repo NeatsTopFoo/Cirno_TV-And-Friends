@@ -27,8 +27,7 @@ if CirnoMod.allEnabledOptions['planetTarotSpectralRenames'] then
                     "{C:attention}#2#",
                     "{C:mult}+#3#{} Mult and",
                     "{C:chips}+#4#{} chips",
-					"{s:0.8,C:inactive}Unfortunately, Maribel",
-					"{s:0.8,C:inactive}was otherwise occupied."
+					"{s:0.8,C:inactive}No problem here."
                 })
 	
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_mars, "name", "Shou")

@@ -21,7 +21,7 @@ end
 -- SMODS.process_loc_text(G.localization.descriptions.Tarot.c_fool, "name", "The Fool")
 SMODS.process_loc_text(G.localization.descriptions.Tarot.c_fool, "text", {
                     "Creates the last",
-                    "{C:tarot}Tarot{} or {C:planet}Planet{} card",
+                    "{C:tarot}Tarot{} or {C:planet}"..G.localization.misc.labels.planet.."{} card",
                     "used during this run",
                     "{s:0.8,C:tarot}The Fool{s:0.8} excluded",
 					"{s:0.8,C:inactive}\"You sorry fool... You could",
@@ -31,7 +31,7 @@ SMODS.process_loc_text(G.localization.descriptions.Tarot.c_fool, "text", {
 -- SMODS.process_loc_text(G.localization.descriptions.Tarot.c_high_priestess, "name", "High Priestess")
 SMODS.process_loc_text(G.localization.descriptions.Tarot.c_high_priestess, "text", {
                     "Creates up to {C:attention}#1#",
-                    "random {C:planet}Planet{} cards",
+                    "random {C:planet}"..G.localization.misc.labels.planet.."{} cards",
                     "{C:inactive}(Must have room)",
                 })
 

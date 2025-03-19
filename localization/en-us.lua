@@ -277,6 +277,27 @@ RV.descriptions.Other = {
 			"by "..creditSources.NTF
 		}
 	},
+	gA_genPack_ZUN={
+		name= creditSources.cr_GenericArt,
+		text={
+			creditSources.DTsun..", ZUN",
+			"& "..creditSources.NTF
+		}
+	},
+	gA_genPack_Daiyousei={
+		name= creditSources.cr_GenericArt,
+		text={
+			creditSources.DTsun..", ...Harada?",
+			"& "..creditSources.NTF
+		}
+	},
+	gA_genPack_Renko={
+		name= creditSources.cr_GenericArt,
+		text={
+			creditSources.DTsun..", {X:mult,C:white}Alberta,",
+			"{X:mult,C:white}Canada{}, & "..creditSources.NTF
+		}
+	},
 	jA_Unknown={
 		name= creditSources.cr_JokerArt,
 		text= {creditSources.unknown}

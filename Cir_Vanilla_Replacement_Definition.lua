@@ -21,7 +21,7 @@ replaceDef.paths.cirLJokerPath = {
 	nrm = 'Vanilla_Replacements/cir_Legendaries.png',
 	safe = 'Vanilla_Replacements/cir_SafeLegendaries.png' }
 
--- ehh, I don't see the planets having mature references, honestly. Should be fine
+-- Ehh, I don't see the planets having mature references, honestly. Should be fine
 replaceDef.paths.cirTPSPath = {
 	nrm = 'Vanilla_Replacements/cir_TarotsPlanetsSpectrals_noHu.png',
 	planetsAreHus = 'Vanilla_Replacements/cir_TarotsPlanetsSpectrals.png',
@@ -42,8 +42,10 @@ replaceDef.paths.cirBlindChipsPath = { nrm = 'Vanilla_Replacements/cir_BlindChip
 --		safe = ''
 --		}
 
+-- Can't see the boosters having mature references, either.
 replaceDef.paths.cirBoostersPath = {
-	nrm = 'Vanilla_Replacements/cir_Boosters.png',
+	nrm = 'Vanilla_Replacements/cir_Boosters_noHu.png',
+	planetsAreHus = 'Vanilla_Replacements/cir_Boosters.png'
 	-- safe = ''
 	}
 
@@ -104,7 +106,7 @@ replaceDef.getPath = function(replaceType)
 				else
 					RV = replaceDef.paths.cirTPSPath.nrm
 				end
-			end			
+			end
 		elseif
 			replaceType == "tarot"
 			or replaceType == "tarots"
@@ -137,13 +139,17 @@ replaceDef.getPath = function(replaceType)
 			replaceType == "booster"
 			or replaceType == "boosters"
 		then
-			if
-				not CirnoMod.allEnabledOptions['matureReferences']
-				and replaceDef.paths.cirBoostersPath.safe
-			then
-				RV = replaceDef.paths.cirBoostersPath.safe
+			if CirnoMod.allEnabledOptions['planetsAreHus'] then
+				RV = replaceDef.paths.cirBoostersPath.planetsAreHus
 			else
-				RV = replaceDef.paths.cirBoostersPath.nrm
+				if
+					not CirnoMod.allEnabledOptions['matureReferences']
+					and replaceDef.paths.cirBoostersPath.safe
+				then
+					RV = replaceDef.paths.cirBoostersPath.safe
+				else
+					RV = replaceDef.paths.cirBoostersPath.nrm
+				end
 			end
 		elseif
 			replaceType == "voucher"
@@ -164,26 +170,26 @@ end
 ---- (Art Credits  ----
 ----     Only)     ----
 -----------------------
-if CirnoMod.allEnabledOptions['playingCardTextures'] then
-	-- CirnoMod.miscItems.artCreditKeys['Ace_Hearts'] = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys['King_Hearts'] = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys['Queen_Hearts'] = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys['Jack_Hearts'] = 'cA_DaemonTsun'
+if CirnoMod.allEnabledOptions['playingCardTextures'] then -- The suits here should be in the other the appear in the graphic for easier editing
+	-- CirnoMod.miscItems.artCreditKeys.Jack_Hearts = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.Queen_Hearts = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.King_Hearts = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.Ace_Hearts = 'cA_DaemonTsun'
 	
-	-- CirnoMod.miscItems.artCreditKeys['Ace_Clubs'] = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys['King_Clubs'] = 'cA_DaemonTsun'
-	CirnoMod.miscItems.artCreditKeys['Queen_Clubs'] = 'cA_DaemonTsun'
-	--CirnoMod.miscItems.artCreditKeys['Jack_Clubs'] = 'cA_DaemonTsun'
+	--CirnoMod.miscItems.artCreditKeys.Jack_Clubs = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.Queen_Clubs = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.King_Clubs = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.Ace_Clubs = 'cA_DaemonTsun'
 	
-	-- CirnoMod.miscItems.artCreditKeys['Ace_Diamonds'] = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys['King_Diamonds'] = 'cA_DaemonTsun'
-	CirnoMod.miscItems.artCreditKeys['Queen_Diamonds'] = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys['Jack_Diamonds'] = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.Jack_Diamonds = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.Queen_Diamonds = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.King_Diamonds = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.Ace_Diamonds = 'cA_DaemonTsun'
 	
-	-- CirnoMod.miscItems.artCreditKeys['Ace_Spades'] = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys['King_Spades'] = 'cA_DaemonTsun'
-	CirnoMod.miscItems.artCreditKeys['Queen_Spades'] = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys['Jack_Spades'] = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.Jack_Spades = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.Queen_Spades = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.King_Spades = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.Ace_Spades = 'cA_DaemonTsun'
 end
 
 -- IMPORTANT:
@@ -223,7 +229,7 @@ replaceDef.allKeysToIgnore = { -- There's robably a better way to do this
 ----------------
 ---- Decks -----
 ----------------
-replaceDef.deckReplacements = { -- Deck art credits don't work unfortunately :( The tooltip just doesn't appear
+replaceDef.deckReplacements = { -- Deck art credits don't work unfortunately :( The tooltip just doesn't appear. These are also just in the order Malverk's codebase had them in.
 	{ dckKey = 'b_red', isSafeOrHasSafeVariant = true, artCreditKey = 'dA_DaemonTsun' },
 	{ dckKey = 'b_blue', isSafeOrHasSafeVariant = true, artCreditKey = 'dA_DaemonTsun' },
 	-- { dckKey = 'b_yellow', isSafeOrHasSafeVariant = true },
@@ -245,7 +251,7 @@ replaceDef.deckReplacements = { -- Deck art credits don't work unfortunately :( 
 -------------------
 ---- Boosters -----
 -------------------
-replaceDef.boosterReplacements = {
+replaceDef.boosterReplacements = { -- These are just in the order Malverk's codebase had them in. Could rearrange them to match the graphic for easier editing.
 	{ bstKey = 'p_arcana_normal_1', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
 	--	{ bstKey = 'p_arcana_normal_2', isSafeOrHasSafeVariant = true, },
 	--	{ bstKey = 'p_arcana_normal_3', isSafeOrHasSafeVariant = true, },
@@ -254,14 +260,14 @@ replaceDef.boosterReplacements = {
 	--	{ bstKey = 'p_arcana_jumbo_2', isSafeOrHasSafeVariant = true, },
 	--	{ bstKey = 'p_arcana_mega_1', isSafeOrHasSafeVariant = true, },
 	--	{ bstKey = 'p_arcana_mega_2', isSafeOrHasSafeVariant = true, },
-	--	{ bstKey = 'p_celestial_normal_1', isSafeOrHasSafeVariant = true, },
-	--	{ bstKey = 'p_celestial_normal_2', isSafeOrHasSafeVariant = true, },
-	--	{ bstKey = 'p_celestial_normal_3', isSafeOrHasSafeVariant = true, },
-	--	{ bstKey = 'p_celestial_normal_4', isSafeOrHasSafeVariant = true, },
-	--	{ bstKey = 'p_celestial_jumbo_1', isSafeOrHasSafeVariant = true, },
-	--	{ bstKey = 'p_celestial_jumbo_2', isSafeOrHasSafeVariant = true, },
-	--	{ bstKey = 'p_celestial_mega_1', isSafeOrHasSafeVariant = true, },
-	--	{ bstKey = 'p_celestial_mega_2', isSafeOrHasSafeVariant = true, },
+	{ bstKey = 'p_celestial_normal_1', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_genPack_ZUN' }, planetsAreHus = true },
+	{ bstKey = 'p_celestial_normal_2', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_genPack_Daiyousei' }, planetsAreHus = true },
+	{ bstKey = 'p_celestial_normal_3', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_genPack_Renko' }, planetsAreHus = true },
+	{ bstKey = 'p_celestial_normal_4', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_DaemonTsun_NTF_Both' }, planetsAreHus = true },
+	{ bstKey = 'p_celestial_jumbo_1', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_genPack_ZUN' }, planetsAreHus = true },
+	{ bstKey = 'p_celestial_jumbo_2', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_genPack_ZUN' }, planetsAreHus = true },
+	{ bstKey = 'p_celestial_mega_1', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_genPack_ZUN' }, planetsAreHus = true },
+	{ bstKey = 'p_celestial_mega_2', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_genPack_ZUN' }, planetsAreHus = true },
 	--	{ bstKey = 'p_spectral_normal_1', isSafeOrHasSafeVariant = true, },
 	--	{ bstKey = 'p_spectral_normal_2', isSafeOrHasSafeVariant = true, },
 	--	{ bstKey = 'p_spectral_jumbo_1', isSafeOrHasSafeVariant = true, },
@@ -510,18 +516,18 @@ replaceDef.tarotReplacements = {
 ---- Planets ----
 -----------------
 replaceDef.planetReplacements = {
-	{ plnKey = 'c_ceres', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
-	{ plnKey = 'c_earth', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
-	{ plnKey = 'c_eris', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
-	{ plnKey = 'c_jupiter', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
-	{ plnKey = 'c_mars', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
-	{ plnKey = 'c_mercury', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
-	{ plnKey = 'c_neptune', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
-	{ plnKey = 'c_planet_x', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
-	{ plnKey = 'c_pluto', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
-	{ plnKey = 'c_saturn', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
-	{ plnKey = 'c_uranus', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true },
-	{ plnKey = 'c_venus', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_BigNTFEdit_ComCon', planetsAreHus = true }
+	{ plnKey = 'c_ceres', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_DaemonTsun_NTF_Both_ComCon' }, planetsAreHus = true },
+	{ plnKey = 'c_earth', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_DaemonTsun_NTF_Both_ComCon' }, planetsAreHus = true },
+	{ plnKey = 'c_eris', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_DaemonTsun_NTF_Both_ComCon' }, planetsAreHus = true },
+	{ plnKey = 'c_jupiter', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_DaemonTsun_NTF_Both_ComCon' }, planetsAreHus = true },
+	{ plnKey = 'c_mars', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_DaemonTsun_NTF_Both_ComCon' }, planetsAreHus = true },
+	{ plnKey = 'c_mercury', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_DaemonTsun_NTF_Both_ComCon' }, planetsAreHus = true },
+	{ plnKey = 'c_neptune', isSafeOrHasSafeVariant = true, artCreditKey = 'gA_DaemonTsun_NTF_Both' },
+	{ plnKey = 'c_planet_x', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_DaemonTsun_NTF_Both_ComCon' }, planetsAreHus = true },
+	{ plnKey = 'c_pluto', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_DaemonTsun_NTF_Both_ComCon' }, planetsAreHus = true },
+	{ plnKey = 'c_saturn', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_DaemonTsun_NTF_Both_ComCon' }, planetsAreHus = true },
+	{ plnKey = 'c_uranus', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_DaemonTsun_NTF_Both_ComCon' }, planetsAreHus = true },
+	{ plnKey = 'c_venus', isSafeOrHasSafeVariant = true, artCreditKey = { planetsAreHus = 'gA_DaemonTsun_NTF_Both_ComCon' }, planetsAreHus = true }
 }
 
 --------------------

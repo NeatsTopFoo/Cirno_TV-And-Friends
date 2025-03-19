@@ -53,6 +53,10 @@ local jokerInfo = {
 					"{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}\"I don't mean to brag",
 					"{s:0.8,C:inactive}Chat, but I'm stupid.\""
+				},
+				unlock = {
+					"Find this {C:joker}Joker",
+					"from the {C:spectral}Soul{} card"
 				}
 			},
 			
@@ -77,6 +81,7 @@ local jokerInfo = {
 				-- Defines #1#
 				return { vars = { card.ability.extra.Xmult } }
 				end,
+			unlocked = false,
 			
 			atlas = 'cir_cLegendaries',
 			pos = { x = 0, y = 0}, -- Defines base card graphic position in the atlas.
@@ -135,6 +140,10 @@ local jokerInfo = {
 					"a {C:attention}"..G.localization.descriptions.Tarot.c_wheel_of_fortune.name.."{}",
 					"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}\"I mean, it is my wheel. Ehe~\""
+				},
+				unlock = {
+					"Find this {C:joker}Joker",
+					"from the {C:spectral}Soul{} card"
 				}
 			},
 			
@@ -174,6 +183,7 @@ local jokerInfo = {
 				-- Here is how #1# and #2# are defined.
 				return { vars = { center.ability.extra.extra, center.ability.extra.x_mult } }
 			end,
+			unlocked = false,
 			
 			atlas = 'cir_cLegendaries',
 			pos = { x = 1, y = 0}, -- Defines base card graphic position in the atlas.
@@ -265,6 +275,10 @@ local jokerInfo = {
 					"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}He is the missile.",
 					"{s:0.8,C:inactive}He knows where he is."
+				},
+				unlock = {
+					"Find this {C:joker}Joker",
+					"from the {C:spectral}Soul{} card"
 				}
 			},
 			
@@ -293,6 +307,7 @@ local jokerInfo = {
 					return { vars = { center.ability.extra.extra, 1 } }
 				end
 			end,
+			unlocked = false,
 			
 			atlas = 'cir_cLegendaries',
 			pos = { x = 0, y = 2}, -- Defines base card graphic position in the atlas.

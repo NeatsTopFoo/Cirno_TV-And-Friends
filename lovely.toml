@@ -10,7 +10,7 @@ priority = 9999999
 # title screen stuff, potential challenges & additional Joker
 # functionality.
 
-# These three are intended to help facilitate title screen
+# These two are intended to help facilitate title screen
 # replacements - Primarily replacing the Ace that appears at 
 # the start with the Blueprint joker (If the setting is enabled)
 # This is directly lifted from Cardsauce and will likely result in incompatibility with it.
@@ -33,65 +33,24 @@ position = "at"
 payload = "SC = G.FUNCS.center_splash_screen_card(SC_scale)"
 match_indent = true
 
-# Disabled for now as it appears to have no effect according to the lovely patcher
-# [[patches]]
-# [patches.pattern]
-# target = "game.lua"
-# pattern = '''
-#                 local card = Card(card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
-#                                   card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
-#                                   card_size*G.CARD_W, card_size*G.CARD_H, pseudorandom_element(G.P_CARDS), G.P_CENTERS.c_base)
-# '''
-# position = "at"
-# payload = '''
-# local card = G.FUNCS.splash_screen_card(card_pos, card_size)
-# '''
-# match_indent = true
-
 # This is necessary for changing the vortex colours on the start screen.
-# As with above, lifted from Cardsauce, likely will be incompatible with it.
-#	[[patches]]
-#	[patches.pattern]
-#	target = "game.lua"
-#	pattern = '''
-#	G.SPLASH_BACK:define_draw_steps({{
-#	    shader = 'splash',
-#	    send = {
-#	        {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL'},
-#	        {name = 'vort_speed', val = 1},
-#	        {name = 'colour_1', ref_table = G.C, ref_value = 'COLOUR1'},
-#	        {name = 'colour_2', ref_table = G.C, ref_value = 'WHITE'},
-#	        {name = 'mid_flash', val = 0},
-#	        {name = 'vort_offset', val = (2*90.15315131*os.time())%100000},
-#	    }}})
-#	'''
-#	position = "at"
-#	payload = '''
-#	if CirnoMod.allEnabledOptions['titleColours'] then
-#	    G.SPLASH_BACK:define_draw_steps({{
-#	        shader = 'splash',
-#	        send = {
-#	            {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL'},
-#	            {name = 'vort_speed', val = 1},
-#	            {name = 'colour_1', ref_table = G.C, ref_value = 'COLOUR1'},
-#	            {name = 'colour_2', ref_table = G.C, ref_value = 'WHITE'},
-#	            {name = 'mid_flash', val = 0},
-#	            {name = 'vort_offset', val = (2*90.15315131*os.time())%100000},
-#	        }}})
-#	else
-#	    G.SPLASH_BACK:define_draw_steps({{
-#	        shader = 'splash',
-#	        send = {
-#	            {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL'},
-#	            {name = 'vort_speed', val = 1},
-#	            {name = 'colour_1', ref_table = G.C, ref_value = 'COLOUR1'},
-#	            {name = 'colour_2', ref_table = G.C, ref_value = 'WHITE'},
-#	            {name = 'mid_flash', val = 0},
-#	            {name = 'vort_offset', val = (2*90.15315131*os.time())%100000},
-#	        }}})
-#	end
-#	'''
-#	match_indent = true
+# Not exactly the same code, but it is somewhat directly lifted from
+# Trance, and will likely be incompatible with it as a result.
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "{name = 'colour_1', ref_table = G.C, ref_value = 'RED'},"
+position = "at"
+payload = "{name = 'colour_1', ref_table = G.C.SPLASH, ref_value = 1},"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "{name = 'colour_2', ref_table = G.C, ref_value = 'BLUE'},"
+position = "at"
+payload = "{name = 'colour_2', ref_table = G.C.SPLASH, ref_value = 2},"
+match_indent = true
 
 # Creates a variable that is set to true whenever a wheel of fortune is used, intended to be used with the NopeTooFast legendary.
 # This is lifted from Cryptid, but should still be compatible as it does not directly interfere with anything.

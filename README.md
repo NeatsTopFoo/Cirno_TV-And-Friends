@@ -1,7 +1,7 @@
 # Cirno_TV And Friends
 A Balatro mod themed around [Cirno_TV](https://www.twitch.tv/Cirno_TV/), with various references & memes.
 
-**WARNING:** Cirno_TV & Friends isn't explicitly an NSFW-oriented mod, but it does contain a handful of overt, (hopefully) stream-safe mature references in relation to community inside jokes (most particularly those with sexual connotations). This mod is *NOT* intended for children. By default, these (especially overt) mature references are significantly toned-down/altered, with the intent of having reduced mature references (in both number and intensity) experienceable in gameplay for anyone who wants to experience the mod, but is not particularly as interested in the some of the more mature references (and/or wants to stream it, but does not want to have that kind of stuff on their stream) - These changes can be disbled in the mod's config settings via the Mature References setting (Config setting changes require a game restart to take effect).
+**WARNING:** Cirno_TV & Friends isn't explicitly an NSFW-oriented mod, but it does contain a handful of overt, (hopefully) stream-safe mature references in relation to community inside jokes (most particularly those with varying degrees of sexual connotation). This mod is *NOT* intended for children. By default, these (especially overt) mature references are significantly toned-down/altered, with the intent of having reduced mature references (in both number and intensity) encounterable in gameplay for anyone who wants to experience the mod, but is not particularly as interested in the some of the more mature references (and/or wants to stream it, but does not want to have that kind of stuff on their stream) - These changes can be disabled in the mod's config settings, via the Mature References setting (Config setting changes require a game restart to take effect).
 
 ![CTVaF Logo](https://i.imgur.com/CcRk9nq.png)
 
@@ -17,29 +17,31 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 - Retextures:
   - 56 Jokers (2 filtered & 4 altered by the Mature Reference setting)
   - All Blind Chips
-  - All seals
+  - All Seals
+  - All Planet Cards
+  - 11 Booster Packs
   - 3 Decks
-  - 3 Booster Packs
   - 5 Tarots
   - 2 Spectrals
-  - 12 Planets
   - 1 Enhancement
   - The title screen
 
-- Renames:
+- Renames & Alters Descriptions Of:
+  - All Seals
+  - All Planet Cards
   - Most blinds
   - A significant amount of retextured Jokers
-  - A couple tarot cards.
-  - 1 Spectral card.
-  - Planet cards in their entirety.
+  - 5 Tarot Cards
+  - 1 Enhancement
+  - 1 Spectral Card
 
 - Adds:
-  - Various fun flavour text to numerous Jokers
-  - A couple custom card skins
+  - Various fun flavour text to numerous items
+  - A few custom card skins
   - 4 custom Jokers
   - 1 new custom challenge
 
-All retextures and renames are optional and they're somewhat mix n' match (You can't have it rename some Jokers and not others. You either get all Joker renames or none.)
+All retextures and renames are optional and they're somewhat mix n' match (You can't have it rename some Jokers and not others. You either get all Joker renames or none).
 
 ## Installation
 This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), the latest version of [Steammodded](https://github.com/Steamodded/smods) & the latest version of [Malverk](https://github.com/Eremel/Malverk). Without these dependencies, this mod will not function.
@@ -63,12 +65,14 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 - Follow the steps outlined in **Installing this mod** again.
 
 ## Credits
-- The Cirno_TV & Friends mod is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.expert).
+- The Cirno_TV & Friends mod is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.expert), additionally with some idea and art contributions from the Cirno_TV community discord.
 - [NyongNyong](https://bsky.app/profile/nyongnyong.bsky.social) for the art used for the Mime Joker.
-- [Turpix](https://bsky.app/profile/turpix.bsky.social) for [their art used](https://www.nexusmods.com/balatro/mods/114) for the Stone Joker.
+- [Turpix](https://bsky.app/profile/turpix.bsky.social) for [the art](https://www.nexusmods.com/balatro/mods/114), used for the Stone Joker.
 - This [Miku replacement mod](https://www.nexusmods.com/balatro/mods/223) for art used for the Chaos the Clown Joker.
 - [Muddleee for art used for The Sun Tarot card](https://github.com/Muddieee/sun_is_sus).
-- The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art used for the DNA Joker (The art itself appears to not be credited to any specific contributing artist), as well as code for changing elements of the title screen, such as the logo and background vortex colours.
+- The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art used for the DNA Joker (The art itself appears to not be credited to any specific contributing artist), as well as code for changing the card that appears on the title screen.
+- The [Cryptid](https://github.com/MathIsFun0/Cryptid) mod for Joker code for a certain Legendary Joker.
+- The [Trance](https://github.com/MathIsFun0/Trance) mod for code for changing the colours of the main menu vortex.
 - [Aikoyori](https://bsky.app/profile/aikoyori.xyz) and other members of the Balatro modding community for help with code.
 - [Cirno_TV](https://www.twitch.tv/Cirno_TV/) for the art used for the Misprint Joker.
 - Credits are also included in in-game tooltips to any cards that are edited & added; Optionally disableable in the mod's config menu.

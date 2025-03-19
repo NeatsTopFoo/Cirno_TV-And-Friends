@@ -250,7 +250,7 @@ local configUI = function()
 														config = { align = 'tr', padding = 0.05 },
 														nodes = {
 															create_toggle({
-																label = "Enable Title Screen Colours (Not Yet Implemented)",
+																label = "Enable Title Screen Colours",
 																w = 1.5,
 																text_scale = 0.6,
 																ref_table = CirnoMod.config,
