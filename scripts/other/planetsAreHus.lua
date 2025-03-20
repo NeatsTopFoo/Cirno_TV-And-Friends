@@ -1,5 +1,5 @@
 -- Rename the planets accordingly
-if CirnoMod.allEnabledOptions['planetTarotSpectralRenames'] then
+if CirnoMod.config['planetTarotSpectralRenames'] then
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_mercury, "name", "Aya")
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_mercury, "text", {
                     "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
@@ -107,16 +107,20 @@ if CirnoMod.allEnabledOptions['planetTarotSpectralRenames'] then
                 })
 end
 
-if CirnoMod.allEnabledOptions['miscRenames'] then
+if CirnoMod.config['miscRenames'] then
 	SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_normal, "name", "Gensokyo Pack")
 	SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_jumbo, "name", "Jumbo Gensokyo Pack")
 	SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_mega, "name", "Mega Gensokyo Pack")
 	
-	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_telescope, "name", "Telescope")
-	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "name", "Observatory")
+	--[[
+	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_telescope, "name", "Telescope")
+	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "name", "Observatory")
+	]]
 	
-	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_merchant, "name", "Planet Merchant")
-	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "name", "Planet Tycoon")
+	--[[
+	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_merchant, "name", "Planet Merchant")
+	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "name", "Planet Tycoon")
+	]]
 	
 	SMODS.process_loc_text(G.localization.misc.achievement_descriptions, "astronomy", "Discover every Hu card")
 	

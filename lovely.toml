@@ -79,7 +79,7 @@ if
 	and card_type ~= 'Undiscovered'
 then
 	if
-		CirnoMod.allEnabledOptions['artCredits']
+		CirnoMod.config['artCredits']
 	then
 		local PVC_RV = CirnoMod.ParseVanillaCredit(_c, specific_vars)
 		

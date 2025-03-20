@@ -1,25 +1,25 @@
------------------------------------------------------------------------
+--[[-------------------------------------------------------------------
 --------------------------- Malverk Code ------------------------------
 -----------------------------------------------------------------------
 
--- Replaces Jokers, Tags, Blind Chips, Decks (As in Deck backs, NOT
--- playing cards, see PlayingCards_Retext for playing card replacements),
--- Seals, Vouchers, Boosters, Enhancers, Stakes, Stickers, Tarots,
--- Planets & Spectrals.
+Replaces Jokers, Tags, Blind Chips, Decks (As in Deck backs, NOT
+playing cards, see PlayingCards_Retext for playing card replacements),
+Seals, Vouchers, Boosters, Enhancers, Stakes, Stickers, Tarots,
+Planets & Spectrals.
 
--- Every given AltTexture block MUST be represented later in the Texture
--- Pack definition. I would do each segment as its own individual lua,
--- but I'm not sure how to cross-do Malverk things across multiple files,
--- especially since I have a strong suspicion that each TexturePack block
--- is assigned its own card in the Malverk UI and I don't think we should
--- have five different mod cards all in one pack. I mean yes, it would be
--- helpful in terms of compatibility with other Malverk mods? Maybe? But
--- ultimately, I think it's just really, really unnecessary. And would
--- probably clutter it, too.
+Every given AltTexture block MUST be represented later in the Texture
+Pack definition. I would do each segment as its own individual lua,
+but I'm not sure how to cross-do Malverk things across multiple files,
+especially since I have a strong suspicion that each TexturePack block
+is assigned its own card in the Malverk UI and I don't think we should
+have five different mod cards all in one pack. I mean yes, it would be
+helpful in terms of compatibility with other Malverk mods? Maybe? But
+ultimately, I think it's just really, really unnecessary. And would
+probably clutter it, too.
 
 --------------------------
 ----- Regular Jokers -----
---------------------------
+--------------------------]]
 AltTexture({
 	key = 'mlvrk_NormalJokers',
 	set = 'Joker',
@@ -118,12 +118,13 @@ AltTexture({
 	}
 })
 
--- Lmao, funny soul card bullshit, very cool
--- Can't include it in the normal spectrals
--- because the original graphic is cross-asset,
--- can't include it with legendaries as a kind
--- of "collective soul pack" because you can't
--- do cross-set. Fun!
+--[[
+Lmao, funny soul card bullshit, very cool
+Can't include it in the normal spectrals
+because the original graphic is cross-asset,
+can't include it with legendaries as a kind
+of "collective soul pack" because you can't
+do cross-set. Fun!]]
 AltTexture({
 	key = 'mlvrk_Soul',
 	set = 'Spectral',
@@ -161,8 +162,9 @@ AltTexture({
 ----- Decks & Enhancers ------
 ------------------------------
 
--- These have to be split this way
--- because funny Malverk structure
+--[[
+These have to be split this way
+because funny Malverk structure]]
 
 -- Decks
 AltTexture({
@@ -280,15 +282,17 @@ AltTexture({
 ----- Malverk Texture Pack Definition -----
 -------------------------------------------
 -------------------------------------------
--- What do you mean 'my switch_func is out of date'???
--- What switch_func? Do I have a virus?????
+--[[
+What do you mean 'my switch_func is out of date'???
+What switch_func? Do I have a virus?????]]
 TexturePack{
 	key = 'mlvrk',
 	
-	-- Malverk is VERY strict about
-	-- how you write your texture lines.
-	-- The formula is [MOD KEY]_[ALT TEXTURE KEY]
-	-- The mod key can be found in the config file.
+	--[[
+	Malverk is VERY strict about
+	how you write your texture lines.
+	The formula is [MOD KEY]_[ALT TEXTURE KEY]
+	The mod key can be found in the config file.]]
 	textures = {
 		'cir_mlvrk_NormalJokers',
 		'cir_mlvrk_WeeJoker',

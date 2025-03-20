@@ -1,41 +1,49 @@
+local cMod_SMODSLoc = SMODS.find_mod("CTVaF")[1]
+
 CirnoMod = {}
-CirnoMod.path = SMODS.current_mod.path
-CirnoMod.config = SMODS.current_mod.config
-CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
+CirnoMod.path = cMod_SMODSLoc.path
+CirnoMod.config = cMod_SMODSLoc.config
+-- CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
 CirnoMod.miscItems = {
+	matureReferencesOpt = { "(Hopefully) Safest", "Some", "All" }, -- These are the options that appear on the new cycle option for mature references.
 	colours = { cirBlue = HEX('0766EBFF'), cirCyan = HEX('0AD0F7FF') }
 }
 CirnoMod.miscItems.deckSkinNames = {}
+
+--[[
+This is what the new cycle option calls when it's cycled
+Yes, it HAS to be in G.FUNCS.]]
+G.FUNCS.cir_CycMatureReferencesVal = function(e)
+	CirnoMod.allEnabledOptions.matureReferences_cyc = e.to_key
+	CirnoMod.config.matureReferences_cyc = e.to_key
+end
 
 -- This will be used for any effects the focus on stuff edited or introduced by this mod
 CirnoMod.miscItems.keysOfAllCirnoModItems = {}
 
 local cirInitConfig = {
-	-- Ensure that any Jokers with mature references
-	-- and those without are implemented separately.
-	-- Safe varianting should ideally be handled within
-	-- the respective Joker's script.
+	-- Mature reference level is now determined within each Joker.
 	customJokers = {
-		{ jkrFileName = 'customLegendaries', isSafeOrHasSafeVariant = true },
-		{ jkrFileName = 'customUncommons', isSafeOrHasSafeVariant = true }
+		'customLegendaries',
+		'customUncommons'
 	},
-	-- Ensure that any Challenges with mature references
-	-- and those without are implemented separately.
-	-- Safe varianting should ideally be handled within
-	-- the respective Challenge's script.
+	-- Mature reference level is now determined within each Challenge.
 	additionalChallenges = {
-		{ chlFileName = 'jokerStencils', isSafeOrHasSafeVariant = true },
+		'jokerStencils'
 	}
 }
 
--- Defines Steamodded mod menu config & extra tabs
--- See the files for more info.
-SMODS.current_mod.config_tab = assert(SMODS.load_file("scripts/UI_bs/steamodded_mod_menu/config_ui.lua")())
+--[[
+Defines Steamodded mod menu config & extra tabs
+See the files for more info.]]
+cMod_SMODSLoc.config_tab = assert(SMODS.load_file("scripts/UI_bs/steamodded_mod_menu/config_ui.lua")())
 
-SMODS.current_mod.extra_tabs = assert(SMODS.load_file("scripts/UI_bs/steamodded_mod_menu/additional_mod_tabs.lua")())
+cMod_SMODSLoc.extra_tabs = assert(SMODS.load_file("scripts/UI_bs/steamodded_mod_menu/additional_mod_tabs.lua")())
 
--- Change title screen logo to mod's logo & replace the ace that appears first with the blueprint joker (If the setting is enabled) - Has corresponding patcher code in the lovely.toml
-if CirnoMod.allEnabledOptions['titleLogo'] then
+--[[
+Change title screen logo to mod's logo & replace the ace that appears first with the blueprint joker (If the setting is enabled)
+Has corresponding patcher code in the lovely.toml]]
+if CirnoMod.config['titleLogo'] then
 	-- Replaces the Ace that appears at start with the Blueprint Joker.
 	G.TITLE_SCREEN_CARD = 'j_blueprint'
 	
@@ -76,17 +84,18 @@ function G.FUNCS.splash_screen_card(card_pos, card_size)
 end
 
 CirnoMod.miscItems.artCreditKeys = {}
--- Hate. Hate. Hate. Hate that we have to do this this
--- way. Hatehatehatehatehate. I had a whole system set
--- up and I had to tear it right down because apparently
--- that's not how that fucking works and we need to do
--- this bullshit this way because we can't easily insert
--- thing into the other thing and do that thing and I'm
--- onna scream, I'M CRASHING OUT AAAAAAAAAAAAAAAAAAAAA
--- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
--- ...See the patcher toml and localization/en-us.lua
--- for more info. Though for your sanity, it's probably
--- best not to.
+--[[
+Hate. Hate. Hate. Hate that we have to do this this
+way. Hatehatehatehatehate. I had a whole system set
+up and I had to tear it right down because apparently
+that's not how that fucking works and we need to do
+this bullshit this way because we can't easily insert
+thing into the other thing and do that thing and I'm
+onna scream, I'M CRASHING OUT AAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+...See the patcher toml and localization/en-us.lua
+for more info. Though for your sanity, it's probably
+best not to.]]
 CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from generate_card_ui() in common_events.lua, which passes in _c and specific_vars (After checking if the specified card isn't locked or undiscovered)
 	local RV = nil
 	local keyToCheck = card.key
@@ -109,19 +118,26 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from gen
 		end
 	end
 	
-	-- If the key is present in the table of art keys, return the necessary localisation data
+	--[[
+	If the key is present in the table of art keys, return the necessary localisation data
+	Not the best way to facilitate this, but eh.]]
 	if CirnoMod.miscItems.artCreditKeys[keyToCheck] then
 		if type(CirnoMod.miscItems.artCreditKeys[keyToCheck]) == 'table' then
 			if
-				CirnoMod.allEnabledOptions['planetsAreHus']
+				CirnoMod.config['planetsAreHus']
 				and CirnoMod.miscItems.artCreditKeys[keyToCheck].planetsAreHus
 			then
 				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].planetsAreHus, set = "Other" }
-			--	elseif
-			--		TODO: Mature reference option changes
-			--		
-			--	then
-			
+			elseif
+				CirnoMod.allEnabledOptions.matureReferences_cyc == 3
+				and CirnoMod.miscItems.artCreditKeys[keyToCheck].nrmVer
+			then
+				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].nrmVer, set = "Other" }
+			elseif
+				CirnoMod.allEnabledOptions.matureReferences_cyc >= 2
+				and CirnoMod.miscItems.artCreditKeys[keyToCheck].saferVer
+			then
+				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].saferVer, set = "Other" }
 			elseif CirnoMod.miscItems.artCreditKeys[keyToCheck].default then
 				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].default, set = "Other" }
 			end
@@ -137,21 +153,18 @@ end
 CirnoMod.replaceDef = assert(SMODS.load_file("Cir_Vanilla_Replacement_Definition.lua")())
 
 -- Playing Card Textures
-if CirnoMod.allEnabledOptions['playingCardTextures'] then
+if CirnoMod.config['playingCardTextures'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	SMODS.load_file("scripts/retextures/PlayingCards_Retext.lua")()
 end
 
 -- Joker Textures
-if CirnoMod.allEnabledOptions['malverkReplacements'] then	
-	-- Processes kays as defined in the vanilla replacement doc and
-	-- populates the replacement keys for the malverk pack accordingly.
+if CirnoMod.config['malverkReplacements'] then	
+	--[[ Processes kays as defined in the vanilla replacement doc and
+	populates the replacement keys for the malverk pack accordingly.]]
 	CirnoMod.replaceDef.deckReplacementKeys = {}
 	for i, d in ipairs (CirnoMod.replaceDef.deckReplacements) do
-		if
-			CirnoMod.allEnabledOptions['matureReferences']
-			or d.isSafeOrHasSafeVariant
-		then
+		if	d.matureRefLevel <= CirnoMod.config.matureReferences_cyc	then
 			-- Ignore exceptional circumstances.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[d.dckKey]
@@ -167,10 +180,7 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	
 	CirnoMod.replaceDef.boosterReplacementKeys = {}
 	for i, b in ipairs (CirnoMod.replaceDef.boosterReplacements) do
-		if
-			CirnoMod.allEnabledOptions['matureReferences']
-			or b.isSafeOrHasSafeVariant
-		then
+		if b.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
 			-- Ignore exceptional circumstances.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[b.bstKey]
@@ -186,10 +196,7 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	
 	CirnoMod.replaceDef.jokerReplacementKeys = {}
 	for i, k in ipairs (CirnoMod.replaceDef.jokerReplacements) do
-		if
-			CirnoMod.allEnabledOptions['matureReferences']
-			or k.isSafeOrHasSafeVariant
-		then
+		if k.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
 			-- Ignore exceptional circumstances.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[k.jkrKey]
@@ -207,10 +214,7 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	
 	CirnoMod.replaceDef.tarotReplacementKeys = {}
 	for i, t in ipairs (CirnoMod.replaceDef.tarotReplacements) do
-		if
-			CirnoMod.allEnabledOptions['matureReferences']
-			or t.isSafeOrHasSafeVariant
-		then
+		if t.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
 			-- Ignore exceptional circumstances.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[t.trtKey]
@@ -228,17 +232,14 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	
 	CirnoMod.replaceDef.planetReplacementKeys = {}
 	for i, p in ipairs (CirnoMod.replaceDef.planetReplacements) do
-		if
-			CirnoMod.allEnabledOptions['matureReferences']
-			or p.isSafeOrHasSafeVariant
-		then
+		if p.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
 			-- Ignore exceptional circumstances.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[p.plnKey]
 				and
-				-- If we do not the planets as hus, then do not the planets as hus.
-				-- This will likely be altered later, I'll just do this for now
-				((CirnoMod.allEnabledOptions['planetsAreHus'] and p.planetsAreHus)
+				--[[ If we do not the planets as hus, then do not the planets as hus.
+				This will likely be altered later, I'll just do this for now]]
+				((CirnoMod.config['planetsAreHus'] and p.planetsAreHus)
 				or not p.planetsAreHus)
 			then
 				table.insert(CirnoMod.replaceDef.planetReplacementKeys, p.plnKey)
@@ -252,10 +253,7 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 		
 	CirnoMod.replaceDef.spectralReplacementKeys = {}
 	for i, s in ipairs (CirnoMod.replaceDef.spectralReplacements) do
-		if
-			CirnoMod.allEnabledOptions['matureReferences']
-			or s.isSafeOrHasSafeVariant
-		then
+		if s.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
 			-- Ignore exceptional circumstances.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[s.spcKey]
@@ -271,10 +269,7 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	
 	CirnoMod.replaceDef.enhancerReplacementKeys = {}
 	for i, e in ipairs (CirnoMod.replaceDef.enhancerReplacements) do
-		if
-			CirnoMod.allEnabledOptions['matureReferences']
-			or e.isSafeOrHasSafeVariant
-		then
+		if e.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
 			-- Ignore exceptional circumstances.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[e.enhKey]
@@ -290,16 +285,16 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	
 	-- TODO: Vouchers.
 	
-	-- Leaving these uncommented because I've only tested it in the Collection
-	-- menu and never during an actual run, so it's possible
+	--[[ Leaving these uncommented because I've only tested it in the Collection
+	menu and never during an actual run, so it's possible]]
 	CirnoMod.miscItems.artCreditKeys['blue_seal'] = 'eA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys['red_seal'] = 'eA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys['gold_seal'] = 'eA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys['purple_seal'] = 'eA_DaemonTsun'
 	
-	-- Also, we have no real need to touch seals manually or do anything with
-	-- individual seal keys because we basically started having done them
-	-- all at the point we started getting this in-depth.
+	--[[ Also, we have no real need to touch seals manually or do anything with
+	individual seal keys because we basically started having done them
+	all at the point we started getting this in-depth.]]
 	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'blue_seal')
 	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'red_seal')
 	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'gold_seal')
@@ -308,13 +303,14 @@ if CirnoMod.allEnabledOptions['malverkReplacements'] then
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()
 end
 
--- Hhhhhhhhhhh some things need to be done before others.
--- And the other I need to be doing some things I want to
--- include in other things is weird, so I gotta do it
--- this way
+--[[
+Hhhhhhhhhhh some things need to be done before others.
+And the other I need to be doing some things I want to
+include in other things is weird, so I gotta do it
+this way]]
 if
-	CirnoMod.allEnabledOptions['miscRenames']
-	or CirnoMod.allEnabledOptions['jokerRenames']
+	CirnoMod.config['miscRenames']
+	or CirnoMod.config['jokerRenames']
 then
 	-- Adds our custom colours
 	CirnoMod.miscItems.colours.cirLucy = HEX('7BB083FF')
@@ -333,7 +329,7 @@ then
 end
 
 -- Planets are Hus
-if CirnoMod.allEnabledOptions['planetsAreHus'] then
+if CirnoMod.config['planetsAreHus'] then
 	CirnoMod.miscItems.colours.planet = HEX('980D50FF')
 	
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
@@ -341,40 +337,41 @@ if CirnoMod.allEnabledOptions['planetsAreHus'] then
 end
 
 -- Deck Renames
-if CirnoMod.allEnabledOptions['deckRenames'] then
+if CirnoMod.config['deckRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	SMODS.load_file("scripts/renames_etc/Decks_Rename.lua")()
 end
 
 -- Enhancer Renames
-if CirnoMod.allEnabledOptions['enhancerRenames'] then
+if CirnoMod.config['enhancerRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	SMODS.load_file("scripts/renames_etc/Enhancers_Rename.lua")()
 end
 
 -- Blind Renames
-if CirnoMod.allEnabledOptions['blindRenames'] then
+if CirnoMod.config['blindRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	SMODS.load_file("scripts/renames_etc/Blinds_Rename.lua")()
 end
 
 -- Tarot & Spectral Renames
-if CirnoMod.allEnabledOptions['planetTarotSpectralRenames'] then
+if CirnoMod.config['planetTarotSpectralRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	SMODS.load_file("scripts/renames_etc/PlanetsTarotsAndSpectrals_Rename.lua")()
 end
 
 -- Joker Renames
-if CirnoMod.allEnabledOptions['jokerRenames'] then
+if CirnoMod.config['jokerRenames'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	SMODS.load_file("scripts/renames_etc/Jokers_Rename.lua")()
 end
 
 -- Misc Renames
-if CirnoMod.allEnabledOptions['miscRenames'] then
-	-- SMODS.load_files the misc renames
-	-- My understanding is that using assert() makes the return value end up in the variable,
-	-- This is important to capture the string pool defined at the end of the file.
+if CirnoMod.config['miscRenames'] then
+	--[[
+	SMODS.load_files the misc renames
+	My understanding is that using assert() makes the return value end up in the variable,
+	This is important to capture the string pool defined at the end of the file.]]
 	CirnoMod.miscItems.miscRenameTables = assert(SMODS.load_file("scripts/renames_etc/Misc_Rename.lua")())
 	
 	-- Function that randomises shop flavour text based on the pool defined in the rename file
@@ -385,16 +382,17 @@ if CirnoMod.allEnabledOptions['miscRenames'] then
 end
 
 -- Additional Custom Jokers
-if CirnoMod.allEnabledOptions['addCustomJokers'] then
+if CirnoMod.config['addCustomJokers'] then
 	-- Iterates through all lua files in scripts\additions\jokers\ and SMODS.load_file them.
 	-- My understanding is that using assert() makes the return value end up in the variable.
-	for i, Jkr in ipairs (cirInitConfig.customJokers) do
-		if
-			CirnoMod.allEnabledOptions['matureReferences']
-			or Jkr.isSafeOrHasSafeVariant
-		then
-			local jokerInfo = assert(SMODS.load_file('scripts/additions/jokers/'..Jkr.jkrFileName..".lua"))()
+	for i, Jkr in ipairs (cirInitConfig.customJokers) do		
+		local jokerInfo = assert(SMODS.load_file('scripts/additions/jokers/'..Jkr..".lua"))()
+		local loadAtlas = true
 		
+		if
+			(jokerInfo.matureRefLevel or 3) <= CirnoMod.config.matureReferences_cyc
+			or jokerInfo.isMultipleJokers
+		then
 			if
 				-- Atlas definition is required. No atlas, get out.
 				jokerInfo.atlasInfo
@@ -404,21 +402,38 @@ if CirnoMod.allEnabledOptions['addCustomJokers'] then
 					jokerInfo.jokerConfig -- Either this for individual jokers
 					or
 					(jokerInfo.isMultipleJokers and jokerInfo.jokerConfigs) -- Or this for multiple jokers in one.
-					-- Yes, could do just checking for either config singular or config plural, but
-					-- that makes this confusable at a quick glance since they're similar. Could
-					-- ultimately name them something else, but then you run into stuff like
-					-- "well how do you read back through this," etc. etc. It looks stupid, but
-					-- when you stop and think about it, it makes sense. It's clunky, yes, but
-					-- it makes sense.
+					--[[
+					Yes, could do just checking for either config singular or config plural, but
+					that makes this confusable at a quick glance since they're similar. Could
+					ultimately name them something else, but then you run into stuff like
+					"well how do you read back through this," etc. etc. It looks stupid, but
+					when you stop and think about it, it makes sense. It's clunky, yes, but
+					it makes sense.]]
 				)
 			then
-				SMODS.Atlas(jokerInfo.atlasInfo)
+				if jokerInfo.isMultipleJokers then
+					loadAtlas = false -- No point in loading the Atlas if all the jokers in the file's mature ref levels are higher than the current setting.
+					
+					for i_, JkrChk in ipairs (jokerInfo.jokerConfigs) do
+						loadAtlas = JkrChk.matureRefLevel <= CirnoMod.config.matureReferences_cyc
+						
+						if loadAtlas then
+							break
+						end
+					end
+				end
+				
+				if loadAtlas then
+					SMODS.Atlas(jokerInfo.atlasInfo)
+				end
 				
 				if jokerInfo.isMultipleJokers then
-					for i_, Jkr_ in ipairs (jokerInfo.jokerConfigs) do
-						SMODS.Joker(Jkr_)
-						
-						table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, Jkr_.key)
+					for iI_, Jkr_ in ipairs (jokerInfo.jokerConfigs) do
+						if Jkr_.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+							SMODS.Joker(Jkr_)
+							
+							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, Jkr_.key)
+						end
 					end
 				else
 					SMODS.Joker(jokerInfo.jokerConfig)
@@ -431,38 +446,37 @@ if CirnoMod.allEnabledOptions['addCustomJokers'] then
 end
 	
 -- Additional Custom Challenges
-if CirnoMod.allEnabledOptions['additionalChallenges'] then
-	-- Initialises a challenge functions holder.
-	-- This is then populated with any functions
-	-- the challenge needs to use, in the challenge
-	-- file itself.
+if CirnoMod.config['additionalChallenges'] then
+	--[[ Initialises a challenge functions holder.
+	This is then populated with any functions
+	the challenge needs to use, in the challenge
+	file itself.]]
 	CirnoMod.ChalFuncs = {}
 
 	-- Iterates through all lua files in scripts\additions\challenges\ and SMODS.load_file them.
-	-- My understanding is that using assert() makes the return value end up in the variable.
+	-- My understanding is that using assert() makes the return value from the file end up in the variable.
 	for i, Ch in ipairs (cirInitConfig.additionalChallenges) do
-		if
-			CirnoMod.allEnabledOptions['matureReferences']
-			or Ch.isSafeOrHasSafeVariant
-		then
-			local chalInfo = assert(SMODS.load_file('scripts/additions/challenges/'..Ch.chlFileName..".lua"))()
-			
-			chalInfo.key = Ch.chlFileName
+		local chalInfo = assert(SMODS.load_file('scripts/additions/challenges/'..Ch..".lua"))()
+		
+		if chalInfo.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+			chalInfo.key = Ch
 			
 			-- Adds the challenge.
 			local chal = SMODS.Challenge(chalInfo)
-		end		
+		end
 	end
 end
 
-local main_menuRef = Game.main_menu
-function Game:main_menu(change_context)
-	
-	if not G.C.SPLASH then
+local main_menuRef = Game.main_menu -- Main_menu() hook
+function Game:main_menu(change_context)	
+	if not G.C.SPLASH then -- Ensure splash is initalised
 		G.C.SPLASH = {}
 	end
 	
-	if CirnoMod.allEnabledOptions['titleColours'] then
+	--[[
+	If our colours are enabled, set the vortex colours to
+	our colours. If not, set them to the default ones.]]
+	if CirnoMod.config['titleColours'] then
 		G.C.SPLASH[1] = CirnoMod.miscItems.colours.cirBlue
 		G.C.SPLASH[2] = CirnoMod.miscItems.colours.cirCyan
 	else
@@ -470,53 +484,58 @@ function Game:main_menu(change_context)
 		G.C.SPLASH[2] = G.C.BLUE
 	end
 	
-	main_menuRef(self, change_context)
+	main_menuRef(self, change_context) -- Calls the normal manu_menu() function in Game.
 	
+	-- Set Tarot colour.
 	if
-		CirnoMod.allEnabledOptions['malverkReplacements']
+		CirnoMod.config['malverkReplacements']
 		and CirnoMod.miscItems.colours.tarot
 	then
 		G.C.SECONDARY_SET.Tarot = CirnoMod.miscItems.colours.tarot
 	end
 	
+	-- Set Planet colour (If Planets Are Hus is active)
 	if
-		CirnoMod.allEnabledOptions['planetsAreHus']
+		CirnoMod.config['planetsAreHus']
 		and CirnoMod.miscItems.colours.planet
 	then
 		G.C.SECONDARY_SET.Planet = CirnoMod.miscItems.colours.planet
 	end
 	
-	if CirnoMod.allEnabledOptions['additionalChallenges'] then
-		-- Should update the joker stencil challenge text
-		-- with whatever name Joker Stencil is set to at this
-		-- point in time, but for whatever reason doesn't work
-		-- as intended.
-		--	G.E_MANAGER:add_event(Event({
-		--					trigger = 'after',
-		--					delay = 2.0,
-		--					blocking = false,
-		--					func = function()
-		--						SMODS.process_loc_text(G.localization.misc.v_text, "ch_c_cir_jokerStencils", {
-		--									"Start with 5 {C:eternal}Eternal{}, {C:attention}debuffed{} "..G.localization.descriptions.Joker.j_stencil.name.."s."
-		--								})
-		--						return true
-		--					end
-		--				}))
+	if CirnoMod.config['additionalChallenges'] then
+		--[[
+		Should update the joker stencil challenge text
+		with whatever name Joker Stencil is set to at this
+		point in time, but for whatever reason doesn't work
+		as intended.
+		G.E_MANAGER:add_event(Event({
+						trigger = 'after',
+						delay = 2.0,
+						blocking = false,
+						func = function()
+							SMODS.process_loc_text(G.localization.misc.v_text, "ch_c_cir_jokerStencils", {
+										"Start with 5 {C:eternal}Eternal{}, {C:attention}debuffed{} "..G.localization.descriptions.Joker.j_stencil.name.."s."
+									})
+							return true
+						end
+					}))
+		]]
 		
 		-- TODO: For every new challenge that bans something, we need to run their ban functions here.
 	end
 end
 
 CirnoMod.CirnoHooks = {}
--- Hooks for things like challenge functionality.
--- Challenge functionality is a little weird and
--- primarily facilitated by checking G.GAME.modifiers
--- for the challenge id.
+--[[
+"Hooks" for things like challenge functionality.
+Challenge functionality is a little weird and
+primarily facilitated by checking G.GAME.modifiers
+for the challenge id.]]
 CirnoMod.CirnoHooks.onRunStart = function(args)
 	-- Check if challenges are on and the
 	-- challenge functions aren't empty
 	if
-		CirnoMod.allEnabledOptions['additionalChallenges']
+		CirnoMod.config['additionalChallenges']
 		and CirnoMod.ChalFuncs ~= nil
 	then
 		-- Is the stencil jokers challenge active?
@@ -532,7 +551,7 @@ CirnoMod.CirnoHooks.onRunStart = function(args)
 	
 	-- Randomises shop flavour text.
 	if
-		CirnoMod.allEnabledOptions['miscRenames']
+		CirnoMod.config['miscRenames']
 		and type(CirnoMod.miscItems.pickRandShopFlavour) == 'function'
 	then
 		CirnoMod.miscItems.pickRandShopFlavour()
@@ -544,7 +563,7 @@ CirnoMod.CirnoHooks.evalCardHook = function(card, context)
 	return nil -- Remove when there is a use for this hook.
 	
 	-- Check if challenges are on
-	-- if CirnoMod.allEnabledOptions['additionalChallenges'] then
+	-- if CirnoMod.config['additionalChallenges'] then
 	-- 
 	-- end
 end
@@ -553,24 +572,21 @@ CirnoMod.CirnoHooks.onNewJoker = function(joker, edition, silent, eternal)
 	return nil -- Remove when there is a use for this hook.
 
 	-- Check if challenges are on
-	-- if CirnoMod.allEnabledOptions['additionalChallenges'] then
+	-- if CirnoMod.config['additionalChallenges'] then
 	-- 
 	-- end
 end
 
 CirnoMod.CirnoHooks.onBlindStart = function()
-	--	if G.jokers.cards[1] and G.GAME.challenge == "c_cir_jokerStencils" then
-	--		print(type(CirnoMod.ChalFuncs.jokerStencilsDebuffCheck))
-	--		SMODS.debuff_card(G.jokers.cards[1], true, "debugging")
-	--	end
-	-- Check if challenges are on and the
-	-- challenge functions aren't empty
+	--[[
+	Check if challenges are on and the
+	challenge functions aren't empty]]
 	if
-		CirnoMod.allEnabledOptions['additionalChallenges']
+		CirnoMod.config['additionalChallenges']
 		and CirnoMod.ChalFuncs ~= nil
 	then
-		-- Is the stencil jokers challenge active?
-		-- If so, do the thing.
+		--[[ Is the stencil jokers challenge active?
+		If so, do the thing.]]
 		if
 			G.GAME.challenge == "c_cir_jokerStencils"
 			and type(CirnoMod.ChalFuncs.jokerStencilsDebuffCheck) == 'function'
@@ -583,14 +599,15 @@ CirnoMod.CirnoHooks.onBlindStart = function()
 end
 
 CirnoMod.CirnoHooks.onBlindDefeat = function()
-	-- Check if challenges are on and the
-	-- challenge functions aren't empty
+	--[[
+	Check if challenges are on and the
+	challenge functions aren't empty]]
 	if
-		CirnoMod.allEnabledOptions['additionalChallenges']
+		CirnoMod.config['additionalChallenges']
 		and CirnoMod.ChalFuncs ~= nil
 	then
-		-- Is the stencil jokers challenge active?
-		-- If so, do the thing.
+		--[[ Is the stencil jokers challenge active?
+		If so, do the thing.]]
 		if
 			G.GAME.challenge == "c_cir_jokerStencils"
 			and type(CirnoMod.ChalFuncs.jokerStencilsDebuffCheck) == 'function'
@@ -602,7 +619,7 @@ CirnoMod.CirnoHooks.onBlindDefeat = function()
 	
 	-- Randomises shop flavour text.
 	if
-		CirnoMod.allEnabledOptions['miscRenames']
+		CirnoMod.config['miscRenames']
 		and type(CirnoMod.miscItems.pickRandShopFlavour) == 'function'
 	then
 		CirnoMod.miscItems.pickRandShopFlavour()
@@ -611,8 +628,10 @@ CirnoMod.CirnoHooks.onBlindDefeat = function()
 	return nil
 end
 
--- There appears to be no game function that can be
--- hooked into relating to when a shop phase starts
--- CirnoMod.onShopStart = function()
--- 	
--- end
+--[[
+There appears to be no game function that can be
+hooked into relating to when a shop phase starts
+CirnoMod.onShopStart = function()
+	
+end
+]]

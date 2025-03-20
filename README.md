@@ -1,7 +1,7 @@
 # Cirno_TV And Friends
 A Balatro mod themed around [Cirno_TV](https://www.twitch.tv/Cirno_TV/), with various references & memes.
 
-**WARNING:** Cirno_TV & Friends isn't explicitly an NSFW-oriented mod, but it does contain a handful of overt, (hopefully) stream-safe mature references in relation to community inside jokes (most particularly those with varying degrees of sexual connotation). This mod is *NOT* intended for children. By default, these (especially overt) mature references are significantly toned-down/altered, with the intent of having reduced mature references (in both number and intensity) encounterable in gameplay for anyone who wants to experience the mod, but is not particularly as interested in the some of the more mature references (and/or wants to stream it, but does not want to have that kind of stuff on their stream) - These changes can be disabled in the mod's config settings, via the Mature References setting (Config setting changes require a game restart to take effect).
+**WARNING:** Cirno_TV & Friends isn't explicitly an NSFW-oriented mod, but it does contain a handful of overt, (hopefully) stream-safe mature references in relation to community inside jokes (most particularly those with varying degrees of sexual connotation). This mod is *NOT* intended for children. By default, these (especially overt) mature references are significantly toned-down/altered, with the intent of having reduced mature references (in both number and intensity) encounterable in gameplay for anyone who wants to experience the mod, but is not particularly as interested in the some of the more mature references (and/or wants to stream it, but does not want to have that kind of stuff on their stream) - These changes can be adjusted in the mod's config settings, via the Mature References setting (Config setting changes require a game restart to take effect).
 
 ![CTVaF Logo](https://i.imgur.com/CcRk9nq.png)
 
@@ -15,7 +15,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 56 Jokers (2 filtered & 4 altered by the Mature Reference setting)
+  - 59 Jokers (2 filtered & 4 altered by the Mature Reference setting)
   - All Blind Chips
   - All Seals
   - All Planet Cards
@@ -73,6 +73,6 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 - The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art used for the DNA Joker (The art itself appears to not be credited to any specific contributing artist), as well as code for changing the card that appears on the title screen.
 - The [Cryptid](https://github.com/MathIsFun0/Cryptid) mod for Joker code for a certain Legendary Joker.
 - The [Trance](https://github.com/MathIsFun0/Trance) mod for code for changing the colours of the main menu vortex.
-- [Aikoyori](https://bsky.app/profile/aikoyori.xyz) and other members of the Balatro modding community for help with code.
+- [Aikoyori](https://bsky.app/profile/aikoyori.xyz), BreezeBuilder, Eremel and other members of the Balatro modding community for help with code & code issues.
 - [Cirno_TV](https://www.twitch.tv/Cirno_TV/) for the art used for the Misprint Joker.
 - Credits are also included in in-game tooltips to any cards that are edited & added; Optionally disableable in the mod's config menu.

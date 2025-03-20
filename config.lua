@@ -2,7 +2,7 @@ return {
 	['none'] = false,
 	['titleLogo'] = true,
 	['titleColours'] = true,
-	['matureReferences'] = false,
+	['matureReferences_cyc'] = 1,
 	['playingCardTextures'] = true,
 	['malverkReplacements'] = true,
 	['jokerRenames'] = true,

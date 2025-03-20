@@ -16,23 +16,16 @@ creditSources.NTF = "{X:purple,C:white}NopeTooFast{}"
 -- Edit however you want, idk how you want it
 creditSources.DTsun = "DaemonTsun"
 
--- Have to do underscores here because X doesn't work with spaces.
--- As a result, we end up with this nonsense.
+--[[
+Have to do underscores here because X doesn't work with spaces.
+As a result, we end up with this nonsense.]]
 creditSources.CommunityContrib = "{s:0.6,X:inactive,C:white}(Cirno_TV{s:0.6,X:inactive,C:inactive}_{s:0.6,X:inactive,C:white}Community-Contributed{s:0.6,X:inactive,C:inactive}_{s:0.6,X:inactive,C:white}Idea)"
 creditSources.masthir = "Masthir"
 creditSources.sanglune = "Sanglune"
 
 -- The funny increases exponentially.
-if
-	CirnoMod.allEnabledOptions['miscRenames']
-	or CirnoMod.allEnabledOptions['jokerRenames']
-then
-	creditSources.CirnoTV = "{X:cirCyan,C:white}Cirno_TV{}"
-	creditSources.CirnoTV_smol = "{s:0.8,X:cirCyan,C:white}Cirno_TV{}"
-else
-	creditSources.CirnoTV = "{X:chips,C:white}Cirno_TV{}"
-	creditSources.CirnoTV_smol = "{s:0.8,X:chips,C:white}Cirno_TV{}"
-end
+creditSources.CirnoTV = "{X:cirCyan,C:white}Cirno_TV{}"
+creditSources.CirnoTV_smol = "{s:0.8,X:cirCyan,C:white}Cirno_TV{}"
 
 creditSources.solga = "Solgalestia"
 creditSources.nyong = "NyongNyong"
@@ -43,15 +36,17 @@ creditSources.unknown = "{X:black,C:white}Unknown{}"
 --#endregion
 
 
--- So because of the way this bullshit works, we have to do one of these... For every unique case. Yes.
--- I'm mad. We could have done a lot more progammatically, but instead every time we run into a unique
--- circumstance, we have to add it here. Have fun sifting through this shit because apparently this.
--- is the way we have to do it.
+--[[
+So because of the way this bullshit works, we have to do one of these... For every unique case. Yes.
+I'm mad. We could have done a lot more progammatically, but instead every time we run into a unique
+circumstance, we have to add it here. Have fun sifting through this shit because apparently this.
+is the way we have to do it.]]
 RV.descriptions.Other = {
-	----- We need this bullshit because of how this dumb fucking system works -----
-	----- The contempt I feel for this setup is beyond human comprehension.   -----
-	----- Why are things this way? Why must LocalThunk torment us so? In this -----
-	----- essay I will														  -----
+	--[[
+	We need this bullshit because of how this dumb fucking system works
+	The contempt I feel for this setup is beyond human comprehension.
+	Why are things this way? Why must LocalThunk torment us so? In this
+	essay I will]]
 	Joker_Art_By = { text = { creditSources.cr_JokerArt } },
 	Deck_Art_By = { text = { creditSources.cr_DeckArt } },
 	Enhancer_Art_By = { text = { creditSources.cr_EnhancerArt } },
@@ -315,10 +310,11 @@ RV.descriptions.Other = {
 	}
 }
 
--- Have to do this this way because
--- SMODS.process_loc_text() spontaneously
--- stopped working for stone cards.
-if CirnoMod.allEnabledOptions['enhancerRenames'] then
+--[[
+Have to do this this way because
+SMODS.process_loc_text() spontaneously
+stopped working for stone cards.]]
+if CirnoMod.config['enhancerRenames'] then
 	RV.descriptions.Enhanced = { m_stone = { name = "Whump Card" } }
 	RV.misc = { dictionary = {
 		k_plus_stone = "+1 Whump",

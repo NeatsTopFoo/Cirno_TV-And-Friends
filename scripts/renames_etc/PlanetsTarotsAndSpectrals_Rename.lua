@@ -1,5 +1,5 @@
 -- SMODS.process_loc_text(G.localization.descriptions.Planet.c_neptune, "name", "Neptune")
-if CirnoMod.allEnabledOptions['planetsAreHus'] then
+if CirnoMod.config['planetsAreHus'] then
 SMODS.process_loc_text(G.localization.descriptions.Planet.c_neptune, "text", {
                     "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
                     "{C:attention}#2#",

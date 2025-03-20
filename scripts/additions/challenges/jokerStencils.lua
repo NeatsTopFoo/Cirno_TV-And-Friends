@@ -31,6 +31,7 @@
 --   Spades. Revise if there were changes to the deck skin.
 
 local chalInfo = {
+	matureRefLevel = 1,
 	loc_txt = {
 		name = "5 \"Joker Stencils.\"",
 	},

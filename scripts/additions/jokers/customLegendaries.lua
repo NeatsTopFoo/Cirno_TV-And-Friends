@@ -1,25 +1,27 @@
--- I decided to make all Legendaries one file for now, as
--- I don't think that we'll be adding very many. If we do,
--- we can just do them in parts?
+--[[
+I decided to make all Legendaries one file for now, as
+I don't think that we'll be adding very many. If we do,
+we can just do them in parts?]]
 
--- I plan on doing more multiple-in-one with most likely
--- every Common & Uncommon we come up with, as well as
--- probably every Rare we come up with, with the likely
--- exceptions being mature references and how complex
--- or elaborate certain jokers may be.
--- For example, I have an idea for a Padoru
--- Rare that would probably have a big atlas: Essentially,
--- the idea is it'll have 12 bases, one for each month
--- then a bit more than 31 floating 'soul' ones, one for
--- each day, however there'll be some extra more excited
--- looking ones for December. With the effect that it
--- givse +mult for half inverse the amount of remaining
--- days until Xmas, rounded up (so for example, Xmas day
--- would be 365/2) & x1.5 mult if played hand contains a
--- three of a kind of kings - That will likely be its own
--- lua file. But B3313, which is planned to have 13 bases,
--- funnily enough, will probably be part of the (first?)
--- Rare atlas(es).
+--[[
+I plan on doing more multiple-in-one with most likely
+every Common & Uncommon we come up with, as well as
+probably every Rare we come up with, with the likely
+exceptions being mature references and how complex
+or elaborate certain jokers may be.
+For example, I have an idea for a Padoru
+Rare that would probably have a big atlas: Essentially,
+the idea is it'll have 12 bases, one for each month
+then a bit more than 31 floating 'soul' ones, one for
+each day, however there'll be some extra more excited
+looking ones for December. With the effect that it
+givse +mult for half inverse the amount of remaining
+days until Xmas, rounded up (so for example, Xmas day
+would be 365/2) & x1.5 mult if played hand contains a
+three of a kind of kings - That will likely be its own
+lua file. But B3313, which is planned to have 13 bases,
+funnily enough, will probably be part of the (first?)
+Rare atlas(es).]]
 
 local jokerInfo = {
 	isMultipleJokers = true,
@@ -32,8 +34,12 @@ local jokerInfo = {
 		py = 95
 	},
 	
-	-- Since this specifically will be multiple Jokers in one file,
-	-- all on one atlas, we will give each
+	--[[
+	Since this specifically will be multiple Jokers in one file,
+	all on one atlas, we will give each
+	
+	Wow, did I not finish writing this? I don't remember my original
+	train of thought. This sentence stays unfinished.]]
 	jokerConfigs = {
 		-- Cirno Legendary.
 		{
@@ -41,6 +47,8 @@ local jokerInfo = {
 			key = 'cirL_cirno',
 			
 			object_type = "Joker",
+			
+			matureRefLevel = 1,
 			
 			loc_txt = {
 				-- The name the player will see in-game.
@@ -62,19 +70,21 @@ local jokerInfo = {
 			
 			config = { extra = { Xmult = 1 } },
 			
-			-- Purely aesthetic as blueprint functionality, even though
-			-- Steamodded says you need to use loc_vars, blueprint/brainstorm
-			-- actually calls calculate(). ...Yeah. It's weird.
+			--[[
+			Purely aesthetic as blueprint functionality, even though
+			Steamodded says you need to use loc_vars, blueprint/brainstorm
+			actually calls calculate(). ...Yeah. It's weird.]]
 			blueprint_compat = true,
 			
-			-- Figured out what this is - This largely defines some of the 
-			-- stuff that shows up in the tooltip (and more. So for example,
-			-- if you hover over a card that mentions Stone cards and it tells
-			-- you what Stone cards are, that's this. It's not because it
-			-- just says 'Stone card' in the description.
+			--[[
+			Figured out what this is - This largely defines some of the 
+			stuff that shows up in the tooltip (and more. So for example,
+			if you hover over a card that mentions Stone cards and it tells
+			you what Stone cards are, that's this. It's not because it
+			just says 'Stone card' in the description.]]
 			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
-				if CirnoMod.allEnabledOptions['artCredits'] then
+				if CirnoMod.config['artCredits'] then
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun", set = "Other" }
 				end
 				
@@ -130,6 +140,8 @@ local jokerInfo = {
 			
 			object_type = "Joker",
 			
+			matureRefLevel = 1,
+			
 			loc_txt = {
 				-- The name the player will see in-game.
 				name = "NopeTooFast",
@@ -147,36 +159,39 @@ local jokerInfo = {
 				}
 			},
 			
-			-- 'Extra' is how much the joker will gain on wheel failure.
-			-- 'X_Mult' is the card's stored mult.
-			-- I think this should ultimately be fine, since you can't
-			-- use a Wheel of Fortune if all Jokers have editions, so
-			-- scaling it requires at least one Joker that doesn't have
-			-- an edition, plus it has anti-synergy with oops all 6s.
-			-- I mean yes, you can dip in to look for more wheels so
-			-- long as you have the econ, but you will always hit a
-			-- stopping point if everything ends up with editions and
-			-- you don't want to potentially jeopardise your build
-			-- for the potential promise of a little more xmult.
+			--[[
+			'Extra' is how much the joker will gain on wheel failure.
+			'X_Mult' is the card's stored mult.
+			I think this should ultimately be fine, since you can't
+			use a Wheel of Fortune if all Jokers have editions, so
+			scaling it requires at least one Joker that doesn't have
+			an edition, plus it has anti-synergy with oops all 6s.
+			I mean yes, you can dip in to look for more wheels so
+			long as you have the econ, but you will always hit a
+			stopping point if everything ends up with editions and
+			you don't want to potentially jeopardise your build
+			for the potential promise of a little more xmult.]]
 			config = { extra = { extra = 1, x_mult = 1 } }, 
 			
-			-- Purely aesthetic as blueprint functionality, even though
-			-- Steamodded says you need to use loc_vars, blueprint/brainstorm
-			-- actually calls calculate(). ...Yeah. It's weird.
+			--[[
+			Purely aesthetic as blueprint functionality, even though
+			Steamodded says you need to use loc_vars, blueprint/brainstorm
+			actually calls calculate(). ...Yeah. It's weird.]]
 			blueprint_compat = true,
 			
-			-- Figured out what this is - This largely defines some of the 
-			-- stuff that shows up in the tooltip (and more. So for example,
-			-- if you hover over a card that mentions Stone cards and it tells
-			-- you what Stone cards are, that's this. It's not because it
-			-- just says 'Stone card' in the description.
+			--[[
+			Figured out what this is - This largely defines some of the 
+			stuff that shows up in the tooltip (and more. So for example,
+			if you hover over a card that mentions Stone cards and it tells
+			you what Stone cards are, that's this. It's not because it
+			just says 'Stone card' in the description.]]
 			loc_vars = function(self, info_queue, center)
 				-- Adds a description of Wheel of Fortune to tooltip by appending
 				-- to info_queue
 				info_queue[#info_queue + 1] = G.P_CENTERS.c_wheel_of_fortune
 				
 				-- Art credit tooltip
-				if CirnoMod.allEnabledOptions['artCredits'] then
+				if CirnoMod.config['artCredits'] then
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEDit", set = "Other" }
 				end
 				
@@ -264,6 +279,8 @@ local jokerInfo = {
 			
 			object_type = "Joker",
 			
+			matureRefLevel = 1,
+			
 			loc_txt = {
 				-- The name the player will see in-game.
 				name = "Naro",
@@ -292,7 +309,7 @@ local jokerInfo = {
 				info_queue[#info_queue + 1] = G.P_CENTERS.c_neptune
 				
 				-- Art credit tooltip
-				if CirnoMod.allEnabledOptions['artCredits'] then
+				if CirnoMod.config['artCredits'] then
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
 				end
 				

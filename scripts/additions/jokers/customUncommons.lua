@@ -16,6 +16,8 @@ local jokerInfo = {
 			
 			object_type = "Joker",
 			
+			matureRefLevel = 1,
+			
 			loc_txt = {
 				-- The name the player will see in-game.
 				name = 'The Solo',
@@ -29,19 +31,21 @@ local jokerInfo = {
 			
 			config = { extra = { Xmult = 1 } },
 			
-			-- Purely aesthetic as blueprint functionality, even though
-			-- Steamodded says you need to use loc_vars, blueprint/brainstorm
-			-- actually calls calculate(). ...Yeah. It's weird.
+			--[[
+			Purely aesthetic as blueprint functionality, even though
+			Steamodded says you need to use loc_vars, blueprint/brainstorm
+			actually calls calculate(). ...Yeah. It's weird.]]
 			blueprint_compat = true,
 			
-			-- Figured out what this is - This largely defines some of the 
-			-- stuff that shows up in the tooltip. So for example, if you
-			-- hover over a card that mentions Stone cards and it tells
-			-- you what Stone cards are, that's this. It's not because it
-			-- just says 'Stone card' in the description.
+			--[[
+			Figured out what this is - This largely defines some of the 
+			stuff that shows up in the tooltip. So for example, if you
+			hover over a card that mentions Stone cards and it tells
+			you what Stone cards are, that's this. It's not because it
+			just says 'Stone card' in the description.]]
 			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
-				if CirnoMod.allEnabledOptions['artCredits'] then
+				if CirnoMod.config['artCredits'] then
 					info_queue[#info_queue + 1] = { key = "jA_Unknown_LocalThunkEdit", set = "Other" }
 				end
 				
