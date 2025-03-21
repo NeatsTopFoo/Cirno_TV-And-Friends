@@ -5,21 +5,45 @@ CirnoMod.path = cMod_SMODSLoc.path
 CirnoMod.config = cMod_SMODSLoc.config
 -- CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
 CirnoMod.miscItems = {
+	artCreditKeys = {},
+	deckSkinNames = {},
+	keysOfAllCirnoModItems = {}, -- This will be used for any effects the focus on stuff edited or introduced by this mod
 	matureReferencesOpt = { "(Hopefully) Safest", "Some", "All" }, -- These are the options that appear on the new cycle option for mature references.
-	colours = { cirBlue = HEX('0766EBFF'), cirCyan = HEX('0AD0F7FF') }
+	colours = {
+		cirBlue = HEX('0766EBFF'),
+		cirCyan = HEX('0AD0F7FF'),
+		cirLucy = HEX('7BB083FF'),
+		cirNep = HEX('D066ADFF'),
+		bbBlack = HEX('000000FF'),
+		bbInvisText = HEX('00000000')
+	}
 }
-CirnoMod.miscItems.deckSkinNames = {}
+
+CirnoMod.miscItems.getLocColour = function(colourNameStr, defaultColourStr)
+	if CirnoMod.miscItems.colours[colourNameStr] then
+		return colourNameStr
+	end
+	return defaultColourStr
+end
+
+-- Hook into localise colour and interpose with
+-- detection for our own custom colours.
+local old_loc_colour = loc_colour
+function loc_colour(_c, _default)
+	if CirnoMod.miscItems.colours[_c] then
+		return CirnoMod.miscItems.colours[_c]
+	else
+		return old_loc_colour(_c, _default)
+	end
+end
 
 --[[
 This is what the new cycle option calls when it's cycled
 Yes, it HAS to be in G.FUNCS.]]
 G.FUNCS.cir_CycMatureReferencesVal = function(e)
-	CirnoMod.allEnabledOptions.matureReferences_cyc = e.to_key
+	-- CirnoMod.allEnabledOptions.matureReferences_cyc = e.to_key
 	CirnoMod.config.matureReferences_cyc = e.to_key
 end
-
--- This will be used for any effects the focus on stuff edited or introduced by this mod
-CirnoMod.miscItems.keysOfAllCirnoModItems = {}
 
 local cirInitConfig = {
 	-- Mature reference level is now determined within each Joker.
@@ -83,7 +107,6 @@ function G.FUNCS.splash_screen_card(card_pos, card_size)
 				card_size*G.CARD_W, card_size*G.CARD_H, pseudorandom_element(G.P_CARDS), G.P_CENTERS.c_base)
 end
 
-CirnoMod.miscItems.artCreditKeys = {}
 --[[
 Hate. Hate. Hate. Hate that we have to do this this
 way. Hatehatehatehatehate. I had a whole system set
@@ -111,7 +134,7 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from gen
 			and specific_vars.value
 		then
 			if
-				G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit] == CirnoMod.miscItems.deckSkinNames[string.lower(specific_vars.suit)]
+				G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit] == CirnoMod.miscItems.deckSkinNames[specific_vars.suit]
 			then
 				keyToCheck = specific_vars.value.."_"..specific_vars.suit
 			end
@@ -129,12 +152,12 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from gen
 			then
 				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].planetsAreHus, set = "Other" }
 			elseif
-				CirnoMod.allEnabledOptions.matureReferences_cyc == 3
+				CirnoMod.config.matureReferences_cyc == 3
 				and CirnoMod.miscItems.artCreditKeys[keyToCheck].nrmVer
 			then
 				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].nrmVer, set = "Other" }
 			elseif
-				CirnoMod.allEnabledOptions.matureReferences_cyc >= 2
+				CirnoMod.config.matureReferences_cyc >= 2
 				and CirnoMod.miscItems.artCreditKeys[keyToCheck].saferVer
 			then
 				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].saferVer, set = "Other" }
@@ -165,7 +188,7 @@ if CirnoMod.config['malverkReplacements'] then
 	CirnoMod.replaceDef.deckReplacementKeys = {}
 	for i, d in ipairs (CirnoMod.replaceDef.deckReplacements) do
 		if	d.matureRefLevel <= CirnoMod.config.matureReferences_cyc	then
-			-- Ignore exceptional circumstances.
+			-- Ignore exceptional circumstances as defined in the file.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[d.dckKey]
 			then
@@ -181,7 +204,7 @@ if CirnoMod.config['malverkReplacements'] then
 	CirnoMod.replaceDef.boosterReplacementKeys = {}
 	for i, b in ipairs (CirnoMod.replaceDef.boosterReplacements) do
 		if b.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
-			-- Ignore exceptional circumstances.
+			-- Ignore exceptional circumstances as defined in the file.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[b.bstKey]
 			then
@@ -197,7 +220,7 @@ if CirnoMod.config['malverkReplacements'] then
 	CirnoMod.replaceDef.jokerReplacementKeys = {}
 	for i, k in ipairs (CirnoMod.replaceDef.jokerReplacements) do
 		if k.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
-			-- Ignore exceptional circumstances.
+			-- Ignore exceptional circumstances as defined in the file.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[k.jkrKey]
 			then
@@ -215,7 +238,7 @@ if CirnoMod.config['malverkReplacements'] then
 	CirnoMod.replaceDef.tarotReplacementKeys = {}
 	for i, t in ipairs (CirnoMod.replaceDef.tarotReplacements) do
 		if t.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
-			-- Ignore exceptional circumstances.
+			-- Ignore exceptional circumstances as defined in the file.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[t.trtKey]
 			then
@@ -233,7 +256,7 @@ if CirnoMod.config['malverkReplacements'] then
 	CirnoMod.replaceDef.planetReplacementKeys = {}
 	for i, p in ipairs (CirnoMod.replaceDef.planetReplacements) do
 		if p.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
-			-- Ignore exceptional circumstances.
+			-- Ignore exceptional circumstances as defined in the file.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[p.plnKey]
 				and
@@ -254,7 +277,7 @@ if CirnoMod.config['malverkReplacements'] then
 	CirnoMod.replaceDef.spectralReplacementKeys = {}
 	for i, s in ipairs (CirnoMod.replaceDef.spectralReplacements) do
 		if s.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
-			-- Ignore exceptional circumstances.
+			-- Ignore exceptional circumstances as defined in the file.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[s.spcKey]
 			then
@@ -270,7 +293,7 @@ if CirnoMod.config['malverkReplacements'] then
 	CirnoMod.replaceDef.enhancerReplacementKeys = {}
 	for i, e in ipairs (CirnoMod.replaceDef.enhancerReplacements) do
 		if e.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
-			-- Ignore exceptional circumstances.
+			-- Ignore exceptional circumstances as defined in the file.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[e.enhKey]
 			then
@@ -301,31 +324,6 @@ if CirnoMod.config['malverkReplacements'] then
 	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'purple_seal')
 	
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()
-end
-
---[[
-Hhhhhhhhhhh some things need to be done before others.
-And the other I need to be doing some things I want to
-include in other things is weird, so I gotta do it
-this way]]
-if
-	CirnoMod.config['miscRenames']
-	or CirnoMod.config['jokerRenames']
-then
-	-- Adds our custom colours
-	CirnoMod.miscItems.colours.cirLucy = HEX('7BB083FF')
-	CirnoMod.miscItems.colours.cirNep = HEX('D066ADFF')
-	
-	-- Hook into localise colour and interpose with
-	-- detection for our own custom colours.
-	local old_loc_colour = loc_colour
-	function loc_colour(_c, _default)
-		if CirnoMod.miscItems.colours[_c] then
-			return CirnoMod.miscItems.colours[_c]
-		else
-			return old_loc_colour(_c, _default)
-		end
-	end
 end
 
 -- Planets are Hus
@@ -483,6 +481,8 @@ function Game:main_menu(change_context)
 		G.C.SPLASH[1] = G.C.RED
 		G.C.SPLASH[2] = G.C.BLUE
 	end
+	
+	G.C.SECONDARY_SET.UIDefault = G.C.SECONDARY_SET.Spectral
 	
 	main_menuRef(self, change_context) -- Calls the normal manu_menu() function in Game.
 	

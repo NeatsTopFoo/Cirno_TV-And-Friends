@@ -109,7 +109,8 @@ local configUI = function()
 														text_scale = 1,
 														ref_table = CirnoMod.config,
 														ref_value = 'titleLogo',
-														-- callback = CirnoMod.callback_titleLogoToggle
+														-- callback = CirnoMod.callback_titleLogoToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											},
@@ -119,7 +120,7 @@ local configUI = function()
 												nodes = {
 													create_option_cycle({
 													label = "Mature References (All (Hopefully) Stream-Safe)",
-													colour = CirnoMod.miscItems.colours.cirCyan,
+													colour = G.C.SECONDARY_SET.Spectral,
 													scale = 0.85,
 													w = 3.75,
 													options = CirnoMod.miscItems.matureReferencesOpt,
@@ -140,7 +141,8 @@ local configUI = function()
 														text_scale = 0.8,
 														ref_table = CirnoMod.config,
 														ref_value = 'playingCardTextures',
-														-- callback = CirnoMod.callback_playingCardTexturesToggle
+														-- callback = CirnoMod.callback_playingCardTexturesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											},
@@ -154,7 +156,8 @@ local configUI = function()
 														text_scale = 1,
 														ref_table = CirnoMod.config,
 														ref_value = 'enhancerRenames',
-														-- callback = CirnoMod.callback_enhancerRenamesToggle
+														-- callback = CirnoMod.callback_enhancerRenamesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											},
@@ -168,7 +171,8 @@ local configUI = function()
 														text_scale = 1,
 														ref_table = CirnoMod.config,
 														ref_value = 'deckRenames',
-														-- callback = CirnoMod.callback_deckRenamesToggle
+														-- callback = CirnoMod.callback_deckRenamesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											},
@@ -182,7 +186,8 @@ local configUI = function()
 														text_scale = 1,
 														ref_table = CirnoMod.config,
 														ref_value = 'planetsAreHus',
-														-- callback = CirnoMod.callback_planetsAreHusToggle
+														-- callback = CirnoMod.callback_planetsAreHusToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											},
@@ -196,7 +201,8 @@ local configUI = function()
 														text_scale = 1,
 														ref_table = CirnoMod.config,
 														ref_value = 'additionalChallenges',
-														-- callback = CirnoMod.callback_additionalChallengesToggle
+														-- callback = CirnoMod.callback_additionalChallengesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											},
@@ -210,7 +216,8 @@ local configUI = function()
 														text_scale = 1,
 														ref_table = CirnoMod.config,
 														ref_value = 'artCredits',
-														-- callback = CirnoMod.callback_artCreditsToggle
+														-- callback = CirnoMod.callback_artCreditsToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											}
@@ -248,7 +255,8 @@ local configUI = function()
 														text_scale = 1,
 														ref_table = CirnoMod.config,
 														ref_value = 'titleColours',
-														-- callback = CirnoMod.callback_titleColoursToggle
+														-- callback = CirnoMod.callback_titleColoursToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											},
@@ -262,7 +270,8 @@ local configUI = function()
 														text_scale = 1,
 														ref_table = CirnoMod.config,
 														ref_value = 'malverkReplacements',
-														-- callback = CirnoMod.callback_malverkReplacementsToggle
+														-- callback = CirnoMod.callback_malverkReplacementsToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											},
@@ -276,7 +285,8 @@ local configUI = function()
 														text_scale = 1,
 														ref_table = CirnoMod.config,
 														ref_value = 'jokerRenames',
-														-- callback = CirnoMod.callback_jokerRenamesToggle
+														-- callback = CirnoMod.callback_jokerRenamesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											},
@@ -290,7 +300,8 @@ local configUI = function()
 														text_scale = 1,
 														ref_table = CirnoMod.config,
 														ref_value = 'blindRenames',
-														-- callback = CirnoMod.callback_blindRenamesToggle
+														-- callback = CirnoMod.callback_blindRenamesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											},
@@ -304,7 +315,8 @@ local configUI = function()
 														text_scale = 0.8,
 														ref_table = CirnoMod.config,
 														ref_value = 'planetTarotSpectralRenames',
-														-- callback = CirnoMod.callback_planetTarotSpectralRenamesToggle
+														-- callback = CirnoMod.callback_planetTarotSpectralRenamesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											},
@@ -318,7 +330,8 @@ local configUI = function()
 														text_scale = 1,
 														ref_table = CirnoMod.config,
 														ref_value = 'miscRenames',
-														-- callback = CirnoMod.callback_miscRenamesToggle
+														-- callback = CirnoMod.callback_miscRenamesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											},
@@ -332,7 +345,8 @@ local configUI = function()
 														text_scale = 1,
 														ref_table = CirnoMod.config,
 														ref_value = 'addCustomJokers',
-														-- callback = CirnoMod.callback_addCustomJokersToggle
+														-- callback = CirnoMod.callback_addCustomJokersToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
 											}

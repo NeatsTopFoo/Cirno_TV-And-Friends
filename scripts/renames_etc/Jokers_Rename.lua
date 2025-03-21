@@ -96,13 +96,54 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_credit_card, "text", 
 					"{s:0.8,C:inactive}people at once?\""
                 })
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_greedy_joker, "name", "Greedy Joker")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_greedy_joker, "name", "Greedy DM")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_greedy_joker, "text", {
+                    "Played cards with",
+                    "{C:diamonds}#2#{} suit give",
+                    "{C:mult}+#1#{} Mult when scored",
+					"{s:0.8,C:inactive}Backseat? Directly to jail.",
+					"{s:0.8,C:inactive}Do not pass Go,",
+					"{s:0.8,C:inactive}do not collect $200.",
+					"{s:0.8,C:inactive}In fact, pay $35."
+                })
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_lusty_joker, "name", "Lusty Joker")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_lusty_joker, "name", "Lusty Hannah")
+if CirnoMod.config['matureReferences_cyc'] == 3 then
+	SMODS.process_loc_text(G.localization.descriptions.Joker.j_lusty_joker, "text", {
+						"Played cards with",
+						"{C:hearts}#2#{} suit give",
+						"{C:mult}+#1#{} Mult when scored",
+						"{s:0.8,C:inactive}\"But people on Twitch be going",
+						"{s:0.8,C:inactive}like 'BOING, BOING, BOING,",
+						"{s:0.8,C:inactive}CHCHBOING, CHCHCHCHBOING'...\""
+					})
+else
+	SMODS.process_loc_text(G.localization.descriptions.Joker.j_lusty_joker, "text", {
+						"Played cards with",
+						"{C:hearts}#2#{} suit give",
+						"{C:mult}+#1#{} Mult when scored",
+						"{s:0.8,C:inactive}Please be patient.",
+						"{s:0.8,C:inactive}This stream is being worked on."
+					})
+end
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_wrathful_joker, "name", "Wrathful Biggdeck")
+--[[
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_wrathful_joker, "text", {
+                    "Played cards with",
+                    "{C:spades}#2#{} suit give",
+                    "{C:mult}+#1#{} Mult when scored",
+                })]]
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_gluttenous_joker, "name", "Gluttonous Cirno")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_gluttenous_joker, "text", {
+                    "Played cards with",
+                    "{C:clubs}#2#{} suit give",
+                    "{C:mult}+#1#{} Mult when scored",
+					"{s:0.8,C:inactive}\"Sometimes I'll just",
+					"{s:0.8,C:inactive}spray a can of whipped",
+					"{s:0.8,C:inactive}cream into my mouth.\""
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_troubadour, "name", "Troubadour")
 
@@ -158,10 +199,8 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_blueprint, "text", {
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_abstract, "name", "Abstract Joker")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_delayed_grat, "name", "Delayed Gratification")
-local dg_ftColour = '{s:0.8,C:inactive}'
-if CirnoMod.config['miscRenames'] then
-	dg_ftColour = '{s:0.8,C:cirLucy}'
-end
+local dg_ftColour = '{s:0.8,C:'..CirnoMod.miscItems.getLocColour('cirLucy', 'inactive')..'}'
+
 if CirnoMod.config['matureReferences_cyc'] == 3 then
 	SMODS.process_loc_text(G.localization.descriptions.Joker.j_delayed_grat, "text", {
                     "Earn {C:money}$#1#{} per {C:attention}discard{} if",
@@ -262,8 +301,14 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_hit_the_road, "text",
 					"{s:0.8,C:inactive}Should've taken a bus, honestly."
                 })
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_swashbuckler, "name", "Swashbuckler")
-
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_swashbuckler, "name", "Pirate Majima")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_swashbuckler, "text", {
+                    "Adds the sell value",
+                    "of all other owned",
+                    "{C:attention}Jokers{} to Mult",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
+					"{s:0.8,C:inactive}\"KIRYU-CHAAAAAAN!\""
+                })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_flower_pot, "name", "Flower Pot")
 
@@ -317,8 +362,8 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_invisible, "text", {
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_astronomer, "name", "Marisa Kirisame")
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_astronomer, "text", {
-                    "All {C:planet}"..G.localization.misc.labels.planet.."{} cards and {C:planet}"..G.localization.descriptions.Other.p_celestial_normal.name.."s",
-                    "in the shop are {C:attention}free",
+                    "All {C:planet}"..G.localization.misc.labels.planet.."{} cards and {C:planet}"..string.sub(G.localization.descriptions.Other.p_celestial_normal.name, 1, #G.localization.descriptions.Other.p_celestial_normal.name - 5),
+                    "{C:planet}Packs{} in the shop are {C:attention}free",
                     "{s:0.8,C:inactive}\"It's bad of me to keep borrowing",
                     "{s:0.8,C:inactive}books, so I'll put my book here at the",
                     "{s:0.8,C:inactive}library this time!\" Narrator: She left",

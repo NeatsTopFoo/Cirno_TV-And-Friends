@@ -23,7 +23,7 @@ replaceDef.paths.cirLJokerPath = {
 	nrm = 'Vanilla_Replacements/cir_Legendaries.png',
 	safe = 'Vanilla_Replacements/cir_SafeLegendaries.png' }
 
--- Ehh, I don't see the planets having mature references, honestly. Should be fine
+-- Ehh, I don't see the planets or spectrals having mature references, honestly. Should be fine
 replaceDef.paths.cirTPSPath = {
 	nrm = 'Vanilla_Replacements/cir_TarotsPlanetsSpectrals_noHu.png',
 	planetsAreHus = 'Vanilla_Replacements/cir_TarotsPlanetsSpectrals.png',
@@ -97,6 +97,8 @@ replaceDef.getPath = function(replaceType)
 		elseif
 			replaceType == "planet"
 			or replaceType == "planets"
+			or replaceType == "spectral"
+			or replaceType == "spectrals"
 		then
 			if CirnoMod.config['planetsAreHus'] then
 				RV = replaceDef.paths.cirTPSPath.planetsAreHus
@@ -113,8 +115,6 @@ replaceDef.getPath = function(replaceType)
 		elseif
 			replaceType == "tarot"
 			or replaceType == "tarots"
-			or replaceType == "spectral"
-			or replaceType == "spectrals"
 		then
 			if
 				CirnoMod.config.matureReferences_cyc < 3
@@ -403,8 +403,8 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_sock_and_buskin', matureRefLevel = 1 },
 	{ jkrKey = 'j_mime', matureRefLevel = 1, artCreditKey = 'jA_Mime' },
 	{ jkrKey = 'j_credit_card', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_greedy_joker', matureRefLevel = 1 },
-	-- { jkrKey = 'j_lusty_joker', matureRefLevel = 1 },
+	{ jkrKey = 'j_greedy_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
+	{ jkrKey = 'j_lusty_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	{ jkrKey = 'j_wrathful_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_gluttenous_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' }, -- Yes, it's mispelled internally. LocalThunk issue. See game files
 	
@@ -431,7 +431,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_odd_todd', matureRefLevel = 1 },
 	
 	-- { jkrKey = 'j_scholar', matureRefLevel = 1 },
-	{ jkrKey = 'j_business', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
+	{ jkrKey = 'j_business', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	{ jkrKey = 'j_supernova', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
 	{ jkrKey = 'j_mr_bones', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	-- { jkrKey = 'j_seeing_double', matureRefLevel = 1 },
@@ -450,7 +450,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_ring_master', matureRefLevel = 1, artCreditKey = 'jA_JustIRLCirno' }, -- Yes, this is Showman. You have no idea how mad I am that it's called this internally.
 	-- { jkrKey = 'j_fortune_teller', matureRefLevel = 1 },
 	{ jkrKey = 'j_hit_the_road', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_swashbuckler', matureRefLevel = 1  },
+	{ jkrKey = 'j_swashbuckler', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	
 	-- { jkrKey = 'j_flower_pot', matureRefLevel = 1 },
 	-- { jkrKey = 'j_ride_the_bus', matureRefLevel = 1  },

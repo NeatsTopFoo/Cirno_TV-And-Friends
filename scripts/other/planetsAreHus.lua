@@ -1,4 +1,4 @@
--- Rename the planets accordingly
+-- Renames the planets accordingly
 if CirnoMod.config['planetTarotSpectralRenames'] then
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_mercury, "name", "Aya")
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_mercury, "text", {
@@ -31,13 +31,14 @@ if CirnoMod.config['planetTarotSpectralRenames'] then
                 })
 	
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_mars, "name", "Shou")
+	--[[
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_mars, "text", {
                     "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
                     "{C:attention}#2#",
                     "{C:mult}+#3#{} Mult and",
                     "{C:chips}+#4#{} chips",
 					"{s:0.8,C:inactive}"
-                })
+                })]]
 	
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_jupiter, "name", "Daiyousei")
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_jupiter, "text", {
@@ -50,13 +51,14 @@ if CirnoMod.config['planetTarotSpectralRenames'] then
                 })
 	
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_saturn, "name", "Momiji")
+	--[[
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_saturn, "text", {
                     "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
                     "{C:attention}#2#",
                     "{C:mult}+#3#{} Mult and",
                     "{C:chips}+#4#{} chips",
 					"{s:0.8,C:inactive}"
-                })
+                })]]
 	
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_uranus, "name", "Rumia")
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_uranus, "text", {
@@ -98,20 +100,23 @@ if CirnoMod.config['planetTarotSpectralRenames'] then
                 })
 	
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_eris, "name", "Nue")
+	--[[
 	SMODS.process_loc_text(G.localization.descriptions.Planet.c_eris, "text", {
                     "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
                     "{C:attention}#2#",
                     "{C:mult}+#3#{} Mult and",
                     "{C:chips}+#4#{} chips",
 					"{s:0.8,C:inactive}"
-                })
+                })]]
 end
 
 if CirnoMod.config['miscRenames'] then
+	-- Boosters
 	SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_normal, "name", "Gensokyo Pack")
 	SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_jumbo, "name", "Jumbo Gensokyo Pack")
 	SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_mega, "name", "Mega Gensokyo Pack")
 	
+	-- Vouchers
 	--[[
 	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_telescope, "name", "Telescope")
 	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "name", "Observatory")
@@ -122,30 +127,34 @@ if CirnoMod.config['miscRenames'] then
 	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "name", "Planet Tycoon")
 	]]
 	
+	-- Achievements
 	SMODS.process_loc_text(G.localization.misc.achievement_descriptions, "astronomy", "Discover every Hu card")
 	
+	-- Dictionary entries
 	SMODS.process_loc_text(G.localization.misc.dictionary, "b_planet_cards", "Hu Cards")
 	SMODS.process_loc_text(G.localization.misc.dictionary, "b_stat_planet", "Hu's")
 	SMODS.process_loc_text(G.localization.misc.dictionary, "k_planet", "Hu")
 	SMODS.process_loc_text(G.localization.misc.dictionary, "k_planet_q", "...Nep?!")
 	SMODS.process_loc_text(G.localization.misc.dictionary, "k_plus_planet", "+1 Hu")
 	
+	-- Labels
 	SMODS.process_loc_text(G.localization.misc.labels, "planet", "Hu")
 	SMODS.process_loc_text(G.localization.misc.labels, "pluto_planet", "...Nep?!")
 	
+	-- Changes around the badges on Planets and their colours.
 	local planetRelabelling = {
-		{ key = 'mercury', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
-		{ key = 'venus', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
-		{ key = 'earth', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
-		{ key = 'mars', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
-		{ key = 'jupiter', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
-		{ key = 'saturn', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
-		{ key = 'uranus', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
-		{ key = 'neptune', newLabelKey = 'k_planet_q', newLabelColour = CirnoMod.miscItems.colours['cirNep'] },
-		{ key = 'pluto', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
-		{ key = 'ceres', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
-		{ key = 'eris', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] },
-		{ key = 'planet_x', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours['planet'] }
+		{ key = 'mercury', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+		{ key = 'venus', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+		{ key = 'earth', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+		{ key = 'mars', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+		{ key = 'jupiter', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+		{ key = 'saturn', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+		{ key = 'uranus', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+		{ key = 'neptune', newLabelKey = 'k_planet_q', newLabelColour = CirnoMod.miscItems.colours.cirNep },
+		{ key = 'pluto', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+		{ key = 'ceres', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+		{ key = 'eris', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+		{ key = 'planet_x', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet }
 	}
 	
 	for i, p in ipairs (planetRelabelling) do

@@ -287,7 +287,7 @@ local jokerInfo = {
 				-- The description the player will see in-game.
 				text = {
 					"This {C:joker}Joker{} gains {X:mult,C:white} X#1# ",
-					"Mult for every {C:cirNep}"..G.localization.descriptions.Planet.c_neptune.name,
+					"Mult for every {C:"..CirnoMod.miscItems.getLocColour('cirNep', 'planet').."}"..G.localization.descriptions.Planet.c_neptune.name,
 					"used during this run",
 					"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}He is the missile.",

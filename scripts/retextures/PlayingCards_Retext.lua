@@ -1,21 +1,26 @@
---------------------------------------------------
------ Playing Card Texture Replacement Code ------
---------------------------------------------------
------ As Malverk doesn't support replacing   -----
------ playing card textures (to my knowledge -----
------ & as far as I can determine in looking -----
------ through the code base), we need to use -----
------ Steamodded functionality (or whichever -----
------ other system) to replace the actual    -----
------ playing card textures themselves.		 -----
---------------------------------------------------
+--[[----------------------------------
+Playing Card Texture Replacement Code
+--------------------------------------
+As Malverk doesn't support replacing
+playing card textures (to my knowledge
+& as far as I can determine in looking
+through the code base), we need to use
+Steamodded functionality (or whichever
+other system) to replace the actual
+playing card textures themselves.
+-------------------------------------]]
 
--- Which suits to replace
-local cardSuits = { 'hearts', 'clubs', 'diamonds', 'spades' }
+--[[
+Which suits to replace.
+Must start with a capital letter.]]
+local cardSuits = { 'Hearts', 'Clubs', 'Diamonds', 'Spades' }
 
 -- Which ranks to replace
-local cardRanks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", 'Jack', 'Queen', "King", "Ace"}
--- local cardRanks = { 'Jack', 'Queen', 'King' }
+local cardRanks = {
+	-- 'Jack',
+	'Queen',
+	-- 'King'
+}
 
 -- Which ranks to display in the 'customize deck' screen
 local cardRanksDisplay = { 'Jack', 'Queen', 'King' }
@@ -29,43 +34,42 @@ SMODS.Atlas{
 	prefix_comfig = {key = false} -- Something about a Steamodded bug
 }
 
--- Iterates through each given suit and sets up the necessary changes in the customise deck screen
-for _, suit in ipairs(cardSuits) do
+--[[
+Iterates through each given suit and sets up the
+necessary changes in the customise deck screen]]
+for _, Csuit in ipairs(cardSuits) do
     SMODS.DeckSkin{
-        key = suit.."_skin",
-        suit = suit:gsub("^%l", string.upper),
+        key = "noAndFriends_"..Csuit.."_skin_hc", -- See palette key.
+        suit = Csuit,
         loc_txt = {
-            ['en-us'] = 'Cirno_TV & Friends'
+            ['en-us'] = 'Cirno_TV & Friends' -- The text that appears on the skin cycle.
         },
-        ranks = cardRanks,
-		display_ranks = cardRanksDisplay,
-        lc_atlas = 'cir_CardAtlas',
-        hc_atlas = 'cir_CardAtlas',
-        posStyle = 'deck',
-		hc_default = true
+		palettes = {
+			{
+				--[[
+				Idk why we need two keys for this, but they need to	be
+				distinct, I think - Which is why the first one is longer.]]
+				key = Csuit..'skin_hc',
+				ranks = cardRanks, -- The ranks that get replaced by this.
+				display_ranks = cardRanksDisplay, -- The ranks shown in the 'customise deck' screen.
+				atlas = 'cir_CardAtlas',
+				posStyle = 'deck',
+				-- colour = G.C.SO_2[suit],
+				loc_txt = {
+					--[[
+					This appears at the bottom where the customise
+					deck screen, where it normally says low or high
+					contrast colour.]]
+					['en-us'] = 'Cirno_TV & Friends '..Csuit
+				},
+				--[[
+				Forces the other cards that don't get replaced to be
+				their high contrast variants.]]
+				hc_default = true
+			}
+		}
     }
 
-	CirnoMod.miscItems.deckSkinNames[suit] = "cir_"..suit.."_skin"
+	-- Adds the name of each deck skin as it will be internally referred to for art credit detection
+	CirnoMod.miscItems.deckSkinNames[Csuit] = "cir_noAndFriends_"..Csuit.."_skin_hc"
 end
-
-
--- Attempted to do the above the 'proper' way, but it causes errors.
---	for _, suit in ipairs(cardSuits) do
---	    SMODS.DeckSkin{
---	        key = suit.."_skin",
---	        suit = suit:gsub("^%l", string.upper),
---	        loc_txt = {
---	            ['en-us'] = 'Cirno_TV & Friends'
---	        },
---			palettes = {
---				key = 'hc',
---				ranks = cardRanks,
---				display_ranks = cardRanksDisplay,
---				atlas = 'cir_CardAtlas',
---				posStyle = 'deck',
---				hc_default = true
---			}
---	    }
---	
---		CirnoMod.miscItems.deckSkinNames[suit] = "cir_"..suit.."_skin"
---	end
