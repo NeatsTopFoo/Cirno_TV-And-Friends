@@ -31,6 +31,7 @@ creditSources.solga = "Solgalestia"
 creditSources.nyong = "NyongNyong"
 creditSources.turpix = "Turpix"
 creditSources.muddle = "Muddleee"
+creditSources.notovia = "Notovia"
 creditSources.thunk = "LocalThunk"
 creditSources.unknown = "{X:black,C:white}Unknown{}"
 --#endregion
@@ -54,31 +55,31 @@ RV.descriptions.Other = {
 	Generic_Art_By = { text = { creditSources.cr_GenericArt } },
 	
 	----- Me -----
-	jA_NTF={
-		name= creditSources.cr_JokerArt,
-		text= {creditSources.NTF}
+	jA_NTF = {
+		name = creditSources.cr_JokerArt,
+		text = {creditSources.NTF}
 	},
-	gA_NTF={
-		name= creditSources.cr_GenericArt,
-		text={ creditSources.NTF}
+	gA_NTF = {
+		name = creditSources.cr_GenericArt,
+		text = { creditSources.NTF}
 	},
-	jA_LocalThunk_NTFEdit={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_LocalThunk_NTFEdit = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.thunk..", edited",
 			"by "..creditSources.NTF
 		}
 	},
-	jA_Unknown_NTFEdit={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_Unknown_NTFEdit = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.unknown..", edited",
 			"by "..creditSources.NTF
 		}
 	},
-	gA_BlackHole={
-		name= creditSources.cr_JokerArt,
-		text={
+	gA_BlackHole = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.thunk.." & "..creditSources.unknown..",",
 			"edited by "..creditSources.NTF,
 			creditSources.CommunityContrib
@@ -86,126 +87,126 @@ RV.descriptions.Other = {
 	},
 	
 	----- You -----
-	jA_DaemonTsun={
-		name= creditSources.cr_JokerArt,
-		text={creditSources.DTsun}
+	jA_DaemonTsun = {
+		name = creditSources.cr_JokerArt,
+		text = {creditSources.DTsun}
 	},
-	jA_DaemonTsun_ComCon={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_DaemonTsun_ComCon = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.DTsun,
 			creditSources.CommunityContrib
 		}
 	},
-	dA_DaemonTsun={
-		name= creditSources.cr_DeckArt,
-		text={creditSources.DTsun}
+	dA_DaemonTsun = {
+		name = creditSources.cr_DeckArt,
+		text = {creditSources.DTsun}
 	},
-	eA_DaemonTsun={
-		name= creditSources.cr_EnhancerArt,
-		text={creditSources.DTsun}
+	eA_DaemonTsun = {
+		name = creditSources.cr_EnhancerArt,
+		text = {creditSources.DTsun}
 	},
-	gA_DaemonTsun={
-		name= creditSources.cr_GenericArt,
-		text={creditSources.DTsun}
+	gA_DaemonTsun = {
+		name = creditSources.cr_GenericArt,
+		text = {creditSources.DTsun}
 	},
-	cA_DaemonTsun={
-		name= creditSources.cr_CardArt,
-		text={creditSources.DTsun}
+	cA_DaemonTsun = {
+		name = creditSources.cr_CardArt,
+		text = {creditSources.DTsun}
 	},
-	gA_DaemonTsun_ComCon={
-		name= creditSources.cr_GenericArt,
-		text={
+	gA_DaemonTsun_ComCon = {
+		name = creditSources.cr_GenericArt,
+		text = {
 			creditSources.DTsun,
 			creditSources.CommunityContrib
 		}
 	},
-	jA_DaemonTsun_NTF_Both={
-		name= creditSources.cr_JokerArt,
-		text={creditSources.DTsun.." &", creditSources.NTF}
+	jA_DaemonTsun_NTF_Both = {
+		name = creditSources.cr_JokerArt,
+		text = {creditSources.DTsun.." &", creditSources.NTF}
 	},
-	gA_DaemonTsun_NTF_Both={
-		name= creditSources.cr_GenericArt,
-		text={creditSources.DTsun.." &", creditSources.NTF}
+	gA_DaemonTsun_NTF_Both = {
+		name = creditSources.cr_GenericArt,
+		text = {creditSources.DTsun.." &", creditSources.NTF}
 	},
-	gA_DaemonTsun_NTF_Both_ComCon={
-		name= creditSources.cr_GenericArt,
-		text={
+	gA_DaemonTsun_NTF_Both_ComCon = {
+		name = creditSources.cr_GenericArt,
+		text = {
 			creditSources.DTsun.." &",
 			creditSources.NTF,
 			creditSources.CommunityContrib
 		}
 	},
-	jA_DaemonTsun_NTFEdit={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_DaemonTsun_NTFEdit = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.DTsun..", edited",
 			"by "..creditSources.NTF
 		}
 	},
-	gA_DaemonTsun_NTFEdit={
-		name= creditSources.cr_GenericArt,
-		text={
+	gA_DaemonTsun_NTFEdit = {
+		name = creditSources.cr_GenericArt,
+		text = {
 			creditSources.DTsun..", edited",
 			"by "..creditSources.NTF
 		}
 	},
-	jA_DaemonTsun_BigNTFEdit={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_DaemonTsun_BigNTFEdit = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.DTsun..", heavily",
 			"edited by "..creditSources.NTF
 		}
 	},
-	gA_DaemonTsun_BigNTFEdit={
-		name= creditSources.cr_GenericArt,
-		text={
+	gA_DaemonTsun_BigNTFEdit = {
+		name = creditSources.cr_GenericArt,
+		text = {
 			creditSources.DTsun..", heavily",
 			"edited by "..creditSources.NTF
 		}
 	},
-	gA_DaemonTsun_BigNTFEdit_ComCon={
-		name= creditSources.cr_GenericArt,
-		text={
+	gA_DaemonTsun_BigNTFEdit_ComCon = {
+		name = creditSources.cr_GenericArt,
+		text = {
 			creditSources.DTsun..", heavily",
 			"edited by "..creditSources.NTF,
 			creditSources.CommunityContrib
 		}
 	},
-	jA_LocalThunk_DaemonTsunEdit={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_LocalThunk_DaemonTsunEdit = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.DTsun.." edit of",
 			creditSources.thunk.." art."
 		}
 	},
-	gA_LocalThunk_DaemonTsunEdit={
-		name= creditSources.cr_GenericArt,
-		text={
+	gA_LocalThunk_DaemonTsunEdit = {
+		name = creditSources.cr_GenericArt,
+		text = {
 			creditSources.DTsun.." edit of",
 			creditSources.thunk.." art."
 		}
 	},
 	
 	----- Wait, what -----
-	jA_Misprint={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_Misprint = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.CirnoTV.." & "..creditSources.thunk..",", -- Yes, Cirno drew cirBairy.
 			"edited by "..creditSources.NTF  -- ...Formally crediting him is funnier, trust me
 		}
 	},
-	jA_JustIRLCirno={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_JustIRLCirno = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			"{s:0.8}...I don't know what to",
 			"{s:0.8}say, it's literally just",
 			"{s:0.8}a picture of "..creditSources.CirnoTV_smol.."{s:0.8}."
 		}
 	},
-	jA_Egg={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_Egg = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			"{s:0.8}...I don't know what to",
 			"{s:0.8}say, it's literally just",
 			"{s:0.8}a picture of "..creditSources.CirnoTV_smol.."{s:0.8}.",
@@ -213,18 +214,18 @@ RV.descriptions.Other = {
 			"{s:0.8}edit of any kind."
 		}
 	},
-	jA_Hack={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_Hack = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			"{s:0.6}...I don't know what to",
 			"{s:0.6}say, it's literally just",
 			"{s:0.6}a screenshot of the",
 			"{s:0.6}stream."
 		}
 	},
-	jA_Baseball={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_Baseball = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			"{s:0.8}Literally how do I ",
 			"{s:0.8}credit this, it's a",
 			"{s:0.8}still from Seinfeld."
@@ -232,78 +233,92 @@ RV.descriptions.Other = {
 	},
 	
 	----- Other -----
-	jA_Acrobat={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_Acrobat = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.DTsun.." edit of",
 			creditSources.masthir.." art.",
 			creditSources.CommunityContrib
 		}
 	},
-	jA_Burglar={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_Burglar = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.DTsun.." edit of",
 			creditSources.sanglune.." art."
 		}
 	},
-	jA_Mime={
-		name= creditSources.cr_JokerArt,
-		text={ creditSources.nyong }
+	jA_Mime = {
+		name = creditSources.cr_JokerArt,
+		text = { creditSources.nyong }
 	},
-	jA_MikuTheClown={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_Family = {
+		name = creditSources.cr_JokerArt,
+		text = {
+			"id software, edited",
+			"by "..creditSources.NTF
+		}
+	},
+	jA_MikuTheClown = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.solga..", edited",
 			"by "..creditSources.NTF
 		}
 	},
-	jA_BocchiTheRock={
-		name= creditSources.cr_JokerArt,
-		text={
+	jA_BocchiTheRock = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.turpix..", edited",
 			"by "..creditSources.NTF
 		}
 	},
-	gA_Sun={
-		name= creditSources.cr_GenericArt,
-		text={
+	jA_ObsvDuty = {
+		name = creditSources.cr_JokerArt,
+		text = { 
+			creditSources.notovia..", edited",
+			"by "..creditSources.NTF
+		}
+	},
+	gA_Sun = {
+		name = creditSources.cr_GenericArt,
+		text = {
 			creditSources.muddle..", edited",
 			"by "..creditSources.NTF
 		}
 	},
-	gA_genPack_ZUN={
-		name= creditSources.cr_GenericArt,
-		text={
+	gA_genPack_ZUN = {
+		name = creditSources.cr_GenericArt,
+		text = {
 			creditSources.DTsun..", ZUN",
 			"& "..creditSources.NTF
 		}
 	},
-	gA_genPack_Daiyousei={
-		name= creditSources.cr_GenericArt,
-		text={
+	gA_genPack_Daiyousei = {
+		name = creditSources.cr_GenericArt,
+		text = {
 			creditSources.DTsun..", ...Harada?",
 			"& "..creditSources.NTF
 		}
 	},
-	gA_genPack_Renko={
-		name= creditSources.cr_GenericArt,
-		text={
+	gA_genPack_Renko = {
+		name = creditSources.cr_GenericArt,
+		text = {
 			creditSources.DTsun..", {X:mult,C:white}Alberta,",
 			"{X:mult,C:white}Canada{}, & "..creditSources.NTF
 		}
 	},
-	jA_Unknown={
-		name= creditSources.cr_JokerArt,
-		text= {creditSources.unknown}
+	jA_Unknown = {
+		name = creditSources.cr_JokerArt,
+		text = {creditSources.unknown}
 	},
-	eA_Unknown={
-		name= creditSources.cr_EnhancerArt,
-		text= {creditSources.unknown}
+	eA_Unknown = {
+		name = creditSources.cr_EnhancerArt,
+		text = {creditSources.unknown}
 	},
-	jA_Unknown_LocalThunkEdit={
-		name= creditSources.cr_JokerArt,
-		text= {
+	jA_Unknown_LocalThunkEdit = {
+		name = creditSources.cr_JokerArt,
+		text = {
 			creditSources.unknown.." edit",
 			"of "..creditSources.thunk.." art."
 		}

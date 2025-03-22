@@ -1,3 +1,10 @@
+SMODS.Atlas{
+	key = 'modicon',
+	path = 'modicon.png',
+	px = 34,
+	py = 34
+}
+
 --[[
 Hate UI in this, holy. This is ridiculous to deal with.]]
 local configUI = function()

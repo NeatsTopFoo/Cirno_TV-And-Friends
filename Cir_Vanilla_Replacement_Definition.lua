@@ -426,7 +426,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_delayed_grat', matureRefLevel = 2, artCreditKey = { saferVer = 'jA_DaemonTsun' } },
 	-- { jkrKey = 'j_ticket', matureRefLevel = 1 },
 	-- { jkrKey = 'j_pareidolia' },
-	-- { jkrKey = 'j_cartomancer', matureRefLevel = 1  },
+	{ jkrKey = 'j_cartomancer', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_even_steven', matureRefLevel = 1  },
 	-- { jkrKey = 'j_odd_todd', matureRefLevel = 1 },
 	
@@ -437,7 +437,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_seeing_double', matureRefLevel = 1 },
 	-- { jkrKey = 'j_duo', matureRefLevel = 1 },
 	-- { jkrKey = 'j_trio', matureRefLevel = 1 },
-	-- { jkrKey = 'j_family', matureRefLevel = 1 },
+	{ jkrKey = 'j_family', matureRefLevel = 1, artCreditKey = 'jA_Family' },
 	-- { jkrKey = 'j_order', matureRefLevel = 1 },
 	-- { jkrKey = 'j_tribe', matureRefLevel = 1 },
 	
@@ -533,7 +533,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_reserved_parking', matureRefLevel = 1 },
 	{ jkrKey = 'j_mail', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	-- { jkrKey = 'j_to_the_moon', matureRefLevel = 1 },
-	-- { jkrKey = 'j_hallucination', matureRefLevel = 1 },
+	{ jkrKey = 'j_hallucination', matureRefLevel = 1, artCreditKey = 'jA_ObsvDuty' },
 	
 	-- { jkrKey = 'j_sly', matureRefLevel = 1 },
 	-- { jkrKey = 'j_wily', matureRefLevel = 1 },

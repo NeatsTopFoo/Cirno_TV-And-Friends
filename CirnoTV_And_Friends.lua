@@ -8,6 +8,8 @@ CirnoMod.miscItems = {
 	artCreditKeys = {},
 	deckSkinNames = {},
 	keysOfAllCirnoModItems = {}, -- This will be used for any effects the focus on stuff edited or introduced by this mod
+	switchKeys = {},
+	switchTables = {},
 	matureReferencesOpt = { "(Hopefully) Safest", "Some", "All" }, -- These are the options that appear on the new cycle option for mature references.
 	colours = {
 		cirBlue = HEX('0766EBFF'),
@@ -16,7 +18,17 @@ CirnoMod.miscItems = {
 		cirNep = HEX('D066ADFF'),
 		bbBlack = HEX('000000FF'),
 		bbInvisText = HEX('00000000')
-	}
+	},
+	addUITextNode = function(nodes, text, colour, scale)
+		nodes[#nodes + 1] = {
+			n = G.UIT.T,
+			config = {
+				text = text,
+				colour = colour,
+				scale = scale*0.3
+			}
+		}
+	end
 }
 
 CirnoMod.miscItems.getLocColour = function(colourNameStr, defaultColourStr)
@@ -35,6 +47,49 @@ function loc_colour(_c, _default)
 	else
 		return old_loc_colour(_c, _default)
 	end
+end
+
+
+--[[
+TODO: Describe what these are and how they work.
+I probably won't and this will stay like this
+forever, which would be even funnier. Good luck.]]
+CirnoMod.miscItems.createABSwitchLatch = function(itemKey, chance, startOnAOrB)
+	if 
+		not CirnoMod.miscItems.switchKeys[itemKey]
+		and (startOnAOrB == 'A' or startOnAOrB == 'B')
+	then
+		table.insert(CirnoMod.miscItems.switchKeys, itemKey)
+		
+		CirnoMod.miscItems.switchTables[itemKey] = {
+			AB = startOnAOrB,
+			sType = "ABSwitchLatch",
+			first = noFirstHoverProc,
+			procChance = chance
+		}
+	end	
+	return CirnoMod.miscItems.switchTables[itemKey]
+end
+
+CirnoMod.miscItems.processSwitch = function(itemKey)
+	if CirnoMod.miscItems.switchTables[itemKey] then
+		if CirnoMod.miscItems.switchTables[itemKey].first then
+			CirnoMod.miscItems.switchTables[itemKey].first = false
+		else
+			if CirnoMod.miscItems.switchTables[itemKey].sType == "ABSwitchLatch" then
+				-- AB Switch processing					
+				if CirnoMod.miscItems.switchTables[itemKey].AB == 'A' then
+					if pseudorandom(itemKey) < CirnoMod.miscItems.switchTables[itemKey].procChance then
+						CirnoMod.miscItems.switchTables[itemKey].AB = 'B'
+					end
+				elseif CirnoMod.miscItems.switchTables[itemKey].AB == 'B' then
+					CirnoMod.miscItems.switchTables[itemKey].AB = 'A'
+				end
+			end
+		end
+	end
+	
+	return CirnoMod.miscItems.switchTables[itemKey]
 end
 
 --[[

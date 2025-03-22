@@ -5,7 +5,7 @@ A Balatro mod themed around [Cirno_TV](https://www.twitch.tv/Cirno_TV/), with va
 
 ![CTVaF Logo](https://i.imgur.com/CcRk9nq.png)
 
-**Cirno_TV & Friends** is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.expert), which both retextures existing Jokers and adds some new ones, as well as various other changes such as some Joker names & descriptions, retextures of some enhancers & all blinds, and more!
+**Cirno_TV & Friends** is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.expert), which retextures existing Jokers and adds some new ones, as well as various other changes such as some Joker names & descriptions, retextures of some enhancers & all blinds, and more!
 
 DaemonTsun's art contributions are public domain - Some memes or pictures are not by him and copied as is, with some Jokers only being slightly edited. Further credits are available at the bottom of this README. Original Balatro art is property of LocalThunk.
 
@@ -15,7 +15,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 62 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
+  - 65 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
   - All Blind Chips
   - All Seals
   - All Planet Cards

@@ -262,6 +262,44 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_mr_bones, "text", {
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_trio, "name", "The Trio")
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_family, "name", "The Family")
+if CirnoMod.config['matureReferences_cyc'] >= 2 then
+
+	CirnoMod.miscItems.createABSwitchLatch('j_family', 0.25, 'A')
+	
+	SMODS.process_loc_text(G.localization.descriptions.Joker.j_family, "text", {
+                    "{X:mult,C:white} X#1# {} Mult if played",
+                    "hand contains",
+                    "a {C:attention}#2#",
+					"{s:0.8,C:inactive}#3#",
+					"{s:0.5,C:inactive}Search \"Cirno_TV Let me rephrase that\"",
+					"{s:0.5,C:inactive}on YT to learn more!"
+                })
+	
+	SMODS.Joker:take_ownership('family',
+		{
+			locAB = {
+				A = "This is the nicest Joker.",
+				B = "This is the incest Joker."
+			},
+			
+			loc_vars = function(self, info_queue, card)				
+				CirnoMod.miscItems.processSwitch('j_family')
+				return {					
+					vars = {card.ability.x_mult, localize(card.ability.type, 'poker_hands'), self.locAB[CirnoMod.miscItems.switchTables['j_family'].AB]}
+				}
+			end
+		},
+	true)
+else
+	SMODS.process_loc_text(G.localization.descriptions.Joker.j_family, "text", {
+                    "{X:mult,C:white} X#1# {} Mult if played",
+                    "hand contains",
+                    "a {C:attention}#2#",
+					"{s:0.8,C:inactive}...Should probably rephrase that.",
+					"{s:0.5,C:inactive}Search \"Cirno_TV Let me rephrase that\"",
+					"{s:0.5,C:inactive}on YT to learn more!"
+                })
+end
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_order, "name", "The Order")
 
@@ -707,7 +745,16 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_mail, "text", {
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_to_the_moon, "name", "To The Moon")
 
--- SMODS.process_loc_text(G.localization.descriptions.Joker.j_hallucination, "name", "Hallucination")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_hallucination, "name", "Imaginary Anomaly")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_hallucination, "text", {
+                    "{C:green}#1# in #2#{} chance to create",
+                    "a {C:tarot}Tarot{} card when any",
+                    "{C:attention}Booster Pack{} is opened",
+                    "{C:inactive}(Must have room)",
+					"{s:0.8,C:inactive}...Chat? Was that doorframe",
+					"{s:0.8,C:inactive}always dark? There's no way,",
+					"{s:0.8,C:inactive}right?"
+                })
 
 
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_sly, "name", "Sly Joker")
