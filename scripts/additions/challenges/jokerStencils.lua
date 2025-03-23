@@ -241,6 +241,7 @@ CirnoMod.ChalFuncs.jokerStencilsDebuffCheck = function(calledFromWhichEvent)
 					end
 					
 					if undebuffing then
+						jkr:juice_up()
 						SMODS.calculate_effect({ message = "Undebuffed!" }, jkr)
 					end
 				end

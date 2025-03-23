@@ -55,12 +55,13 @@ SMODS.process_loc_text(G.localization.descriptions.Tarot.c_strength, "text", {
                 })
 
 -- SMODS.process_loc_text(G.localization.descriptions.Tarot.c_devil, "name", "The Devil")
---	SMODS.process_loc_text(G.localization.descriptions.Tarot.c_devil, "text", 
---	                    "Enhances {C:attention}#1#{} selected",
---	                    "card into a",
---	                    "{C:attention}#2#",
---						"{s:0.8,C:inactive}"
---	                })
+--[[
+SMODS.process_loc_text(G.localization.descriptions.Tarot.c_devil, "text", 
+		"Enhances {C:attention}#1#{} selected",
+		"card into a",
+		"{C:attention}#2#",
+		"{s:0.8,C:inactive}"
+	})]]
 
 SMODS.process_loc_text(G.localization.descriptions.Tarot.c_sun, "name", "The Sus")
 SMODS.process_loc_text(G.localization.descriptions.Tarot.c_sun, "text", {
@@ -86,4 +87,12 @@ SMODS.process_loc_text(G.localization.descriptions.Spectral.c_soul, "text", {
                     "{C:legendary,E:1}Legendary{} Joker",
                     "{C:inactive}(Must have room)",
                     "{s:0.8,C:inactive}The shape of a friend."
+                })
+
+SMODS.process_loc_text(G.localization.descriptions.Spectral.c_wraith, "name", "Frieren")
+SMODS.process_loc_text(G.localization.descriptions.Spectral.c_wraith, "text", {
+                    "Creates a random",
+                    "{C:red}Rare{C:attention} Joker{},",
+                    "sets money to {C:money}$0",
+                    "{s:0.8,C:inactive}...Would Himmel do this?"
                 })

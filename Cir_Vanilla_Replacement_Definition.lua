@@ -625,7 +625,7 @@ replaceDef.spectralReplacements = {
 	{ spcKey = 'c_soul', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
 	--	{ spcKey = 'c_talisman', matureRefLevel = 1 },
 	--	{ spcKey = 'c_trance', matureRefLevel = 1 },
-	--	{ spcKey = 'c_wraith', matureRefLevel = 1 }
+	{ spcKey = 'c_wraith', matureRefLevel = 1, artCreditKey = 'gA_Wraith' }
 }
 
 --------------------
