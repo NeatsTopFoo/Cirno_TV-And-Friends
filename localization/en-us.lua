@@ -31,6 +31,7 @@ creditSources.solga = "Solgalestia"
 creditSources.nyong = "NyongNyong"
 creditSources.turpix = "Turpix"
 creditSources.muddle = "Muddleee"
+creditSources.hatotoou = "Hatotoou"
 creditSources.notovia = "Notovia"
 creditSources.thunk = "LocalThunk"
 creditSources.unknown = "{X:black,C:white}Unknown{}"
@@ -306,6 +307,13 @@ RV.descriptions.Other = {
 		text = {
 			creditSources.DTsun..", {X:mult,C:white}Alberta,",
 			"{X:mult,C:white}Canada{}, & "..creditSources.NTF
+		}
+	},
+	gA_Wraith = {
+		name = creditSources.cr_GenericArt,
+		text = {
+			creditSources.hatotoou..", edited",
+			"by "..creditSources.NTF
 		}
 	},
 	jA_Unknown = {
