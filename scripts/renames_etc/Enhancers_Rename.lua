@@ -3,11 +3,13 @@ SMODS.process_loc_text(G.localization.misc.labels, "gold_seal", "Full Power Seal
 SMODS.process_loc_text(G.localization.misc.labels, "purple_seal", "Life Seal")
 SMODS.process_loc_text(G.localization.misc.labels, "red_seal", "Power Seal")
 
+if not CirnoMod.config.planetTarotSpectralRenames then
 SMODS.process_loc_text(G.localization.descriptions.Spectral.c_deja_vu, "text", {
                     "Add a {C:red}"..G.localization.misc.labels.red_seal,
                     "to {C:attention}1{} selected",
                     "card in your hand"
                 })
+end
 
 SMODS.process_loc_text(G.localization.descriptions.Spectral.c_medium, "text", {
                     "Add a {C:purple}"..G.localization.misc.labels.purple_seal,

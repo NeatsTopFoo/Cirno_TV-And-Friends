@@ -568,7 +568,7 @@ replaceDef.tarotReplacements = {
 	{ trtKey = 'c_empress', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_emperor', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_heirophant', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' }, -- Yes, also mispelled internally; Make sure to have it right... Or wrong, in this case.
-	{ trtKey = 'c_lovers', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_lovers', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
 	{ trtKey = 'c_chariot', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_justice', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_hermit', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
@@ -608,11 +608,11 @@ replaceDef.planetReplacements = {
 ---- Spectrals -----
 --------------------
 replaceDef.spectralReplacements = {
-	--	{ spcKey = 'c_ankh', matureRefLevel = 1 },
+	{ spcKey = 'c_ankh', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_NTFEdit' },
 	--	{ spcKey = 'c_aura', matureRefLevel = 1 },
 	{ spcKey = 'c_black_hole', matureRefLevel = 1, artCreditKey = 'gA_BlackHole' },
 	--	{ spcKey = 'c_cryptid', matureRefLevel = 1 },
-	--	{ spcKey = 'c_deja_vu', matureRefLevel = 1 },
+	{ spcKey = 'c_deja_vu', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
 	--	{ spcKey = 'c_octoplasm', matureRefLevel = 1 },
 	--	{ spcKey = 'c_familiar', matureRefLevel = 1 },
 	--	{ spcKey = 'c_grim', matureRefLevel = 1 },
@@ -620,7 +620,7 @@ replaceDef.spectralReplacements = {
 	--	{ spcKey = 'c_immolate', matureRefLevel = 1 },
 	--	{ spcKey = 'c_incantation', matureRefLevel = 1 },
 	--	{ spcKey = 'c_medium', matureRefLevel = 1 },
-	--	{ spcKey = 'c_ouija', matureRefLevel = 1 },
+	{ spcKey = 'c_ouija', matureRefLevel = 1, artCreditKey = 'gA_NTF' },
 	--	{ spcKey = 'c_sigil', matureRefLevel = 1 },
 	{ spcKey = 'c_soul', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
 	--	{ spcKey = 'c_talisman', matureRefLevel = 1 },

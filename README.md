@@ -20,9 +20,9 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
   - All Seals
   - All Planet Cards
   - 11 Booster Packs
-  - 5 Tarot Cards
+  - 6 Tarot Cards
+  - 6 Spectral Cards
   - 3 Decks
-  - 3 Spectral Cards
   - 1 Enhancement
   - The title screen
 
@@ -31,8 +31,8 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
   - All Planet Cards
   - Most blinds
   - A significant amount of retextured Jokers
-  - 5 Tarot Cards
-  - 3 Spectral Cards
+  - 6 Tarot Cards
+  - 6 Spectral Cards
   - 1 Enhancement
 
 - Adds:

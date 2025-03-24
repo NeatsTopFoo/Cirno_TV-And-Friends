@@ -96,7 +96,7 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_credit_card, "text", 
 					"{s:0.8,C:inactive}people at once?\""
                 })
 
-SMODS.process_loc_text(G.localization.descriptions.Joker.j_greedy_joker, "name", "Greedy DM")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_greedy_joker, "name", "DiaMonds")
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_greedy_joker, "text", {
                     "Played cards with",
                     "{C:diamonds}#2#{} suit give",
@@ -104,10 +104,10 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_greedy_joker, "text",
 					"{s:0.8,C:inactive}Backseat? Directly to jail.",
 					"{s:0.8,C:inactive}Do not pass Go,",
 					"{s:0.8,C:inactive}do not collect $200.",
-					"{s:0.8,C:inactive}In fact, pay $35."
+					"{s:0.8,C:inactive}In fact, pay $35. US."
                 })
 
-SMODS.process_loc_text(G.localization.descriptions.Joker.j_lusty_joker, "name", "Lusty Hannah")
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_lusty_joker, "name", "hannahLove")
 if CirnoMod.config['matureReferences_cyc'] == 3 then
 	SMODS.process_loc_text(G.localization.descriptions.Joker.j_lusty_joker, "text", {
 						"Played cards with",
@@ -264,7 +264,7 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_mr_bones, "text", {
 -- SMODS.process_loc_text(G.localization.descriptions.Joker.j_family, "name", "The Family")
 if CirnoMod.config['matureReferences_cyc'] >= 2 then
 
-	CirnoMod.miscItems.createABSwitchLatch('j_family', 0.25, 'A')
+	CirnoMod.miscItems.createABSwitchLatch('j_family', 0.15, 'A')
 	
 	SMODS.process_loc_text(G.localization.descriptions.Joker.j_family, "text", {
                     "{X:mult,C:white} X#1# {} Mult if played",
@@ -499,13 +499,14 @@ else
 end
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_yorick, "name", "ThorW")
---[[
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_yorick, "text", {
     "This Joker gains",
     "{X:mult,C:white} X#1# {} Mult every {C:attention}#2#{C:inactive} [#3#]{}",
     "cards discarded",
     "{C:inactive}(Currently {X:mult,C:white} X#4# {C:inactive} Mult)",
-})]]
+	"{s:0.8,C:inactive}\"It's James from Pokemon!",
+	"{s:0.8,C:inactive}In that one episode!\""
+})
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_chicot, "name", "ReimMomo")
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_chicot, "text", {
@@ -515,13 +516,13 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_chicot, "text", {
                 })
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_perkeo, "name", "Biggdeck")
---[[
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_perkeo, "text", {
     "Creates a {C:dark_edition}Negative{} copy of",
     "{C:attention}1{} random {C:attention}consumable{}",
     "card in your possession",
     "at the end of the {C:attention}shop",
-})]]
+	"{s:0.8,C:inactive}Biggdeck? This is Anon, silly."
+})
 
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_certificate, "name", "Empty Scroll")
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_certificate, "text", {
