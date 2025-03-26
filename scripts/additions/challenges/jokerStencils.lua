@@ -22,6 +22,13 @@ my intentions so far for challenges being:
   the size and consist entirely of Queens. Revise if there
   were changes to the deck skin.
 ]]
+local stencilIntencil = G.localization.descriptions.Joker.j_stencil.name
+
+if CirnoMod.replaceDef.locChanges.jkrLoc then
+	if CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs.j_stencil then
+		stencilIntencil = CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs.j_stencil.name or G.localization.descriptions.Joker.j_stencil.name
+	end
+end
 
 local chalInfo = {
 	matureRefLevel = 1,
@@ -65,12 +72,18 @@ local chalInfo = {
 }
 
 G.localization.misc.v_text.ch_c_cir_jokerStencils = {
-	"Start with 5 {C:eternal}Eternal{}, {C:attention}debuffed{} "..G.localization.descriptions.Joker.j_stencil.name.."s."
+	"Start with 5 {C:eternal}Eternal{}, {C:attention}debuffed{} "..stencilIntencil.."s."
 }
 
 G.localization.misc.v_text.ch_c_cir_jokerStencilsA = {
 	"Every {C:attention}2{} defeated {C:attention}Boss Blinds{} removes a debuff."
 }
+
+CirnoMod.ChalFuncs.updateStencilName = function(stencilIntencil_)
+	G.localization.misc.v_text.ch_c_cir_jokerStencils = {
+		"Start with 5 {C:eternal}Eternal{}, {C:attention}debuffed{} "..stencilIntencil_.."s."
+	}
+end
 
 CirnoMod.ChalFuncs.jokerStencilsDebuffCheck = function(calledFromWhichEvent)
 	-- print(calledFromWhichEvent)

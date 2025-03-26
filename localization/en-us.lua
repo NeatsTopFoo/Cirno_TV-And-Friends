@@ -337,13 +337,22 @@ RV.descriptions.Other = {
 Have to do this this way because
 SMODS.process_loc_text() spontaneously
 stopped working for stone cards.]]
-if CirnoMod.config['enhancerRenames'] then
-	RV.descriptions.Enhanced = { m_stone = { name = "Whump Card" } }
+if
+	CirnoMod.config['enhancerRenames']
+then
+	local stoneIntent = G.localization.descriptions.Enhanced.m_stone.name
+	
+	if CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone then
+		stoneIntent = CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name
+	end
+	
+	-- RV.descriptions.Enhanced = { m_stone = { name = "Whump Card" } }
 	RV.misc = { dictionary = {
-		k_plus_stone = "+1 Whump",
-		ph_deck_preview_stones = "Whumps"
+		k_plus_stone = "+1 "..stoneIntent,
+		ph_deck_preview_stones = stoneIntent.."s"
 	} }
 	
+	--[[
 	RV.descriptions.Joker = {
 		j_marble = {
 			text = {
@@ -352,7 +361,7 @@ if CirnoMod.config['enhancerRenames'] then
                 "{C:attention}Blind{} is selected",
             }
 		}
-	}
+	}]]
 end
 
 return RV

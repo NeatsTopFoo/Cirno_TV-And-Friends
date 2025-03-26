@@ -286,7 +286,7 @@ graphic is safe or has a safe replacement.
 The Malverk script will need to be updated
 if we add other things to this ]]
 
-replaceDef.allKeysToIgnore = { -- There's robably a better way to do this
+replaceDef.allKeysToIgnore = { -- There's probably a better way to do this
 	j_wee = true,
 	j_caino = true,
 	j_triboulet = true,

@@ -17,32 +17,9 @@ helpful in terms of compatibility with other Malverk mods? Maybe? But
 ultimately, I think it's just really, really unnecessary. And would
 probably clutter it, too.
 
---------------------------
------ Regular Jokers -----
---------------------------]]
-AltTexture({
-	key = 'mlvrk_NormalJokers',
-	set = 'Joker',
-	path = CirnoMod.replaceDef.getPath("joker"),
-	
-	-- Sets the graphic of the mod card in Malverk UI to be Blueprint.
-	-- It's basically the face of this mod at this point.
-	display_pos = 'j_blueprint',
-	
-	-- This just informs the mod that the graphic we're providing is the
-	-- exact dimensions of the default Balatro Joker sheet
-	original_sheet = true,
-	
-	-- Defined in Cir_Vanilla_Replacement_Definition.lua.
-	keys = CirnoMod.replaceDef.jokerReplacementKeys,
-	loc_txt = {
-		name = 'Jokers'
-	}
-})
-
 ---------------------
 ----- Wee Joker -----
----------------------
+---------------------]]
 AltTexture({
 	key = 'mlvrk_WeeJoker',
 	set = 'Joker',
@@ -50,6 +27,7 @@ AltTexture({
 	
 	-- Just the Wee Joker.
 	keys = { 'j_wee' },
+	localization = CirnoMod.replaceDef.locChanges.jkrLoc.weeJkr,
 	loc_txt = {
 		name = 'Wee Joker'
 	}
@@ -76,6 +54,7 @@ AltTexture({
 		'j_chicot',
 		'j_perkeo'
 	},
+	localization = CirnoMod.replaceDef.locChanges.jkrLoc.lgndJkrs,
 	loc_txt = {
 		name = 'Legendary Jokers'
 	}
@@ -91,6 +70,7 @@ AltTexture({
 	path = CirnoMod.replaceDef.getPath("tarot"),
 	original_sheet = true,
 	keys = CirnoMod.replaceDef.tarotReplacementKeys,
+	localization = CirnoMod.replaceDef.locChanges.tarotLoc,
 	loc_txt = {
 		name = 'Tarots'
 	}
@@ -102,6 +82,7 @@ AltTexture({
 	path = CirnoMod.replaceDef.getPath("planet"),
 	original_sheet = true,
 	keys = CirnoMod.replaceDef.planetReplacementKeys,
+	localization = CirnoMod.replaceDef.locChanges.planetLoc,
 	loc_txt = {
 		name = 'Planets'
 	}
@@ -113,6 +94,7 @@ AltTexture({
 	path = CirnoMod.replaceDef.getPath("spectral"),
 	original_sheet = true,
 	keys = CirnoMod.replaceDef.spectralReplacementKeys,
+	localization = CirnoMod.replaceDef.locChanges.spectralLoc,
 	loc_txt = {
 		name = 'Spectrals'
 	}
@@ -135,6 +117,7 @@ AltTexture({
 	soul_keys = {
 		'c_soul'
 	},
+	localization = CirnoMod.replaceDef.locChanges.soulLoc,
 	loc_txt = {
 		name = 'Soul Card'
 	}
@@ -153,6 +136,7 @@ AltTexture({
 	path = CirnoMod.replaceDef.getPath("booster"),
 	original_sheet = true,
 	keys = CirnoMod.replaceDef.boosterReplacementKeys,
+	localization = CirnoMod.replaceDef.locChanges.boosterLoc,
 	loc_txt = {
 		name = 'Boosters'
 	}
@@ -173,6 +157,7 @@ AltTexture({
 	path = CirnoMod.replaceDef.getPath("deck"),
 	original_sheet = true,
 	keys = CirnoMod.replaceDef.deckReplacementKeys,
+	localization = CirnoMod.replaceDef.locChanges.deckLoc,
 	loc_txt = {
 		name = 'Decks'
 	}
@@ -185,6 +170,7 @@ AltTexture({
 	path = CirnoMod.replaceDef.getPath("enhancer"),
 	original_sheet = true,
 	keys = CirnoMod.replaceDef.enhancerReplacementKeys,
+	localization = CirnoMod.replaceDef.locChanges.enhancerLoc,
 	loc_txt = {
 		name = 'Enhancers'
 	}
@@ -253,6 +239,7 @@ AltTexture({
 		'bl_pillar',
 		'bl_flint'
 	},
+	localization = CirnoMod.replaceDef.locChanges.blindsLoc.bosses,
 	loc_txt = {
 		name = 'Boss Blinds'
 	}
@@ -272,8 +259,33 @@ AltTexture({
 		'bl_final_leaf',
 		'bl_final_vessel'
 	},
+	localization = CirnoMod.replaceDef.locChanges.blindsLoc.finals,
 	loc_txt = {
 		name = 'Finale Blinds'
+	}
+})
+
+--------------------------
+----- Regular Jokers -----
+--------------------------
+AltTexture({
+	key = 'mlvrk_NormalJokers',
+	set = 'Joker',
+	path = CirnoMod.replaceDef.getPath("joker"),
+	
+	-- Sets the graphic of the mod card in Malverk UI to be Blueprint.
+	-- It's basically the face of this mod at this point.
+	display_pos = 'j_blueprint',
+	
+	-- This just informs the mod that the graphic we're providing is the
+	-- exact dimensions of the default Balatro Joker sheet
+	original_sheet = true,
+	
+	-- Defined in Cir_Vanilla_Replacement_Definition.lua.
+	keys = CirnoMod.replaceDef.jokerReplacementKeys,
+	localization = CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs,
+	loc_txt = {
+		name = 'Jokers'
 	}
 })
 
@@ -288,34 +300,12 @@ What switch_func? Do I have a virus?????]]
 TexturePack{
 	key = 'mlvrk',
 	
-	--[[
-	Malverk is VERY strict about
-	how you write your texture lines.
-	The formula is [MOD KEY]_[ALT TEXTURE KEY]
-	The mod key can be found in the config file.]]
-	textures = {
-		'cir_mlvrk_NormalJokers',
-		'cir_mlvrk_WeeJoker',
-		'cir_mlvrk_LegendaryJokers',
-		
-		'cir_mlvrk_Boosters',
-		'cir_mlvrk_Tarots',
-		'cir_mlvrk_Planets',
-		'cir_mlvrk_Spectrals',
-		'cir_mlvrk_Soul',
-		'cir_mlvrk_Decks',
-		'cir_mlvrk_Enhancers',
-		'cir_mlvrk_Seals',
-		
-		'cir_mlvrk_SmallBigBlind',
-		'cir_mlvrk_Boss_Blinds',		
-		'cir_mlvrk_Finale_Blinds'
-	},
+	textures = CirnoMod.replaceDef.mlvrkTextPackTextList,
 	loc_txt = {
 		name = 'Cirno_TV & Friends',
 		text = {
 			'Replaces textures with',
-			'Cirno_TV themed variants',
+			'{C:cirCyan}Cirno_TV{} themed variants',
 			'& memes.'
 		}
 	}

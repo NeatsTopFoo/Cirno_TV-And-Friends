@@ -1,16 +1,20 @@
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_abandoned, "name", "Abandoned Deck")
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_anaglyph, "name", "Anaglyph Deck")
-SMODS.process_loc_text(G.localization.descriptions.Back.b_black, "name", "Marisa Deck")
-SMODS.process_loc_text(G.localization.descriptions.Back.b_blue, "name", "Cirno Deck")
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_checkered, "name", "Checkered Deck")
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_challenge, "name", "Challenge Deck")
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_erratic, "name", "Erratic Deck")
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_ghost, "name", "Ghost Deck")
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_green, "name", "Green Deck")
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_magic, "name", "Magic Deck")
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_nebula, "name", "Nebula Deck")
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_painted, "name", "Painted Deck")
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_plasma, "name", "Plasma Deck")
-SMODS.process_loc_text(G.localization.descriptions.Back.b_red, "name", "Reimu Deck")
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_yellow, "name", "Yellow Deck")
--- SMODS.process_loc_text(G.localization.descriptions.Back.b_zodiac, "name", "Zodiac Deck")
+local deckLoc = {}
+
+-- deckLoc.b_abandoned = { name = "Abandoned Deck" }
+-- deckLoc.b_anaglyph = { name = "Anaglyph Deck" }
+deckLoc.b_black = { name = "Marisa Deck" }
+deckLoc.b_blue = { name = "Cirno Deck" }
+-- deckLoc.b_checkered = { name = "Checkered Deck" }
+-- deckLoc.b_challenge = { name = "Challenge Deck" }
+-- deckLoc.b_erratic = { name = "Erratic Deck" }
+-- deckLoc.b_ghost = { name = "Ghost Deck" }
+-- deckLoc.b_green = { name = "Green Deck" }
+-- deckLoc.b_magic = { name = "Magic Deck" }
+-- deckLoc.b_nebula = { name = "Nebula Deck" }
+-- deckLoc.b_painted = { name = "Painted Deck" }
+-- deckLoc.b_plasma = { name = "Plasma Deck" }
+deckLoc.b_red = { name = "Reimu Deck" }
+-- deckLoc.b_yellow = { name = "Yellow Deck" }
+-- deckLoc.b_zodiac = { name = "Zodiac Deck" }
+
+return deckLoc

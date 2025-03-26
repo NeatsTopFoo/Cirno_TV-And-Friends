@@ -1,107 +1,161 @@
-local miscRenameTables = {}
+local miscLoc = { boosters = {}, vouchers = {} }
+local planetIntent = G.localization.misc.labels.planet
+--[[
+Can't go based off the actual localisation variable name because it isn't changed  yet.
+Thus, we need to establish what our intended changes will be and do it that way.]]
+if CirnoMod.config.planetsAreHus then
+	planetIntent = "Hu"
+end
+
+-- ...There's probably a better way to do this.
+local sealIntent = {
+		blue_seal = G.localization.descriptions.Other.blue_seal.name,
+		red_seal = G.localization.descriptions.Other.red_seal.name,
+		gold_seal = G.localization.descriptions.Other.gold_seal.name,
+		purple_seal = G.localization.descriptions.Other.purple_seal.name
+	}
+
+if
+	CirnoMod.replaceDef.locChanges.sealLoc.blue_seal
+	and CirnoMod.replaceDef.locChanges.sealLoc.red_seal
+	and CirnoMod.replaceDef.locChanges.sealLoc.gold_seal
+	and CirnoMod.replaceDef.locChanges.sealLoc.purple_seal
+then
+	sealIntent = {
+		blue_seal = CirnoMod.replaceDef.locChanges.sealLoc.blue_seal.name,
+		red_seal = CirnoMod.replaceDef.locChanges.sealLoc.red_seal.name,
+		gold_seal = CirnoMod.replaceDef.locChanges.sealLoc.gold_seal.name,
+		purple_seal = CirnoMod.replaceDef.locChanges.sealLoc.purple_seal.name
+	}
+end
+
+local celestPackIntent = G.localization.descriptions.Other.p_celestial_normal.name
+
+if CirnoMod.replaceDef.locChanges.boosterLoc then
+	if CirnoMod.replaceDef.locChanges.boosterLoc.p_celestial_normal then
+		celestPackIntent = CirnoMod.replaceDef.locChanges.boosterLoc.p_celestial_normal.name or celestPackIntent
+	end
+end
+
+--#region Win/Lose Quips
 
 --[[
 SMODS.process_loc_text(G.localization.misc.quips, "lq_1", {
-	"Maybe Go Fish",
-	"is more our",
-	"speed..."
-})]]
+		"Maybe Go Fish",
+		"is more our",
+		"speed..."
+	})]]
 
 --[[
 SMODS.process_loc_text(G.localization.misc.quips, "lq_2", {
-	"We folded like",
-	"a cheap suit!",
-})]]
+		"We folded like",
+		"a cheap suit!",
+	})]]
 
 --[[
 SMODS.process_loc_text(G.localization.misc.quips, "lq_3", {
-	"Time for us",
-	"to shuffle off",
-	"and try again!",
-})]]
+		"Time for us",
+		"to shuffle off",
+		"and try again!",
+	})]]
 
 --[[
 SMODS.process_loc_text(G.localization.misc.quips, "lq_4", {
-   "You know what",
-   "they say, the",
-   "house always wins!"
-})]]
+		"You know what",
+		"they say, the",
+		"house always wins!"
+	})]]
 
 SMODS.process_loc_text(G.localization.misc.quips, "lq_5", {
-                "Looks like you're trying",
-                "to make a {C:red}"..G.localization.misc.labels.red_seal,
-                "{C:attention}Steel King{} build. Would",
-				"you like help with that?"
-            })
+		"Looks like you're trying",
+		"to make a {C:red}"..sealIntent.red_seal,
+		"{C:attention}Steel King{} build. Would",
+		"you like help with that?"
+	})
 
 --[[
 SMODS.process_loc_text(G.localization.misc.quips, "lq_6", {
-	"Oh no, were you",
-	"bluffing too?",
-})]]
+		"Oh no, were you",
+		"bluffing too?",
+	)]]
 
 --[[
 SMODS.process_loc_text(G.localization.misc.quips, "lq_7", {
-    "It looks like you're",
-    "trying to make a Red Seal",
-    "Steel King build. Would",
-	"you like help with that?"
-})]]
+		"Looks like the",
+		"joke's on us!",
+	})]]
 
 --[[
 SMODS.process_loc_text(G.localization.misc.quips, "lq_8", {
-	"Looks like the",
-	"joke's on us!"
-})]]
+		"If I had hands",
+		"I would have",
+		"covered my eyes!"
+	})]]
 
 --[[
 SMODS.process_loc_text(G.localization.misc.quips, "lq_9", {
-	"If I had hands",
-	"I would have",
-	"covered my eyes!"
-})]]
+		"I'm literally",
+		"a fool, what's",
+		"your excuse?"
+	})]]
 
 SMODS.process_loc_text(G.localization.misc.quips, "lq_10", {
-				"What the fluoride?"
-			})
+		"What the",
+		"fluoride?"
+	})
+	
+--#endregion
+
+--#region Boosters
+
+miscLoc.boosters.p_celestial_normal = {}
 
 if not CirnoMod.config['planetsAreHus'] then
-	-- SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_normal, "name", "Celestial Pack")
+	-- miscLoc.boosters.p_celestial_normal.name = "Celestial Pack"
 end
 
-SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_normal, "text", {
-                    "Choose {C:attention}#1#{} of up to",
-                    "{C:attention}#2#{C:planet} "..G.localization.misc.labels.planet.."{} cards to",
-                    "be used immediately",
-                })
+miscLoc.boosters.p_celestial_normal.text = {
+		"Choose {C:attention}#1#{} of up to",
+		"{C:attention}#2#{C:planet} "..planetIntent.."{} cards to",
+		"be used immediately",
+	}
+
+miscLoc.boosters.p_celestial_jumbo = {}
 
 if not CirnoMod.config['planetsAreHus'] then
-	-- SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_jumbo, "name", "Jumbo Celestial Pack")
+	-- miscLoc.boosters.p_celestial_jumbo.name = "Jumbo Celestial Pack"
 end
 
-SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_jumbo, "text", {
-                    "Choose {C:attention}#1#{} of up to",
-                    "{C:attention}#2#{C:planet} "..G.localization.misc.labels.planet.."{} cards to",
-                    "be used immediately",
-                })
+miscLoc.boosters.p_celestial_jumbo.text = {
+		"Choose {C:attention}#1#{} of up to",
+		"{C:attention}#2#{C:planet} "..planetIntent.."{} cards to",
+		"be used immediately",
+	}
+
+miscLoc.boosters.p_celestial_mega = {}
 
 if not CirnoMod.config['planetsAreHus'] then
-	-- SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_mega, "name", "Mega Celestial Pack")
+	-- miscLoc.boosters.p_celestial_mega.name = "Mega Celestial Pack"
 end
 
-SMODS.process_loc_text(G.localization.descriptions.Other.p_celestial_mega, "text", {
-                    "Choose {C:attention}#1#{} of up to",
-                    "{C:attention}#2#{C:planet} "..G.localization.misc.labels.planet.."{} cards to",
-                    "be used immediately",
-                })
+miscLoc.boosters.p_celestial_mega.text = {
+		"Choose {C:attention}#1#{} of up to",
+		"{C:attention}#2#{C:planet} "..planetIntent.."{} cards to",
+		"be used immediately",
+	}
+
+--#endregion
+
+--#region Vouchers
+-- TODO: Vouchers, when we replace some.
 
 if not CirnoMod.config['planetsAreHus'] then
 	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_telescope, "name", "Telescope")
 end
 
 SMODS.process_loc_text(G.localization.descriptions.Voucher.v_telescope, "text", {
-                    "{C:attention}"..G.localization.descriptions.Other.p_celestial_normal.name.."s{} always",
-                    "contain the {C:planet}"..G.localization.misc.labels.planet,
+                    "{C:attention}"..celestPackIntent.."s{} always",
+                    "contain the {C:planet}"..planetIntent,
                     "card for your most",
                     "played {C:attention}poker hand",
                 })
@@ -111,7 +165,7 @@ if not CirnoMod.config['planetsAreHus'] then
 end
 
 SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "text", {
-                    "{C:planet}"..G.localization.misc.labels.planet.."{} cards in your",
+                    "{C:planet}"..planetIntent.."{} cards in your",
                     "{C:attention}consumable{} area give",
                     "{X:red,C:white} X#1# {} Mult for their",
                     "specified {C:attention}poker hand",
@@ -119,8 +173,8 @@ SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "text"
 				
 SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "unlock", {
                     "Use a total of {C:attention}#1#",
-                    "{C:planet}"..G.localization.misc.labels.planet.."{} cards from any",
-                    "{C:planet}"..G.localization.descriptions.Other.p_celestial_normal.name,
+                    "{C:planet}"..planetIntent.."{} cards from any",
+                    "{C:planet}"..celestPackIntent,
                     "{C:inactive}(#2#)",
                 })
 
@@ -129,7 +183,7 @@ if not CirnoMod.config['planetsAreHus'] then
 end
 
 SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_merchant, "text", {
-                    "{C:planet}"..G.localization.misc.labels.planet.."{} cards appear",
+                    "{C:planet}"..planetIntent.."{} cards appear",
                     "{C:attention}#1#X{} more frequently",
                     "in the shop",
                 })
@@ -139,17 +193,21 @@ if not CirnoMod.config['planetsAreHus'] then
 end
 
 SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "text", {
-                    "{C:planet}"..G.localization.misc.labels.planet.."{} cards appear",
+                    "{C:planet}"..planetIntent.."{} cards appear",
                     "{C:attention}#1#X{} more frequently",
                     "in the shop",
                 })
 
 SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "unlock", {
                     "Buy a total of",
-                    "{C:attention}#1#{C:planet} "..G.localization.misc.labels.planet.."{} cards",
+                    "{C:attention}#1#{C:planet} "..planetIntent.."{} cards",
                     "from the shop",
                     "{C:inactive}(#2#)",
                 })
+				
+--#endregion
+
+--#region Shop flavour text
 
 SMODS.process_loc_text(G.localization.misc.dictionary, "ph_improve_run", "Lose all your money!")
 
@@ -160,7 +218,7 @@ may rescale it in the UI to the point of illegibility. Or clip.
 unsure which. But "Pretend to be bad at the game for content!"
 is probably the extent of how long it could reasonably be?
 It may be too long.]]
-miscRenameTables.shopFlavourPool = {
+CirnoMod.miscItems.miscRenameTables.shopFlavourPool = {
 	"Lose all your money!",
 	"Drop matcha ice cream!",
 	"Throw the run!",
@@ -177,4 +235,6 @@ miscRenameTables.shopFlavourPool = {
 	"Immortalise your stupidity!"
 }
 
-return miscRenameTables
+--#endregion
+
+return miscLoc
