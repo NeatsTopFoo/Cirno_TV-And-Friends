@@ -45,10 +45,6 @@ if CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone then
 	stoneIntent = CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name
 end
 
-jokerLoc.alwaysDoTheseNrmJkrs = {
-	'j_satellite',
-	'j_constellation'
-}
 
 
 jokerLoc.nrmJkrs.j_joker = {
@@ -461,15 +457,15 @@ jokerLoc.nrmJkrs.j_ticket = {
 }
 ]]
 
---[[ soon
 jokerLoc.nrmJkrs.j_pareidolia = {
-	name = "Pareidolia",
+	-- name = "Pareidolia",
 	text = {
 		"All cards are",
         "considered",
-        "{C:attention}face{} cards"
+        "{C:attention}face{} cards",
+		"{s:0.8,C:inactive}A classic. :^)"
 	}
-}]]
+}
 
 --[[
 jokerLoc.nrmJkrs.j_cartomancer = {
@@ -563,15 +559,15 @@ jokerLoc.nrmJkrs.j_seeing_double = {
 	}
 }]]
 
---[[ soon
 jokerLoc.nrmJkrs.j_duo = {
-	name = "The Duo",
+	-- name = "The Duo",
 	text = {
 		"{X:mult,C:white} X#1# {} Mult if played",
         "hand contains",
-        "a {C:attention}#2#"
+        "a {C:attention}#2#",
+		"{s:0.8,C:inactive}2 max."
 	}
-}]]
+}
 
 --[[
 jokerLoc.nrmJkrs.j_trio = {
@@ -694,19 +690,22 @@ jokerLoc.nrmJkrs.j_matador = {
         "hand triggers the",
         "{C:attention}Boss Blind{} ability"
 	}
-}
+}]]
 
 jokerLoc.nrmJkrs.j_ceremonial = {
-	name = "Ceremonial Daggers",
+	name = "Friendsword",
 	text = {
 		"When {C:attention}Blind{} is selected,",
         "destroy Joker to the right",
         "and permanently add {C:attention}double",
         "its sell value to this {C:red}Mult",
-        "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
+        "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
+		"{s:0.8,C:inactive}In the old days, Cirno would",
+		"{s:0.8,C:inactive}freely bestow these upon",
+		"{s:0.8,C:inactive}people, with the hope that",
+		"{s:0.8,C:inactive}they would stick around."
 	}
 }
-]]
 
 jokerLoc.nrmJkrs.j_ring_master = {
 	name = "CirGuns",
@@ -945,6 +944,7 @@ jokerLoc.nrmJkrs.j_brainstorm = {
 }
 ]]
 
+--[[ Malverk does not do the thing if it is not set to replace that key.
 jokerLoc.nrmJkrs.j_satellite = {
 	-- name = "Satelilte",
 	text = {
@@ -953,7 +953,14 @@ jokerLoc.nrmJkrs.j_satellite = {
         "card used this run",
         "{C:inactive}(Currently {C:money}$#2#{C:inactive})"
     }
-}
+}]]
+
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_satellite, "text", {
+        "Earn {C:money}$#1#{} at end of",
+        "round per unique {C:planet}"..planetIntent,
+        "card used this run",
+        "{C:inactive}(Currently {C:money}$#2#{C:inactive})"
+    })
 
 --[[
 jokerLoc.nrmJkrs.j_rough_gem = {
@@ -1199,6 +1206,7 @@ jokerLoc.nrmJkrs.j_sixth_sense = {
 }
 ]]
 
+--[[ Malverk does not do the thing if it is not set to replace that key.
 jokerLoc.nrmJkrs.j_constellation = {
 	-- name = "Constellation",
 	text = {
@@ -1207,8 +1215,14 @@ jokerLoc.nrmJkrs.j_constellation = {
 		"a {C:planet}"..planetIntent.."{} card is used",
 		"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
     }
-}
+}]]
 
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_constellation, "text", {
+        "This Joker gains",
+		"{X:mult,C:white} X#1# {} Mult every time",
+		"a {C:planet}"..planetIntent.."{} card is used",
+		"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+    })
 
 -- ===== NEXT LINE =====
 
@@ -1513,7 +1527,7 @@ jokerLoc.nrmJkrs.j_mail = {
         "Earn {C:money}$#1#{} for each",
         "discarded {C:attention}#2#{}, rank",
         "changes every round",
-		"{s:0.8,C:inactive}90% of gacha players",
+		"{s:0.8,C:inactive}Over 90% of gacha players",
 		"{s:0.8,C:inactive}stop pulling right before",
 		"{s:0.8,C:inactive}they pull who they're after."
     }

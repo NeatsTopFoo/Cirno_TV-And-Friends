@@ -28,7 +28,6 @@ creditSources.CirnoTV = "{X:cirCyan,C:white}Cirno_TV{}"
 creditSources.CirnoTV_smol = "{s:0.8,X:cirCyan,C:white}Cirno_TV{}"
 
 creditSources.solga = "Solgalestia"
-creditSources.nyong = "NyongNyong"
 creditSources.turpix = "Turpix"
 creditSources.muddle = "Muddleee"
 creditSources.hatotoou = "Hatotoou"
@@ -193,8 +192,8 @@ RV.descriptions.Other = {
 	jA_Misprint = {
 		name = creditSources.cr_JokerArt,
 		text = {
-			creditSources.CirnoTV.." & "..creditSources.thunk..",", -- Yes, Cirno drew cirBairy.
-			"edited by "..creditSources.NTF  -- ...Formally crediting him is funnier, trust me
+			creditSources.CirnoTV.." & "..creditSources.thunk..",", -- Yes, Cirno drew cirBairy. Formally crediting him is funnier, trust me
+			"edited by "..creditSources.NTF
 		}
 	},
 	jA_JustIRLCirno = {
@@ -249,9 +248,12 @@ RV.descriptions.Other = {
 			creditSources.sanglune.." art."
 		}
 	},
-	jA_Mime = {
+	jA_DuoDagger = {
 		name = creditSources.cr_JokerArt,
-		text = { creditSources.nyong }
+		text = {
+			creditSources.thunk.." & "..creditSources.DTsun..",",
+			"edited by "..creditSources.NTF
+		}
 	},
 	jA_Family = {
 		name = creditSources.cr_JokerArt,

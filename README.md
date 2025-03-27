@@ -15,13 +15,13 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 65 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
+  - 68 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
   - All Blind Chips
   - All Seals
   - All Planet Cards
   - 11 Booster Packs
   - 6 Tarot Cards
-  - 6 Spectral Cards
+  - 7 Spectral Cards
   - 3 Decks
   - 1 Enhancement
   - The title screen
@@ -66,7 +66,6 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 
 ## Credits
 - The Cirno_TV & Friends mod is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.expert), additionally with some idea and art contributions from the Cirno_TV community discord.
-- [NyongNyong](https://bsky.app/profile/nyongnyong.bsky.social) for the art used for the Mime Joker.
 - [Turpix](https://bsky.app/profile/turpix.bsky.social) for [the art](https://www.nexusmods.com/balatro/mods/114), used for the Stone Joker.
 - This [Miku replacement mod](https://www.nexusmods.com/balatro/mods/223) for art used for the Chaos the Clown Joker.
 - [Muddleee for art used for The Sun Tarot card](https://github.com/Muddieee/sun_is_sus).

@@ -401,7 +401,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_drunkard', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_acrobat', matureRefLevel = 1, artCreditKey = 'jA_Acrobat' },
 	-- { jkrKey = 'j_sock_and_buskin', matureRefLevel = 1 },
-	{ jkrKey = 'j_mime', matureRefLevel = 1, artCreditKey = 'jA_Mime' },
+	{ jkrKey = 'j_mime', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	{ jkrKey = 'j_credit_card', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_greedy_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	{ jkrKey = 'j_lusty_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
@@ -425,7 +425,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_abstract', matureRefLevel = 1 },
 	{ jkrKey = 'j_delayed_grat', matureRefLevel = 2, artCreditKey = { saferVer = 'jA_DaemonTsun' } },
 	-- { jkrKey = 'j_ticket', matureRefLevel = 1 },
-	-- { jkrKey = 'j_pareidolia' },
+	{ jkrKey = 'j_pareidolia', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_cartomancer', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_even_steven', matureRefLevel = 1  },
 	-- { jkrKey = 'j_odd_todd', matureRefLevel = 1 },
@@ -435,7 +435,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_supernova', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
 	{ jkrKey = 'j_mr_bones', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	-- { jkrKey = 'j_seeing_double', matureRefLevel = 1 },
-	-- { jkrKey = 'j_duo', matureRefLevel = 1 },
+	{ jkrKey = 'j_duo', matureRefLevel = 1, artCreditKey = 'jA_DuoDagger' },
 	-- { jkrKey = 'j_trio', matureRefLevel = 1 },
 	{ jkrKey = 'j_family', matureRefLevel = 1, artCreditKey = 'jA_Family' },
 	-- { jkrKey = 'j_order', matureRefLevel = 1 },
@@ -446,7 +446,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_stencil', matureRefLevel = 1 },
 	-- { jkrKey = 'j_space', matureRefLevel = 1 },
 	-- { jkrKey = 'j_matador', matureRefLevel = 1 },
-	-- { jkrKey = 'j_ceremonial', matureRefLevel = 1 },
+	{ jkrKey = 'j_ceremonial', matureRefLevel = 1, artCreditKey = 'jA_DuoDagger' },
 	{ jkrKey = 'j_ring_master', matureRefLevel = 1, artCreditKey = 'jA_JustIRLCirno' }, -- Yes, this is Showman. You have no idea how mad I am that it's called this internally.
 	-- { jkrKey = 'j_fortune_teller', matureRefLevel = 1 },
 	{ jkrKey = 'j_hit_the_road', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
@@ -612,7 +612,7 @@ replaceDef.spectralReplacements = {
 	--	{ spcKey = 'c_aura', matureRefLevel = 1 },
 	{ spcKey = 'c_black_hole', matureRefLevel = 1, artCreditKey = 'gA_BlackHole' },
 	--	{ spcKey = 'c_cryptid', matureRefLevel = 1 },
-	{ spcKey = 'c_deja_vu', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
+	{ spcKey = 'c_deja_vu', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
 	--	{ spcKey = 'c_octoplasm', matureRefLevel = 1 },
 	--	{ spcKey = 'c_familiar', matureRefLevel = 1 },
 	--	{ spcKey = 'c_grim', matureRefLevel = 1 },
@@ -624,7 +624,7 @@ replaceDef.spectralReplacements = {
 	--	{ spcKey = 'c_sigil', matureRefLevel = 1 },
 	{ spcKey = 'c_soul', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
 	--	{ spcKey = 'c_talisman', matureRefLevel = 1 },
-	--	{ spcKey = 'c_trance', matureRefLevel = 1 },
+	{ spcKey = 'c_trance', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
 	{ spcKey = 'c_wraith', matureRefLevel = 1, artCreditKey = 'gA_Wraith' }
 }
 

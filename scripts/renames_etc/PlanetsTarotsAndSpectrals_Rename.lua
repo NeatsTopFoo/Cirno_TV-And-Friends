@@ -76,8 +76,9 @@ PTSloc.tarots.c_wheel_of_fortune = {
 			"{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
 			"{C:dark_edition}Polychrome{} edition",
 			"to a random {C:attention}Joker",
-			"{s:0.8,C:inactive}Just keep spinning, you'll",
-			"{s:0.8,C:inactive}get it eventually."
+			"{s:0.8,C:inactive}Just keep trying, you'll",
+			"{s:0.8,C:inactive}get it eventually. Just",
+			"{s:0.8,C:inactive}one more spin."
 		}
 	}
 				
@@ -160,7 +161,7 @@ PTSloc.spectrals.c_ankh = {
 			"{C:red}destroy all other Jokers",
 			"{s:0.8,C:inactive}The year is 2021. A family member has",
 			"{s:0.8,C:inactive}just sent you a 'funny picture of a",
-			"{s:0.8,C:inactive}dancing cat.'"
+			"{s:0.8,C:inactive}cute dancing cat.'"
 		}
 	}
 
@@ -198,7 +199,7 @@ else
 end
 
 PTSloc.spectrals.c_deja_vu = {
-	name = "Deja Vu",
+	-- name = "Deja Vu",
 	text = {
 			"Add a {C:red}"..sealIntent.red_seal,
 			"to {C:attention}1{} selected",
@@ -207,15 +208,17 @@ PTSloc.spectrals.c_deja_vu = {
 		}
 	}
 
---[[ SMODS.process_loc_text(G.localization.descriptions.Spectral.c_deja_vu, "name", "Deja Vu")
-SMODS.process_loc_text(G.localization.descriptions.Spectral.c_deja_vu, "text", {
-		"Add a {C:red}"..G.localization.misc.labels.red_seal.."{} to {C:attention}1{} selected card in your hand",
+PTSloc.spectrals.c_trance = {
+	name = "Overlap",
+	text = {
+		"Add a {C:blue}"..G.localization.misc.labels.blue_seal.."{} to {C:attention}1{} selected card in your hand",
 		"{s:0.8,C:inactive}You know, if I had a nickel for every Canadian catgirl VTuber",
 		"{s:0.8,C:inactive}I knew that has a weird sorta love-hate relationship with Souls",
 		"{s:0.8,C:inactive}games & dropped CrossCode (although one picked it back up) among",
 		"{s:0.8,C:inactive}various other similarities, I'd have -$69.90 US, as one of them",
 		"{s:0.8,C:inactive}would have charged me for two backseats over this bit."
-	})]]
+		}
+	}
 
 --#endregion
 return PTSloc

@@ -29,12 +29,21 @@ CirnoMod.miscItems = {
 			}
 		}
 	end,
-	filterCopyTable = function(sourceTable, destinationTable, filterTable)
+	filterTable = function(sourceTable, destinationTable, filterTable)
 		for i, F in ipairs (filterTable) do
 			if sourceTable[F] then
 				destinationTable[F] = sourceTable[F]
 			end
 		end
+	end,
+	newFilteredTable = function(inputTable, filterTable)
+	local RV = {}
+		for i, F in ipairs (filterTable) do
+			if inputTable[F] then
+				RV[F] = inputTable[F]
+			end
+		end
+	return RV
 	end
 }
 
@@ -234,7 +243,7 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from gen
 	return RV
 end
 
--- Load vanilla replacements definitions
+-- Load vanilla replacements definitions and puts its returned var into the var.
 CirnoMod.replaceDef = assert(SMODS.load_file("Cir_Vanilla_Replacement_Definition.lua")())
 
 -- Playing Card Textures
@@ -280,7 +289,8 @@ if CirnoMod.config['malverkReplacements'] then
 
 	-- Parse Deck Renames
 	if CirnoMod.config['deckRenames'] then
-		CirnoMod.miscItems.filterCopyTable(assert(SMODS.load_file("scripts/renames_etc/Decks_Rename.lua")()), CirnoMod.replaceDef.locChanges.deckLoc, CirnoMod.replaceDef.deckReplacementKeys)
+		-- Runs the lua and puts its returned var into the var.
+		CirnoMod.miscItems.filterTable(assert(SMODS.load_file("scripts/renames_etc/Decks_Rename.lua")()), CirnoMod.replaceDef.locChanges.deckLoc, CirnoMod.replaceDef.deckReplacementKeys)
 	end
 	
 	CirnoMod.replaceDef.enhancerReplacementKeys = {}
@@ -301,10 +311,18 @@ if CirnoMod.config['malverkReplacements'] then
 
 	-- Parse Enhancer Renames
 	if CirnoMod.config['enhancerRenames'] then
+		-- Runs the lua and puts its returned var into the var.
 		local enhLoc = assert(SMODS.load_file("scripts/renames_etc/Enhancers_Rename.lua")())
-		-- TODO: Work out what to do about Seals in Malverk
 		
-		CirnoMod.miscItems.filterCopyTable(enhLoc.enhancers, CirnoMod.replaceDef.locChanges.enhancerLoc, CirnoMod.replaceDef.enhancerReplacementKeys)
+		--[[
+		==================================================
+		TODO: Work out what to do about Seals in Malverk
+			-- Discussed with Eremel, he's looking into
+			   it, potential oversight with how Seals are
+			   handled.
+		==================================================]]
+		
+		CirnoMod.miscItems.filterTable(enhLoc.enhancers, CirnoMod.replaceDef.locChanges.enhancerLoc, CirnoMod.replaceDef.enhancerReplacementKeys)
 		CirnoMod.replaceDef.locChanges.sealLoc = copy_table(enhLoc.seals)
 		
 		--[[ Leaving these uncommented because I've only tested it in the Collection
@@ -325,6 +343,7 @@ if CirnoMod.config['malverkReplacements'] then
 
 	-- Parse Blind Renames
 	if CirnoMod.config['blindRenames'] then
+		-- Runs the lua and puts its returned var into the var.
 		CirnoMod.replaceDef.locChanges.blindsLoc = assert(SMODS.load_file("scripts/renames_etc/Blinds_Rename.lua")())
 	end
 	
@@ -387,11 +406,12 @@ if CirnoMod.config['malverkReplacements'] then
 
 	-- Parse Planet, Tarot & Spectral Renames (Planets moreso if planets aren't Hus)
 	if CirnoMod.config['planetTarotSpectralRenames'] then
+		-- Runs the lua and puts its returned var into the var.
 		local PTSloc = assert(SMODS.load_file("scripts/renames_etc/PlanetsTarotsAndSpectrals_Rename.lua")())
 		
-		CirnoMod.miscItems.filterCopyTable(PTSloc.planets, CirnoMod.replaceDef.locChanges.planetLoc, CirnoMod.replaceDef.planetReplacementKeys)
-		CirnoMod.miscItems.filterCopyTable(PTSloc.tarots, CirnoMod.replaceDef.locChanges.tarotLoc, CirnoMod.replaceDef.tarotReplacementKeys)
-		CirnoMod.miscItems.filterCopyTable(PTSloc.spectrals, CirnoMod.replaceDef.locChanges.spectralLoc, CirnoMod.replaceDef.spectralReplacementKeys)
+		CirnoMod.miscItems.filterTable(PTSloc.planets, CirnoMod.replaceDef.locChanges.planetLoc, CirnoMod.replaceDef.planetReplacementKeys)
+		CirnoMod.miscItems.filterTable(PTSloc.tarots, CirnoMod.replaceDef.locChanges.tarotLoc, CirnoMod.replaceDef.tarotReplacementKeys)
+		CirnoMod.miscItems.filterTable(PTSloc.spectrals, CirnoMod.replaceDef.locChanges.spectralLoc, CirnoMod.replaceDef.spectralReplacementKeys)
 		CirnoMod.replaceDef.locChanges.soulLoc.c_soul = copy_table(PTSloc.c_soul)
 	end
 	
@@ -419,14 +439,15 @@ if CirnoMod.config['malverkReplacements'] then
 	if CirnoMod.config['planetsAreHus'] then
 		CirnoMod.miscItems.colours.planet = HEX('980D50FF')
 		
+		-- Runs the lua and puts its returned var into the var.
 		local planetsAreHusLoc = assert(SMODS.load_file("scripts/other/planetsAreHus.lua")())
 		
 		if CirnoMod.config.planetTarotSpectralRenames then
-			CirnoMod.miscItems.filterCopyTable(planetsAreHusLoc.planets, CirnoMod.replaceDef.locChanges.planetLoc, CirnoMod.replaceDef.planetReplacementKeys)
+			CirnoMod.miscItems.filterTable(planetsAreHusLoc.planets, CirnoMod.replaceDef.locChanges.planetLoc, CirnoMod.replaceDef.planetReplacementKeys)
 		end
 		
 		if CirnoMod.config.miscRenames then
-			CirnoMod.miscItems.filterCopyTable(planetsAreHusLoc.boosters, CirnoMod.replaceDef.locChanges.boosterLoc, CirnoMod.replaceDef.boosterReplacementKeys)
+			CirnoMod.miscItems.filterTable(planetsAreHusLoc.boosters, CirnoMod.replaceDef.locChanges.boosterLoc, CirnoMod.replaceDef.boosterReplacementKeys)
 			
 			-- TODO: Vouchers
 		end
@@ -454,14 +475,14 @@ if CirnoMod.config['malverkReplacements'] then
 
 	-- Parse Joker Renames
 	if CirnoMod.config['jokerRenames'] then
+		-- Runs the lua and puts its returned var into the var.
 		local jkrLoc = assert(SMODS.load_file("scripts/renames_etc/Jokers_Rename.lua")())
 		
-		for frcI, frcJkr in ipairs (jkrLoc.alwaysDoTheseNrmJkrs) do
-			CirnoMod.replaceDef.locChanges.jkrLoc[frcJkr] = jkrLoc.nrmJkrs[frcJkr]
-		end
-		
-		CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs = {}
-		CirnoMod.miscItems.filterCopyTable(jkrLoc.nrmJkrs, CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs, CirnoMod.replaceDef.jokerReplacementKeys)
+		--[[
+		Creates a new table filtered based on the values
+		established above, determined by vanilla
+		replacement definition]]
+		CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs = copy_table(CirnoMod.miscItems.newFilteredTable(jkrLoc.nrmJkrs, CirnoMod.replaceDef.jokerReplacementKeys))
 		
 		CirnoMod.replaceDef.locChanges.jkrLoc.weeJkr = jkrLoc.weeJkr
 		CirnoMod.replaceDef.locChanges.jkrLoc.lgndJkrs = jkrLoc.lgndJkrs
@@ -470,8 +491,13 @@ if CirnoMod.config['malverkReplacements'] then
 	-- Parse Misc Renames
 	if CirnoMod.config['miscRenames'] then
 		CirnoMod.miscItems.miscRenameTables = {}
+		-- Runs the lua and puts its returned var into the var.
 		local miscLoc = assert(SMODS.load_file("scripts/renames_etc/Misc_Rename.lua")())
 		
+		--[[
+		Since planets are hus potentially goes first and
+		thus sets up the booster loc table, we basically
+		need to properly merge the entries]]
 		for i, b in ipairs (CirnoMod.replaceDef.boosterReplacementKeys) do
 			if miscLoc.boosters[b] then
 				if CirnoMod.config.planetsAreHus then
@@ -530,6 +556,7 @@ if CirnoMod.config['addCustomJokers'] then
 	-- Iterates through all lua files in scripts\additions\jokers\ and SMODS.load_file them.
 	-- My understanding is that using assert() makes the return value end up in the variable.
 	for i, Jkr in ipairs (cirInitConfig.customJokers) do		
+		-- Runs the lua and puts its returned var into the var.
 		local jokerInfo = assert(SMODS.load_file('scripts/additions/jokers/'..Jkr..".lua"))()
 		local loadAtlas = true
 		
@@ -597,9 +624,8 @@ if CirnoMod.config['additionalChallenges'] then
 	file itself.]]
 	CirnoMod.ChalFuncs = {}
 
-	-- Iterates through all lua files in scripts\additions\challenges\ and SMODS.load_file them.
-	-- My understanding is that using assert() makes the return value from the file end up in the variable.
 	for i, Ch in ipairs (cirInitConfig.additionalChallenges) do
+		-- Runs the lua and puts its returned var into the var.
 		local chalInfo = assert(SMODS.load_file('scripts/additions/challenges/'..Ch..".lua"))()
 		
 		if chalInfo.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
