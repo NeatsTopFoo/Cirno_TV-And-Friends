@@ -270,6 +270,8 @@ if CirnoMod.config['malverkReplacements'] then
 		-- TODO: Vouchers
 		jkrLoc = {}
 	}
+	-- Anything in the above that should be off by default, must be present in both lists to work.
+	CirnoMod.replaceDef.mlvrkDefaultOffPackTextList = {}
 	
 	--[[ Processes kays as defined in the vanilla replacement doc and
 	populates the replacement keys for the malverk pack accordingly.]]
@@ -534,7 +536,6 @@ if CirnoMod.config['malverkReplacements'] then
 	block in the malverk file.]]
 	CirnoMod.replaceDef.mlvrkTextPackTextList = {
 		'cir_mlvrk_NormalJokers',
-		'cir_mlvrk_DelGrat',
 		'cir_mlvrk_WeeJoker',
 		'cir_mlvrk_LegendaryJokers',
 		
@@ -552,10 +553,10 @@ if CirnoMod.config['malverkReplacements'] then
 		'cir_mlvrk_Finale_Blinds'
 	}
 	
-	-- Anything in the above that should be off by default, must be present in both lists to work.
-	CirnoMod.replaceDef.mlvrkDefaultOffPackTextList = {
-		'cir_mlvrk_DelGrat'
-	}
+	if CirnoMod.config.matureReferences_cyc >= 2 then
+		table.insert(CirnoMod.replaceDef.mlvrkTextPackTextList, 'cir_mlvrk_DelGrat')
+		table.insert(CirnoMod.replaceDef.mlvrkDefaultOffPackTextList, 'cir_mlvrk_DelGrat')
+	end
 	
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()
 end
