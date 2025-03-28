@@ -77,6 +77,135 @@ local configUI = function()
 										n = G.UIT.B,
 										config = {
 											colour = G.C.CLEAR,
+											w = 0.1,
+											h = 0.2
+										}
+									}
+								}
+							},
+							{
+								n = G.UIT.R, -- Text rows wrapper
+								config = {
+									r = 0.1,
+									padding = 0.0,
+									align = 'tm',
+									colour = G.C.CLEAR
+								},
+								nodes = {
+									{
+										n = G.UIT.T, -- Top text
+										config = {
+											text = "Balatro Quick Restart Shortcut = Alt + F5",
+											scale = 0.4,
+											colour = G.C.UI.TEXT_LIGHT,
+											align = 'tm',
+											w = 3,
+											h = 1,
+											hover = true
+										}
+									}
+								}
+							},
+							{
+								n = G.UIT.R, -- Spacer wrapper
+								config = {
+									r = 0.1,
+									padding = 0.0,
+									align = 'tm',
+									colour = G.C.CLEAR
+								},
+								nodes = {
+									{
+										-- Spacer
+										n = G.UIT.B,
+										config = {
+											colour = G.C.CLEAR,
+											w = 0.05,
+											h = 0.2
+										}
+									}
+								}
+							},
+							{
+								n = G.UIT.R, -- Text rows wrapper
+								config = {
+									r = 0.1,
+									padding = 0.0,
+									align = 'tm',
+									colour = G.C.CLEAR
+								},
+								nodes = {
+									{
+										n = G.UIT.T, -- Top text
+										config = {
+											text = "(Which is a Steamodded feature - I can't believe Steamodded devs hate people without function keys, such as my oshi.",
+											scale = 0.3,
+											colour = G.C.UI.TEXT_LIGHT,
+											align = 'tm',
+											w = 3,
+											h = 1,
+											hover = true
+										}
+									}
+								}
+							},
+							{
+								n = G.UIT.R, -- Spacer wrapper
+								config = {
+									r = 0.1,
+									padding = 0.0,
+									align = 'tm',
+									colour = G.C.CLEAR
+								},
+								nodes = {
+									{
+										-- Spacer
+										n = G.UIT.B,
+										config = {
+											colour = G.C.CLEAR,
+											w = 0.05,
+											h = 0.2
+										}
+									}
+								}
+							},
+							{
+								n = G.UIT.R, -- Text rows wrapper
+								config = {
+									r = 0.1,
+									padding = 0.0,
+									align = 'tm',
+									colour = G.C.CLEAR
+								},
+								nodes = {
+									{
+										n = G.UIT.T, -- Top text
+										config = {
+											text = "Very clear case of discrimination against her smh >:( )",
+											scale = 0.3,
+											colour = G.C.UI.TEXT_LIGHT,
+											align = 'tm',
+											w = 3,
+											h = 1,
+											hover = true
+										}
+									}
+								}
+							},
+							{
+								n = G.UIT.R, -- Spacer wrapper
+								config = {
+									r = 0.1,
+									padding = 0.0,
+									align = 'tm',
+									colour = G.C.CLEAR
+								},
+								nodes = {
+									{
+										-- Spacer
+										n = G.UIT.B,
+										config = {
+											colour = G.C.CLEAR,
 											w = 0.15,
 											h = 0.2
 										}
@@ -98,9 +227,9 @@ local configUI = function()
 										config = {
 											align = 'tm',
 											r = 0.4,
-											padding = 0.125,
+											padding = 0.05,
 											colour = G.C.GREY,
-											outline = 0.9,
+											outline = 0.75,
 											outline_colour = CirnoMod.miscItems.colours.cirBlue,
 											hover = true,
 											shadow= true
@@ -111,9 +240,9 @@ local configUI = function()
 												config = { align = 'tr', padding = 0.025 },
 												nodes = {
 													create_toggle({
-														label = "Enable Title Screen Logo",
+														label = "Title Screen Logo",
 														w = 1,
-														text_scale = 1,
+														text_scale = 0.75,
 														ref_table = CirnoMod.config,
 														ref_value = 'titleLogo',
 														-- callback = CirnoMod.callback_titleLogoToggle,
@@ -125,154 +254,8 @@ local configUI = function()
 												n = G.UIT.R,
 												config = { align = 'tr', padding = 0.025 },
 												nodes = {
-													create_option_cycle({
-													label = "Mature References (All (Hopefully) Stream-Safe)",
-													colour = G.C.SECONDARY_SET.Spectral,
-													scale = 0.85,
-													w = 3.75,
-													options = CirnoMod.miscItems.matureReferencesOpt,
-													current_option = CirnoMod.config.matureReferences_cyc,
-													ref_table = CirnoMod.config,
-													ref_value = 'matureReferences_cyc',
-													opt_callback = 'cir_CycMatureReferencesVal'
-													})
-												}
-											},
-											{
-												n = G.UIT.R,
-												config = { align = 'tr', padding = 0.025 },
-												nodes = {
 													create_toggle({
-														label = "Enable Playing Card Texture Replacements",
-														w = 1,
-														text_scale = 0.8,
-														ref_table = CirnoMod.config,
-														ref_value = 'playingCardTextures',
-														-- callback = CirnoMod.callback_playingCardTexturesToggle,
-														active_colour = G.C.SECONDARY_SET.Spectral
-													})
-												}
-											},
-											{
-												n = G.UIT.R,
-												config = { align = 'tr', padding = 0.025 },
-												nodes = {
-													create_toggle({
-														label = "Enable Enhancer Renames",
-														w = 1,
-														text_scale = 1,
-														ref_table = CirnoMod.config,
-														ref_value = 'enhancerRenames',
-														-- callback = CirnoMod.callback_enhancerRenamesToggle,
-														active_colour = G.C.SECONDARY_SET.Spectral
-													})
-												}
-											},
-											{
-												n = G.UIT.R,
-												config = { align = 'tr', padding = 0.025 },
-												nodes = {
-													create_toggle({
-														label = "Enable Deck Renames",
-														w = 1,
-														text_scale = 1,
-														ref_table = CirnoMod.config,
-														ref_value = 'deckRenames',
-														-- callback = CirnoMod.callback_deckRenamesToggle,
-														active_colour = G.C.SECONDARY_SET.Spectral
-													})
-												}
-											},
-											{
-												n = G.UIT.R,
-												config = { align = 'tr', padding = 0.025 },
-												nodes = {
-													create_toggle({
-														label = "Planets Are Hus",
-														w = 1,
-														text_scale = 1,
-														ref_table = CirnoMod.config,
-														ref_value = 'planetsAreHus',
-														-- callback = CirnoMod.callback_planetsAreHusToggle,
-														active_colour = G.C.SECONDARY_SET.Spectral
-													})
-												}
-											},
-											{
-												n = G.UIT.R,
-												config = { align = 'tr', padding = 0.025 },
-												nodes = {
-													create_toggle({
-														label = "Enable Additional Challenges",
-														w = 1,
-														text_scale = 1,
-														ref_table = CirnoMod.config,
-														ref_value = 'additionalChallenges',
-														-- callback = CirnoMod.callback_additionalChallengesToggle,
-														active_colour = G.C.SECONDARY_SET.Spectral
-													})
-												}
-											},
-											{
-												n = G.UIT.R,
-												config = { align = 'tr', padding = 0.025 },
-												nodes = {
-													create_toggle({
-														label = "Enable Art Credit Tooltips",
-														w = 1.,
-														text_scale = 1,
-														ref_table = CirnoMod.config,
-														ref_value = 'artCredits',
-														-- callback = CirnoMod.callback_artCreditsToggle,
-														active_colour = G.C.SECONDARY_SET.Spectral
-													})
-												}
-											}
-										}
-									},
-									{
-										-- Spacer
-										n = G.UIT.B,
-										config = {
-											colour = G.C.CLEAR,
-											w = 0.125,
-											h = 0.2
-										}
-									},
-									{
-										n = G.UIT.C, -- Second Options Column
-										config = {
-											align = 'tm',
-											r = 0.4,
-											padding = 0.125,
-											colour = G.C.GREY,
-											outline = 0.9,
-											outline_colour = CirnoMod.miscItems.colours.cirBlue,
-											hover = true,
-											shadow = true
-										},
-										nodes = {
-											{
-												n = G.UIT.R,
-												config = { align = 'tr', padding = 0.025 },
-												nodes = {
-													create_toggle({
-														label = "Enable Title Screen Colours",
-														w = 1,
-														text_scale = 1,
-														ref_table = CirnoMod.config,
-														ref_value = 'titleColours',
-														-- callback = CirnoMod.callback_titleColoursToggle,
-														active_colour = G.C.SECONDARY_SET.Spectral
-													})
-												}
-											},
-											{
-												n = G.UIT.R,
-												config = { align = 'tr', padding = 0.025 },
-												nodes = {
-													create_toggle({
-														label = "Enable Malverk Texture Replacements",
+														label = "Malverk Texture Pack",
 														w = 1,
 														text_scale = 1,
 														ref_table = CirnoMod.config,
@@ -287,12 +270,12 @@ local configUI = function()
 												config = { align = 'tr', padding = 0.025 },
 												nodes = {
 													create_toggle({
-														label = "Enable Joker Renames",
+														label = "Enhancer Renames",
 														w = 1,
-														text_scale = 1,
+														text_scale = 0.75,
 														ref_table = CirnoMod.config,
-														ref_value = 'jokerRenames',
-														-- callback = CirnoMod.callback_jokerRenamesToggle,
+														ref_value = 'enhancerRenames',
+														-- callback = CirnoMod.callback_enhancerRenamesToggle,
 														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
@@ -302,9 +285,9 @@ local configUI = function()
 												config = { align = 'tr', padding = 0.025 },
 												nodes = {
 													create_toggle({
-														label = "Enable Blind Renames",
+														label = "Blind Renames",
 														w = 1,
-														text_scale = 1,
+														text_scale = 0.75,
 														ref_table = CirnoMod.config,
 														ref_value = 'blindRenames',
 														-- callback = CirnoMod.callback_blindRenamesToggle,
@@ -317,7 +300,22 @@ local configUI = function()
 												config = { align = 'tr', padding = 0.025 },
 												nodes = {
 													create_toggle({
-														label = "Enable Planets, Tarots & Spectral Renames",
+														label = "Additional Custom Jokers",
+														w = 1,
+														text_scale = 0.75,
+														ref_table = CirnoMod.config,
+														ref_value = 'addCustomJokers',
+														-- callback = CirnoMod.callback_addCustomJokersToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
+											},
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "Planets, Tarots & Spectral Renames",
 														w = 1,
 														text_scale = 0.8,
 														ref_table = CirnoMod.config,
@@ -326,37 +324,252 @@ local configUI = function()
 														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
+											}
+										}
+									},
+									{
+										-- Spacer
+										n = G.UIT.B,
+										config = {
+											colour = G.C.CLEAR,
+											w = 0.1,
+											h = 0.2
+										}
+									},
+									{
+										n = G.UIT.C, -- Second Options Column
+										config = {
+											align = 'tm',
+											r = 0.4,
+											padding = 0.05,
+											colour = G.C.GREY,
+											outline = 0.75,
+											outline_colour = CirnoMod.miscItems.colours.cirBlue,
+											hover = true,
+											shadow = true
+										},
+										nodes = {
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "Title Screen Colours",
+														w = 1,
+														text_scale = 0.75,
+														ref_table = CirnoMod.config,
+														ref_value = 'titleColours',
+														-- callback = CirnoMod.callback_titleColoursToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
 											},
 											{
 												n = G.UIT.R,
 												config = { align = 'tr', padding = 0.025 },
 												nodes = {
 													create_toggle({
-														label = "Enable Misc Renames",
+														label = "Custom Playing Card Skins",
+														w = 1,
+														text_scale = 0.75,
+														ref_table = CirnoMod.config,
+														ref_value = 'playingCardTextures',
+														-- callback = CirnoMod.callback_playingCardTexturesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
+											},
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "Blind Renames",
 														w = 1,
 														text_scale = 1,
+														ref_table = CirnoMod.config,
+														ref_value = 'blindRenames',
+														-- callback = CirnoMod.callback_blindRenamesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
+												
+											},
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "Planets Are Hus",
+														w = 1,
+														text_scale = 0.75,
+														ref_table = CirnoMod.config,
+														ref_value = 'planetsAreHus',
+														-- callback = CirnoMod.callback_planetsAreHusToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
+											},
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "Additional Custom Consumables",
+														w = 1,
+														text_scale = 0.75,
+														ref_table = CirnoMod.config,
+														ref_value = 'addCustomConsumables',
+														-- callback = CirnoMod.callback_addCustomConsumablesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
+											},
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "Art Credit Tooltips",
+														w = 1.,
+														text_scale = 0.75,
+														ref_table = CirnoMod.config,
+														ref_value = 'artCredits',
+														-- callback = CirnoMod.callback_artCreditsToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
+											}
+										}
+									},
+									{
+										-- Spacer
+										n = G.UIT.B,
+										config = {
+											colour = G.C.CLEAR,
+											w = 0.1,
+											h = 0.2
+										}
+									},
+									{
+										n = G.UIT.C, -- Third Options Column
+										config = {
+											align = 'tm',
+											r = 0.4,
+											padding = 0.05,
+											colour = G.C.GREY,
+											outline = 0.75,
+											outline_colour = CirnoMod.miscItems.colours.cirBlue,
+											hover = true,
+											shadow = true
+										},
+										nodes = {
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_option_cycle({
+													label = "Mature References (All (Hopefully) Stream-Safe)",
+													colour = G.C.SECONDARY_SET.Spectral,
+													text_scale = 0.5,
+													scale = 0.75,
+													w = 4,
+													options = CirnoMod.miscItems.matureReferencesOpt,
+													current_option = CirnoMod.config.matureReferences_cyc,
+													ref_table = CirnoMod.config,
+													ref_value = 'matureReferences_cyc',
+													opt_callback = 'cir_CycMatureReferencesVal'
+													})
+												}
+											},
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "Joker Renames",
+														w = 1,
+														text_scale = 0.75,
+														ref_table = CirnoMod.config,
+														ref_value = 'jokerRenames',
+														-- callback = CirnoMod.callback_jokerRenamesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
+											},
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "Deck Renames",
+														w = 1,
+														text_scale = 0.75,
+														ref_table = CirnoMod.config,
+														ref_value = 'deckRenames',
+														-- callback = CirnoMod.callback_deckRenamesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
+											},
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "Misc Renames",
+														w = 1,
+														text_scale = 0.75,
 														ref_table = CirnoMod.config,
 														ref_value = 'miscRenames',
 														-- callback = CirnoMod.callback_miscRenamesToggle,
 														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
-											},
-											{
-												n = G.UIT.R,
-												config = { align = 'tr', padding = 0.025 },
-												nodes = {
-													create_toggle({
-														label = "Enable Additional Custom Jokers",
-														w = 1,
-														text_scale = 1,
-														ref_table = CirnoMod.config,
-														ref_value = 'addCustomJokers',
-														-- callback = CirnoMod.callback_addCustomJokersToggle,
-														active_colour = G.C.SECONDARY_SET.Spectral
-													})
-												}
 											}
+										}
+									}
+								}
+							},
+							{
+								n = G.UIT.R, -- Spacer wrapper
+								config = {
+									r = 0.1,
+									padding = 0.0,
+									align = 'tm',
+									colour = G.C.CLEAR
+								},
+								nodes = {
+									{
+										-- Spacer
+										n = G.UIT.B,
+										config = {
+											colour = G.C.CLEAR,
+											w = 0.15,
+											h = 0.2
+										}
+									}
+								}
+							},
+							{
+								n = G.UIT.R, -- Text rows wrapper
+								config = {
+									r = 0.1,
+									padding = 0.0,
+									align = 'tm',
+									colour = G.C.CLEAR
+								},
+								nodes = {
+									{
+										n = G.UIT.T, -- Top text
+										config = {
+											text = "(The majority of renames are tied to the Malverk texture pack)",
+											scale = 0.4,
+											colour = G.C.UI.TEXT_LIGHT,
+											align = 'tm',
+											w = 3,
+											h = 2,
+											hover = true
 										}
 									}
 								}

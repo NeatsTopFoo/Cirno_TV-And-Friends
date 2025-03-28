@@ -241,6 +241,13 @@ RV.descriptions.Other = {
 			creditSources.CommunityContrib
 		}
 	},
+	jA_Golden = {
+		name = creditSources.cr_JokerArt,
+		text = {
+			"Image of "..creditSources.CirnoTV..",",
+			"edited by "..creditSources.NTF
+		}
+	},
 	jA_Burglar = {
 		name = creditSources.cr_JokerArt,
 		text = {

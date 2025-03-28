@@ -7,6 +7,7 @@ return {
 	['malverkReplacements'] = true,
 	['jokerRenames'] = true,
 	['addCustomJokers'] = true,
+	['addCustomConsumables'] = true,
 	['blindRenames'] = true,
 	['deckRenames'] = true,
 	['enhancerRenames'] = true,

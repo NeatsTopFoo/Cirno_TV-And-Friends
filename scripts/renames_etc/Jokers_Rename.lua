@@ -1,4 +1,4 @@
-local jokerLoc = { nrmJkrs = {}, weeJkr = {}, lgndJkrs = {} }
+local jokerLoc = { nrmJkrs = {}, delGrat = {}, weeJkr = {}, lgndJkrs = {} }
 local planetIntent = G.localization.misc.labels.planet
 local planetPackIntent = G.localization.descriptions.Other.p_celestial_normal.name
 --[[
@@ -151,6 +151,7 @@ jokerLoc.nrmJkrs.j_stone = {
 }
 
 
+-- ===== NEXT LINE =====
 
 
 --[[
@@ -215,17 +216,16 @@ jokerLoc.nrmJkrs.j_credit_card = {
 		"{s:0.8,C:inactive}people at once?\""
     }
 }
-				
+
 jokerLoc.nrmJkrs.j_greedy_joker = {
 	name = "DiaMonds",
 	text = {
         "Played cards with",
         "{C:diamonds}#2#{} suit give",
         "{C:mult}+#1#{} Mult when scored",
-		"{s:0.8,C:inactive}Backseat? Directly to jail.",
-		"{s:0.8,C:inactive}Do not pass Go,",
-		"{s:0.8,C:inactive}do not collect $200.",
-		"{s:0.8,C:inactive}In fact, pay $35. US."
+		"{s:0.8,C:inactive}Diamonds and DM just",
+		"{s:0.8,C:inactive}aren't supposed to go",
+		"{s:0.8,C:inactive}together. :("
     }
 }
 
@@ -251,15 +251,15 @@ end
 
 jokerLoc.nrmJkrs.j_wrathful_joker = {
 	name = "Wrathful Biggdeck",
---[[ Still need to figure out good flavour text for this one
 	text = {
         "Played cards with",
         "{C:spades}#2#{} suit give",
-        "{C:mult}+#1#{} Mult when scored"
+        "{C:mult}+#1#{} Mult when scored",
+		"{s:0.8,C:inactive}I play Anon face-up",
+		"{s:0.8,C:inactive}in defence position."
     }
-]]
 }
-		
+
 jokerLoc.nrmJkrs.j_gluttenous_joker = {
 	name = "Gluttonous Cirno",
 	text = {
@@ -273,6 +273,7 @@ jokerLoc.nrmJkrs.j_gluttenous_joker = {
 }
 
 
+-- ===== NEXT LINE =====
 
 
 --[[
@@ -363,15 +364,15 @@ jokerLoc.nrmJkrs.j_raised_fist = {
 }
 ]]
 
---[[ soon
 jokerLoc.nrmJkrs.j_golden = {
-	name = "Golden Joker",
+	name = "CirGlod",
 	text = {
 		"Earn {C:money}$#1#{} at",
-        "end of round"
+        "end of round",
+		"{s:0.8,C:inactive}...These aren't the golden",
+		"{s:0.8,C:inactive}guns I remember."
 	}
 }
-]]
 
 
 -- ===== NEXT LINE =====
@@ -418,20 +419,20 @@ jokerLoc.nrmJkrs.j_abstract = {
 ]]
 
 if CirnoMod.config.matureReferences_cyc >= 2 then
-	jokerLoc.nrmJkrs.j_delayed_grat = {
+	jokerLoc.delGrat.j_delayed_grat = {
 		-- name = "Delayed Gratification"
 	}
 end
 
 if CirnoMod.config.matureReferences_cyc == 3 then
-	jokerLoc.nrmJkrs.j_delayed_grat.text = {
+	jokerLoc.delGrat.j_delayed_grat.text = {
         "Earn {C:money}$#1#{} per {C:attention}discard{} if",
         "no discards are used",
         "by end of the round",
 		"{s:0.8,C:cirLucy}You won't last a minute."
     }
 elseif CirnoMod.config.matureReferences_cyc == 2 then
-	jokerLoc.nrmJkrs.j_delayed_grat.text = {
+	jokerLoc.delGrat.j_delayed_grat.text = {
         "Earn {C:money}$#1#{} per {C:attention}discard{} if",
         "no discards are used",
         "by end of the round",
@@ -716,7 +717,7 @@ jokerLoc.nrmJkrs.j_ring_master = {
 		"{s:0.8,C:inactive}Ka-chow!"
     }
 }
-				
+
 --[[
 jokerLoc.nrmJkrs.j_fortune_teller = {
 	name = "Fortune Teller",

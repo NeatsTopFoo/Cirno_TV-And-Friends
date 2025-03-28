@@ -6,7 +6,8 @@ CirnoMod.config = cMod_SMODSLoc.config
 -- CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
 CirnoMod.miscItems = {
 	artCreditKeys = {},
-	deckSkinNames = {},
+	deckSkinNames = {}, -- How the custom deck skins are referred to internally. Used for art credit tooltips.
+	deckSkinWhich = {}, -- Differentiate between different deck skins we might want to add, in case we have different crediting to do per skin.
 	keysOfAllCirnoModItems = {}, -- This will be used for any effects the focus on stuff edited or introduced by this mod
 	switchKeys = {},
 	switchTables = {},
@@ -206,8 +207,9 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from gen
 		then
 			if
 				G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit] == CirnoMod.miscItems.deckSkinNames[specific_vars.suit]
+				and CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit]]
 			then
-				keyToCheck = specific_vars.value.."_"..specific_vars.suit
+				keyToCheck = CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit]].."_"..specific_vars.value.."_"..specific_vars.suit
 			end
 		end
 	end
@@ -484,6 +486,7 @@ if CirnoMod.config['malverkReplacements'] then
 		replacement definition]]
 		CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs = copy_table(CirnoMod.miscItems.newFilteredTable(jkrLoc.nrmJkrs, CirnoMod.replaceDef.jokerReplacementKeys))
 		
+		CirnoMod.replaceDef.locChanges.jkrLoc.delGrat = jkrLoc.delGrat
 		CirnoMod.replaceDef.locChanges.jkrLoc.weeJkr = jkrLoc.weeJkr
 		CirnoMod.replaceDef.locChanges.jkrLoc.lgndJkrs = jkrLoc.lgndJkrs
 	end
@@ -531,6 +534,7 @@ if CirnoMod.config['malverkReplacements'] then
 	block in the malverk file.]]
 	CirnoMod.replaceDef.mlvrkTextPackTextList = {
 		'cir_mlvrk_NormalJokers',
+		'cir_mlvrk_DelGrat',
 		'cir_mlvrk_WeeJoker',
 		'cir_mlvrk_LegendaryJokers',
 		
@@ -546,6 +550,11 @@ if CirnoMod.config['malverkReplacements'] then
 		'cir_mlvrk_SmallBigBlind',
 		'cir_mlvrk_Boss_Blinds',		
 		'cir_mlvrk_Finale_Blinds'
+	}
+	
+	-- Anything in the above that should be off by default, must be present in both lists to work.
+	CirnoMod.replaceDef.mlvrkDefaultOffPackTextList = {
+		'cir_mlvrk_DelGrat'
 	}
 	
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()

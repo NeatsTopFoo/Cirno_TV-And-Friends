@@ -289,6 +289,25 @@ AltTexture({
 	}
 })
 
+--------------------------
+----- Regular Jokers -----
+--------------------------
+print(tprint(AltTexture({
+	key = 'mlvrk_DelGrat',
+	set = 'Joker',
+	path = CirnoMod.replaceDef.getPath("joker"),
+	
+	-- This just informs the mod that the graphic we're providing is the
+	-- exact dimensions of the default Balatro Joker sheet
+	original_sheet = true,
+	
+	keys = { 'j_delayed_grat' },
+	localization = CirnoMod.replaceDef.locChanges.jkrLoc.delGrat,
+	loc_txt = {
+		name = 'Delayed Gratification'
+	}
+})))
+
 -------------------------------------------
 -------------------------------------------
 ----- Malverk Texture Pack Definition -----
@@ -301,6 +320,7 @@ TexturePack{
 	key = 'mlvrk',
 	
 	textures = CirnoMod.replaceDef.mlvrkTextPackTextList,
+	toggle_textures = CirnoMod.replaceDef.mlvrkDefaultOffPackTextList,
 	loc_txt = {
 		name = 'Cirno_TV & Friends',
 		text = {

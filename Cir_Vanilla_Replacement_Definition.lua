@@ -173,26 +173,27 @@ Playing Cards
 (Art Credits 
     Only)    
 -------------]]
-if CirnoMod.config['playingCardTextures'] then -- The suits here should be in the other the appear in the graphic for easier editing
-	-- CirnoMod.miscItems.artCreditKeys.Jack_Hearts = 'cA_DaemonTsun'
-	CirnoMod.miscItems.artCreditKeys.Queen_Hearts = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys.King_Hearts = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys.Ace_Hearts = 'cA_DaemonTsun'
+if CirnoMod.config['playingCardTextures'] then -- The suits here should be in the other the appear in the graphic, for easier editing
+
+	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Hearts = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Queen_Hearts = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Hearts = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Hearts = 'cA_DaemonTsun'
 	
-	--CirnoMod.miscItems.artCreditKeys.Jack_Clubs = 'cA_DaemonTsun'
-	CirnoMod.miscItems.artCreditKeys.Queen_Clubs = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys.King_Clubs = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys.Ace_Clubs = 'cA_DaemonTsun'
+	--CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Clubs = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Queen_Clubs = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Clubs = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Clubs = 'cA_DaemonTsun'
 	
-	-- CirnoMod.miscItems.artCreditKeys.Jack_Diamonds = 'cA_DaemonTsun'
-	CirnoMod.miscItems.artCreditKeys.Queen_Diamonds = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys.King_Diamonds = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys.Ace_Diamonds = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Diamonds = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Queen_Diamonds = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Diamonds = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Diamonds = 'cA_DaemonTsun'
 	
-	-- CirnoMod.miscItems.artCreditKeys.Jack_Spades = 'cA_DaemonTsun'
-	CirnoMod.miscItems.artCreditKeys.Queen_Spades = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys.King_Spades = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys.Ace_Spades = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Spades = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Queen_Spades = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Spades = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Spades = 'cA_DaemonTsun'
 end
 
 --[[ IMPORTANT:
@@ -288,6 +289,7 @@ if we add other things to this ]]
 
 replaceDef.allKeysToIgnore = { -- There's probably a better way to do this
 	j_wee = true,
+	j_delayed_grat = true,
 	j_caino = true,
 	j_triboulet = true,
 	j_yorick = true,
@@ -417,7 +419,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_misprint', matureRefLevel = 1, artCreditKey = 'jA_Misprint' },
 	-- { jkrKey = 'j_steel_joker', matureRefLevel = 1 },
 	{ jkrKey = 'j_raised_fist', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_golden', matureRefLevel = 1 },
+	{ jkrKey = 'j_golden', matureRefLevel = 1, artCreditKey = 'jA_Golden' },
 	
 	{ jkrKey = 'j_blueprint', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_glass', matureRefLevel = 1 },

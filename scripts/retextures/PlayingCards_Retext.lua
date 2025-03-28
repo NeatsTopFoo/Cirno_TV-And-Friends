@@ -16,10 +16,27 @@ Must start with a capital letter.]]
 local cardSuits = { 'Hearts', 'Clubs', 'Diamonds', 'Spades' }
 
 -- Which ranks to replace
-local cardRanks = {
-	-- 'Jack',
-	'Queen',
-	-- 'King'
+local cardSuitRanks = {
+	Hearts = {
+		-- 'Jack',
+		'Queen',
+		-- 'King'
+	},
+	Clubs = {
+		-- 'Jack',
+		'Queen',
+		-- 'King'
+	},
+	Diamonds = {
+		'Jack',
+		'Queen',
+		-- 'King'
+	},
+	Spades = {
+		-- 'Jack',
+		'Queen',
+		-- 'King'
+	}
 }
 
 -- Which ranks to display in the 'customize deck' screen
@@ -50,7 +67,7 @@ for _, Csuit in ipairs(cardSuits) do
 				Idk why we need two keys for this, but they need to	be
 				distinct, I think - Which is why the first one is longer.]]
 				key = Csuit..'skin_hc',
-				ranks = cardRanks, -- The ranks that get replaced by this.
+				ranks = cardSuitRanks[Csuit], -- The ranks that get replaced by this.
 				display_ranks = cardRanksDisplay, -- The ranks shown in the 'customise deck' screen.
 				atlas = 'cir_CardAtlas',
 				posStyle = 'deck',
@@ -72,4 +89,5 @@ for _, Csuit in ipairs(cardSuits) do
 
 	-- Adds the name of each deck skin as it will be internally referred to for art credit detection
 	CirnoMod.miscItems.deckSkinNames[Csuit] = "cir_noAndFriends_"..Csuit.."_skin_hc"
+	CirnoMod.miscItems.deckSkinWhich[CirnoMod.miscItems.deckSkinNames[Csuit]] = "cirSkin_1"
 end
