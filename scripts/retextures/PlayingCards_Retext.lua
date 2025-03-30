@@ -18,9 +18,9 @@ local cardSuits = { 'Hearts', 'Clubs', 'Diamonds', 'Spades' }
 -- Which ranks to replace
 local cardSuitRanks = {
 	Hearts = {
-		-- 'Jack',
+		'Jack',
 		'Queen',
-		-- 'King'
+		'King'
 	},
 	Clubs = {
 		-- 'Jack',
@@ -47,8 +47,8 @@ SMODS.Atlas{
 	key = 'cir_CardAtlas',
 	px = 71,
 	py = 95,
-	path = 'Vanilla_Replacements/cir_Cards.png',
-	prefix_comfig = {key = false} -- Something about a Steamodded bug
+	path = 'Additional/cir_Cards_1.png',
+	prefix_config = {key = false} -- Something about a Steamodded bug
 }
 
 --[[

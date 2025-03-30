@@ -310,17 +310,18 @@ jokerLoc.nrmJkrs.j_marble = {
 		"to deck when",
 		"{C:attention}Blind{} is selected"
 	}
-}
+}]]
 
 jokerLoc.nrmJkrs.j_loyalty_card = {
-	name = "Loyalty Card",
+	name = "New Sub",
 	text = {
 		"{X:red,C:white} X#1# {} Mult every",
         "{C:attention}#2#{} hands played",
-        "{C:inactive}#3#"
+        "{C:inactive}#3#",
+		"{s:0.8,C:inactive}They keep posting that",
+		"{s:0.8,C:inactive}blue-haired anime girl..."
 	}
 }
-]]
 
 jokerLoc.nrmJkrs.j_hack = {
 	-- name = "Hack",
@@ -1236,18 +1237,20 @@ jokerLoc.nrmJkrs.j_hiker = {
 		"permanently gains",
 		"{C:chips}+#1#{} Chips when scored"
 	}
-}
+}]]
 
 jokerLoc.nrmJkrs.j_faceless = {
-	name = "Faceless Joker",
+	name = "",
 	text = {
 		"Earn {C:money}$#1#{} if {C:attention}#2#{} or",
         "more {C:attention}face cards{}",
         "are discarded",
-        "at the same time"
+        "at the same time",
+		"{s:0.8,C:inactive}For joking."
 	}
 }
 
+--[[
 jokerLoc.nrmJkrs.j_green_joker = {
 	name = "Green Joker",
 	text = {

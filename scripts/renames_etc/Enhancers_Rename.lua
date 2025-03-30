@@ -79,9 +79,9 @@ SMODS.process_loc_text(G.localization.descriptions.Enhanced.m_stone, "name", "Wh
 SMODS.process_loc_text(G.localization.misc.dictionary, "k_plus_stone", "+1 Whump")
 SMODS.process_loc_text(G.localization.misc.dictionary, "ph_deck_preview_stones", "Whumps")]]
 
-if not CirnoMod.config['jokerRenames'] then
-	enhLoc.enhancers.m_stone = { name = "Whump Card" }
-	
+enhLoc.enhancers.m_stone = { name = "Whump Card" }
+
+if not CirnoMod.config['jokerRenames'] then	
 	SMODS.process_loc_text(G.localization.descriptions.Joker.j_stone, "text", {
 						"Gives {C:chips}+#1#{} Chips for",
 						"each {C:attention}Whump Card",

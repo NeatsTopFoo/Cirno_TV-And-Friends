@@ -292,7 +292,7 @@ AltTexture({
 --------------------------
 ----- Regular Jokers -----
 --------------------------
-print(tprint(AltTexture({
+AltTexture({
 	key = 'mlvrk_DelGrat',
 	set = 'Joker',
 	path = CirnoMod.replaceDef.getPath("joker"),
@@ -306,7 +306,7 @@ print(tprint(AltTexture({
 	loc_txt = {
 		name = 'Delayed Gratification'
 	}
-})))
+})
 
 -------------------------------------------
 -------------------------------------------

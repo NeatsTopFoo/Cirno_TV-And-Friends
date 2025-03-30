@@ -175,9 +175,9 @@ Playing Cards
 -------------]]
 if CirnoMod.config['playingCardTextures'] then -- The suits here should be in the other the appear in the graphic, for easier editing
 
-	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Hearts = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Hearts = 'cA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Queen_Hearts = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Hearts = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Hearts = 'cA_DaemonTsun'
 	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Hearts = 'cA_DaemonTsun'
 	
 	--CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Clubs = 'cA_DaemonTsun'
@@ -414,7 +414,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_banner', matureRefLevel = 1 },
 	-- { jkrKey = 'j_mystic_summit', matureRefLevel = 1 },
 	-- { jkrKey = 'j_marble', matureRefLevel = 1 },
-	-- { jkrKey = 'j_loyalty_card', matureRefLevel = 1 },
+	{ jkrKey = 'j_loyalty_card', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_hack', matureRefLevel = 1, artCreditKey = 'jA_Hack' },
 	{ jkrKey = 'j_misprint', matureRefLevel = 1, artCreditKey = 'jA_Misprint' },
 	-- { jkrKey = 'j_steel_joker', matureRefLevel = 1 },
@@ -475,6 +475,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_satellite', matureRefLevel = 1 },
 	-- { jkrKey = 'j_rough_gem', matureRefLevel = 1 },
 	
+	
 	-- { jkrKey = 'j_bloodstone', matureRefLevel = 1 },
 	-- { jkrKey = 'j_arrowhead', matureRefLevel = 1 },
 	-- { jkrKey = 'j_onyx_agate', matureRefLevel = 1 },
@@ -487,12 +488,13 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_triboulet', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	{ jkrKey = 'j_yorick', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	{ jkrKey = 'j_chicot', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
-	{ jkrKey = 'j_perkeo', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
+	{ jkrKey = 'j_perkeo', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_hologram', matureRefLevel = 1, artCreditKey = '' },	
 	----- Also, Hologram is funky. Let me know if you work something out for its graphic. -----
 	
 	{ jkrKey = 'j_certificate', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_bootstraps', matureRefLevel = 1, artCreditKey = 'jA_Unknown_NTFEdit' },
+	
 	
 	{ jkrKey = 'j_egg', matureRefLevel = 1, artCreditKey = 'jA_Egg' },
 	{ jkrKey = 'j_burglar', matureRefLevel = 1, artCreditKey = 'jA_Burglar' },
@@ -506,7 +508,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_constellation', matureRefLevel = 1 },
 	
 	{ jkrKey = 'j_hiker', matureRefLevel = 1, artCreditKey = 'jA_JustIRLCirno' },
-	-- { jkrKey = 'j_faceless', matureRefLevel = 1 },
+	{ jkrKey = 'j_faceless', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	-- { jkrKey = 'j_green_joker', matureRefLevel = 1 },
 	-- { jkrKey = 'j_superposition', matureRefLevel = 1 },
 	{ jkrKey = 'j_todo_list', matureRefLevel = 3, artCreditKey = { nrmVer = 'jA_LocalThunk_DaemonTsunEdit' } },
@@ -515,11 +517,11 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_red_card', matureRefLevel = 1 },
 	-- { jkrKey = 'j_madness', matureRefLevel = 1 },
 	{ jkrKey = 'j_square', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
+	
 	-- { jkrKey = 'j_seance', matureRefLevel = 1 },
 	{ jkrKey = 'j_riff_raff', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_vampire', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_shortcut', matureRefLevel = 1 },
-	
 	-- { jkrKey = 'j_vagabond', matureRefLevel = 1 },
 	{ jkrKey = 'j_baron', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_cloud_9', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },

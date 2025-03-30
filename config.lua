@@ -6,6 +6,7 @@ return {
 	['playingCardTextures'] = true,
 	['malverkReplacements'] = true,
 	['jokerRenames'] = true,
+	['allowCosmeticTakeOwnership'] = true,
 	['addCustomJokers'] = true,
 	['addCustomConsumables'] = true,
 	['blindRenames'] = true,

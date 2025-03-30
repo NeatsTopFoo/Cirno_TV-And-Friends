@@ -22,6 +22,11 @@ three of a kind of kings - That will likely be its own
 lua file. But B3313, which is planned to have 13 bases,
 funnily enough, will probably be part of the (first?)
 Rare atlas(es).]]
+local wheelIntent = G.localization.descriptions.Tarot.c_wheel_of_fortune.name
+
+if CirnoMod.config['planetTarotSpectralRenames'] then
+	wheelIntent = "Wheel of Nope"
+end
 
 local jokerInfo = {
 	isMultipleJokers = true,
@@ -149,7 +154,7 @@ local jokerInfo = {
 				text = {
 					"This {C:joker}Joker{} gains",
 					"{X:mult,C:white} X#1# {} Mult when failing",
-					"a {C:attention}"..G.localization.descriptions.Tarot.c_wheel_of_fortune.name.."{}",
+					"a {C:attention}"..wheelIntent.."{}",
 					"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}\"I mean, it is my wheel. Ehe~\""
 				},
@@ -287,7 +292,7 @@ local jokerInfo = {
 				-- The description the player will see in-game.
 				text = {
 					"This {C:joker}Joker{} gains {X:mult,C:white} X#1# ",
-					"Mult for every {C:"..CirnoMod.miscItems.getLocColour('cirNep', 'planet').."}"..G.localization.descriptions.Planet.c_neptune.name,
+					"Mult for every {C:cirNep}"..G.localization.descriptions.Planet.c_neptune.name,
 					"used during this run",
 					"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}He is the missile.",

@@ -1,5 +1,11 @@
 local cMod_SMODSLoc = SMODS.find_mod("CTVaF")[1]
 
+cMod_SMODSLoc.optional_features = function()
+	return {
+		retrigger_joker = true
+	}
+end
+
 CirnoMod = {}
 CirnoMod.path = cMod_SMODSLoc.path
 CirnoMod.config = cMod_SMODSLoc.config
@@ -120,8 +126,11 @@ end
 local cirInitConfig = {
 	-- Mature reference level is now determined within each Joker.
 	customJokers = {
-		'customLegendaries',
-		'customUncommons'
+		'customUncommons',
+		'customLegendaries'
+	},
+	customConsumables = {
+		'customSpectrals'
 	},
 	-- Mature reference level is now determined within each Challenge.
 	additionalChallenges = {
@@ -564,8 +573,7 @@ end
 -- Additional Custom Jokers
 if CirnoMod.config['addCustomJokers'] then
 	-- Iterates through all lua files in scripts\additions\jokers\ and SMODS.load_file them.
-	-- My understanding is that using assert() makes the return value end up in the variable.
-	for i, Jkr in ipairs (cirInitConfig.customJokers) do		
+	for i, Jkr in ipairs (cirInitConfig.customJokers) do
 		-- Runs the lua and puts its returned var into the var.
 		local jokerInfo = assert(SMODS.load_file('scripts/additions/jokers/'..Jkr..".lua"))()
 		local loadAtlas = true
@@ -625,7 +633,85 @@ if CirnoMod.config['addCustomJokers'] then
 		end		
 	end
 end
-	
+
+-- Additional Custom Consumables
+if CirnoMod.config['addCustomConsumables'] then
+	for i, Csnm in ipairs (cirInitConfig.customConsumables) do
+		-- Runs the lua and puts its returned var into the var.
+		local cnsmInfo = assert(SMODS.load_file('scripts/additions/consumables/'..Csnm..".lua"))()
+		local loadAtlas = true
+		
+		if
+			(cnsmInfo.matureRefLevel or 3) <= CirnoMod.config.matureReferences_cyc
+			or cnsmInfo.isMultipleConsumables
+		then
+			if
+				cnsmInfo.atlasInfo
+				and
+				(
+					cnsmInfo.cnsmConfig
+					or
+					(cnsmInfo.isMultipleConsumables and cnsmInfo.cnsmConfigs)
+					-- Same as joker setup
+				)
+			then
+				if cnsmInfo.isMultipleConsumables then
+					loadAtlas = false
+					
+					for i_, CnsmChk in ipairs (cnsmInfo.cnsmConfigs) do
+						loadAtlas = CnsmChk.matureRefLevel <= CirnoMod.config.matureReferences_cyc
+						
+						if loadAtlas then
+							break
+						end
+					end
+				end
+				
+				if loadAtlas then
+					SMODS.Atlas(cnsmInfo.atlasInfo)
+				end
+				
+				if cnsmInfo.isMultipleConsumables then
+					for iI_, Cnsm_ in ipairs (cnsmInfo.cnsmConfigs) do
+						if Cnsm_.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+							SMODS.Consumable(Cnsm_)
+							
+							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, Cnsm_.key)
+						end
+					end
+				else
+					SMODS.Consumable(cnsmInfo.cnsmConfig)
+				
+					table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, cnsmInfo.cnsmConfig.key)
+				end
+			end
+		end
+	end	
+
+	-- Facilitate red seals working on jokers
+	local oldSealCalc = Card.calculate_seal
+	function Card:calculate_seal(context)
+		if
+			self.ability.set == 'Joker'
+		then
+			if
+				context.retrigger_joker_check
+				and not context.retrigger_joker
+				and self == context.other_card
+				and self.seal == 'Red'
+			then				
+				return {
+					repetitions = 1,
+					card = self
+				}
+			end
+			return nil
+		end
+		
+		return oldSealCalc(self, context)
+	end
+end
+
 -- Additional Custom Challenges
 if CirnoMod.config['additionalChallenges'] then
 	--[[ Initialises a challenge functions holder.
@@ -740,6 +826,7 @@ CirnoMod.CirnoHooks.onRunStart = function(args)
 	then
 		CirnoMod.miscItems.pickRandShopFlavour()
 	end
+	
 	return nil
 end
 
