@@ -164,40 +164,41 @@ if CirnoMod.config['miscRenames'] then
 	
 	-- Dictionary entries
 	SMODS.process_loc_text(G.localization.misc.dictionary, "b_planet_cards", "Hu Cards")
-	SMODS.process_loc_text(G.localization.misc.dictionary, "b_stat_planet", "Hu's")
-	SMODS.process_loc_text(G.localization.misc.dictionary, "k_planet", "Hu")
-	SMODS.process_loc_text(G.localization.misc.dictionary, "k_planet_q", "...Nep?!")
+	SMODS.process_loc_text(G.localization.misc.dictionary, "b_stat_planet", "Hus")
 	SMODS.process_loc_text(G.localization.misc.dictionary, "k_plus_planet", "+1 Hu")
 	
-	-- Labels
-	SMODS.process_loc_text(G.localization.misc.labels, "planet", "Hu")
-	SMODS.process_loc_text(G.localization.misc.labels, "pluto_planet", "...Nep?!")
-	
-	-- Changes around the badges on Planets and their colours.
-	local planetRelabelling = {
-		{ key = 'mercury', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-		{ key = 'venus', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-		{ key = 'earth', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-		{ key = 'mars', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-		{ key = 'jupiter', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-		{ key = 'saturn', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-		{ key = 'uranus', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-		{ key = 'neptune', newLabelKey = 'k_planet_q', newLabelColour = CirnoMod.miscItems.colours.cirNep },
-		{ key = 'pluto', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-		{ key = 'ceres', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-		{ key = 'eris', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-		{ key = 'planet_x', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet }
-	}
-	
-	for i, p in ipairs (planetRelabelling) do
-		SMODS.Consumable:take_ownership(p.key, {
-			set_card_type_badge = function(self, card, badge)
-				badge[1] = create_badge(localize(p.newLabelKey), p.newLabelColour, G.C.WHITE, 1.2)
-			end
-		})
+	if CirnoMod.config['allowCosmeticTakeOwnership'] then
+		SMODS.process_loc_text(G.localization.misc.dictionary, "k_planet", "Hu")
+		SMODS.process_loc_text(G.localization.misc.dictionary, "k_planet_q", "...Nep?!")
+		
+		-- Labels
+		SMODS.process_loc_text(G.localization.misc.labels, "planet", "Hu")
+		SMODS.process_loc_text(G.localization.misc.labels, "pluto_planet", "...Nep?!")
+		
+		-- Changes around the badges on Planets and their colours.
+		local planetRelabelling = {
+			{ key = 'mercury', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+			{ key = 'venus', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+			{ key = 'earth', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+			{ key = 'mars', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+			{ key = 'jupiter', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+			{ key = 'saturn', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+			{ key = 'uranus', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+			{ key = 'neptune', newLabelKey = 'k_planet_q', newLabelColour = CirnoMod.miscItems.colours.cirNep },
+			{ key = 'pluto', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+			{ key = 'ceres', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+			{ key = 'eris', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
+			{ key = 'planet_x', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet }
+		}
+		
+		for i, p in ipairs (planetRelabelling) do
+			SMODS.Consumable:take_ownership(p.key, {
+				set_card_type_badge = function(self, card, badge)
+					badge[1] = create_badge(localize(p.newLabelKey), p.newLabelColour, G.C.WHITE, 1.2)
+				end
+			})
+		end
 	end
-	
-	
 end
 
 return planetsAreHus

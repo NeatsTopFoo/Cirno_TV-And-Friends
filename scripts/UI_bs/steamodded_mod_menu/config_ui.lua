@@ -95,7 +95,7 @@ local configUI = function()
 									{
 										n = G.UIT.T, -- Top text
 										config = {
-											text = "Balatro Quick Restart Shortcut = Alt + F5",
+											text = "Steamodded's Balatro Quick Restart Shortcut = Alt + F5",
 											scale = 0.4,
 											colour = G.C.UI.TEXT_LIGHT,
 											align = 'tm',
@@ -138,8 +138,8 @@ local configUI = function()
 									{
 										n = G.UIT.T, -- Top text
 										config = {
-											text = "(Which is a Steamodded feature - I can't believe Steamodded devs hate people without function keys, such as my oshi.",
-											scale = 0.3,
+											text = "(I can't believe Steamodded devs hate people without function keys, such as my oshi Girl_DM_.",
+											scale = 0.25,
 											colour = G.C.UI.TEXT_LIGHT,
 											align = 'tm',
 											w = 3,
@@ -163,8 +163,8 @@ local configUI = function()
 										n = G.UIT.B,
 										config = {
 											colour = G.C.CLEAR,
-											w = 0.05,
-											h = 0.2
+											w = 0.1,
+											h = 0.1
 										}
 									}
 								}
@@ -181,8 +181,8 @@ local configUI = function()
 									{
 										n = G.UIT.T, -- Top text
 										config = {
-											text = "Very clear case of discrimination against her smh >:( )",
-											scale = 0.3,
+											text = "Very clear case of discrimination against her, smh >:( )",
+											scale = 0.25,
 											colour = G.C.UI.TEXT_LIGHT,
 											align = 'tm',
 											w = 3,
@@ -523,6 +523,21 @@ local configUI = function()
 														ref_table = CirnoMod.config,
 														ref_value = 'miscRenames',
 														-- callback = CirnoMod.callback_miscRenamesToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
+											},
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "Allow Cosmetic SMODS Take_Ownership()s",
+														w = 1.,
+														text_scale = 0.75,
+														ref_table = CirnoMod.config,
+														ref_value = 'allowCosmeticTakeOwnership',
+														-- callback = CirnoMod.callback_allowCosmeticTakeOwnershipToggle,
 														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}

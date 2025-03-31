@@ -1,8 +1,14 @@
 local cMod_SMODSLoc = SMODS.find_mod("CTVaF")[1]
+local isSealsOnJokersPresent = false
+
+if SMODS.find_mod("soj")[1] then
+	isSealsOnJokersPresent = true
+end
 
 cMod_SMODSLoc.optional_features = function()
 	return {
-		retrigger_joker = true
+		retrigger_joker = true,
+		post_trigger = true
 	}
 end
 
@@ -18,6 +24,10 @@ CirnoMod.miscItems = {
 	switchKeys = {},
 	switchTables = {},
 	matureReferencesOpt = { "(Hopefully) Safest", "Some", "All" }, -- These are the options that appear on the new cycle option for mature references.
+	redSealRetriggerIgnoreTable = { -- Ignore table containing keys of jokers and what contexts should be ignored for red seal retriggers
+		j_fortune_teller = { 'using_consumeable' },
+		j_cir_naro_l = { 'using_consumeable' }
+	},
 	colours = {
 		cirBlue = HEX('0766EBFF'),
 		cirCyan = HEX('0AD0F7FF'),
@@ -686,29 +696,97 @@ if CirnoMod.config['addCustomConsumables'] then
 				end
 			end
 		end
-	end	
-
-	-- Facilitate red seals working on jokers
-	local oldSealCalc = Card.calculate_seal
-	function Card:calculate_seal(context)
-		if
-			self.ability.set == 'Joker'
-		then
+	end
+	
+	--[[ The author of the mod "Seals on Jokers"
+	helped me greatly with the functionality here,
+	but obviously, we don't want to be running it
+	if the mod is also installed alongside this.]]
+	if
+		not isSealsOnJokersPresent
+	then
+		-- Hooks into the normal calculate_seal() 
+		local oldSealCalc = Card.calculate_seal
+		function Card:calculate_seal(context)
 			if
-				context.retrigger_joker_check
-				and not context.retrigger_joker
-				and self == context.other_card
-				and self.seal == 'Red'
-			then				
-				return {
-					repetitions = 1,
-					card = self
-				}
+				self.debuff
+			then
+				return nil
 			end
-			return nil
+			
+			if
+				self.ability
+				and self.ability.set == 'Joker'
+			then
+				if
+					context.retrigger_joker_check
+					and not context.retrigger_joker
+					and self == context.other_card
+					and self.seal == 'Red'
+				then					
+					if
+						CirnoMod.miscItems.redSealRetriggerIgnoreTable[self.config.center.key]
+					then
+						local allowRedSeal = true
+						
+						for i, cntxt in ipairs (CirnoMod.miscItems.redSealRetriggerIgnoreTable[self.config.center.key]) do
+							if
+								context[cntxt]
+								or cntxt == 'any'
+							then
+								allowRedSeal = false
+								break
+							end
+							
+							if
+								context.other_context
+								and context.other_context[cntxt]
+							then
+								allowRedSeal = false
+								break
+							end
+						end
+						
+						if
+							allowRedSeal
+						then
+							return {
+								repetitions = 1,
+								card = self
+							}
+						end
+					else
+						return {
+							repetitions = 1,
+							card = self
+						}
+					end
+				end
+				return nil
+			end
+			
+			return oldSealCalc(self, context)
 		end
 		
-		return oldSealCalc(self, context)
+		-- Fix for a weird-interaction with red seal on Mail-In Rebate
+		SMODS.Joker:take_ownership('mail',
+			{
+				calculate = function(self, card, context)
+					if
+						context.discard
+						and not context.other_card.debuff
+						and (context.other_card:get_id() == G.GAME.current_round.mail_card.id)
+					then
+						return {
+							dollars = card.ability.extra,
+							colour = G.C.MONEY,
+							card = card
+						}
+					end
+				end
+			},
+			true
+		)
 	end
 end
 

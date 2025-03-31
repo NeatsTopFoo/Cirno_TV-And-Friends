@@ -39,12 +39,13 @@ end
 
 --#region Win/Lose Quips
 
---[[
+
 SMODS.process_loc_text(G.localization.misc.quips, "lq_1", {
-		"Maybe Go Fish",
-		"is more our",
-		"speed..."
-	})]]
+		"Looks like you're being",
+		"backseated by chat.",
+		"Need an additional voice",
+		"in the crowd?"
+	})
 
 --[[
 SMODS.process_loc_text(G.localization.misc.quips, "lq_2", {
@@ -92,17 +93,60 @@ SMODS.process_loc_text(G.localization.misc.quips, "lq_8", {
 		"covered my eyes!"
 	})]]
 
---[[
 SMODS.process_loc_text(G.localization.misc.quips, "lq_9", {
 		"I'm literally",
-		"a fool, what's",
+		"a paperclip, what's",
 		"your excuse?"
-	})]]
+	})
 
 SMODS.process_loc_text(G.localization.misc.quips, "lq_10", {
 		"What the",
 		"fluoride?"
 	})
+--[[
+
+SMODS.process_loc_text(G.localization.misc.quips, "wq_1", {
+        "You Aced it!",
+    })]]
+
+--[[
+SMODS.process_loc_text(G.localization.misc.quips, "wq_2", {
+        "You dealt with",
+        "that pretty well!",
+    })]]
+
+SMODS.process_loc_text(G.localization.misc.quips, "wq_3", {
+        "Looks like your keyboard",
+		"is working correctly!",
+		"Have you tried the",
+		"function keys?"
+    })
+
+--[[
+SMODS.process_loc_text(G.localization.misc.quips, "wq_4", {
+        "Too bad these",
+        "chips are all",
+        "virtual...",
+    })]]
+
+--[[
+SMODS.process_loc_text(G.localization.misc.quips, "wq_5", {
+        "Looks like I've",
+        "taught you well!",
+    })]]
+
+--[[
+SMODS.process_loc_text(G.localization.misc.quips, "wq_6", {
+        "You made some",
+        "heads up plays!",
+    })]]
+
+--[[
+SMODS.process_loc_text(G.localization.misc.quips, "wq_7", {
+        "Good thing",
+        "I didn't bet",
+        "against you!",
+    })]
 	
 --#endregion
 

@@ -49,7 +49,7 @@ local jokerInfo = {
 		-- Cirno Legendary.
 		{
 			-- How the Joker will be referred to internally.
-			key = 'cirL_cirno',
+			key = 'cirno_l',
 			
 			object_type = "Joker",
 			
@@ -141,7 +141,7 @@ local jokerInfo = {
 		-- Nope Legendary.
 		{
 			-- How the Joker will be referred to internally.
-			key = 'cirL_nope',
+			key = 'nope_l',
 			
 			object_type = "Joker",
 			
@@ -280,7 +280,7 @@ local jokerInfo = {
 		-- Naro Legendary.
 		{
 			-- How the Joker will be referred to internally.
-			key = 'cirL_naro',
+			key = 'naro_l',
 			
 			object_type = "Joker",
 			
@@ -293,7 +293,7 @@ local jokerInfo = {
 				text = {
 					"This {C:joker}Joker{} gains {X:mult,C:white} X#1# ",
 					"Mult for every {C:cirNep}"..G.localization.descriptions.Planet.c_neptune.name,
-					"used during this run",
+					"used this run",
 					"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}He is the missile.",
 					"{s:0.8,C:inactive}He knows where he is."
@@ -345,6 +345,7 @@ local jokerInfo = {
 					context.cardarea == G.jokers -- If we are iterating through owned jokers
 					and	context.joker_main -- If the context is during the main scoring timing of jokers
 					and G.GAME.consumeable_usage -- And global consumeable usage exists
+					and G.GAME.consumeable_usage['c_neptune'] -- And at least one neptune has been used.
 					and mult ~= nil -- And global mult is not nil
 					and not context.before -- Context before is things that happen in the scoring loop, but before anything is scored
 					and not context.after -- Context after is things that modify the score after all cards are scored
@@ -365,8 +366,6 @@ local jokerInfo = {
 					and context.consumeable
 					and G.GAME.consumeable_usage
 				then
-					print(tprint(context.consumeable.ability))
-					
 					if
 						context.consumeable.ability.name == "Neptune"
 					then

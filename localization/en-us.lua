@@ -339,6 +339,15 @@ RV.descriptions.Other = {
 			creditSources.unknown.." edit",
 			"of "..creditSources.thunk.." art."
 		}
+	},
+	
+	-- Non-Art Credit Things --
+	jkrRedSeal = {
+		name = "Red Seal",
+		text = {
+			"Retriggers this",
+			"Joker {C:attention}1{} time"
+		}
 	}
 }
 
@@ -361,16 +370,16 @@ then
 		ph_deck_preview_stones = stoneIntent.."s"
 	} }
 	
-	--[[
+	-- Todo: Remove when we work out Marble Joker.
 	RV.descriptions.Joker = {
 		j_marble = {
 			text = {
-                "Adds one {C:attention}"..RV.descriptions.Enhanced.m_stone.name,
+                "Adds one {C:attention}"..stoneIntent,
                 "to deck when",
                 "{C:attention}Blind{} is selected",
             }
 		}
-	}]]
+	}
 end
 
 return RV

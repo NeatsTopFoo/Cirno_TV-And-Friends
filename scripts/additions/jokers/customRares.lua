@@ -23,9 +23,9 @@ local jokerInfo = {
 		-- Crystal Tap
 		{
 			-- How the Joker will be referred to internally.
-			key = "cirR_crystalTap",
+			key = 'crystalTap',
 			
-			object_type = "Joker",
+			object_type = 'Joker',
 			
 			
 		}

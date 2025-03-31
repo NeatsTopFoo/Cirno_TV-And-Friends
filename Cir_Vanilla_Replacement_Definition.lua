@@ -444,7 +444,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_tribe', matureRefLevel = 1 },
 	
 	-- { jkrKey = 'j_8_ball', matureRefLevel = 1 },
-	-- { jkrKey = 'j_fibonacci', matureRefLevel = 1 },
+	{ jkrKey = 'j_fibonacci', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_stencil', matureRefLevel = 1 },
 	-- { jkrKey = 'j_space', matureRefLevel = 1 },
 	-- { jkrKey = 'j_matador', matureRefLevel = 1 },
@@ -478,7 +478,7 @@ replaceDef.jokerReplacements = {
 	
 	-- { jkrKey = 'j_bloodstone', matureRefLevel = 1 },
 	-- { jkrKey = 'j_arrowhead', matureRefLevel = 1 },
-	-- { jkrKey = 'j_onyx_agate', matureRefLevel = 1 },
+	{ jkrKey = 'j_onyx_agate', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	
 	----- Legendary Jokers & Hologram don't get passed into the		 -----
 	----- Malverk script from this, because they have to be handled  -----
@@ -499,7 +499,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_egg', matureRefLevel = 1, artCreditKey = 'jA_Egg' },
 	{ jkrKey = 'j_burglar', matureRefLevel = 1, artCreditKey = 'jA_Burglar' },
 	-- { jkrKey = 'j_blackboard', matureRefLevel = 1 },
-	-- { jkrKey = 'j_ice_cream', matureRefLevel = 1 },
+	{ jkrKey = 'j_ice_cream', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_runner', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_dna', matureRefLevel = 1, artCreditKey = 'jA_Unknown_NTFEdit' },
 	-- { jkrKey = 'j_splash', matureRefLevel = 1 },
@@ -528,7 +528,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_rocket' },
 	-- { jkrKey = 'j_obelisk', matureRefLevel = 1 }, -- Petition to rename this "Worst Joker in the Game."
 	
-	-- { jkrKey = 'j_midas_mask', matureRefLevel = 1 },
+	{ jkrKey = 'j_midas_mask', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_luchador', matureRefLevel = 1 },
 	-- { jkrKey = 'j_photograph', matureRefLevel = 1 },
 	-- { jkrKey = 'j_gift', matureRefLevel = 1 },

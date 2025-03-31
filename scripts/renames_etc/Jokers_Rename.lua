@@ -586,33 +586,43 @@ jokerLoc.nrmJkrs.j_family = {
 		-- name = "The Family"
 	}
 if CirnoMod.config['matureReferences_cyc'] >= 2 then
-
-	CirnoMod.miscItems.createABSwitchLatch('j_family', 0.15, 'A')
-	
-	jokerLoc.nrmJkrs.j_family.text = {
-        "{X:mult,C:white} X#1# {} Mult if played",
-        "hand contains",
-        "a {C:attention}#2#",
-		"{s:0.8,C:inactive}#3#",
-		"{s:0.5,C:inactive}Search \"Cirno_TV Let me rephrase that\"",
-		"{s:0.5,C:inactive}on YT to learn more!"
-    }
-	
-	SMODS.Joker:take_ownership('family',
-		{
-			locAB = {
-				A = "This is the nicest Joker.",
-				B = "This is the incest Joker."
+	if CirnoMod.config['allowCosmeticTakeOwnership'] then
+		CirnoMod.miscItems.createABSwitchLatch('j_family', 0.15, 'A')
+		
+		jokerLoc.nrmJkrs.j_family.text = {
+			"{X:mult,C:white} X#1# {} Mult if played",
+			"hand contains",
+			"a {C:attention}#2#",
+			"{s:0.8,C:inactive}#3#",
+			"{s:0.5,C:inactive}Search \"Cirno_TV Let me rephrase that\"",
+			"{s:0.5,C:inactive}on YT to learn more!"
+		}
+		
+		SMODS.Joker:take_ownership('family',
+			{
+				locAB = {
+					A = "This is the nicest Joker.",
+					B = "This is the incest Joker."
+				},
+				
+				loc_vars = function(self, info_queue, card)				
+					CirnoMod.miscItems.processSwitch('j_family')
+					return {					
+						vars = {card.ability.x_mult, localize(card.ability.type, 'poker_hands'), self.locAB[CirnoMod.miscItems.switchTables['j_family'].AB]}
+					}
+				end
 			},
-			
-			loc_vars = function(self, info_queue, card)				
-				CirnoMod.miscItems.processSwitch('j_family')
-				return {					
-					vars = {card.ability.x_mult, localize(card.ability.type, 'poker_hands'), self.locAB[CirnoMod.miscItems.switchTables['j_family'].AB]}
-				}
-			end
-		},
-	true)
+		true)
+	else
+		jokerLoc.nrmJkrs.j_family.text = {
+			"{X:mult,C:white} X#1# {} Mult if played",
+			"hand contains",
+			"a {C:attention}#2#",
+			"{s:0.8,C:inactive}This is the nicest Joker.",
+			"{s:0.5,C:inactive}Search \"Cirno_TV Let me rephrase that\"",
+			"{s:0.5,C:inactive}on YT to learn more!"
+		}
+	end
 else
 	jokerLoc.nrmJkrs.j_family.text = {
         "{X:mult,C:white} X#1# {} Mult if played",
@@ -641,12 +651,12 @@ jokerLoc.nrmJkrs.j_tribe = {
         "hand contains",
         "a {C:attention}#2#"
 	}
-}
+}]]
 
 
 -- ===== NEXT LINE =====
 
-
+--[[
 jokerLoc.nrmJkrs.j_8_ball = {
 	name = "9 Ball",
 	text = {
@@ -655,17 +665,19 @@ jokerLoc.nrmJkrs.j_8_ball = {
         "{C:tarot}Tarot{} card when scored",
         "{C:inactive}(Must have room)"
 	}
-}
+}]]
 
 jokerLoc.nrmJkrs.j_fibonacci = {
-	name = "Fibonacci",
+	name = "Why It's Called XBox 360",
 	text = {
-		"Win a run",
-        "without playing",
-        "a {E:1,C:attention}#1#"
+		"Each played {C:attention}Ace{},",
+        "{C:attention}2{}, {C:attention}3{}, {C:attention}5{}, or {C:attention}8{} gives",
+        "{C:mult}+#1#{} Mult when scored",
+		"{s:0.8,C:inactive}You turn 360 degrees and",
+		"{s:0.8,C:inactive}walk away from the console."
 	}
 }
-
+--[[
 jokerLoc.nrmJkrs.j_stencil = {
 	name = "Joker Stencil",
 	text = {
@@ -932,7 +944,8 @@ jokerLoc.nrmJkrs.j_idol = {
         "of {V:1}#3#{} gives",
         "{X:mult,C:white} X#1# {} Mult when scored",
         "{s:0.8}Card changes every round",
-        "{s:0.8,C:inactive}Sorrgy, accident."
+        "{s:0.8,C:inactive}I saw Hatsune Miku at a grocery",
+        "{s:0.8,C:inactive}store in Akihabara yesterday."
     }
 }
 
@@ -993,16 +1006,19 @@ jokerLoc.nrmJkrs.j_arrowhead = {
 		"Played cards with",
         "{C:spades}Spade{} suit give",
         "{C:chips}+#1#{} Chips when scored"
-	}
+	}]]
 
 jokerLoc.nrmJkrs.j_onyx_agate = {
-	name = "Onyx Agate",
+	name = "Demon Core",
 	text = {
 		"Played cards with",
         "{C:clubs}Club{} suit give",
-        "{C:mult}+#1#{} Mult when scored"
+        "{C:mult}+#1#{} Mult when scored",
+		"{s:0.8,C:inactive}Top 10 wacky things you",
+		"{s:0.8,C:inactive}can do with a plutonium",
+		"{s:0.8,C:inactive}core & two beryllium half-spheres"
 	}
-]]
+}
 
 jokerLoc.lgndJkrs.j_caino = {
 	name = "Girl_DM_",
@@ -1122,14 +1138,12 @@ jokerLoc.nrmJkrs.j_egg = {
 
 jokerLoc.nrmJkrs.j_burglar = {
 	name = "CirThief",
---[[
 	text = {
 		"When {C:attention}Blind{} is selected,",
 		"gain {C:blue}+#1#{} Hands and",
 		"{C:attention}lose all discards",
-		"{s:0.8,C:inactive}"
+		"{s:0.8,C:inactive}cirnoStealsUrJades"
 	}
-	]]
 }
 
 --[[
@@ -1140,17 +1154,17 @@ jokerLoc.nrmJkrs.j_blackboard = {
         "cards held in hand",
         "are {C:spades}#2#{} or {C:clubs}#3#{}"
 	}
-}
+}]]
 
 jokerLoc.nrmJkrs.j_ice_cream = {
-	name = "Ice Cream",
+	name = "Matcha Ice Cream",
 	text = {
 		"{C:chips}+#1#{} Chips",
         "{C:chips}-#2#{} Chips for",
-        "every hand played"
+        "every hand played",
+        "{s:0.8,C:inactive}\"Wait, you just T1'd\""
 	}
 }
-]]
 
 jokerLoc.nrmJkrs.j_runner = {
 	name = "Speedrunner",
@@ -1452,21 +1466,24 @@ jokerLoc.nrmJkrs.j_obelisk = {
         "most played {C:attention}poker hand",
         "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
 	}
-}
+}]]
 
 
-===== NEXT LINE =====
+-- ===== NEXT LINE =====
 
 
 jokerLoc.nrmJkrs.j_midas_mask = {
-	name = "Midas Mask",
+	name = "Dagoth Ur",
 	text = {
 		"All played {C:attention}face{} cards",
         "become {C:attention}Gold{} cards",
-        "when scored"
+        "when scored",
+		"{s:0.8,C:inactive}\"Come Nerevar, and look upon",
+		"{s:0.8,C:inactive}the heart.\""
 	}
 }
 
+--[[
 jokerLoc.nrmJkrs.j_luchador = {
 	name = "Luchador",
 	text = {

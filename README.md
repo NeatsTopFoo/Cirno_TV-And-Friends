@@ -15,7 +15,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 69 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
+  - 75 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
   - All Blind Chips
   - All Seals
   - All Planet Cards
@@ -39,9 +39,10 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
   - Various fun flavour text to numerous items
   - A few custom playing card skins
   - 4 custom Jokers
-  - 1 new custom challenge
+  - 1 custom Spectral Card
+  - 1 custom Challenge
 
-All retextures and renames are optional and they're somewhat mix n' match (You can't have it rename some Jokers and not others. You either get all Joker renames or none).
+All retextures and renames are optional and they're somewhat mix n' match (You can't have it rename some Jokers enabled in the texture pack and not others. You either get all Joker renames or none - But you do otherwise have decent control over it).
 
 ## Installation
 This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), the latest version of [Steammodded](https://github.com/Steamodded/smods) & the latest version of [Malverk](https://github.com/Eremel/Malverk). Without these dependencies, this mod will not function.
@@ -49,7 +50,7 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 **IMPORTANT:** At the current time of writing, Steamodded's install instructions start by talking about installing Lovely and Malverk does not explicitly state its install instructions, which may be confusing for players newer to modding Balatro - So included below are some installation steps intended to be followed from the conclusion of **[following Steamodded's tutorial on installing both Lovely & Steamodded](https://github.com/Steamodded/smods/wiki)**, which confusingly is where you should start, because again, it instructs you how to install Lovely first  ...Yeah .-. - *To be safe, ensure that Balatro runs properly both after installing Lovely and after installing Steamodded*:
 
 **Installing Malverk:**
-- After following the previously linked tutorial, download the latest version of Malverk from its releases page (At time of writing, getting Malverk's "Source code" .zip *should* be fine unless that page explicitly states something specific for you to download instead).
+- After following the previously linked tutorial, download the latest version of Malverk from its releases page (At time of writing, getting Malverk's "Source code" .zip *should* be fine (and is recommended) unless that page explicitly states something specific for you to download instead).
 - Either by extracting the contents of or otherwise opening the Malverk .zip, you should get a folder of the same name as the zip file (or similar). Move that folder to the .../Balatro/mods directory you created in the previous tutorial.
 - (To be safe) Ensure that Balatro runs properly. 
 
@@ -57,7 +58,7 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 - Download the latest version of this mod from the releases page.
 - Either by extracting the contents of or otherwise opening this mod's .zip, you should get a folder of the same name as the zip file (or similar). Move that folder to the .../Balatro/mods directory you created in the previous tutorial.
 - You have finished installing Cirno & Friends. *Changes may not immediately appear* as they need to be enabled in both the Steamodded mod menu (Specifically in this mod's config, although they are set to enabled by default) and in Malverk's textures menu for them to appear in-game.
-- *IMPORTANT*: Because of a bug in the current release of Malverk (at the time of writing), enabling the default textures in Malverk and then trying to interact with its card afterwards causes the game to error. Disabling (As in, removing from the top line. It does not remove it from the mod entirely) the default texture pack card either requires removal of the '"default",' line in Malverk's config file under ["selected"], Which itself is generally accessible by going up one level from the .../Balatro/mods/ folder, into the /config folder that should be under that /Balatro directory. This should be fixed with the next Malverk release.
+- *IMPORTANT*: Because of a bug in the current release of Malverk (at the time of writing), enabling the default textures in Malverk and then trying to interact with its card afterwards causes the game to error. Disabling (As in, removing from the top line. It does not remove it from the mod entirely) the default texture pack card either requires removal of the '"default",' line in Malverk's config file under ["selected"], Which itself is generally accessible by going up one level from the .../Balatro/mods/ folder, into the /config folder that should be under that /Balatro directory. This is currently fixed in the current dev version of Malverk & should be fixed with the next Malverk release.
 
 **Updating this mod:**
 - If this mod has since added any new dependencies since the last time you downloaded it (We probably won't? But generally it's safer to check, than be confused why things broke later and the possibility isn't zero for whatever reason), get those dependencies and ensure Balatro runs.
@@ -72,6 +73,6 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 - The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art used for the DNA Joker (The art itself appears to not be credited to any specific contributing artist), as well as code for changing the card that appears on the title screen.
 - The [Cryptid](https://github.com/MathIsFun0/Cryptid) mod for Joker code for a certain Legendary Joker.
 - The [Trance](https://github.com/MathIsFun0/Trance) mod for code for changing the colours of the main menu vortex.
-- [Aikoyori](https://bsky.app/profile/aikoyori.xyz), BreezeBuilder, Eremel and other members of the Balatro modding community for help with code & code issues.
+- [Aikoyori](https://bsky.app/profile/aikoyori.xyz), BreezeBuilder, Eremel, Somethimgcom515 and other members of the Balatro modding community for help with code & code issues.
 - [Cirno_TV](https://www.twitch.tv/Cirno_TV/) for the art used for the Misprint Joker.
 - Credits are also included in in-game tooltips to any cards that are edited & added; Optionally disableable in the mod's config menu.

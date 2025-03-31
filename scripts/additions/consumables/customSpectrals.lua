@@ -41,7 +41,7 @@ local spectralInfo = {
 	cnsmConfigs = {
 		-- Revelry
 		{
-			key = 'cir_sRevelry',
+			key = 'sRevelry',
 			set = 'Spectral',
 			cost = 4,
 			atlas = 'cir_cSpectrals',
@@ -61,9 +61,11 @@ local spectralInfo = {
 			},
 			
 			loc_vars = function(self, info_queue, card)
-				info_queue[#info_queue + 1] = G.P_SEALS['Red']
+				info_queue[#info_queue + 1] = { key = "jkrRedSeal", set = "Other" }
 				
-				info_queue[#info_queue + 1] = { key = "gA_NTF", set = "Other" }
+				if CirnoMod.config.artCredits then
+					info_queue[#info_queue + 1] = { key = "gA_NTF", set = "Other" }
+				end
 			end,
 			
 			can_use = function(self, card)
