@@ -167,18 +167,6 @@ create_option_cycle({options = ordered_names, opt_callback = 'change_viewed_back
 times = 1
 match_indent = false
 
-
-[[patches]]
-[patches.pattern]
-target = "functions/UI_definitions.lua"
-pattern = '''local contents = args.contents or ({n=G.UIT.T, config={text = "EMPTY",colour = G.C.UI.RED, scale = 0.4}})'''
-position = "at"
-payload = '''
-local contents = args.contents or ({n=G.UIT.T, config={text = "EMPTY",colour = G.C.SECONDARY_SET.UIDefault or G.C.RED, scale = 0.4}})
-'''
-times = 1
-match_indent = false
-
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"

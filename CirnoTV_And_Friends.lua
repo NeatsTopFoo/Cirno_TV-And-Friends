@@ -1,9 +1,4 @@
 local cMod_SMODSLoc = SMODS.find_mod("CTVaF")[1]
-local isSealsOnJokersPresent = false
-
-if SMODS.find_mod("soj")[1] then
-	isSealsOnJokersPresent = true
-end
 
 cMod_SMODSLoc.optional_features = function()
 	return {
@@ -11,6 +6,8 @@ cMod_SMODSLoc.optional_features = function()
 		post_trigger = true
 	}
 end
+
+SMODS.Sound:register_global()
 
 CirnoMod = {}
 CirnoMod.path = cMod_SMODSLoc.path
@@ -21,12 +18,18 @@ CirnoMod.miscItems = {
 	deckSkinNames = {}, -- How the custom deck skins are referred to internally. Used for art credit tooltips.
 	deckSkinWhich = {}, -- Differentiate between different deck skins we might want to add, in case we have different crediting to do per skin.
 	keysOfAllCirnoModItems = {}, -- This will be used for any effects the focus on stuff edited or introduced by this mod
+	funnyAtlases = {},
 	switchKeys = {},
 	switchTables = {},
+	keysOfJokersToUpdateStateOnLoad = {
+		j_cir_arumia_l = true
+	},
+	isSealsOnJokersPresent = false,
 	matureReferencesOpt = { "(Hopefully) Safest", "Some", "All" }, -- These are the options that appear on the new cycle option for mature references.
 	redSealRetriggerIgnoreTable = { -- Ignore table containing keys of jokers and what contexts should be ignored for red seal retriggers
 		j_fortune_teller = { 'using_consumeable' },
-		j_cir_naro_l = { 'using_consumeable' }
+		j_cir_naro_l = { 'using_consumeable' },
+		j_cir_arumia_l = { 'using_consumeable', 'setting_blind', 'hand_drawn' }
 	},
 	colours = {
 		cirBlue = HEX('0766EBFF'),
@@ -42,9 +45,117 @@ CirnoMod.miscItems = {
 			config = {
 				text = text,
 				colour = colour,
-				scale = scale*0.3
+				scale = scale*0.32
 			}
 		}
+		
+		return nodes[#nodes]
+	end,
+	addUISpriteNode = function(nodes, sprite)
+		nodes[#nodes + 1] = {
+			n = G.UIT.O,
+			config = { object = sprite }
+		}
+		
+		if	sprite.atlas.manualFrameParsing	then
+			nodes[#nodes].config.thisObjFrameParse = copy_table(sprite.atlas.manualFrameParsing)
+			CirnoMod.miscItems.manuallyAnimateAtlasItem(nodes[#nodes].config)
+		end
+		
+		return nodes[#nodes]
+	end,
+	addUIColumnOrRowNode = function(nodes, alignment, type, colour, radius, padding)
+		if
+			type == 'C'
+			or type == 'R'
+		then
+			nodes[#nodes + 1] = {
+				n = G.UIT[type],
+				config = {
+					align = alignment,
+					colour = colour,
+					r = radius,
+					padding = padding,
+					res = 0.15
+				},
+				nodes = {}
+			}
+		end
+		
+		return nodes[#nodes]
+	end,
+	restructureNodesTableIntoRowsOrColumns = function(nodesTable, orderedKeysTable, RowOrColumn, config)
+		local RV = {}
+		
+		if
+			RowOrColumn == 'R'
+			or RowOrColumn == 'C'
+		then
+			
+			for i, k in ipairs (orderedKeysTable) do
+				table.insert(RV, {
+					n = G.UIT[RowOrColumn],
+					config = config,
+					nodes = nodesTable[k]
+				})
+			end
+		end
+		
+		return RV
+	end,
+	addHighlightedUITextNode = function(nodes, alignment, HColour, radius, padding, text, TColour, scale)
+		nodes[#nodes + 1] = {
+			n = G.UIT.C,
+			config = {
+				align = alignment,
+				colour = HColour,
+				r = radius,
+				padding = padding,
+				res = 0.15
+			},
+			nodes = {{
+				n = G.UIT.T,
+				config = {
+					text = text,
+					colour = TColour,
+					scale = scale*0.32
+				}
+			}}
+		}
+		
+		return nodes[#nodes]
+	end,
+	manuallyAnimateAtlasItem = function(UINodeConfigTable)
+		G.E_MANAGER:add_event(Event({
+			trigger = 'immediate',
+			blocking = false,
+			blockable = false,			
+			func = function()
+				if
+					UINodeConfigTable
+					and UINodeConfigTable.object
+					and UINodeConfigTable.object.sprite_pos
+					and UINodeConfigTable.object.atlas
+					and UINodeConfigTable.thisObjFrameParse
+				then
+					if UINodeConfigTable.thisObjFrameParse.counter < UINodeConfigTable.thisObjFrameParse.delay then
+						UINodeConfigTable.thisObjFrameParse.counter = UINodeConfigTable.thisObjFrameParse.counter + 0.1
+					else
+						if UINodeConfigTable.object.sprite_pos.x < UINodeConfigTable.object.atlas.frames then
+							UINodeConfigTable.object.sprite_pos.x = UINodeConfigTable.object.sprite_pos.x + 1
+						else
+							UINodeConfigTable.object.sprite_pos.x = 0
+						end
+						
+						UINodeConfigTable.thisObjFrameParse.counter = 0
+					end
+					
+					return false
+				else
+					return true
+				end
+			end
+		}))
 	end,
 	filterTable = function(sourceTable, destinationTable, filterTable)
 		for i, F in ipairs (filterTable) do
@@ -61,8 +172,21 @@ CirnoMod.miscItems = {
 			end
 		end
 	return RV
+	end,
+	isState = function(curGameState, stateToCheck)
+		if
+			curGameState
+			and stateToCheck
+		then 
+			return curGameState == stateToCheck
+		end
+		return false
 	end
 }
+
+if SMODS.find_mod("soj")[1] then
+	CirnoMod.miscItems.isSealsOnJokersPresent = true
+end
 
 CirnoMod.miscItems.getLocColour = function(colourNameStr, defaultColourStr)
 	if CirnoMod.miscItems.colours[colourNameStr] then
@@ -124,6 +248,41 @@ CirnoMod.miscItems.processSwitch = function(itemKey)
 	
 	return CirnoMod.miscItems.switchTables[itemKey]
 end
+
+-- These are surprise tools that will help us later.
+CirnoMod.miscItems.funnyAtlases.cirGuns = SMODS.Atlas({
+	key = 'cir_Guns',
+	path = 'Misc/cirGuns.png',
+	px = 71,
+	py = 95
+})
+
+CirnoMod.miscItems.funnyAtlases.japaneseGoblin = SMODS.Atlas({
+	key = 'cir_jGoblin',
+	path = 'Misc/japaneseGoblin.png',
+	px = 64,
+	py = 64,
+	atlas_table = 'ANIMATION_ATLAS',
+	frames = 51
+})
+CirnoMod.miscItems.funnyAtlases.japaneseGoblin.manualFrameParsing = { counter = 0, delay = 0.2 }
+
+CirnoMod.miscItems.funnyAtlases.emotes = SMODS.Atlas({
+	key = 'cir_Emotes',
+	path = 'Misc/cir_Emotes.png',
+	px = 64,
+	py = 64
+})
+
+CirnoMod.miscItems.funnyAtlases.rumiSleep = SMODS.Atlas({
+	key = 'cir_rumiSleep',
+	path = 'Misc/rumiSleep.png',
+	px = 64,
+	py = 64,
+	atlas_table = 'ANIMATION_ATLAS',
+	frames = 37
+})
+CirnoMod.miscItems.funnyAtlases.rumiSleep.manualFrameParsing = { counter = 0, delay = 0.4 }
 
 --[[
 This is what the new cycle option calls when it's cycled
@@ -701,7 +860,7 @@ if CirnoMod.config['addCustomConsumables'] then
 	--[[ The author of the mod "Seals on Jokers"
 	helped me greatly with the functionality here,
 	but obviously, we don't want to be running it
-	if the mod is also installed alongside this.]]
+	if that mod is also running alongside this.]]
 	if
 		not isSealsOnJokersPresent
 	then
@@ -733,14 +892,8 @@ if CirnoMod.config['addCustomConsumables'] then
 							if
 								context[cntxt]
 								or cntxt == 'any'
-							then
-								allowRedSeal = false
-								break
-							end
-							
-							if
-								context.other_context
-								and context.other_context[cntxt]
+								or (context.other_context
+								and context.other_context[cntxt])
 							then
 								allowRedSeal = false
 								break
@@ -903,6 +1056,23 @@ CirnoMod.CirnoHooks.onRunStart = function(args)
 		and type(CirnoMod.miscItems.pickRandShopFlavour) == 'function'
 	then
 		CirnoMod.miscItems.pickRandShopFlavour()
+	end
+	
+	--[[ YEP,
+	THIS IS HOW WE'RE DOING THIS NOW.
+	BLAME THUNK.]]
+	if
+		CirnoMod.miscItems.keysOfJokersToUpdateStateOnLoad
+	then
+		for i, jkr in ipairs(G.jokers.cards) do
+			if
+				CirnoMod.miscItems.keysOfJokersToUpdateStateOnLoad[jkr.config.center.key]
+				and jkr.config.center.updateState
+				and type(jkr.config.center.updateState) == 'function'
+			then
+				jkr.config.center.updateState(jkr)
+			end
+		end
 	end
 	
 	return nil

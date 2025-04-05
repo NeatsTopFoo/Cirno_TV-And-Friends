@@ -187,7 +187,7 @@ if CirnoMod.config['playingCardTextures'] then -- The suits here should be in th
 	
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Diamonds = 'cA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Queen_Diamonds = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Diamonds = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Diamonds = 'cA_DaemonTsun'
 	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Diamonds = 'cA_DaemonTsun'
 	
 	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Spades = 'cA_DaemonTsun'
@@ -417,7 +417,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_loyalty_card', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_hack', matureRefLevel = 1, artCreditKey = 'jA_Hack' },
 	{ jkrKey = 'j_misprint', matureRefLevel = 1, artCreditKey = 'jA_Misprint' },
-	-- { jkrKey = 'j_steel_joker', matureRefLevel = 1 },
+	{ jkrKey = 'j_steel_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_raised_fist', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_golden', matureRefLevel = 1, artCreditKey = 'jA_Golden' },
 	

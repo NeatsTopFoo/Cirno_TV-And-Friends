@@ -55,16 +55,48 @@ jokerLoc.nrmJkrs.j_joker = {
     }
 }
 
-jokerLoc.weeJkr.j_wee = {
-	name = "cirMini",
-	text = {
+jokerLoc.weeJkr.j_wee = { name = "cirMini", }
+
+if CirnoMod.config['allowCosmeticTakeOwnership'] then
+	SMODS.Joker:take_ownership('wee', {
+		create_main_end = function(center)
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			local firstLine = CirnoMod.miscItems.addUIColumnOrRowNode(mainEndRV.nodes, 'cm', 'R', G.C.CLEAR, 0, 0).nodes
+			
+			CirnoMod.miscItems.addUISpriteNode(firstLine, Sprite(
+					0, 0, -- Sprite X & Y
+					0.3, 0.3, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 2, y = 0 } -- Position in the Atlas
+				)
+			)
+			
+			CirnoMod.miscItems.addUITextNode(firstLine, 's in the chat.', G.C.UI.TEXT_INACTIVE, 0.8)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return { vars = { center.ability.extra.chips, center.ability.extra.chip_mod }, main_end = self.create_main_end(center) }
+		end
+	}, true)
+else
+	jokerLoc.weeJkr.j_wee.text = {
 		"This Joker gains",
 		"{C:chips}+#2#{} Chips when each",
 		"played {C:attention}2{} is scored",
 		"{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
 		"{s:0.2,C:inactive}Something about cirFairies in the chat."
 	}
-}
+end
 
 jokerLoc.nrmJkrs.j_chaos = {
 	name = "Miku The Clown",
@@ -163,15 +195,43 @@ jokerLoc.nrmJkrs.j_juggler = {
 }
 ]]
 
-jokerLoc.nrmJkrs.j_drunkard = {
-	name = "JAPANESE GOBLIN",
-	text = {
+jokerLoc.nrmJkrs.j_drunkard = { name = "JAPANESE GOBLIN" }
+
+if CirnoMod.config['allowCosmeticTakeOwnership'] then	
+	SMODS.Joker:take_ownership('drunkard', {
+		create_main_end = function(center)
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					1, 1, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.japaneseGoblin, -- Sprite Atlas
+					center.pos -- Position
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return { vars = { center.ability.d_size }, main_end = self.create_main_end(center) }
+		end
+	}, true)
+else
+	jokerLoc.nrmJkrs.j_drunkard.text = {
 		"{C:red}+#1#{} discard",
 		"each round",
 		"{s:0.8,C:inactive}WE ARE",
 		"{s:0.8,C:inactive}JAPANESE GOBLIN!"
 	}
-}
+end
 
 jokerLoc.nrmJkrs.j_acrobat = {
 	name = "Bar-Using Incel",
@@ -342,18 +402,19 @@ jokerLoc.nrmJkrs.j_misprint = {
 		--	to Misprint, the text is generated in-game
         ""
     }
-}
+}]]
 
 jokerLoc.nrmJkrs.j_steel_joker = {
-	name = "Steel Joker",
+	name = "Coldsteel The Joker",
 	text = {
 		"Gives {X:mult,C:white} X#1# {} Mult",
         "for each {C:attention}Steel Card",
         "in your {C:attention}full deck",
-        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+		"{s:0.8,C:inactive}Nothin' personnel, kid."
     }
 }
-
+--[[
 Unsure what to do with Raised Fist.
 jokerLoc.nrmJkrs.j_raised_fist = {
 	name = "Raised Fist",
@@ -374,6 +435,35 @@ jokerLoc.nrmJkrs.j_golden = {
 		"{s:0.8,C:inactive}guns I remember."
 	}
 }
+
+if CirnoMod.config['allowCosmeticTakeOwnership'] then
+	SMODS.Joker:take_ownership('golden', {
+		create_main_end = function(center)
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					1, 1, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 3, y = 0 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return { vars = { center.ability.extra }, main_end = self.create_main_end(center) }
+		end
+	}, true)
+end
 
 
 -- ===== NEXT LINE =====
@@ -430,18 +520,50 @@ if CirnoMod.config.matureReferences_cyc == 3 then
         "Earn {C:money}$#1#{} per {C:attention}discard{} if",
         "no discards are used",
         "by end of the round",
-		"{s:0.8,C:cirLucy}You won't last a minute."
+		"{s:0.8,C:inactive}\"{s:0.8,C:cirLucy}You won't last a minute.{s:0.8,C:inactive}\""
     }
 elseif CirnoMod.config.matureReferences_cyc == 2 then
 	jokerLoc.delGrat.j_delayed_grat.text = {
         "Earn {C:money}$#1#{} per {C:attention}discard{} if",
         "no discards are used",
         "by end of the round",
-		"{s:0.8,C:cirLucy}Hey sweet one",
+		"{s:0.8,C:inactive}\"{s:0.8,C:cirLucy}Hey sweet one",
 		"{s:0.8,C:cirLucy}To the grave I won't go",
 		"{s:0.8,C:cirLucy}For when I am done",
-		"{s:0.8,C:cirLucy}Kill me all you want"
+		"{s:0.8,C:cirLucy}Kill me all you want{s:0.8,C:inactive}\""
     }
+end
+
+if
+	CirnoMod.config['allowCosmeticTakeOwnership']
+	and CirnoMod.config.matureReferences_cyc >= 2
+then
+	SMODS.Joker:take_ownership('delayed_grat', {
+		create_main_end = function(center)
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					1, 1, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 0, y = 0 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return { vars = { center.ability.extra }, main_end = self.create_main_end(center) }
+		end
+	}, true)
 end
 
 --[[
@@ -571,6 +693,35 @@ jokerLoc.nrmJkrs.j_duo = {
 	}
 }
 
+if CirnoMod.config['allowCosmeticTakeOwnership'] then
+	SMODS.Joker:take_ownership('duo', {
+		create_main_end = function(center)
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					1, 1, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 1, y = 0 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return { vars = { center.ability.x_mult, localize(center.ability.type, 'poker_hands') }, main_end = self.create_main_end(center) }
+		end
+	}, true)
+end
+
 --[[
 jokerLoc.nrmJkrs.j_trio = {
 	name = "The Trio",
@@ -608,7 +759,7 @@ if CirnoMod.config['matureReferences_cyc'] >= 2 then
 				loc_vars = function(self, info_queue, card)				
 					CirnoMod.miscItems.processSwitch('j_family')
 					return {					
-						vars = {card.ability.x_mult, localize(card.ability.type, 'poker_hands'), self.locAB[CirnoMod.miscItems.switchTables['j_family'].AB]}
+						vars = { card.ability.x_mult, localize(card.ability.type, 'poker_hands' ), self.locAB[CirnoMod.miscItems.switchTables['j_family'].AB]}
 					}
 				end
 			},
@@ -726,10 +877,40 @@ jokerLoc.nrmJkrs.j_ring_master = {
 	text = {
         "{C:attention}Joker{}, {C:tarot}Tarot{}, {C:planet}"..planetIntent.."{},",
         "and {C:spectral}Spectral{} cards may",
-        "appear multiple times",
-		"{s:0.8,C:inactive}Ka-chow!"
+        "appear multiple times"
     }
 }
+
+if CirnoMod.config['allowCosmeticTakeOwnership'] then	
+	SMODS.Joker:take_ownership('ring_master', {
+		create_main_end = function(center)
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					1.1, 1.4, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.cirGuns, -- Sprite Atlas
+					{ x = 0, y = 0 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return { main_end = self.create_main_end(center) }
+		end
+	}, true)
+else
+	table.insert(jokerLoc.nrmJkrs.j_ring_master.text, "{s:0.8,C:inactive}Ka-chow!")
+end
 
 --[[
 jokerLoc.nrmJkrs.j_fortune_teller = {
@@ -843,8 +1024,9 @@ jokerLoc.nrmJkrs.j_stuntman = {
 	text = {
         "{C:chips}+#1#{} Chips,",
         "{C:attention}-#2#{} hand size",
-		"{s:0.8,C:inactive}He just keeps getting",
-		"{s:0.8,C:inactive}away with it."
+		"{s:0.8,C:inactive}It may be his only",
+		"{s:0.8,C:inactive}trick, but honestly",
+		"{s:0.8,C:inactive}if it ain't broke..."
     }
 }
 
@@ -1053,9 +1235,9 @@ else
 	}
 end
 
-jokerLoc.lgndJkrs.j_yorick = {
-	name = "ThorW",
-	text = {
+jokerLoc.lgndJkrs.j_yorick = { name = "ThorW" }
+if CirnoMod.config['matureReferences_cyc'] >= 2 then
+	jokerLoc.lgndJkrs.j_yorick.text = {
 		"This Joker gains",
 		"{X:mult,C:white} X#1# {} Mult every {C:attention}#2#{C:inactive} [#3#]{}",
 		"cards discarded",
@@ -1063,16 +1245,58 @@ jokerLoc.lgndJkrs.j_yorick = {
 		"{s:0.8,C:inactive}\"It's James from Pokemon!",
 		"{s:0.8,C:inactive}In that one episode!\""
 	}
-}
+else
+	jokerLoc.lgndJkrs.j_yorick.text = {
+		"This Joker gains",
+		"{X:mult,C:white} X#1# {} Mult every {C:attention}#2#{C:inactive} [#3#]{}",
+		"cards discarded",
+		"{C:inactive}(Currently {X:mult,C:white} X#4# {C:inactive} Mult)",
+		"{s:0.8,C:inactive}...I think he found pickles."
+	}
+end
 
-jokerLoc.lgndJkrs.j_chicot = {
-	name = "ReimMomo",
-	text = {
+jokerLoc.lgndJkrs.j_chicot = { name = "ReimMomo" }
+
+if CirnoMod.config['allowCosmeticTakeOwnership'] then
+	jokerLoc.lgndJkrs.j_chicot.text = {
+		"Disables effect of",
+        "every {C:attention}Boss Blind",
+		"{s:0.8,C:inactive}@Samses__"
+	}
+	
+	SMODS.Joker:take_ownership('chicot', {
+		create_main_end = function(center)
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					1, 1, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 4, y = 0 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return { main_end = self.create_main_end(center) }
+		end
+	}, true)
+else
+	jokerLoc.lgndJkrs.j_chicot.text = {
 		"Disables effect of",
         "every {C:attention}Boss Blind",
 		"{s:0.8,C:inactive}@Samses__ cirPoint"
 	}
-}
+end
 
 jokerLoc.lgndJkrs.j_perkeo = {
 	name = "Biggdeck",
@@ -1243,15 +1467,15 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_constellation, "text"
 -- ===== NEXT LINE =====
 
 
---[[ Not sure what to do about Hiker.
 jokerLoc.nrmJkrs.j_hiker = {
-	name = "Hiker",
+	name = "Hoiker",
 	text = {
 		"Every played {C:attention}card{}",
 		"permanently gains",
-		"{C:chips}+#1#{} Chips when scored"
+		"{C:chips}+#1#{} Chips when scored",
+		"{s:0.8,C:inactive}HOIK!"
 	}
-}]]
+}
 
 jokerLoc.nrmJkrs.j_faceless = {
 	name = "",
@@ -1478,8 +1702,8 @@ jokerLoc.nrmJkrs.j_midas_mask = {
 		"All played {C:attention}face{} cards",
         "become {C:attention}Gold{} cards",
         "when scored",
-		"{s:0.8,C:inactive}\"Come Nerevar, and look upon",
-		"{s:0.8,C:inactive}the heart.\""
+		"{s:0.8,C:inactive}\"Come Nerevar, and look",
+		"{s:0.8,C:inactive}upon the heart.\""
 	}
 }
 

@@ -17,25 +17,27 @@ local cardSuits = { 'Hearts', 'Clubs', 'Diamonds', 'Spades' }
 
 -- Which ranks to replace
 local cardSuitRanks = {
-	Hearts = {
-		'Jack',
-		'Queen',
-		'King'
-	},
-	Clubs = {
-		-- 'Jack',
-		'Queen',
-		-- 'King'
-	},
-	Diamonds = {
-		'Jack',
-		'Queen',
-		-- 'King'
-	},
-	Spades = {
-		-- 'Jack',
-		'Queen',
-		-- 'King'
+	skin_1 = {
+		Hearts = {
+			'Jack',
+			'Queen',
+			'King'
+		},
+		Clubs = {
+			-- 'Jack',
+			'Queen',
+			-- 'King'
+		},
+		Diamonds = {
+			'Jack',
+			'Queen',
+			'King'
+		},
+		Spades = {
+			-- 'Jack',
+			'Queen',
+			-- 'King'
+		}
 	}
 }
 
@@ -67,7 +69,7 @@ for _, Csuit in ipairs(cardSuits) do
 				Idk why we need two keys for this, but they need to	be
 				distinct, I think - Which is why the first one is longer.]]
 				key = Csuit..'skin_hc',
-				ranks = cardSuitRanks[Csuit], -- The ranks that get replaced by this.
+				ranks = cardSuitRanks.skin_1[Csuit], -- The ranks that get replaced by this.
 				display_ranks = cardRanksDisplay, -- The ranks shown in the 'customise deck' screen.
 				atlas = 'cir_CardAtlas',
 				posStyle = 'deck',

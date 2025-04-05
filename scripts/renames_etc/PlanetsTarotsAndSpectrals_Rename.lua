@@ -215,7 +215,7 @@ PTSloc.spectrals.c_trance = {
 		"{s:0.8,C:inactive}You know, if I had a nickel for every Canadian catgirl VTuber",
 		"{s:0.8,C:inactive}I knew that has a weird sorta love-hate relationship with Souls",
 		"{s:0.8,C:inactive}games & dropped CrossCode (although one picked it back up) among",
-		"{s:0.8,C:inactive}various other similarities, I'd have -$69.90 US, as one of them",
+		"{s:0.8,C:inactive}various other commonalities, I'd have -$69.90 US, as one of them",
 		"{s:0.8,C:inactive}would have charged me for two backseats over this bit."
 		}
 	}
