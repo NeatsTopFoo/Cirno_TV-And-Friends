@@ -309,7 +309,7 @@ replaceDef.deckReplacements = { -- Deck art credits don't work unfortunately :( 
 	-- { dckKey = 'b_green', matureRefLevel = 1 },
 	{ dckKey = 'b_black', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	-- { dckKey = 'b_magic', matureRefLevel = 1 },
-	-- { dckKey = 'b_nebula', matureRefLevel = 1 },
+	{ dckKey = 'b_nebula', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	-- { dckKey = 'b_ghost', matureRefLevel = 1 },
 	-- { dckKey = 'b_abandoned', matureRefLevel = 1 },
 	-- { dckKey = 'b_checkered', matureRefLevel = 1 },
@@ -455,7 +455,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_swashbuckler', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	
 	-- { jkrKey = 'j_flower_pot', matureRefLevel = 1 },
-	-- { jkrKey = 'j_ride_the_bus', matureRefLevel = 1  },
+	{ jkrKey = 'j_ride_the_bus', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_shoot_the_moon', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_smeared', matureRefLevel = 1 },
 	-- { jkrKey = 'j_oops', matureRefLevel = 1 },
@@ -498,7 +498,7 @@ replaceDef.jokerReplacements = {
 	
 	{ jkrKey = 'j_egg', matureRefLevel = 1, artCreditKey = 'jA_Egg' },
 	{ jkrKey = 'j_burglar', matureRefLevel = 1, artCreditKey = 'jA_Burglar' },
-	-- { jkrKey = 'j_blackboard', matureRefLevel = 1 },
+	{ jkrKey = 'j_blackboard', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_ice_cream', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_runner', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_dna', matureRefLevel = 1, artCreditKey = 'jA_Unknown_NTFEdit' },
@@ -638,7 +638,7 @@ replaceDef.spectralReplacements = {
 replaceDef.enhancerReplacements = {
 	--	{ enhKey = 'm_bonus', matureRefLevel = 1, },
 	--	{ enhKey = 'm_mult', matureRefLevel = 1, },
-	--	{ enhKey = 'm_wild', matureRefLevel = 1, },
+	{ enhKey = 'm_wild', matureRefLevel = 1 }, --, artCreditKey = 'eA_DaemonTsun' }, adding tooltips on wild card seems to be kinda funky, i'm gonna look into this
 	--	{ enhKey = 'm_glass', matureRefLevel = 1, },
 	--	{ enhKey = 'm_steel', matureRefLevel = 1, },
 	{ enhKey = 'm_stone', matureRefLevel = 1, artCreditKey = 'eA_Unknown' },

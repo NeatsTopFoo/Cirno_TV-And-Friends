@@ -405,7 +405,7 @@ jokerLoc.nrmJkrs.j_misprint = {
 }]]
 
 jokerLoc.nrmJkrs.j_steel_joker = {
-	name = "Coldsteel The Joker",
+	name = "Coldsteel The Jekjek",
 	text = {
 		"Gives {X:mult,C:white} X#1# {} Mult",
         "for each {C:attention}Steel Card",
@@ -960,17 +960,24 @@ jokerLoc.nrmJkrs.j_flower_pot = {
         "{C:diamonds}Diamond{} card, {C:clubs}Club{} card,",
         "{C:hearts}Heart{} card, and {C:spades}Spade{} card"
 	}
-}
+}]]
 
 jokerLoc.nrmJkrs.j_ride_the_bus = {
-	name = "Ride The Bus",
+	name = "Toho Bus",
 	text = {
-		"{C:red}+#1#{} Mult per {C:purple}Tarot{}",
-        "card used this run",
-        "{C:inactive}(Currently {C:red}+#2#{C:inactive})"
+		"This Joker gains {C:mult}+#1#{} Mult",
+        "per {C:attention}consecutive{} hand played",
+        "without a scoring {C:attention}face{} card",
+        "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)",
+		"{s:0.8,C:inactive}If a bus leaves the Scarlet Devil Mansion",
+		"{s:0.8,C:inactive}with three people on board, one gets off",
+		"{s:0.8,C:inactive}and half a person boards at Hakugyokurou,",
+		"{s:0.8,C:inactive}then two people get off at the Yakumo Shrine,",
+		"{s:0.8,C:inactive}how many passengers are there left on the bus?",
+		"{s:0.45,C:inactive}A: 0. There are no buses in Gensokyo."
 	}
 }
-
+--[[
 jokerLoc.nrmJkrs.j_shoot_the_moon = {
 	name = "Shoot The Moon",
 	text = {
@@ -1370,15 +1377,15 @@ jokerLoc.nrmJkrs.j_burglar = {
 	}
 }
 
---[[
 jokerLoc.nrmJkrs.j_blackboard = {
-	name = "Blackboard",
+	name = "Perfect Maths",
 	text = {
 		"{X:red,C:white} X#1# {} Mult if all",
         "cards held in hand",
-        "are {C:spades}#2#{} or {C:clubs}#3#{}"
+        "are {C:spades}#2#{} or {C:clubs}#3#{}",
+		"{s:0.8,C:inactive}\"4?! 4... {s:0.5,C:inactive}THAT WAS WRONG!\""
 	}
-}]]
+}
 
 jokerLoc.nrmJkrs.j_ice_cream = {
 	name = "Matcha Ice Cream",

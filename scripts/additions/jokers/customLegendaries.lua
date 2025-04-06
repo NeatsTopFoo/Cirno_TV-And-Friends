@@ -134,7 +134,8 @@ local jokerInfo = {
 							key = 'a_xmult',
 							vars = { card.ability.extra.Xmult }
 						},
-						colour = CirnoMod.miscItems.colours.cirCyan
+						colour = CirnoMod.miscItems.colours.cirCyan,
+						card = card
 					}
 				end
 				
@@ -151,7 +152,8 @@ local jokerInfo = {
 								key = 'a_xmult',
 								vars = { card.ability.extra.Xmult }
 							},
-							colour = CirnoMod.miscItems.colours.cirCyan
+							colour = CirnoMod.miscItems.colours.cirCyan,
+							card = card
 						}
 					end
 				end
@@ -174,7 +176,8 @@ local jokerInfo = {
 							SMODS.calculate_effect({
 								message = "Dropped!",
 								colour = G.C.RED,
-								sound = 'cir_j_matchaDrop'
+								sound = 'cir_j_matchaDrop',
+								pitch = 1.0
 							}, context.other_card)
 							
 							G.E_MANAGER:add_event(Event({
@@ -290,7 +293,8 @@ local jokerInfo = {
 				then
 					return { -- Multiply the current mult by mult accrued on card?
 						message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }), -- Message popup
-						Xmult_mod = card.ability.extra.x_mult -- Multiplies the current mult by the card's stored mult
+						x_mult = card.ability.extra.x_mult, -- Multiplies the current mult by the card's stored mult
+						card = card
 					}, true
 				end
 				-- This section seems to be it detecting the use of a wheel of fortune tarot
@@ -337,7 +341,8 @@ local jokerInfo = {
 							end}))
 						return {
 							message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }),
-							colour = G.C.PURPLE
+							colour = G.C.PURPLE,
+							card = card
 						}, true
 					end
 				end
@@ -1057,7 +1062,7 @@ local jokerInfo = {
 						
 						return {
 							extra = {
-								message = '+'..permMultToAdd..' Mult',
+								message = localize('k_upgrade_ex'),
 								colour = G.C.RED
 							},
 							card = card

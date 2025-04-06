@@ -10,7 +10,7 @@ deckLoc.b_blue = { name = "Cirno Deck" }
 -- deckLoc.b_ghost = { name = "Ghost Deck" }
 -- deckLoc.b_green = { name = "Green Deck" }
 -- deckLoc.b_magic = { name = "Magic Deck" }
--- deckLoc.b_nebula = { name = "Nebula Deck" }
+deckLoc.b_nebula = { name = "Yukari Deck" }
 -- deckLoc.b_painted = { name = "Painted Deck" }
 -- deckLoc.b_plasma = { name = "Plasma Deck" }
 deckLoc.b_red = { name = "Reimu Deck" }

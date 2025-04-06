@@ -220,5 +220,34 @@ PTSloc.spectrals.c_trance = {
 		}
 	}
 
+if CirnoMod.config['allowCosmeticTakeOwnership'] then
+	SMODS.Consumable:take_ownership('trance', {
+		create_main_end = function(center)
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					1, 1, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 0, y = 1 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return { main_end = self.create_main_end(center) }
+		end
+	}, true)
+end
+
 --#endregion
 return PTSloc
