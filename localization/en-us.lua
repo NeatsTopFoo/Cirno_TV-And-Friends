@@ -1,5 +1,5 @@
 local creditSources = {}
-local RV = { descriptions = {} }
+local RV = { descriptions = { Joker = {} }, misc = { v_text = {} } }
 
 --#region What will go in the top of an art credit tooltip.
 creditSources.cr_JokerArt = "Joker Art By"
@@ -241,7 +241,7 @@ RV.descriptions.Other = {
 			creditSources.CommunityContrib
 		}
 	},
-	jA_Golden = {
+	jA_SixthGolden = {
 		name = creditSources.cr_JokerArt,
 		text = {
 			"Image of "..creditSources.CirnoTV..",",
@@ -348,13 +348,38 @@ RV.descriptions.Other = {
 			"Retriggers this",
 			"Joker {C:attention}1{} time"
 		}
-	}
+	},
+	testHeader = { text = { "Test Header" } },
+	testTooltip = {
+		name = 'testHeader',
+		text = {
+			"This is a test tooltip.",
+			"It should appear beside",
+			"the item it is assigned to."
+		}
+	},
+	testTooltipA = {
+		name = 'Test Tooltip',
+		text = {
+			"This is a test tooltip.",
+			"It should appear beside",
+			"the item it is assigned to."
+		}
+	},
+	blankHeader = { text = { '' } },
+	blankTooltip = { name = 'blankHeader', text = { '' } },
+	blankTooltipA = { name = '', text = { '' } }
+}
+
+RV.descriptions.Wild_Card = {
+	m_wild = { name = '', text = { '' } }
 }
 
 --[[
 Have to do this this way because
 SMODS.process_loc_text() spontaneously
-stopped working for stone cards.]]
+stopped working for stone card related
+things.]]
 if
 	CirnoMod.config['enhancerRenames']
 then
@@ -365,21 +390,54 @@ then
 	end
 	
 	-- RV.descriptions.Enhanced = { m_stone = { name = "Whump Card" } }
-	RV.misc = { dictionary = {
+	RV.misc.dictionary = {
 		k_plus_stone = "+1 "..stoneIntent,
 		ph_deck_preview_stones = stoneIntent.."s"
-	} }
-	
-	-- Todo: Remove when we work out Marble Joker.
-	RV.descriptions.Joker = {
-		j_marble = {
-			text = {
-                "Adds one {C:attention}"..stoneIntent,
-                "to deck when",
-                "{C:attention}Blind{} is selected",
-            }
-		}
 	}
+	
+	if not CirnoMod.config['jokerRenames'] then
+		RV.descriptions.Joker.j_stone = {
+			text = {
+				"Gives {C:chips}+#1#{} Chips for",
+				"each {C:attention}"..stoneIntent,
+				"in your {C:attention}full deck",
+				"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
+			}
+		}
+	end
+	
+	-- Todo: Move into the above condition when we work out Marble Joker.
+	RV.descriptions.Joker.j_marble = {
+		text = {
+			"Adds one {C:attention}"..stoneIntent,
+			"to deck when",
+			"{C:attention}Blind{} is selected",
+        }
+	}
+end
+
+--[[
+A set up such that challenge descriptions can be
+easily written via loc_txt.text instead of just
+manually doing the whole rules nonsense, as it
+will now set it up itself because of this code.]]
+if
+	CirnoMod.config['additionalChallenges']
+	and CirnoMod.ChallengeRefs
+then
+	local curSuffix = ''
+	for k, ch in pairs(CirnoMod.ChallengeRefs) do
+		for i, r in ipairs(ch.rules.custom) do
+			if
+				r.id == 'cir_'..ch.original_key..curSuffix
+			then
+				RV.misc.v_text[k..curSuffix] = { ch.loc_txt.text[i] }
+				
+				curSuffix = CirnoMod.miscItems.alphabetNumberConv.numToAlphabet[i]
+			end
+		end
+		curSuffix = ''
+	end
 end
 
 return RV

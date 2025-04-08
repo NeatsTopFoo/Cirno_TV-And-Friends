@@ -73,21 +73,29 @@ target = "functions/common_events.lua"
 pattern = "for _, v in ipairs(info_queue) do"
 position = "before"
 payload = '''
-if
-	CirnoMod
-	and card_type ~= 'Locked'
-	and card_type ~= 'Undiscovered'
-then
+
 	if
-		CirnoMod.config.artCredits
+		CirnoMod
+		and card_type ~= 'Locked'
+		and card_type ~= 'Undiscovered'
 	then
-		local PVC_RV = CirnoMod.ParseVanillaCredit(_c, specific_vars)
-		
-		if PVC_RV then
-			info_queue[#info_queue + 1] = PVC_RV
+		if
+			CirnoMod.config.artCredits
+		then
+			local PVC_RV = CirnoMod.ParseVanillaCredit(_c, specific_vars)
+			
+			if PVC_RV then
+				if
+					CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key]
+				then
+					info_queue[#info_queue + 1] = CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key](_c)
+				end
+				
+				info_queue[#info_queue + 1] = PVC_RV
+			end
 		end
 	end
-end
+	
 '''
 times = 1
 match_indent = false

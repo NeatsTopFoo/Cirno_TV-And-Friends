@@ -81,22 +81,6 @@ SMODS.process_loc_text(G.localization.misc.dictionary, "ph_deck_preview_stones",
 
 enhLoc.enhancers.m_stone = { name = "Whump Card" }
 
-if not CirnoMod.config['jokerRenames'] then	
-	SMODS.process_loc_text(G.localization.descriptions.Joker.j_stone, "text", {
-						"Gives {C:chips}+#1#{} Chips for",
-						"each {C:attention}Whump Card",
-						"in your {C:attention}full deck",
-						"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
-					})
-					
-	SMODS.process_loc_text(G.localization.descriptions.Joker.j_marble, "text", {
-						"Adds one {C:attention}Whump Card",
-						"to deck when",
-						"{C:attention}Blind{} is selected",
-					})
-	
-end
-
 --#endregion
 
 return enhLoc

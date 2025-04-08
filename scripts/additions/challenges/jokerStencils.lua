@@ -34,19 +34,18 @@ local chalInfo = {
 	matureRefLevel = 1,
 	loc_txt = {
 		name = "5 \"Joker Stencils.\"",
-	},
-	rules = {
-		custom = {
-			{ id = "cir_jokerStencils" }, 
-			{ id = "cir_jokerStencilsA" }
+		text = {
+			"Start with 5 {C:eternal}Eternal{}, {C:attention}debuffed{} "..stencilIntencil.."s.",
+			"Every {C:attention}2{} defeated {C:attention}Boss Blinds{} removes a debuff."
 		}
 	},
+	rules = { custom = {} }, -- Required - This is also keys to localisation vars that populate the challenge description table... Yeah.
 	jokers = {
-		{id = 'j_stencil', eternal = true, debuff = true},
-		{id = 'j_stencil', eternal = true, debuff = true},
-		{id = 'j_stencil', eternal = true, debuff = true},
-		{id = 'j_stencil', eternal = true, debuff = true},
-		{id = 'j_stencil', eternal = true, debuff = true}
+		{ id = 'j_stencil', eternal = true, debuff = true },
+		{ id = 'j_stencil', eternal = true, debuff = true },
+		{ id = 'j_stencil', eternal = true, debuff = true },
+		{ id = 'j_stencil', eternal = true, debuff = true },
+		{ id = 'j_stencil', eternal = true, debuff = true }
 	},
 	consumeables = {
 	},
@@ -71,6 +70,7 @@ local chalInfo = {
 	end
 }
 
+--[[
 G.localization.misc.v_text.ch_c_cir_jokerStencils = {
 	"Start with 5 {C:eternal}Eternal{}, {C:attention}debuffed{} "..stencilIntencil.."s."
 }
@@ -78,6 +78,7 @@ G.localization.misc.v_text.ch_c_cir_jokerStencils = {
 G.localization.misc.v_text.ch_c_cir_jokerStencilsA = {
 	"Every {C:attention}2{} defeated {C:attention}Boss Blinds{} removes a debuff."
 }
+]]
 
 CirnoMod.ChalFuncs.updateStencilName = function(stencilIntencil_)
 	G.localization.misc.v_text.ch_c_cir_jokerStencils = {

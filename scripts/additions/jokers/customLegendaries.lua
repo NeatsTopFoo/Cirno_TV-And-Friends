@@ -134,8 +134,7 @@ local jokerInfo = {
 							key = 'a_xmult',
 							vars = { card.ability.extra.Xmult }
 						},
-						colour = CirnoMod.miscItems.colours.cirCyan,
-						card = card
+						colour = CirnoMod.miscItems.colours.cirCyan
 					}
 				end
 				
@@ -152,8 +151,7 @@ local jokerInfo = {
 								key = 'a_xmult',
 								vars = { card.ability.extra.Xmult }
 							},
-							colour = CirnoMod.miscItems.colours.cirCyan,
-							card = card
+							colour = CirnoMod.miscItems.colours.cirCyan
 						}
 					end
 				end
@@ -259,7 +257,7 @@ local jokerInfo = {
 				
 				-- Art credit tooltip
 				if CirnoMod.config['artCredits'] then
-					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEDit", set = "Other" }
+					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
 				end
 				
 				-- Here is how #1# and #2# are defined.
@@ -293,8 +291,7 @@ local jokerInfo = {
 				then
 					return { -- Multiply the current mult by mult accrued on card?
 						message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }), -- Message popup
-						x_mult = card.ability.extra.x_mult, -- Multiplies the current mult by the card's stored mult
-						card = card
+						x_mult = card.ability.extra.x_mult -- Multiplies the current mult by the card's stored mult
 					}, true
 				end
 				-- This section seems to be it detecting the use of a wheel of fortune tarot
@@ -327,22 +324,21 @@ local jokerInfo = {
 							delay = 0.01,
 							blocking = false,
 							func = function()
-								card.change_soul_pos(card, { x = 1, y = 2 })
+								self.change_soul_pos(card, { x = 1, y = 2 })
 								
 								G.E_MANAGER:add_event(Event({
 									trigger = 'after',
 									delay = 0.3,
 									blocking = false,
 									func = function()
-										card.change_soul_pos(card, { x = 1, y = 1 })
+										self.change_soul_pos(card, { x = 1, y = 1 })
 										return true
 									end}))
 								return true
 							end}))
 						return {
 							message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }),
-							colour = G.C.PURPLE,
-							card = card
+							colour = G.C.PURPLE
 						}, true
 					end
 				end
@@ -375,7 +371,10 @@ local jokerInfo = {
 				}
 			},
 			
-			config = { extra = { extra = 1 } },
+			config = { extra = {
+				extra = 1,
+				soulX = 1
+			} },
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, center)
@@ -403,11 +402,33 @@ local jokerInfo = {
 			
 			atlas = 'cir_cLegendaries',
 			pos = { x = 0, y = 2}, -- Defines base card graphic position in the atlas.
-			soul_pos = { x = 0, y = 3}, -- Defines where this card's soul overlay is in the given atlas
+			soul_pos = { x = 1, y = 3}, -- Defines where this card's soul overlay is in the given atlas
 			rarity = 4, -- Legendary rarity
 			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
 			eternal_compat = true,
 			perishable_compat = true,
+			
+			updateState = function(jkr)
+				if
+					jkr.ability
+					and jkr.children
+				then
+					if -- If the soul_pos is not what I want it to be. I make it what I wnt it to be.
+						jkr.config.center.soul_pos.x ~= jkr.ability.extra.soulX
+					then
+						jkr.config.center.soul_pos.x = jkr.ability.extra.soulX
+					end
+				end
+				
+				-- Set the sprites.
+				jkr.children.center:set_sprite_pos(jkr.config.center.pos)
+				jkr.children.floating_sprite:set_sprite_pos(jkr.config.center.soul_pos)
+			end,
+			
+			change_soul_pos = function(card, newSoulPos)
+				card.config.center.soul_pos = newSoulPos
+				card:set_sprites(card.config.center)
+			end,
 			
 			calculate = function(self, card, context)
 				-- This section seems to define the standard joker function? Which would be multiplying the mult by the stored around
@@ -436,7 +457,7 @@ local jokerInfo = {
 					and context.consumeable
 					and G.GAME.consumeable_usage
 					and not context.retrigger_joker -- Is this not a retrigger?
-					and not context.post_trigger -- Is this not a retrigger?
+					and not context.post_trigger
 				then
 					if
 						context.consumeable.ability.name == "Neptune"
@@ -452,6 +473,18 @@ local jokerInfo = {
 							}),
 							colour = CirnoMod.miscItems.colours.cirNep
 						}, true
+					end
+				elseif
+					context.end_of_round
+					and context.blueprint_card == nil
+				then
+					local newX = pseudorandom('naroSpriteChange', 0, 1)
+					
+					if card.ability.extra.soulX ~= newX then
+						card.ability.extra.soulX = newX
+						
+						card:juice_up()
+						self.change_soul_pos(card, { x = card.ability.extra.soulX, y = 3 })
 					end
 				end
 			end
@@ -1028,8 +1061,8 @@ local jokerInfo = {
 			unlocked = false,
 			
 			atlas = 'cir_cLegendaries',
-			pos = { x = 1, y = 3}, -- Defines base card graphic position in the atlas.
-			soul_pos = { x = 0, y = 4}, -- Defines where this card's soul overlay is in the given atlas
+			pos = { x = 3, y = 0}, -- Defines base card graphic position in the atlas.
+			soul_pos = { x = 3, y = 1}, -- Defines where this card's soul overlay is in the given atlas
 			rarity = 4, -- Legendary rarity
 			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
 			eternal_compat = true,
@@ -1061,11 +1094,8 @@ local jokerInfo = {
 						context.other_card.ability.perma_mult = context.other_card.ability.perma_mult + permMultToAdd
 						
 						return {
-							extra = {
-								message = localize('k_upgrade_ex'),
-								colour = G.C.RED
-							},
-							card = card
+							message = localize('k_upgrade_ex'),
+							colour = G.C.RED
 						}
 					end
 				end

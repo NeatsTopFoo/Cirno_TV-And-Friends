@@ -146,7 +146,7 @@ SMODS.process_loc_text(G.localization.misc.quips, "wq_7", {
         "Good thing",
         "I didn't bet",
         "against you!",
-    })]
+    })]]
 	
 --#endregion
 

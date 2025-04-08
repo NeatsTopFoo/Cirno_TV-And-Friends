@@ -211,7 +211,7 @@ PTSloc.spectrals.c_deja_vu = {
 PTSloc.spectrals.c_trance = {
 	name = "Overlap",
 	text = {
-		"Add a {C:blue}"..G.localization.misc.labels.blue_seal.."{} to {C:attention}1{} selected card in your hand",
+		"Add a {C:blue}"..sealIntent.blue_seal.."{} to {C:attention}1{} selected card in your hand",
 		"{s:0.8,C:inactive}You know, if I had a nickel for every Canadian catgirl VTuber",
 		"{s:0.8,C:inactive}I knew that has a weird sorta love-hate relationship with Souls",
 		"{s:0.8,C:inactive}games & dropped CrossCode (although one picked it back up) among",

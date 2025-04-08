@@ -15,6 +15,11 @@ CirnoMod.config = cMod_SMODSLoc.config
 -- CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
 CirnoMod.miscItems = {
 	artCreditKeys = {},
+	weirdArtCreditExceptionalCircumstanceKeys = {}, -- Some things seem to do weird things, like Wild cards.
+	alphabetNumberConv = {
+		numToAlphabet = {},
+		alphabetToNum = {}
+	},
 	deckSkinNames = {}, -- How the custom deck skins are referred to internally. Used for art credit tooltips.
 	deckSkinWhich = {}, -- Differentiate between different deck skins we might want to add, in case we have different crediting to do per skin.
 	keysOfAllCirnoModItems = {}, -- This will be used for any effects the focus on stuff edited or introduced by this mod
@@ -22,9 +27,13 @@ CirnoMod.miscItems = {
 	switchKeys = {},
 	switchTables = {},
 	keysOfJokersToUpdateStateOnLoad = {
-		j_cir_arumia_l = true
+		j_cir_arumia_l = true,
+		j_cir_naro_l = true
 	},
-	isSealsOnJokersPresent = false,
+	otherModPresences = {
+		isSealsOnJokersPresent = false,
+		isTalismanPresent = false
+	},
 	matureReferencesOpt = { "(Hopefully) Safest", "Some", "All" }, -- These are the options that appear on the new cycle option for mature references.
 	redSealRetriggerIgnoreTable = { -- Ignore table containing keys of jokers and what contexts should be ignored for red seal retriggers
 		j_fortune_teller = { 'using_consumeable' },
@@ -184,8 +193,16 @@ CirnoMod.miscItems = {
 	end
 }
 
-if SMODS.find_mod("soj")[1] then
-	CirnoMod.miscItems.isSealsOnJokersPresent = true
+if
+	#SMODS.find_mod("soj") > 0
+then
+	CirnoMod.miscItems.otherModPresences.isSealsOnJokersPresent = true
+end
+
+if
+	#SMODS.find_mod("talisman") > 0
+then
+	CirnoMod.miscItems.otherModPresences.isTalimanPresent = true
 end
 
 CirnoMod.miscItems.getLocColour = function(colourNameStr, defaultColourStr)
@@ -206,6 +223,15 @@ function loc_colour(_c, _default)
 	end
 end
 
+--[[ Thank you aikoooo T_T
+Honestly dumb that I need to do this
+in the first place for what I initially
+want it for, but I guess it's a useful
+tool we can keep around]]
+for i = 97, 122 do
+	table.insert(CirnoMod.miscItems.alphabetNumberConv.numToAlphabet, string.char(i))
+	CirnoMod.miscItems.alphabetNumberConv.alphabetToNum[string.char(i)] = i - 96
+end
 
 --[[
 TODO: Describe what these are and how they work.
@@ -393,7 +419,8 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from gen
 	end
 	
 	--[[
-	If the key is present in the table of art keys, return the necessary localisation data
+	If the key is present in the table of art keys,
+	return the necessary localisation data
 	Not the best way to facilitate this, but eh.]]
 	if CirnoMod.miscItems.artCreditKeys[keyToCheck] then
 		if type(CirnoMod.miscItems.artCreditKeys[keyToCheck]) == 'table' then
@@ -423,6 +450,12 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from gen
 	return RV
 end
 
+--[[
+CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys.m_wild = function(card)
+	return { key = card.key, set = 'Wild_Card' }
+end
+]]
+
 -- Load vanilla replacements definitions and puts its returned var into the var.
 CirnoMod.replaceDef = assert(SMODS.load_file("Cir_Vanilla_Replacement_Definition.lua")())
 
@@ -433,7 +466,7 @@ if CirnoMod.config['playingCardTextures'] then
 end
 
 -- Joker Textures
-if CirnoMod.config['malverkReplacements'] then
+if CirnoMod.config['malverkReplacements'] then	
 	-- Set up localisation changes for Malverk to pull from.
 	CirnoMod.replaceDef.locChanges = {
 		deckLoc = {},
@@ -790,13 +823,13 @@ if CirnoMod.config['addCustomJokers'] then
 						if Jkr_.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
 							SMODS.Joker(Jkr_)
 							
-							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, Jkr_.key)
+							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..Jkr_.key)
 						end
 					end
 				else
 					SMODS.Joker(jokerInfo.jokerConfig)
 				
-					table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, jokerInfo.jokerConfig.key)
+					table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..jokerInfo.jokerConfig.key)
 				end
 			end
 		end		
@@ -845,24 +878,24 @@ if CirnoMod.config['addCustomConsumables'] then
 						if Cnsm_.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
 							SMODS.Consumable(Cnsm_)
 							
-							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, Cnsm_.key)
+							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..Cnsm_.key)
 						end
 					end
 				else
 					SMODS.Consumable(cnsmInfo.cnsmConfig)
 				
-					table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, cnsmInfo.cnsmConfig.key)
+					table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..cnsmInfo.cnsmConfig.key)
 				end
 			end
 		end
 	end
-	
+		
 	--[[ The author of the mod "Seals on Jokers"
 	helped me greatly with the functionality here,
 	but obviously, we don't want to be running it
 	if that mod is also running alongside this.]]
 	if
-		not isSealsOnJokersPresent
+		CirnoMod.miscItems.otherModPresences.isSealsOnJokersPresent == false
 	then
 		-- Hooks into the normal calculate_seal() 
 		local oldSealCalc = Card.calculate_seal
@@ -872,7 +905,7 @@ if CirnoMod.config['addCustomConsumables'] then
 			then
 				return nil
 			end
-			
+						
 			if
 				self.ability
 				and self.ability.set == 'Joker'
@@ -882,7 +915,7 @@ if CirnoMod.config['addCustomConsumables'] then
 					and not context.retrigger_joker
 					and self == context.other_card
 					and self.seal == 'Red'
-				then					
+				then
 					if
 						CirnoMod.miscItems.redSealRetriggerIgnoreTable[self.config.center.key]
 					then
@@ -944,22 +977,46 @@ if CirnoMod.config['addCustomConsumables'] then
 end
 
 -- Additional Custom Challenges
-if CirnoMod.config['additionalChallenges'] then
+if CirnoMod.config['additionalChallenges'] then	
+	CirnoMod.ChallengeRefs = {}
+	
 	--[[ Initialises a challenge functions holder.
 	This is then populated with any functions
 	the challenge needs to use, in the challenge
 	file itself.]]
 	CirnoMod.ChalFuncs = {}
-
+	
+	local dependencyCheck = function(chInfo_)
+		if
+			chInfo_.dependenciesForAddition
+			and type(chInfo_.dependenciesForAddition) == 'function'
+		then
+			return chInfo_.dependenciesForAddition()
+		else
+			return true
+		end
+	end
+	
 	for i, Ch in ipairs (cirInitConfig.additionalChallenges) do
 		-- Runs the lua and puts its returned var into the var.
 		local chalInfo = assert(SMODS.load_file('scripts/additions/challenges/'..Ch..".lua"))()
 		
-		if chalInfo.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+		if
+			chalInfo.matureRefLevel <= CirnoMod.config.matureReferences_cyc
+			and dependencyCheck(chalInfo)
+		then
 			chalInfo.key = Ch
 			
+			for i, ln in ipairs (chalInfo.loc_txt.text) do
+				if i == 1 then
+					table.insert(chalInfo.rules.custom, { id = 'cir_'..Ch })
+				else
+					table.insert(chalInfo.rules.custom, { id = 'cir_'..Ch..CirnoMod.miscItems.alphabetNumberConv.numToAlphabet[i - 1] })
+				end
+			end
+			
 			-- Adds the challenge.
-			local chal = SMODS.Challenge(chalInfo)
+			CirnoMod.ChallengeRefs['ch_c_cir_'..Ch] = SMODS.Challenge(chalInfo)
 		end
 	end
 end
@@ -1012,6 +1069,7 @@ function Game:main_menu(change_context)
 						trigger = 'after',
 						delay = 2.0,
 						blocking = false,
+						blockable = true,
 						func = function()
 							CirnoMod.ChalFuncs.updateStencilName(G.localization.descriptions.Joker.j_stencil.name)
 							return true

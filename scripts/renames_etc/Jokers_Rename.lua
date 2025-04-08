@@ -94,7 +94,7 @@ else
 		"{C:chips}+#2#{} Chips when each",
 		"played {C:attention}2{} is scored",
 		"{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
-		"{s:0.2,C:inactive}Something about cirFairies in the chat."
+		"{s:0.35,C:inactive}Something about cirFairies in the chat."
 	}
 end
 
@@ -411,7 +411,7 @@ jokerLoc.nrmJkrs.j_steel_joker = {
         "for each {C:attention}Steel Card",
         "in your {C:attention}full deck",
         "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
-		"{s:0.8,C:inactive}Nothin' personnel, kid."
+		"{s:0.8,C:inactive}\"psssh... nothin personnel... kid...\""
     }
 }
 --[[
@@ -489,16 +489,19 @@ jokerLoc.nrmJkrs.j_glass = {
         "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
 	}
 }
-
+]]
 jokerLoc.nrmJkrs.j_scary_face = {
-	name = "Scary Face",
+	name = "Curly's Scary Face",
 	text = {
 		"Played {C:attention}face{} cards",
         "give {C:chips}+#1#{} Chips",
-        "when scored"
+        "when scored",
+		"{s:0.8,C:inactive}...What do you mean",
+		"{s:0.8,C:inactive}you fed the tooth",
+		"{s:0.8,C:inactive}rat child to the wall?"
 	}
 }
-
+--[[
 jokerLoc.nrmJkrs.j_abstract = {
 	name = "Abstract Joker",
 	text = {
@@ -759,7 +762,10 @@ if CirnoMod.config['matureReferences_cyc'] >= 2 then
 				loc_vars = function(self, info_queue, card)				
 					CirnoMod.miscItems.processSwitch('j_family')
 					return {					
-						vars = { card.ability.x_mult, localize(card.ability.type, 'poker_hands' ), self.locAB[CirnoMod.miscItems.switchTables['j_family'].AB]}
+						vars = {
+							card.ability.x_mult, localize(card.ability.type, 'poker_hands' ),
+							self.locAB[CirnoMod.miscItems.switchTables['j_family'].AB]
+						}
 					}
 				end
 			},
@@ -881,7 +887,7 @@ jokerLoc.nrmJkrs.j_ring_master = {
     }
 }
 
-if CirnoMod.config['allowCosmeticTakeOwnership'] then	
+if CirnoMod.config['allowCosmeticTakeOwnership'] then
 	SMODS.Joker:take_ownership('ring_master', {
 		create_main_end = function(center)
 			local mainEndRV = {
@@ -972,7 +978,7 @@ jokerLoc.nrmJkrs.j_ride_the_bus = {
 		"{s:0.8,C:inactive}If a bus leaves the Scarlet Devil Mansion",
 		"{s:0.8,C:inactive}with three people on board, one gets off",
 		"{s:0.8,C:inactive}and half a person boards at Hakugyokurou,",
-		"{s:0.8,C:inactive}then two people get off at the Yakumo Shrine,",
+		"{s:0.8,C:inactive}then two people get off at Yakumo House,",
 		"{s:0.8,C:inactive}how many passengers are there left on the bus?",
 		"{s:0.45,C:inactive}A: 0. There are no buses in Gensokyo."
 	}
@@ -1441,17 +1447,18 @@ jokerLoc.nrmJkrs.j_blue_joker = {
         "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
 	}
 }
+]]
 
 jokerLoc.nrmJkrs.j_sixth_sense = {
-	name = "Sixth Sense",
+	-- name = "Sixth Sense",
 	text = {
 		"If {C:attention}first hand{} of round is",
         "a single {C:attention}6{}, destroy it and",
         "create a {C:spectral}Spectral{} card",
-        "{C:inactive}(Must have room)"
+        "{C:inactive}(Must have room)",
+		"{s:0.8,C:inactive}We're watching."
 	}
 }
-]]
 
 --[[ Malverk does not do the thing if it is not set to replace that key.
 jokerLoc.nrmJkrs.j_constellation = {
@@ -1514,9 +1521,10 @@ jokerLoc.nrmJkrs.j_superposition = {
         "{C:inactive}(Must have room)"
 	}
 }
+]]
 
 jokerLoc.nrmJkrs.j_todo_list = {
-	name = "To Do List",
+	name = "Sub Goals",
 	text = {
 		"Earn {C:money}$#1#{} if {C:attention}poker hand{}",
 		"is a {C:attention}#2#{},",
@@ -1524,7 +1532,58 @@ jokerLoc.nrmJkrs.j_todo_list = {
 		"at end of round"
 	}
 }
-]]
+
+if CirnoMod.config['matureReferences_cyc'] == 3 then
+	table.insert(jokerLoc.nrmJkrs.j_todo_list.text,
+		"{s:0.8,C:inactive}So what's the over/under")
+		
+	table.insert(jokerLoc.nrmJkrs.j_todo_list.text,
+		"{s:0.8,C:inactive}on most of Cirno's Koikatsu")
+	
+	table.insert(jokerLoc.nrmJkrs.j_todo_list.text,
+		"{s:0.8,C:inactive}girls being tan")
+	
+	table.insert(jokerLoc.nrmJkrs.j_todo_list.text,
+		"{s:0.8,C:inactive}with pink hair?")
+	
+	if CirnoMod.config['allowCosmeticTakeOwnership'] then
+		SMODS.Joker:take_ownership('todo_list', {
+			create_main_end = function(center)
+				local mainEndRV = {
+					n = G.UIT.C,
+					config = {
+						align = 'bm',
+						padding = 0.02
+					},
+					nodes = {}
+				}
+				
+				CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+						0, 0, -- Sprite X & Y
+						0.9, 0.9, -- Sprite W & H
+						CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+						{ x = 1, y = 1 } -- Position in the Atlas
+					)
+				)
+				
+				return { mainEndRV }
+			end,
+			
+			loc_vars = function(self, info_queue, center)
+				return {
+					vars = {
+						center.ability.extra.dollars,
+						localize(center.ability.to_do_poker_hand, 'poker_hands')
+					},
+					main_end = self.create_main_end(center)
+				}
+			end
+		}, true)
+	end
+else
+	table.insert(jokerLoc.nrmJkrs.j_todo_list.text,
+		"{s:0.8,C:inactive}JOKE BOAT! JOKE BOAT!")
+end
 
 jokerLoc.nrmJkrs.j_cavendish = {
 	-- name = "Cavendish",
