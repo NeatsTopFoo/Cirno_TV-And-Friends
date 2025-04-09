@@ -75,7 +75,7 @@ local jokerInfo = {
 					"This {C:joker}Joker{} gains {X:mult,C:white}X0.09 {} Mult",
 					"for each scored {C:attention}9{}",
 					"{s:0.8,C:red}If {s:0.8,C:attention}"..intents.j_ice_cream.."{s:0.8,C:red} is present, it",
-					"{s:0.8,C:red}expires immediately when triggered.",
+					"{s:0.8,C:red}expires after the first trigger.",
 					"{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}\"I don't mean to brag Chat,",
 					"{s:0.8,C:inactive}but I'm stupid.\""
@@ -134,7 +134,8 @@ local jokerInfo = {
 							key = 'a_xmult',
 							vars = { card.ability.extra.Xmult }
 						},
-						colour = CirnoMod.miscItems.colours.cirCyan
+						colour = CirnoMod.miscItems.colours.cirCyan,
+						card = card
 					}
 				end
 				
@@ -151,7 +152,8 @@ local jokerInfo = {
 								key = 'a_xmult',
 								vars = { card.ability.extra.Xmult }
 							},
-							colour = CirnoMod.miscItems.colours.cirCyan
+							colour = CirnoMod.miscItems.colours.cirCyan,
+							card = card
 						}
 					end
 				end
@@ -291,7 +293,8 @@ local jokerInfo = {
 				then
 					return { -- Multiply the current mult by mult accrued on card?
 						message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }), -- Message popup
-						x_mult = card.ability.extra.x_mult -- Multiplies the current mult by the card's stored mult
+						x_mult = card.ability.extra.x_mult, -- Multiplies the current mult by the card's stored mult
+						card
 					}, true
 				end
 				-- This section seems to be it detecting the use of a wheel of fortune tarot
@@ -306,17 +309,6 @@ local jokerInfo = {
 					then
 						-- Add the extra mult as defined in config extra extra above, to the card's stored mult in config extra x_mult
 						card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.extra
-						--[[card_eval_status_text(
-							card,
-							"extra", -- This appears to be parsing what is happening and updating the card description accordingly
-							nil,
-							nil,
-							nil,
-							-- Message popup beneath the joker
-							{
-								message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } })
-							}
-						)]]
 						
 						-- Animate wink
 						G.E_MANAGER:add_event(Event({
@@ -338,7 +330,8 @@ local jokerInfo = {
 							end}))
 						return {
 							message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }),
-							colour = G.C.PURPLE
+							colour = G.C.PURPLE,
+							card = card
 						}, true
 					end
 				end
@@ -471,7 +464,8 @@ local jokerInfo = {
 										(G.GAME.consumeable_usage_total and (G.GAME.consumeable_usage['c_neptune'].count * card.ability.extra.extra) + 1 or 1)
 									}
 							}),
-							colour = CirnoMod.miscItems.colours.cirNep
+							colour = CirnoMod.miscItems.colours.cirNep,
+							card = card
 						}, true
 					end
 				elseif
@@ -853,7 +847,8 @@ local jokerInfo = {
 				if toChangeTo.msg then
 					SMODS.calculate_effect( {
 						message = toChangeTo.msg,
-						colour = toChangeTo.msgColour
+						colour = toChangeTo.msgColour,
+						card = card
 					}, card)
 				end
 				
@@ -911,18 +906,21 @@ local jokerInfo = {
 							-- And we state that it has gone up.
 							SMODS.calculate_effect( {
 									message = 'X'..card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
-									colour = card.ability.extra.chipsMultColour[card.ability.extra.chipsMultOpposite[card.ability.extra.active]]
+									colour = card.ability.extra.chipsMultColour[card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
+									card = card
 								}, card)
 							
 							return {
 								message = "Reroll!",
-								colour = G.C.GREEN
+								colour = G.C.GREEN,
+								card = card
 							}, true
 						else
 							-- Otherwise, we say the new current decrement counter.
 							return {
 								message = tostring(card.ability.extra.discardDecrementCounter),
-								colour = card.ability.extra.chipsMultColour[card.ability.extra.chipsMultOpposite[card.ability.extra.active]]
+								colour = card.ability.extra.chipsMultColour[card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
+								card = card
 							}, true
 						end
 					end
@@ -951,7 +949,7 @@ local jokerInfo = {
 							and not context.post_trigger
 						then
 							-- print("Normal Scoring Timing Test")
-							RT = {}
+							RT = { card = card }
 							
 							if
 								card.ability.extra.handWasPlayed == false
@@ -964,23 +962,13 @@ local jokerInfo = {
 							
 							if card.ability.extra.active == 'Chips' then
 								RT.x_chips = card.ability.extra.xChips
-								--localiseKey = 'a_xchips'
 								shouldReturnMessage = RT.x_chips > 1
 							elseif card.ability.extra.active == 'Mult' then
 								RT.x_mult = card.ability.extra.xMult
-								--localiseKey = 'a_xmult'
 								shouldReturnMessage = RT.x_mult > 1
 							end
 							
 							if shouldReturnMessage then
-								
-								--[[RT.message = localize(
-								{
-									type = "variable",
-									key = localiseKey,
-									vars = { card.ability.extra['x'..card.ability.extra.active] }
-								})]]
-								
 								RT.colour = card.ability.extra.chipsMultColour[card.ability.extra.active]
 							end							
 						end
@@ -1029,8 +1017,8 @@ local jokerInfo = {
 				text = {
 					"Every played {C:attention}card",
 					"{C:attention}permanently{} gains {C:mult}+1{} Mult per",
-					"{C:attention}enhancement{} and/or {C:dark_edition}edition{}",
-					"when scored",
+					"{C:attention}enhancement{}, {C:dark_edition}edition{} and/or",
+					"{C:attention}seal{} when scored",
 					"{s:0.8,C:inactive}\"Like a sight of what's to be,",
 					"{s:0.8,C:inactive}but harsher and lacking a most",
 					"{s:0.8,C:inactive}central piece. Don't let that",

@@ -151,7 +151,8 @@ SMODS.process_loc_text(G.localization.misc.quips, "wq_7", {
 --#endregion
 
 --#region Boosters
-
+--[[
+Hu'ing the Celestial packs no longer seems to be working this way around.
 miscLoc.boosters.p_celestial_normal = {}
 
 if not CirnoMod.config['planetsAreHus'] then
@@ -187,7 +188,7 @@ miscLoc.boosters.p_celestial_mega.text = {
 		"{C:attention}#2#{C:planet} "..planetIntent.."{} cards to",
 		"be used immediately",
 	}
-
+]]
 --#endregion
 
 --#region Vouchers

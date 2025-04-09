@@ -142,6 +142,25 @@ if CirnoMod.config['miscRenames'] then
 	planetsAreHus.boosters.p_celestial_normal = { name = "Gensokyo Pack" }
 	planetsAreHus.boosters.p_celestial_jumbo = { name = "Jumbo Gensokyo Pack" }
 	planetsAreHus.boosters.p_celestial_mega = { name = "Mega Gensokyo Pack" }
+	
+	planetsAreHus.boosters.p_celestial_normal.text = {
+		"Choose {C:attention}#1#{} of up to",
+		"{C:attention}#2#{C:planet} Hu{} cards to",
+		"be used immediately",
+	}
+	
+	planetsAreHus.boosters.p_celestial_jumbo.text = {
+		"Choose {C:attention}#1#{} of up to",
+		"{C:attention}#2#{C:planet} Hu{} cards to",
+		"be used immediately",
+	}
+	
+	planetsAreHus.boosters.p_celestial_mega.text = {
+		"Choose {C:attention}#1#{} of up to",
+		"{C:attention}#2#{C:planet} Hu{} cards to",
+		"be used immediately",
+	}
+	
 	--[[
 	Set booster descriptions in Misc because
 	A. That's the main handler of boosters,

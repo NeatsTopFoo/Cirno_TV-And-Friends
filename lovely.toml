@@ -65,6 +65,29 @@ if self.ability.name == 'The Wheel of Fortune' then self.cirNtf_wheel_success = 
 '''
 match_indent = false
 
+# Adjusts dollar calculation at the end of round to account for the presence of red seals.
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+i = i+1
+add_round_eval_row({dollars = ret, bonus = true, name='joker'..i, pitch = pitch, card = _card})
+pitch = pitch + 0.06
+dollars = dollars + ret
+'''
+position = "at"
+payload = '''
+	
+				if CirnoMod then
+					cModDolCalc = CirnoMod.miscItems.roundEvalDollarCalc.full(ret, dollars, pitch, _card, i)
+					i = cModDolCalc.i
+					dollars = cModDolCalc.dollars
+					-- Patched by Cirno_TV & Friends Mod
+				end
+'''
+times = 1
+match_indent = false
+
 # Captures when a card UI tooltip is being generated and checks to see if it should add
 # the credit tooltip based on the card's key.
 [[patches]]

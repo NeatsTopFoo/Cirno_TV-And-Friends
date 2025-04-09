@@ -12,186 +12,8 @@ SMODS.Sound:register_global()
 CirnoMod = {}
 CirnoMod.path = cMod_SMODSLoc.path
 CirnoMod.config = cMod_SMODSLoc.config
--- CirnoMod.allEnabledOptions = copy_table(CirnoMod.config)
-CirnoMod.miscItems = {
-	artCreditKeys = {},
-	weirdArtCreditExceptionalCircumstanceKeys = {}, -- Some things seem to do weird things, like Wild cards.
-	alphabetNumberConv = {
-		numToAlphabet = {},
-		alphabetToNum = {}
-	},
-	deckSkinNames = {}, -- How the custom deck skins are referred to internally. Used for art credit tooltips.
-	deckSkinWhich = {}, -- Differentiate between different deck skins we might want to add, in case we have different crediting to do per skin.
-	keysOfAllCirnoModItems = {}, -- This will be used for any effects the focus on stuff edited or introduced by this mod
-	funnyAtlases = {},
-	switchKeys = {},
-	switchTables = {},
-	keysOfJokersToUpdateStateOnLoad = {
-		j_cir_arumia_l = true,
-		j_cir_naro_l = true
-	},
-	otherModPresences = {
-		isSealsOnJokersPresent = false,
-		isTalismanPresent = false
-	},
-	matureReferencesOpt = { "(Hopefully) Safest", "Some", "All" }, -- These are the options that appear on the new cycle option for mature references.
-	redSealRetriggerIgnoreTable = { -- Ignore table containing keys of jokers and what contexts should be ignored for red seal retriggers
-		j_fortune_teller = { 'using_consumeable' },
-		j_cir_naro_l = { 'using_consumeable' },
-		j_cir_arumia_l = { 'using_consumeable', 'setting_blind', 'hand_drawn' }
-	},
-	colours = {
-		cirBlue = HEX('0766EBFF'),
-		cirCyan = HEX('0AD0F7FF'),
-		cirLucy = HEX('7BB083FF'),
-		cirNep = HEX('D066ADFF'),
-		bbBlack = HEX('000000FF'),
-		bbInvisText = HEX('00000000')
-	},
-	addUITextNode = function(nodes, text, colour, scale)
-		nodes[#nodes + 1] = {
-			n = G.UIT.T,
-			config = {
-				text = text,
-				colour = colour,
-				scale = scale*0.32
-			}
-		}
-		
-		return nodes[#nodes]
-	end,
-	addUISpriteNode = function(nodes, sprite)
-		nodes[#nodes + 1] = {
-			n = G.UIT.O,
-			config = { object = sprite }
-		}
-		
-		if	sprite.atlas.manualFrameParsing	then
-			nodes[#nodes].config.thisObjFrameParse = copy_table(sprite.atlas.manualFrameParsing)
-			CirnoMod.miscItems.manuallyAnimateAtlasItem(nodes[#nodes].config)
-		end
-		
-		return nodes[#nodes]
-	end,
-	addUIColumnOrRowNode = function(nodes, alignment, type, colour, radius, padding)
-		if
-			type == 'C'
-			or type == 'R'
-		then
-			nodes[#nodes + 1] = {
-				n = G.UIT[type],
-				config = {
-					align = alignment,
-					colour = colour,
-					r = radius,
-					padding = padding,
-					res = 0.15
-				},
-				nodes = {}
-			}
-		end
-		
-		return nodes[#nodes]
-	end,
-	restructureNodesTableIntoRowsOrColumns = function(nodesTable, orderedKeysTable, RowOrColumn, config)
-		local RV = {}
-		
-		if
-			RowOrColumn == 'R'
-			or RowOrColumn == 'C'
-		then
-			
-			for i, k in ipairs (orderedKeysTable) do
-				table.insert(RV, {
-					n = G.UIT[RowOrColumn],
-					config = config,
-					nodes = nodesTable[k]
-				})
-			end
-		end
-		
-		return RV
-	end,
-	addHighlightedUITextNode = function(nodes, alignment, HColour, radius, padding, text, TColour, scale)
-		nodes[#nodes + 1] = {
-			n = G.UIT.C,
-			config = {
-				align = alignment,
-				colour = HColour,
-				r = radius,
-				padding = padding,
-				res = 0.15
-			},
-			nodes = {{
-				n = G.UIT.T,
-				config = {
-					text = text,
-					colour = TColour,
-					scale = scale*0.32
-				}
-			}}
-		}
-		
-		return nodes[#nodes]
-	end,
-	manuallyAnimateAtlasItem = function(UINodeConfigTable)
-		G.E_MANAGER:add_event(Event({
-			trigger = 'immediate',
-			blocking = false,
-			blockable = false,			
-			func = function()
-				if
-					UINodeConfigTable
-					and UINodeConfigTable.object
-					and UINodeConfigTable.object.sprite_pos
-					and UINodeConfigTable.object.atlas
-					and UINodeConfigTable.thisObjFrameParse
-				then
-					if UINodeConfigTable.thisObjFrameParse.counter < UINodeConfigTable.thisObjFrameParse.delay then
-						UINodeConfigTable.thisObjFrameParse.counter = UINodeConfigTable.thisObjFrameParse.counter + 0.1
-					else
-						if UINodeConfigTable.object.sprite_pos.x < UINodeConfigTable.object.atlas.frames then
-							UINodeConfigTable.object.sprite_pos.x = UINodeConfigTable.object.sprite_pos.x + 1
-						else
-							UINodeConfigTable.object.sprite_pos.x = 0
-						end
-						
-						UINodeConfigTable.thisObjFrameParse.counter = 0
-					end
-					
-					return false
-				else
-					return true
-				end
-			end
-		}))
-	end,
-	filterTable = function(sourceTable, destinationTable, filterTable)
-		for i, F in ipairs (filterTable) do
-			if sourceTable[F] then
-				destinationTable[F] = sourceTable[F]
-			end
-		end
-	end,
-	newFilteredTable = function(inputTable, filterTable)
-	local RV = {}
-		for i, F in ipairs (filterTable) do
-			if inputTable[F] then
-				RV[F] = inputTable[F]
-			end
-		end
-	return RV
-	end,
-	isState = function(curGameState, stateToCheck)
-		if
-			curGameState
-			and stateToCheck
-		then 
-			return curGameState == stateToCheck
-		end
-		return false
-	end
-}
+
+CirnoMod.miscItems = assert(SMODS.load_file("scripts/other/miscItems.lua")())
 
 if
 	#SMODS.find_mod("soj") > 0
@@ -289,9 +111,9 @@ CirnoMod.miscItems.funnyAtlases.japaneseGoblin = SMODS.Atlas({
 	px = 64,
 	py = 64,
 	atlas_table = 'ANIMATION_ATLAS',
-	frames = 51
+	frames = 52
 })
-CirnoMod.miscItems.funnyAtlases.japaneseGoblin.manualFrameParsing = { counter = 0, delay = 0.2 }
+CirnoMod.miscItems.funnyAtlases.japaneseGoblin.manualFrameParsing = { delay = 0.2 }
 
 CirnoMod.miscItems.funnyAtlases.emotes = SMODS.Atlas({
 	key = 'cir_Emotes',
@@ -306,9 +128,28 @@ CirnoMod.miscItems.funnyAtlases.rumiSleep = SMODS.Atlas({
 	px = 64,
 	py = 64,
 	atlas_table = 'ANIMATION_ATLAS',
-	frames = 37
+	frames = 38
 })
-CirnoMod.miscItems.funnyAtlases.rumiSleep.manualFrameParsing = { counter = 0, delay = 0.4 }
+CirnoMod.miscItems.funnyAtlases.rumiSleep.manualFrameParsing = { delay = 0.4 }
+
+--[[ This one I have to do funky stuff with because
+Balatro gets weird with big atlases. Can't do the
+whole of Bad Apple in one line.]]
+CirnoMod.miscItems.funnyAtlases.badApple = SMODS.Atlas({
+	key = 'cir_badApple',
+	path = 'Misc/badApple.png',
+	px = 80,
+	py = 64
+})
+CirnoMod.miscItems.funnyAtlases.badApple.typewriterFrameParsing = { delay = 0.3, rowLength = 99, finalRowY = 4, finalRowFrames = 77 }
+
+CirnoMod.miscItems.funnyAtlases.badAppleInv = SMODS.Atlas({
+	key = 'cir_badApple_inv',
+	path = 'Misc/badApple_inv.png',
+	px = 80,
+	py = 64
+})
+CirnoMod.miscItems.funnyAtlases.badAppleInv.typewriterFrameParsing = { delay = 0.3, rowLength = 99, finalRowY = 4, finalRowFrames = 77 }
 
 --[[
 This is what the new cycle option calls when it's cycled
@@ -662,7 +503,7 @@ if CirnoMod.config['malverkReplacements'] then
 		end
 		
 		if CirnoMod.config.miscRenames then
-			CirnoMod.miscItems.filterTable(planetsAreHusLoc.boosters, CirnoMod.replaceDef.locChanges.boosterLoc, CirnoMod.replaceDef.boosterReplacementKeys)
+			CirnoMod.replaceDef.locChanges.boosterLoc = copy_table(planetsAreHusLoc.boosters)
 			
 			-- TODO: Vouchers
 		end
@@ -905,11 +746,11 @@ if CirnoMod.config['addCustomConsumables'] then
 			then
 				return nil
 			end
-						
+			
 			if
 				self.ability
 				and self.ability.set == 'Joker'
-			then
+			then				
 				if
 					context.retrigger_joker_check
 					and not context.retrigger_joker
@@ -948,6 +789,7 @@ if CirnoMod.config['addCustomConsumables'] then
 						}
 					end
 				end
+				
 				return nil
 			end
 			

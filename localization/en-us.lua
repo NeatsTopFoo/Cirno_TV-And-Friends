@@ -383,23 +383,34 @@ things.]]
 if
 	CirnoMod.config['enhancerRenames']
 then
-	local stoneIntent = G.localization.descriptions.Enhanced.m_stone.name
+	local replaceIntents = {
+		stone = G.localization.descriptions.Enhanced.m_stone.name,
+		bones = G.localization.descriptions.Joker.j_mr_bones.name
+	}
 	
 	if CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone then
-		stoneIntent = CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name
+		replaceIntents.stone = CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name
+	end
+	
+	if
+		CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs
+		and CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs.j_mr_bones
+	then
+		replaceIntents.bones = CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs.j_mr_bones.name
 	end
 	
 	-- RV.descriptions.Enhanced = { m_stone = { name = "Whump Card" } }
 	RV.misc.dictionary = {
-		k_plus_stone = "+1 "..stoneIntent,
-		ph_deck_preview_stones = stoneIntent.."s"
+		k_plus_stone = "+1 "..replaceIntents.stone,
+		ph_deck_preview_stones = replaceIntents.stone.."s",
+		ph_mr_bones = "Saved by "..replaceIntents.bones
 	}
 	
 	if not CirnoMod.config['jokerRenames'] then
 		RV.descriptions.Joker.j_stone = {
 			text = {
 				"Gives {C:chips}+#1#{} Chips for",
-				"each {C:attention}"..stoneIntent,
+				"each {C:attention}"..replaceIntents.stone,
 				"in your {C:attention}full deck",
 				"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
 			}
@@ -409,7 +420,7 @@ then
 	-- Todo: Move into the above condition when we work out Marble Joker.
 	RV.descriptions.Joker.j_marble = {
 		text = {
-			"Adds one {C:attention}"..stoneIntent,
+			"Adds one {C:attention}"..replaceIntents.stone,
 			"to deck when",
 			"{C:attention}Blind{} is selected",
         }

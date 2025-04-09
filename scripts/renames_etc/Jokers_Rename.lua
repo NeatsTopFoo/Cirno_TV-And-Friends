@@ -186,14 +186,18 @@ jokerLoc.nrmJkrs.j_stone = {
 -- ===== NEXT LINE =====
 
 
---[[
 jokerLoc.nrmJkrs.j_juggler = {
-	name = "Juggler",
+	name = "Chuckster",
 	text = {
-		"{C:attention}+#1#{} hand size"
+		"{C:attention}+#1#{} hand size",
+		"{s:0.8,C:inactive}I'd say I get Nintendo, in that",
+		"{s:0.8,C:inactive}developing good third person camera",
+		"{s:0.8,C:inactive}controls for a 3D game is pretty",
+		"{s:0.8,C:inactive}hard, I've tried it, but - They",
+		"{s:0.8,C:inactive}had way more people & money to",
+		"{s:0.8,C:inactive}throw at this than I do."
 	}
 }
-]]
 
 jokerLoc.nrmJkrs.j_drunkard = { name = "JAPANESE GOBLIN" }
 
@@ -213,7 +217,7 @@ if CirnoMod.config['allowCosmeticTakeOwnership'] then
 					0, 0, -- Sprite X & Y
 					1, 1, -- Sprite W & H
 					CirnoMod.miscItems.funnyAtlases.japaneseGoblin, -- Sprite Atlas
-					center.pos -- Position
+					{ x = 0, y = 0 } -- Position in the atlas
 				)
 			)
 			
@@ -243,15 +247,56 @@ jokerLoc.nrmJkrs.j_acrobat = {
     }
 }
 
---[[
 jokerLoc.nrmJkrs.j_sock_and_buskin = {
-	name = "Sock and Buskin",
+	name = "Bad Apple",
 	text = {
 		"Retrigger all",
-        "played {C:attention}face{} cards"
+        "played {C:attention}face{} cards",
+		"{s:0.8,C:inactive}Balatro, but it's Bad Apple."
 	}
 }
-]]
+
+if CirnoMod.config['allowCosmeticTakeOwnership'] then	
+	SMODS.Joker:take_ownership('sock_and_buskin', {
+		create_main_end = function(center)
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			if
+				center.edition
+				and center.edition.key == 'e_negative'
+			then
+				CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+						0, 0, -- Sprite X & Y
+						1.2, 1, -- Sprite W & H
+						CirnoMod.miscItems.funnyAtlases.badAppleInv, -- Sprite Atlas
+						{ x = 0, y = 0 } -- Position in the atlas
+					)
+				)
+			else
+				CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+						0, 0, -- Sprite X & Y
+						1.2, 1, -- Sprite W & H
+						CirnoMod.miscItems.funnyAtlases.badApple, -- Sprite Atlas
+						{ x = 0, y = 0 } -- Position in the atlas
+					)
+				)
+			end
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return { vars = { center.ability.d_size }, main_end = self.create_main_end(center) }
+		end
+	}, true)
+end
 
 jokerLoc.nrmJkrs.j_mime = {
 	name = "Clownpiece",
@@ -1538,10 +1583,10 @@ if CirnoMod.config['matureReferences_cyc'] == 3 then
 		"{s:0.8,C:inactive}So what's the over/under")
 		
 	table.insert(jokerLoc.nrmJkrs.j_todo_list.text,
-		"{s:0.8,C:inactive}on most of Cirno's Koikatsu")
+		"{s:0.8,C:inactive}on most of Cirno's")
 	
 	table.insert(jokerLoc.nrmJkrs.j_todo_list.text,
-		"{s:0.8,C:inactive}girls being tan")
+		"{s:0.8,C:inactive}Koikatsu girls being tan")
 	
 	table.insert(jokerLoc.nrmJkrs.j_todo_list.text,
 		"{s:0.8,C:inactive}with pink hair?")

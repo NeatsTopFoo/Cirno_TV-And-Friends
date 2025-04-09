@@ -354,7 +354,7 @@ replaceDef.boosterReplacements = { -- These are just in the order Malverk's code
 	--	{ bstKey = 'p_standard_mega_1', matureRefLevel = 1, },
 	--	{ bstKey = 'p_standard_mega_2', matureRefLevel = 1, },
 	{ bstKey = 'p_buffoon_normal_1', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_NTFEdit' },
-	--	{ bstKey = 'p_buffoon_normal_2', matureRefLevel = 1, },
+	{ bstKey = 'p_buffoon_normal_2', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_NTFEdit' },
 	--	{ bstKey = 'p_buffoon_jumbo_1', matureRefLevel = 1, },
 	{ bstKey = 'p_buffoon_mega_1', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' }
 }
@@ -399,10 +399,10 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_merry_andy', matureRefLevel = 1 },
 	{ jkrKey = 'j_stone', matureRefLevel = 1, artCreditKey = 'jA_BocchiTheRock' },
 	
-	-- { jkrKey = 'j_jugglar', matureRefLevel = 1 },
+	{ jkrKey = 'j_juggler', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_drunkard', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_acrobat', matureRefLevel = 1, artCreditKey = 'jA_Acrobat' },
-	-- { jkrKey = 'j_sock_and_buskin', matureRefLevel = 1 },
+	{ jkrKey = 'j_sock_and_buskin', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_mime', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	{ jkrKey = 'j_credit_card', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_greedy_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
