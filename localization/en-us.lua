@@ -290,6 +290,13 @@ RV.descriptions.Other = {
 			"by "..creditSources.NTF
 		}
 	},
+	jA_RedCard = {
+		name = creditSources.cr_JokerArt,
+		text = { 
+			"mystman12, edited",
+			"by "..creditSources.DTsun
+		}
+	},
 	gA_Sun = {
 		name = creditSources.cr_GenericArt,
 		text = {
@@ -370,10 +377,10 @@ RV.descriptions.Other = {
 	blankTooltip = { name = 'blankHeader', text = { '' } },
 	blankTooltipA = { name = '', text = { '' } }
 }
-
+--[[
 RV.descriptions.Wild_Card = {
 	m_wild = { name = '', text = { '' } }
-}
+}]]
 
 --[[
 Have to do this this way because

@@ -396,7 +396,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_crazy', matureRefLevel = 1 },
 	-- { jkrKey = 'j_droll', matureRefLevel = 1 },
 	{ jkrKey = 'j_half', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
-	-- { jkrKey = 'j_merry_andy', matureRefLevel = 1 },
+	{ jkrKey = 'j_merry_andy', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_stone', matureRefLevel = 1, artCreditKey = 'jA_BocchiTheRock' },
 	
 	{ jkrKey = 'j_juggler', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
@@ -460,7 +460,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_smeared', matureRefLevel = 1 },
 	-- { jkrKey = 'j_oops', matureRefLevel = 1 },
 	-- { jkrKey = 'j_four_fingers', matureRefLevel = 1  },
-	-- { jkrKey = 'j_gros_michel', matureRefLevel = 1 },
+	{ jkrKey = 'j_gros_michel', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_stuntman', matureRefLevel = 1, artCreditKey = 'jA_JustIRLCirno' },
 	{ jkrKey = 'j_hanging_chad', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	
@@ -514,7 +514,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_todo_list', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_cavendish', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
 	-- { jkrKey = 'j_card_sharp', matureRefLevel = 1 },
-	-- { jkrKey = 'j_red_card', matureRefLevel = 1 },
+	{ jkrKey = 'j_red_card', matureRefLevel = 1, artCreditKey = 'jA_RedCard' },
 	-- { jkrKey = 'j_madness', matureRefLevel = 1 },
 	{ jkrKey = 'j_square', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	

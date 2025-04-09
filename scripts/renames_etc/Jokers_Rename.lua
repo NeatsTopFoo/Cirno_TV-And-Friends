@@ -160,16 +160,16 @@ jokerLoc.nrmJkrs.j_half = {
 	}
 }
 
---[[
 jokerLoc.nrmJkrs.j_merry_andy = {
-	name = "Merry Andy",
+	name = "MikuSnale",
 	text = {
 		"{C:red}+#1#{} discards",
         "each round,",
-        "{C:red}#2#{} hand size"
+        "{C:red}#2#{} hand size",
+		"{s:0.8,C:inactive}\"woaaaaaaaaaaa",
+		"{s:0.8,C:inactive}so cool..,.,\""
 	}
 }
-]]
 
 jokerLoc.nrmJkrs.j_stone = {
 	name = "Bocchi The Rock",
@@ -1065,9 +1065,10 @@ jokerLoc.nrmJkrs.j_four_fingers = {
         "made with {C:attention}4{} cards"
 	}
 }
+]]
 
 jokerLoc.nrmJkrs.j_gros_michel = {
-	name = "Gros Michel",
+	name = "Sosig",
 	text = {
 		"{C:mult}+#1#{} Mult",
         "{C:green}#2# in #3#{} chance this",
@@ -1075,7 +1076,49 @@ jokerLoc.nrmJkrs.j_gros_michel = {
         "at end of round"
 	}
 }
-]]
+
+if CirnoMod.config['matureReferences_cyc'] == 3 then
+	table.insert(jokerLoc.nrmJkrs.j_gros_michel.text,
+		"{s:0.8,C:inactive}But why is it so... Meaty?")
+else
+	table.insert(jokerLoc.nrmJkrs.j_gros_michel.text,
+		"{s:0.8,C:inactive}Sometimes, chat will just")
+		
+	table.insert(jokerLoc.nrmJkrs.j_gros_michel.text,
+		"{s:0.8,C:inactive}latch onto something they")
+		
+	table.insert(jokerLoc.nrmJkrs.j_gros_michel.text,
+		"{s:0.8,C:inactive}find funny and it sticks.")
+end
+
+if CirnoMod.config['allowCosmeticTakeOwnership'] then	
+	SMODS.Joker:take_ownership('gros_michel', {
+		create_main_end = function(center)
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					1, 1, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 2, y = 1 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return { vars = { center.ability.extra.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), center.ability.extra.odds } , main_end = self.create_main_end(center) }
+		end
+	}, true)
+end
 
 jokerLoc.nrmJkrs.j_stuntman = {
 	name = "HelmetGuns",
@@ -1650,17 +1693,18 @@ jokerLoc.nrmJkrs.j_card_sharp = {
         "been played this round"
 	}
 }
-
+]]
 jokerLoc.nrmJkrs.j_red_card = {
-	name = "Red Card",
+	name = "Principal of the Thing",
 	text = {
 		"This Joker gains",
         "{C:red}+#1#{} Mult when any",
         "{C:attention}Booster Pack{} is skipped",
-        "{C:inactive}(Currently {C:red}+#2#{C:inactive} Mult)"
+        "{C:inactive}(Currently {C:red}+#2#{C:inactive} Mult)",
+		"{s:0.8,C:inactive}\"No running in the halls.\""
 	}
 }
-
+--[[
 jokerLoc.nrmJkrs.j_madness = {
 	name = "Madness",
 	text = {
