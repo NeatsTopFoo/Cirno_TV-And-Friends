@@ -163,6 +163,7 @@ local cirInitConfig = {
 	-- Mature reference level is now determined within each Joker.
 	customJokers = {
 		'customUncommons',
+		'customRares',
 		'customLegendaries'
 	},
 	customConsumables = {
@@ -290,12 +291,6 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from gen
 	
 	return RV
 end
-
---[[
-CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys.m_wild = function(card)
-	return { key = card.key, set = 'Wild_Card' }
-end
-]]
 
 -- Load vanilla replacements definitions and puts its returned var into the var.
 CirnoMod.replaceDef = assert(SMODS.load_file("Cir_Vanilla_Replacement_Definition.lua")())

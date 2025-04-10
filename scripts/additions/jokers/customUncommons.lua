@@ -51,7 +51,7 @@ local jokerInfo = {
 				
 				-- Defines #1#.
 				return { vars = { card.ability.extra.Xmult } }
-				end,
+			end,
 			
 			atlas = 'cir_cUncommons',
 			pos = { x = 0, y = 0},
@@ -60,7 +60,7 @@ local jokerInfo = {
 			
 			calculate = function(self, card, context)
 				-- Normal joker calculation.
-				if context.joker_main and context.poker_hands['High Card'] then
+				if context.joker_main and next(context.poker_hands['High Card']) then
 					return {
 						mult_mod = card.ability.extra.Xmult,
 						message = localize {

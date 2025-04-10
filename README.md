@@ -38,11 +38,11 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 - Adds:
   - Various fun flavour text to numerous items
   - A few custom playing card skins
-  - 6 custom Jokers
+  - 7 custom Jokers
   - 1 custom Spectral Card
   - 1 custom Challenge
 
-All retextures and renames are optional and they're somewhat mix n' match (You can't have it rename some Jokers enabled in the texture pack and not others. You either get all Joker renames or none - But you do otherwise have decent control over it).
+All retextures and renames are optional and they're somewhat mix n' match (You can't have it rename some Jokers enabled in the texture pack and not others. You either get all Joker renames or none - But you do otherwise have decent control over it) - But all additions are fully optional.
 
 ## Installation
 This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), the latest version of [Steammodded](https://github.com/Steamodded/smods) & the latest version of [Malverk](https://github.com/Eremel/Malverk). Without these dependencies, this mod will not function.
@@ -61,7 +61,7 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 - *IMPORTANT*: Because of a bug in the current release of Malverk (at the time of writing), enabling the default textures in Malverk and then trying to interact with its card afterwards causes the game to error. Disabling (As in, removing from the top line. It does not remove it from the mod entirely) the default texture pack card either requires removal of the '"default",' line in Malverk's config file under ["selected"], Which itself is generally accessible by going up one level from the .../Balatro/mods/ folder, into the /config folder that should be under that /Balatro directory. This is currently fixed in the current dev version of Malverk & should be fixed with the next Malverk release.
 
 **Updating this mod:**
-- If this mod has since added any new dependencies since the last time you downloaded it (We probably won't? But generally it's safer to check, than be confused why things broke later and the possibility isn't zero for whatever reason), get those dependencies and ensure Balatro runs.
+- If this mod has since added any new dependencies since the last time you downloaded it (We probably won't? But generally it's safer to check than be confused why things broke later, and for whatever reason the possibility isn't zero), get those dependencies and ensure Balatro runs.
 - Delete any previous version of this mod that exists in the .../Balatro/mods directory.
 - Follow the steps outlined in **Installing this mod** again.
 
@@ -73,6 +73,6 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 - The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art used for the DNA Joker (The art itself appears to not be credited to any specific contributing artist), as well as code for changing the card that appears on the title screen.
 - The [Cryptid](https://github.com/MathIsFun0/Cryptid) mod for Joker code for a certain Legendary Joker.
 - The [Trance](https://github.com/MathIsFun0/Trance) mod for code for changing the colours of the main menu vortex.
-- [Aikoyori](https://bsky.app/profile/aikoyori.xyz), BreezeBuilder, Eremel, Somethimgcom515 and other members of the Balatro modding community for help with code & code issues.
+- [Aikoyori](https://bsky.app/profile/aikoyori.xyz), BreezeBuilder, Eremel, Somethimgcom515 and many other members of the Balatro modding community for help with code & troubleshooting code issues.
 - [Cirno_TV](https://www.twitch.tv/Cirno_TV/) for the art used for the Misprint Joker.
 - Credits are also included in in-game tooltips to any cards that are edited & added; Optionally disableable in the mod's config menu.

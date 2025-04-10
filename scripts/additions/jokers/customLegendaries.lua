@@ -423,8 +423,7 @@ local jokerInfo = {
 				card:set_sprites(card.config.center)
 			end,
 			
-			calculate = function(self, card, context)
-				-- This section seems to define the standard joker function? Which would be multiplying the mult by the stored around
+			calculate = function(self, card, context)				
 				if
 					context.cardarea == G.jokers -- If we are iterating through owned jokers
 					and	context.joker_main -- If the context is during the main scoring timing of jokers
@@ -469,7 +468,9 @@ local jokerInfo = {
 						}, true
 					end
 				elseif
-					context.end_of_round
+					(context.end_of_round
+					or context.card_added
+					and context.card_added.card == card)
 					and context.blueprint_card == nil
 				then
 					local newX = pseudorandom('naroSpriteChange', 0, 1)
@@ -687,12 +688,12 @@ local jokerInfo = {
 				CirnoMod.miscItems.addUITextNode(nodes_.Ln9, "...So, you fall asleep from reading this yet?", G.C.UI.TEXT_INACTIVE, 0.8)
 				
 				CirnoMod.miscItems.addUISpriteNode(nodes_.Ln10, Sprite(
-					0, 0, -- Sprite X & Y
-					1, 1, -- Sprite W & H
-					CirnoMod.miscItems.funnyAtlases.rumiSleep, -- Sprite Atlas
-					{ x = 0, y = 0 } -- Position in the Atlas
+						0, 0, -- Sprite X & Y
+						1, 1, -- Sprite W & H
+						CirnoMod.miscItems.funnyAtlases.rumiSleep, -- Sprite Atlas
+						{ x = 0, y = 0 } -- Position in the Atlas
+					)
 				)
-			)
 				
 				return {{
 					n = G.UIT.C,

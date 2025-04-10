@@ -1,6 +1,7 @@
 local miscItems = {
 	artCreditKeys = {},
 	weirdArtCreditExceptionalCircumstanceKeys = {}, -- Some things seem to do weird things, like Wild cards.
+	-- handsThatContainOtherHands = {},
 	alphabetNumberConv = {
 		numToAlphabet = {},
 		alphabetToNum = {}
@@ -15,7 +16,8 @@ local miscItems = {
 
 miscItems.keysOfJokersToUpdateStateOnLoad = {
 		j_cir_arumia_l = true,
-		j_cir_naro_l = true
+		j_cir_naro_l = true,
+		j_cir_crystalTap = true
 	}
 	
 miscItems.otherModPresences = {
@@ -267,5 +269,21 @@ miscItems.roundEvalDollarCalc = {
 			return RV
 		end
 	}
+
+--[[
+miscItems.allHandsThatContainOtherHands[] = 
+
+miscItems.doesHandAContainHandB = function(handA, handB)
+		if handA == 'High Card' then
+			return true
+		elseif handA == 'Pair' then
+			
+		then
+			
+		end
+		
+		return false
+	end
+]]
 
 return miscItems

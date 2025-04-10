@@ -514,15 +514,15 @@ end
 -- ===== NEXT LINE =====
 
 
---[[ Unsure what to do with Blueprint.
 jokerLoc.nrmJkrs.j_blueprint = {
-	name = "Blueprint",
+	-- name = "Blueprint",
 	text = {
 		"Copies ability of",
-		"{C:attention}Joker{} to the right"
+		"{C:attention}Joker{} to the right",
+		"{s:0.8,C:inactive}In the shape of",
+		"{s:0.8,C:inactive}a friend-to-be."
 	}
 }
-]]
 
 --[[
 jokerLoc.nrmJkrs.j_glass = {
@@ -1232,15 +1232,17 @@ jokerLoc.nrmJkrs.j_idol = {
     }
 }
 
---[[ Not sure what to do with Brainstorm.
 jokerLoc.nrmJkrs.j_brainstorm = {
-	name = "Brainstorm",
+	-- name = "Brainstorm",
 	text = {
 		"Copies the ability",
-		"of leftmost {C:attention}Joker"
+		"of leftmost {C:attention}Joker",
+        "{s:0.8,C:inactive}...The shape...",
+        "{s:0.8,C:inactive}...Taking shape.",
+        "{s:0.8,C:inactive}Vaguely friend shaped.",
+        "{s:0.5,C:inactive}...No, that's not quite right."
 	}
 }
-]]
 
 --[[ Malverk does not do the thing if it is not set to replace that key.
 jokerLoc.nrmJkrs.j_satellite = {

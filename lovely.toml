@@ -108,13 +108,19 @@ payload = '''
 			local PVC_RV = CirnoMod.ParseVanillaCredit(_c, specific_vars)
 			
 			if PVC_RV then
+				local ACEC = nil
+				
 				if
 					CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key]
 				then
-					info_queue[#info_queue + 1] = CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key](_c)
+					ACEC = CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key](_c, loc_vars, specific_vars, card_type, badges, main_start, main_end)
 				end
 				
-				info_queue[#info_queue + 1] = PVC_RV
+				if
+					not (ACEC and ACEC.doNotInfoQueue)
+				then
+					info_queue[#info_queue + 1] = PVC_RV
+				end
 			end
 		end
 	end

@@ -638,7 +638,7 @@ replaceDef.spectralReplacements = {
 replaceDef.enhancerReplacements = {
 	--	{ enhKey = 'm_bonus', matureRefLevel = 1, },
 	--	{ enhKey = 'm_mult', matureRefLevel = 1, },
-	{ enhKey = 'm_wild', matureRefLevel = 1 }, --, artCreditKey = 'eA_DaemonTsun' }, adding tooltips on wild card seems to be kinda funky, i'm gonna look into this
+	{ enhKey = 'm_wild', matureRefLevel = 1}, -- Art Credit system does not work good for wild cards, see below
 	--	{ enhKey = 'm_glass', matureRefLevel = 1, },
 	--	{ enhKey = 'm_steel', matureRefLevel = 1, },
 	{ enhKey = 'm_stone', matureRefLevel = 1, artCreditKey = 'eA_Unknown' },
@@ -646,6 +646,14 @@ replaceDef.enhancerReplacements = {
 	--	{ enhKey = 'm_lucky' matureRefLevel = 1, }
 }
 
+-- Have to do it this way because the normal method doesn't work for wild cards :(
+if CirnoMod.config['allowCosmeticTakeOwnership'] then
+	SMODS.Enhancement:take_ownership('wild', {
+		loc_vars = function(self, info_queue, center)
+			info_queue[#info_queue+1] = { key = 'eA_DaemonTsun', set = "Other" }
+		end
+	}, true)
+end
 
 -- TODO: Vouchers
 

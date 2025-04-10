@@ -297,6 +297,18 @@ RV.descriptions.Other = {
 			"by "..creditSources.DTsun
 		}
 	},
+	jA_CrysTap = {
+		name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.6,X:mult,C:white}Uhh...{}, heavily edited",
+			"by "..creditSources.NTF,
+			"{s:0.7,C:inactive}'-'; ...Listen. It's fine.",
+			"{s:0.7,C:inactive}Someone whose uncle works",
+			"{s:0.7,C:inactive}there told me that this",
+			"{s:0.7,C:inactive}is DEFINITELY okay.",
+			"{s:0.45,C:inactive}Definitely."
+		}
+	},
 	gA_Sun = {
 		name = creditSources.cr_GenericArt,
 		text = {
@@ -377,10 +389,6 @@ RV.descriptions.Other = {
 	blankTooltip = { name = 'blankHeader', text = { '' } },
 	blankTooltipA = { name = '', text = { '' } }
 }
---[[
-RV.descriptions.Wild_Card = {
-	m_wild = { name = '', text = { '' } }
-}]]
 
 --[[
 Have to do this this way because
