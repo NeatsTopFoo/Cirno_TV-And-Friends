@@ -147,13 +147,15 @@ local jokerInfo = {
 						card.ability.extra.Xmult = card.ability.extra.Xmult + 0.09
 						
 						return {
-							message = localize {
-								type = 'variable',
-								key = 'a_xmult',
-								vars = { card.ability.extra.Xmult }
-							},
-							colour = CirnoMod.miscItems.colours.cirCyan,
-							card = card
+							extra = {
+								message = localize {
+									type = 'variable',
+									key = 'a_xmult',
+									vars = { card.ability.extra.Xmult }
+								},
+								colour = CirnoMod.miscItems.colours.cirCyan,
+								message_card = card
+							}
 						}
 					end
 				end
@@ -329,9 +331,11 @@ local jokerInfo = {
 								return true
 							end}))
 						return {
-							message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }),
-							colour = G.C.PURPLE,
-							card = card
+							extra = {
+								message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }),
+								colour = G.C.PURPLE,
+								message_card = card
+							}
 						}, true
 					end
 				end
@@ -455,16 +459,18 @@ local jokerInfo = {
 						context.consumeable.ability.name == "Neptune"
 					then
 						return { -- Multiply the current mult by mult accrued on card?
-							message = localize(
-							{
-								type = "variable",
-								key = "a_xmult",
-								vars = {
-										(G.GAME.consumeable_usage_total and (G.GAME.consumeable_usage['c_neptune'].count * card.ability.extra.extra) + 1 or 1)
-									}
-							}),
-							colour = CirnoMod.miscItems.colours.cirNep,
-							card = card
+							extra = {
+								message = localize(
+								{
+									type = "variable",
+									key = "a_xmult",
+									vars = {
+											(G.GAME.consumeable_usage_total and (G.GAME.consumeable_usage['c_neptune'].count * card.ability.extra.extra) + 1 or 1)
+										}
+								}),
+								colour = CirnoMod.miscItems.colours.cirNep,
+								message_card = card
+							}
 						}, true
 					end
 				elseif
@@ -905,15 +911,14 @@ local jokerInfo = {
 							card.ability.extra.extra = initialCounterAmount / 10
 							
 							-- And we state that it has gone up.
-							SMODS.calculate_effect( {
-									message = 'X'..card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
-									colour = card.ability.extra.chipsMultColour[card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
-									card = card
-								}, card)
-							
 							return {
-								message = "Reroll!",
-								colour = G.C.GREEN,
+								extra = {
+									message = "Reroll!",
+									colour = G.C.GREEN,
+									card = card
+								},
+								message = 'X'..card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
+								colour = card.ability.extra.chipsMultColour[card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
 								card = card
 							}, true
 						else
@@ -1064,27 +1069,37 @@ local jokerInfo = {
 					and context.other_card
 					and not context.other_card.debuff
 				then
+					-- Work out how much mult to add
 					local permMultToAdd = 0
-										
+					
+					--[[ Is there an enhancement? If so, set 1
+					(Since this is the first in sequence)]]
 					if next(SMODS.get_enhancements(context.other_card)) then
 						permMultToAdd = 1
 					end
 					
+					-- Is there a seal? If so, add 1.
 					if context.other_card.seal then
 						permMultToAdd = permMultToAdd + 1
 					end
 					
+					-- Is there an edition? If so, add 1.
 					if context.other_card.edition then
 						permMultToAdd = permMultToAdd + 1
 					end
 					
+					-- If we're adding any mult, do so
 					if permMultToAdd > 0 then
 						context.other_card.ability.perma_mult = context.other_card.ability.perma_mult or 0
 						context.other_card.ability.perma_mult = context.other_card.ability.perma_mult + permMultToAdd
 						
+						-- Return table (in extra to prevent the colour being overridden by Blueprint/Brainstorm)
 						return {
-							message = localize('k_upgrade_ex'),
-							colour = G.C.RED
+							extra = {
+								message = localize('k_upgrade_ex'),
+								colour = G.C.RED,
+								message_card = context.other_card
+							}
 						}
 					end
 				end

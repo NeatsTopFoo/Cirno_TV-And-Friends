@@ -558,7 +558,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_campfire', matureRefLevel = 1 },
 	{ jkrKey = 'j_smiley', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	-- { jkrKey = 'j_ancient', matureRefLevel = 1 },
-	-- { jkrKey = 'j_walkie_talkie', matureRefLevel = 1 },
+	{ jkrKey = 'j_walkie_talkie', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_castle', matureRefLevel = 1 }
 }
 

@@ -45,112 +45,6 @@ function loc_colour(_c, _default)
 	end
 end
 
---[[ Thank you aikoooo T_T
-Honestly dumb that I need to do this
-in the first place for what I initially
-want it for, but I guess it's a useful
-tool we can keep around]]
-for i = 97, 122 do
-	table.insert(CirnoMod.miscItems.alphabetNumberConv.numToAlphabet, string.char(i))
-	CirnoMod.miscItems.alphabetNumberConv.alphabetToNum[string.char(i)] = i - 96
-end
-
---[[
-TODO: Describe what these are and how they work.
-I probably won't and this will stay like this
-forever, which would be even funnier. Good luck.]]
-CirnoMod.miscItems.createABSwitchLatch = function(itemKey, chance, startOnAOrB)
-	if 
-		not CirnoMod.miscItems.switchKeys[itemKey]
-		and (startOnAOrB == 'A' or startOnAOrB == 'B')
-	then
-		table.insert(CirnoMod.miscItems.switchKeys, itemKey)
-		
-		CirnoMod.miscItems.switchTables[itemKey] = {
-			AB = startOnAOrB,
-			sType = "ABSwitchLatch",
-			first = noFirstHoverProc,
-			procChance = chance
-		}
-	end	
-	return CirnoMod.miscItems.switchTables[itemKey]
-end
-
-CirnoMod.miscItems.processSwitch = function(itemKey)
-	if CirnoMod.miscItems.switchTables[itemKey] then
-		if CirnoMod.miscItems.switchTables[itemKey].first then
-			CirnoMod.miscItems.switchTables[itemKey].first = false
-		else
-			if CirnoMod.miscItems.switchTables[itemKey].sType == "ABSwitchLatch" then
-				-- AB Switch processing					
-				if CirnoMod.miscItems.switchTables[itemKey].AB == 'A' then
-					if pseudorandom(itemKey) < CirnoMod.miscItems.switchTables[itemKey].procChance then
-						CirnoMod.miscItems.switchTables[itemKey].AB = 'B'
-					end
-				elseif CirnoMod.miscItems.switchTables[itemKey].AB == 'B' then
-					CirnoMod.miscItems.switchTables[itemKey].AB = 'A'
-				end
-			end
-		end
-	end
-	
-	return CirnoMod.miscItems.switchTables[itemKey]
-end
-
--- These are surprise tools that will help us later.
-CirnoMod.miscItems.funnyAtlases.cirGuns = SMODS.Atlas({
-	key = 'cir_Guns',
-	path = 'Misc/cirGuns.png',
-	px = 71,
-	py = 95
-})
-
-CirnoMod.miscItems.funnyAtlases.japaneseGoblin = SMODS.Atlas({
-	key = 'cir_jGoblin',
-	path = 'Misc/japaneseGoblin.png',
-	px = 64,
-	py = 64,
-	atlas_table = 'ANIMATION_ATLAS',
-	frames = 52
-})
-CirnoMod.miscItems.funnyAtlases.japaneseGoblin.manualFrameParsing = { delay = 0.2 }
-
-CirnoMod.miscItems.funnyAtlases.emotes = SMODS.Atlas({
-	key = 'cir_Emotes',
-	path = 'Misc/cir_Emotes.png',
-	px = 64,
-	py = 64
-})
-
-CirnoMod.miscItems.funnyAtlases.rumiSleep = SMODS.Atlas({
-	key = 'cir_rumiSleep',
-	path = 'Misc/rumiSleep.png',
-	px = 64,
-	py = 64,
-	atlas_table = 'ANIMATION_ATLAS',
-	frames = 38
-})
-CirnoMod.miscItems.funnyAtlases.rumiSleep.manualFrameParsing = { delay = 0.4 }
-
---[[ This one I have to do funky stuff with because
-Balatro gets weird with big atlases. Can't do the
-whole of Bad Apple in one line.]]
-CirnoMod.miscItems.funnyAtlases.badApple = SMODS.Atlas({
-	key = 'cir_badApple',
-	path = 'Misc/badApple.png',
-	px = 80,
-	py = 64
-})
-CirnoMod.miscItems.funnyAtlases.badApple.typewriterFrameParsing = { delay = 0.3, rowLength = 99, finalRowY = 4, finalRowFrames = 77 }
-
-CirnoMod.miscItems.funnyAtlases.badAppleInv = SMODS.Atlas({
-	key = 'cir_badApple_inv',
-	path = 'Misc/badApple_inv.png',
-	px = 80,
-	py = 64
-})
-CirnoMod.miscItems.funnyAtlases.badAppleInv.typewriterFrameParsing = { delay = 0.3, rowLength = 99, finalRowY = 4, finalRowFrames = 77 }
-
 --[[
 This is what the new cycle option calls when it's cycled
 Yes, it HAS to be in G.FUNCS.]]
@@ -250,7 +144,7 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from gen
 			and specific_vars.playing_card -- These are edge cases where specific_vars is passed and not nil, but these values aren't present.
 			and specific_vars.suit
 			and specific_vars.value
-		then
+		then			
 			if
 				G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit] == CirnoMod.miscItems.deckSkinNames[specific_vars.suit]
 				and CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit]]

@@ -57,7 +57,7 @@ jokerLoc.nrmJkrs.j_joker = {
 
 jokerLoc.weeJkr.j_wee = { name = "cirMini", }
 
-if CirnoMod.config['allowCosmeticTakeOwnership'] then
+if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('wee', {
 		create_main_end = function(center)
 			local mainEndRV = {
@@ -201,7 +201,7 @@ jokerLoc.nrmJkrs.j_juggler = {
 
 jokerLoc.nrmJkrs.j_drunkard = { name = "JAPANESE GOBLIN" }
 
-if CirnoMod.config['allowCosmeticTakeOwnership'] then	
+if CirnoMod.config.allowCosmeticTakeOwnership then	
 	SMODS.Joker:take_ownership('drunkard', {
 		create_main_end = function(center)
 			local mainEndRV = {
@@ -213,11 +213,20 @@ if CirnoMod.config['allowCosmeticTakeOwnership'] then
 				nodes = {}
 			}
 			
+			local spriteY = 0
+			
+			if
+				center.edition
+				and center.edition.key == 'e_negative'
+			then
+				spriteY = 1
+			end
+			
 			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
 					0, 0, -- Sprite X & Y
 					1, 1, -- Sprite W & H
 					CirnoMod.miscItems.funnyAtlases.japaneseGoblin, -- Sprite Atlas
-					{ x = 0, y = 0 } -- Position in the atlas
+					{ x = 0, y = spriteY } -- Position in the atlas
 				)
 			)
 			
@@ -256,7 +265,7 @@ jokerLoc.nrmJkrs.j_sock_and_buskin = {
 	}
 }
 
-if CirnoMod.config['allowCosmeticTakeOwnership'] then	
+if CirnoMod.config.allowCosmeticTakeOwnership then	
 	SMODS.Joker:take_ownership('sock_and_buskin', {
 		create_main_end = function(center)
 			local mainEndRV = {
@@ -481,7 +490,7 @@ jokerLoc.nrmJkrs.j_golden = {
 	}
 }
 
-if CirnoMod.config['allowCosmeticTakeOwnership'] then
+if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('golden', {
 		create_main_end = function(center)
 			local mainEndRV = {
@@ -583,7 +592,7 @@ elseif CirnoMod.config.matureReferences_cyc == 2 then
 end
 
 if
-	CirnoMod.config['allowCosmeticTakeOwnership']
+	CirnoMod.config.allowCosmeticTakeOwnership
 	and CirnoMod.config.matureReferences_cyc >= 2
 then
 	SMODS.Joker:take_ownership('delayed_grat', {
@@ -741,7 +750,7 @@ jokerLoc.nrmJkrs.j_duo = {
 	}
 }
 
-if CirnoMod.config['allowCosmeticTakeOwnership'] then
+if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('duo', {
 		create_main_end = function(center)
 			local mainEndRV = {
@@ -785,7 +794,7 @@ jokerLoc.nrmJkrs.j_family = {
 		-- name = "The Family"
 	}
 if CirnoMod.config['matureReferences_cyc'] >= 2 then
-	if CirnoMod.config['allowCosmeticTakeOwnership'] then
+	if CirnoMod.config.allowCosmeticTakeOwnership then
 		CirnoMod.miscItems.createABSwitchLatch('j_family', 0.15, 'A')
 		
 		jokerLoc.nrmJkrs.j_family.text = {
@@ -932,7 +941,7 @@ jokerLoc.nrmJkrs.j_ring_master = {
     }
 }
 
-if CirnoMod.config['allowCosmeticTakeOwnership'] then
+if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('ring_master', {
 		create_main_end = function(center)
 			local mainEndRV = {
@@ -944,11 +953,20 @@ if CirnoMod.config['allowCosmeticTakeOwnership'] then
 				nodes = {}
 			}
 			
+			local spriteX = 0
+			
+			if
+				center.edition
+				and center.edition.key == 'e_negative'
+			then
+				spriteX = 1
+			end
+			
 			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
 					0, 0, -- Sprite X & Y
 					1.1, 1.4, -- Sprite W & H
 					CirnoMod.miscItems.funnyAtlases.cirGuns, -- Sprite Atlas
-					{ x = 0, y = 0 } -- Position in the Atlas
+					{ x = spriteX, y = 0 } -- Position in the Atlas
 				)
 			)
 			
@@ -1091,7 +1109,7 @@ else
 		"{s:0.8,C:inactive}find funny and it sticks.")
 end
 
-if CirnoMod.config['allowCosmeticTakeOwnership'] then	
+if CirnoMod.config.allowCosmeticTakeOwnership then	
 	SMODS.Joker:take_ownership('gros_michel', {
 		create_main_end = function(center)
 			local mainEndRV = {
@@ -1360,7 +1378,7 @@ end
 
 jokerLoc.lgndJkrs.j_chicot = { name = "ReimMomo" }
 
-if CirnoMod.config['allowCosmeticTakeOwnership'] then
+if CirnoMod.config.allowCosmeticTakeOwnership then
 	jokerLoc.lgndJkrs.j_chicot.text = {
 		"Disables effect of",
         "every {C:attention}Boss Blind",
@@ -1636,7 +1654,7 @@ if CirnoMod.config['matureReferences_cyc'] == 3 then
 	table.insert(jokerLoc.nrmJkrs.j_todo_list.text,
 		"{s:0.8,C:inactive}with pink hair?")
 	
-	if CirnoMod.config['allowCosmeticTakeOwnership'] then
+	if CirnoMod.config.allowCosmeticTakeOwnership then
 		SMODS.Joker:take_ownership('todo_list', {
 			create_main_end = function(center)
 				local mainEndRV = {
@@ -1986,17 +2004,17 @@ jokerLoc.nrmJkrs.j_baseball = {
 }
 
 --[[
-jokerLoc.nrmJkrs.j_bull = { name = "Bull")
+jokerLoc.nrmJkrs.j_bull = { name = "Bull" }
 
-jokerLoc.nrmJkrs.j_diet_cola = { name = "Diet Cola")
+jokerLoc.nrmJkrs.j_diet_cola = { name = "Diet Cola" }
 
-jokerLoc.nrmJkrs.j_trading = { name = "Trading Card")
+jokerLoc.nrmJkrs.j_trading = { name = "Trading Card" }
 
 
 ===== NEXT LINE =====
 
 
-jokerLoc.nrmJkrs.j_flash = { name = "Flash Card")
+jokerLoc.nrmJkrs.j_flash = { name = "Flash Card" }
 ]]
 
 jokerLoc.nrmJkrs.j_popcorn = {
@@ -2012,7 +2030,7 @@ jokerLoc.nrmJkrs.j_popcorn = {
     }
 }
 
--- jokerLoc.nrmJkrs.j_ramen = { name = "Ramen")
+-- jokerLoc.nrmJkrs.j_ramen = { name = "Ramen" }
 
 jokerLoc.nrmJkrs.j_selzer = {
 	name = "Ketchup",
@@ -2036,7 +2054,7 @@ jokerLoc.nrmJkrs.j_trousers = {
     }
 }
 
--- jokerLoc.nrmJkrs.j_campfire = { name = "Campfire")
+-- jokerLoc.nrmJkrs.j_campfire = { name = "Campfire" }
 
 jokerLoc.nrmJkrs.j_smiley = {
 	-- name = "Smiley Face",
@@ -2048,10 +2066,20 @@ jokerLoc.nrmJkrs.j_smiley = {
     }
 }
 
---jokerLoc.nrmJkrs.j_ancient = { name = "Ancient Joker")
+--jokerLoc.nrmJkrs.j_ancient = { name = "Ancient Joker" }
 
--- jokerLoc.nrmJkrs.j_walkie_talkie = { name = "Walkie Talkie")
+jokerLoc.nrmJkrs.j_walkie_talkie = {
+	name = "Lifeline",
+    text={
+        "Each played {C:attention}10{} or {C:attention}4",
+        "gives {C:chips}+#1#{} Chips and",
+        "{C:mult}+#2#{} Mult when scored",
+		"{s:0.8,C:inactive}\"Pick up the telephone.\"",
+		"{s:0.8,C:inactive}......{s:1.35,C:inactive}*BANG*",
+		"{s:0.8,C:inactive}\"Oops, I missed.\""
+    }
+}
 
--- jokerLoc.nrmJkrs.j_castle = { name = "Castle")
+-- jokerLoc.nrmJkrs.j_castle = { name = "Castle" }
 
 return jokerLoc

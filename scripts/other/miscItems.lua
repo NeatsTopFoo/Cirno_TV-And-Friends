@@ -270,20 +270,125 @@ miscItems.roundEvalDollarCalc = {
 		end
 	}
 
---[[
-miscItems.allHandsThatContainOtherHands[] = 
+--[[ Thank you aikoooo T_T
+Honestly dumb that I need to do this
+in the first place for what I initially
+want it for, but I guess it's a useful
+tool we can keep around]]
+for i = 97, 122 do
+	table.insert(miscItems.alphabetNumberConv.numToAlphabet, string.char(i))
+	miscItems.alphabetNumberConv.alphabetToNum[string.char(i)] = i - 96
+end
 
-miscItems.doesHandAContainHandB = function(handA, handB)
-		if handA == 'High Card' then
-			return true
-		elseif handA == 'Pair' then
-			
-		then
-			
-		end
+--[[
+TODO: Describe what these are and how they work.
+I probably won't and this will stay like this
+forever, which would be even funnier. Good luck.]]
+miscItems.createABSwitchLatch = function(itemKey, chance, startOnAOrB)
+	if 
+		not CirnoMod.miscItems.switchKeys[itemKey]
+		and (startOnAOrB == 'A' or startOnAOrB == 'B')
+	then
+		table.insert(CirnoMod.miscItems.switchKeys, itemKey)
 		
-		return false
+		CirnoMod.miscItems.switchTables[itemKey] = {
+			AB = startOnAOrB,
+			sType = "ABSwitchLatch",
+			first = noFirstHoverProc,
+			procChance = chance
+		}
+	end	
+	return CirnoMod.miscItems.switchTables[itemKey]
+end
+
+miscItems.processSwitch = function(itemKey)
+	if CirnoMod.miscItems.switchTables[itemKey] then
+		if CirnoMod.miscItems.switchTables[itemKey].first then
+			CirnoMod.miscItems.switchTables[itemKey].first = false
+		else
+			if CirnoMod.miscItems.switchTables[itemKey].sType == "ABSwitchLatch" then
+				-- AB Switch processing					
+				if CirnoMod.miscItems.switchTables[itemKey].AB == 'A' then
+					if pseudorandom(itemKey) < CirnoMod.miscItems.switchTables[itemKey].procChance then
+						CirnoMod.miscItems.switchTables[itemKey].AB = 'B'
+					end
+				elseif CirnoMod.miscItems.switchTables[itemKey].AB == 'B' then
+					CirnoMod.miscItems.switchTables[itemKey].AB = 'A'
+				end
+			end
+		end
 	end
-]]
+	
+	return CirnoMod.miscItems.switchTables[itemKey]
+end
+
+miscItems.getVanillaJokerNameByKey = function(jkrKey)
+	local RV = G.localization.descriptions.Joker[jkrKey].name or 'Invalid Key'
+	
+	if
+		CirnoMod.replaceDef
+		and CirnoMod.replaceDef.locChanges
+		and CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs
+		and CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs[jkrKey]
+	then
+		RV = CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs[jkrKey].name
+	end
+	
+	return RV
+end
+
+-- These are surprise tools that will help us later. :)
+miscItems.funnyAtlases.cirGuns = SMODS.Atlas({
+	key = 'cir_Guns',
+	path = 'Misc/cirGuns.png',
+	px = 71,
+	py = 95
+})
+
+miscItems.funnyAtlases.japaneseGoblin = SMODS.Atlas({
+	key = 'cir_jGoblin',
+	path = 'Misc/japaneseGoblin.png',
+	px = 64,
+	py = 64,
+	atlas_table = 'ANIMATION_ATLAS',
+	frames = 52
+})
+miscItems.funnyAtlases.japaneseGoblin.manualFrameParsing = { delay = 0.2 }
+
+miscItems.funnyAtlases.emotes = SMODS.Atlas({
+	key = 'cir_Emotes',
+	path = 'Misc/cir_Emotes.png',
+	px = 64,
+	py = 64
+})
+
+miscItems.funnyAtlases.rumiSleep = SMODS.Atlas({
+	key = 'cir_rumiSleep',
+	path = 'Misc/rumiSleep.png',
+	px = 64,
+	py = 64,
+	atlas_table = 'ANIMATION_ATLAS',
+	frames = 38
+})
+miscItems.funnyAtlases.rumiSleep.manualFrameParsing = { delay = 0.4 }
+
+--[[ This one I have to do funky stuff with because
+Balatro gets weird with big atlases. Can't do the
+whole of Bad Apple in one line.]]
+miscItems.funnyAtlases.badApple = SMODS.Atlas({
+	key = 'cir_badApple',
+	path = 'Misc/badApple.png',
+	px = 80,
+	py = 64
+})
+miscItems.funnyAtlases.badApple.typewriterFrameParsing = { delay = 0.3, rowLength = 99, finalRowY = 4, finalRowFrames = 77 }
+
+miscItems.funnyAtlases.badAppleInv = SMODS.Atlas({
+	key = 'cir_badApple_inv',
+	path = 'Misc/badApple_inv.png',
+	px = 80,
+	py = 64
+})
+miscItems.funnyAtlases.badAppleInv.typewriterFrameParsing = { delay = 0.3, rowLength = 99, finalRowY = 4, finalRowFrames = 77 }
 
 return miscItems

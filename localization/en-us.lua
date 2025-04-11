@@ -400,18 +400,11 @@ if
 then
 	local replaceIntents = {
 		stone = G.localization.descriptions.Enhanced.m_stone.name,
-		bones = G.localization.descriptions.Joker.j_mr_bones.name
+		bones = CirnoMod.miscItems.getVanillaJokerNameByKey('j_mr_bones')
 	}
 	
 	if CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone then
 		replaceIntents.stone = CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name
-	end
-	
-	if
-		CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs
-		and CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs.j_mr_bones
-	then
-		replaceIntents.bones = CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs.j_mr_bones.name
 	end
 	
 	-- RV.descriptions.Enhanced = { m_stone = { name = "Whump Card" } }
