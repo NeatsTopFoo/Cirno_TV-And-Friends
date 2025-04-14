@@ -16,5 +16,6 @@ return {
 	['planetTarotSpectralRenames'] = true,
 	['miscRenames'] = true,
 	['additionalChallenges'] = false,
-	['artCredits'] = true
+	['artCredits'] = true,
+	['encounteredJokers'] = {}
 }

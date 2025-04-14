@@ -1,6 +1,7 @@
 local miscItems = {
 	artCreditKeys = {},
 	weirdArtCreditExceptionalCircumstanceKeys = {}, -- Some things seem to do weird things, like Wild cards.
+	descExtensionTooltips = {},
 	-- handsThatContainOtherHands = {},
 	alphabetNumberConv = {
 		numToAlphabet = {},
@@ -9,7 +10,9 @@ local miscItems = {
 	deckSkinNames = {}, -- How the custom deck skins are referred to internally. Used for art credit tooltips.
 	deckSkinWhich = {}, -- Differentiate between different deck skins we might want to add, in case we have different crediting to do per skin.
 	keysOfAllCirnoModItems = {}, -- This will be used for any effects the focus on stuff edited or introduced by this mod
+	jkrKeyGroups = {},
 	funnyAtlases = {},
+	otherAtlases = {},
 	switchKeys = {},
 	switchTables = {}
 }
@@ -244,6 +247,16 @@ miscItems.isState = function(curGameState, stateToCheck)
 		end
 		return false
 	end
+	
+miscItems.isStage = function(curGameStage, stageToCheck)
+		if
+			curGameStage
+			and stageToCheck
+		then 
+			return curGameStge == stageToCheck
+		end
+		return false
+	end
 
 miscItems.roundEvalDollarCalc = {
 		part = function(CDBret, dollars_, pitch_, card_, i_)
@@ -322,8 +335,8 @@ miscItems.processSwitch = function(itemKey)
 	return CirnoMod.miscItems.switchTables[itemKey]
 end
 
-miscItems.getVanillaJokerNameByKey = function(jkrKey)
-	local RV = G.localization.descriptions.Joker[jkrKey].name or 'Invalid Key'
+miscItems.getJokerNameByKey = function(jkrKey, default)
+	local RV = default or G.localization.descriptions.Joker[jkrKey] and G.localization.descriptions.Joker[jkrKey].name or nil
 	
 	if
 		CirnoMod.replaceDef
@@ -335,6 +348,172 @@ miscItems.getVanillaJokerNameByKey = function(jkrKey)
 	end
 	
 	return RV
+end
+
+miscItems.jkrKeyGroups.TwoMax = {}
+miscItems.jkrKeyGroups.crazyWomen = {}
+
+if
+	CirnoMod.config.malverkReplacements
+then
+	miscItems.jkrKeyGroups.allegations = {
+		j_bootstraps = true,
+		j_riff_raff = true
+	}
+	
+	miscItems.jkrKeyGroups.TwoMax.j_duo = true
+	miscItems.jkrKeyGroups.TwoMax.j_cir_naro_l = true
+	
+	miscItems.jkrKeyGroups.fingerGuns = {
+		j_golden = true,
+		j_ring_master = true,
+		j_stuntman = true
+	}
+	
+	miscItems.jkrKeyGroups.crazyWomen.j_drunkard = true
+	miscItems.jkrKeyGroups.crazyWomen.j_sock_and_buskin = true
+	miscItems.jkrKeyGroups.crazyWomen.j_mime = true
+	miscItems.jkrKeyGroups.crazyWomen.j_greedy_joker = true
+	miscItems.jkrKeyGroups.crazyWomen.j_lusty_joker = true
+	miscItems.jkrKeyGroups.crazyWomen.j_delayed_grat = true
+	miscItems.jkrKeyGroups.crazyWomen.j_even_steven = true
+	miscItems.jkrKeyGroups.crazyWomen.j_odd_todd = true
+	miscItems.jkrKeyGroups.crazyWomen.j_supernova = true
+	miscItems.jkrKeyGroups.crazyWomen.j_swashbuckler = true
+	miscItems.jkrKeyGroups.crazyWomen.j_astronomer = true
+	miscItems.jkrKeyGroups.crazyWomen.j_burnt = true
+	miscItems.jkrKeyGroups.crazyWomen.j_caino = true
+	miscItems.jkrKeyGroups.crazyWomen.j_triboulet = true
+	miscItems.jkrKeyGroups.crazyWomen.j_yorick = true
+	miscItems.jkrKeyGroups.crazyWomen.j_chicot = true
+	miscItems.jkrKeyGroups.crazyWomen.j_vampire = true
+	miscItems.jkrKeyGroups.crazyWomen.j_midas_mask = true
+end
+
+if CirnoMod.config.addCustomJokers then
+	miscItems.jkrKeyGroups.TwoMax.j_cir_naro_l = true
+	
+	miscItems.jkrKeyGroups.crazyWomen.j_cir_crazyFace = true
+	miscItems.jkrKeyGroups.crazyWomen.j_cir_nope_l = true
+	miscItems.jkrKeyGroups.crazyWomen.j_cir_naro_l = true
+	miscItems.jkrKeyGroups.crazyWomen.j_cir_arumia_l = true
+end
+
+miscItems.jkrKeyGroupTotalEncounters = function(groupName, stopAt1)
+	local RV = 0
+	
+	if miscItems.jkrKeyGroups[groupName] then
+		for i, k in ipairs(miscItems.jkrKeyGroups[groupName]) do
+			if
+				CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name]
+				and CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][k]
+			then
+				RV = RV + CirnoMod.config.encounteredJokers[k]
+			end
+		
+			if stopAt1 and RV > 0 then
+				break
+			end
+		end
+	end
+	
+	return RV
+end
+
+miscItems.keyGroupOfJokerKey = function(jkrKey)
+	for k, t in pairs(CirnoMod.miscItems.jkrKeyGroups) do
+		if t[jkrKey] then
+			return k
+		end
+	end
+	
+	return nil
+end
+
+miscItems.encounterJoker = function(jkrKey)
+	if
+		CirnoMod.config.encounteredJokers
+	then
+		if not CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name] then
+			CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name] = {}
+		end
+		
+		if not CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][jkrKey] then
+			CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][jkrKey] = 0
+		end
+		
+		CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][jkrKey] = CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][jkrKey] + 1
+		return true
+	end
+	
+	return false
+end
+
+miscItems.hasEncounteredJoker = function(jkrKey)
+	if
+		CirnoMod.config.encounteredJokers
+		and CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name]
+		and CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][jkrKey]
+	then
+		return CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][jkrKey] > 0
+	end
+	
+	return false
+end
+
+miscItems.obscureJokerNameIfNotEncountered = function(jkrKey)
+	local RV = CirnoMod.miscItems.getJokerNameByKey(jkrKey)
+	
+	if
+		not CirnoMod.miscItems.hasEncounteredJoker(jkrKey)
+	then
+		RV = '?????'
+	end
+	
+	return RV
+end
+
+miscItems.attachSpriteToCard = function(card, spriteAtlas, spriteAtlasPos, spriteAddDelay, forceStick)
+	G.E_MANAGER:add_event(Event({
+		trigger = 'after',
+		delay = spriteAddDelay,
+		blocking = false,
+		blockable = true,
+		func = function()
+			card.children[spriteAtlas.key] = Sprite(
+				card.children.center.T.x, card.children.center.T.y, -- Sprite X & Y
+				card.children.center.T.w, card.children.center.T.w, -- Sprite W & H
+				spriteAtlas, -- Sprite Atlas
+				spriteAtlasPos -- Position in the Atlas
+			)
+			
+			if forceStick then
+				G.E_MANAGER:add_event(Event({
+					trigger = 'immediate',
+					blocking = false,
+					blockable = false,
+					func = function()
+						if
+							card
+							and card.children
+							and card.children[spriteAtlas.key]
+						then									
+							if card.children[spriteAtlas.key].T.y ~= card.children.center.T.y then
+								card.children[spriteAtlas.key].T.y = card.children.center.T.y
+							end									
+							
+							return false
+						end
+						return true								
+					end}))
+			end
+			
+			return true
+		end}))
+end
+
+miscItems.isUnlockedAndDisc = function(card)
+	return card and card.config.center.unlocked and card.config.center.discovered
 end
 
 -- These are surprise tools that will help us later. :)
@@ -353,7 +532,7 @@ miscItems.funnyAtlases.japaneseGoblin = SMODS.Atlas({
 	atlas_table = 'ANIMATION_ATLAS',
 	frames = 52
 })
-miscItems.funnyAtlases.japaneseGoblin.manualFrameParsing = { delay = 0.2 }
+-- miscItems.funnyAtlases.japaneseGoblin.manualFrameParsing = { delay = 0.2 }
 
 miscItems.funnyAtlases.emotes = SMODS.Atlas({
 	key = 'cir_Emotes',
@@ -370,7 +549,7 @@ miscItems.funnyAtlases.rumiSleep = SMODS.Atlas({
 	atlas_table = 'ANIMATION_ATLAS',
 	frames = 38
 })
-miscItems.funnyAtlases.rumiSleep.manualFrameParsing = { delay = 0.4 }
+-- miscItems.funnyAtlases.rumiSleep.manualFrameParsing = { delay = 0.4 }
 
 --[[ This one I have to do funky stuff with because
 Balatro gets weird with big atlases. Can't do the
@@ -390,5 +569,12 @@ miscItems.funnyAtlases.badAppleInv = SMODS.Atlas({
 	py = 64
 })
 miscItems.funnyAtlases.badAppleInv.typewriterFrameParsing = { delay = 0.3, rowLength = 99, finalRowY = 4, finalRowFrames = 77 }
+
+miscItems.otherAtlases.cardKnifeStab = SMODS.Atlas({
+	key = 'cir_cardKnifeStab',
+	path = 'Misc/knifeStab.png',
+	px = 71,
+	py = 95
+})
 
 return miscItems

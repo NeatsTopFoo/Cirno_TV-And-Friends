@@ -11,7 +11,7 @@ creditSources.cr_GenericArt = "Art By"
 
 --#region Individuals to be credited
 -- Boo this individual please.
-creditSources.NTF = "{X:purple,C:white}NopeTooFast{}"
+creditSources.NTF = "{X:dark_edition,C:white,E:2}NopeTooFast{}"
 
 -- Edit however you want, idk how you want it
 creditSources.DTsun = "DaemonTsun"
@@ -390,6 +390,15 @@ RV.descriptions.Other = {
 	blankTooltipA = { name = '', text = { '' } }
 }
 
+RV.descriptions.extendedDescTooltip={}
+
+for k, eDT in pairs(CirnoMod.miscItems.descExtensionTooltips) do
+	RV.descriptions.extendedDescTooltip[k] = {
+		name = eDT.loc_txt.name,
+		text = eDT.loc_txt.text
+	}
+end
+
 --[[
 Have to do this this way because
 SMODS.process_loc_text() spontaneously
@@ -400,7 +409,7 @@ if
 then
 	local replaceIntents = {
 		stone = G.localization.descriptions.Enhanced.m_stone.name,
-		bones = CirnoMod.miscItems.getVanillaJokerNameByKey('j_mr_bones')
+		bones = CirnoMod.miscItems.getJokerNameByKey('j_mr_bones')
 	}
 	
 	if CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone then

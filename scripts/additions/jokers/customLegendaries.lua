@@ -123,27 +123,43 @@ local jokerInfo = {
 			rarity = 4, -- Legendary rarity
 			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
 			
+			dropIceCream = function(iceCream)
+				G.E_MANAGER:add_event(Event({
+					trigger = 'immediate',
+					blocking = false,
+					blockable = true,
+					func = function()
+						iceCream:start_dissolve({
+							G.C.GREEN,
+							CirnoMod.miscItems.colours.cirLucy,
+							G.C.GREEN,
+							CirnoMod.miscItems.colours.cirLucy,
+							G.C.GREEN
+						}, true)
+						return true
+					end}))
+			end,
+			
 			-- What actually happens when the joker needs to do something.
 			calculate = function(self, card, context)				
 				-- Normal joker calculation.
 				if context.joker_main then
 					return {
 						x_mult = card.ability.extra.Xmult,
-						message = localize {
-							type = 'variable',
-							key = 'a_xmult',
-							vars = { card.ability.extra.Xmult }
-						},
 						colour = CirnoMod.miscItems.colours.cirCyan,
 						card = card
 					}
 				end
 				
+				-- Looks for scored 9s and increases the stored mult
+				-- on the card accordingly.
+				
 				if
 					context.individual
 					and context.cardarea == G.play
+					and not context.post_trigger
 				then
-					if context.other_card:get_id() == 9 then
+					if context.other_card.base.value == 9 then
 						card.ability.extra.Xmult = card.ability.extra.Xmult + 0.09
 						
 						return {
@@ -159,46 +175,22 @@ local jokerInfo = {
 						}
 					end
 				end
-				
-				-- Looks for scored 9s and increases the stored mult
-				-- on the card accordingly.
 				if
-					context.blueprint_card == nil -- So, blueprint and brainstorm call calculate(). Yeah.
+					not context.blueprint -- So, blueprint and brainstorm call calculate(). Yeah.
 					and context.post_trigger
 					and not context.retrigger_joker
 					and context.other_context.joker_main
 					and context.other_card
 					and context.other_card.config.center.key == 'j_ice_cream'
-				then						
-					G.E_MANAGER:add_event(Event({
-						trigger = 'immediate',
-						blocking = false,
-						blockable = true,
-						func = function()
-							SMODS.calculate_effect({
-								message = "Dropped!",
-								colour = G.C.RED,
-								sound = 'cir_j_matchaDrop',
-								pitch = 1.0
-							}, context.other_card)
-							
-							G.E_MANAGER:add_event(Event({
-								trigger = 'after',
-								delay = 0.5,
-								blocking = false,
-								func = function()
-									context.other_card:start_dissolve({
-											G.C.GREEN,
-											CirnoMod.miscItems.colours.cirLucy,
-											G.C.GREEN,
-											CirnoMod.miscItems.colours.cirLucy,
-											G.C.GREEN
-										}, true)
-									return true
-								end}))
-							
-							return true
-						end}))
+				then
+					return {
+						message_card = context.other_card,
+						message = "Dropped!",
+						colour = G.C.RED,
+						sound  = 'cir_j_matchaDrop',
+						pitch = 1.0,
+						func = self.dropIceCream(context.other_card)
+					}
 				end
 			end
 		},
@@ -282,6 +274,12 @@ local jokerInfo = {
 				card:set_sprites(card.config.center)
 			end,
 			
+			set_badges = function(self, card, badges)
+				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
+					badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				end
+			end,
+			
 			-- Define what the card does
 			calculate = function(self, card, context)
 				-- This section seems to define the standard joker function? Which would be multiplying the mult by the stored around
@@ -294,15 +292,13 @@ local jokerInfo = {
 					and not context.after -- Context after is things that modify the score after all cards are scored
 				then
 					return { -- Multiply the current mult by mult accrued on card?
-						message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }), -- Message popup
-						x_mult = card.ability.extra.x_mult, -- Multiplies the current mult by the card's stored mult
-						card
+						x_mult = card.ability.extra.x_mult -- Multiplies the current mult by the card's stored mult
 					}, true
 				end
-				-- This section seems to be it detecting the use of a wheel of fortune tarot
+				-- This section detects the use of a wheel of fortune tarot
 				if
 					context.consumeable
-					and context.blueprint_card == nil -- Don't do this if blueprint
+					and not context.blueprint -- Don't do this if blueprint
 				then -- If we're using a consumeable,
 					if
 						context.consumeable.ability.name == "The Wheel of Fortune" -- Is the consumeable the wheel of fortune tarot?
@@ -427,6 +423,13 @@ local jokerInfo = {
 				card:set_sprites(card.config.center)
 			end,
 			
+			set_badges = function(self, card, badges)
+				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
+					badges[#badges+1] = create_badge("2 Max", CirnoMod.miscItems.colours.cirNep, G.C.UI.TEXT_LIGHT, 0.8 )
+					badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				end
+			end,
+			
 			calculate = function(self, card, context)				
 				if
 					context.cardarea == G.jokers -- If we are iterating through owned jokers
@@ -438,18 +441,10 @@ local jokerInfo = {
 					and not context.after -- Context after is things that modify the score after all cards are scored
 				then
 					return { -- Multiply the current mult by mult accrued on card?
-						message = localize(
-						{
-							type = "variable",
-							key = "a_xmult",
-							vars = {
-									(G.GAME.consumeable_usage_total and (G.GAME.consumeable_usage['c_neptune'].count * card.ability.extra.extra) + 1 or 1)
-								}
-						}), -- Message popup
 						x_mult = (G.GAME.consumeable_usage_total and (G.GAME.consumeable_usage['c_neptune'].count * card.ability.extra.extra) + 1 or 1) -- Multiplies the current mult by the desired amount
 					}, true
 				elseif
-					context.blueprint_card == nil
+					not context.blueprint
 					and context.consumeable
 					and G.GAME.consumeable_usage
 					and not context.retrigger_joker -- Is this not a retrigger?
@@ -474,10 +469,8 @@ local jokerInfo = {
 						}, true
 					end
 				elseif
-					(context.end_of_round
-					or context.card_added
-					and context.card_added.card == card)
-					and context.blueprint_card == nil
+					context.end_of_round
+					and not context.blueprint
 				then
 					local newX = pseudorandom('naroSpriteChange', 0, 1)
 					
@@ -693,7 +686,7 @@ local jokerInfo = {
 				
 				CirnoMod.miscItems.addUITextNode(nodes_.Ln9, "...So, you fall asleep from reading this yet?", G.C.UI.TEXT_INACTIVE, 0.8)
 				
-				CirnoMod.miscItems.addUISpriteNode(nodes_.Ln10, Sprite(
+				CirnoMod.miscItems.addUISpriteNode(nodes_.Ln10, AnimatedSprite(
 						0, 0, -- Sprite X & Y
 						1, 1, -- Sprite W & H
 						CirnoMod.miscItems.funnyAtlases.rumiSleep, -- Sprite Atlas
@@ -735,6 +728,12 @@ local jokerInfo = {
 			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
 			eternal_compat = true,
 			perishable_compat = true,
+			
+			set_badges = function(self, card, badges)
+				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
+					badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				end
+			end,
 			
 			--[[ Causes crashes. No-one knows why.
 			!! DO NOT UNCOMMENT if the set_sprites() call below is with
@@ -867,142 +866,127 @@ local jokerInfo = {
 				local noMoreConditions = false
 				
 				if
-					context.added_card
-					and context.added_card.card == card
+					context.setting_blind -- Are we starting a blind?
+					and not context.blueprint -- Is this not being called from blueprint?
+					and not context.retrigger_joker -- Is this not a retrigger?
+					and not context.post_trigger -- Ensure this is not from another joker triggering
 				then
-					-- print("Sprite Fix Test")
-					
-					self.change_multiplier(self, card, false, true)
+					-- print("Blind Start Test")
+					-- Sets card multiplier to X Chips and alters appearance accordingly.
+					self.change_multiplier(self, card, 'Chips', false)
 					
 					noMoreConditions = true
-				end
-				
-				if noMoreConditions == false then
-					if
-						context.setting_blind -- Are we starting a blind?
-						and context.blueprint_card == nil -- Is this not being called from blueprint?
-						and not context.retrigger_joker -- Is this not a retrigger?
-						and not context.post_trigger -- Ensure this is not from another joker triggering
-					then
-						-- print("Blind Start Test")
-						-- Sets card multiplier to X Chips and alters appearance accordingly.
-						self.change_multiplier(self, card, 'Chips', false)
+				elseif
+					context.discard
+					and not context.blueprint
+				then
+					-- print("Discard Test")
+					-- Decrease decrement counter for every discarded card
+					card.ability.extra.discardDecrementCounter = card.ability.extra.discardDecrementCounter - 1
+					
+					if card.ability.extra.discardDecrementCounter <= 0 then
+						-- If the counter is 0, we reroll a new value from 2 to 9 as our new counter
+						local initialCounterAmount = pseudorandom('arumiaDiscards', 2, 9)
+						card.ability.extra.discardDecrementCounter = initialCounterAmount
+						-- print("Decrement Counter: "..card.ability.extra.discardDecrementCounter) -- For testing
 						
-						noMoreConditions = true
-					elseif
-						context.discard
-						and context.blueprint_card == nil
-					then
-						-- print("Discard Test")
-						-- Decrease decrement counter for every discarded card
-						card.ability.extra.discardDecrementCounter = card.ability.extra.discardDecrementCounter - 1
+						-- print('X '..card.ability.extra.chipsMultOpposite[card.ability.extra.active]..", "..card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]]..' -> '..card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]] + card.ability.extra.extra)
 						
-						if card.ability.extra.discardDecrementCounter <= 0 then
-							-- If the counter is 0, we reroll a new value from 2 to 9 as our new counter
-							local initialCounterAmount = pseudorandom('arumiaDiscards', 2, 9)
-							card.ability.extra.discardDecrementCounter = initialCounterAmount
-							-- print("Decrement Counter: "..card.ability.extra.discardDecrementCounter) -- For testing
-							
-							-- print('X '..card.ability.extra.chipsMultOpposite[card.ability.extra.active]..", "..card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]]..' -> '..card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]] + card.ability.extra.extra)
-							
-							-- Whichever multiplier is INACTIVE (for chips, mult and mult, chips), we increase that by our extra value.
-							card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]] = card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]] + card.ability.extra.extra
-							
-							card.ability.extra.extra = initialCounterAmount / 10
-							
-							-- And we state that it has gone up.
-							return {
-								extra = {
-									message = "Reroll!",
-									colour = G.C.GREEN,
-									card = card
-								},
-								message = 'X'..card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
-								colour = card.ability.extra.chipsMultColour[card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
+						-- Whichever multiplier is INACTIVE (for chips, mult and mult, chips), we increase that by our extra value.
+						card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]] = card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]] + card.ability.extra.extra
+						
+						card.ability.extra.extra = initialCounterAmount / 10
+						
+						-- And we state that it has gone up.
+						return {
+							extra = {
+								message = "Reroll!",
+								colour = G.C.GREEN,
 								card = card
-							}, true
-						else
-							-- Otherwise, we say the new current decrement counter.
-							return {
-								message = tostring(card.ability.extra.discardDecrementCounter),
-								colour = card.ability.extra.chipsMultColour[card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
-								card = card
-							}, true
-						end
+							},
+							message = 'X'..card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
+							colour = card.ability.extra.chipsMultColour[card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
+							card = card
+						}, true
+					else
+						-- Otherwise, we say the new current decrement counter.
+						return {
+							message = tostring(card.ability.extra.discardDecrementCounter),
+							colour = card.ability.extra.chipsMultColour[card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
+							card = card
+						}, true
 					end
 				end
-				
-				if noMoreConditions == false then
+				if
+					noMoreConditions == false
+					and context.cardarea == G.jokers
+				then
+					local RT = false
+					local shouldReturnMessage = false
+										
 					if
-						context.cardarea == G.jokers
+						context.end_of_round
+						and not context.blueprint
 					then
-						local RT = false
-						local shouldReturnMessage = false
-											
-						if
-							context.end_of_round
-							and context.blueprint_card == nil
-						then
-							-- print("Round End Test")
-							
-							if card.ability.extra.handWasPlayed then
-								card.ability.extra.handWasPlayed = false
-							end
-							
-							self.change_multiplier(self, card, false)
-						elseif
-							context.joker_main
-							and not context.post_trigger
-						then
-							-- print("Normal Scoring Timing Test")
-							RT = { card = card }
-							
-							if
-								card.ability.extra.handWasPlayed == false
-								and not context.retrigger_joker
-							then
-								card.ability.extra.handWasPlayed = true
-							end
-							
-							local localiseKey = ''
-							
-							if card.ability.extra.active == 'Chips' then
-								RT.x_chips = card.ability.extra.xChips
-								shouldReturnMessage = RT.x_chips > 1
-							elseif card.ability.extra.active == 'Mult' then
-								RT.x_mult = card.ability.extra.xMult
-								shouldReturnMessage = RT.x_mult > 1
-							end
-							
-							if shouldReturnMessage then
-								RT.colour = card.ability.extra.chipsMultColour[card.ability.extra.active]
-							end							
-						end
+						-- print("Round End Test")
 						
-						if
-							card.ability.extra.handWasPlayed
-							and context.hand_drawn
-							and not context.retrigger_joker
-							and not context.post_trigger
-						then
-							-- print("Before Next Hand Test")
-							
-							G.E_MANAGER:add_event(Event({
-								trigger = 'after',
-								delay = 0.5,
-								blockable = true,
-								blocking = false,
-								func = function()
-										self.change_multiplier(self, card, card.ability.extra.chipsMultOpposite[card.ability.extra.active], false)
-									return true
-								end}))
-							
+						if card.ability.extra.handWasPlayed then
 							card.ability.extra.handWasPlayed = false
 						end
 						
-						if RT then
-							return RT, true
+						self.change_multiplier(self, card, false)
+					elseif
+						context.joker_main
+						and not context.post_trigger
+					then
+						-- print("Normal Scoring Timing Test")
+						RT = { card = card }
+						
+						if
+							card.ability.extra.handWasPlayed == false
+							and not context.retrigger_joker
+						then
+							card.ability.extra.handWasPlayed = true
 						end
+						
+						local localiseKey = ''
+						
+						if card.ability.extra.active == 'Chips' then
+							RT.x_chips = card.ability.extra.xChips
+							shouldReturnMessage = RT.x_chips > 1
+						elseif card.ability.extra.active == 'Mult' then
+							RT.x_mult = card.ability.extra.xMult
+							shouldReturnMessage = RT.x_mult > 1
+						end
+						
+						if shouldReturnMessage then
+							RT.colour = card.ability.extra.chipsMultColour[card.ability.extra.active]
+						end							
+					end
+					
+					if
+						card.ability.extra.handWasPlayed
+						and context.hand_drawn
+						and not context.retrigger_joker
+						and not context.post_trigger
+					then
+						-- print("Before Next Hand Test")
+						
+						G.E_MANAGER:add_event(Event({
+							trigger = 'after',
+							delay = 0.5,
+							blockable = true,
+							blocking = false,
+							func = function()
+									self.change_multiplier(self, card, card.ability.extra.chipsMultOpposite[card.ability.extra.active], false)
+								return true
+							end}))
+						
+						card.ability.extra.handWasPlayed = false
+					end
+					
+					if RT then
+						return RT, true
 					end
 				end
 			end
@@ -1022,14 +1006,14 @@ local jokerInfo = {
 				-- The description the player will see in-game.
 				text = {
 					"Every played {C:attention}card",
-					"{C:attention}permanently{} gains {C:mult}+1{} Mult per",
+					"{C:attention}permanently{} gains {C:mult}+#1#{} Mult per",
 					"{C:attention}enhancement{}, {C:dark_edition}edition{} and/or",
 					"{C:attention}seal{} when scored",
 					"{s:0.8,C:inactive}\"Like a sight of what's to be,",
 					"{s:0.8,C:inactive}but harsher and lacking a most",
 					"{s:0.8,C:inactive}central piece. Don't let that",
 					"{s:0.8,C:inactive}stop you, ascend and have",
-					"{s:0.8,C:inactive}some fun becoming #1#1.\""
+					"{s:0.8,C:inactive}some fun becoming #2#1.\""
 				},
 				unlock = {
 					"Find this {C:joker}Joker",
@@ -1050,7 +1034,7 @@ local jokerInfo = {
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
 				end
 				
-				return { vars = { "#", center.ability.extra.extra } }
+				return { vars = { center.ability.extra.extra, "#" } }
 			end,
 			unlocked = false,
 			
@@ -1072,20 +1056,20 @@ local jokerInfo = {
 					-- Work out how much mult to add
 					local permMultToAdd = 0
 					
-					--[[ Is there an enhancement? If so, set 1
+					--[[ Is there an enhancement? If so, set amount
 					(Since this is the first in sequence)]]
 					if next(SMODS.get_enhancements(context.other_card)) then
-						permMultToAdd = 1
+						permMultToAdd = card.ability.extra.extra
 					end
 					
-					-- Is there a seal? If so, add 1.
+					-- Is there a seal? If so, add amount.
 					if context.other_card.seal then
-						permMultToAdd = permMultToAdd + 1
+						permMultToAdd = permMultToAdd + card.ability.extra.extra
 					end
 					
-					-- Is there an edition? If so, add 1.
+					-- Is there an edition? If so, add amount.
 					if context.other_card.edition then
-						permMultToAdd = permMultToAdd + 1
+						permMultToAdd = permMultToAdd + card.ability.extra.extra
 					end
 					
 					-- If we're adding any mult, do so

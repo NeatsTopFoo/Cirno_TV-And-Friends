@@ -271,113 +271,65 @@ position = "at"
 payload = '''create_option_cycle({options = options, w = 4.5, cycle_shoulders = true, opt_callback = 'SMODS_card_collection_page', current_option = 1, colour = G.C.SECONDARY_SET.UIDefault or G.C.RED, no_pips = true, focus_args = {snap_to = true, nav = 'wide'}})'''
 match_indent = false
 
-# Adds some hooks to be used for things like challenges.
-# Yes, I realise these are not what hooks are and hooks
-# are a very specific thing in Lua - But you get what I
-# mean, these just inject into the relevant areas so we
-# can capture certain important things
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "function Game:start_run(args)"
-position = "after"
-payload = '''
-	if CirnoMod.CirnoHooks then
-		G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-				delay = 0.2,
-                blocking = false,
-                func = function()
-					CirnoMod.CirnoHooks.onRunStart(args)
-					return true
-				end
-            }))
-	end
-'''
-times = 1
-match_indent = false
-
+# Trying to get the extra tooltip thingies to work
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
-pattern = "function eval_card(card, context)"
-position = "after"
-payload = '''
-	if CirnoMod.CirnoHooks then
-		G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-				delay = 0.3,
-                blocking = false,
-                func = function()
-					CirnoMod.CirnoHooks.evalCardHook(card, context)
-					return true
-				end
-            }))
-	end
-'''
-times = 1
-match_indent = false
+pattern = """   end
 
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = "function add_joker(joker, edition, silent, eternal)"
-position = "after"
+    if main_end then 
+        desc_nodes[#desc_nodes+1] = main_end 
+    end"""
+position = "before"
 payload = '''
-	if CirnoMod.CirnoHooks then
-		G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-				delay = 0.3,
-                blocking = false,
-                func = function()
-					CirnoMod.CirnoHooks.onNewJoker(joker, edition, silent, eternal)
-					return true
-				end
-            }))
-	end
+	elseif _c.set == 'extendedDescTooltip' then
+		localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes}
 '''
-times = 1
-match_indent = false
+time = 1
+match_indent = true
 
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "function new_round()"
-position = "after"
-payload = '''
-	if CirnoMod.CirnoHooks then
-		G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-				delay = 0.3,
-                blocking = false,
-                func = function()
-					CirnoMod.CirnoHooks.onBlindStart()
-					return true
-				end
-            }))
-		
-	end
-'''
-times = 1
-match_indent = false
+# These have since been replaced with actual hooks but
+# I'm keeping these here commented for now in case any
+# problems crop up
 
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "function end_round()"
-position = "after"
-payload = '''
-	if CirnoMod.CirnoHooks then
-		G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-				delay = 0.1,
-                blocking = false,
-                func = function()
-					CirnoMod.CirnoHooks.onBlindDefeat()
-					return true
-				end
-            }))
-	end
-'''
-times = 1
-match_indent = false
+# [[patches]]
+# [patches.pattern]
+# target = "game.lua"
+# pattern = "function Game:start_run(args)"
+# position = "after"
+# payload = '''
+# 	if CirnoMod.CirnoHooks then
+# 		G.E_MANAGER:add_event(Event({
+#                 trigger = 'after',
+# 				delay = 0.2,
+#                 blocking = false,
+#                 func = function()
+# 					CirnoMod.CirnoHooks.onRunStart(args)
+# 					return true
+# 				end
+#             }))
+# 	end
+# '''
+# times = 1
+# match_indent = false
+
+#	[[patches]]
+#	[patches.pattern]
+#	target = "functions/common_events.lua"
+#	pattern = "function add_joker(joker, edition, silent, eternal)"
+#	position = "after"
+#	payload = '''
+#		if CirnoMod.CirnoHooks then
+#			G.E_MANAGER:add_event(Event({
+#	                trigger = 'after',
+#					delay = 0.3,
+#	                blocking = false,
+#	                func = function()
+#						CirnoMod.CirnoHooks.onNewJoker(joker, edition, silent, eternal)
+#						return true
+#					end
+#	            }))
+#		end
+#	'''
+#	times = 1
+#	match_indent = false

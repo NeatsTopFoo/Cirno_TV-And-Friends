@@ -246,7 +246,6 @@ local jokerInfo = {
 					and card.ability.extra.pHand ~= '[HAND]')
 					and not context.using_consumeable
 					and not context.retrigger_joker
-					and not context.post_trigger
 				then
 					if
 						context.before
@@ -275,7 +274,6 @@ local jokerInfo = {
 				if
 					context.cardarea == G.jokers
 					and context.joker_main
-					and not context.post_trigger
 				then
 					RV = {}
 					
@@ -289,6 +287,451 @@ local jokerInfo = {
 					
 					return RV
 				end
+			end
+		},
+		-- Crazy Face
+		{
+			key = 'crazyFace',
+			
+			object_type = 'Joker',
+			
+			matureRefLevel = 1,
+			
+			loc_txt = {
+				name = "Crazy Face",
+				text = {
+					"{X:mult,C:white}X#1#{} Mult",
+					"{C:green}#2# in #3#{} chance to",
+					"{C:red}destroy{C:attention} played cards{},",
+					"per card.",
+					"{s:0.8,C:inactive}\"...You can't fix her.\"",
+					"{s:0.8,C:inactive}...What are you talking about?"
+				},
+				unlock = {
+					"Encounter {C:attention}Scary Face{}'s",
+					"reskin"
+				}
+			},
+			unlocked = false,
+			
+			atlas = 'cir_cRares',
+			pos = { x = 6, y = 1 },
+			rarity = 3,
+			cost = 8,
+			eternal_compat = true,
+			perishable_compat = true,
+			
+			config = {
+				extra = {
+					xmult = 4,
+					odds = 7
+				}
+			},
+			
+			create_main_end = function(self, center)
+				local nodes_ = {
+					Ln1 = {},
+					Ln2 = {},
+					Ln3 = {}
+				}
+				
+				local nodeKeys = {
+					'Ln1',
+					'Ln2',
+					'Ln3'
+				}
+				
+				CirnoMod.miscItems.addUISpriteNode(nodes_.Ln1, Sprite(
+						0, 0, -- Sprite X & Y
+						1, 1, -- Sprite W & H
+						CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+						{ x = 3, y = 0 } -- Position in the Atlas
+					)
+				)
+				
+				CirnoMod.miscItems.addUITextNode(nodes_.Ln2, "I don't want to fix her.", G.C.UI.TEXT_INACTIVE, 0.8)
+				
+				CirnoMod.miscItems.addUITextNode(nodes_.Ln3, "I want to make her worse.", G.C.UI.TEXT_INACTIVE, 0.8)
+				
+				return {{
+					n = G.UIT.C,
+					config = {
+						align = 'bm',
+						padding = 0.02
+					},
+					nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
+				}}
+			end,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, center)
+				-- Art credit tooltip
+				if CirnoMod.config['artCredits'] then
+					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
+				end
+				
+				return { vars = {
+						center.ability.extra.xmult,
+						''..(G.GAME and G.GAME.probabilities.normal or 1),
+						center.ability.extra.odds
+					},
+					main_end = self.create_main_end(self, center)
+				}
+			end,
+			
+			set_badges = function(self, card, badges)
+				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
+					badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				end
+			end,
+			
+			--[[
+			knifeCard = function(card)
+				G.E_MANAGER:add_event(Event({
+					trigger = 'after',
+					delay = 1.25,
+					blocking = false,
+					blockable = true,
+					func = function()
+						card.children.knifeSprite = Sprite(
+							card.children.center.T.x, card.children.center.T.y, -- Sprite X & Y
+							card.children.center.T.w, card.children.center.T.w, -- Sprite W & H
+							CirnoMod.miscItems.otherAtlases.cardKnifeStab, -- Sprite Atlas
+							{ x = 0, y = 0 } -- Position in the Atlas
+						)
+						
+						G.E_MANAGER:add_event(Event({
+							trigger = 'immediate',
+							blocking = false,
+							blockable = false,
+							func = function()
+								if
+									card
+									and card.children
+									and card.children.knifeSprite
+								then									
+									if card.children.knifeSprite.T.y ~= card.children.center.T.y then
+										card.children.knifeSprite.T.y = card.children.center.T.y
+									end									
+									
+									return false
+								end
+								return true								
+							end}))
+						
+						return true
+					end}))
+			end,
+			]]
+			
+			calculate = function(self, card, context)
+				-- Normal Joker xMult.
+				if
+					context.cardarea == G.jokers
+					and context.joker_main
+				then
+					return {
+						x_mult = card.ability.extra.xmult,
+						colour = G.C.RED
+					}
+				end
+				
+				-- Card destroy chance processing
+				if
+					not context.blueprint
+					and (context.cardarea == G.play
+					or context.cardarea == 'unscored')
+				then
+					if
+						context.other_card
+						and not context.other_card.markedForDestroy
+						and context.individual
+					then
+						if pseudorandom('mitaKill') < G.GAME.probabilities.normal/card.ability.extra.odds then
+							context.other_card.markedForDestroy = true
+							return {
+								message = '  ',
+								colour = G.C.RED,
+								message_card = context.other_card,
+								func = CirnoMod.miscItems.attachSpriteToCard(context.other_card, CirnoMod.miscItems.otherAtlases.cardKnifeStab, { x = 0, y = 0 }, 1.5, true),
+								sound = 'gold_seal'
+							}
+						else
+							return {
+								message = localize('k_safe_ex'),
+								colour = G.C.GREEN,
+								message_card = context.other_card
+							}
+						end
+					end
+					
+					if
+						context.destroy_card
+						and context.destroy_card.markedForDestroy
+					then
+						return {
+							remove = true
+						}
+					end
+				end
+			end,
+			
+			check_for_unlock = function(self, args)
+				return CirnoMod.miscItems.hasEncounteredJoker('j_scary_face')
+			end
+		},
+		-- We Only Have 3 Jokes?
+		{
+			key = 'onlyHaveThreeJokes',
+			
+			object_type = 'Joker',
+			
+			matureRefLevel = 1,
+			
+			loc_txt = {
+				name = "We Only Have 3 Jokes?",
+				text = {
+					"{X:mult,C:white}X#1#{} Mult for every {C:attention}Joker{}",
+					"whose graphic or reskin is",
+					"related to {C:attention}"..CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}').."{},",
+					"{C:attention}2 max{} or {C:attention}cirGuns{}",
+					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)",
+					"{s:0.8,C:inactive}"..CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{s:0.8,C:red}Not Active{}')..", 2 max, cirGuns.",
+					"{s:0.8,C:inactive}"..CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{s:0.8,C:red}Not Active{}')..", 2 max, cirGuns.",
+					"{s:0.8,C:inactive}"..CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{s:0.8,C:red}Not Active{}')..", 2 max, cirGuns.",
+					"{s:0.8,C:inactive}THIS COMMUNITY ONLY HAS THREE JOKES?!",
+					"{s:0.5,C:inactive}Chat gets a little bully too, as a treat."
+				},
+				unlock = {
+					"?????"
+				}
+			},
+			unlocked = false,
+			
+			atlas = 'cir_cRares',
+			pos = { x = 0, y = 2 },
+			rarity = 3,
+			cost = 8,
+			eternal_compat = true,
+			perishable_compat = true,
+			
+			config = {
+				extra = {
+					xmult = 1,
+					growth = 2.3,
+					checkEm = {
+						allegations = true,
+						TwoMax = true,
+						fingerGuns = true
+					}
+				}
+			},
+			
+			updateCurMult = function(extraTable)
+				if not CirnoMod.miscItems.isState(G.STAGE, G.STAGES.MAIN_MENU) then
+					local counter = 0
+					
+					for i, jkr in ipairs(G.jokers.cards) do
+						if jkr.config.center.key ~= 'j_cir_onlyHaveThreeJokes' then
+							local jkrKeyGroup = CirnoMod.miscItems.keyGroupOfJokerKey(jkr.config.center.key)
+							
+							if jkrKeyGroup and extraTable.checkEm[jkrKeyGroup] then
+								counter = counter + 1
+							end
+						end
+					end
+					
+					if counter > 0 then
+						extraTable.xmult = counter * extraTable.growth
+					else
+						extraTable.xmult = 1
+					end
+				end
+			end,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, center)
+				self.updateCurMult(center.ability.extra)
+				
+				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_allegations']
+				
+				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_2max']
+				
+				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_Guns']
+				
+				--[[ Art credit tooltip
+				if CirnoMod.config['artCredits'] then
+					info_queue[#info_queue + 1] = { key = "", set = "Other" }
+				end]]
+				
+				return { vars = { center.ability.extra.growth, center.ability.extra.xmult } }
+			end,
+			
+			calculate = function(self, card, context)				
+				-- Mult updating
+				if
+					not context.blueprint
+					and not context.retrigger_joker
+					and (context.setting_blind
+					or context.buying_card
+					or context.selling_card
+					or context.ending_shop
+					or context.joker_main)
+				then
+					if context.joker_main then
+						self.updateCurMult(card.ability.extra)
+					else
+						G.E_MANAGER:add_event(Event({
+						trigger = 'after',
+						delay = 0.1,
+						blocking = false,
+						blockable = true,
+						func = function()
+							self.updateCurMult(card.ability.extra)
+						end}))
+					end
+				end
+				
+				-- Normal Joker xMult.
+				if
+					context.cardarea == G.jokers
+					and context.joker_main
+				then
+					return {
+						x_mult = card.ability.extra.xmult,
+						colour = G.C.RED
+					}
+				end
+			end,
+			
+			check_for_unlock = function(self, args)
+				return (CirnoMod.miscItems.jkrKeyGroupTotalEncounters('allegations', true) > 0
+					and CirnoMod.miscItems.jkrKeyGroupTotalEncounters('TwoMax', true) > 0
+					and CirnoMod.miscItems.jkrKeyGroupTotalEncounters('fingerGuns', true) > 0)
+			end
+		},
+		-- Rubber Room
+		{
+			key = 'rubberRoom',
+			
+			object_type = 'Joker',
+			
+			matureRefLevel = 1,
+			
+			loc_txt = {
+				name = "Rubber Room",
+				text = {
+					"{X:mult,C:white}X#1#{} Mult for every {C:attention}Joker{}",
+					"whose graphic or reskin either",
+					"is or is otherwise related",
+					"to {C:attention}crazy women{}.",
+					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)",
+					"{s:0.8,C:inactive}I was gonna reference the pasta,",
+					"{s:0.8,C:inactive}but I'm more intrigued in the fact",
+					"{s:0.8,C:inactive}that no-one seems to agree whether",
+					"{s:0.8,C:inactive}or not 'rubber rats' is part of it."
+				},
+				unlock = {
+					"Encounter at least",
+					"three {C:attention}crazy women{}."
+				}
+			},
+			unlocked = false,
+			
+			atlas = 'cir_cRares',
+			pos = { x = 1, y = 2 },
+			rarity = 3,
+			cost = 8,
+			eternal_compat = true,
+			perishable_compat = true,
+			
+			config = {
+				extra = {
+					xmult = 1,
+					growth = 1.75
+				}
+			},
+			
+			updateCurMult = function(extraTable)
+				if not CirnoMod.miscItems.isState(G.STAGE, G.STAGES.MAIN_MENU) then
+					local prevMult = extraTable.xmult
+					local counter = 0
+					
+					for i, jkr in ipairs(G.jokers.cards) do
+						if jkr.config.center.key ~= 'j_cir_rubberRoom' then
+							local jkrKeyGroup = CirnoMod.miscItems.keyGroupOfJokerKey(jkr.config.center.key)
+							
+							if jkrKeyGroup and jkrKeyGroup == 'crazyWomen' then
+								counter = counter + 1
+							end
+						end
+					end
+					
+					if counter > 0 then
+						extraTable.xmult = counter * extraTable.growth
+						
+						return extraTable.xmult > prevMult
+					else
+						extraTable.xmult = 1
+					end
+				end
+			end,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, center)
+				self.updateCurMult(center.ability.extra)
+				
+				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_crazyWomen']
+				
+				--[[ Art credit tooltip
+				if CirnoMod.config['artCredits'] then
+					info_queue[#info_queue + 1] = { key = "", set = "Other" }
+				end]]
+				
+				return { vars = { center.ability.extra.growth, center.ability.extra.xmult } }
+			end,
+			
+			calculate = function(self, card, context)				
+				-- Mult updating
+				if
+					not context.blueprint
+					and not context.retrigger_joker
+					and (context.setting_blind
+					or context.buying_card
+					or context.selling_card
+					or context.ending_shop
+					or context.joker_main)
+				then
+					if context.joker_main then
+						self.updateCurMult(card.ability.extra)
+					else
+						G.E_MANAGER:add_event(Event({
+						trigger = 'after',
+						delay = 0.1,
+						blocking = false,
+						blockable = true,
+						func = function()
+							if self.updateCurMult(card.ability.extra) then
+								SMODS.calculate_effect({ message = 'Into The Room.' }, card)
+							end
+						end}))
+					end
+				end
+				
+				-- Normal Joker xMult.
+				if
+					context.cardarea == G.jokers
+					and context.joker_main
+				then
+					return {
+						x_mult = card.ability.extra.xmult,
+						colour = G.C.RED
+					}
+				end
+			end,
+			
+			check_for_unlock = function(self, args)
+				return CirnoMod.miscItems.jkrKeyGroupTotalEncounters('crazyWomen', true) > 3
 			end
 		}
 	}

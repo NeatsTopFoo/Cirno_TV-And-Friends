@@ -429,8 +429,8 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_ticket', matureRefLevel = 1 },
 	{ jkrKey = 'j_pareidolia', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_cartomancer', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_even_steven', matureRefLevel = 1  },
-	-- { jkrKey = 'j_odd_todd', matureRefLevel = 1 },
+	{ jkrKey = 'j_even_steven', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
+	{ jkrKey = 'j_odd_todd', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	
 	-- { jkrKey = 'j_scholar', matureRefLevel = 1 },
 	{ jkrKey = 'j_business', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },

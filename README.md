@@ -15,7 +15,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 86 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
+  - 88 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
   - All Blind Chips
   - All Seals
   - All Planet Cards
@@ -38,7 +38,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 - Adds:
   - Various fun flavour text to numerous items
   - A few custom playing card skins
-  - 7 custom Jokers
+  - 10 custom Jokers
   - 1 custom Spectral Card
   - 1 custom Challenge
 
@@ -67,12 +67,12 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 
 ## Credits
 - The Cirno_TV & Friends mod is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.expert), additionally with some idea and art contributions from the Cirno_TV community discord.
-- [Turpix](https://bsky.app/profile/turpix.bsky.social) for [the art](https://www.nexusmods.com/balatro/mods/114), used for the Stone Joker.
+- [Turpix](https://bsky.app/profile/turpix.bsky.social) for [the art](https://www.nexusmods.com/balatro/mods/114) used for the Stone Joker.
 - This [Miku replacement mod](https://www.nexusmods.com/balatro/mods/223) for art used for the Chaos the Clown Joker.
 - [Muddleee for art used for The Sun Tarot card](https://github.com/Muddieee/sun_is_sus).
 - The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art used for the DNA Joker (The art itself appears to not be credited to any specific contributing artist), as well as code for changing the card that appears on the title screen.
-- The [Cryptid](https://github.com/MathIsFun0/Cryptid) mod for Joker code for a certain Legendary Joker.
-- The [Trance](https://github.com/MathIsFun0/Trance) mod for code for changing the colours of the main menu vortex.
+- Code for a certain custom Legendary Joker was based off of a similar Joker in the [Cryptid](https://github.com/MathIsFun0/Cryptid) mod.
+- Code that changes the colours of the main menu vortex was based off of similar functionality in the [Trance](https://github.com/MathIsFun0/Trance) mod.
 - [Aikoyori](https://bsky.app/profile/aikoyori.xyz), BreezeBuilder, Eremel, Somethimgcom515 and many other members of the Balatro modding community for help with code & troubleshooting code issues.
 - [Cirno_TV](https://www.twitch.tv/Cirno_TV/) for the art used for the Misprint Joker.
 - Credits are also included in in-game tooltips to any cards that are edited & added; Optionally disableable in the mod's config menu.

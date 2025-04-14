@@ -15,6 +15,26 @@ CirnoMod.config = cMod_SMODSLoc.config
 
 CirnoMod.miscItems = assert(SMODS.load_file("scripts/other/miscItems.lua")())
 
+CirnoMod.extendedDescTooltip = SMODS.Center:extend{
+	set = 'extendedDescTooltip',
+	obj_buffer = {},
+	obj_table = CirnoMod.miscItems.descExtensionTooltips,
+	class_prefix = 'eDT',
+	required_params = { 'key' },
+	pre_inject_class = function(self)
+		G.P_CENTER_POOLS[self.set] = {}
+	end,
+	
+	inject = function(self)
+		SMODS.Center.inject(self)
+	end,
+	
+	get_obj = function(self, key)
+		if key == nil then return nil end
+		return self.obj_table[key]
+	end
+}
+
 if
 	#SMODS.find_mod("soj") > 0
 then
@@ -502,6 +522,256 @@ if CirnoMod.config['malverkReplacements'] then
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()
 end
 
+CirnoMod.extendedDescTooltip{
+	key = 'allegations',
+	
+	loc_txt = {
+		name = CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}').." Jokers",
+		text = {}
+	},
+	--[[
+	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)		
+		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+		if CirnoMod.miscItems.jkrKeyGroups.allegations then
+			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.allegations) do
+				desc_nodes[#desc_nodes+1] = {}
+				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
+			end
+			
+			desc_nodes[#desc_nodes][1].config.text = string.sub(desc_nodes[#desc_nodes][1].config.text, 1, #desc_nodes[#desc_nodes][1].config.text - 1)
+		else
+			desc_nodes[#desc_nodes+1] = {}
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'Not Active', G.C.RED, 0.8)
+		end
+	end,
+	]]
+	
+	create_main_end = function(center)
+		local nodes_ = {}
+		local nodeKeys = {}
+		local counter = 1
+		
+		if CirnoMod.miscItems.jkrKeyGroups.allegations then
+			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.allegations) do
+				nodes_['Ln'..counter] = {}
+				nodeKeys[counter] = 'Ln'..counter
+				CirnoMod.miscItems.addUITextNode(nodes_['Ln'..counter], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
+				counter = counter + 1
+			end
+			counter = counter - 1
+			
+			nodes_['Ln'..counter][1].config.text = string.sub(nodes_['Ln'..counter][1].config.text, 1, #nodes_['Ln'..counter][1].config.text - 1)
+		else
+			nodes_.Ln1 = {}
+			nodeKeys[1] = 'Ln1'
+			CirnoMod.miscItems.addUITextNode(nodes_.Ln1, 'Not Active', G.C.RED, 0.8)
+		end
+		
+		return {{
+			n = G.UIT.C,
+			config = {
+				align = 'bm',
+				padding = 0.02
+			},
+			nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
+		}}
+	end,
+	
+	loc_vars = function(self, info_queue, center)
+		return { main_end = self.create_main_end(center) }
+	end
+}
+
+CirnoMod.extendedDescTooltip{
+	key = '2max',
+	
+	loc_txt = {
+		name = "2 Max Jokers",
+		text = {}
+	},
+	--[[
+	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+		if CirnoMod.miscItems.jkrKeyGroups.TwoMax then
+			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.TwoMax) do
+				desc_nodes[#desc_nodes+1] = {}
+				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
+			end
+			
+			desc_nodes[#desc_nodes][1].config.text = string.sub(desc_nodes[#desc_nodes][1].config.text, 1, #desc_nodes[#desc_nodes][1].config.text - 1)
+		else
+			desc_nodes[#desc_nodes+1] = {}
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'Not Active', G.C.RED, 0.8)
+		end
+	end,]]
+	
+	create_main_end = function(center)
+		local nodes_ = {}
+		local nodeKeys = {}
+		local counter = 1
+		
+		if CirnoMod.miscItems.jkrKeyGroups.TwoMax then
+			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.TwoMax) do
+				nodes_['Ln'..counter] = {}
+				nodeKeys[counter] = 'Ln'..counter
+				CirnoMod.miscItems.addUITextNode(nodes_['Ln'..counter], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
+				counter = counter + 1
+			end
+			counter = counter - 1
+			
+			nodes_['Ln'..counter][1].config.text = string.sub(nodes_['Ln'..counter][1].config.text, 1, #nodes_['Ln'..counter][1].config.text - 1)
+		else
+			nodes_.Ln1 = {}
+			nodeKeys[1] = 'Ln1'
+			CirnoMod.miscItems.addUITextNode(nodes_.Ln1, 'Not Active', G.C.RED, 0.8)
+		end
+		
+		return {{
+			n = G.UIT.C,
+			config = {
+				align = 'bm',
+				padding = 0.02
+			},
+			nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
+		}}
+	end,
+	
+	loc_vars = function(self, info_queue, center)
+		return { main_end = self.create_main_end(center) }
+	end
+}
+
+CirnoMod.extendedDescTooltip{
+	key = 'Guns',
+	
+	loc_txt = {
+		name = "cirGuns Jokers",
+		text = {}
+	},
+	--[[
+	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)	
+		if CirnoMod.miscItems.jkrKeyGroups.fingerGuns then
+			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.fingerGuns) do
+				desc_nodes[#desc_nodes+1] = {}
+				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
+			end
+			
+			desc_nodes[#desc_nodes][1].config.text = string.sub(desc_nodes[#desc_nodes][1].config.text, 1, #desc_nodes[#desc_nodes][1].config.text - 1)
+		else
+			desc_nodes[#desc_nodes+1] = {}
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'Not Active', G.C.RED, 0.8)
+		end
+	end,
+	]]
+	create_main_end = function(center)
+		local nodes_ = {}
+		local nodeKeys = {}
+		local counter = 1
+		
+		if CirnoMod.miscItems.jkrKeyGroups.fingerGuns then
+			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.fingerGuns) do
+				nodes_['Ln'..counter] = {}
+				nodeKeys[counter] = 'Ln'..counter
+				CirnoMod.miscItems.addUITextNode(nodes_['Ln'..counter], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
+				counter = counter + 1
+			end
+			counter = counter - 1
+			
+			nodes_['Ln'..counter][1].config.text = string.sub(nodes_['Ln'..counter][1].config.text, 1, #nodes_['Ln'..counter][1].config.text - 1)
+		else
+			nodes_.Ln1 = {}
+			nodeKeys[1] = 'Ln1'
+			CirnoMod.miscItems.addUITextNode(nodes_.Ln1, 'Not Active', G.C.RED, 0.8)
+		end
+		
+		return {{
+			n = G.UIT.C,
+			config = {
+				align = 'bm',
+				padding = 0.02
+			},
+			nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
+		}}
+	end,
+	
+	loc_vars = function(self, info_queue, center)
+		return { main_end = self.create_main_end(center) }
+	end
+}
+
+CirnoMod.extendedDescTooltip{
+	key = 'crazyWomen',
+	
+	loc_txt = {
+		name = "Crazy Women Jokers",
+		text = {}
+	},
+	--[[
+	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+		if CirnoMod.miscItems.jkrKeyGroups.crazyWomen then
+			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.crazyWomen) do
+				desc_nodes[#desc_nodes+1] = {}
+				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
+			end
+			
+			desc_nodes[#desc_nodes][1].config.text = string.sub(desc_nodes[#desc_nodes][1].config.text, 1, #desc_nodes[#desc_nodes][1].config.text - 1)
+		else
+			desc_nodes[#desc_nodes+1] = {}
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'Not Active', G.C.RED, 0.8)
+		end
+	end,
+	]]
+	
+	create_main_end = function(center)
+		local nodes_ = {}
+		local nodeKeys = {}
+		local counter = 1
+		local flipFlop = false
+		local append = ' '
+		
+		if CirnoMod.miscItems.jkrKeyGroups.crazyWomen then
+			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.crazyWomen) do
+				nodes_['Ln'..counter] = {}
+				nodeKeys[counter] = 'Ln'..counter
+				CirnoMod.miscItems.addUITextNode(nodes_['Ln'..counter], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..append, G.C.UI.FILTER, 0.8)
+				
+				if
+					flipFlop
+				then
+					append = ', '
+					counter = counter + 1
+				else
+					append = ''
+				end
+			end
+			counter = counter - 1
+		
+			if not (counter % 2 == 0) then
+				nodes_['Ln'..counter][1].config.text = string.sub(nodes_['Ln'..counter][1].config.text, 1, #nodes_['Ln'..counter][1].config.text - 1)
+			end
+		else
+			nodes_.Ln1 = {}
+			nodeKeys[1] = 'Ln1'
+			CirnoMod.miscItems.addUITextNode(nodes_.Ln1, 'Not Active', G.C.RED, 0.8)
+		end
+		
+		return {{
+			n = G.UIT.C,
+			config = {
+				align = 'bm',
+				padding = 0.02
+			},
+			nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
+		}}
+	end,
+	
+	loc_vars = function(self, info_queue, center)
+		return { main_end = self.create_main_end(center) }
+	end
+}
+
 -- Additional Custom Jokers
 if CirnoMod.config['addCustomJokers'] then
 	-- Iterates through all lua files in scripts\additions\jokers\ and SMODS.load_file them.
@@ -752,6 +1022,21 @@ if CirnoMod.config['additionalChallenges'] then
 	end
 end
 
+local cirAch = assert(SMODS.load_file('scripts/additions/achievements.lua'))()
+
+for k, ach in pairs(cirAch) do
+	if
+		ach.info
+		and ach.shouldBeAdded
+		and type(ach.shouldBeAdded) == 'function'
+		and ach.shouldBeAdded()
+	then
+		local newAch = copy_table(ach.info)
+		newAch.key = k
+		SMODS.Achievement(newAch)
+	end
+end
+
 local main_menuRef = Game.main_menu -- Main_menu() hook
 function Game:main_menu(change_context)	
 	if not G.C.SPLASH then -- Ensure splash is initalised
@@ -815,28 +1100,41 @@ function Game:main_menu(change_context)
 	end
 end
 
-CirnoMod.CirnoHooks = {}
+-- CirnoMod.CirnoHooks = {}
 --[[
-"Hooks" for things like challenge functionality.
+Hooks for things like challenge functionality.
 Challenge functionality is a little weird and
 primarily facilitated by checking G.GAME.modifiers
 for the challenge id.]]
-CirnoMod.CirnoHooks.onRunStart = function(args)
-	-- Check if challenges are on and the
-	-- challenge functions aren't empty
+local oldRunStart = Game.start_run
+Game.start_run = function(self, args)
+	--[[
+	Check if challenges are on and the
+	challenge functions aren't empty]]
 	if
 		CirnoMod.config['additionalChallenges']
 		and CirnoMod.ChalFuncs ~= nil
 	then
-		-- Is the stencil jokers challenge active?
-		-- If so, do the thing.
+		--[[ Is the stencil jokers challenge active?
+		If so, do the thing.]]
 		if
 			G.GAME.challenge == "c_cir_jokerStencils"
 			and type(CirnoMod.ChalFuncs.jokerStencilsDebuffCheck) == 'function'
 		then
-			CirnoMod.ChalFuncs.jokerStencilsDebuffCheck("runStart")
+			G.E_MANAGER:add_event(Event({
+				trigger = 'after',
+				delay = 0.1,
+				blocking = false,
+				blockable = true,
+				func = function()
+					if G.jokers then
+						CirnoMod.ChalFuncs.jokerStencilsDebuffCheck("runStart")					
+						return true
+					end
+					return false
+				end
+			}))
 		end
-	
 	end
 	
 	-- Randomises shop flavour text.
@@ -853,39 +1151,63 @@ CirnoMod.CirnoHooks.onRunStart = function(args)
 	if
 		CirnoMod.miscItems.keysOfJokersToUpdateStateOnLoad
 	then
-		for i, jkr in ipairs(G.jokers.cards) do
-			if
-				CirnoMod.miscItems.keysOfJokersToUpdateStateOnLoad[jkr.config.center.key]
-				and jkr.config.center.updateState
-				and type(jkr.config.center.updateState) == 'function'
-			then
-				jkr.config.center.updateState(jkr)
+		G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 0.1,
+			blocking = false,
+			blockable = true,
+			func = function()
+				if G.jokers then
+					for i, jkr in ipairs(G.jokers.cards) do
+						if
+							CirnoMod.miscItems.keysOfJokersToUpdateStateOnLoad[jkr.config.center.key]
+							and jkr.config.center.updateState
+							and type(jkr.config.center.updateState) == 'function'
+						then
+							jkr.config.center.updateState(jkr)
+						end
+					end
+					return true
+				end
+				return false
 			end
-		end
+		}))
 	end
 	
-	return nil
+	oldRunStart(self, args)
 end
 
-CirnoMod.CirnoHooks.evalCardHook = function(card, context)
-	return nil -- Remove when there is a use for this hook.
+local oldCreateCard = create_card
+function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
+	local RV = oldCreateCard(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
 	
-	-- Check if challenges are on
-	-- if CirnoMod.config['additionalChallenges'] then
-	-- 
-	-- end
+	--[[ Persistently track joker
+	encounters across unseeded runs.]]
+	if
+		((not G.GAME.seeded)
+		or SMODS.config.achievements > 2)
+		and RV
+		and _type == 'Joker'
+		and CirnoMod.config.malverkRetextures
+	then
+		print("parsed "..card.key)
+		CirnoMod.miscItems.encounterJoker(card.key)
+	end
+	
+	check_for_unlock({ type = 'cardCreate' })
+	return RV
 end
 
-CirnoMod.CirnoHooks.onNewJoker = function(joker, edition, silent, eternal)
-	return nil -- Remove when there is a use for this hook.
-
-	-- Check if challenges are on
-	-- if CirnoMod.config['additionalChallenges'] then
-	-- 
-	-- end
+--[[
+local oldEvalCard = eval_card
+function eval_card(card, context)
+	
+	return oldEvalCard(card, context)
 end
+]]
 
-CirnoMod.CirnoHooks.onBlindStart = function()
+local oldNewRound = new_round
+function new_round()
 	--[[
 	Check if challenges are on and the
 	challenge functions aren't empty]]
@@ -899,14 +1221,27 @@ CirnoMod.CirnoHooks.onBlindStart = function()
 			G.GAME.challenge == "c_cir_jokerStencils"
 			and type(CirnoMod.ChalFuncs.jokerStencilsDebuffCheck) == 'function'
 		then
-			CirnoMod.ChalFuncs.jokerStencilsDebuffCheck("blindStart")
+			G.E_MANAGER:add_event(Event({
+				trigger = 'after',
+				delay = 0.1,
+				blocking = false,
+				blockable = true,
+				func = function()
+					if G.jokers then
+						CirnoMod.ChalFuncs.jokerStencilsDebuffCheck("blindStart")						
+						return true
+					end
+					return false
+				end
+			}))
 		end
-	
 	end
-	return nil
+	
+	oldNewRound()
 end
 
-CirnoMod.CirnoHooks.onBlindDefeat = function()
+local oldEndRound = end_round
+function end_round()
 	--[[
 	Check if challenges are on and the
 	challenge functions aren't empty]]
@@ -920,9 +1255,20 @@ CirnoMod.CirnoHooks.onBlindDefeat = function()
 			G.GAME.challenge == "c_cir_jokerStencils"
 			and type(CirnoMod.ChalFuncs.jokerStencilsDebuffCheck) == 'function'
 		then
-			CirnoMod.ChalFuncs.jokerStencilsDebuffCheck("blindDefeat")
+			G.E_MANAGER:add_event(Event({
+				trigger = 'after',
+				delay = 0.1,
+				blocking = false,
+				blockable = true,
+				func = function()
+					if G.jokers then
+						CirnoMod.ChalFuncs.jokerStencilsDebuffCheck("blindDefeat")					
+						return true
+					end
+					return false
+				end
+			}))
 		end
-	
 	end
 	
 	-- Randomises shop flavour text.
@@ -933,13 +1279,11 @@ CirnoMod.CirnoHooks.onBlindDefeat = function()
 		CirnoMod.miscItems.pickRandShopFlavour()
 	end
 	
-	return nil
+	oldEndRound()
 end
+
 
 --[[
 There appears to be no game function that can be
 hooked into relating to when a shop phase starts
-CirnoMod.onShopStart = function()
-	
-end
 ]]
