@@ -419,7 +419,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_misprint', matureRefLevel = 1, artCreditKey = 'jA_Misprint' },
 	{ jkrKey = 'j_steel_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_raised_fist', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	{ jkrKey = 'j_golden', matureRefLevel = 1, artCreditKey = 'jA_SixthGolden' },
+	{ jkrKey = 'j_golden', matureRefLevel = 1, artCreditKey = 'jA_ciwnoEdit' },
 	
 	{ jkrKey = 'j_blueprint', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_glass', matureRefLevel = 1 },
@@ -504,7 +504,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_dna', matureRefLevel = 1, artCreditKey = 'jA_Unknown_NTFEdit' },
 	-- { jkrKey = 'j_splash', matureRefLevel = 1 },
 	-- { jkrKey = 'j_blue_joker', matureRefLevel = 1 },
-	{ jkrKey = 'j_sixth_sense', matureRefLevel = 1, artCreditKey = 'jA_SixthGolden' },
+	{ jkrKey = 'j_sixth_sense', matureRefLevel = 1, artCreditKey = 'jA_ciwnoEdit' },
 	-- { jkrKey = 'j_constellation', matureRefLevel = 1 },
 	
 	{ jkrKey = 'j_hiker', matureRefLevel = 1, artCreditKey = 'jA_JustIRLCirno' },
@@ -529,8 +529,8 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_obelisk', matureRefLevel = 1 }, -- Petition to rename this "Worst Joker in the Game."
 	
 	{ jkrKey = 'j_midas_mask', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_luchador', matureRefLevel = 1 },
-	-- { jkrKey = 'j_photograph', matureRefLevel = 1 },
+	{ jkrKey = 'j_luchador', matureRefLevel = 1, artCreditKey = 'jA_luchador' },
+	{ jkrKey = 'j_photograph', matureRefLevel = 1, artCreditKey = 'jA_ciwnoEdit' },
 	-- { jkrKey = 'j_gift', matureRefLevel = 1 },
 	-- { jkrKey = 'j_turtle_bean', matureRefLevel = 1 },
 	-- { jkrKey = 'j_erosion', matureRefLevel = 1 },

@@ -10,7 +10,7 @@ cirAch.crazyFace = {
 		loc_txt = {
 			name = "I See Your Scary Face And Raise You...",
 			description = {
-				"Encounter Scary Face's reskin"
+				"Encounter "..CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Scary Face', 'j_scary_face').."'s reskin"
 			}
 		},
 		

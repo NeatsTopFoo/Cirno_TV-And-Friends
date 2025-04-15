@@ -230,7 +230,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			
 			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, AnimatedSprite(
 					0, 0, -- Sprite X & Y
-					1, 1, -- Sprite W & H
+					0.8, 0.8, -- Sprite W & H
 					CirnoMod.miscItems.funnyAtlases.japaneseGoblin, -- Sprite Atlas
 					{ x = 0, y = spriteY } -- Position in the atlas
 				)
@@ -552,7 +552,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			
 			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
 					0, 0, -- Sprite X & Y
-					1, 1, -- Sprite W & H
+					0.8, 0.8, -- Sprite W & H
 					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
 					{ x = 3, y = 0 } -- Position in the Atlas
 				)
@@ -662,7 +662,7 @@ then
 			
 			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
 					0, 0, -- Sprite X & Y
-					1, 1, -- Sprite W & H
+					0.8, 0.8, -- Sprite W & H
 					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
 					{ x = 0, y = 0 } -- Position in the Atlas
 				)
@@ -719,7 +719,8 @@ jokerLoc.nrmJkrs.j_even_steven = {
         "{C:attention}even{} rank give",
         "{C:mult}+#1#{} Mult when scored",
         "{C:inactive}(10, 8, 6, 4, 2)",
-		"{s:0.8,C:inactive}Ratgirls..."
+		"{s:0.8,C:inactive}Unfortunately, Arirals are",
+		"{s:0.8,C:inactive}banned from Alberta."
 	}
 }
 
@@ -856,7 +857,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			
 			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
 					0, 0, -- Sprite X & Y
-					1, 1, -- Sprite W & H
+					0.8, 0.8, -- Sprite W & H
 					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
 					{ x = 1, y = 0 } -- Position in the Atlas
 				)
@@ -895,7 +896,7 @@ if CirnoMod.config['matureReferences_cyc'] >= 2 then
 			"a {C:attention}#2#",
 			"{s:0.8,C:inactive}#3#",
 			"{s:0.5,C:inactive}Search \"Cirno_TV Let me rephrase that\"",
-			"{s:0.5,C:inactive}on YT to learn more!"
+			"{s:0.5,C:inactive}on YouTube to learn more!"
 		}
 		
 		SMODS.Joker:take_ownership('family',
@@ -923,7 +924,7 @@ if CirnoMod.config['matureReferences_cyc'] >= 2 then
 			"a {C:attention}#2#",
 			"{s:0.8,C:inactive}This is the nicest Joker.",
 			"{s:0.5,C:inactive}Search \"Cirno_TV Let me rephrase that\"",
-			"{s:0.5,C:inactive}on YT to learn more!"
+			"{s:0.5,C:inactive}on YouTube to learn more!"
 		}
 	end
 else
@@ -933,7 +934,7 @@ else
         "a {C:attention}#2#",
 		"{s:0.8,C:inactive}...Should probably rephrase that.",
 		"{s:0.5,C:inactive}Search \"Cirno_TV Let me rephrase that\"",
-		"{s:0.5,C:inactive}on YT to learn more!"
+		"{s:0.5,C:inactive}on YouTube to learn more!"
     }
 end
 
@@ -1230,7 +1231,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			
 			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
 					0, 0, -- Sprite X & Y
-					1, 1, -- Sprite W & H
+					0.8, 0.8, -- Sprite W & H
 					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
 					{ x = 2, y = 1 } -- Position in the Atlas
 				)
@@ -1569,7 +1570,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			
 			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
 					0, 0, -- Sprite X & Y
-					1, 1, -- Sprite W & H
+					0.8, 0.8, -- Sprite W & H
 					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
 					{ x = 4, y = 0 } -- Position in the Atlas
 				)
@@ -1694,14 +1695,44 @@ jokerLoc.nrmJkrs.j_ice_cream = {
 
 jokerLoc.nrmJkrs.j_runner = {
 	name = "Speedrunner",
-	text = {
+	
+}
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	jokerLoc.nrmJkrs.j_runner.text = {
+        "Gains {C:chips}+#2#{} Chips",
+        "if played hand",
+        "contains a {C:attention}Straight{}",
+        "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
+		"{s:0.8,C:inactive}#3#"
+    }
+	
+	SMODS.Joker:take_ownership('runner', {
+		loc_vars = function(self, info_queue, center)			
+			if
+				center.edition
+				and center.edition.key == 'e_polychrome'
+			then
+				return { vars = { center.ability.extra.chips, center.ability.extra.chip_mod, "Rainbow splits, PB inbound!" } }
+			elseif
+				center.edition
+				and center.edition.key == 'e_negative'
+			then
+				return { vars = { center.ability.extra.chips, center.ability.extra.chip_mod, "All gold splits!" } }
+			else
+				return { vars = { center.ability.extra.chips, center.ability.extra.chip_mod, "Keep going, you're at PB pace." } }
+			end
+		end
+	}, true)
+else
+	jokerLoc.nrmJkrs.j_runner.text = {
         "Gains {C:chips}+#2#{} Chips",
         "if played hand",
         "contains a {C:attention}Straight{}",
         "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
 		"{s:0.8,C:inactive}Keep going, you're at PB pace."
     }
-}
+end
 
 jokerLoc.nrmJkrs.j_dna = { text = {
         "If {C:attention}first hand{} of round",
@@ -2093,25 +2124,30 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	}, true)
 end
 
---[[
 jokerLoc.nrmJkrs.j_luchador = {
-	name = "Luchador",
+	name = "Chicken Jockey",
 	text = {
 		"Sell this card to",
         "disable the current",
-        "{C:attention}Boss Blind{}"
+        "{C:attention}Boss Blind{}",
+		"{s:0.8,C:inactive}I want to be perfectly",
+		"{s:0.8,C:inactive}clear that this was not",
+		"{s:0.8,C:inactive}my idea."
 	}
 }
 
 jokerLoc.nrmJkrs.j_photograph = {
-	name = "Photograph",
+	name = "CirMing",
 	text = {
 		"First played {C:attention}face",
         "card gives {X:mult,C:white} X#1# {} Mult",
-        "when scored"
+        "when scored",
+		"{s:0.8,C:inactive}Look at this photograph.",
+		"{s:0.8,C:inactive}Every time I do, it makes",
+		"{s:0.8,C:inactive}me laugh."
 	}
 }
-
+--[[
 jokerLoc.nrmJkrs.j_gift = {
 	name = "Gift Card",
 	text = {

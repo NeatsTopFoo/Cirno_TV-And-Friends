@@ -11,6 +11,7 @@ local miscItems = {
 	deckSkinWhich = {}, -- Differentiate between different deck skins we might want to add, in case we have different crediting to do per skin.
 	keysOfAllCirnoModItems = {}, -- This will be used for any effects the focus on stuff edited or introduced by this mod
 	jkrKeyGroups = {},
+	jkrKeyGroupArrays = {},
 	funnyAtlases = {},
 	otherAtlases = {},
 	switchKeys = {},
@@ -18,15 +19,15 @@ local miscItems = {
 }
 
 miscItems.keysOfJokersToUpdateStateOnLoad = {
-		j_cir_arumia_l = true,
-		j_cir_naro_l = true,
-		j_cir_crystalTap = true
-	}
+	j_cir_arumia_l = true,
+	j_cir_naro_l = true,
+	j_cir_crystalTap = true
+}
 	
 miscItems.otherModPresences = {
-		isSealsOnJokersPresent = false,
-		isTalismanPresent = false
-	}
+	isSealsOnJokersPresent = false,
+	isTalismanPresent = false
+}
 	
 miscItems.matureReferencesOpt = { "(Hopefully) Safest", "Some", "All" } -- These are the options that appear on the new cycle option for mature references.
 
@@ -38,250 +39,265 @@ miscItems.redSealRetriggerIgnoreTable = {
 	}
 	
 miscItems.colours = {
-		cirBlue = HEX('0766EBFF'),
-		cirCyan = HEX('0AD0F7FF'),
-		cirLucy = HEX('7BB083FF'),
-		cirNep = HEX('D066ADFF'),
-		bbBlack = HEX('000000FF'),
-		bbInvisText = HEX('00000000')
-	}
+	cirBlue = HEX('0766EBFF'),
+	cirCyan = HEX('0AD0F7FF'),
+	cirLucy = HEX('7BB083FF'),
+	cirNep = HEX('D066ADFF'),
+	bbBlack = HEX('000000FF'),
+	bbInvisText = HEX('00000000')
+}
 	
 miscItems.addUITextNode = function(nodes, text, colour, scale)
-		nodes[#nodes + 1] = {
-			n = G.UIT.T,
-			config = {
-				text = text,
-				colour = colour,
-				scale = scale*0.32
-			}
+	nodes[#nodes + 1] = {
+		n = G.UIT.T,
+		config = {
+			text = text,
+			colour = colour,
+			scale = scale*0.32
 		}
-		
-		return nodes[#nodes]
-	end
+	}
+	
+	return nodes[#nodes]
+end
 	
 miscItems.addUISpriteNode = function(nodes, sprite)
-		nodes[#nodes + 1] = {
-			n = G.UIT.O,
-			config = { object = sprite }
-		}
-		
-		if sprite.atlas.manualFrameParsing	then
-			nodes[#nodes].config.thisObjFrameParse = copy_table(sprite.atlas.manualFrameParsing)
-			nodes[#nodes].config.thisObjFrameParse.counter = 0
-			CirnoMod.miscItems.manuallyAnimateAtlasItem(nodes[#nodes].config)
-		elseif sprite.atlas.typewriterFrameParsing then
-			nodes[#nodes].config.thisObjFrameParse = copy_table(sprite.atlas.typewriterFrameParsing)
-			nodes[#nodes].config.thisObjFrameParse.counter = 0
-			CirnoMod.miscItems.doTypewriterAtlasAnimation(nodes[#nodes].config)
-		end
-		
-		return nodes[#nodes]
+	nodes[#nodes + 1] = {
+		n = G.UIT.O,
+		config = { object = sprite }
+	}
+	
+	if sprite.atlas.manualFrameParsing	then
+		nodes[#nodes].config.thisObjFrameParse = copy_table(sprite.atlas.manualFrameParsing)
+		nodes[#nodes].config.thisObjFrameParse.counter = 0
+		CirnoMod.miscItems.manuallyAnimateAtlasItem(nodes[#nodes].config)
+	elseif sprite.atlas.typewriterFrameParsing then
+		nodes[#nodes].config.thisObjFrameParse = copy_table(sprite.atlas.typewriterFrameParsing)
+		nodes[#nodes].config.thisObjFrameParse.counter = 0
+		CirnoMod.miscItems.doTypewriterAtlasAnimation(nodes[#nodes].config)
 	end
+	
+	return nodes[#nodes]
+end
 	
 miscItems.addUIColumnOrRowNode = function(nodes, alignment, type, colour, radius, padding)
-		if
-			type == 'C'
-			or type == 'R'
-		then
-			nodes[#nodes + 1] = {
-				n = G.UIT[type],
-				config = {
-					align = alignment,
-					colour = colour,
-					r = radius,
-					padding = padding,
-					res = 0.15
-				},
-				nodes = {}
-			}
-		end
-		
-		return nodes[#nodes]
-	end
-	
-miscItems.restructureNodesTableIntoRowsOrColumns = function(nodesTable, orderedKeysTable, RowOrColumn, config)
-		local RV = {}
-		
-		if
-			RowOrColumn == 'R'
-			or RowOrColumn == 'C'
-		then
-			
-			for i, k in ipairs (orderedKeysTable) do
-				table.insert(RV, {
-					n = G.UIT[RowOrColumn],
-					config = config,
-					nodes = nodesTable[k]
-				})
-			end
-		end
-		
-		return RV
-	end
-	
-miscItems.addHighlightedUITextNode = function(nodes, alignment, HColour, radius, padding, text, TColour, scale)
+	if
+		type == 'C'
+		or type == 'R'
+	then
 		nodes[#nodes + 1] = {
-			n = G.UIT.C,
+			n = G.UIT[type],
 			config = {
 				align = alignment,
-				colour = HColour,
+				colour = colour,
 				r = radius,
 				padding = padding,
 				res = 0.15
 			},
-			nodes = {{
-				n = G.UIT.T,
-				config = {
-					text = text,
-					colour = TColour,
-					scale = scale*0.32
-				}
-			}}
+			nodes = {}
 		}
-		
-		return nodes[#nodes]
 	end
+	
+	return nodes[#nodes]
+end
+	
+miscItems.restructureNodesTableIntoRowsOrColumns = function(nodesTable, orderedKeysTable, RowOrColumn, config)
+	local RV = {}
+	
+	if
+		RowOrColumn == 'R'
+		or RowOrColumn == 'C'
+	then
+		
+		for i, k in ipairs (orderedKeysTable) do
+			table.insert(RV, {
+				n = G.UIT[RowOrColumn],
+				config = config,
+				nodes = nodesTable[k]
+			})
+		end
+	end
+	
+	return RV
+end
+	
+miscItems.addHighlightedUITextNode = function(nodes, alignment, HColour, radius, padding, text, TColour, scale)
+	nodes[#nodes + 1] = {
+		n = G.UIT.C,
+		config = {
+			align = alignment,
+			colour = HColour,
+			r = radius,
+			padding = padding,
+			res = 0.15
+		},
+		nodes = {{
+			n = G.UIT.T,
+			config = {
+				text = text,
+				colour = TColour,
+				scale = scale*0.32
+			}
+		}}
+	}
+	
+	return nodes[#nodes]
+end
 	
 miscItems.manuallyAnimateAtlasItem = function(UINodeConfigTable)
-		G.E_MANAGER:add_event(Event({
-			trigger = 'immediate',
-			blocking = false,
-			blockable = false,			
-			func = function()
-				if
-					UINodeConfigTable
-					and UINodeConfigTable.object
-					and UINodeConfigTable.object.sprite_pos
-					and UINodeConfigTable.object.atlas
-					and UINodeConfigTable.thisObjFrameParse
-				then
-					if UINodeConfigTable.thisObjFrameParse.counter < UINodeConfigTable.thisObjFrameParse.delay then
-						UINodeConfigTable.thisObjFrameParse.counter = UINodeConfigTable.thisObjFrameParse.counter + 0.1
+	G.E_MANAGER:add_event(Event({
+		trigger = 'immediate',
+		blocking = false,
+		blockable = false,			
+		func = function()
+			if
+				UINodeConfigTable
+				and UINodeConfigTable.object
+				and UINodeConfigTable.object.sprite_pos
+				and UINodeConfigTable.object.atlas
+				and UINodeConfigTable.thisObjFrameParse
+			then
+				if UINodeConfigTable.thisObjFrameParse.counter < UINodeConfigTable.thisObjFrameParse.delay then
+					UINodeConfigTable.thisObjFrameParse.counter = UINodeConfigTable.thisObjFrameParse.counter + 0.1
+				else
+					if UINodeConfigTable.object.sprite_pos.x < (UINodeConfigTable.object.atlas.frames - 1) then
+						UINodeConfigTable.object.sprite_pos.x = UINodeConfigTable.object.sprite_pos.x + 1
 					else
-						if UINodeConfigTable.object.sprite_pos.x < (UINodeConfigTable.object.atlas.frames - 1) then
-							UINodeConfigTable.object.sprite_pos.x = UINodeConfigTable.object.sprite_pos.x + 1
-						else
-							UINodeConfigTable.object.sprite_pos.x = 0
-						end
-						
-						UINodeConfigTable.thisObjFrameParse.counter = 0
+						UINodeConfigTable.object.sprite_pos.x = 0
 					end
 					
-					return false
-				else
-					return true
+					UINodeConfigTable.thisObjFrameParse.counter = 0
 				end
+				
+				return false
+			else
+				return true
 			end
-		}))
-	end
+		end
+	}))
+end
 
 miscItems.doTypewriterAtlasAnimation = function(UINodeConfigTable)
-		G.E_MANAGER:add_event(Event({
-			trigger = 'immediate',
-			blocking = false,
-			blockable = false,			
-			func = function()
-				if
-					UINodeConfigTable
-					and UINodeConfigTable.object
-					and UINodeConfigTable.object.sprite_pos
-					and UINodeConfigTable.object.atlas
-					and UINodeConfigTable.thisObjFrameParse
-				then
-					local XendPoint = UINodeConfigTable.thisObjFrameParse.rowLength
-					
-					if UINodeConfigTable.object.sprite_pos.y == UINodeConfigTable.thisObjFrameParse.finalRowY then
-						XendPoint = UINodeConfigTable.thisObjFrameParse.finalRowFrames
-					end
-					
-					if UINodeConfigTable.thisObjFrameParse.counter < UINodeConfigTable.thisObjFrameParse.delay then
-						UINodeConfigTable.thisObjFrameParse.counter = UINodeConfigTable.thisObjFrameParse.counter + 0.1
+	G.E_MANAGER:add_event(Event({
+		trigger = 'immediate',
+		blocking = false,
+		blockable = false,			
+		func = function()
+			if
+				UINodeConfigTable
+				and UINodeConfigTable.object
+				and UINodeConfigTable.object.sprite_pos
+				and UINodeConfigTable.object.atlas
+				and UINodeConfigTable.thisObjFrameParse
+			then
+				local XendPoint = UINodeConfigTable.thisObjFrameParse.rowLength
+				
+				if UINodeConfigTable.object.sprite_pos.y == UINodeConfigTable.thisObjFrameParse.finalRowY then
+					XendPoint = UINodeConfigTable.thisObjFrameParse.finalRowFrames
+				end
+				
+				if UINodeConfigTable.thisObjFrameParse.counter < UINodeConfigTable.thisObjFrameParse.delay then
+					UINodeConfigTable.thisObjFrameParse.counter = UINodeConfigTable.thisObjFrameParse.counter + 0.1
+				else
+					if UINodeConfigTable.object.sprite_pos.x < XendPoint then
+						UINodeConfigTable.object.sprite_pos.x = UINodeConfigTable.object.sprite_pos.x + 1
 					else
-						if UINodeConfigTable.object.sprite_pos.x < XendPoint then
-							UINodeConfigTable.object.sprite_pos.x = UINodeConfigTable.object.sprite_pos.x + 1
+						if UINodeConfigTable.object.sprite_pos.y == UINodeConfigTable.thisObjFrameParse.finalRowY then
+							UINodeConfigTable.object.sprite_pos.y = 0
 						else
-							if UINodeConfigTable.object.sprite_pos.y == UINodeConfigTable.thisObjFrameParse.finalRowY then
-								UINodeConfigTable.object.sprite_pos.y = 0
-							else
-								UINodeConfigTable.object.sprite_pos.y = UINodeConfigTable.object.sprite_pos.y + 1
-							end
-							
-							UINodeConfigTable.object.sprite_pos.x = 0
+							UINodeConfigTable.object.sprite_pos.y = UINodeConfigTable.object.sprite_pos.y + 1
 						end
 						
-						UINodeConfigTable.thisObjFrameParse.counter = 0
+						UINodeConfigTable.object.sprite_pos.x = 0
 					end
 					
-					return false
-				else
-					return true
+					UINodeConfigTable.thisObjFrameParse.counter = 0
 				end
+				
+				return false
+			else
+				return true
 			end
-		}))
-	end
+		end
+	}))
+end
 	
 miscItems.filterTable = function(sourceTable, destinationTable, filterTable)
-		for i, F in ipairs (filterTable) do
-			if sourceTable[F] then
-				destinationTable[F] = sourceTable[F]
-			end
+	for i, F in ipairs (filterTable) do
+		if sourceTable[F] then
+			destinationTable[F] = sourceTable[F]
 		end
 	end
+end
 	
 miscItems.newFilteredTable = function(inputTable, filterTable)
-	local RV = {}
-		for i, F in ipairs (filterTable) do
-			if inputTable[F] then
-				RV[F] = inputTable[F]
-			end
+local RV = {}
+	for i, F in ipairs (filterTable) do
+		if inputTable[F] then
+			RV[F] = inputTable[F]
 		end
-	return RV
 	end
+return RV
+end
 	
 miscItems.isState = function(curGameState, stateToCheck)
-		if
-			curGameState
-			and stateToCheck
-		then 
-			return curGameState == stateToCheck
-		end
-		return false
+	if
+		curGameState
+		and stateToCheck
+	then 
+		return curGameState == stateToCheck
 	end
+	return false
+end
 	
 miscItems.isStage = function(curGameStage, stageToCheck)
-		if
-			curGameStage
-			and stageToCheck
-		then 
-			return curGameStge == stageToCheck
-		end
-		return false
+	if
+		curGameStage
+		and stageToCheck
+	then 
+		return curGameStge == stageToCheck
 	end
+	return false
+end
 
 miscItems.roundEvalDollarCalc = {
-		part = function(CDBret, dollars_, pitch_, card_, i_)
-			local RV = { i = i_ + 1, pitch = pitch_, dollars = dollars_ + CDBret }
-			add_round_eval_row({dollars = CDBret, bonus = true, name='joker'..RV.i, pitch = RV.pitch, card = card_})
-			RV.pitch = RV.pitch + 0.06
-			dollars_ = dollars_ + CDBret
-			return RV
-		end,
+	part = function(CDBret, dollars_, pitch_, card_, i_)
+		local RV = { i = i_ + 1, pitch = pitch_, dollars = dollars_ + CDBret }
+		add_round_eval_row({dollars = CDBret, bonus = true, name='joker'..RV.i, pitch = RV.pitch, card = card_})
+		RV.pitch = RV.pitch + 0.06
+		dollars_ = dollars_ + CDBret
+		return RV
+	end,
+	
+	full = function(CDBret, dollars_, pitch_, card_, i_)
+		local RV = CirnoMod.miscItems.roundEvalDollarCalc.part(CDBret, dollars_, pitch_, card_, i_)
 		
-		full = function(CDBret, dollars_, pitch_, card_, i_)
-			local RV = CirnoMod.miscItems.roundEvalDollarCalc.part(CDBret, dollars_, pitch_, card_, i_)
+		if
+			card_.seal
+			and card_.seal == 'Red'
+		then
+			SMODS.calculate_effect({ message = localize('k_again_ex'), colour = G.C.FILTER, card = card_ }, card_)
 			
-			if
-				card_.seal
-				and card_.seal == 'Red'
-			then
-				SMODS.calculate_effect({ message = localize('k_again_ex'), colour = G.C.FILTER, card = card_ }, card_)
-				
-				RV = CirnoMod.miscItems.roundEvalDollarCalc.part(CDBret, RV.dollars, RV.pitch, card_, RV.i)
-			end
-			
-			return RV
+			RV = CirnoMod.miscItems.roundEvalDollarCalc.part(CDBret, RV.dollars, RV.pitch, card_, RV.i)
 		end
-	}
+		
+		return RV
+	end
+}
+
+miscItems.buildArrayFromKVPTable = function(kvpTable)
+	local RV = {}
+	
+	for k, v in kvpTable do
+		table.insert(RV, k)
+	end
+	
+	if #RV == 0 then
+		print("buildArrayFromKVPTable() created empty table from")
+		print(tprint(kvpTable))
+	end
+	
+	return RV
+end
 
 --[[ Thank you aikoooo T_T
 Honestly dumb that I need to do this
@@ -462,15 +478,27 @@ miscItems.hasEncounteredJoker = function(jkrKey)
 end
 
 miscItems.obscureJokerNameIfNotEncountered = function(jkrKey)
-	local RV = CirnoMod.miscItems.getJokerNameByKey(jkrKey)
-	
-	if
-		not CirnoMod.miscItems.hasEncounteredJoker(jkrKey)
-	then
-		RV = '?????'
+	if CirnoMod.miscItems.hasEncounteredJoker(jkrKey) then
+		return CirnoMod.miscItems.getJokerNameByKey(jkrKey)
+	else
+		return '?????'
 	end
-	
-	return RV
+end
+
+miscItems.obscureJokerNameIfLockedOrUndisc = function(jkrKey)
+	if CirnoMod.miscItems.isUnlockedAndDisc(G.P_CENTERS[jkrKey]) then
+		return CirnoMod.miscItems.getJokerNameByKey(jkrKey)
+	else
+		return '?????'
+	end
+end
+
+miscItems.obscureStringIfJokerKeyLockedOrUndisc = function(string, jkrKey)
+	if CirnoMod.miscItems.isUnlockedAndDisc(G.P_CENTERS[jkrKey]) then
+		return string
+	else
+		return '?????'
+	end
 end
 
 miscItems.attachSpriteToCard = function(card, spriteAtlas, spriteAtlasPos, spriteAddDelay, forceStick)
@@ -513,6 +541,13 @@ miscItems.attachSpriteToCard = function(card, spriteAtlas, spriteAtlasPos, sprit
 end
 
 miscItems.isUnlockedAndDisc = function(card)
+	if
+		card.unlocked ~= nil
+		and card.discovered ~= nil
+	then
+		return card.unlocked and card.discovered
+	end
+	
 	return card and card.config.center.unlocked and card.config.center.discovered
 end
 

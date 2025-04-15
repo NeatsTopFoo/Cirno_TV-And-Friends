@@ -688,7 +688,7 @@ local jokerInfo = {
 				
 				CirnoMod.miscItems.addUISpriteNode(nodes_.Ln10, AnimatedSprite(
 						0, 0, -- Sprite X & Y
-						1, 1, -- Sprite W & H
+						0.8, 0.8, -- Sprite W & H
 						CirnoMod.miscItems.funnyAtlases.rumiSleep, -- Sprite Atlas
 						{ x = 0, y = 0 } -- Position in the Atlas
 					)

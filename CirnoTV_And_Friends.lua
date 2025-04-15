@@ -529,56 +529,25 @@ CirnoMod.extendedDescTooltip{
 		name = CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}').." Jokers",
 		text = {}
 	},
-	--[[
-	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)		
-		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-		if CirnoMod.miscItems.jkrKeyGroups.allegations then
+	
+	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+		if
+			CirnoMod.miscItems.jkrKeyGroups.allegations
+			and next(CirnoMod.miscItems.jkrKeyGroups.allegations)
+		then
 			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.allegations) do
 				desc_nodes[#desc_nodes+1] = {}
-				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
+				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k), G.C.FILTER, 0.8)
+				
+				if next(CirnoMod.miscItems.jkrKeyGroups.allegations, k) ~= nil then
+					CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], ',', G.C.UI.TEXT_DARK, 0.8)
+				end
 			end
-			
-			desc_nodes[#desc_nodes][1].config.text = string.sub(desc_nodes[#desc_nodes][1].config.text, 1, #desc_nodes[#desc_nodes][1].config.text - 1)
 		else
 			desc_nodes[#desc_nodes+1] = {}
 			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'Not Active', G.C.RED, 0.8)
 		end
-	end,
-	]]
-	
-	create_main_end = function(center)
-		local nodes_ = {}
-		local nodeKeys = {}
-		local counter = 1
-		
-		if CirnoMod.miscItems.jkrKeyGroups.allegations then
-			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.allegations) do
-				nodes_['Ln'..counter] = {}
-				nodeKeys[counter] = 'Ln'..counter
-				CirnoMod.miscItems.addUITextNode(nodes_['Ln'..counter], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
-				counter = counter + 1
-			end
-			counter = counter - 1
-			
-			nodes_['Ln'..counter][1].config.text = string.sub(nodes_['Ln'..counter][1].config.text, 1, #nodes_['Ln'..counter][1].config.text - 1)
-		else
-			nodes_.Ln1 = {}
-			nodeKeys[1] = 'Ln1'
-			CirnoMod.miscItems.addUITextNode(nodes_.Ln1, 'Not Active', G.C.RED, 0.8)
-		end
-		
-		return {{
-			n = G.UIT.C,
-			config = {
-				align = 'bm',
-				padding = 0.02
-			},
-			nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
-		}}
-	end,
-	
-	loc_vars = function(self, info_queue, center)
-		return { main_end = self.create_main_end(center) }
+		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 	end
 }
 
@@ -589,55 +558,25 @@ CirnoMod.extendedDescTooltip{
 		name = "2 Max Jokers",
 		text = {}
 	},
-	--[[
+	
 	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-		if CirnoMod.miscItems.jkrKeyGroups.TwoMax then
+		if
+			CirnoMod.miscItems.jkrKeyGroups.TwoMax
+			and next(CirnoMod.miscItems.jkrKeyGroups.TwoMax)
+		then
 			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.TwoMax) do
 				desc_nodes[#desc_nodes+1] = {}
-				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
+				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k), G.C.FILTER, 0.8)
+				
+				if next(CirnoMod.miscItems.jkrKeyGroups.TwoMax, k) ~= nil then
+					CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], ',', G.C.UI.TEXT_DARK, 0.8)
+				end
 			end
-			
-			desc_nodes[#desc_nodes][1].config.text = string.sub(desc_nodes[#desc_nodes][1].config.text, 1, #desc_nodes[#desc_nodes][1].config.text - 1)
 		else
 			desc_nodes[#desc_nodes+1] = {}
 			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'Not Active', G.C.RED, 0.8)
 		end
-	end,]]
-	
-	create_main_end = function(center)
-		local nodes_ = {}
-		local nodeKeys = {}
-		local counter = 1
-		
-		if CirnoMod.miscItems.jkrKeyGroups.TwoMax then
-			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.TwoMax) do
-				nodes_['Ln'..counter] = {}
-				nodeKeys[counter] = 'Ln'..counter
-				CirnoMod.miscItems.addUITextNode(nodes_['Ln'..counter], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
-				counter = counter + 1
-			end
-			counter = counter - 1
-			
-			nodes_['Ln'..counter][1].config.text = string.sub(nodes_['Ln'..counter][1].config.text, 1, #nodes_['Ln'..counter][1].config.text - 1)
-		else
-			nodes_.Ln1 = {}
-			nodeKeys[1] = 'Ln1'
-			CirnoMod.miscItems.addUITextNode(nodes_.Ln1, 'Not Active', G.C.RED, 0.8)
-		end
-		
-		return {{
-			n = G.UIT.C,
-			config = {
-				align = 'bm',
-				padding = 0.02
-			},
-			nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
-		}}
-	end,
-	
-	loc_vars = function(self, info_queue, center)
-		return { main_end = self.create_main_end(center) }
+		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 	end
 }
 
@@ -648,55 +587,25 @@ CirnoMod.extendedDescTooltip{
 		name = "cirGuns Jokers",
 		text = {}
 	},
-	--[[
+	
 	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)	
-		if CirnoMod.miscItems.jkrKeyGroups.fingerGuns then
+		if
+			CirnoMod.miscItems.jkrKeyGroups.fingerGuns
+			and next(CirnoMod.miscItems.jkrKeyGroups.fingerGuns)
+		then
 			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.fingerGuns) do
 				desc_nodes[#desc_nodes+1] = {}
-				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
+				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k), G.C.FILTER, 0.8)
+				
+				if next(CirnoMod.miscItems.jkrKeyGroups.fingerGuns, k) ~= nil then
+					CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], ',', G.C.UI.TEXT_DARK, 0.8)
+				end
 			end
-			
-			desc_nodes[#desc_nodes][1].config.text = string.sub(desc_nodes[#desc_nodes][1].config.text, 1, #desc_nodes[#desc_nodes][1].config.text - 1)
 		else
 			desc_nodes[#desc_nodes+1] = {}
 			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'Not Active', G.C.RED, 0.8)
 		end
-	end,
-	]]
-	create_main_end = function(center)
-		local nodes_ = {}
-		local nodeKeys = {}
-		local counter = 1
-		
-		if CirnoMod.miscItems.jkrKeyGroups.fingerGuns then
-			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.fingerGuns) do
-				nodes_['Ln'..counter] = {}
-				nodeKeys[counter] = 'Ln'..counter
-				CirnoMod.miscItems.addUITextNode(nodes_['Ln'..counter], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
-				counter = counter + 1
-			end
-			counter = counter - 1
-			
-			nodes_['Ln'..counter][1].config.text = string.sub(nodes_['Ln'..counter][1].config.text, 1, #nodes_['Ln'..counter][1].config.text - 1)
-		else
-			nodes_.Ln1 = {}
-			nodeKeys[1] = 'Ln1'
-			CirnoMod.miscItems.addUITextNode(nodes_.Ln1, 'Not Active', G.C.RED, 0.8)
-		end
-		
-		return {{
-			n = G.UIT.C,
-			config = {
-				align = 'bm',
-				padding = 0.02
-			},
-			nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
-		}}
-	end,
-	
-	loc_vars = function(self, info_queue, center)
-		return { main_end = self.create_main_end(center) }
+		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 	end
 }
 
@@ -707,68 +616,36 @@ CirnoMod.extendedDescTooltip{
 		name = "Crazy Women Jokers",
 		text = {}
 	},
-	--[[
+	
 	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-		if CirnoMod.miscItems.jkrKeyGroups.crazyWomen then
-			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.crazyWomen) do
-				desc_nodes[#desc_nodes+1] = {}
-				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..',', G.C.UI.FILTER, 0.8)
-			end
+		if
+			CirnoMod.miscItems.jkrKeyGroups.crazyWomen
+			and next(CirnoMod.miscItems.jkrKeyGroups.crazyWomen)
+		then
+			local counter = 0
+			desc_nodes[#desc_nodes+1] = {}
 			
-			desc_nodes[#desc_nodes][1].config.text = string.sub(desc_nodes[#desc_nodes][1].config.text, 1, #desc_nodes[#desc_nodes][1].config.text - 1)
+			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.crazyWomen) do
+				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k), G.C.FILTER, 0.8)
+				
+				if next(CirnoMod.miscItems.jkrKeyGroups.crazyWomen, k) == nil then
+					break
+				end
+				
+				if counter >= 2 then
+					CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], ',', G.C.UI.TEXT_DARK, 0.8)
+					desc_nodes[#desc_nodes+1] = {}
+					counter = 0
+				else
+					CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], ', ', G.C.UI.TEXT_DARK, 0.8)
+					counter = counter + 1
+				end
+			end
 		else
 			desc_nodes[#desc_nodes+1] = {}
 			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'Not Active', G.C.RED, 0.8)
 		end
-	end,
-	]]
-	
-	create_main_end = function(center)
-		local nodes_ = {}
-		local nodeKeys = {}
-		local counter = 1
-		local flipFlop = false
-		local append = ' '
-		
-		if CirnoMod.miscItems.jkrKeyGroups.crazyWomen then
-			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.crazyWomen) do
-				nodes_['Ln'..counter] = {}
-				nodeKeys[counter] = 'Ln'..counter
-				CirnoMod.miscItems.addUITextNode(nodes_['Ln'..counter], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k)..append, G.C.UI.FILTER, 0.8)
-				
-				if
-					flipFlop
-				then
-					append = ', '
-					counter = counter + 1
-				else
-					append = ''
-				end
-			end
-			counter = counter - 1
-		
-			if not (counter % 2 == 0) then
-				nodes_['Ln'..counter][1].config.text = string.sub(nodes_['Ln'..counter][1].config.text, 1, #nodes_['Ln'..counter][1].config.text - 1)
-			end
-		else
-			nodes_.Ln1 = {}
-			nodeKeys[1] = 'Ln1'
-			CirnoMod.miscItems.addUITextNode(nodes_.Ln1, 'Not Active', G.C.RED, 0.8)
-		end
-		
-		return {{
-			n = G.UIT.C,
-			config = {
-				align = 'bm',
-				padding = 0.02
-			},
-			nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
-		}}
-	end,
-	
-	loc_vars = function(self, info_queue, center)
-		return { main_end = self.create_main_end(center) }
+		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 	end
 }
 
@@ -1082,15 +959,15 @@ function Game:main_menu(change_context)
 		as intended.
 		]]
 		G.E_MANAGER:add_event(Event({
-						trigger = 'after',
-						delay = 2.0,
-						blocking = false,
-						blockable = true,
-						func = function()
-							CirnoMod.ChalFuncs.updateStencilName(G.localization.descriptions.Joker.j_stencil.name)
-							return true
-						end
-					}))
+				trigger = 'after',
+				delay = 2.0,
+				blocking = false,
+				blockable = true,
+				func = function()
+					CirnoMod.ChalFuncs.updateStencilName(G.localization.descriptions.Joker.j_stencil.name)
+					return true
+				end
+			}))
 		
 		--[[
 		TODO: For every new challenge that bans something,
@@ -1185,7 +1062,7 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
 	encounters across unseeded runs.]]
 	if
 		((not G.GAME.seeded)
-		or SMODS.config.achievements > 2)
+		or SMODS.config.seeded_unlocks)
 		and RV
 		and _type == 'Joker'
 		and CirnoMod.config.malverkRetextures

@@ -285,7 +285,7 @@ payload = '''
 	elseif _c.set == 'extendedDescTooltip' then
 		localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes}
 '''
-time = 1
+times = 1
 match_indent = true
 
 # These have since been replaced with actual hooks but

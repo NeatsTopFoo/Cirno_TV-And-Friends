@@ -308,7 +308,7 @@ local jokerInfo = {
 					"{s:0.8,C:inactive}...What are you talking about?"
 				},
 				unlock = {
-					"Encounter {C:attention}Scary Face{}'s",
+					"Encounter {C:attention}"..CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Scary Face', 'j_scary_face').."{}'s",
 					"reskin"
 				}
 			},
@@ -343,7 +343,7 @@ local jokerInfo = {
 				
 				CirnoMod.miscItems.addUISpriteNode(nodes_.Ln1, Sprite(
 						0, 0, -- Sprite X & Y
-						1, 1, -- Sprite W & H
+						0.8, 0.8, -- Sprite W & H
 						CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
 						{ x = 3, y = 0 } -- Position in the Atlas
 					)
@@ -683,10 +683,10 @@ local jokerInfo = {
 				
 				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_crazyWomen']
 				
-				--[[ Art credit tooltip
+				--[Art credit tooltip
 				if CirnoMod.config['artCredits'] then
-					info_queue[#info_queue + 1] = { key = "", set = "Other" }
-				end]]
+					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
+				end
 				
 				return { vars = { center.ability.extra.growth, center.ability.extra.xmult } }
 			end,
