@@ -46,6 +46,14 @@ miscItems.colours = {
 	bbBlack = HEX('000000FF'),
 	bbInvisText = HEX('00000000')
 }
+
+miscItems.colours.cirNope = SMODS.Gradient({
+	key = 'cirNope',
+	colours = {
+		G.C.PURPLE,
+		miscItems.cirNep
+	}
+})
 	
 miscItems.addUITextNode = function(nodes, text, colour, scale)
 	nodes[#nodes + 1] = {
@@ -61,22 +69,32 @@ miscItems.addUITextNode = function(nodes, text, colour, scale)
 end
 	
 miscItems.addUISpriteNode = function(nodes, sprite)
-	nodes[#nodes + 1] = {
-		n = G.UIT.O,
-		config = { object = sprite }
-	}
+	local RV = nil
 	
-	if sprite.atlas.manualFrameParsing	then
-		nodes[#nodes].config.thisObjFrameParse = copy_table(sprite.atlas.manualFrameParsing)
-		nodes[#nodes].config.thisObjFrameParse.counter = 0
-		CirnoMod.miscItems.manuallyAnimateAtlasItem(nodes[#nodes].config)
-	elseif sprite.atlas.typewriterFrameParsing then
-		nodes[#nodes].config.thisObjFrameParse = copy_table(sprite.atlas.typewriterFrameParsing)
-		nodes[#nodes].config.thisObjFrameParse.counter = 0
-		CirnoMod.miscItems.doTypewriterAtlasAnimation(nodes[#nodes].config)
+	if nodes then
+		nodes[#nodes + 1] = {
+			n = G.UIT.O,
+			config = { object = sprite }
+		}
+		RV = nodes[#nodes]
+	else
+		RV = {
+			n = G.UIT.O,
+			config = { object = sprite }
+		}
 	end
 	
-	return nodes[#nodes]
+	if sprite.atlas.manualFrameParsing	then
+		RV.config.thisObjFrameParse = copy_table(sprite.atlas.manualFrameParsing)
+		RV.config.thisObjFrameParse.counter = 0
+		CirnoMod.miscItems.manuallyAnimateAtlasItem(RV.config)
+	elseif sprite.atlas.typewriterFrameParsing then
+		RV.config.thisObjFrameParse = copy_table(sprite.atlas.typewriterFrameParsing)
+		RV.config.thisObjFrameParse.counter = 0
+		CirnoMod.miscItems.doTypewriterAtlasAnimation(RV.config)
+	end
+	
+	return RV
 end
 	
 miscItems.addUIColumnOrRowNode = function(nodes, alignment, type, colour, radius, padding)
@@ -106,8 +124,7 @@ miscItems.restructureNodesTableIntoRowsOrColumns = function(nodesTable, orderedK
 	if
 		RowOrColumn == 'R'
 		or RowOrColumn == 'C'
-	then
-		
+	then		
 		for i, k in ipairs (orderedKeysTable) do
 			table.insert(RV, {
 				n = G.UIT[RowOrColumn],
@@ -220,7 +237,7 @@ miscItems.doTypewriterAtlasAnimation = function(UINodeConfigTable)
 		end
 	}))
 end
-	
+
 miscItems.filterTable = function(sourceTable, destinationTable, filterTable)
 	for i, F in ipairs (filterTable) do
 		if sourceTable[F] then
@@ -238,7 +255,22 @@ local RV = {}
 	end
 return RV
 end
+
+miscItems.getAllDebuffedCardsInCardTable = function(cardTable)
+	RV = {}
 	
+	for i, card in ipairs (cardTable) do
+		if
+			card.debuff
+			and Card:can_calculate(true)
+		then
+			table.insert(RV, card)
+		end
+	end
+	
+	return RV
+end
+
 miscItems.isState = function(curGameState, stateToCheck)
 	if
 		curGameState
@@ -485,6 +517,18 @@ miscItems.obscureJokerNameIfNotEncountered = function(jkrKey)
 	end
 end
 
+miscItems.obscureJokerTooltipIfNotEncountered = function(jkrKey)
+	if CirnoMod.miscItems.hasEncounteredJoker(jkrKey) then
+		if G.P_CENTERS[jkrKey] then
+			return G.P_CENTERS[jkrKey]
+		else
+			return { key = 'errorTooltip', set = 'Other' }
+		end
+	else
+		return { key = 'questionMarkTooltip', set = 'Other' }
+	end
+end
+
 miscItems.obscureJokerNameIfLockedOrUndisc = function(jkrKey)
 	if CirnoMod.miscItems.isUnlockedAndDisc(G.P_CENTERS[jkrKey]) then
 		return CirnoMod.miscItems.getJokerNameByKey(jkrKey)
@@ -501,43 +545,12 @@ miscItems.obscureStringIfJokerKeyLockedOrUndisc = function(string, jkrKey)
 	end
 end
 
-miscItems.attachSpriteToCard = function(card, spriteAtlas, spriteAtlasPos, spriteAddDelay, forceStick)
-	G.E_MANAGER:add_event(Event({
-		trigger = 'after',
-		delay = spriteAddDelay,
-		blocking = false,
-		blockable = true,
-		func = function()
-			card.children[spriteAtlas.key] = Sprite(
-				card.children.center.T.x, card.children.center.T.y, -- Sprite X & Y
-				card.children.center.T.w, card.children.center.T.w, -- Sprite W & H
-				spriteAtlas, -- Sprite Atlas
-				spriteAtlasPos -- Position in the Atlas
-			)
-			
-			if forceStick then
-				G.E_MANAGER:add_event(Event({
-					trigger = 'immediate',
-					blocking = false,
-					blockable = false,
-					func = function()
-						if
-							card
-							and card.children
-							and card.children[spriteAtlas.key]
-						then									
-							if card.children[spriteAtlas.key].T.y ~= card.children.center.T.y then
-								card.children[spriteAtlas.key].T.y = card.children.center.T.y
-							end									
-							
-							return false
-						end
-						return true								
-					end}))
-			end
-			
-			return true
-		end}))
+miscItems.obscureStringIfNoneInJokerKeyGroupEncountered = function(string, groupName)
+	if CirnoMod.miscItems.jkrKeyGroupTotalEncounters(groupName, true) > 0 then
+		return string
+	else
+		return '?????'
+	end
 end
 
 miscItems.isUnlockedAndDisc = function(card)
@@ -604,6 +617,15 @@ miscItems.funnyAtlases.badAppleInv = SMODS.Atlas({
 	py = 64
 })
 miscItems.funnyAtlases.badAppleInv.typewriterFrameParsing = { delay = 0.3, rowLength = 99, finalRowY = 4, finalRowFrames = 77 }
+
+miscItems.funnyAtlases.hareHareYukai = SMODS.Atlas({
+	key = 'cir_hareHareYukai',
+	path = 'Misc/hareHareYukai.png',
+	px = 128,
+	py = 64,
+	atlas_table = 'ANIMATION_ATLAS',
+	frames = 111
+})
 
 miscItems.otherAtlases.cardKnifeStab = SMODS.Atlas({
 	key = 'cir_cardKnifeStab',

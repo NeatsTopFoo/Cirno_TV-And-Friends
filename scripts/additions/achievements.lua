@@ -10,9 +10,21 @@ cirAch.crazyFace = {
 		loc_txt = {
 			name = "I See Your Scary Face And Raise You...",
 			description = {
-				"Encounter "..CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Scary Face', 'j_scary_face').."'s reskin"
+				"Encounter "..CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Scary Face', 'j_scary_face').."'s reskin",
+				"(in an unseeded run)"
 			}
 		},
+		
+		updateDesc = function()
+			--[[ Todo
+			
+			{
+				"Encounter "..CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Scary Face', 'j_scary_face').."'s reskin",
+				"(in an unseeded run)"
+			}
+			
+			]]
+		end,
 		
 		unlock_condition = function(self, args)
 			return CirnoMod.miscItems.hasEncounteredJoker('j_scary_face')
@@ -31,10 +43,24 @@ cirAch.hasThreeJokes = {
 			name = "CHAT, YOU HAVE OTHER EMOTES",
 			description = {
 				"Encounter at least one Joker reskin per",
-				"skin that is "..CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}')..", 2 max or",
-				"cirGuns related."
+				"skin that is "..CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered(CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}'), 'allegations')..", "..CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('2 max', 'TwoMax').." or",
+				CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('cirGuns', 'fingerGuns').." related.",
+				"(in an unseeded run)"
 			}
 		},
+		
+		updateDesc = function()
+			--[[ Todo
+			
+			{
+				"Encounter at least one Joker reskin per",
+				"skin that is "..CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered(CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}'), 'allegations')..", "CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('2 max', 'TwoMax')" or",
+				CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('cirGuns', 'fingerGuns')" related.",
+				"(in an unseeded run)"
+			}
+			
+			]]
+		end,
 		
 		hidden_text = true,
 				

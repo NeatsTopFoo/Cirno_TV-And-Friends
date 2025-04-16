@@ -271,7 +271,7 @@ position = "at"
 payload = '''create_option_cycle({options = options, w = 4.5, cycle_shoulders = true, opt_callback = 'SMODS_card_collection_page', current_option = 1, colour = G.C.SECONDARY_SET.UIDefault or G.C.RED, no_pips = true, focus_args = {snap_to = true, nav = 'wide'}})'''
 match_indent = false
 
-# Trying to get the extra tooltip thingies to work
+# Makes the extra tooltip thingies work
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
@@ -287,49 +287,3 @@ payload = '''
 '''
 times = 1
 match_indent = true
-
-# These have since been replaced with actual hooks but
-# I'm keeping these here commented for now in case any
-# problems crop up
-
-# [[patches]]
-# [patches.pattern]
-# target = "game.lua"
-# pattern = "function Game:start_run(args)"
-# position = "after"
-# payload = '''
-# 	if CirnoMod.CirnoHooks then
-# 		G.E_MANAGER:add_event(Event({
-#                 trigger = 'after',
-# 				delay = 0.2,
-#                 blocking = false,
-#                 func = function()
-# 					CirnoMod.CirnoHooks.onRunStart(args)
-# 					return true
-# 				end
-#             }))
-# 	end
-# '''
-# times = 1
-# match_indent = false
-
-#	[[patches]]
-#	[patches.pattern]
-#	target = "functions/common_events.lua"
-#	pattern = "function add_joker(joker, edition, silent, eternal)"
-#	position = "after"
-#	payload = '''
-#		if CirnoMod.CirnoHooks then
-#			G.E_MANAGER:add_event(Event({
-#	                trigger = 'after',
-#					delay = 0.3,
-#	                blocking = false,
-#	                func = function()
-#						CirnoMod.CirnoHooks.onNewJoker(joker, edition, silent, eternal)
-#						return true
-#					end
-#	            }))
-#		end
-#	'''
-#	times = 1
-#	match_indent = false

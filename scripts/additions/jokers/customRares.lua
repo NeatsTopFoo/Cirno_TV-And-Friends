@@ -14,7 +14,6 @@ local jokerInfo = {
 		-- Ornstein & Smough Joker pair that respectively become Super Ornstein & Super Smough when the other of the two is destroyed (not sold)
 		-- Redacted '██████' Joker whose effects are not clear, highly unpredictable and inconsistent, heavily RNG-based but also extremely confusing
 		-- Mac n' Cheese Joker; Every 2 Boss Blinds, if there's room, creates a Ketchup (Seltzer). Gains x0.1 mult every time a ketchup runs out.
-		-- SM64 Water Diamond Joker, switches between two forms if a given hand is played, that changes every round or on trigger.
 		-- Bloodborne on PC Joker: Dithering between the effect of "Sell this Joker during a blind to draw 2x hand size to card", "In X rounds, sell this Joker to multiply your number of discards by 1.5" & "Sell this Joker during a blind to discard all held cards and draw a new hand (If deck is empty, refresh deck)."
 		-- "Help I'm Trapped In The Joker Factory" will have some different effects that get selected randomly on joker creation, all related to blinds, one off the top of my head is "This Joker gives +5 mult during The Memory (the boss blind) & also gains X0.05 mult whenever Cirno forgets something" and then it just randomly gains X0.05 mult based on random, unpredictable criteria.
 		-- "Fuckin' Catgirl Sex Fuckin Footjob Dick Suckin' Simulator" No idea what this could do.
@@ -309,7 +308,7 @@ local jokerInfo = {
 				},
 				unlock = {
 					"Encounter {C:attention}"..CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Scary Face', 'j_scary_face').."{}'s",
-					"reskin"
+					"reskin {s:0.8,C:inactive}(in an unseeded run)"
 				}
 			},
 			unlocked = false,
@@ -385,45 +384,6 @@ local jokerInfo = {
 				end
 			end,
 			
-			--[[
-			knifeCard = function(card)
-				G.E_MANAGER:add_event(Event({
-					trigger = 'after',
-					delay = 1.25,
-					blocking = false,
-					blockable = true,
-					func = function()
-						card.children.knifeSprite = Sprite(
-							card.children.center.T.x, card.children.center.T.y, -- Sprite X & Y
-							card.children.center.T.w, card.children.center.T.w, -- Sprite W & H
-							CirnoMod.miscItems.otherAtlases.cardKnifeStab, -- Sprite Atlas
-							{ x = 0, y = 0 } -- Position in the Atlas
-						)
-						
-						G.E_MANAGER:add_event(Event({
-							trigger = 'immediate',
-							blocking = false,
-							blockable = false,
-							func = function()
-								if
-									card
-									and card.children
-									and card.children.knifeSprite
-								then									
-									if card.children.knifeSprite.T.y ~= card.children.center.T.y then
-										card.children.knifeSprite.T.y = card.children.center.T.y
-									end									
-									
-									return false
-								end
-								return true								
-							end}))
-						
-						return true
-					end}))
-			end,
-			]]
-			
 			calculate = function(self, card, context)
 				-- Normal Joker xMult.
 				if
@@ -443,35 +403,41 @@ local jokerInfo = {
 					or context.cardarea == 'unscored')
 				then
 					if
-						context.other_card
-						and not context.other_card.markedForDestroy
-						and context.individual
+						context.individual
+						and context.other_card
+						and context.other_card:can_calculate(true)
 					then
+						local RT = { message_card = context.other_card }
+						
 						if pseudorandom('mitaKill') < G.GAME.probabilities.normal/card.ability.extra.odds then
-							context.other_card.markedForDestroy = true
-							return {
-								message = '  ',
-								colour = G.C.RED,
-								message_card = context.other_card,
-								func = CirnoMod.miscItems.attachSpriteToCard(context.other_card, CirnoMod.miscItems.otherAtlases.cardKnifeStab, { x = 0, y = 0 }, 1.5, true),
-								sound = 'gold_seal'
-							}
+							context.other_card.getting_sliced = true
+							RT.message = '  '
+							RT.colour = G.C.RED
+							RT.func = function()
+								G.E_MANAGER:add_event(Event({
+									trigger = 'after',
+									delay = 1.5,
+									blocking = false,
+									blockable = true,
+									func = function()
+										context.other_card.mitaKill = true
+										return true
+									end}))
+							end
+							RT.sound = 'slice1'
 						else
-							return {
-								message = localize('k_safe_ex'),
-								colour = G.C.GREEN,
-								message_card = context.other_card
-							}
+							RT.message = localize('k_safe_ex')
+							RT.colour = G.C.GREEN
 						end
+						
+						return RT
 					end
 					
 					if
 						context.destroy_card
-						and context.destroy_card.markedForDestroy
+						and context.destroy_card.getting_sliced
 					then
-						return {
-							remove = true
-						}
+						return { remove = true }
 					end
 				end
 			end,
@@ -503,7 +469,10 @@ local jokerInfo = {
 					"{s:0.5,C:inactive}Chat gets a little bully too, as a treat."
 				},
 				unlock = {
-					"?????"
+					"Encounter at least one Joker reskin per",
+					"skin that is {C:attention}"..CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered(CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}'), 'allegations')..", {C:attention}"..CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('2 max', 'TwoMax').."{} or",
+					"{C:attention}"..CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('cirGuns', 'fingerGuns').."{} related.",
+					"{s:0.8,C:inactive}(in an unseeded run)"
 				}
 			},
 			unlocked = false,
@@ -633,7 +602,11 @@ local jokerInfo = {
 				},
 				unlock = {
 					"Encounter at least",
-					"three {C:attention}crazy women{}."
+					"three Jokers that",
+					"either are or are",
+					"references to",
+					"{C:attention}"..CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('crazy women', 'crazyWomen'),
+					"{s:0.8,C:inactive}(in an unseeded run)"
 				}
 			},
 			unlocked = false,

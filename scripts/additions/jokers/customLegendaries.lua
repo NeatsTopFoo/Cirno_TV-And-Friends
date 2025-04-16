@@ -23,18 +23,8 @@ lua file. But B3313, which is planned to have 13 bases,
 funnily enough, will probably be part of the (first?)
 Rare atlas(es).]]
 local intents = {
-	c_wheel = G.localization.descriptions.Tarot.c_wheel_of_fortune.name,
-	j_ice_cream = G.localization.descriptions.Joker.j_ice_cream.name
+	c_wheel = G.localization.descriptions.Tarot.c_wheel_of_fortune.name
 }
-
-if
-	CirnoMod.config.jokerRenames
-	and CirnoMod.replaceDef
-	and CirnoMod.replaceDef.locChanges
-	and CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs.j_ice_cream
-then
-	intents.j_ice_cream = CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs.j_ice_cream.name
-end
 
 if CirnoMod.config.planetTarotSpectralRenames then
 	intents.c_wheel = "Wheel of Nope"
@@ -74,7 +64,7 @@ local jokerInfo = {
 				text = {
 					"This {C:joker}Joker{} gains {X:mult,C:white}X0.09 {} Mult",
 					"for each scored {C:attention}9{}",
-					"{s:0.8,C:red}If {s:0.8,C:attention}"..intents.j_ice_cream.."{s:0.8,C:red} is present, it",
+					"{s:0.8,C:red}If {s:0.8,C:attention}"..CirnoMod.miscItems.obscureJokerNameIfLockedOrUndisc('j_ice_cream').."{s:0.8,C:red} is present, it",
 					"{s:0.8,C:red}expires after the first trigger.",
 					"{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}\"I don't mean to brag Chat,",
@@ -102,14 +92,14 @@ local jokerInfo = {
 			just says 'Stone card' in the description.]]
 			loc_vars = function(self, info_queue, card)
 				-- Ice Cream :)
-				info_queue[#info_queue + 1] = G.P_CENTERS.j_ice_cream
+				info_queue[#info_queue + 1] = CirnoMod.miscItems.obscureJokerTooltipIfNotEncountered('j_ice_cream')
 				
 				-- Art credit tooltip
 				if
 					CirnoMod.config.artCredits
 					and not CirnoMod.config.malverkReplacements -- Ice Cream  already has a duplicate credit in its queue
 				then
-					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun", set = "Other" }
+					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun", set = 'Other' }
 				end
 				
 				-- Defines #1#
@@ -175,6 +165,7 @@ local jokerInfo = {
 						}
 					end
 				end
+				
 				if
 					not context.blueprint -- So, blueprint and brainstorm call calculate(). Yeah.
 					and context.post_trigger
@@ -448,7 +439,6 @@ local jokerInfo = {
 					and context.consumeable
 					and G.GAME.consumeable_usage
 					and not context.retrigger_joker -- Is this not a retrigger?
-					and not context.post_trigger
 				then
 					if
 						context.consumeable.ability.name == "Neptune"
@@ -935,10 +925,7 @@ local jokerInfo = {
 						end
 						
 						self.change_multiplier(self, card, false)
-					elseif
-						context.joker_main
-						and not context.post_trigger
-					then
+					elseif context.joker_main then
 						-- print("Normal Scoring Timing Test")
 						RT = { card = card }
 						
@@ -961,14 +948,13 @@ local jokerInfo = {
 						
 						if shouldReturnMessage then
 							RT.colour = card.ability.extra.chipsMultColour[card.ability.extra.active]
-						end							
+						end
 					end
 					
 					if
 						card.ability.extra.handWasPlayed
 						and context.hand_drawn
 						and not context.retrigger_joker
-						and not context.post_trigger
 					then
 						-- print("Before Next Hand Test")
 						
@@ -1086,6 +1072,132 @@ local jokerInfo = {
 							}
 						}
 					end
+				end
+			end
+		},
+		-- Wolsk Legendary
+		{
+			-- How the Joker will be referred to internally.
+			key = 'wolsk_l',
+			
+			object_type = "Joker",
+			
+			matureRefLevel = 1,
+			
+			loc_txt = {
+				-- The name the player will see in-game.
+				name = "Wolsk",
+				-- The description the player will see in-game.
+				text = {
+					"Every played {C:attention}card",
+					"in the first {C:blue}hand{} of the round",
+					"{C:attention}permanently{} gains {X:mult,C:white}X#1#{} Mult"
+				},
+				unlock = {
+					"Find this {C:joker}Joker",
+					"from the {C:spectral}Soul{} card"
+				}
+			},
+			
+			config = {
+				extra = {
+					extra = 0.1,
+					firstHand = false,
+					timesTriggeredThisHand = 0
+				}
+			},
+			
+			create_main_end = function()
+				return {{
+					n = G.UIT.C,
+					config = {
+						align = 'bm',
+						padding = 0.02
+					},
+					nodes = {{
+						n = G.UIT.R,
+						config = { align = 'cm' },
+						nodes = { CirnoMod.miscItems.addUISpriteNode(nil, AnimatedSprite(
+								0, 0, -- Sprite X & Y
+								1.575, 0.8, -- Sprite W & H
+								CirnoMod.miscItems.funnyAtlases.hareHareYukai, -- Sprite Atlas
+								{ x = 0, y = 0 } -- Position in the Atlas
+							)) }
+					}}
+				}}
+			end,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, center)
+				-- Art credit tooltip
+				if CirnoMod.config['artCredits'] then
+					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
+				end
+				
+				return {
+				vars = { center.ability.extra.extra },
+				main_end = self.create_main_end() }
+			end,
+			unlocked = false,
+			
+			atlas = 'cir_cLegendaries',
+			pos = { x = 3, y = 2}, -- Defines base card graphic position in the atlas.
+			soul_pos = { x = 3, y = 3}, -- Defines where this card's soul overlay is in the given atlas
+			rarity = 4, -- Legendary rarity
+			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
+			eternal_compat = true,
+			perishable_compat = true,
+			
+			handplayLatchDisableCheck = function(self, card)
+				if	
+					timesTriggeredThisHand == 1
+					and card.seal
+				then
+					return false
+				end
+				
+				firstHand = false
+				timesTriggeredThisHand = 0
+				return true
+			end,
+			
+			calculate = function(self, card, context)
+				if
+					not context.blueprint
+					and context.setting_blind
+					and not context.retrigger_joker
+				then
+					card.ability.extra.firstHand = true
+					
+					juice_card_until(card,
+					function()
+						return G.GAME.current_round.hands_played == 0
+					end,
+					true)
+				elseif
+					card.ability.extra.firstHand
+					and context.individual
+					and (context.cardarea == G.play
+					or context.cardarea == 'unscored')
+					and context.other_card
+				then
+					if not context.blueprint then
+						timesTriggeredThisHand = timesTriggeredThisHand + 1
+					end
+					
+					context.other_card.ability.perma_x_mult = context.other_card.ability.perma_x_mult or 0
+					context.other_card.ability.perma_x_mult = context.other_card.ability.perma_x_mult + card.ability.extra.extra
+					
+					self:handplayLatchDisableCheck(card)
+					
+					-- Return table (in extra to prevent the colour being overridden by Blueprint/Brainstorm)
+					return {
+						extra = {
+							message = localize('k_upgrade_ex'),
+							colour = G.C.RED,
+							message_card = context.other_card
+						}
+					}
 				end
 			end
 		}

@@ -11,7 +11,7 @@ creditSources.cr_GenericArt = "Art By"
 
 --#region Individuals to be credited
 -- Boo this individual please.
-creditSources.NTF = "{s:0.8,X:dark_edition,C:white,E:2}NopeTooFast{s:0.8}"
+creditSources.NTF = "{s:0.8,X:cirNope,C:white,E:2}NopeTooFast{s:0.8}"
 
 -- Edit however you want, idk how you want it
 creditSources.DTsun = "DaemonTsun"
@@ -391,6 +391,10 @@ RV.descriptions.Other = {
 			"the item it is assigned to."
 		}
 	},
+	errorHeader = { text = { 'ERROR' } },
+	errorTooltip = { name = 'errorHeader', text = { '{C:red}Error fetching item.' } },
+	questionMarkHeader = { text = { '?????' } },
+	questionMarkTooltip = { name = 'questionmarkHeader', text = { '?????' } },
 	blankHeader = { text = { '' } },
 	blankTooltip = { name = 'blankHeader', text = { '' } },
 	blankTooltipA = { name = '', text = { '' } }

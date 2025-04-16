@@ -35,6 +35,24 @@ CirnoMod.extendedDescTooltip = SMODS.Center:extend{
 	end
 }
 
+SMODS.DrawStep{
+	key = 'cir_knifeStab',
+	order = 52,
+	func = function(card, layer)
+		if card and card.mitaKill then
+			local sprite = Sprite(
+				card.T.x, card.T.y, -- Sprite X & Y
+				card.T.w, card.T.w, -- Sprite W & H
+				CirnoMod.miscItems.otherAtlases.cardKnifeStab, -- Sprite Atlas
+				{ x = 0, y = 0 }) -- Position in the Atlas
+			
+			sprite.role.draw_major = card
+			sprite:draw_shader('dissolve', nil, nil, nil, card.children.center)
+		end
+	end,
+	conditions = { vortex = false, facing = 'front' }
+}
+
 if
 	#SMODS.find_mod("soj") > 0
 then
@@ -900,6 +918,7 @@ if CirnoMod.config['additionalChallenges'] then
 end
 
 local cirAch = assert(SMODS.load_file('scripts/additions/achievements.lua'))()
+CirnoMod.cirAchievements = {}
 
 for k, ach in pairs(cirAch) do
 	if
@@ -910,7 +929,7 @@ for k, ach in pairs(cirAch) do
 	then
 		local newAch = copy_table(ach.info)
 		newAch.key = k
-		SMODS.Achievement(newAch)
+		CirnoMod.cirAchievements[k] = SMODS.Achievement(newAch)
 	end
 end
 
