@@ -64,7 +64,7 @@ local jokerInfo = {
 				text = {
 					"This {C:joker}Joker{} gains {X:mult,C:white}X0.09 {} Mult",
 					"for each scored {C:attention}9{}",
-					"{s:0.8,C:red}If {s:0.8,C:attention}"..CirnoMod.miscItems.obscureJokerNameIfLockedOrUndisc('j_ice_cream').."{s:0.8,C:red} is present, it",
+					"{s:0.8,C:red}If {s:0.8,C:attention}"..CirnoMod.miscItems.obscureJokerNameIfNotEncountered('j_ice_cream').."{s:0.8,C:red} is present, it",
 					"{s:0.8,C:red}expires after the first trigger.",
 					"{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}\"I don't mean to brag Chat,",
@@ -97,7 +97,8 @@ local jokerInfo = {
 				-- Art credit tooltip
 				if
 					CirnoMod.config.artCredits
-					and not CirnoMod.config.malverkReplacements -- Ice Cream  already has a duplicate credit in its queue
+					and (not CirnoMod.config.malverkReplacements -- Ice Cream  already has a duplicate credit in its queue
+					or not CirnoMod.miscItems.hasEncounteredJoker('j_ice_cream'))
 				then
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun", set = 'Other' }
 				end
@@ -142,14 +143,13 @@ local jokerInfo = {
 				end
 				
 				-- Looks for scored 9s and increases the stored mult
-				-- on the card accordingly.
-				
+				-- on the card accordingly.				
 				if
 					context.individual
 					and context.cardarea == G.play
 					and not context.post_trigger
 				then
-					if context.other_card.base.value == 9 then
+					if context.other_card.base.value == "9" then
 						card.ability.extra.Xmult = card.ability.extra.Xmult + 0.09
 						
 						return {

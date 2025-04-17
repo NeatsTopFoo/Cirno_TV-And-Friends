@@ -51,10 +51,10 @@ miscItems.colours.cirNope = SMODS.Gradient({
 	key = 'cirNope',
 	colours = {
 		G.C.PURPLE,
-		miscItems.cirNep
+		miscItems.colours.cirNep
 	}
 })
-	
+
 miscItems.addUITextNode = function(nodes, text, colour, scale)
 	nodes[#nodes + 1] = {
 		n = G.UIT.T,

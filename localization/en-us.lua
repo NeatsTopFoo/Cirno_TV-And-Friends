@@ -393,8 +393,7 @@ RV.descriptions.Other = {
 	},
 	errorHeader = { text = { 'ERROR' } },
 	errorTooltip = { name = 'errorHeader', text = { '{C:red}Error fetching item.' } },
-	questionMarkHeader = { text = { '?????' } },
-	questionMarkTooltip = { name = 'questionmarkHeader', text = { '?????' } },
+	questionMarkTooltip = { name = '?????', text = { '?????' } },
 	blankHeader = { text = { '' } },
 	blankTooltip = { name = 'blankHeader', text = { '' } },
 	blankTooltipA = { name = '', text = { '' } }
