@@ -39,15 +39,12 @@ SMODS.DrawStep{
 	key = 'cir_knifeStab',
 	order = 52,
 	func = function(card, layer)
-		if card and card.mitaKill then
-			local sprite = Sprite(
-				card.T.x, card.T.y, -- Sprite X & Y
-				card.T.w, card.T.w, -- Sprite W & H
-				CirnoMod.miscItems.otherAtlases.cardKnifeStab, -- Sprite Atlas
-				{ x = 0, y = 0 }) -- Position in the Atlas
-			
-			sprite.role.draw_major = card
-			sprite:draw_shader('dissolve', nil, nil, nil, card.children.center)
+		if
+			card
+			and card.children.knifeSprite
+			and card.mitaKill
+		then
+			card.children.knifeSprite:draw_shader('dissolve', nil, nil, nil, card.children.center)
 		end
 	end,
 	conditions = { vortex = false, facing = 'front' }

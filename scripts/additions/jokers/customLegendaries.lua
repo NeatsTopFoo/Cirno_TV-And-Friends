@@ -62,11 +62,11 @@ local jokerInfo = {
 				name = 'Cirno',
 				-- The description the player will see in-game.
 				text = {
-					"This {C:joker}Joker{} gains {X:mult,C:white}X0.09 {} Mult",
+					"This {C:joker}Joker{} gains {X:mult,C:white}X#1#{} Mult",
 					"for each scored {C:attention}9{}",
-					"{s:0.8,C:red}If {s:0.8,C:attention}"..CirnoMod.miscItems.obscureJokerNameIfNotEncountered('j_ice_cream').."{s:0.8,C:red} is present, it",
+					"{s:0.8,C:red}If {s:0.8,C:attention}#2#{s:0.8,C:red} is present, it",
 					"{s:0.8,C:red}expires after the first trigger.",
-					"{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive} Mult)",
+					"{C:inactive}(Currently {X:mult,C:white}X#3# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}\"I don't mean to brag Chat,",
 					"{s:0.8,C:inactive}but I'm stupid.\""
 				},
@@ -76,7 +76,7 @@ local jokerInfo = {
 				}
 			},
 			
-			config = { extra = { Xmult = 1 } },
+			config = { extra = { Xmult = 1, growth = 0.09 } },
 			
 			--[[
 			Purely aesthetic as blueprint functionality, even though
@@ -103,8 +103,12 @@ local jokerInfo = {
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun", set = 'Other' }
 				end
 				
-				-- Defines #1#
-				return { vars = { card.ability.extra.Xmult } }
+				-- Defines #1#, #2# & #3#
+				return { vars = {
+					card.ability.extra.growth, 
+					CirnoMod.miscItems.obscureJokerNameIfNotEncountered('j_ice_cream'), 
+					card.ability.extra.Xmult
+					} }
 				end,
 			unlocked = false,
 			
@@ -150,7 +154,7 @@ local jokerInfo = {
 					and not context.post_trigger
 				then
 					if context.other_card.base.value == "9" then
-						card.ability.extra.Xmult = card.ability.extra.Xmult + 0.09
+						card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.growth
 						
 						return {
 							extra = {

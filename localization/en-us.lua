@@ -43,7 +43,8 @@ circumstance, we have to add it here. Have fun sifting through this shit because
 is the way we have to do it.]]
 RV.descriptions.Other = {
 	--[[
-	We need this bullshit because of how this dumb fucking system works
+	We need this bullshit because of how this dumb fucking system works -
+	Or at least, how I thought it did because now it's no longer consistent
 	The contempt I feel for this setup is beyond human comprehension.
 	Why are things this way? Why must LocalThunk torment us so? In this
 	essay I will]]
@@ -391,8 +392,7 @@ RV.descriptions.Other = {
 			"the item it is assigned to."
 		}
 	},
-	errorHeader = { text = { 'ERROR' } },
-	errorTooltip = { name = 'errorHeader', text = { '{C:red}Error fetching item.' } },
+	errorTooltip = { name = 'ERROR', text = { '{C:red}Error fetching item.' } },
 	questionMarkTooltip = { name = '?????', text = { '?????' } },
 	blankHeader = { text = { '' } },
 	blankTooltip = { name = 'blankHeader', text = { '' } },

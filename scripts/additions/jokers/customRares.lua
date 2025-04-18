@@ -307,7 +307,7 @@ local jokerInfo = {
 					"{s:0.8,C:inactive}...What are you talking about?"
 				},
 				unlock = {
-					"Encounter {C:attention}"..CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Scary Face', 'j_scary_face').."{}'s",
+					"Encounter {C:attention}#1#{}'s",
 					"reskin {s:0.8,C:inactive}(in an unseeded run)"
 				}
 			},
@@ -378,6 +378,12 @@ local jokerInfo = {
 				}
 			end,
 			
+			locked_loc_vars = function(self, info_queue_center)
+				return { vars = {
+					CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Scary Face', 'j_scary_face')
+				}}
+			end,
+			
 			set_badges = function(self, card, badges)
 				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
 					badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
@@ -420,6 +426,13 @@ local jokerInfo = {
 									blocking = false,
 									blockable = true,
 									func = function()
+										context.other_card.children.knifeSprite = Sprite(
+											context.other_card.T.x, context.other_card.T.y, -- Sprite X & Y
+											context.context.other_card.T.w, card.T.w, -- Sprite W & H
+											CirnoMod.miscItems.otherAtlases.cardKnifeStab, -- Sprite Atlas
+											{ x = 0, y = 0 }) -- Position in the Atlas
+										
+										context.other_card.children.knifeSprite.role.draw_major = context.other_card
 										context.other_card.mitaKill = true
 										return true
 									end}))
@@ -459,19 +472,19 @@ local jokerInfo = {
 				text = {
 					"{X:mult,C:white}X#1#{} Mult for every {C:attention}Joker{}",
 					"whose graphic or reskin is",
-					"related to {C:attention}"..CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}').."{},",
+					"related to {C:attention}#2#{},",
 					"{C:attention}2 max{} or {C:attention}cirGuns{}",
-					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)",
-					"{s:0.8,C:inactive}"..CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{s:0.8,C:red}Not Active{}')..", 2 max, cirGuns.",
-					"{s:0.8,C:inactive}"..CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{s:0.8,C:red}Not Active{}')..", 2 max, cirGuns.",
-					"{s:0.8,C:inactive}"..CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{s:0.8,C:red}Not Active{}')..", 2 max, cirGuns.",
+					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult)",
+					"{s:0.8,C:inactive}#2#, 2 max, cirGuns.",
+					"{s:0.8,C:inactive}#2#, 2 max, cirGuns.",
+					"{s:0.8,C:inactive}#2#, 2 max, cirGuns.",
 					"{s:0.8,C:inactive}THIS COMMUNITY ONLY HAS THREE JOKES?!",
 					"{s:0.5,C:inactive}Chat gets a little bully too, as a treat."
 				},
 				unlock = {
 					"Encounter at least one Joker reskin per",
-					"skin that is {C:attention}"..CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered(CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}'), 'allegations')..", {C:attention}"..CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('2 max', 'TwoMax').."{} or",
-					"{C:attention}"..CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('cirGuns', 'fingerGuns').."{} related.",
+					"skin that is {C:attention}#1#{}, {C:attention}#2#{} or",
+					"{C:attention}#3#{} related.",
 					"{s:0.8,C:inactive}(in an unseeded run)"
 				}
 			},
@@ -533,7 +546,20 @@ local jokerInfo = {
 					info_queue[#info_queue + 1] = { key = "", set = "Other" }
 				end]]
 				
-				return { vars = { center.ability.extra.growth, center.ability.extra.xmult } }
+				return { vars = { 
+					center.ability.extra.growth,
+					CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered(CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}'), 'allegations'),
+					center.ability.extra.xmult
+					} }
+			end,
+			
+			locked_loc_vars = function(self, info_queue, cneter)
+				return {
+					vars = {
+					CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered(CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}'), 'allegations'),
+					CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('2 max', 'TwoMax'),
+					CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('cirGuns', 'fingerGuns')
+				}}
 			end,
 			
 			calculate = function(self, card, context)				
@@ -605,7 +631,7 @@ local jokerInfo = {
 					"three Jokers that",
 					"either are or are",
 					"references to",
-					"{C:attention}"..CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('crazy women', 'crazyWomen'),
+					"{C:attention}#1#",
 					"{s:0.8,C:inactive}(in an unseeded run)"
 				}
 			},
@@ -662,6 +688,10 @@ local jokerInfo = {
 				end
 				
 				return { vars = { center.ability.extra.growth, center.ability.extra.xmult } }
+			end,
+			
+			locked_loc_vars = function(self, info_queue, center)
+				return { vars = { CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('crazy women', 'crazyWomen') } }
 			end,
 			
 			calculate = function(self, card, context)				

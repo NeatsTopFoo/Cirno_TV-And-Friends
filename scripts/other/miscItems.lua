@@ -39,6 +39,7 @@ miscItems.redSealRetriggerIgnoreTable = {
 	}
 	
 miscItems.colours = {
+	cirInactiveAtt = HEX('BFB199FF'),
 	cirBlue = HEX('0766EBFF'),
 	cirCyan = HEX('0AD0F7FF'),
 	cirLucy = HEX('7BB083FF'),
@@ -410,7 +411,7 @@ then
 	}
 	
 	miscItems.jkrKeyGroups.TwoMax.j_duo = true
-	miscItems.jkrKeyGroups.TwoMax.j_cir_naro_l = true
+	miscItems.jkrKeyGroups.TwoMax.j_sly = true
 	
 	miscItems.jkrKeyGroups.fingerGuns = {
 		j_golden = true,
@@ -418,6 +419,9 @@ then
 		j_stuntman = true
 	}
 	
+	miscItems.jkrKeyGroups.crazyWomen.j_chaos = true
+	miscItems.jkrKeyGroups.crazyWomen.j_zany = true
+	miscItems.jkrKeyGroups.crazyWomen.j_crazy = true
 	miscItems.jkrKeyGroups.crazyWomen.j_drunkard = true
 	miscItems.jkrKeyGroups.crazyWomen.j_sock_and_buskin = true
 	miscItems.jkrKeyGroups.crazyWomen.j_mime = true
@@ -436,6 +440,9 @@ then
 	miscItems.jkrKeyGroups.crazyWomen.j_chicot = true
 	miscItems.jkrKeyGroups.crazyWomen.j_vampire = true
 	miscItems.jkrKeyGroups.crazyWomen.j_midas_mask = true
+	miscItems.jkrKeyGroups.crazyWomen.j_wily = true
+	miscItems.jkrKeyGroups.crazyWomen.j_devious = true
+	miscItems.jkrKeyGroups.crazyWomen.j_lucky_cat = true
 end
 
 if CirnoMod.config.addCustomJokers then
@@ -562,6 +569,13 @@ miscItems.isUnlockedAndDisc = function(card)
 	end
 	
 	return card and card.config.center.unlocked and card.config.center.discovered
+end
+
+miscItems.updateModAchievementDesc = function(achKey, newDescTable)
+	SMODS.process_loc_text(
+		G.localization.misc.achievement_descriptions,
+		achKey,
+		newDescTable)
 end
 
 -- These are surprise tools that will help us later. :)
