@@ -18,6 +18,8 @@ local miscItems = {
 	switchTables = {}
 }
 
+miscItems.cirGunsSpriteX = 0
+
 miscItems.keysOfJokersToUpdateStateOnLoad = {
 	j_cir_arumia_l = true,
 	j_cir_naro_l = true,
@@ -55,6 +57,13 @@ miscItems.colours.cirNope = SMODS.Gradient({
 		miscItems.colours.cirNep
 	}
 })
+
+miscItems.badges = {
+	allegations = function(bootstrapsName) return create_badge(bootstrapsName, G.C.GREEN, G.C.UI.TEXT_LIGHT, 0.8 ) end,
+	TwoMax = function() return create_badge("2 Max", miscItems.colours.cirNep, G.C.UI.TEXT_LIGHT, 0.8) end,
+	cirGuns = function() return create_badge("cirGuns", miscItems.colours.cirCyan, G.C.UI.TEXT_LIGHT, 0.8 ) end,
+	crazyWomen = function() return create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 ) end
+}
 
 miscItems.addUITextNode = function(nodes, text, colour, scale)
 	nodes[#nodes + 1] = {
@@ -639,6 +648,13 @@ miscItems.funnyAtlases.hareHareYukai = SMODS.Atlas({
 	py = 64,
 	atlas_table = 'ANIMATION_ATLAS',
 	frames = 111
+})
+
+miscItems.funnyAtlases.canadaFlag = SMODS.Atlas({
+	key = 'cir_Canada',
+	path = 'Misc/canadaFlag.png',
+	px = 40,
+	py = 20
 })
 
 miscItems.otherAtlases.cardKnifeStab = SMODS.Atlas({

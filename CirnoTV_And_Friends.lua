@@ -664,6 +664,25 @@ CirnoMod.extendedDescTooltip{
 	end
 }
 
+CirnoMod.extendedDescTooltip{
+	key = 'cirGuns',
+	
+	loc_txt = { name = '', text = {} },
+	
+	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)		
+		desc_nodes[#desc_nodes+1] = {}
+		
+		CirnoMod.miscItems.addUISpriteNode(desc_nodes[#desc_nodes], Sprite(
+					0, 0, -- Sprite X & Y
+					1.1, 1.4, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.cirGuns, -- Sprite Atlas
+					{ x = CirnoMod.miscItems.cirGunsSpriteX, y = 0 } -- Position in the Atlas
+				)
+			)
+		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+	end
+}
+
 -- Additional Custom Jokers
 if CirnoMod.config['addCustomJokers'] then
 	-- Iterates through all lua files in scripts\additions\jokers\ and SMODS.load_file them.

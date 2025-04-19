@@ -45,7 +45,46 @@ if CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone then
 	stoneIntent = CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name
 end
 
+--[[ Bootstraps goes first, as some future (cosmetic)
+changes depend on a variable that's decided here]]
+if CirnoMod.config['matureReferences_cyc'] >= 2 then
+	jokerLoc.nrmJkrs.j_bootstraps = {
+		name = "Allegations",
+		text = {
+			"{C:mult}+#1#{} Mult for every",
+			"{C:money}$#2#{} you have",
+			"{C:inactive}(Currently {C:mult}+#3#{C:inactive} Mult)",
+			"{s:0.8,C:inactive}Can you believe Cirno's",
+			"{s:0.8,C:inactive}body pillow was added",
+			"{s:0.8,C:inactive}to Balatro?"
+		}
+	}
+else
+	jokerLoc.nrmJkrs.j_bootstraps = {
+		name = "Cirno's Favourite",
+		text = {
+			"{C:mult}+#1#{} Mult for every",
+			"{C:money}$#2#{} you have",
+			"{C:inactive}(Currently {C:mult}+#3#{C:inactive} Mult)",
+			"{s:0.8,C:inactive}...I wonder."
+		}
+	}
+end
 
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Joker:take_ownership('bootstraps', {
+		set_badges = function(self, card, badges)
+			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
+				badges[#badges+1] = CirnoMod.miscItems.badges.allegations(jokerLoc.nrmJkrs.j_bootstraps.name)
+			end
+		end
+	}, true)
+end
+
+
+
+
+-- ======================================================================
 
 jokerLoc.nrmJkrs.j_joker = {
 	name = "Clippy",
@@ -111,7 +150,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('chaos', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -146,7 +185,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('zany', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -180,7 +219,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('crazy', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -253,7 +292,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('drunkard', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end,
 			
@@ -323,7 +362,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('sock_and_buskin', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end,
 		
@@ -382,7 +421,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('mime', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -417,7 +456,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('greedy_joker', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -447,7 +486,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('lusty_joker', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -584,7 +623,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('golden', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("cirGuns", CirnoMod.miscItems.colours.cirCyan, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.cirGuns()
 			end
 		end,
 		
@@ -694,7 +733,7 @@ then
 	SMODS.Joker:take_ownership('delayed_grat', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end,
 		
@@ -776,7 +815,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('even_steven', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -797,7 +836,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('odd_todd', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -843,7 +882,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('supernova', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -889,7 +928,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('duo', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("2 Max", CirnoMod.miscItems.colours.cirNep, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.TwoMax()
 			end
 		end,
 		
@@ -1078,14 +1117,19 @@ jokerLoc.nrmJkrs.j_ring_master = {
 	text = {
         "{C:attention}Joker{}, {C:tarot}Tarot{}, {C:planet}"..planetIntent.."{},",
         "and {C:spectral}Spectral{} cards may",
-        "appear multiple times"
+        "appear multiple times",
+		"{s:0.8,C:inactive}The last time I put cirGuns",
+		"{s:0.8,C:inactive}in a game, Cirno gave me VIP",
+		"{s:0.8,C:inactive}So clearly Twitch needs to",
+		"{s:0.8,C:inactive}invent VIP 2 so Cirno can give",
+		"{s:0.8,C:inactive}me that when he sees this.",
     }
 }
 if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('ring_master', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("cirGuns", CirnoMod.miscItems.colours.cirCyan, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.cirGuns()
 			end
 		end,
 		
@@ -1097,22 +1141,22 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 					padding = 0.02
 				},
 				nodes = {}
-			}
-			
-			local spriteX = 0
+			}			
 			
 			if
 				center.edition
 				and center.edition.key == 'e_negative'
 			then
-				spriteX = 1
+				CirnoMod.miscItems.cirGunsSpriteX = 1
+			else
+				CirnoMod.miscItems.cirGunsSpriteX = 0
 			end
 			
 			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
 					0, 0, -- Sprite X & Y
 					1.1, 1.4, -- Sprite W & H
 					CirnoMod.miscItems.funnyAtlases.cirGuns, -- Sprite Atlas
-					{ x = spriteX, y = 0 } -- Position in the Atlas
+					{ x = CirnoMod.miscItems.cirGunsSpriteX, y = 0 } -- Position in the Atlas
 				)
 			)
 			
@@ -1120,6 +1164,8 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 		end,
 		
 		loc_vars = function(self, info_queue, center)
+			info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_cirGuns']
+			
 			return { main_end = self.create_main_end(center) }
 		end
 	}, true)
@@ -1166,7 +1212,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('swashbuckler', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -1309,7 +1355,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('stuntman', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("cirGuns", CirnoMod.miscItems.colours.cirCyan, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.cirGuns()
 			end
 		end
 	}, true)
@@ -1373,7 +1419,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('astronomer', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -1394,7 +1440,7 @@ jokerLoc.nrmJkrs.j_burnt = {
 if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('burnt', {
 		set_badges = function(self, card, badges)
-			badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+			badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 		end
 	}, true)
 end
@@ -1469,15 +1515,23 @@ SMODS.process_loc_text(G.localization.descriptions.Joker.j_satellite, "text", {
         "{C:inactive}(Currently {C:money}$#2#{C:inactive})"
     })
 
---[[
 jokerLoc.nrmJkrs.j_rough_gem = {
-	name = "Rough Gem",
+	name = "Diamond In The Rough",
 	text = {
 		"Played cards with",
         "{C:diamonds}Diamond{} suit earn",
-        "{C:money}$#1#{} when scored"
+        "{C:money}$#1#{} when scored",
+        "{s:0.8,C:inactive}Have you heard of the critically",
+        "{s:0.8,C:inactive}acclaimed MMORPG {s:0.8,C:cirInactiveAtt}Final Fantasy XIV{s:0.8,C:inactive}?",
+        "{s:0.8,C:inactive}With an {s:0.8,C:cirInactiveAtt}expanded free trial{s:0.8,C:inactive} which",
+        "{s:0.8,C:inactive}you can play through the {s:0.8,C:cirInactiveAtt}entirety",
+        "{s:0.8,C:inactive}of {s:0.8,C:cirInactiveAtt}A Realm Reborn{s:0.8,C:inactive}, the {s:0.8,C:cirInactiveAtt}award-winning",
+        "{s:0.8,C:inactive}expansion {s:0.8,C:cirInactiveAtt}Heavensward{s:0.8,C:inactive}, and also the",
+        "{s:0.8,C:cirInactiveAtt}award-winning{s:0.8,C:inactive} expansion {s:0.8,C:cirInactiveAtt}Stormblood{s:0.8,C:inactive},",
+        "{s:0.8,C:inactive}up to {s:0.8,C:cirInactiveAtt}level 70{s:0.8,C:inactive} for {s:0.8,C:cirInactiveAtt}free{s:0.8,C:inactive}, with {s:0.8,C:cirInactiveAtt}no",
+        "{s:0.8,C:cirInactiveAtt}restrictions{s:0.8,C:inactive} on playtime."
 	}
-]]
+}
 
 
 -- ===== NEXT LINE =====
@@ -1528,7 +1582,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('caino', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -1559,7 +1613,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('triboulet', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -1589,7 +1643,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('yorick', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -1607,7 +1661,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('chicot', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end,
 		
@@ -1667,40 +1721,6 @@ jokerLoc.nrmJkrs.j_certificate = {
 		"{s:0.8,C:inactive}GOOD RNGz"
     }
 }
-
-if CirnoMod.config['matureReferences_cyc'] >= 2 then
-	jokerLoc.nrmJkrs.j_bootstraps = {
-		name = "Allegations",
-		text = {
-			"{C:mult}+#1#{} Mult for every",
-			"{C:money}$#2#{} you have",
-			"{C:inactive}(Currently {C:mult}+#3#{C:inactive} Mult)",
-			"{s:0.8,C:inactive}Can you believe Cirno's",
-			"{s:0.8,C:inactive}body pillow was added",
-			"{s:0.8,C:inactive}to Balatro?"
-		}
-	}
-else
-	jokerLoc.nrmJkrs.j_bootstraps = {
-		name = "Cirno's Favourite",
-		text = {
-			"{C:mult}+#1#{} Mult for every",
-			"{C:money}$#2#{} you have",
-			"{C:inactive}(Currently {C:mult}+#3#{C:inactive} Mult)",
-			"{s:0.8,C:inactive}...I wonder."
-		}
-	}
-end
-
-if CirnoMod.config.allowCosmeticTakeOwnership then
-	SMODS.Joker:take_ownership('bootstraps', {
-		set_badges = function(self, card, badges)
-			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge(jokerLoc.nrmJkrs.j_bootstraps.name, G.C.GREEN, G.C.UI.TEXT_LIGHT, 0.8 )
-			end
-		end
-	}, true)
-end
 
 
 -- ===== NEXT LINE =====
@@ -1938,7 +1958,7 @@ if CirnoMod.config['matureReferences_cyc'] == 3 then
 				
 				CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
 						0, 0, -- Sprite X & Y
-						0.9, 0.9, -- Sprite W & H
+						0.8, 0.8, -- Sprite W & H
 						CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
 						{ x = 1, y = 1 } -- Position in the Atlas
 					)
@@ -2056,7 +2076,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('riff_raff', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge(jokerLoc.nrmJkrs.j_bootstraps.name, G.C.GREEN, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.allegations(jokerLoc.nrmJkrs.j_bootstraps.name)
 			end
 		end
 	}, true)
@@ -2077,7 +2097,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('vampire', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -2176,7 +2196,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('midas_mask', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)
@@ -2214,27 +2234,103 @@ jokerLoc.nrmJkrs.j_gift = {
         "{C:attention}Consumable{} card at",
         "end of round"
 	}
-}
+}]]
 
 jokerLoc.nrmJkrs.j_turtle_bean = {
-	name = "Turtle Bean",
-	text = {
+	name = "Talus Dome",
+	--[[text = {
 		"{C:attention}+#1#{} hand size,",
         "reduces by",
         "{C:red}#2#{} every round"
-	}
+	}]]
 }
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Joker:take_ownership('turtle_bean', {
+		create_main_end = function(center)
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUITextNode(mainEndRV.nodes, "Edmonton. ", G.C.UI.TEXT_INACTIVE, 0.8)
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					0.35, 0.2, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.canadaFlag, -- Sprite Atlas
+					{ x = 0, y = 0 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return {
+				vars = {
+					center.ability.extra.h_size,
+					center.ability.extra.h_mod
+				},
+				main_end = self.create_main_end(center)
+			}
+		end
+	}, true)
+end
 
 jokerLoc.nrmJkrs.j_erosion = {
-	name = "Erosion",
+	name = "Gingerbread House",
 	text = {
 		"{C:red}+#1#{} Mult for each",
         "card below {C:attention}#3#{}",
         "in your full deck",
-        "{C:inactive}(Currently {C:red}+#2#{C:inactive} Mult)"
+        "{C:inactive}(Currently {C:red}+#2#{C:inactive} Mult)",
+		"{s:0.8,C:inactive}When you're in a falling apart",
+		"{s:0.8,C:inactive}contest and your competition is",
+		"{s:0.8,C:inactive}a gingerbread house built by Cirno."
 	}
 }
 
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Joker:take_ownership('erosion', {
+		create_main_end = function(center)
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					0.8, 0.8, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 0, y = 1 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return {
+				vars = {
+					center.ability.extra,
+					math.max(0,center.ability.extra*(G.playing_cards and (G.GAME.starting_deck_size - #G.playing_cards) or 0)),
+					G.GAME.starting_deck_size
+				},
+				main_end = self.create_main_end(center)
+			}
+		end
+	}, true)
+end
+
+--[[
 jokerLoc.nrmJkrs.j_reserved_parking = {
 	name = "Reserved Parking",
 	text = {
@@ -2301,7 +2397,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('sly', {		
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("2 Max", CirnoMod.miscItems.colours.cirNep, G.C.UI.TEXT_LIGHT, 0.8)
+				badges[#badges+1] = CirnoMod.miscItems.badges.TwoMax()
 			end
 		end,
 		
@@ -2332,8 +2428,16 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	}, true)
 end
 
+local wilyTakeOwnershipTable = {
+			set_badges = function(self, card, badges)
+				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
+					badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
+				end
+			end
+}
+
 jokerLoc.nrmJkrs.j_wily = { name = "Wily Hannah 2" }
-if CirnoMod.config['matureReferences_cyc'] >= 2 then
+if CirnoMod.config['matureReferences_cyc'] == 3 then
 	jokerLoc.nrmJkrs.j_wily.text={
         "{C:chips}+#1#{} Chips if played",
         "hand contains",
@@ -2351,41 +2455,35 @@ else
 		"{s:0.8,C:inactive}misconception.",
 		"{s:0.8,C:inactive}This is Hannah 2."
     }
-	
-	if CirnoMod.config.allowCosmeticTakeOwnership then
-		SMODS.Joker:take_ownership('wily', {		
-			set_badges = function(self, card, badges)
-				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-					badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
-				end
-			end,
 			
-			create_main_end = function(center)
-				local mainEndRV = {
-					n = G.UIT.C,
-					config = {
-						align = 'bm',
-						padding = 0.02
-					},
-					nodes = {}
-				}
-				
-				CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
-						0, 0, -- Sprite X & Y
-						0.8, 0.8, -- Sprite W & H
-						CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
-						{ x = 4, y = 0 } -- Position in the Atlas
-					)
-				)
-				
-				return { mainEndRV }
-			end,
-			
-			loc_vars = function(self, info_queue, center)
-				return { vars = { center.ability.t_chips, localize(center.ability.type, 'poker_hands') }, main_end = self.create_main_end(center) }
-			end
-		}, true)
+	wilyTakeOwnershipTable.create_main_end = function(center)
+		local mainEndRV = {
+			n = G.UIT.C,
+			config = {
+				align = 'bm',
+				padding = 0.02
+			},
+			nodes = {}
+		}
+		
+		CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+				0, 0, -- Sprite X & Y
+				0.8, 0.8, -- Sprite W & H
+				CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+				{ x = 4, y = 0 } -- Position in the Atlas
+			)
+		)
+		
+		return { mainEndRV }
 	end
+	
+	wilyTakeOwnershipTable.loc_vars = function(self, info_queue, center)
+		return { vars = { center.ability.t_chips, localize(center.ability.type, 'poker_hands') }, main_end = self.create_main_end(center) }
+	end
+end
+	
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Joker:take_ownership('wily', wilyTakeOwnershipTable, true)
 end
 
 jokerLoc.nrmJkrs.j_clever = {
@@ -2412,7 +2510,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('devious', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end,
 		
@@ -2468,7 +2566,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('lucky_cat', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
 		end
 	}, true)

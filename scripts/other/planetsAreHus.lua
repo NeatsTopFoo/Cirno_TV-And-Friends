@@ -194,26 +194,30 @@ if CirnoMod.config['miscRenames'] then
 		SMODS.process_loc_text(G.localization.misc.labels, "planet", "Hu")
 		SMODS.process_loc_text(G.localization.misc.labels, "pluto_planet", "...Nep?!")
 		
+		CirnoMod.miscItems.badges.hu_card = function() return create_badge(localize('k_planet'), CirnoMod.miscItems.colours.planet, G.C.WHITE, 1.2) end
+		
+		CirnoMod.miscItems.badges.hu_card_nep = function() return create_badge(localize('k_planet_q'), CirnoMod.miscItems.colours.cirNep, G.C.WHITE, 1.2) end
+		
 		-- Changes around the badges on Planets and their colours.
 		local planetRelabelling = {
-			{ key = 'mercury', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-			{ key = 'venus', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-			{ key = 'earth', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-			{ key = 'mars', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-			{ key = 'jupiter', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-			{ key = 'saturn', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-			{ key = 'uranus', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-			{ key = 'neptune', newLabelKey = 'k_planet_q', newLabelColour = CirnoMod.miscItems.colours.cirNep },
-			{ key = 'pluto', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-			{ key = 'ceres', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-			{ key = 'eris', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet },
-			{ key = 'planet_x', newLabelKey = 'k_planet', newLabelColour = CirnoMod.miscItems.colours.planet }
+			{ key = 'mercury', newBadgeKey = 'hu_card' },
+			{ key = 'venus', newBadgeKey = 'hu_card' },
+			{ key = 'earth', newBadgeKey = 'hu_card' },
+			{ key = 'mars', newBadgeKey = 'hu_card' },
+			{ key = 'jupiter', newBadgeKey = 'hu_card' },
+			{ key = 'saturn', newBadgeKey = 'hu_card' },
+			{ key = 'uranus', newBadgeKey = 'hu_card' },
+			{ key = 'neptune',newBadgeKey = 'hu_card_nep' },
+			{ key = 'pluto', newBadgeKey = 'hu_card' },
+			{ key = 'ceres', newBadgeKey = 'hu_card' },
+			{ key = 'eris', newBadgeKey = 'hu_card' },
+			{ key = 'planet_x', newBadgeKey = 'hu_card' }
 		}
 		
 		for i, p in ipairs (planetRelabelling) do
 			SMODS.Consumable:take_ownership(p.key, {
 				set_card_type_badge = function(self, card, badge)
-					badge[1] = create_badge(localize(p.newLabelKey), p.newLabelColour, G.C.WHITE, 1.2)
+					badge[1] = CirnoMod.miscItems.badges[p.newBadgeKey]()
 				end
 			})
 		end

@@ -386,7 +386,7 @@ local jokerInfo = {
 			
 			set_badges = function(self, card, badges)
 				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-					badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+					badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 				end
 			end,
 			
@@ -548,7 +548,7 @@ local jokerInfo = {
 				
 				return { vars = { 
 					center.ability.extra.growth,
-					CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered(CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}'), 'allegations'),
+					CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}'),
 					center.ability.extra.xmult
 					} }
 			end,

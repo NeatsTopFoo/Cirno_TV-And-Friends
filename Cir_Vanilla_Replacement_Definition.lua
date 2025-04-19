@@ -473,7 +473,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_idol', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	{ jkrKey = 'j_brainstorm', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	-- { jkrKey = 'j_satellite', matureRefLevel = 1 },
-	-- { jkrKey = 'j_rough_gem', matureRefLevel = 1 },
+	{ jkrKey = 'j_rough_gem', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	
 	
 	-- { jkrKey = 'j_bloodstone', matureRefLevel = 1 },
@@ -532,8 +532,8 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_luchador', matureRefLevel = 1, artCreditKey = 'jA_luchador' },
 	{ jkrKey = 'j_photograph', matureRefLevel = 1, artCreditKey = 'jA_ciwnoEdit' },
 	-- { jkrKey = 'j_gift', matureRefLevel = 1 },
-	-- { jkrKey = 'j_turtle_bean', matureRefLevel = 1 },
-	-- { jkrKey = 'j_erosion', matureRefLevel = 1 },
+	{ jkrKey = 'j_turtle_bean', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
+	{ jkrKey = 'j_erosion', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_reserved_parking', matureRefLevel = 1 },
 	{ jkrKey = 'j_mail', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	-- { jkrKey = 'j_to_the_moon', matureRefLevel = 1 },

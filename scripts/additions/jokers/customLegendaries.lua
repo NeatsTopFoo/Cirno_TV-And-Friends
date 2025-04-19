@@ -271,7 +271,7 @@ local jokerInfo = {
 			
 			set_badges = function(self, card, badges)
 				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-					badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+					badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 				end
 			end,
 			
@@ -420,8 +420,8 @@ local jokerInfo = {
 			
 			set_badges = function(self, card, badges)
 				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-					badges[#badges+1] = create_badge("2 Max", CirnoMod.miscItems.colours.cirNep, G.C.UI.TEXT_LIGHT, 0.8 )
-					badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+					badges[#badges+1] = CirnoMod.miscItems.badges.TwoMax()
+					badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 				end
 			end,
 			
@@ -725,7 +725,7 @@ local jokerInfo = {
 			
 			set_badges = function(self, card, badges)
 				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-					badges[#badges+1] = create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 )
+					badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 				end
 			end,
 			
