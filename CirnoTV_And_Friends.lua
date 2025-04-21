@@ -220,6 +220,11 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from gen
 	
 	return RV
 end
+--[[
+CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys.m_gold = function(card, loc_vars, specific_vars, info_queue, card_type, badges, main_start, main_end)
+	info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_testTTip']
+end
+]]
 
 -- Load vanilla replacements definitions and puts its returned var into the var.
 CirnoMod.replaceDef = assert(SMODS.load_file("Cir_Vanilla_Replacement_Definition.lua")())
@@ -593,6 +598,24 @@ CirnoMod.extendedDescTooltip{
 		end
 		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 	end
+}
+
+CirnoMod.extendedDescTooltip{
+	key = 'testTTip',
+	
+	loc_txt = {
+		name = 'Test Tooltip',
+		text = {
+			{
+				'This is a test tooltip.'
+			},
+			{
+				'It should appear next to the',
+				'description of what it gets',
+				'added to.'
+			}
+		}
+	}
 }
 
 CirnoMod.extendedDescTooltip{

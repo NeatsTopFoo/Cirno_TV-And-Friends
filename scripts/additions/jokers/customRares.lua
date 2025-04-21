@@ -736,7 +736,61 @@ local jokerInfo = {
 			check_for_unlock = function(self, args)
 				return CirnoMod.miscItems.jkrKeyGroupTotalEncounters('crazyWomen', true) > 3
 			end
+		},
+		--[[ B3313
+		{
+			key = 'b3313',
+			
+			object_type = 'Joker',
+			
+			matureRefLevel = 1,
+			
+			loc_txt = { name = '', text = {} },
+			
+			atlas = 'cir_cRares',
+			pos = { x = 0, y = 0 },
+			rarity = 3,
+			cost = 10,
+			eternal_compat = true,
+			perishable_compat = true,
+			
+			config { extra = {
+				currentForm = 'base',
+				formsList = { 'base', 'betaLob', 'plexalLob', 'toadLob', 'vanLob', 'uncanny', '4thFloor', 'crescent', 'forestMaze', 'loogi', 'peachCell', 'nebLob', 'floor3B' },
+				handToForm = {
+					['High Card'] = 'betaLob',
+					['Pair'] = 'plexalLob',
+					['Two Pair'] = 'toadLob',
+					['There of a Kind'] = 'vanLob',
+					['Straight'] = 'uncanny',
+					['Flush'] = '4thFloor',
+					['Full House'] = 'crescent',
+					['Four of a Kind'] = 'forestMaze',
+					['Straight Flush'] = 'loogi',
+					['Five of a Kind'] = 'peachCell',
+					['Flush House'] = 'nebLob',
+					['Flush Five'] = 'floor3B'
+				},
+				formsInfo = {
+					['base'] = { atlasX = 0 },
+					['betaLob'] = { atlasX = 1 },
+					['plexalLob'] = { atlasX = 2 },
+					['toadLob'] = { atlasX = 3 },
+					['vanLob'] = { atlasX = 4 },
+					['uncanny'] = { atlasX = 5 },
+					['4thFloor'] = { atlasX = 6 },
+					['crescent'] = { atlasX = 7 },
+					['forestMaze'] = { atlasX = 8 },
+					['loogi'] = { atlasX = 9 },
+					['peachCell'] = { atlasX = 10 },
+					['nebLob'] = { atlasX = 11 },
+					['floor3B'] = { atlasX = 12 }
+				}
+			},
+			
+			
 		}
+		]]
 	}
 }
 

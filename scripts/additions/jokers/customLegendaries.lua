@@ -84,6 +84,27 @@ local jokerInfo = {
 			actually calls calculate(). ...Yeah. It's weird.]]
 			blueprint_compat = true,
 			
+			create_main_end = function()
+				local mainEndRV = {
+					n = G.UIT.C,
+					config = {
+						align = 'bm',
+						padding = 0.02
+					},
+					nodes = {}
+				}
+				
+				CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+						0, 0, -- Sprite X & Y
+						0.8, 0.8, -- Sprite W & H
+						CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+						{ x = 3, y = 1 } -- Position in the Atlas
+					)
+				)
+				
+				return { mainEndRV }
+			end,
+			
 			--[[
 			Figured out what this is - This largely defines some of the 
 			stuff that shows up in the tooltip (and more. So for example,
@@ -108,7 +129,8 @@ local jokerInfo = {
 					card.ability.extra.growth, 
 					CirnoMod.miscItems.obscureJokerNameIfNotEncountered('j_ice_cream'), 
 					card.ability.extra.Xmult
-					} }
+					},
+					main_end = self.create_main_end() }
 				end,
 			unlocked = false,
 			
@@ -490,7 +512,19 @@ local jokerInfo = {
 				-- The name the player will see in-game.
 				name = "ArumiaTheSleepy",
 				-- The description the player will see in-game.
-				text = {},
+				text = { {
+						'{C:attention}Swaps{} between {X:chips,C:white}XChips{} & {X:mult,C:white}XMult',
+						'after each {C:blue}hand{} played',
+						'{C:inactive}(Currently: {B:1,C:white}X#1#{C:inactive})'
+					}, {
+						'After {C:green}2-9{} cards {C:red}discarded{}',
+						'{C:inactive}({C:attention}#2#{C:inactive} remaining)',
+						'unchosen {C:mult}mu{C:chips}lt{C:mult}ip{C:chips}li{C:mult}er{} gains {C:attention}X#3#{},',
+						'then {C:green}choose{} a new discard requirement',
+						'{C:inactive}(Currently {X:chips,C:white}X#4#{C:inactive} Chips, {X:mult,C:white}X#5#{C:inactive} Mult)'
+					},
+					{ '{s:0.8,C:inactive}...So, you fall asleep reading this yet?' }
+				},
 				unlock = {
 					"Find this {C:joker}Joker",
 					"from the {C:spectral}Soul{} card"
@@ -512,190 +546,28 @@ local jokerInfo = {
 				}
 			},
 			
-			--[[ ...This is the madness that is a main_end creation.
-			In loc_vars(), if you return UI code in the var 'main_end',
-			it will append to the Joker's description (IIRC, there's
-			also 'main_start' for prepending).
+			set_badges = function(self, card, badges)
+				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
+					badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
+				end
+			end,
 			
-			To make a Joker description that dynamically changes
-			in-game based on certain conditions - For pure, basic text
-			alterations like what I do over in Joker_Renames with The
-			Family where I set it up to randomly flip that part of text,
-			I just cheat and use a variable in the description, which
-			gets controlled with a function.
-			
-			But to specifically do other stuff like dynamically
-			changing stuff like {X:[colour]} or changing out
-			non-highlighted text for highlighted text and vice-versa,
-			etc, this is basically the only method.
-			
-			It is pain. But as a side bonus, can overcome the weird
-			limitation of spaces not working with {X:[colour]} in
-			normal loc text vars.
-			
-			This is NOT the most efficient main_end code or otherwise
-			best way to do this, but I like to think that it's done
-			pretty well.]]
-			create_main_end = function(center)
-				local nodes_ = {
-					Ln1 = {},
-					Ln2 = {},
-					Ln3 = {},
-					Ln4 = {},
-					Ln5 = {},
-					Ln6 = {},
-					Ln7 = {},
-					Ln8 = {},
-					Ln9 = {},
-					Ln10 = {}
-				}
-				--[[LUA IS FUCKING STUPIDDDDDDDDD
-				THE ORDER YOU ESTABLISH A TABLE
-				DOESN'T MATTER, SINCE THE PAIRS()
-				FUNCTION WILL ACCESS ITS INDICES
-				IN A WEIRD, ARBITRARY & SEEMINGLY
-				RANDOM ORDER AND YOU CAN'T JUST
-				SORT THE TABLE BY KEY WITHOUT
-				STARTING WITH A ANOTHER LOOP
-				FIRST TO ITERATE THROUGH THE
-				TABLE, SO I HAVE TO DO THIS SO IT
-				CAN ITERATE	THROUGH	THE NODES IN
-				THE ORDER I ACTUALLY INTEND THE
-				FINAL UI TO BE! HOLY FUCK THIS IS
-				DUMB, THUNK WHY DID YOU MAKE THE 
-				GAME IN THIS GARBAGE LANGUAGE
-				AND NOT A SUPERIOR ONE THAT HAS
-				SOLVED THIS TOTAL NON-ISSUE AND
-				MORE, LIKE C#?!
-				ABSOLUTELY INCREDIBLE.]]
-				local nodeKeys = {
-					'Ln1',
-					'Ln2',
-					'Ln3',
-					'Ln4',
-					'Ln5',
-					'Ln6',
-					'Ln7',
-					'Ln8',
-					'Ln9',
-					'Ln10'
-				}
+			--[[ Stay out of Balatro UI code if you value your sanity.
+			Fun fact about sanity: Did you know it's possible to keep
+			losing your sanity with increasing depth? It isn't just one
+			and then it stops. I'm on like 5 layers of lost sanity.]]
+			generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+				SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln1, 'Switches between ', G.C.UI.TEXT_DARK, 1)
+				full_UI_table.multi_box[2][2] = {}
 				
-				CirnoMod.miscItems.addUITextNode(
-					CirnoMod.miscItems.addUIColumnOrRowNode(
-						nodes_.Ln1,
-						'm',
-						'C',
-						G.C.CHIPS,
-						0,
-						0.025).nodes,
-					'X Chips',
-					G.C.UI.TEXT_LIGHT,
-					1)
-				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln1, ' & ', G.C.UI.TEXT_DARK, 1)
-				
-				CirnoMod.miscItems.addUITextNode(
-					CirnoMod.miscItems.addUIColumnOrRowNode(
-						nodes_.Ln1,
-						'm',
-						'C',
-						G.C.MULT,
-						0,
-						0.025).nodes,
-					'X Mult',
-					G.C.UI.TEXT_LIGHT,
-					1)
-				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln2, 'after each ', G.C.UI.TEXT_DARK, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln2, 'hand', G.C.BLUE, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln2, ' played', G.C.UI.TEXT_DARK, 1)
-				
-				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln3, '(Selected: ', G.C.UI.TEXT_INACTIVE, 1)
-				
-				CirnoMod.miscItems.addUITextNode(
-					CirnoMod.miscItems.addUIColumnOrRowNode(
-						nodes_.Ln3,
-						'm',
-						'C',
-						center.ability.extra.chipsMultColour[center.ability.extra.active],
-						0,
-						0.025).nodes,
-					'X '..center.ability.extra.active,
-					G.C.UI.TEXT_LIGHT,
-					1)
-				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln3, ')', G.C.UI.TEXT_INACTIVE, 1)
-				
-				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln4, 'After ', G.C.UI.TEXT_DARK, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln4, '2-9', G.C.GREEN, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln4, ' cards ', G.C.UI.TEXT_DARK, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln4, 'discarded', G.C.RED, 1)
-				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln5, '(', G.C.UI.TEXT_DARK, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln5, center.ability.extra.discardDecrementCounter, G.C.FILTER, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln5, ' remaining), increases value', G.C.UI.TEXT_DARK, 1)
-				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln6, 'not selected', G.C.FILTER, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln6, ' by ', G.C.UI.TEXT_DARK, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln6, 'X'..center.ability.extra.extra, G.C.FILTER, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln6, ', then ', G.C.UI.TEXT_DARK, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln6, 'rerolls', G.C.GREEN, 1)
-				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln7, 'requirement', G.C.UI.TEXT_DARK, 1)
-				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln8, '(Currently ', G.C.UI.TEXT_INACTIVE, 1)
-				
-				CirnoMod.miscItems.addUITextNode(
-					CirnoMod.miscItems.addUIColumnOrRowNode(
-						nodes_.Ln8,
-						'm',
-						'C',
-						G.C.CHIPS,
-						0,
-						0.025).nodes,
-					'X'..center.ability.extra.xChips,
-					G.C.UI.TEXT_LIGHT,
-					1)
-				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln8, ' Chips, ', G.C.UI.TEXT_INACTIVE, 1)
-				
-				CirnoMod.miscItems.addUITextNode(
-					CirnoMod.miscItems.addUIColumnOrRowNode(
-						nodes_.Ln8,
-						'm',
-						'C',
-						G.C.MULT,
-						0,
-						0.025).nodes,
-					'X'..center.ability.extra.xMult,
-					G.C.UI.TEXT_LIGHT,
-					1)
-				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln8, ' Mult)', G.C.UI.TEXT_INACTIVE, 1)
-				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln9, "...So, you fall asleep from reading this yet?", G.C.UI.TEXT_INACTIVE, 0.8)
-				
-				CirnoMod.miscItems.addUISpriteNode(nodes_.Ln10, AnimatedSprite(
+				CirnoMod.miscItems.addUISpriteNode(full_UI_table.multi_box[2][2], AnimatedSprite(
 						0, 0, -- Sprite X & Y
 						0.8, 0.8, -- Sprite W & H
 						CirnoMod.miscItems.funnyAtlases.rumiSleep, -- Sprite Atlas
 						{ x = 0, y = 0 } -- Position in the Atlas
 					)
 				)
-				
-				return {{
-					n = G.UIT.C,
-					config = {
-						align = 'bm',
-						padding = 0.02
-					},
-					nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
-				}}
 			end,
 			
 			blueprint_compat = true,
@@ -706,12 +578,13 @@ local jokerInfo = {
 				end
 				
 				return { vars = {
-						center.ability.extra.extra,
-						center.ability.extra.xChips,
-						center.ability.extra.xMult
-					},
-					main_end = self.create_main_end(center)
-				}
+					center.ability.extra.active,
+					center.ability.extra.discardDecrementCounter,
+					center.ability.extra.extra,
+					center.ability.extra.xChips,
+					center.ability.extra.xMult,
+					colours = { center.ability.extra.chipsMultColour[center.ability.extra.active] }
+				} }
 			end,
 			unlocked = false,
 			
@@ -722,12 +595,6 @@ local jokerInfo = {
 			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
 			eternal_compat = true,
 			perishable_compat = true,
-			
-			set_badges = function(self, card, badges)
-				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-					badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
-				end
-			end,
 			
 			--[[ Causes crashes. No-one knows why.
 			!! DO NOT UNCOMMENT if the set_sprites() call below is with
@@ -894,7 +761,7 @@ local jokerInfo = {
 						-- And we state that it has gone up.
 						return {
 							extra = {
-								message = "Reroll!",
+								message = "Change!",
 								colour = G.C.GREEN,
 								card = card
 							},

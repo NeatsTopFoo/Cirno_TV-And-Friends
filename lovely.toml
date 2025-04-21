@@ -98,7 +98,6 @@ dollars = dollars + ret
 '''
 position = "at"
 payload = '''
-	
 				if CirnoMod then
 					cModDolCalc = CirnoMod.miscItems.roundEvalDollarCalc.full(ret, dollars, pitch, _card, i)
 					i = cModDolCalc.i
@@ -119,29 +118,27 @@ position = "before"
 payload = '''
 
 	if
-		CirnoMod
-		and card_type ~= 'Locked'
+		card_type ~= 'Locked'
 		and card_type ~= 'Undiscovered'
+		and CirnoMod
+		and CirnoMod.config.artCredits
 	then
-		if
-			CirnoMod.config.artCredits
-		then
-			local PVC_RV = CirnoMod.ParseVanillaCredit(_c, specific_vars)
+		local PVC_RV = CirnoMod.ParseVanillaCredit(_c, specific_vars)
+		
+		if PVC_RV then
+			local ACEC = nil
 			
-			if PVC_RV then
-				local ACEC = nil
-				
-				if
-					CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key]
-				then
-					ACEC = CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key](_c, loc_vars, specific_vars, card_type, badges, main_start, main_end)
-				end
-				
-				if
-					not (ACEC and ACEC.doNotInfoQueue)
-				then
-					info_queue[#info_queue + 1] = PVC_RV
-				end
+			if
+				CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key]
+			then
+				ACEC = CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key](_c, loc_vars, specific_vars, info_queue, card_type, badges, main_start, main_end)
+			end
+			
+			if
+				not ACEC
+				or ACEC and ACEC.doNotInfoQueue
+			then
+				info_queue[#info_queue + 1] = PVC_RV
 			end
 		end
 	end

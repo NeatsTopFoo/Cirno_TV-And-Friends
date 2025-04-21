@@ -1,5 +1,5 @@
 local creditSources = {}
-local RV = { descriptions = { Joker = {} }, misc = { v_text = {} } }
+local RV = { descriptions = { Joker = {} }, misc = { dictionary = {}, v_text = {} } }
 
 --#region What will go in the top of an art credit tooltip.
 creditSources.cr_JokerArt = "Joker Art By"
@@ -57,11 +57,15 @@ RV.descriptions.Other = {
 	----- Me -----
 	jA_NTF = {
 		name = creditSources.cr_JokerArt,
-		text = {creditSources.NTF}
+		text = { creditSources.NTF }
 	},
 	gA_NTF = {
 		name = creditSources.cr_GenericArt,
-		text = { creditSources.NTF}
+		text = { creditSources.NTF }
+	},
+	eA_NTF = {
+		name = creditSources.cr_EnhancerArt,
+		text = { creditSources.NTF }
 	},
 	jA_LocalThunk_NTFEdit = {
 		name = creditSources.cr_JokerArt,
@@ -351,6 +355,13 @@ RV.descriptions.Other = {
 			"{s:0.8}Mojang art."
 		}
 	},
+	jA_fourFingers = {
+		name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}"..creditSources.DTsun.." edit",
+			"{s:0.8}of Loss.jpg."
+		}
+	},
 	jA_Unknown = {
 		name = creditSources.cr_JokerArt,
 		text = {creditSources.unknown}
@@ -399,6 +410,62 @@ RV.descriptions.Other = {
 	blankTooltipA = { name = '', text = { '' } }
 }
 
+--[[ For facilitating some
+custom Joker text; The pipeline
+here is that for Jokers where the
+name needs to change, we return
+a key variable in loc_vars that
+corresponds with an entry here. ]]
+RV.descriptions.Joker.cir_b3313_base = {
+	name = 'B3313',
+	text = {
+		"This {C:joker}Joker{} is exclusive",
+		"to the {C:attention}show{}. It's connected to a",
+		"variety of {C:attention}worlds{}, so",
+		"play some {C:blue}hands{} and get",
+		"adventuring."
+	}
+}
+
+RV.descriptions.Joker.cir_b3313_betaLob = { name = 'Beta Lobby', text = {} }
+
+RV.descriptions.Joker.cir_b3313_plexalLob = { name = 'Plexal Lobby', text = {} }
+
+RV.descriptions.Joker.cir_b3313_toadLob = { name = 'Toad\'s Lobby', text = {} }
+
+RV.descriptions.Joker.cir_b3313_vanLob = { name = 'Vanilla Lobby', text = {} }
+
+RV.descriptions.Joker.cir_b3313_uncanny = { name = 'Uncanny Basement', text = {} }
+
+RV.descriptions.Joker.cir_b3313_4thFloor = { name = '4th Floor', text = {} }
+
+RV.descriptions.Joker.cir_b3313_crescent = { name = 'Crescent Castle', text = {} }
+
+RV.descriptions.Joker.cir_b3313_forestMaze = { name = 'Forest Maze', text = {} }
+
+RV.descriptions.Joker.cir_b3313_loogi = { name = 'IT HURTS', text = {} }
+
+RV.descriptions.Joker.cir_b3313_peachCell = { name = 'Peach\'s Cell', text = {} }
+
+RV.descriptions.Joker.cir_b3313_nebLob = { name = 'Nebula Lobby', text = {} }
+
+RV.descriptions.Joker.cir_b3313_floor3B = { name = 'Floor 3B', text = {} }
+
+RV.misc.dictionary.k_b3313_base = 'Back!'
+RV.misc.dictionary.k_b3313_betaLob = 'Beta Lobby'
+RV.misc.dictionary.k_b3313_plexalLob = 'Plexal Lobby'
+RV.misc.dictionary.k_b3313_toadLob = 'Toad\'s Lobby'
+RV.misc.dictionary.k_b3313_vanLob = 'Vanilla Lobby'
+RV.misc.dictionary.k_b3313_uncanny = 'Uncanny Basement'
+RV.misc.dictionary.k_b3313_4thFloor = '4th Floor'
+RV.misc.dictionary.k_b3313_crescent = 'Crescent Castle'
+RV.misc.dictionary.k_b3313_forestMaze = 'Forest Maze'
+RV.misc.dictionary.k_b3313_loogi = '...'
+RV.misc.dictionary.k_b3313_peachCell = '...'
+RV.misc.dictionary.k_b3313_nebLob = 'Nebula Lobby'
+RV.misc.dictionary.k_b3313_floor3B = 'Floor 3B'
+
+
 --[[
 This just populates the localization vars for extended desc tooltips,
 otherwise mousing over something that uses them causes a crash.]]
@@ -429,11 +496,9 @@ then
 	end
 	
 	-- RV.descriptions.Enhanced = { m_stone = { name = "Whump Card" } }
-	RV.misc.dictionary = {
-		k_plus_stone = "+1 "..replaceIntents.stone,
-		ph_deck_preview_stones = replaceIntents.stone.."s",
-		ph_mr_bones = "Saved by "..replaceIntents.bones
-	}
+	RV.misc.dictionary.k_plus_stone = "+1 "..replaceIntents.stone
+	RV.misc.dictionary.ph_deck_preview_stones = replaceIntents.stone.."s"
+	RV.misc.dictionary.ph_mr_bones = "Saved by "..replaceIntents.bones
 	
 	if not CirnoMod.config['jokerRenames'] then
 		RV.descriptions.Joker.j_stone = {

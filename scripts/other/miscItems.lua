@@ -42,6 +42,7 @@ miscItems.redSealRetriggerIgnoreTable = {
 	
 miscItems.colours = {
 	cirInactiveAtt = HEX('BFB199FF'),
+	cirFaintLavender = HEX('ABA3CCFF'),
 	cirBlue = HEX('0766EBFF'),
 	cirCyan = HEX('0AD0F7FF'),
 	cirLucy = HEX('7BB083FF'),
