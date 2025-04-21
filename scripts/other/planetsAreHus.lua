@@ -40,15 +40,14 @@ if CirnoMod.config['planetTarotSpectralRenames'] then
 		
 	planetsAreHus.planets.c_mars = {
 		name = "Shou",
-		text = {
-		--[[
+		--[[text = {
+		
             "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
             "{C:attention}#2#",
             "{C:mult}+#3#{} Mult and",
             "{C:chips}+#4#{} chips",
-			"{s:0.8,C:inactive}"
-		]]
-        }
+			"{s:0.8,C:inactive}"		
+        }]]
 	}
 	
 	planetsAreHus.planets.c_jupiter = {
@@ -65,15 +64,14 @@ if CirnoMod.config['planetTarotSpectralRenames'] then
 		
 	planetsAreHus.planets.c_saturn = {
 		name = "Momiji",
-		text = {
-		--[[
+		--[[text = {
+		
             "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
             "{C:attention}#2#",
             "{C:mult}+#3#{} Mult and",
             "{C:chips}+#4#{} chips",
 			"{s:0.8,C:inactive}"
-		]]
-        }
+        }]]
 	}
 	
 	planetsAreHus.planets.c_uranus = {
@@ -125,15 +123,14 @@ if CirnoMod.config['planetTarotSpectralRenames'] then
 		
 	planetsAreHus.planets.c_eris = {
 		name = "Nue",
-		text = {
-		--[[
+		--[[text = {
+		
             "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
             "{C:attention}#2#",
             "{C:mult}+#3#{} Mult and",
             "{C:chips}+#4#{} chips",
 			"{s:0.8,C:inactive}"
-		]]
-        }
+        }]]
 	}
 end
 

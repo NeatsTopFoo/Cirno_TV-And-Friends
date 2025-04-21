@@ -98,7 +98,6 @@ dollars = dollars + ret
 '''
 position = "at"
 payload = '''
-	
 				if CirnoMod then
 					cModDolCalc = CirnoMod.miscItems.roundEvalDollarCalc.full(ret, dollars, pitch, _card, i)
 					i = cModDolCalc.i

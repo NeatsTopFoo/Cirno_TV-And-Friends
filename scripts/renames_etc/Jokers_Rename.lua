@@ -40,9 +40,19 @@ if CirnoMod.replaceDef.locChanges.boosterLoc then
 end
 
 local stoneIntent = G.localization.descriptions.Enhanced.m_stone.name
+local goldIntent = G.localization.descriptions.Enhanced.m_gold.name
+local glassIntent = G.localization.descriptions.Enhanced.m_glass.name
 
 if CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone then
 	stoneIntent = CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name
+end
+
+if CirnoMod.replaceDef.locChanges.enhancerLoc.m_gold then
+	goldIntent = CirnoMod.replaceDef.locChanges.enhancerLoc.m_gold.name
+end
+	
+if CirnoMod.replaceDef.locChanges.enhancerLoc.m_glass then
+	glassIntent = CirnoMod.replaceDef.locChanges.enhancerLoc.m_glass.name
 end
 
 --[[ Bootstraps goes first, as some future (cosmetic)
@@ -98,7 +108,7 @@ jokerLoc.weeJkr.j_wee = { name = "cirMini", }
 
 if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('wee', {
-		create_main_end = function(center)
+		create_main_end = function()
 			local mainEndRV = {
 				n = G.UIT.C,
 				config = {
@@ -124,7 +134,10 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 		end,
 		
 		loc_vars = function(self, info_queue, center)
-			return { vars = { center.ability.extra.chips, center.ability.extra.chip_mod }, main_end = self.create_main_end(center) }
+			return { vars = {
+				center.ability.extra.chips,
+				center.ability.extra.chip_mod },
+			main_end = self.create_main_end() }
 		end
 	}, true)
 else
@@ -526,17 +539,20 @@ jokerLoc.nrmJkrs.j_troubadour = {
 		"{C:attention}+#1#{} hand size,",
         "{C:blue}-#2#{} hand each round"
 	}
-}
+}]]
 
 jokerLoc.nrmJkrs.j_banner = {
-	name = "Banner",
+	name = "Gacha Banner",
 	text = {
 		"{C:chips}+#1#{} Chips for",
         "each remaining",
-        "{C:attention}discard"
+        "{C:attention}discard",
+		"{s:0.8,C:inactive}\"This how you feel when",
+		"{s:0.8,C:inactive}I pull your girls?\"",
+		"{s:0.5,C:inactive}\"{s:0.5,C:cirFaintLavender}...What are my girls?{s:0.5,C:inactive}\""
 	}
 }
-
+--[[
 jokerLoc.nrmJkrs.j_mystic_summit = {
 	name = "Mystic Summit",
 	text = {
@@ -627,7 +643,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			end
 		end,
 		
-		create_main_end = function(center)
+		create_main_end = function()
 			local mainEndRV = {
 				n = G.UIT.C,
 				config = {
@@ -649,7 +665,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 		end,
 		
 		loc_vars = function(self, info_queue, center)
-			return { vars = { center.ability.extra }, main_end = self.create_main_end(center) }
+			return { vars = { center.ability.extra }, main_end = self.create_main_end() }
 		end
 	}, true)
 end
@@ -673,7 +689,7 @@ jokerLoc.nrmJkrs.j_glass = {
 	name = "Glass Joker",
 	text = {
 		"This Joker gains {X:mult,C:white} X#1# {} Mult",
-        "for every {C:attention}Glass Card",
+        "for every {C:attention}"..glassIntent.." Card",
         "that is destroyed",
         "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
 	}
@@ -737,7 +753,7 @@ then
 			end
 		end,
 		
-		create_main_end = function(center)
+		create_main_end = function()
 			local mainEndRV = {
 				n = G.UIT.C,
 				config = {
@@ -759,7 +775,7 @@ then
 		end,
 		
 		loc_vars = function(self, info_queue, center)
-			return { vars = { center.ability.extra }, main_end = self.create_main_end(center) }
+			return { vars = { center.ability.extra }, main_end = self.create_main_end() }
 		end
 	}, true)
 end
@@ -768,13 +784,13 @@ end
 jokerLoc.nrmJkrs.j_ticket = {
 	name = "Golden Ticket",
 	text = {
-		"Played {C:attention}Gold{} cards",
+		"Played {C:attention}"..goldIntent.."{} cards",
         "earn {C:money}$#1#{} when scored"
 	},
     unlock = {
         "Play a 5 card hand",
         "that contains only",
-        "{C:attention,E:1}Gold{} cards",
+        "{C:attention,E:1}"..goldIntent.."{} cards",
     }
 }
 ]]
@@ -932,7 +948,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			end
 		end,
 		
-		create_main_end = function(center)
+		create_main_end = function()
 			local mainEndRV = {
 				n = G.UIT.C,
 				config = {
@@ -954,7 +970,10 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 		end,
 		
 		loc_vars = function(self, info_queue, center)
-			return { vars = { center.ability.x_mult, localize(center.ability.type, 'poker_hands') }, main_end = self.create_main_end(center) }
+			return { vars = {
+				center.ability.x_mult,
+				localize(center.ability.type, 'poker_hands') },
+			main_end = self.create_main_end() }
 		end
 	}, true)
 end
@@ -1313,7 +1332,7 @@ end
 
 if CirnoMod.config.allowCosmeticTakeOwnership then	
 	SMODS.Joker:take_ownership('gros_michel', {
-		create_main_end = function(center)
+		create_main_end = function()
 			local mainEndRV = {
 				n = G.UIT.C,
 				config = {
@@ -1335,7 +1354,11 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 		end,
 		
 		loc_vars = function(self, info_queue, center)
-			return { vars = { center.ability.extra.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), center.ability.extra.odds } , main_end = self.create_main_end(center) }
+			return { vars = {
+				center.ability.extra.mult,
+				''..(G.GAME and G.GAME.probabilities.normal or 1),
+				center.ability.extra.odds },
+			main_end = self.create_main_end() }
 		end
 	}, true)
 end
@@ -1455,7 +1478,7 @@ jokerLoc.nrmJkrs.j_dusk = {
 		"{s:0.8,C:inactive}It takes a {s:0.8,C:cirInactiveAtt}Demon's Soul{s:0.8,C:inactive} to announce it as",
 		"{s:0.8,C:inactive}a Switch 2 exclusive. In those who once claimed their {s:0.8,C:cirInactiveAtt}Cores",
 		"{s:0.8,C:cirInactiveAtt}Armoured{s:0.8,C:inactive}, I sense great lamentation and boiling {s:0.8,C:cirInactiveAtt}Blood{s:0.8,C:inactive}, {s:0.8,C:cirInactiveAtt}borne",
-		"{s:0.8,C:inactive} from sheer frustration at how tone deaf this affair seems",
+		"{s:0.8,C:inactive} from sheer frustration at how tone-deaf this affair seems",
 		"{s:0.8,C:inactive}to them. Oh, these {s:0.8,C:cirInactiveAtt}Dark-ened Souls{s:0.8,C:inactive} and deeply {s:0.8,C:cirInactiveAtt}Seki-furrowed{s:0.8,C:inactive} brows!",
 		"{s:0.8,C:inactive}We'll be having a {s:0.8,C:cirInactiveAtt}King's Field{s:0.8,C:inactive} day."
 	}
@@ -1645,6 +1668,36 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
 				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
 			end
+		end,
+		
+		create_main_end = function()
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					0.8, 0.8, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 4, y = 1 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return { vars = {
+				center.ability.extra.xmult,
+				center.ability.extra.discards,
+				center.ability.yorick_discards,
+				center.ability.x_mult },
+			main_end = self.create_main_end() }
 		end
 	}, true)
 end
@@ -1665,7 +1718,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			end
 		end,
 		
-		create_main_end = function(center)
+		create_main_end = function()
 			local mainEndRV = {
 				n = G.UIT.C,
 				config = {
@@ -1687,7 +1740,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 		end,
 		
 		loc_vars = function(self, info_queue, center)
-			return { main_end = self.create_main_end(center) }
+			return { main_end = self.create_main_end() }
 		end
 	}, true)
 else
@@ -1946,7 +1999,7 @@ if CirnoMod.config['matureReferences_cyc'] == 3 then
 	
 	if CirnoMod.config.allowCosmeticTakeOwnership then
 		SMODS.Joker:take_ownership('todo_list', {
-			create_main_end = function(center)
+			create_main_end = function()
 				local mainEndRV = {
 					n = G.UIT.C,
 					config = {
@@ -1973,7 +2026,7 @@ if CirnoMod.config['matureReferences_cyc'] == 3 then
 						center.ability.extra.dollars,
 						localize(center.ability.to_do_poker_hand, 'poker_hands')
 					},
-					main_end = self.create_main_end(center)
+					main_end = self.create_main_end()
 				}
 			end
 		}, true)
@@ -2185,7 +2238,7 @@ jokerLoc.nrmJkrs.j_midas_mask = {
 	name = "Dagoth Ur",
 	text = {
 		"All played {C:attention}face{} cards",
-        "become {C:attention}Gold{} cards",
+        "become {C:attention}"..goldIntent.."{} cards",
         "when scored",
 		"{s:0.8,C:inactive}\"Come Nerevar, and look",
 		"{s:0.8,C:inactive}upon the heart.\""
@@ -2246,7 +2299,7 @@ jokerLoc.nrmJkrs.j_turtle_bean = {
 }
 if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('turtle_bean', {
-		create_main_end = function(center)
+		create_main_end = function()
 			local mainEndRV = {
 				n = G.UIT.C,
 				config = {
@@ -2275,7 +2328,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 					center.ability.extra.h_size,
 					center.ability.extra.h_mod
 				},
-				main_end = self.create_main_end(center)
+				main_end = self.create_main_end()
 			}
 		end
 	}, true)
@@ -2296,7 +2349,7 @@ jokerLoc.nrmJkrs.j_erosion = {
 
 if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('erosion', {
-		create_main_end = function(center)
+		create_main_end = function()
 			local mainEndRV = {
 				n = G.UIT.C,
 				config = {
@@ -2324,7 +2377,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 					math.max(0,center.ability.extra*(G.playing_cards and (G.GAME.starting_deck_size - #G.playing_cards) or 0)),
 					G.GAME.starting_deck_size
 				},
-				main_end = self.create_main_end(center)
+				main_end = self.create_main_end()
 			}
 		end
 	}, true)
@@ -2401,7 +2454,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			end
 		end,
 		
-		create_main_end = function(center)
+		create_main_end = function()
 			local mainEndRV = {
 				n = G.UIT.C,
 				config = {
@@ -2423,7 +2476,10 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 		end,
 		
 		loc_vars = function(self, info_queue, center)
-			return { vars = { center.ability.t_chips, localize(center.ability.type, 'poker_hands') }, main_end = self.create_main_end(center) }
+			return { vars = {
+				center.ability.t_chips,
+				localize(center.ability.type, 'poker_hands') },
+			main_end = self.create_main_end() }
 		end
 	}, true)
 end
@@ -2456,7 +2512,7 @@ else
 		"{s:0.8,C:inactive}This is Hannah 2."
     }
 			
-	wilyTakeOwnershipTable.create_main_end = function(center)
+	wilyTakeOwnershipTable.create_main_end = function()
 		local mainEndRV = {
 			n = G.UIT.C,
 			config = {
@@ -2478,7 +2534,10 @@ else
 	end
 	
 	wilyTakeOwnershipTable.loc_vars = function(self, info_queue, center)
-		return { vars = { center.ability.t_chips, localize(center.ability.type, 'poker_hands') }, main_end = self.create_main_end(center) }
+		return { vars = {
+			center.ability.t_chips,
+			localize(center.ability.type, 'poker_hands') },
+		main_end = self.create_main_end() }
 	end
 end
 	
@@ -2514,7 +2573,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			end
 		end,
 		
-		create_main_end = function(center)
+		create_main_end = function()
 			local mainEndRV = {
 				n = G.UIT.C,
 				config = {
@@ -2536,7 +2595,10 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 		end,
 		
 		loc_vars = function(self, info_queue, center)
-			return { vars = { center.ability.t_chips, localize(center.ability.type, 'poker_hands') }, main_end = self.create_main_end(center) }
+			return { vars = {
+				center.ability.t_chips,
+				localize(center.ability.type, 'poker_hands') },
+			main_end = self.create_main_end() }
 		end
 	}, true)
 end

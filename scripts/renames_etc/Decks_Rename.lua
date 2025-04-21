@@ -14,7 +14,7 @@ deckLoc.b_nebula = { name = "Yukari Deck" }
 -- deckLoc.b_painted = { name = "Painted Deck" }
 -- deckLoc.b_plasma = { name = "Plasma Deck" }
 deckLoc.b_red = { name = "Reimu Deck" }
--- deckLoc.b_yellow = { name = "Yellow Deck" }
+deckLoc.b_yellow = { name = "Alice Deck" }
 -- deckLoc.b_zodiac = { name = "Zodiac Deck" }
 
 return deckLoc

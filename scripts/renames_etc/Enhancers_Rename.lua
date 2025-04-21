@@ -70,16 +70,31 @@ enhLoc.seals.red_seal = { name = "Power Seal" }
 
 --#region Enhancers
 
---[[
-SMODS.process_loc_text() spontaneously stopped
-working for stone card stuff, this is done in
-the mod's localization/en-us.lua instead.
-SMODS.process_loc_text(G.localization.descriptions.Enhanced.m_stone, "name", "Whump Card")
-
-SMODS.process_loc_text(G.localization.misc.dictionary, "k_plus_stone", "+1 Whump")
-SMODS.process_loc_text(G.localization.misc.dictionary, "ph_deck_preview_stones", "Whumps")]]
-
 enhLoc.enhancers.m_stone = { name = "Whump Card" }
+
+enhLoc.enhancers.m_gold = {
+	name = "Skyrim Card",
+    text={
+        "{C:money}$#1#{} if this",
+        "card is held in hand",
+        "at end of round",
+		"{s:0.8,C:inactive}See this card?",
+		"{s:0.8,C:inactive}You can hold it.",
+		"{s:0.8,C:inactive}It just works."
+    }
+}
+
+enhLoc.enhancers.m_wild = {
+	name = "Pencil Card",
+    text={
+        "Can be used",
+        "as any suit",
+		"{s:0.8,C:inactive}The pencils from",
+		"{s:0.8,C:inactive}Super Mario World!"
+    }
+}
+
+enhLoc.enhancers.m_glass = { name = "Ice Card" }
 
 --#endregion
 

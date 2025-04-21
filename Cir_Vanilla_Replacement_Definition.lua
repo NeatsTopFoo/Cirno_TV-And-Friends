@@ -305,7 +305,7 @@ replaceDef.allKeysToIgnore = { -- There's probably a better way to do this
 replaceDef.deckReplacements = { -- Deck art credits don't work unfortunately :( The tooltip just doesn't appear. These are also just in the order Malverk's codebase had them in.
 	{ dckKey = 'b_red', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	{ dckKey = 'b_blue', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
-	-- { dckKey = 'b_yellow', matureRefLevel = 1 },
+	{ dckKey = 'b_yellow', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	-- { dckKey = 'b_green', matureRefLevel = 1 },
 	{ dckKey = 'b_black', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	-- { dckKey = 'b_magic', matureRefLevel = 1 },
@@ -355,7 +355,7 @@ replaceDef.boosterReplacements = { -- These are just in the order Malverk's code
 	--	{ bstKey = 'p_standard_mega_2', matureRefLevel = 1, },
 	{ bstKey = 'p_buffoon_normal_1', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_NTFEdit' },
 	{ bstKey = 'p_buffoon_normal_2', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_NTFEdit' },
-	--	{ bstKey = 'p_buffoon_jumbo_1', matureRefLevel = 1, },
+	{ bstKey = 'p_buffoon_jumbo_1', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_NTFEdit' },
 	{ bstKey = 'p_buffoon_mega_1', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' }
 }
 
@@ -411,7 +411,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_gluttenous_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' }, -- Yes, it's mispelled internally. LocalThunk issue. See game files
 	
 	-- { jkrKey = 'j_troubadour', matureRefLevel = 1 },
-	-- { jkrKey = 'j_banner', matureRefLevel = 1 },
+	{ jkrKey = 'j_banner', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTFEdit' },
 	-- { jkrKey = 'j_mystic_summit', matureRefLevel = 1 },
 	-- { jkrKey = 'j_marble', matureRefLevel = 1 },
 	{ jkrKey = 'j_loyalty_card', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
@@ -635,22 +635,47 @@ replaceDef.spectralReplacements = {
 --------------------
 ---- Enhancers -----
 --------------------
-replaceDef.enhancerReplacements = {
+replaceDef.enhancerReplacements = { -- Art Credit system does not work good for A LOT OF ENHANCERS, WTF, see below
 	--	{ enhKey = 'm_bonus', matureRefLevel = 1, },
 	--	{ enhKey = 'm_mult', matureRefLevel = 1, },
-	{ enhKey = 'm_wild', matureRefLevel = 1}, -- Art Credit system does not work good for wild cards, see below
-	--	{ enhKey = 'm_glass', matureRefLevel = 1, },
+	{ enhKey = 'm_wild', matureRefLevel = 1},
+	{ enhKey = 'm_glass', matureRefLevel = 1 },
 	--	{ enhKey = 'm_steel', matureRefLevel = 1, },
 	{ enhKey = 'm_stone', matureRefLevel = 1, artCreditKey = 'eA_Unknown' },
-	--	{ enhKey = 'm_gold', matureRefLevel = 1, },
+	{ enhKey = 'm_gold', matureRefLevel = 1 },
 	--	{ enhKey = 'm_lucky' matureRefLevel = 1, }
 }
 
--- Have to do it this way because the normal method doesn't work for wild cards :(
+-- Have to do it this way because the normal method doesn't work for a surprising amount of enhancers :(
 if CirnoMod.config['allowCosmeticTakeOwnership'] then
 	SMODS.Enhancement:take_ownership('wild', {
 		loc_vars = function(self, info_queue, center)
-			info_queue[#info_queue+1] = { key = 'eA_DaemonTsun', set = "Other" }
+			if CirnoMod.config['artCredits'] then
+				info_queue[#info_queue+1] = { key = 'eA_DaemonTsun', set = "Other" }
+			end
+		end
+	}, true)
+	
+	SMODS.Enhancement:take_ownership('glass', {
+		loc_vars = function(self, info_queue, center)
+			if CirnoMod.config['artCredits'] then
+				info_queue[#info_queue+1] = { key = 'eA_DaemonTsun', set = "Other" }
+			end
+			
+			return { vars = {
+				center.ability.Xmult,
+				G.GAME.probabilities.normal,
+				center.ability.extra
+			}}
+		end
+	}, true)
+	
+	SMODS.Enhancement:take_ownership('gold', {
+		generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+			SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+			if CirnoMod.config['artCredits'] then
+				info_queue[#info_queue+1] = { key = 'eA_NTF', set = "Other" }
+			end
 		end
 	}, true)
 end
