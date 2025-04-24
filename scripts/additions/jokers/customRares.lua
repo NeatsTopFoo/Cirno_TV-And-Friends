@@ -67,11 +67,6 @@ local jokerInfo = {
 				jkr.children.floating_sprite:set_sprite_pos(jkr.config.center.soul_pos)
 			end,
 			
-			change_soul_pos = function(card, newSoulPos)
-				card.config.center.soul_pos = newSoulPos
-				card:set_sprites(card.config.center)
-			end,
-			
 			pickRandHand = function(card, silent)
 				if
 					G.GAME
@@ -787,6 +782,24 @@ local jokerInfo = {
 					['floor3B'] = { atlasX = 12 }
 				}
 			},
+			
+			updateState = function(jkr)
+				if
+					jkr.ability
+					and jkr.children
+				then
+					if -- If the soul_pos is not what I want it to be. I make it what I wnt it to be.
+						jkr.config.center.pos.x ~= jkr.ability.extra.formsInfo[jkr.ability.extra.currentForm].atlasX
+					then
+						jkr.config.center.pos.x = jkr.ability.extra.formsInfo[jkr.ability.extra.currentForm].atlasX
+					end
+				end
+				
+				-- Set the sprites.
+				jkr.children.center:set_sprite_pos(jkr.config.center.pos)
+			end,
+			
+			
 			
 			
 		}

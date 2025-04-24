@@ -453,6 +453,7 @@ then
 	miscItems.jkrKeyGroups.crazyWomen.j_wily = true
 	miscItems.jkrKeyGroups.crazyWomen.j_devious = true
 	miscItems.jkrKeyGroups.crazyWomen.j_lucky_cat = true
+	miscItems.jkrKeyGroups.crazyWomen.j_flash = true
 end
 
 if CirnoMod.config.addCustomJokers then

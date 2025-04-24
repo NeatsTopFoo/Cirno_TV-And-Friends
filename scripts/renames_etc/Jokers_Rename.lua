@@ -684,17 +684,17 @@ jokerLoc.nrmJkrs.j_blueprint = {
 	}
 }
 
---[[
 jokerLoc.nrmJkrs.j_glass = {
-	name = "Glass Joker",
+	name = "Ice Joker",
 	text = {
 		"This Joker gains {X:mult,C:white} X#1# {} Mult",
         "for every {C:attention}"..glassIntent.." Card",
         "that is destroyed",
-        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+		"{s:0.8,C:inactive}What's cooler than being cool?"
 	}
 }
-]]
+
 jokerLoc.nrmJkrs.j_scary_face = {
 	name = "Curly's Scary Face",
 	text = {
@@ -706,16 +706,17 @@ jokerLoc.nrmJkrs.j_scary_face = {
 		"{s:0.8,C:inactive}rat child to the wall?"
 	}
 }
---[[
+
 jokerLoc.nrmJkrs.j_abstract = {
-	name = "Abstract Joker",
+	name = "Sayuri",
 	text = {
 		"{C:mult}+#1#{} Mult for",
         "each {C:attention}Joker{} card",
-        "{C:inactive}(Currently {C:red}+#2#{C:inactive} Mult)"
+        "{C:inactive}(Currently {C:red}+#2#{C:inactive} Mult)",
+		"{s:0.8,C:inactive}Is that... Yes, I do believe it is!",
+		"{s:0.8,C:inactive}It's the {s:0.8,C:cirInactiveAtt}real Sayuri!"
 	}
 }
-]]
 
 if CirnoMod.config.matureReferences_cyc >= 2 then
 	jokerLoc.delGrat.j_delayed_grat = {
@@ -882,7 +883,7 @@ jokerLoc.nrmJkrs.j_business = {
     }
 }
 
---[[ Unsure what to do with Supernova.
+--[[ Unsure what to do for Supernova.
 jokerLoc.nrmJkrs.j_supernova, "name", "Supernova")
 jokerLoc.nrmJkrs.j_supernova = {
 	name = "Supernova",
@@ -1480,11 +1481,11 @@ jokerLoc.nrmJkrs.j_dusk = {
         "cards in {C:attention}final",
         "{C:attention}hand{} of round",
 		"{s:0.8,C:inactive}The vibe of this game sure {s:0.8,C:cirInactiveAtt}Elden Rings{s:0.8,C:inactive} a bell.",
-		"{s:0.8,C:inactive}It takes a {s:0.8,C:cirInactiveAtt}Demon's Soul{s:0.8,C:inactive} to announce it as",
-		"{s:0.8,C:inactive}a Switch 2 exclusive. In those who once claimed their {s:0.8,C:cirInactiveAtt}Cores",
-		"{s:0.8,C:cirInactiveAtt}Armoured{s:0.8,C:inactive}, I sense great lamentation and boiling {s:0.8,C:cirInactiveAtt}Blood{s:0.8,C:inactive}, {s:0.8,C:cirInactiveAtt}borne",
-		"{s:0.8,C:inactive} from sheer frustration at how tone-deaf this affair seems",
-		"{s:0.8,C:inactive}to them. Oh, these {s:0.8,C:cirInactiveAtt}Dark-ened Souls{s:0.8,C:inactive} and deeply {s:0.8,C:cirInactiveAtt}Seki-furrowed{s:0.8,C:inactive} brows!",
+		"{s:0.8,C:inactive}It takes a {s:0.8,C:cirInactiveAtt}Demon's Soul{s:0.8,C:inactive} to announce it as a Switch 2 exclusive.",
+		"{s:0.8,C:inactive}In those who once claimed their {s:0.8,C:cirInactiveAtt}Cores Armoured{s:0.8,C:inactive},",
+		"{s:0.8,C:inactive}I sense great lamentation and boiling {s:0.8,C:cirInactiveAtt}Blood{s:0.8,C:inactive}, {s:0.8,C:cirInactiveAtt}borne",
+		"{s:0.8,C:inactive}from sheer frustration at how tone-deaf this affair seems to",
+		"{s:0.8,C:inactive}them. Oh, these {s:0.8,C:cirInactiveAtt}Dark-ened Souls{s:0.8,C:inactive} and deeply {s:0.8,C:cirInactiveAtt}Seki-furrowed{s:0.8,C:inactive} brows!",
 		"{s:0.8,C:inactive}We'll be having a {s:0.8,C:cirInactiveAtt}King's Field{s:0.8,C:inactive} day."
 	}
 }
@@ -2388,17 +2389,17 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	}, true)
 end
 
---[[
 jokerLoc.nrmJkrs.j_reserved_parking = {
-	name = "Reserved Parking",
+	-- name = "Reserved Parking",
 	text = {
 		"Each {C:attention}face{} card",
         "held in hand has",
         "a {C:green}#2# in #3#{} chance",
-        "to give {C:money}$#1#{}"
+        "to give {C:money}$#1#{}",
+		"{s:0.8,C:inactive}Who be out here taking shots",
+		"{s:0.8,C:inactive}of the Mikumobile?"
 	}
 }
-]]
 
 jokerLoc.nrmJkrs.j_mail = {
 	name = "Idolmaster Gacha",
@@ -2655,13 +2656,60 @@ jokerLoc.nrmJkrs.j_bull = { name = "Bull" }
 jokerLoc.nrmJkrs.j_diet_cola = { name = "Diet Cola" }
 
 jokerLoc.nrmJkrs.j_trading = { name = "Trading Card" }
-
-
-===== NEXT LINE =====
-
-
-jokerLoc.nrmJkrs.j_flash = { name = "Flash Card" }
 ]]
+
+
+-- ===== NEXT LINE =====
+
+
+jokerLoc.nrmJkrs.j_flash = {
+	name = "Takane Takamine",
+	text={
+        "Each played {C:attention}Ace{},",
+        "{C:attention}2{}, {C:attention}3{}, {C:attention}5{}, or {C:attention}8{} gives",
+        "{C:mult}+#1#{} Mult when scored"
+    }
+}
+
+if CirnoMod.config['matureReferences_cyc'] >= 2 then
+	table.insert(jokerLoc.nrmJkrs.j_flash.text,
+		"{s:0.8,C:inactive}\"...So she takes her panties off and it like,")
+		
+	table.insert(jokerLoc.nrmJkrs.j_flash.text,
+		"{s:0.8,C:inactive}wipes everyone's mind, so she gets to do the test")
+		
+	table.insert(jokerLoc.nrmJkrs.j_flash.text,
+		"{s:0.8,C:inactive}again, and she calls this guy her closet and makes")
+		
+	table.insert(jokerLoc.nrmJkrs.j_flash.text,
+		"{s:0.8,C:inactive}him put panties on her every time she does it,")
+	
+	table.insert(jokerLoc.nrmJkrs.j_flash.text,
+		"{s:0.8,C:inactive}because her panties disappear each time.\"")
+	
+	table.insert(jokerLoc.nrmJkrs.j_flash.text,
+		"{s:0.8,C:inactive}-- Cirno_TV (approx. quote), circa 2020")
+else
+	table.insert(jokerLoc.nrmJkrs.j_flash.text,
+		"{s:0.8,C:inactive}...How do I possibly explain this one?")
+	
+	table.insert(jokerLoc.nrmJkrs.j_flash.text,
+		"{s:0.8,C:inactive}I've kinda dug myself a hole, here.")
+		
+	table.insert(jokerLoc.nrmJkrs.j_flash.text,
+		"{s:0.8,C:inactive}...Maybe don't think about it too much.")
+end
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Joker:take_ownership('flash', {
+		set_badges = function(self, card, badges)
+			if CirnoMod.miscItems.isUnlockedAndDisc(card) then
+				badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
+			end
+		end
+	}, true)
+end
+
 
 jokerLoc.nrmJkrs.j_popcorn = {
 	-- name = "Popcorn",
@@ -2726,6 +2774,18 @@ jokerLoc.nrmJkrs.j_walkie_talkie = {
     }
 }
 
--- jokerLoc.nrmJkrs.j_castle = { name = "Castle" }
+jokerLoc.nrmJkrs.j_castle = {
+	-- name = "Castle",
+	text = {
+		"This Joker gains {C:chips}+#1#{} Chips",
+        "per discarded {V:1}#2#{} card,",
+        "suit changes every round",
+        "{C:inactive}(Currently {C:chips}+#3#{C:inactive} Chips)",
+		"{s:0.8,C:inactive}...Well yeah, of course.",
+		"{s:0.8,C:inactive}You don't expect enemies",
+		"{s:0.8,C:inactive}to appear and kill you after",
+		"{s:0.8,C:inactive}you grab the flagpole?"
+	}
+}
 
 return jokerLoc

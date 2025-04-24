@@ -403,6 +403,17 @@ RV.descriptions.Other = {
 			"the item it is assigned to."
 		}
 	},
+	boxesTestTTip = {
+		name = 'Boxes Test Tooltip',
+		text = {
+			'{X:black}testing{} {X:black}black{}',
+			'{X:mult,C:mult}testing{} {X:mult,C:mult}mult{}',
+			'{X:chips,C:chips}testing{} {X:chips,C:chips}chips{}',
+			'{X:attention,C:attention}testing{} {X:attention,C:attention}filter{}',
+			'{X:green,C:green}testing{} {X:green,C:green}green{}',
+			'{X:tarot,C:tarot}testing{} {X:tarot,C:tarot}tarot{}'
+		}
+	},
 	errorTooltip = { name = 'ERROR', text = { '{C:red}Error fetching item.' } },
 	questionMarkTooltip = { name = '?????', text = { '?????' } },
 	blankHeader = { text = { '' } },
@@ -443,7 +454,18 @@ RV.descriptions.Joker.cir_b3313_crescent = { name = 'Crescent Castle', text = {}
 
 RV.descriptions.Joker.cir_b3313_forestMaze = { name = 'Forest Maze', text = {} }
 
-RV.descriptions.Joker.cir_b3313_loogi = { name = 'IT HURTS', text = {} }
+RV.descriptions.Joker.cir_b3313_loogi = { name = 'IT HURTS',
+	text = {
+		'All {C:attention}played 2{}s without an {C:attention}edition',
+		'become {C:dark_edition}negative{}',
+		'All {C:attention}2{}s {C:attention}held in hand{} give',
+		'{X:chips,C:white}X1.5{} Chips',
+		'{C:red}-2{} hand size',
+		'{C:red}-2{} discards',
+		'{s:0.8,C:inactive}SHHHH! PLEASE WALK QUIETLY',
+		'{s:0.8,C:inactive}IN THE HALLWAY!'
+	}
+}
 
 RV.descriptions.Joker.cir_b3313_peachCell = { name = 'Peach\'s Cell', text = {} }
 

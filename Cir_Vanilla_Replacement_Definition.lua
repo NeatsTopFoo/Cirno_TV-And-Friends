@@ -422,9 +422,9 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_golden', matureRefLevel = 1, artCreditKey = 'jA_ciwnoEdit' },
 	
 	{ jkrKey = 'j_blueprint', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_glass', matureRefLevel = 1 },
+	{ jkrKey = 'j_glass', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_scary_face', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_abstract', matureRefLevel = 1 },
+	{ jkrKey = 'j_abstract', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_delayed_grat', matureRefLevel = 2, artCreditKey = { saferVer = 'jA_DaemonTsun' } },
 	-- { jkrKey = 'j_ticket', matureRefLevel = 1 },
 	{ jkrKey = 'j_pareidolia', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
@@ -460,7 +460,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_smeared', matureRefLevel = 1 },
 	{ jkrKey = 'j_oops', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_four_fingers', matureRefLevel = 1, artCreditKey = 'jA_fourFingers'  },
-	{ jkrKey = 'j_gros_michel', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
+	{ jkrKey = 'j_gros_michel', matureRefLevel = 2, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
 	{ jkrKey = 'j_stuntman', matureRefLevel = 1, artCreditKey = 'jA_JustIRLCirno' },
 	{ jkrKey = 'j_hanging_chad', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	
@@ -534,7 +534,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_gift', matureRefLevel = 1 },
 	{ jkrKey = 'j_turtle_bean', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_erosion', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_reserved_parking', matureRefLevel = 1 },
+	{ jkrKey = 'j_reserved_parking', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_mail', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	-- { jkrKey = 'j_to_the_moon', matureRefLevel = 1 },
 	{ jkrKey = 'j_hallucination', matureRefLevel = 1, artCreditKey = 'jA_ObsvDuty' },
@@ -550,7 +550,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_diet_cola', matureRefLevel = 3, artCreditKey = { nrmVer = 'jA_LocalThunk_DaemonTsunEdit' } },
 	-- { jkrKey = 'j_trading', matureRefLevel = 1 },
 	
-	-- { jkrKey = 'j_flash', matureRefLevel = 1 },
+	{ jkrKey = 'j_flash', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_popcorn', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	-- { jkrKey = 'j_ramen', matureRefLevel = 1 },
 	{ jkrKey = 'j_selzer', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
@@ -559,7 +559,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_smiley', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	-- { jkrKey = 'j_ancient', matureRefLevel = 1 },
 	{ jkrKey = 'j_walkie_talkie', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_castle', matureRefLevel = 1 }
+	{ jkrKey = 'j_castle', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' }
 }
 
 -----------------
@@ -649,7 +649,7 @@ replaceDef.enhancerReplacements = { -- Art Credit system does not work good for 
 -- Have to do it this way because the normal method doesn't work for a surprising amount of enhancers :(
 if CirnoMod.config['allowCosmeticTakeOwnership'] then
 	SMODS.Enhancement:take_ownership('wild', {
-		loc_vars = function(self, info_queue, center)
+		loc_vars = function(self, info_queue, center)			
 			if CirnoMod.config['artCredits'] then
 				info_queue[#info_queue+1] = { key = 'eA_DaemonTsun', set = "Other" }
 			end

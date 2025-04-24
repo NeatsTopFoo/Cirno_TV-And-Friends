@@ -75,7 +75,7 @@ enhLoc.enhancers.m_stone = { name = "Whump Card" }
 enhLoc.enhancers.m_gold = {
 	name = "Skyrim Card",
     text={
-        "{C:money}$#1#{} if this",
+        "{C:money}#1#{} if this",
         "card is held in hand",
         "at end of round",
 		"{s:0.8,C:inactive}See this card?",
