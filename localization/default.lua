@@ -81,6 +81,13 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
+	eA_LocalThunk_NTFEdit = {
+		name = creditSources.cr_EnhancerArt,
+		text = {
+			"{s:0.8}"..creditSources.thunk..", edited",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
 	gA_BlackHole = {
 		name = creditSources.cr_JokerArt,
 		text = {
@@ -313,6 +320,19 @@ RV.descriptions.Other = {
 			"{s:0.45,C:inactive}Definitely."
 		}
 	},
+	jA_b3313 = {
+		name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8,X:mult,C:white}'-';;"
+		}
+	},
+	jA_b3313_uncanny = {
+		name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8,X:mult,C:white}'-';;",
+			'{s:0.8,C:inactive}+ edit of '..creditSources.DTsun..' art'
+		}
+	},
 	gA_Sun = {
 		name = creditSources.cr_GenericArt,
 		text = {
@@ -380,10 +400,16 @@ RV.descriptions.Other = {
 	
 	-- Non-Art Credit Things --
 	jkrRedSeal = {
-		name = "Red Seal",
+		name = 'Red Seal',
 		text = {
 			"Retriggers this",
 			"Joker {C:attention}1{} time"
+		}
+	},
+	pCardNegative={
+		name = 'Negative',
+		text = {
+			'{C:dark_edition}+1{} hand size'
 		}
 	},
 	testHeader = { text = { "Test Header" } },
@@ -438,28 +464,92 @@ RV.descriptions.Joker.cir_b3313_base = {
 	}
 }
 
-RV.descriptions.Joker.cir_b3313_betaLob = { name = 'Beta Lobby', text = {} }
+-- B3313 High Card Form
+RV.descriptions.Joker.cir_b3313_betaLob = { name = 'Beta Lobby',
+	text = { {
+			'If scored card is a {C:attention}3{} or {C:attention}Ace',
+			'and has no {C:attention}enhancement{},',
+			'it gains a random enhancement.'
+		}, {
+			'{X:mult,C:white}X#1#{} mult if full hand reads',
+			'{C:attention}3{}, {C:attention}3{}, {C:attention}Ace{}, {C:attention}3',
+			'{s:0.8}(Excluding debuffed cards)',
+			'{s:0.8,C:inactive}To be fair, the thing with the doors',
+			'{s:0.8,C:inactive}does seem pretty random at first.',
+			'{s:0.8,C:inactive}I never noticed it was based on the',
+			'{s:0.8,C:inactive}doors until Houdini mentioned it.'
+		} }
+}
 
-RV.descriptions.Joker.cir_b3313_plexalLob = { name = 'Plexal Lobby', text = {} }
+-- B3313 Pair Form
+RV.descriptions.Joker.cir_b3313_plexalLob = { name = 'Plexal Lobby',
+	text = {
+		''
+	}
+}
 
-RV.descriptions.Joker.cir_b3313_toadLob = { name = 'Toad\'s Lobby', text = {} }
+-- B3313 Two Pair Form
+RV.descriptions.Joker.cir_b3313_toadLob = { name = 'Toad\'s Lobby',
+	text = {
+		''
+	}
+}
 
-RV.descriptions.Joker.cir_b3313_vanLob = { name = 'Vanilla Lobby', text = {} }
+-- B3313 Three of a Kind Form
+RV.descriptions.Joker.cir_b3313_vanLob = { name = 'Vanilla Lobby',
+	text = {
+		''
+	}
+}
 
-RV.descriptions.Joker.cir_b3313_uncanny = { name = 'Uncanny Basement', text = {} }
+-- B3313 Straight Form
+RV.descriptions.Joker.cir_b3313_uncanny = { name = 'Uncanny Basement',
+	text = {
+		'All {C:attention}played numbered cards{}',
+		'have their ranks randomised',
+		'{s:0.8}(They cannot become face cards)',
+		'{s:0.8,C:inactive}HOW DO I GET OUT OF HERE?!'
+	}
+}
 
-RV.descriptions.Joker.cir_b3313_4thFloor = { name = '4th Floor', text = {} }
+-- B3313 Flush Form
+RV.descriptions.Joker.cir_b3313_4thFloor = { name = '4th Floor',
+	text = {
+		''
+	}
+}
 
-RV.descriptions.Joker.cir_b3313_crescent = { name = 'Crescent Castle', text = {} }
+-- B3313 Full House Form
+RV.descriptions.Joker.cir_b3313_crescent = { name = 'Crescent Castle',
+	text = {
+		'Earn {C:money}$#1#{} at the end of round per',
+		'{C:attention}face card{} played this round',
+		'{s:0.8,C:inactive}Our house, in the',
+		'{s:0.8,C:inactive}middle of our street.'
+	}
+}
 
-RV.descriptions.Joker.cir_b3313_forestMaze = { name = 'Forest Maze', text = {} }
+-- B3313 Four of a Kind Form
+RV.descriptions.Joker.cir_b3313_forestMaze = { name = 'Forest Maze',
+	text = { {
+			'For the first {C:attention}scored{} card in played hand,',
+			'give {X:chips,C:white}XChips{} equal to the {C:chips}chips{} it scored'
+		}, {
+			'{C:green}#2# in #3#{} chance for {X:mult,C:white}X#1#{} mult,',
+			'{C:green}#2# in #4#{} chance for {X:mult,C:white}X#1#{} mult,',
+			'{C:green}#2# in #5#{} chance for {X:mult,C:white}X#1#{} mult,',
+			'{C:green}#2# in #6#{} chance for {X:mult,C:white}X#1#{} mult.',
+			'That was not a typo.'
+		} }
+}
 
+-- B3313 Straight Flush Form
 RV.descriptions.Joker.cir_b3313_loogi = { name = 'IT HURTS',
 	text = {
 		'All {C:attention}played 2{}s without an {C:attention}edition',
 		'become {C:dark_edition}negative{}',
 		'All {C:attention}2{}s {C:attention}held in hand{} give',
-		'{X:chips,C:white}X1.5{} Chips',
+		'{X:chips,C:white}X#1#{} Chips',
 		'{C:red}-2{} hand size',
 		'{C:red}-2{} discards',
 		'{s:0.8,C:inactive}SHHHH! PLEASE WALK QUIETLY',
@@ -467,11 +557,40 @@ RV.descriptions.Joker.cir_b3313_loogi = { name = 'IT HURTS',
 	}
 }
 
-RV.descriptions.Joker.cir_b3313_peachCell = { name = 'Peach\'s Cell', text = {} }
+-- B3313 Five of a Kind Form
+RV.descriptions.Joker.cir_b3313_peachCell = { name = 'Peach\'s Cell',
+	text = { {
+			'All scored {C:attention}Kings{} become {C:attention}Queens',
+			'All scored {C:attention}Jacks{} become {C:attention}Queens',
+			'All scored {C:attention}Queens{} without an {C:attention}edition',
+			'have a {C:green}#1# in #2#{} chance to become {C:attention}polychrome'
+		}, {
+			'If played hand contains no {C:attention}face cards{}, this {C:joker}Joker{}',
+			'becomes {C:red}debuffed{} for the remainder of round',
+			"{s:0.8,C:inactive}I'd also be that skittish if all the",
+			'{s:0.8,C:inactive}shadows near me were quicksand.'
+		} }
+}
 
-RV.descriptions.Joker.cir_b3313_nebLob = { name = 'Nebula Lobby', text = {} }
+-- B3313 Flush House Form
+RV.descriptions.Joker.cir_b3313_nebLob = { name = 'Nebula Lobby',
+	text = {
+		'Combined base value of played hand',
+		'is added to {C:mult}mult',
+		'{C:attention}Balances {C:chips}chips{} and {C:mult}mult{C:attention} before scoring',
+		'{s:0.8,C:inactive}Want to sound less negative?',
+		"{s:0.8,C:inactive}try \"menx'k rxxp qiurezok\""
+	}
+}
 
-RV.descriptions.Joker.cir_b3313_floor3B = { name = 'Floor 3B', text = {} }
+-- B3313 Flush Five Form
+RV.descriptions.Joker.cir_b3313_floor3B = { name = 'Floor 3B',
+	text = {
+		'All played {C:attention}Queens of Clubs{} without an',
+		'{C:attention}enhancement{} become {C:attention}#1#s',
+		'{s:0.8,C:inactive}Found the orange sky yet?'
+	}
+}
 
 RV.misc.dictionary.k_b3313_base = 'Back!'
 RV.misc.dictionary.k_b3313_betaLob = 'Beta Lobby'

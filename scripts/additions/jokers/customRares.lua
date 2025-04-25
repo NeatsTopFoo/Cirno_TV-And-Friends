@@ -10,13 +10,13 @@ local jokerInfo = {
 	},
 	
 	-- TODO:
-		-- B3313 form-changing Joker
 		-- Ornstein & Smough Joker pair that respectively become Super Ornstein & Super Smough when the other of the two is destroyed (not sold)
 		-- Redacted '██████' Joker whose effects are not clear, highly unpredictable and inconsistent, heavily RNG-based but also extremely confusing
 		-- Mac n' Cheese Joker; Every 2 Boss Blinds, if there's room, creates a Ketchup (Seltzer). Gains x0.1 mult every time a ketchup runs out.
 		-- Bloodborne on PC Joker: Dithering between the effect of "Sell this Joker during a blind to draw 2x hand size to card", "In X rounds, sell this Joker to multiply your number of discards by 1.5" & "Sell this Joker during a blind to discard all held cards and draw a new hand (If deck is empty, refresh deck)."
 		-- "Help I'm Trapped In The Joker Factory" will have some different effects that get selected randomly on joker creation, all related to blinds, one off the top of my head is "This Joker gives +5 mult during The Memory (the boss blind) & also gains X0.05 mult whenever Cirno forgets something" and then it just randomly gains X0.05 mult based on random, unpredictable criteria.
 		-- "Fuckin' Catgirl Sex Fuckin Footjob Dick Suckin' Simulator" No idea what this could do.
+		-- Endless Eight Joker
 	jokerConfigs = {
 		-- Crystal Tap
 		{
@@ -732,7 +732,7 @@ local jokerInfo = {
 				return CirnoMod.miscItems.jkrKeyGroupTotalEncounters('crazyWomen', true) > 3
 			end
 		},
-		--[[ B3313
+		-- B3313
 		{
 			key = 'b3313',
 			
@@ -749,14 +749,14 @@ local jokerInfo = {
 			eternal_compat = true,
 			perishable_compat = true,
 			
-			config { extra = {
+			config = { extra = {
 				currentForm = 'base',
 				formsList = { 'base', 'betaLob', 'plexalLob', 'toadLob', 'vanLob', 'uncanny', '4thFloor', 'crescent', 'forestMaze', 'loogi', 'peachCell', 'nebLob', 'floor3B' },
 				handToForm = {
 					['High Card'] = 'betaLob',
 					['Pair'] = 'plexalLob',
 					['Two Pair'] = 'toadLob',
-					['There of a Kind'] = 'vanLob',
+					['Three of a Kind'] = 'vanLob',
 					['Straight'] = 'uncanny',
 					['Flush'] = '4thFloor',
 					['Full House'] = 'crescent',
@@ -768,27 +768,52 @@ local jokerInfo = {
 				},
 				formsInfo = {
 					['base'] = { atlasX = 0 },
-					['betaLob'] = { atlasX = 1 },
-					['plexalLob'] = { atlasX = 2 },
-					['toadLob'] = { atlasX = 3 },
-					['vanLob'] = { atlasX = 4 },
-					['uncanny'] = { atlasX = 5 },
-					['4thFloor'] = { atlasX = 6 },
-					['crescent'] = { atlasX = 7 },
-					['forestMaze'] = { atlasX = 8 },
-					['loogi'] = { atlasX = 9 },
-					['peachCell'] = { atlasX = 10 },
-					['nebLob'] = { atlasX = 11 },
-					['floor3B'] = { atlasX = 12 }
+					['betaLob'] = {
+						atlasX = 1,
+						xmult = 3
+					},
+					['plexalLob'] = {
+						atlasX = 2
+					},
+					['toadLob'] = {
+						atlasX = 3
+					},
+					['vanLob'] = {
+						atlasX = 4
+					},
+					['uncanny'] = {
+						atlasX = 5
+					},
+					['4thFloor'] = {
+						atlasX = 6
+					},
+					['crescent'] = {
+						atlasX = 7
+					},
+					['forestMaze'] = {
+						atlasX = 8
+					},
+					['loogi'] = {
+						atlasX = 9
+					},
+					['peachCell'] = {
+						atlasX = 10
+					},
+					['nebLob'] = {
+						atlasX = 11
+					},
+					['floor3B'] = {
+						atlasX = 12
+					}
 				}
-			},
+			} },
 			
 			updateState = function(jkr)
 				if
 					jkr.ability
 					and jkr.children
 				then
-					if -- If the soul_pos is not what I want it to be. I make it what I wnt it to be.
+					if -- If the soul_pos is not what I want it to be. I make it what I want it to be.
 						jkr.config.center.pos.x ~= jkr.ability.extra.formsInfo[jkr.ability.extra.currentForm].atlasX
 					then
 						jkr.config.center.pos.x = jkr.ability.extra.formsInfo[jkr.ability.extra.currentForm].atlasX
@@ -799,11 +824,104 @@ local jokerInfo = {
 				jkr.children.center:set_sprite_pos(jkr.config.center.pos)
 			end,
 			
+			-- Crying
+			toAppendToInfoQueue = function(curForm)
+				if curForm == 'betaLob' then
+					
+				elseif curForm == 'plexalLob' then
+					
+				elseif curForm == 'toadLob' then
+					
+				elseif curForm == 'vanLob' then
+					
+				elseif curForm == 'uncanny' then
+					
+				elseif curForm == '4thFloor' then
+					
+				elseif curForm == 'crescent' then
+					
+				elseif curForm == 'forestMaze' then
+					
+				elseif curForm == 'loogi' then
+					return { { key = 'pCardNegative', set = 'Other' } }
+				elseif curForm == 'peachCell' then
+					return { G.P_CENTERS.e_polychrome }
+				elseif curForm == 'nebLob' then
+					
+				elseif curForm == 'floor3B' then
+					return { G.P_CENTERS.m_steel }
+				end
+				return nil
+			end,
 			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, center)
+				local RT = { key = 'cir_b3313_'..center.ability.extra.currentForm }
+				
+				--[[ This is why Lua is a fucking laughing stock.
+				What the fuck do you mean 'Lua doesn't need a switch statement'?!?!?
+				And no, I can't do a table lookup for this, because some of the
+				things that need to be returned, like the probability, have to
+				be up to date with the current game state - And
+				A. those are not initialised at game startup, so it would error
+				B. even if they were, having a variable copy it at that point
+				would not update to reflect changes to it such as with oops all 6s
+				Which would leave the possibility of storing a function that
+				grabs it, HOWEVER this would mean trying to store a
+				function in the config table. And a very fun thing
+				about this game is that if you try to save the game
+				and a card has a function in its config table, it
+				doesn't seem to like it all that much.]]
+				if center.ability.extra.currentForm == 'betaLob' then
+					
+				elseif center.ability.extra.currentForm == 'plexalLob' then
+					
+				elseif center.ability.extra.currentForm == 'toadLob' then
+					
+				elseif center.ability.extra.currentForm == 'vanLob' then
+					
+				elseif center.ability.extra.currentForm == 'uncanny' then
+					
+				elseif center.ability.extra.currentForm == '4thFloor' then
+					
+				elseif center.ability.extra.currentForm == 'crescent' then
+					
+				elseif center.ability.extra.currentForm == 'forestMaze' then
+					
+				elseif center.ability.extra.currentForm == 'loogi' then
+					
+				elseif center.ability.extra.currentForm == 'peachCell' then
+					
+				elseif center.ability.extra.currentForm == 'nebLob' then
+					
+				elseif center.ability.extra.currentForm == 'floor3B' then
+					
+				end
+				
+				local infoQueueAppend = self.toAppendToInfoQueue(center.ability.extra.currentForm)
+				
+				if infoQueueAppend then
+					for i, item in ipairs(infoQueueAppend) do
+						info_queue[#info_queue + 1] = item
+					end
+				end
+				
+				-- Art credit tooltip
+				if CirnoMod.config['artCredits'] then
+					if center.ability.extra.currentForm == 'uncanny' then
+						info_queue[#info_queue + 1] = { key = "jA_b3313_uncanny", set = "Other" }
+					else
+						info_queue[#info_queue + 1] = { key = "jA_b3313", set = "Other" }
+					end
+				end
+				
+				return RT
+			end,
 			
-			
+			calculate = function(self, card, context)
+				
+			end
 		}
-		]]
 	}
 }
 

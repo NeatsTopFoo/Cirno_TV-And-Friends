@@ -108,8 +108,30 @@ payload = '''
 times = 1
 match_indent = false
 
-# Captures when a card UI tooltip is being generated and checks to see if it should add
-# the credit tooltip based on the card's key.
+# Fixes generate_card_ui() 
+# Credit to Breezebuilder for figuring this out
+# Will likely be removed if it gets included as
+# part of a Steamodded build.
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+elseif specific_vars and (card_type == 'Default' or card_type == 'Enhanced') then
+    if _c.name == 'Stone Card' or _c.replace_base_card then full_UI_table.name = true
+'''
+position = "at"
+payload = '''
+elseif specific_vars and (card_type == 'Enhanced') then
+    full_UI_table.name = true
+elseif specific_vars and (card_type == 'Default') then
+    if _c.replace_base_card then full_UI_table.name = true
+'''
+times = 1
+match_indent = true
+
+# Captures when a card UI tooltip is being generated
+# and checks to see if it should add the credit
+# tooltip based on the item's key.
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"

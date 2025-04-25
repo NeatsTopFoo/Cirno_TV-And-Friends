@@ -107,9 +107,9 @@ local cirInitConfig = {
 --[[
 Defines Steamodded mod menu config & extra tabs
 See the files for more info.]]
-cMod_SMODSLoc.config_tab = assert(SMODS.load_file("scripts/UI_bs/steamodded_mod_menu/config_ui.lua")())
+cMod_SMODSLoc.config_tab = assert(SMODS.load_file("scripts/UI_bs/steamodded_mod_menu/config_ui.lua"))()
 
-cMod_SMODSLoc.extra_tabs = assert(SMODS.load_file("scripts/UI_bs/steamodded_mod_menu/additional_mod_tabs.lua")())
+cMod_SMODSLoc.extra_tabs = assert(SMODS.load_file("scripts/UI_bs/steamodded_mod_menu/additional_mod_tabs.lua"))()
 
 --[[
 Change title screen logo to mod's logo & replace the ace that appears first with the blueprint joker (If the setting is enabled)
@@ -166,7 +166,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 ...See the patcher toml and localization/en-us.lua
 for more info. Though for your sanity, it's probably
 best not to.]]
-CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from generate_card_ui() in common_events.lua, which passes in _c and specific_vars (After checking if the specified card isn't locked or undiscovered)
+CirnoMod.ParseVanillaCredit = function(card, specific_vars)
+--[[ Comes in from generate_card_ui() in common_events.lua,
+which passes in _c and specific_vars (After checking if the
+specified card isn't locked or undiscovered)]]
 	local RV = nil
 	local keyToCheck = card.key
 	
@@ -196,43 +199,44 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars) -- Comes in from gen
 	if CirnoMod.miscItems.artCreditKeys[keyToCheck] then
 		if type(CirnoMod.miscItems.artCreditKeys[keyToCheck]) == 'table' then
 			if
-				CirnoMod.config['planetsAreHus']
+				CirnoMod.config.planetsAreHus
 				and CirnoMod.miscItems.artCreditKeys[keyToCheck].planetsAreHus
 			then
-				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].planetsAreHus, set = "Other" }
+				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].planetsAreHus, set = 'Other' }
 			elseif
 				CirnoMod.config.matureReferences_cyc == 3
 				and CirnoMod.miscItems.artCreditKeys[keyToCheck].nrmVer
 			then
-				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].nrmVer, set = "Other" }
+				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].nrmVer, set = 'Other' }
 			elseif
 				CirnoMod.config.matureReferences_cyc >= 2
 				and CirnoMod.miscItems.artCreditKeys[keyToCheck].saferVer
 			then
-				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].saferVer, set = "Other" }
+				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].saferVer, set = 'Other' }
 			elseif CirnoMod.miscItems.artCreditKeys[keyToCheck].default then
-				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].default, set = "Other" }
+				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].default, set = 'Other' }
 			end
 		else
-			RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck], set = "Other" }
+			RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck], set = 'Other' }
 		end
 	end
 	
 	return RV
 end
+
 --[[
 CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys.m_gold = function(card, loc_vars, specific_vars, info_queue, card_type, badges, main_start, main_end)
-	info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_testTTip']
+	info_queue[#info_queue + 1] = { key = 'blankTooltipA', set = 'Other', replace_base_card = true }
 end
 ]]
 
 -- Load vanilla replacements definitions and puts its returned var into the var.
-CirnoMod.replaceDef = assert(SMODS.load_file("Cir_Vanilla_Replacement_Definition.lua")())
+CirnoMod.replaceDef = assert(SMODS.load_file("Cir_Vanilla_Replacement_Definition.lua"))()
 
 -- Playing Card Textures
 if CirnoMod.config['playingCardTextures'] then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
-	SMODS.load_file("scripts/retextures/PlayingCards_Retext.lua")()
+	assert(SMODS.load_file("scripts/retextures/PlayingCards_Retext.lua"))()
 end
 
 -- Joker Textures
@@ -275,7 +279,7 @@ if CirnoMod.config['malverkReplacements'] then
 	-- Parse Deck Renames
 	if CirnoMod.config['deckRenames'] then
 		-- Runs the lua and puts its returned var into the var.
-		CirnoMod.miscItems.filterTable(assert(SMODS.load_file("scripts/renames_etc/Decks_Rename.lua")()), CirnoMod.replaceDef.locChanges.deckLoc, CirnoMod.replaceDef.deckReplacementKeys)
+		CirnoMod.miscItems.filterTable(assert(SMODS.load_file("scripts/renames_etc/Decks_Rename.lua"))(), CirnoMod.replaceDef.locChanges.deckLoc, CirnoMod.replaceDef.deckReplacementKeys)
 	end
 	
 	CirnoMod.replaceDef.enhancerReplacementKeys = {}
@@ -297,7 +301,7 @@ if CirnoMod.config['malverkReplacements'] then
 	-- Parse Enhancer Renames
 	if CirnoMod.config['enhancerRenames'] then
 		-- Runs the lua and puts its returned var into the var.
-		local enhLoc = assert(SMODS.load_file("scripts/renames_etc/Enhancers_Rename.lua")())
+		local enhLoc = assert(SMODS.load_file("scripts/renames_etc/Enhancers_Rename.lua"))()
 		
 		--[[
 		==================================================
@@ -329,7 +333,7 @@ if CirnoMod.config['malverkReplacements'] then
 	-- Parse Blind Renames
 	if CirnoMod.config['blindRenames'] then
 		-- Runs the lua and puts its returned var into the var.
-		CirnoMod.replaceDef.locChanges.blindsLoc = assert(SMODS.load_file("scripts/renames_etc/Blinds_Rename.lua")())
+		CirnoMod.replaceDef.locChanges.blindsLoc = assert(SMODS.load_file("scripts/renames_etc/Blinds_Rename.lua"))()
 	end
 	
 	--[[ Processes kays as defined in the vanilla replacement doc and
@@ -392,7 +396,7 @@ if CirnoMod.config['malverkReplacements'] then
 	-- Parse Planet, Tarot & Spectral Renames (Planets moreso if planets aren't Hus)
 	if CirnoMod.config['planetTarotSpectralRenames'] then
 		-- Runs the lua and puts its returned var into the var.
-		local PTSloc = assert(SMODS.load_file("scripts/renames_etc/PlanetsTarotsAndSpectrals_Rename.lua")())
+		local PTSloc = assert(SMODS.load_file("scripts/renames_etc/PlanetsTarotsAndSpectrals_Rename.lua"))()
 		
 		CirnoMod.miscItems.filterTable(PTSloc.planets, CirnoMod.replaceDef.locChanges.planetLoc, CirnoMod.replaceDef.planetReplacementKeys)
 		CirnoMod.miscItems.filterTable(PTSloc.tarots, CirnoMod.replaceDef.locChanges.tarotLoc, CirnoMod.replaceDef.tarotReplacementKeys)
@@ -425,7 +429,7 @@ if CirnoMod.config['malverkReplacements'] then
 		CirnoMod.miscItems.colours.planet = HEX('980D50FF')
 		
 		-- Runs the lua and puts its returned var into the var.
-		local planetsAreHusLoc = assert(SMODS.load_file("scripts/other/planetsAreHus.lua")())
+		local planetsAreHusLoc = assert(SMODS.load_file("scripts/other/planetsAreHus.lua"))()
 		
 		if CirnoMod.config.planetTarotSpectralRenames then
 			CirnoMod.miscItems.filterTable(planetsAreHusLoc.planets, CirnoMod.replaceDef.locChanges.planetLoc, CirnoMod.replaceDef.planetReplacementKeys)
@@ -461,7 +465,7 @@ if CirnoMod.config['malverkReplacements'] then
 	-- Parse Joker Renames
 	if CirnoMod.config['jokerRenames'] then
 		-- Runs the lua and puts its returned var into the var.
-		local jkrLoc = assert(SMODS.load_file("scripts/renames_etc/Jokers_Rename.lua")())
+		local jkrLoc = assert(SMODS.load_file("scripts/renames_etc/Jokers_Rename.lua"))()
 		
 		--[[
 		Creates a new table filtered based on the values
@@ -478,7 +482,7 @@ if CirnoMod.config['malverkReplacements'] then
 	if CirnoMod.config['miscRenames'] then
 		CirnoMod.miscItems.miscRenameTables = {}
 		-- Runs the lua and puts its returned var into the var.
-		local miscLoc = assert(SMODS.load_file("scripts/renames_etc/Misc_Rename.lua")())
+		local miscLoc = assert(SMODS.load_file("scripts/renames_etc/Misc_Rename.lua"))()
 		
 		--[[
 		Since planets are hus potentially goes first and

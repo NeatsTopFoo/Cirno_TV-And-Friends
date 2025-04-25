@@ -2651,11 +2651,32 @@ jokerLoc.nrmJkrs.j_baseball = {
 }
 
 --[[
-jokerLoc.nrmJkrs.j_bull = { name = "Bull" }
+jokerLoc.nrmJkrs.j_bull = {
+	name = "Bull",
+    text={
+        "{C:chips}+#1#{} Chips for",
+        "each {C:money}$1{} you have",
+        "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
+    }
+}
 
-jokerLoc.nrmJkrs.j_diet_cola = { name = "Diet Cola" }
+jokerLoc.nrmJkrs.j_diet_cola = {
+	name = "Diet Cola",
+	text={
+		"Sell this card to",
+		"create a free",
+		"{C:attention}#1#"
+	}
+}
 
-jokerLoc.nrmJkrs.j_trading = { name = "Trading Card" }
+jokerLoc.nrmJkrs.j_trading = {
+	name = "Trading Card",
+     text={
+         "If {C:attention}first discard{} of round",
+         "has only {C:attention}1{} card, destroy",
+         "it and earn {C:money}$#1#"
+     }
+}
 ]]
 
 
@@ -2724,7 +2745,16 @@ jokerLoc.nrmJkrs.j_popcorn = {
     }
 }
 
--- jokerLoc.nrmJkrs.j_ramen = { name = "Ramen" }
+--[[
+jokerLoc.nrmJkrs.j_ramen = {
+	name = "Ramen",
+    text={
+        "{X:mult,C:white} X#1# {} Mult,",
+        "loses {X:mult,C:white} X#2# {} Mult",
+        "per {C:attention}card{} discarded"
+    }
+}
+]]
 
 jokerLoc.nrmJkrs.j_selzer = {
 	name = "Ketchup",
@@ -2748,7 +2778,17 @@ jokerLoc.nrmJkrs.j_trousers = {
     }
 }
 
--- jokerLoc.nrmJkrs.j_campfire = { name = "Campfire" }
+--[[
+jokerLoc.nrmJkrs.j_campfire = {
+	name = "Campfire",
+    text = {
+        "This Joker gains {X:mult,C:white}X#1#{} Mult",
+        "for each card {C:attention}sold{}, resets",
+        "when {C:attention}Boss Blind{} is defeated",
+        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+    }
+}
+]]
 
 jokerLoc.nrmJkrs.j_smiley = {
 	-- name = "Smiley Face",
@@ -2760,11 +2800,21 @@ jokerLoc.nrmJkrs.j_smiley = {
     }
 }
 
---jokerLoc.nrmJkrs.j_ancient = { name = "Ancient Joker" }
+--[[
+jokerLoc.nrmJkrs.j_ancient = {
+	name = "Ancient Joker",
+    text = {
+        "Each played card with",
+        "{V:1}#2#{} suit gives",
+        "{X:mult,C:white} X#1# {} Mult when scored,",
+        "{s:0.8}suit changes at end of round"
+    }
+}
+]]
 
 jokerLoc.nrmJkrs.j_walkie_talkie = {
 	name = "Lifeline",
-    text={
+    text = {
         "Each played {C:attention}10{} or {C:attention}4",
         "gives {C:chips}+#1#{} Chips and",
         "{C:mult}+#2#{} Mult when scored",

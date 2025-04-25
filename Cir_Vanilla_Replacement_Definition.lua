@@ -635,18 +635,18 @@ replaceDef.spectralReplacements = {
 --------------------
 ---- Enhancers -----
 --------------------
-replaceDef.enhancerReplacements = { -- Art Credit system does not work good for A LOT OF ENHANCERS, WTF, see below
+replaceDef.enhancerReplacements = {
 	--	{ enhKey = 'm_bonus', matureRefLevel = 1, },
 	--	{ enhKey = 'm_mult', matureRefLevel = 1, },
-	{ enhKey = 'm_wild', matureRefLevel = 1},
-	{ enhKey = 'm_glass', matureRefLevel = 1 },
+	{ enhKey = 'm_wild', matureRefLevel = 1, artCreditKey = 'eA_DaemonTsun' },
+	{ enhKey = 'm_glass', matureRefLevel = 1, artCreditKey = 'eA_DaemonTsun' },
 	--	{ enhKey = 'm_steel', matureRefLevel = 1, },
 	{ enhKey = 'm_stone', matureRefLevel = 1, artCreditKey = 'eA_Unknown' },
-	{ enhKey = 'm_gold', matureRefLevel = 1}, --artCreditKey = 'eA_NTF' },
+	{ enhKey = 'm_gold', matureRefLevel = 1, artCreditKey = 'eA_LocalThunk_NTFEdit' },
 	--	{ enhKey = 'm_lucky' matureRefLevel = 1, }
 }
 
--- Have to do it this way because the normal method doesn't work for a surprising amount of enhancers :(
+--[[ Have to do it this way because the normal method doesn't work for a surprising amount of enhancers :(
 if CirnoMod.config['allowCosmeticTakeOwnership'] then
 	SMODS.Enhancement:take_ownership('wild', {
 		loc_vars = function(self, info_queue, center)			
@@ -673,14 +673,15 @@ if CirnoMod.config['allowCosmeticTakeOwnership'] then
 	--[[
 	SMODS.Enhancement:take_ownership('gold', {
 		generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-			SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+			SMODS.Enhancement.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 			if CirnoMod.config['artCredits'] then
-				info_queue[#info_queue+1] = { key = 'eA_NTF', set = "Other" }
+				info_queue[#info_queue+1] = { key = 'eA_LocalThunk_NTFEdit', set = "Other" }
 			end
 		end
 	}, true)
-	]]
+	
 end
+]]
 
 -- TODO: Vouchers
 
