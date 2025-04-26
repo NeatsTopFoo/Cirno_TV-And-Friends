@@ -539,7 +539,10 @@ RV.descriptions.Joker.cir_b3313_forestMaze = { name = 'Forest Maze',
 			'{C:green}#2# in #4#{} chance for {X:mult,C:white}X#1#{} mult,',
 			'{C:green}#2# in #5#{} chance for {X:mult,C:white}X#1#{} mult,',
 			'{C:green}#2# in #6#{} chance for {X:mult,C:white}X#1#{} mult.',
-			'That was not a typo.'
+			'That was not a typo.',
+			'{s:0.8,C:inactive}Behold, the fruits of my alchemy:',
+			'{s:0.8,C:inactive}Gamba maze.',
+			'{s:0.5,C:inactive}...What\'s that? What? ...What?'
 		} }
 }
 
@@ -563,7 +566,7 @@ RV.descriptions.Joker.cir_b3313_peachCell = { name = 'Peach\'s Cell',
 			'All scored {C:attention}Kings{} become {C:attention}Queens',
 			'All scored {C:attention}Jacks{} become {C:attention}Queens',
 			'All scored {C:attention}Queens{} without an {C:attention}edition',
-			'have a {C:green}#1# in #2#{} chance to become {C:attention}polychrome'
+			'have a {C:green}#1# in #2#{} chance to become {C:dark_edition}polychrome'
 		}, {
 			'If played hand contains no {C:attention}face cards{}, this {C:joker}Joker{}',
 			'becomes {C:red}debuffed{} for the remainder of round',

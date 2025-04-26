@@ -52,6 +52,11 @@ replaceDef.paths.cirBoostersPath = {
 	-- safe = ''
 	}
 
+-- Guess we doin tags now
+replaceDef.paths.cirTagsPath = {
+	nrm = 'Vanilla_Replacements/cir_Tags.png'
+}
+
 replaceDef.getPath = function(replaceType)
 	local RV = ""
 	
@@ -154,6 +159,11 @@ replaceDef.getPath = function(replaceType)
 					RV = replaceDef.paths.cirBoostersPath.nrm
 				end
 			end
+		elseif
+			replaceType == "tags"
+			or replaceType == "tag"
+		then
+			RV = replaceDef.paths.cirTagsPath.nrm
 		elseif
 			replaceType == "voucher"
 			or replaceType == "vouchers"
@@ -646,42 +656,35 @@ replaceDef.enhancerReplacements = {
 	--	{ enhKey = 'm_lucky' matureRefLevel = 1, }
 }
 
---[[ Have to do it this way because the normal method doesn't work for a surprising amount of enhancers :(
-if CirnoMod.config['allowCosmeticTakeOwnership'] then
-	SMODS.Enhancement:take_ownership('wild', {
-		loc_vars = function(self, info_queue, center)			
-			if CirnoMod.config['artCredits'] then
-				info_queue[#info_queue+1] = { key = 'eA_DaemonTsun', set = "Other" }
-			end
-		end
-	}, true)
-	
-	SMODS.Enhancement:take_ownership('glass', {
-		loc_vars = function(self, info_queue, center)
-			if CirnoMod.config['artCredits'] then
-				info_queue[#info_queue+1] = { key = 'eA_DaemonTsun', set = "Other" }
-			end
-			
-			return { vars = {
-				center.ability.Xmult,
-				G.GAME.probabilities.normal,
-				center.ability.extra
-			}}
-		end
-	}, true)
-	
-	--[[
-	SMODS.Enhancement:take_ownership('gold', {
-		generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-			SMODS.Enhancement.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
-			if CirnoMod.config['artCredits'] then
-				info_queue[#info_queue+1] = { key = 'eA_LocalThunk_NTFEdit', set = "Other" }
-			end
-		end
-	}, true)
-	
-end
-]]
+----------------
+----- Tags -----
+----------------
+replaceDef.tagReplacements = {
+	{ tagKey = 'tag_uncommon', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
+    { tagKey = 'tag_rare', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
+    { tagKey = 'tag_negative', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
+    -- { tagKey = 'tag_foil', matureRefLevel = 1 },
+    -- { tagKey = 'tag_holo', matureRefLevel = 1 },
+    { tagKey = 'tag_polychrome', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
+    -- { tagKey = 'tag_investment', matureRefLevel = 1 },
+    -- { tagKey = 'tag_voucher', matureRefLevel = 1 },
+    -- { tagKey = 'tag_boss', matureRefLevel = 1 },
+    -- { tagKey = 'tag_standard', matureRefLevel = 1 },
+    -- { tagKey = 'tag_charm', matureRefLevel = 1 },
+    -- { tagKey = 'tag_meteor', matureRefLevel = 1 },
+    -- { tagKey = 'tag_buffoon', matureRefLevel = 1 },
+    -- { tagKey = 'tag_handy', matureRefLevel = 1 },
+    -- { tagKey = 'tag_garbage', matureRefLevel = 1 },
+    -- { tagKey = 'tag_ethereal', matureRefLevel = 1 },
+    { tagKey = 'tag_coupon', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
+    -- { tagKey = 'tag_double', matureRefLevel = 1 },
+    -- { tagKey = 'tag_juggle', matureRefLevel = 1 },
+    -- { tagKey = 'tag_d_six', matureRefLevel = 1 },
+    -- { tagKey = 'tag_top_up', matureRefLevel = 1 },
+    -- { tagKey = 'tag_skip', matureRefLevel = 1 },
+    -- { tagKey = 'tag_orbital', matureRefLevel = 1 },
+    -- { tagKey = 'tag_economy', matureRefLevel = 1 }
+}
 
 -- TODO: Vouchers
 

@@ -23,6 +23,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
   - 6 Tarot Cards
   - 7 Spectral Cards
   - 6 Decks
+  - 5 Tags
   - 4 Enhancements
   - The title screen
 
@@ -33,6 +34,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
   - A significant amount of retextured Jokers
   - 6 Tarot Cards
   - 6 Spectral Cards
+  - 5 Tags
   - 1 Enhancement
 
 - Adds:

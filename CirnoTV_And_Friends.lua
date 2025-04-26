@@ -252,6 +252,7 @@ if CirnoMod.config['malverkReplacements'] then
 		spectralLoc = {},
 		soulLoc = {},
 		boosterLoc = {},
+		tagLoc = {},
 		-- TODO: Vouchers
 		jkrLoc = {}
 	}
@@ -262,7 +263,7 @@ if CirnoMod.config['malverkReplacements'] then
 	populates the replacement keys for the malverk pack accordingly.]]
 	CirnoMod.replaceDef.deckReplacementKeys = {}
 	for i, d in ipairs (CirnoMod.replaceDef.deckReplacements) do
-		if	d.matureRefLevel <= CirnoMod.config.matureReferences_cyc	then
+		if d.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
 			-- Ignore exceptional circumstances as defined in the file.
 			if
 				not CirnoMod.replaceDef.allKeysToIgnore[d.dckKey]
@@ -477,6 +478,22 @@ if CirnoMod.config['malverkReplacements'] then
 		CirnoMod.replaceDef.locChanges.jkrLoc.weeJkr = jkrLoc.weeJkr
 		CirnoMod.replaceDef.locChanges.jkrLoc.lgndJkrs = jkrLoc.lgndJkrs
 	end
+	
+	CirnoMod.replaceDef.tagReplacementKeys = {}
+	for i, t in ipairs(CirnoMod.replaceDef.tagReplacements) do
+		if t.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+			-- Ignore exceptional circumstances as defined in the file.
+			if
+				not CirnoMod.replaceDef.allKeysToIgnore[t.tagKey]
+			then
+				table.insert(CirnoMod.replaceDef.tagReplacementKeys, t.tagKey)
+			end
+			
+			if t.artCreditKey then
+				CirnoMod.miscItems.artCreditKeys[t.tagKey] = t.artCreditKey
+			end
+		end
+	end
 
 	-- Parse Misc Renames
 	if CirnoMod.config['miscRenames'] then
@@ -502,6 +519,8 @@ if CirnoMod.config['malverkReplacements'] then
 				end
 			end
 		end
+		
+		CirnoMod.replaceDef.locChanges.tagLoc = miscLoc.tags
 		
 		-- TODO: Vouchers
 		
@@ -532,6 +551,7 @@ if CirnoMod.config['malverkReplacements'] then
 		'cir_mlvrk_Decks',
 		'cir_mlvrk_Enhancers',
 		'cir_mlvrk_Seals',
+		'cir_mlvrk_Tags',
 		
 		'cir_mlvrk_SmallBigBlind',
 		'cir_mlvrk_Boss_Blinds',		

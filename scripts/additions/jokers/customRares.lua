@@ -303,7 +303,7 @@ local jokerInfo = {
 				},
 				unlock = {
 					"Encounter {C:attention}#1#{}'s",
-					"reskin {s:0.8,C:inactive}(in an unseeded run)"
+					"reskin"
 				}
 			},
 			unlocked = false,
@@ -479,8 +479,7 @@ local jokerInfo = {
 				unlock = {
 					"Encounter at least one Joker reskin per",
 					"skin that is {C:attention}#1#{}, {C:attention}#2#{} or",
-					"{C:attention}#3#{} related.",
-					"{s:0.8,C:inactive}(in an unseeded run)"
+					"{C:attention}#3#{} related."
 				}
 			},
 			unlocked = false,
@@ -626,8 +625,7 @@ local jokerInfo = {
 					"three Jokers that",
 					"either are or are",
 					"references to",
-					"{C:attention}#1#",
-					"{s:0.8,C:inactive}(in an unseeded run)"
+					"{C:attention}#1#"
 				}
 			},
 			unlocked = false,

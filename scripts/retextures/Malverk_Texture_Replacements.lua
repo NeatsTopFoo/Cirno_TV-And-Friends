@@ -187,6 +187,19 @@ AltTexture({
 	}
 })
 
+-- Tags
+AltTexture({
+	key = 'mlvrk_Tags',
+	set = 'Tag',
+	path = CirnoMod.replaceDef.getPath("tag"),
+	keys = CirnoMod.replaceDef.tagReplacementKeys,
+	localization = CirnoMod.replaceDef.locChanges.tagLoc,
+	original_sheet = true,
+	loc_txt = {
+		name = 'Tags'
+	}
+})
+
 -----------------------
 ----- Blind Chips -----
 -----------------------

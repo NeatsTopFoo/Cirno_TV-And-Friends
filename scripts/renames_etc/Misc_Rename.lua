@@ -1,4 +1,4 @@
-local miscLoc = { boosters = {}, vouchers = {} }
+local miscLoc = { tags = {}, boosters = {}, vouchers = {} }
 local planetIntent = G.localization.misc.labels.planet
 --[[
 Can't go based off the actual localisation variable name because it isn't changed  yet.
@@ -148,6 +148,103 @@ SMODS.process_loc_text(G.localization.misc.quips, "wq_7", {
         "against you!",
     })]]
 	
+--#endregion
+
+--#region Tags
+
+miscLoc.tags.tag_uncommon = {
+	name = "Uncommon Fairy Tag"
+}
+
+miscLoc.tags.tag_rare = {
+	name = "Rare Fairy Tag"
+}
+
+miscLoc.tags.tag_polychrome = {
+	name = "Polychrome Fairy Tag"
+}
+
+miscLoc.tags.tag_negative = {
+	name = "Negative Fairy Tag"
+}
+
+miscLoc.tags.tag_coupon = {
+	name = "Prime Gaming Tag",
+    text = {
+        "Initial cards and",
+        "booster packs in next",
+        "shop are free",
+		"{s:0.8,C:inactive}Did you know that if you",
+		"{s:0.8,C:inactive}have Amazon Prime, you can",
+		"{s:0.8,C:inactive}sub to one streamer per",
+		"{s:0.8,C:inactive}month for FREE?"
+    }
+}
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Tag:take_ownership('coupon', {			
+		create_main_end = function(center)
+			local nodes_ = {
+				Ln1 = {},
+				Ln2 = {},
+				Ln3 = {},
+				Ln4 = {}
+			}
+			local nodeKeys = {
+				'Ln1',
+				'Ln2',
+				'Ln3',
+				'Ln4'
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(nodes_.Ln1, Sprite(
+					0, 0, -- Sprite X & Y
+					0.8, 0.8, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 0, y = 2 } -- Position in the atlas
+				)
+			)
+			
+			CirnoMod.miscItems.addUITextNode(nodes_.Ln2,
+				'Learn more at ',
+				G.C.UI.TEXT_INACTIVE,
+				0.8)
+			
+			CirnoMod.miscItems.addUITextNode(nodes_.Ln3,
+				'https://twitch.tv/girl_dm_/subscribe',
+				G.C.BLUE,
+				0.8)
+			
+			CirnoMod.miscItems.addUITextNode(nodes_.Ln4,
+				'What? Of course I\'m gonna be biased towards my oshi.',
+				G.C.UI.TEXT_INACTIVE,
+				0.5)
+			
+			return {{
+					n = G.UIT.C,
+					config = {
+						align = 'bm',
+						padding = 0.02
+					},
+					nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
+				}}
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			return { vars = {}, main_end = self.create_main_end(center) }
+		end
+	}, true)
+else
+	table.insert(miscLoc.tags.tag_coupon.text,
+		'{s:0.8,C:inactive}Learn more at')
+		
+	table.insert(miscLoc.tags.tag_coupon.text,
+		'{s:0.8,C:blue}https://twitch.tv/girl_dm_/subscribe')
+		
+	table.insert(miscLoc.tags.tag_coupon.text,
+		'{s:0.5,C:inactive}What? Of course I\'m gonna be biased towards my oshi.')
+end
+
 --#endregion
 
 --#region Boosters
