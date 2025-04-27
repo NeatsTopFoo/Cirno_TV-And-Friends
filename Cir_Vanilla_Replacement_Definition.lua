@@ -455,7 +455,7 @@ replaceDef.jokerReplacements = {
 	
 	-- { jkrKey = 'j_8_ball', matureRefLevel = 1 },
 	{ jkrKey = 'j_fibonacci', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_stencil', matureRefLevel = 1 },
+	{ jkrKey = 'j_stencil', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_space', matureRefLevel = 1 },
 	-- { jkrKey = 'j_matador', matureRefLevel = 1 },
 	{ jkrKey = 'j_ceremonial', matureRefLevel = 1, artCreditKey = 'jA_DuoDagger' },
@@ -565,7 +565,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_ramen', matureRefLevel = 1 },
 	{ jkrKey = 'j_selzer', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	{ jkrKey = 'j_trousers', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
-	-- { jkrKey = 'j_campfire', matureRefLevel = 1 },
+	{ jkrKey = 'j_campfire', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_smiley', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	-- { jkrKey = 'j_ancient', matureRefLevel = 1 },
 	{ jkrKey = 'j_walkie_talkie', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },

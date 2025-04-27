@@ -17,6 +17,9 @@ local jokerInfo = {
 		-- "Help I'm Trapped In The Joker Factory" will have some different effects that get selected randomly on joker creation, all related to blinds, one off the top of my head is "This Joker gives +5 mult during The Memory (the boss blind) & also gains X0.05 mult whenever Cirno forgets something" and then it just randomly gains X0.05 mult based on random, unpredictable criteria.
 		-- "Fuckin' Catgirl Sex Fuckin Footjob Dick Suckin' Simulator" No idea what this could do.
 		-- Endless Eight Joker
+		-- Sonic '06 Joker
+		-- Emotional Support Broken Man Joker
+		-- Money laundry?
 	jokerConfigs = {
 		-- Crystal Tap
 		{

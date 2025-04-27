@@ -204,7 +204,7 @@ local jokerInfo = {
 						message_card = context.other_card,
 						message = "Dropped!",
 						colour = G.C.RED,
-						sound  = 'cir_j_matchaDrop',
+						sound = 'cir_j_matchaDrop',
 						pitch = 1.0,
 						func = self.dropIceCream(context.other_card)
 					}

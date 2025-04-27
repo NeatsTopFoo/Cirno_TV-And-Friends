@@ -721,7 +721,7 @@ CirnoMod.extendedDescTooltip{
 		
 		CirnoMod.miscItems.addUISpriteNode(desc_nodes[#desc_nodes], Sprite(
 					0, 0, -- Sprite X & Y
-					1.1, 1.4, -- Sprite W & H
+					1.1, 1.3, -- Sprite W & H
 					CirnoMod.miscItems.funnyAtlases.cirGuns, -- Sprite Atlas
 					{ x = CirnoMod.miscItems.cirGunsSpriteX, y = 0 } -- Position in the Atlas
 				)

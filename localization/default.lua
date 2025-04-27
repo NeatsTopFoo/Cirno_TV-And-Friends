@@ -25,6 +25,7 @@ creditSources.sanglune = "Sanglune"
 
 -- The funny increases exponentially.
 creditSources.CirnoTV = "{s:0.8,X:cirCyan,C:white}Cirno_TV{s:0.8}"
+creditSources.CirnoTV_smol = "{s:0.6,X:cirCyan,C:white}Cirno_TV"
 
 creditSources.solga = "Solgalestia"
 creditSources.turpix = "Turpix"
@@ -212,7 +213,7 @@ RV.descriptions.Other = {
 		text = {
 			"{s:0.8}...I don't know what to",
 			"{s:0.8}say, it's literally just",
-			"{s:0.8}a picture of "..creditSources.CirnoTV.."{s:0.8}."
+			"{s:0.8}a picture of "..creditSources.CirnoTV.."."
 		}
 	},
 	jA_Egg = {
@@ -220,7 +221,7 @@ RV.descriptions.Other = {
 		text = {
 			"{s:0.8}...I don't know what to",
 			"{s:0.8}say, it's literally just",
-			"{s:0.8}a picture of "..creditSources.CirnoTV.."{s:0.8}.",
+			"{s:0.8}a picture of "..creditSources.CirnoTV..".",
 			"{s:0.8,E:1}DEFINITELY{s:0.8} real, not an",
 			"{s:0.8}edit of any kind."
 		}
@@ -231,7 +232,7 @@ RV.descriptions.Other = {
 			"{s:0.6}...I don't know what to",
 			"{s:0.6}say, it's literally just",
 			"{s:0.6}a screenshot of the",
-			"{s:0.6}stream."
+			creditSources.CirnoTV_smol.." {s:0.6}stream."
 		}
 	},
 	jA_Baseball = {

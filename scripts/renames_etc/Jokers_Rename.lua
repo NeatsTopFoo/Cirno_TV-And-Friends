@@ -1088,17 +1088,24 @@ jokerLoc.nrmJkrs.j_fibonacci = {
 		"{s:0.8,C:inactive}walk away from the console."
 	}
 }
---[[
+
 jokerLoc.nrmJkrs.j_stencil = {
-	name = "Joker Stencil",
+	name = "The Enigma of Cirno's Many Faults",
 	text = {
-		"{X:red,C:white} X1 {} Mult for each",
-        "empty {C:attention}Joker{} slot",
-        "{s:0.8}Joker Stencil included",
-        "{C:inactive}(Currently {X:red,C:white} X#1# {C:inactive})"
+		"{X:red,C:white} X1 {} Mult for each empty {C:attention}Joker{} slot",
+        "{s:0.8}(The Enigma of Cirno's Many Faults included)",
+        "{C:inactive}(Currently {X:red,C:white} X#1# {C:inactive})",
+		"{s:0.8,C:inactive}Do you see a slot that would fit the fairy?",
+		"{s:0.8,C:inactive}That's right, it's the square hole!",
+		"{s:0.8,C:inactive}...You know, do you think Junji Ito & the",
+		"{s:0.8,C:inactive}Square Hole Guy are equivalent levels of",
+		"{s:0.8,C:inactive}terrifying to the Square Hole Girl?",
+		"{s:0.8,C:inactive}I realise that wording it like that is",
+		"{s:0.8,C:inactive}weird, but like, how else do I put it?"
 	}
 }
 
+--[[
 jokerLoc.nrmJkrs.j_space = {
 	name = "Space Joker",
 	text = {
@@ -1174,7 +1181,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			
 			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
 					0, 0, -- Sprite X & Y
-					1.1, 1.4, -- Sprite W & H
+					1.1, 1.3, -- Sprite W & H
 					CirnoMod.miscItems.funnyAtlases.cirGuns, -- Sprite Atlas
 					{ x = CirnoMod.miscItems.cirGunsSpriteX, y = 0 } -- Position in the Atlas
 				)
@@ -1477,9 +1484,7 @@ end
 jokerLoc.nrmJkrs.j_dusk = {
 	name = "The Duskbloods",
 	text = {
-		"Retrigger all played",
-        "cards in {C:attention}final",
-        "{C:attention}hand{} of round",
+		"Retrigger all played cards in {C:attention}final hand{} of round",
 		"{s:0.8,C:inactive}The vibe of this game sure {s:0.8,C:cirInactiveAtt}Elden Rings{s:0.8,C:inactive} a bell.",
 		"{s:0.8,C:inactive}It takes a {s:0.8,C:cirInactiveAtt}Demon's Soul{s:0.8,C:inactive} to announce it as a Switch 2 exclusive.",
 		"{s:0.8,C:inactive}In those who once claimed their {s:0.8,C:cirInactiveAtt}Cores Armoured{s:0.8,C:inactive},",
@@ -2686,9 +2691,8 @@ jokerLoc.nrmJkrs.j_trading = {
 jokerLoc.nrmJkrs.j_flash = {
 	name = "Takane Takamine",
 	text={
-        "Each played {C:attention}Ace{},",
-        "{C:attention}2{}, {C:attention}3{}, {C:attention}5{}, or {C:attention}8{} gives",
-        "{C:mult}+#1#{} Mult when scored"
+        "Each played {C:attention}Ace{}, {C:attention}2{}, {C:attention}3{}, {C:attention}5{}, or {C:attention}8",
+        "gives {C:mult}+#1#{} Mult when scored"
     }
 }
 
@@ -2778,17 +2782,17 @@ jokerLoc.nrmJkrs.j_trousers = {
     }
 }
 
---[[
 jokerLoc.nrmJkrs.j_campfire = {
-	name = "Campfire",
+	name = "Bonfire",
     text = {
         "This Joker gains {X:mult,C:white}X#1#{} Mult",
         "for each card {C:attention}sold{}, resets",
         "when {C:attention}Boss Blind{} is defeated",
-        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+		"{s:0.8,C:inactive}Remember, 23 ATT, 32 END,",
+		"{s:0.8,C:inactive}45 DEX, 97 INT"
     }
 }
-]]
 
 jokerLoc.nrmJkrs.j_smiley = {
 	-- name = "Smiley Face",

@@ -35,7 +35,7 @@ local chalInfo = {
 	loc_txt = {
 		name = "5 \"Joker Stencils.\"",
 		text = {
-			"Start with 5 {C:eternal}Eternal{}, {C:attention}debuffed{} "..stencilIntencil.."s.",
+			"Start with 5 {C:eternal}Eternal{}, {C:attention}debuffed{} "..stencilIntencil.."'s.",
 			"Every {C:attention}2{} defeated {C:attention}Boss Blinds{} removes a debuff."
 		}
 	},
