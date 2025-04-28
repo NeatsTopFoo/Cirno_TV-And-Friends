@@ -20,6 +20,7 @@ local jokerInfo = {
 		-- Sonic '06 Joker
 		-- Emotional Support Broken Man Joker
 		-- Money laundry?
+		-- Turn all left cards into right cards
 	jokerConfigs = {
 		-- Crystal Tap
 		{
@@ -747,7 +748,7 @@ local jokerInfo = {
 			atlas = 'cir_cRares',
 			pos = { x = 0, y = 0 },
 			rarity = 3,
-			cost = 10,
+			cost = 12,
 			eternal_compat = true,
 			perishable_compat = true,
 			

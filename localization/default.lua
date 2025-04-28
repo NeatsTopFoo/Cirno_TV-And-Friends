@@ -484,9 +484,25 @@ RV.descriptions.Joker.cir_b3313_betaLob = { name = 'Beta Lobby',
 
 -- B3313 Pair Form
 RV.descriptions.Joker.cir_b3313_plexalLob = { name = 'Plexal Lobby',
-	text = {
-		''
-	}
+	text = { {
+		'If played hand is a {C:attention}Pair{} or {C:attention}High Card{},',
+		'{C:chips}+20{} Chips'
+		}, {
+		'Otherwise, if played hand contains a {C:attention}Two Pair{},',
+		'{C:mult}+10{} Mult'
+		}, {
+		'If played hand contains a {C:attention}Three of a Kind{} or {C:attention}Straight{},',
+		'{C:mult}+15{} Mult'
+		}, {
+		'If played hand contains a {C:attention}Flush{},',
+		'{X:mult,C:white}X1.25{} Mult'
+		}, {
+		'If played hand contains a {C:attention}Full House{},',
+		'{X:mult,C:white}X1.5{} Mult'
+		}, {
+		'If played hand contains a {C:attention}Four of a Kind{} or {C:attention}Straight Flush{},',
+		'{X:mult,C:white}X2{} Mult'
+	} }
 }
 
 -- B3313 Two Pair Form
@@ -507,8 +523,7 @@ RV.descriptions.Joker.cir_b3313_vanLob = { name = 'Vanilla Lobby',
 RV.descriptions.Joker.cir_b3313_uncanny = { name = 'Uncanny Basement',
 	text = { {
 		'{X:mult,C:white}XMult{} equal to the lowest rank',
-		'in scored hand',
-		'{s:0.8}(Face cards are considered {s:0.8,C:attention}10{s:0.8})',
+		'in scored hand'
 		}, {
 		'All {C:attention}played numbered cards{}',
 		'have their ranks randomised',
@@ -529,7 +544,7 @@ RV.descriptions.Joker.cir_b3313_crescent = { name = 'Crescent Castle',
 	text = {
 		'Earn {C:money}#1#{} at the end of round per',
 		'{C:attention}face card{} played this round',
-		'{C:inactive}(Currently #2#)'
+		'{C:inactive}(Currently #2#)',
 		'{s:0.8,C:inactive}Our house, in the',
 		'{s:0.8,C:inactive}middle of our street.'
 	}
@@ -659,16 +674,15 @@ then
 				"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
 			}
 		}
+		
+		RV.descriptions.Joker.j_marble = {
+			text = {
+				"Adds one {C:attention}"..replaceIntents.stone,
+				"to deck when",
+				"{C:attention}Blind{} is selected",
+			}
+		}
 	end
-	
-	-- Todo: Move into the above condition when we work out Marble Joker.
-	RV.descriptions.Joker.j_marble = {
-		text = {
-			"Adds one {C:attention}"..replaceIntents.stone,
-			"to deck when",
-			"{C:attention}Blind{} is selected",
-        }
-	}
 end
 
 --[[

@@ -546,8 +546,19 @@ function Game:main_menu(change_context)
 				blocking = false,
 				blockable = false,
 				func = function()
-					if pseudorandom('titlePoly') < 0.25 then
+					math.randomseed(os.time())
+					if math.random(4) == 1 then
 						CirnoMod.titleCard:set_edition({ polychrome = true }, true, true)
+						G.E_MANAGER:add_event(Event({
+								trigger = 'after',
+								delay = 0.75,
+								blocking = false,
+								blockable = false,
+								func = function()
+										CirnoMod.titleCard:juice_up(0.3, 0.3)
+									return true
+								end
+							}))
 					end
 					return true
 				end

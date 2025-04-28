@@ -422,8 +422,8 @@ replaceDef.jokerReplacements = {
 	
 	-- { jkrKey = 'j_troubadour', matureRefLevel = 1 },
 	{ jkrKey = 'j_banner', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTFEdit' },
-	-- { jkrKey = 'j_mystic_summit', matureRefLevel = 1 },
-	-- { jkrKey = 'j_marble', matureRefLevel = 1 },
+	{ jkrKey = 'j_mystic_summit', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
+	{ jkrKey = 'j_marble', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_loyalty_card', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_hack', matureRefLevel = 1, artCreditKey = 'jA_Hack' },
 	{ jkrKey = 'j_misprint', matureRefLevel = 1, artCreditKey = 'jA_Misprint' },

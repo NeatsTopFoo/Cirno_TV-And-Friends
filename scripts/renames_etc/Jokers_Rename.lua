@@ -552,24 +552,59 @@ jokerLoc.nrmJkrs.j_banner = {
 		"{s:0.5,C:inactive}\"{s:0.5,C:cirFaintLavender}...What are my girls?{s:0.5,C:inactive}\""
 	}
 }
---[[
+
 jokerLoc.nrmJkrs.j_mystic_summit = {
-	name = "Mystic Summit",
+	name = "Jump King",
 	text = {
 		"{C:mult}+#1#{} Mult when",
         "{C:attention}#2#{} discards",
-        "remaining"
+        "remaining",
+		"{s:0.8,C:inactive}One would assume Cirno",
+		"{s:0.8,C:inactive}enjoys the base of",
+		"{s:0.8,C:inactive}the summit, given his ",
+		"{s:0.8,C:inactive}tendency to return often"
 	}
 }
 
 jokerLoc.nrmJkrs.j_marble = {
-	name = "Marble Joker",
+	name = "Cement Bread",
 	text = {
 		"Adds one {C:attention}Whump{} card",
 		"to deck when",
 		"{C:attention}Blind{} is selected"
 	}
-}]]
+}
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Joker:take_ownership('marble', {
+		create_main_end = function()
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					0.8, 0.8, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 4, y = 0 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, center)
+			info_queue[#info_queue+1] = G.P_CENTERS.m_stone
+			
+			return { main_end = self.create_main_end() }
+		end
+	}, true)
+end
 
 jokerLoc.nrmJkrs.j_loyalty_card = {
 	name = "New Sub",
