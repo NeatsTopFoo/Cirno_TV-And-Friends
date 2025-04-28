@@ -666,4 +666,19 @@ miscItems.otherAtlases.cardKnifeStab = SMODS.Atlas({
 	py = 95
 })
 
+SMODS.DrawStep{
+	key = 'cir_knifeStab',
+	order = 52,
+	func = function(card, layer)
+		if
+			card
+			and card.children.knifeSprite
+			and card.mitaKill
+		then
+			card.children.knifeSprite:draw_shader('dissolve', nil, nil, nil, card.children.center)
+		end
+	end,
+	conditions = { vortex = false, facing = 'front' }
+}
+
 return miscItems

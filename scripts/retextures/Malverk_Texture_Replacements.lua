@@ -1,3 +1,326 @@
+-- Set up localisation changes for Malverk implementation to pull from.
+CirnoMod.replaceDef.locChanges = {
+	deckLoc = {},
+	planetLoc = {},
+	enhancerLoc = {},
+	sealLoc = {},
+	blindsLoc = {},
+	tarotLoc = {},
+	spectralLoc = {},
+	soulLoc = {},
+	boosterLoc = {},
+	tagLoc = {},
+	-- TODO: Vouchers
+	jkrLoc = {}
+}
+
+--[[
+Malverk is VERY strict about
+how you write your texture lines.
+The formula is [MOD KEY]_[ALT TEXTURE KEY]
+The mod key can be found in the config file
+& the al texture keys are per alt texture
+block in the malverk file.]]
+local mlvrkTextPackTextList = {
+	'cir_mlvrk_NormalJokers',
+	'cir_mlvrk_WeeJoker',
+	'cir_mlvrk_LegendaryJokers',
+	
+	'cir_mlvrk_Boosters',
+	'cir_mlvrk_Tarots',
+	'cir_mlvrk_Planets',
+	'cir_mlvrk_Spectrals',
+	'cir_mlvrk_Soul',
+	'cir_mlvrk_Decks',
+	'cir_mlvrk_Enhancers',
+	'cir_mlvrk_Seals',
+	'cir_mlvrk_Tags',
+	
+	'cir_mlvrk_SmallBigBlind',
+	'cir_mlvrk_Boss_Blinds',		
+	'cir_mlvrk_Finale_Blinds'
+}
+
+-- Anything in the above that should be off by default, must be present in both lists to work.
+local mlvrkDefaultOffPackTextList = {}
+
+--[[ Processes kays as defined in the vanilla replacement doc and
+populates the replacement keys for the malverk pack accordingly.]]
+CirnoMod.replaceDef.deckReplacementKeys = {}
+for i, d in ipairs (CirnoMod.replaceDef.deckReplacements) do
+	if d.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+		-- Ignore exceptional circumstances as defined in the file.
+		if
+			not CirnoMod.replaceDef.allKeysToIgnore[d.dckKey]
+		then
+			table.insert(CirnoMod.replaceDef.deckReplacementKeys, d.dckKey)
+		end
+		
+		if d.artCreditKey then
+			CirnoMod.miscItems.artCreditKeys[d.dckKey] = d.artCreditKey
+		end
+	end
+end
+
+-- Parse Deck Renames
+if CirnoMod.config['deckRenames'] then
+	-- Runs the lua and puts its returned var into the var.
+	CirnoMod.miscItems.filterTable(assert(SMODS.load_file("scripts/renames_etc/Decks_Rename.lua"))(), CirnoMod.replaceDef.locChanges.deckLoc, CirnoMod.replaceDef.deckReplacementKeys)
+end
+
+CirnoMod.replaceDef.enhancerReplacementKeys = {}
+for i, e in ipairs (CirnoMod.replaceDef.enhancerReplacements) do
+	if e.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+		-- Ignore exceptional circumstances as defined in the file.
+		if
+			not CirnoMod.replaceDef.allKeysToIgnore[e.enhKey]
+		then
+			table.insert(CirnoMod.replaceDef.enhancerReplacementKeys, e.enhKey)
+		end
+		
+		if e.artCreditKey then
+			CirnoMod.miscItems.artCreditKeys[e.enhKey] = e.artCreditKey
+		end
+	end
+end
+
+-- Parse Enhancer Renames
+if CirnoMod.config['enhancerRenames'] then
+	-- Runs the lua and puts its returned var into the var.
+	local enhLoc = assert(SMODS.load_file("scripts/renames_etc/Enhancers_Rename.lua"))()
+	
+	--[[
+	==================================================
+	TODO: Work out what to do about Seals in Malverk
+		-- Discussed with Eremel, he's looking into
+		   it, potential oversight with how Seals are
+		   handled.
+	==================================================]]
+	
+	CirnoMod.miscItems.filterTable(enhLoc.enhancers, CirnoMod.replaceDef.locChanges.enhancerLoc, CirnoMod.replaceDef.enhancerReplacementKeys)
+	CirnoMod.replaceDef.locChanges.sealLoc = copy_table(enhLoc.seals)
+	
+	--[[ Leaving these uncommented because I've only tested it in the Collection
+	menu and never during an actual run, so it's possible]]
+	CirnoMod.miscItems.artCreditKeys['blue_seal'] = 'eA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys['red_seal'] = 'eA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys['gold_seal'] = 'eA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys['purple_seal'] = 'eA_DaemonTsun'
+	
+	--[[ Also, we have no real need to touch seals manually or do anything with
+	individual seal keys because we basically started having done them
+	all at the point we started getting this in-depth.]]
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'blue_seal')
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'red_seal')
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'gold_seal')
+	table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'purple_seal')
+end
+
+-- Parse Blind Renames
+if CirnoMod.config['blindRenames'] then
+	-- Runs the lua and puts its returned var into the var.
+	CirnoMod.replaceDef.locChanges.blindsLoc = assert(SMODS.load_file("scripts/renames_etc/Blinds_Rename.lua"))()
+end
+
+--[[ Processes kays as defined in the vanilla replacement doc and
+populates the replacement keys for the malverk pack accordingly.]]
+CirnoMod.replaceDef.planetReplacementKeys = {}
+for i, p in ipairs (CirnoMod.replaceDef.planetReplacements) do
+	if p.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+		-- Ignore exceptional circumstances as defined in the file.
+		if
+			not CirnoMod.replaceDef.allKeysToIgnore[p.plnKey]
+			and
+			--[[ If we do not the planets as hus, then do not the planets as hus.
+			This will likely be altered later, I'll just do this for now]]
+			((CirnoMod.config['planetsAreHus'] and p.planetsAreHus)
+			or not p.planetsAreHus)
+		then
+			table.insert(CirnoMod.replaceDef.planetReplacementKeys, p.plnKey)
+		end
+		
+		if p.artCreditKey then
+			CirnoMod.miscItems.artCreditKeys[p.plnKey] = p.artCreditKey
+		end
+	end
+end
+
+CirnoMod.replaceDef.tarotReplacementKeys = {}
+for i, t in ipairs (CirnoMod.replaceDef.tarotReplacements) do
+	if t.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+		-- Ignore exceptional circumstances as defined in the file.
+		if
+			not CirnoMod.replaceDef.allKeysToIgnore[t.trtKey]
+		then
+			table.insert(CirnoMod.replaceDef.tarotReplacementKeys, t.trtKey)
+		end
+		
+		if t.artCreditKey then
+			CirnoMod.miscItems.artCreditKeys[t.trtKey] = t.artCreditKey
+		end
+	end
+end
+
+CirnoMod.miscItems.colours.tarot = HEX('185095FF')
+	
+CirnoMod.replaceDef.spectralReplacementKeys = {}
+for i, s in ipairs (CirnoMod.replaceDef.spectralReplacements) do
+	if s.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+		-- Ignore exceptional circumstances as defined in the file.
+		if
+			not CirnoMod.replaceDef.allKeysToIgnore[s.spcKey]
+		then
+			table.insert(CirnoMod.replaceDef.spectralReplacementKeys, s.spcKey)
+		end
+		
+		if s.artCreditKey then
+			CirnoMod.miscItems.artCreditKeys[s.spcKey] = s.artCreditKey
+		end
+	end
+end
+
+-- Parse Planet, Tarot & Spectral Renames (Planets moreso if planets aren't Hus)
+if CirnoMod.config['planetTarotSpectralRenames'] then
+	-- Runs the lua and puts its returned var into the var.
+	local PTSloc = assert(SMODS.load_file("scripts/renames_etc/PlanetsTarotsAndSpectrals_Rename.lua"))()
+	
+	CirnoMod.miscItems.filterTable(PTSloc.planets, CirnoMod.replaceDef.locChanges.planetLoc, CirnoMod.replaceDef.planetReplacementKeys)
+	CirnoMod.miscItems.filterTable(PTSloc.tarots, CirnoMod.replaceDef.locChanges.tarotLoc, CirnoMod.replaceDef.tarotReplacementKeys)
+	CirnoMod.miscItems.filterTable(PTSloc.spectrals, CirnoMod.replaceDef.locChanges.spectralLoc, CirnoMod.replaceDef.spectralReplacementKeys)
+	CirnoMod.replaceDef.locChanges.soulLoc.c_soul = copy_table(PTSloc.c_soul)
+end
+
+--[[ Processes kays as defined in the vanilla replacement doc and
+populates the replacement keys for the malverk pack accordingly.]]
+CirnoMod.replaceDef.boosterReplacementKeys = {}
+for i, b in ipairs (CirnoMod.replaceDef.boosterReplacements) do
+	if b.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+		-- Ignore exceptional circumstances as defined in the file.
+		if
+			not CirnoMod.replaceDef.allKeysToIgnore[b.bstKey]
+		then
+			table.insert(CirnoMod.replaceDef.boosterReplacementKeys, b.bstKey)
+		end			
+		
+		if b.artCreditKey then
+			CirnoMod.miscItems.artCreditKeys[b.bstKey] = b.artCreditKey
+		end
+	end
+end
+
+-- TODO: Vouchers.
+
+-- Parse Planets are Hus
+if CirnoMod.config['planetsAreHus'] then
+	CirnoMod.miscItems.colours.planet = HEX('980D50FF')
+	
+	-- Runs the lua and puts its returned var into the var.
+	local planetsAreHusLoc = assert(SMODS.load_file("scripts/other/planetsAreHus.lua"))()
+	
+	if CirnoMod.config.planetTarotSpectralRenames then
+		CirnoMod.miscItems.filterTable(planetsAreHusLoc.planets, CirnoMod.replaceDef.locChanges.planetLoc, CirnoMod.replaceDef.planetReplacementKeys)
+	end
+	
+	if CirnoMod.config.miscRenames then
+		CirnoMod.replaceDef.locChanges.boosterLoc = copy_table(planetsAreHusLoc.boosters)
+		
+		-- TODO: Vouchers
+	end
+end
+
+--[[ Processes kays as defined in the vanilla replacement doc and
+populates the replacement keys for the malverk pack accordingly.]]
+CirnoMod.replaceDef.jokerReplacementKeys = {}
+for i, k in ipairs (CirnoMod.replaceDef.jokerReplacements) do
+	if k.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+		-- Ignore exceptional circumstances as defined in the file.
+		if
+			not CirnoMod.replaceDef.allKeysToIgnore[k.jkrKey]
+		then
+			table.insert(CirnoMod.replaceDef.jokerReplacementKeys, k.jkrKey)
+		end
+		
+		table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, k.jkrKey)
+		
+		if k.artCreditKey then
+			CirnoMod.miscItems.artCreditKeys[k.jkrKey] = k.artCreditKey
+		end
+	end
+end
+
+-- Parse Joker Renames
+if CirnoMod.config['jokerRenames'] then
+	-- Runs the lua and puts its returned var into the var.
+	local jkrLoc = assert(SMODS.load_file("scripts/renames_etc/Jokers_Rename.lua"))()
+	
+	--[[
+	Creates a new table filtered based on the values
+	established above, determined by vanilla
+	replacement definition]]
+	CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs = copy_table(CirnoMod.miscItems.newFilteredTable(jkrLoc.nrmJkrs, CirnoMod.replaceDef.jokerReplacementKeys))
+	
+	CirnoMod.replaceDef.locChanges.jkrLoc.delGrat = jkrLoc.delGrat
+	CirnoMod.replaceDef.locChanges.jkrLoc.weeJkr = jkrLoc.weeJkr
+	CirnoMod.replaceDef.locChanges.jkrLoc.lgndJkrs = jkrLoc.lgndJkrs
+end
+
+CirnoMod.replaceDef.tagReplacementKeys = {}
+for i, t in ipairs(CirnoMod.replaceDef.tagReplacements) do
+	if t.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+		-- Ignore exceptional circumstances as defined in the file.
+		if
+			not CirnoMod.replaceDef.allKeysToIgnore[t.tagKey]
+		then
+			table.insert(CirnoMod.replaceDef.tagReplacementKeys, t.tagKey)
+		end
+		
+		if t.artCreditKey then
+			CirnoMod.miscItems.artCreditKeys[t.tagKey] = t.artCreditKey
+		end
+	end
+end
+
+-- Parse Misc Renames
+if CirnoMod.config['miscRenames'] then
+	CirnoMod.miscItems.miscRenameTables = {}
+	-- Runs the lua and puts its returned var into the var.
+	local miscLoc = assert(SMODS.load_file("scripts/renames_etc/Misc_Rename.lua"))()
+	
+	--[[
+	Since planets are hus potentially goes first and
+	thus sets up the booster loc table, we basically
+	need to properly merge the entries]]
+	for i, b in ipairs (CirnoMod.replaceDef.boosterReplacementKeys) do
+		if miscLoc.boosters[b] then
+			if CirnoMod.config.planetsAreHus then
+				if 
+					CirnoMod.replaceDef.locChanges.boosterLoc[b]
+					and miscLoc.boosters[b].text
+				then
+					CirnoMod.replaceDef.locChanges.boosterLoc[b].text = miscLoc.boosters[b].text
+				end
+			else
+				CirnoMod.replaceDef.locChanges.boosterLoc[b] = miscLoc.boosters[b]
+			end
+		end
+	end
+	
+	CirnoMod.replaceDef.locChanges.tagLoc = miscLoc.tags
+	
+	-- TODO: Vouchers
+	
+	-- Function that randomises shop flavour text based on the pool defined in the rename file
+	CirnoMod.miscItems.pickRandShopFlavour = function()
+		SMODS.process_loc_text(G.localization.misc.dictionary, "ph_improve_run", pseudorandom_element(CirnoMod.miscItems.miscRenameTables.shopFlavourPool, pseudoseed('shopFlavourRand')))
+		return nil
+	end
+end
+
+if CirnoMod.config.matureReferences_cyc >= 2 then
+	table.insert(mlvrkTextPackTextList, 'cir_mlvrk_DelGrat')
+	table.insert(mlvrkDefaultOffPackTextList, 'cir_mlvrk_DelGrat')
+end
+
 --[[-------------------------------------------------------------------
 --------------------------- Malverk Code ------------------------------
 -----------------------------------------------------------------------
@@ -332,8 +655,8 @@ What switch_func? Do I have a virus?????]]
 TexturePack{
 	key = 'mlvrk',
 	
-	textures = CirnoMod.replaceDef.mlvrkTextPackTextList,
-	toggle_textures = CirnoMod.replaceDef.mlvrkDefaultOffPackTextList,
+	textures = mlvrkTextPackTextList,
+	toggle_textures = mlvrkDefaultOffPackTextList,
 	loc_txt = {
 		name = 'Cirno_TV & Friends',
 		text = {

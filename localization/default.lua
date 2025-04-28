@@ -474,7 +474,7 @@ RV.descriptions.Joker.cir_b3313_betaLob = { name = 'Beta Lobby',
 		}, {
 			'{X:mult,C:white}X#1#{} mult if full hand reads',
 			'{C:attention}3{}, {C:attention}3{}, {C:attention}Ace{}, {C:attention}3',
-			'{s:0.8}(Excluding debuffed cards)',
+			'{s:0.8}(Excluding {s:0.8,C:red}debuffed{s:0.8} cards)',
 			'{s:0.8,C:inactive}To be fair, the thing with the doors',
 			'{s:0.8,C:inactive}does seem pretty random at first.',
 			'{s:0.8,C:inactive}I never noticed it was based on the',
@@ -505,12 +505,16 @@ RV.descriptions.Joker.cir_b3313_vanLob = { name = 'Vanilla Lobby',
 
 -- B3313 Straight Form
 RV.descriptions.Joker.cir_b3313_uncanny = { name = 'Uncanny Basement',
-	text = {
+	text = { {
+		'{X:mult,C:white}XMult{} equal to the lowest rank',
+		'in scored hand',
+		'{s:0.8}(Face cards are considered {s:0.8,C:attention}10{s:0.8})',
+		}, {
 		'All {C:attention}played numbered cards{}',
 		'have their ranks randomised',
 		'{s:0.8}(They cannot become face cards)',
 		'{s:0.8,C:inactive}HOW DO I GET OUT OF HERE?!'
-	}
+	} }
 }
 
 -- B3313 Flush Form
@@ -523,8 +527,9 @@ RV.descriptions.Joker.cir_b3313_4thFloor = { name = '4th Floor',
 -- B3313 Full House Form
 RV.descriptions.Joker.cir_b3313_crescent = { name = 'Crescent Castle',
 	text = {
-		'Earn {C:money}$#1#{} at the end of round per',
+		'Earn {C:money}#1#{} at the end of round per',
 		'{C:attention}face card{} played this round',
+		'{C:inactive}(Currently #2#)'
 		'{s:0.8,C:inactive}Our house, in the',
 		'{s:0.8,C:inactive}middle of our street.'
 	}

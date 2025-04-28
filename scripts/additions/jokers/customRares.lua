@@ -670,6 +670,7 @@ local jokerInfo = {
 						extraTable.xmult = 1
 					end
 				end
+				return false
 			end,
 			
 			blueprint_compat = true,
