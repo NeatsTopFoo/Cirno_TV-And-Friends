@@ -14,6 +14,9 @@ local miscItems = {
 	jkrKeyGroupArrays = {},
 	funnyAtlases = {},
 	otherAtlases = {},
+	returnToHand_Jokers = {
+		'j_cir_b3313'
+	},
 	switchKeys = {},
 	switchTables = {}
 }
@@ -60,11 +63,22 @@ miscItems.colours.cirNope = SMODS.Gradient({
 })
 
 miscItems.badges = {
-	allegations = function(bootstrapsName) return create_badge(bootstrapsName, G.C.GREEN, G.C.UI.TEXT_LIGHT, 0.8 ) end,
+	allegations = function(bootstrapsName) return create_badge(bootstrapsName or 'You Forgot To Pass The Name In', G.C.GREEN, G.C.UI.TEXT_LIGHT, 0.8 ) end,
 	TwoMax = function() return create_badge("2 Max", miscItems.colours.cirNep, G.C.UI.TEXT_LIGHT, 0.8) end,
 	cirGuns = function() return create_badge("cirGuns", miscItems.colours.cirCyan, G.C.UI.TEXT_LIGHT, 0.8 ) end,
 	crazyWomen = function() return create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 ) end
 }
+
+miscItems.addBadgesToJokerByKey = function(badgesTable, jkrKey, extArg)
+	for k, g in pairs(CirnoMod.miscItems.jkrKeyGroups) do
+		if
+			g[jkrKey]
+			and CirnoMod.miscItems.badges[k]
+		then
+			badgesTable[#badgesTable+1] = CirnoMod.miscItems.badges[k](extArg)
+		end
+	end
+end
 
 miscItems.addUITextNode = function(nodes, text, colour, scale)
 	nodes[#nodes + 1] = {
@@ -417,7 +431,8 @@ if
 then
 	miscItems.jkrKeyGroups.allegations = {
 		j_bootstraps = true,
-		j_riff_raff = true
+		j_riff_raff = true,
+		j_trading = true
 	}
 	
 	miscItems.jkrKeyGroups.TwoMax.j_duo = true

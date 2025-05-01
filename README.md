@@ -9,21 +9,23 @@ A Balatro mod themed around [Cirno_TV](https://www.twitch.tv/Cirno_TV/), with va
 
 DaemonTsun's art contributions are public domain - Some memes or pictures are not by him and copied as is, with some Jokers only being slightly edited. Further credits are available at the bottom of this README. Original Balatro art is property of LocalThunk.
 
-![Showcase of Blueprint](https://i.imgur.com/H2oPZ3A.png)
-![Showcase of Gluttonous Joker](https://i.imgur.com/piKjNIg.png)
-![Showcase of Playing Cards](https://i.imgur.com/zzcO15U.png)
+![Showcase of Blueprint](https://i.imgur.com/Y87Kxfm.png)
+
+![Showcase of Gluttonous Joker](https://i.imgur.com/du2Qrgf.png)
+
+![Showcase of Playing Cards](https://i.imgur.com/mV5wuaO.png)
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 116 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
+  - 117 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
   - All Blind Chips
   - All Seals
   - All Planet Cards
   - 13 Booster Packs
+  - 11 Tags
   - 7 Spectral Cards
   - 6 Tarot Cards
   - 6 Decks
-  - 5 Tags
   - 4 Enhancements
   - The title screen
 

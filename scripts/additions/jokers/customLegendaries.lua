@@ -263,7 +263,7 @@ local jokerInfo = {
 			if you hover over a card that mentions Stone cards and it tells
 			you what Stone cards are, that's this. It's not because it
 			just says 'Stone card' in the description.]]
-			loc_vars = function(self, info_queue, center)
+			loc_vars = function(self, info_queue, card)
 				-- Adds a description of Wheel of Fortune to tooltip by appending
 				-- to info_queue
 				info_queue[#info_queue + 1] = G.P_CENTERS.c_wheel_of_fortune
@@ -274,7 +274,7 @@ local jokerInfo = {
 				end
 				
 				-- Here is how #1# and #2# are defined.
-				return { vars = { center.ability.extra.extra, center.ability.extra.x_mult } }
+				return { vars = { card.ability.extra.extra, card.ability.extra.x_mult } }
 			end,
 			unlocked = false,
 			
@@ -293,7 +293,7 @@ local jokerInfo = {
 			
 			set_badges = function(self, card, badges)
 				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-					badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
+					CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_cir_nope_l')
 				end
 			end,
 			
@@ -387,7 +387,7 @@ local jokerInfo = {
 			} },
 			
 			blueprint_compat = true,
-			loc_vars = function(self, info_queue, center)
+			loc_vars = function(self, info_queue, card)
 				-- Adds a description of Neptune to tooltip by appending
 				-- to info_queue
 				info_queue[#info_queue + 1] = G.P_CENTERS.c_neptune
@@ -400,12 +400,12 @@ local jokerInfo = {
 				-- Here is how #1# and #2# are defined.
 				if G.GAME.consumeable_usage then
 					if G.GAME.consumeable_usage['c_neptune'] then
-						return { vars = { center.ability.extra.extra, (G.GAME.consumeable_usage['c_neptune'].count * center.ability.extra.extra) + 1 or 1 } }
+						return { vars = { card.ability.extra.extra, (G.GAME.consumeable_usage['c_neptune'].count * card.ability.extra.extra) + 1 or 1 } }
 					else
-						return { vars = { center.ability.extra.extra, 1 } }
+						return { vars = { card.ability.extra.extra, 1 } }
 					end
 				else
-					return { vars = { center.ability.extra.extra, 1 } }
+					return { vars = { card.ability.extra.extra, 1 } }
 				end
 			end,
 			unlocked = false,
@@ -442,8 +442,7 @@ local jokerInfo = {
 			
 			set_badges = function(self, card, badges)
 				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-					badges[#badges+1] = CirnoMod.miscItems.badges.TwoMax()
-					badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
+					CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_cir_naro_l')
 				end
 			end,
 			
@@ -548,7 +547,7 @@ local jokerInfo = {
 			
 			set_badges = function(self, card, badges)
 				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-					badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
+					CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_cir_arumia_l')
 				end
 			end,
 			
@@ -571,19 +570,19 @@ local jokerInfo = {
 			end,
 			
 			blueprint_compat = true,
-			loc_vars = function(self, info_queue, center)
+			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
 				if CirnoMod.config['artCredits'] then
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
 				end
 				
 				return { vars = {
-					center.ability.extra.active,
-					center.ability.extra.discardDecrementCounter,
-					center.ability.extra.extra,
-					center.ability.extra.xChips,
-					center.ability.extra.xMult,
-					colours = { center.ability.extra.chipsMultColour[center.ability.extra.active] }
+					card.ability.extra.active,
+					card.ability.extra.discardDecrementCounter,
+					card.ability.extra.extra,
+					card.ability.extra.xChips,
+					card.ability.extra.xMult,
+					colours = { card.ability.extra.chipsMultColour[card.ability.extra.active] }
 				} }
 			end,
 			unlocked = false,
@@ -885,13 +884,13 @@ local jokerInfo = {
 			},
 			
 			blueprint_compat = true,
-			loc_vars = function(self, info_queue, center)
+			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
 				if CirnoMod.config['artCredits'] then
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
 				end
 				
-				return { vars = { center.ability.extra.extra, "#" } }
+				return { vars = { card.ability.extra.extra, "#" } }
 			end,
 			unlocked = false,
 			
@@ -999,14 +998,14 @@ local jokerInfo = {
 			end,
 			
 			blueprint_compat = true,
-			loc_vars = function(self, info_queue, center)
+			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
 				if CirnoMod.config['artCredits'] then
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
 				end
 				
 				return {
-				vars = { center.ability.extra.extra },
+				vars = { card.ability.extra.extra },
 				main_end = self.create_main_end() }
 			end,
 			unlocked = false,

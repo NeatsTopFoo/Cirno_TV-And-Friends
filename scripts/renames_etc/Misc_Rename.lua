@@ -160,12 +160,43 @@ miscLoc.tags.tag_rare = {
 	name = "Rare Fairy Tag"
 }
 
+miscLoc.tags.tag_foil = {
+	name = "Foil Fairy Tag",
+    text={
+        "Next base edition shop",
+        "Joker is free and",
+        "becomes {C:dark_edition}Foil",
+		"{s:0.8,C:inactive}So there's a type of fairy",
+		"{s:0.8,C:inactive}for every element, right?",
+		"{s:0.8,C:inactive}And aluminium's an element...",
+		"{s:0.8,C:inactive}So what would a foil fairy",
+		"{s:0.8,C:inactive}look like?",
+		"{s:0.8,C:inactive}...Conspiracy theorist fairy?",
+		"{s:0.8,C:inactive}No wait, that's just Cirno, nevermind."
+    }
+}
+
+miscLoc.tags.tag_holo = {
+	name = "Holographic Fairy Tag"
+}
+
 miscLoc.tags.tag_polychrome = {
 	name = "Polychrome Fairy Tag"
 }
 
 miscLoc.tags.tag_negative = {
 	name = "Negative Fairy Tag"
+}
+
+miscLoc.tags.tag_double = {
+	name = "Pepsi Tag",
+    text={
+        "Gives a copy of the",
+        "next selected {C:attention}Tag{}",
+        "{s:0.8,C:attention}Double Tag{s:0.8} excluded",
+		"{s:0.8,C:inactive}Wait, why do we have a",
+		"{s:0.8,C:inactive}South Korea Ta- OH! OHHHHHH..."
+    }
 }
 
 miscLoc.tags.tag_coupon = {
@@ -181,9 +212,21 @@ miscLoc.tags.tag_coupon = {
     }
 }
 
+miscLoc.tags.tag_investment = {
+	name="cirGreed Tag",
+    text={
+        "After defeating",
+        "the Boss Blind,",
+        "gain {C:money}$#1#",
+		"{s:0.8,C:inactive}...Come on, you",
+		"{s:0.8,C:inactive}know you want to.",
+		"{s:0.8,C:inactive}It's so tempting."
+    }
+}
+
 if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Tag:take_ownership('coupon', {			
-		create_main_end = function(center)
+		create_main_end = function()
 			local nodes_ = {
 				Ln1 = {},
 				Ln2 = {},
@@ -230,8 +273,8 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 				}}
 		end,
 		
-		loc_vars = function(self, info_queue, center)
-			return { vars = {}, main_end = self.create_main_end(center) }
+		loc_vars = function(self, info_queue, card)
+			return { vars = {}, main_end = self.create_main_end() }
 		end
 	}, true)
 else
@@ -244,6 +287,66 @@ else
 	table.insert(miscLoc.tags.tag_coupon.text,
 		'{s:0.5,C:inactive}What? Of course I\'m gonna be biased towards my oshi.')
 end
+
+miscLoc.tags.tag_buffoon = {
+	name="cirMega Tag"
+}
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Tag:take_ownership('buffoon', {			
+		create_main_end = function()
+			local nodes_ = {
+				Ln1 = {},
+				Ln2 = {},
+				Ln3 = {},
+				Ln4 = {}
+			}
+			local nodeKeys = {
+				'Ln1',
+				'Ln2',
+				'Ln3',
+				'Ln4'
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(nodes_.Ln1, Sprite(
+					0, 0, -- Sprite X & Y
+					0.8, 0.8, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 1, y = 2 } -- Position in the atlas
+				)
+			)
+			
+			return {{
+					n = G.UIT.C,
+					config = {
+						align = 'bm',
+						padding = 0.02
+					},
+					nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
+				}}
+		end,
+		
+		loc_vars = function(self, info_queue, card)
+			return { vars = {}, main_end = self.create_main_end() }
+		end
+	}, true)
+end
+
+miscLoc.tags.tag_garbage = {
+	text={
+       "Gives {C:money}$#1#{} per unused",
+       "{C:red}discard{} this run",
+       "{C:inactive}(Will give {C:money}$#2#{C:inactive})",
+		"{s:0.8,C:inactive}I know it looks exactly",
+		"{s:0.8,C:inactive}like the vanilla Balatro",
+		"{s:0.8,C:inactive}tag, but if you look at",
+		"{s:0.8,C:inactive}them side by side, you'll",
+		"{s:0.8,C:inactive}see that we changed the",
+		"{s:0.8,C:inactive}colour to blue for Cirno.",
+		"{s:0.8,C:inactive}But yes, that's the only",
+		"{s:0.8,C:inactive}difference."
+   }
+}
 
 --#endregion
 

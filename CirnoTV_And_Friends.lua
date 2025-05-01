@@ -258,18 +258,44 @@ if CirnoMod.config['addCustomJokers'] then
 					SMODS.Atlas(jokerInfo.atlasInfo)
 				end
 				
+				--[[ For parsing other circumstances under
+				which a joker shouldn't be added]]
+				local jkr_shouldAdd = true
+				
 				if jokerInfo.isMultipleJokers then
 					for iI_, Jkr_ in ipairs (jokerInfo.jokerConfigs) do
-						if Jkr_.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+						jkr_shouldAdd = true
+						
+						if
+							Jkr_.shouldAdd
+							and type(Jkr_.shouldAdd) == 'function'
+						then
+							jkr_shouldAdd = Jkr_.shouldAdd()
+						end
+						
+						if
+							jkr_shouldAdd
+							and Jkr_.matureRefLevel <= CirnoMod.config.matureReferences_cyc
+						then
+							
 							SMODS.Joker(Jkr_)
 							
 							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..Jkr_.key)
 						end
 					end
 				else
-					SMODS.Joker(jokerInfo.jokerConfig)
-				
-					table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..jokerInfo.jokerConfig.key)
+					if
+						jokerInfo.jokerConfig.shouldAdd
+						and type(jokerInfo.jokerConfig.shouldAdd) == 'function'
+					then
+						jkr_shouldAdd = jokerInfo.jokerConfig.shouldAdd()
+					end
+					
+					if jkr_shouldAdd then
+						SMODS.Joker(jokerInfo.jokerConfig)
+					
+						table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..jokerInfo.jokerConfig.key)
+					end
 				end
 			end
 		end		
@@ -753,3 +779,29 @@ end
 There appears to be no game function that can be
 hooked into relating to when a shop phase starts
 ]]
+
+
+-- Need this hook for Joker functionality
+local old_dfptd = G.FUNCS.drawfromplaytodiscard
+G.FUNCS.drawfromplaytodiscard = function(e)
+	for i, k in ipairs(CirnoMod.miscItems.returnToHand_Jokers) do
+		local FCR = SMODS.find_card(k)
+		
+		if next(FCR) then
+			for i_, jkr in FCR do
+				if
+					jkr.shouldReturnToHand
+					and type(jkr.shouldReturnToHand) == 'function'
+					and jkr:shouldReturnToHand()
+					and jkr.returnToHand_func
+					and type(jkr.returnToHand_func) == 'function'
+					and jkr:returnToHand_func(old_dfptd)
+				then
+					return
+				end
+			end
+		end
+	end
+	
+	old_dfptd(e)
+end

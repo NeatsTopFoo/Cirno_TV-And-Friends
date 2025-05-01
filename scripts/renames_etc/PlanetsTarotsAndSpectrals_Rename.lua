@@ -222,7 +222,7 @@ PTSloc.spectrals.c_trance = {
 
 if CirnoMod.config['allowCosmeticTakeOwnership'] then
 	SMODS.Consumable:take_ownership('trance', {
-		create_main_end = function(center)
+		create_main_end = function()
 			local mainEndRV = {
 				n = G.UIT.C,
 				config = {
@@ -243,8 +243,8 @@ if CirnoMod.config['allowCosmeticTakeOwnership'] then
 			return { mainEndRV }
 		end,
 		
-		loc_vars = function(self, info_queue, center)
-			return { main_end = self.create_main_end(center) }
+		loc_vars = function(self, info_queue, card)
+			return { main_end = self.create_main_end() }
 		end
 	}, true)
 end

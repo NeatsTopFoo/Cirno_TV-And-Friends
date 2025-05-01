@@ -6,6 +6,7 @@ creditSources.cr_JokerArt = "Joker Art By"
 creditSources.cr_DeckArt = "Deck Art By"
 creditSources.cr_EnhancerArt = "Enhancer Art By"
 creditSources.cr_CardArt = "Card Art By"
+creditSources.cr_BoosterArt = "Booster Art By"
 creditSources.cr_GenericArt = "Art By"
 --#endregion
 
@@ -28,6 +29,7 @@ creditSources.CirnoTV = "{s:0.8,X:cirCyan,C:white}Cirno_TV{s:0.8}"
 creditSources.CirnoTV_smol = "{s:0.6,X:cirCyan,C:white}Cirno_TV"
 
 creditSources.solga = "Solgalestia"
+creditSources.solgryn = "Solgryn"
 creditSources.turpix = "Turpix"
 creditSources.muddle = "Muddleee"
 creditSources.hatotoou = "Hatotoou"
@@ -53,6 +55,7 @@ RV.descriptions.Other = {
 	Deck_Art_By = { text = { creditSources.cr_DeckArt } },
 	Enhancer_Art_By = { text = { creditSources.cr_EnhancerArt } },
 	Card_Art_By = { text = { creditSources.cr_CardArt } },
+	Booster_Art_By = { text = { creditSources.cr_BoosterArt } },
 	Generic_Art_By = { text = { creditSources.cr_GenericArt } },
 	
 	----- Me -----
@@ -137,6 +140,10 @@ RV.descriptions.Other = {
 		name = creditSources.cr_JokerArt,
 		text = {"{s:0.8}"..creditSources.DTsun.." &", creditSources.NTF}
 	},
+	bA_DaemonTsun_NTF_Both = {
+		name = creditSources.cr_BoosterArt,
+		text = {"{s:0.8}"..creditSources.DTsun.." &", creditSources.NTF}
+	},
 	gA_DaemonTsun_NTF_Both = {
 		name = creditSources.cr_GenericArt,
 		text = {"{s:0.8}"..creditSources.DTsun.." &", creditSources.NTF}
@@ -165,6 +172,13 @@ RV.descriptions.Other = {
 	},
 	jA_DaemonTsun_BigNTFEdit = {
 		name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}"..creditSources.DTsun..", heavily",
+			"{s:0.8}edited by "..creditSources.NTF
+		}
+	},
+	bA_DaemonTsun_BigNTFEdit = {
+		name = creditSources.cr_BoosterArt,
 		text = {
 			"{s:0.8}"..creditSources.DTsun..", heavily",
 			"{s:0.8}edited by "..creditSources.NTF
@@ -334,6 +348,14 @@ RV.descriptions.Other = {
 			'{s:0.8,C:inactive}+ edit of '..creditSources.DTsun..' art'
 		}
 	},
+	gA_solgryn = {
+		name = creditSources.cr_GenericArt,
+		text = { "{s:0.8}"..creditSources.solgryn }
+	},
+	gA_neptunia = {
+		name = creditSources.cr_GenericArt,
+		text = { "{s:0.8}Idea Factory" }
+	},
 	gA_Sun = {
 		name = creditSources.cr_GenericArt,
 		text = {
@@ -341,21 +363,21 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	gA_genPack_ZUN = {
-		name = creditSources.cr_GenericArt,
+	bA_genPack_ZUN = {
+		name = creditSources.cr_BoosterArt,
 		text = {
 			"{s:0.8}"..creditSources.DTsun..", ZUN",
 			"{s:0.8}& "..creditSources.NTF
 		}
 	},
-	gA_genPack_Daiyousei = {
+	bA_genPack_Daiyousei = {
 		name = creditSources.cr_GenericArt,
 		text = {
 			"{s:0.8}"..creditSources.DTsun..", ...Harada?",
 			"{s:0.8}& "..creditSources.NTF
 		}
 	},
-	gA_genPack_Renko = {
+	bA_genPack_Renko = {
 		name = creditSources.cr_GenericArt,
 		text = {
 			"{s:0.8}"..creditSources.DTsun..", {s:0.8,X:mult,C:white}Alberta,",
@@ -486,29 +508,37 @@ RV.descriptions.Joker.cir_b3313_betaLob = { name = 'Beta Lobby',
 RV.descriptions.Joker.cir_b3313_plexalLob = { name = 'Plexal Lobby',
 	text = { {
 		'If played hand is a {C:attention}Pair{} or {C:attention}High Card{},',
-		'{C:chips}+20{} Chips'
+		'{C:chips}+#1#{} Chips'
 		}, {
 		'Otherwise, if played hand contains a {C:attention}Two Pair{},',
-		'{C:mult}+10{} Mult'
+		'{C:mult}+#2#{} Mult'
 		}, {
-		'If played hand contains a {C:attention}Three of a Kind{} or {C:attention}Straight{},',
-		'{C:mult}+15{} Mult'
+		'If played hand contains a',
+		'C:attention}Three of a Kind{} or {C:attention}Straight{},',
+		'{C:mult}+#3#{} Mult'
 		}, {
 		'If played hand contains a {C:attention}Flush{},',
-		'{X:mult,C:white}X1.25{} Mult'
+		'{X:mult,C:white}X#4#{} Mult'
 		}, {
 		'If played hand contains a {C:attention}Full House{},',
-		'{X:mult,C:white}X1.5{} Mult'
+		'{X:mult,C:white}X#5#{} Mult'
 		}, {
-		'If played hand contains a {C:attention}Four of a Kind{} or {C:attention}Straight Flush{},',
-		'{X:mult,C:white}X2{} Mult'
+		'If played hand contains a',
+		'{C:attention}Four of a Kind{} or {C:attention}Straight Flush{},',
+		'{X:mult,C:white}X#6#{} Mult'
+		}, {
+		'{s:0.8,C:inactive}...So from here, you go... You get to...',
+		'{s:0.8,C:inactive}Uh... Chat, I\'m lost.'
 	} }
 }
 
 -- B3313 Two Pair Form
 RV.descriptions.Joker.cir_b3313_toadLob = { name = 'Toad\'s Lobby',
 	text = {
-		''
+		'Earn {C:money}#1#{} every time a {C:joker}Joker{} triggers',
+		'{s:0.8}(Excluding this {s:0.8,C:joker}Joker{s:0.8})',
+		'{s:0.8,C:inactive}Please enquire with Cirno about his',
+		'{s:0.8,C:inactive}Toad impression. It\'s exemplary.'
 	}
 }
 
@@ -535,7 +565,14 @@ RV.descriptions.Joker.cir_b3313_uncanny = { name = 'Uncanny Basement',
 -- B3313 Flush Form
 RV.descriptions.Joker.cir_b3313_4thFloor = { name = '4th Floor',
 	text = {
-		''
+		'If scoring hand contains an {C:attention}odd{} number of cards (5, 3, 1),',
+		'All cards {C:attention}left of the middle card',
+		'have their ranks {C:attention}increased{} by {C;attention}1',
+		'All cards {C:attention}right of the middle card',
+		'have their ranks {C:attention}decreased{} by {C;attention}1',
+		'The {C:attention}middle{} card, if not {C:red}destroyed{},',
+		'is {C:attention}returned to hand',
+		'{s:0.8,C:inactive}'
 	}
 }
 
@@ -544,7 +581,7 @@ RV.descriptions.Joker.cir_b3313_crescent = { name = 'Crescent Castle',
 	text = {
 		'Earn {C:money}#1#{} at the end of round per',
 		'{C:attention}face card{} played this round',
-		'{C:inactive}(Currently #2#)',
+		'{C:inactive}(Currently {C:money}#2#{C:inactive})',
 		'{s:0.8,C:inactive}Our house, in the',
 		'{s:0.8,C:inactive}middle of our street.'
 	}

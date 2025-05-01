@@ -139,7 +139,7 @@ local jokerInfo = {
 				end
 			end,
 			
-			create_main_end = function(self, center)
+			create_main_end = function(self, card)
 				local nodes_ = {
 					Ln1 = {},
 					Ln2 = {},
@@ -162,13 +162,13 @@ local jokerInfo = {
 					'Ln8'
 				}
 				
-				if center.ability.extra.spriteX == 7 then
+				if card.ability.extra.spriteX == 7 then
 					CirnoMod.miscItems.addUITextNode(
 						nodes_.Ln1,
-						'+'..center.ability.extra.mult,
+						'+'..card.ability.extra.mult,
 						G.C.MULT,
 						1)
-				elseif center.ability.extra.spriteX == 8 then
+				elseif card.ability.extra.spriteX == 8 then
 					CirnoMod.miscItems.addUITextNode(
 						CirnoMod.miscItems.addUIColumnOrRowNode(
 							nodes_.Ln1,
@@ -177,7 +177,7 @@ local jokerInfo = {
 							G.C.MULT,
 							0,
 							0.025).nodes,
-						'X'..center.ability.extra.xmult,
+						'X'..card.ability.extra.xmult,
 						G.C.UI.TEXT_LIGHT,
 						1)
 				end
@@ -188,10 +188,10 @@ local jokerInfo = {
 				CirnoMod.miscItems.addUITextNode(nodes_.Ln2, 'poker hand ', G.C.FILTER, 1)
 				
 				CirnoMod.miscItems.addUITextNode(nodes_.Ln3, 'contains a ', G.C.UI.TEXT_DARK, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln3, localize(center.ability.extra.pHand, 'poker_hands') or center.ability.extra.pHand, G.C.FILTER, 1)
+				CirnoMod.miscItems.addUITextNode(nodes_.Ln3, localize(card.ability.extra.pHand, 'poker_hands') or card.ability.extra.pHand, G.C.FILTER, 1)
 				CirnoMod.miscItems.addUITextNode(nodes_.Ln3, ',', G.C.UI.TEXT_DARK, 1)
 				
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln4, self.makeRaiseLower(center), G.C.FILTER, 1)
+				CirnoMod.miscItems.addUITextNode(nodes_.Ln4, self.makeRaiseLower(card), G.C.FILTER, 1)
 				CirnoMod.miscItems.addUITextNode(nodes_.Ln4, ' the water level', G.C.UI.TEXT_DARK, 1)
 				
 				CirnoMod.miscItems.addUITextNode(nodes_.Ln5, '(Poker hand changes either', G.C.UI.TEXT_DARK, 0.8)
@@ -215,24 +215,24 @@ local jokerInfo = {
 			end,
 			
 			blueprint_compat = true,
-			loc_vars = function(self, info_queue, center)
+			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
 				if CirnoMod.config['artCredits'] then
 					info_queue[#info_queue + 1] = { key = "jA_CrysTap", set = "Other" }
 				end
 				
 				if
-					center.ability.extra.pHand == '[HAND]'
-					and self.pickRandHand(center, true) == false
+					card.ability.extra.pHand == '[HAND]'
+					and self.pickRandHand(card, true) == false
 				then
-					center.ability.extra.pHand = 'Flush'
+					card.ability.extra.pHand = 'Flush'
 				end
 				
 				return { vars = {
-						center.ability.extra.mult,
-						center.ability.extra.xmult
+						card.ability.extra.mult,
+						card.ability.extra.xmult
 					},
-					main_end = self.create_main_end(self, center)
+					main_end = self.create_main_end(self, card)
 				}
 			end,
 			
@@ -326,7 +326,7 @@ local jokerInfo = {
 				}
 			},
 			
-			create_main_end = function(self, center)
+			create_main_end = function(self, card)
 				local nodes_ = {
 					Ln1 = {},
 					Ln2 = {},
@@ -362,22 +362,22 @@ local jokerInfo = {
 			end,
 			
 			blueprint_compat = true,
-			loc_vars = function(self, info_queue, center)
+			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
 				if CirnoMod.config['artCredits'] then
 					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
 				end
 				
 				return { vars = {
-						center.ability.extra.xmult,
+						card.ability.extra.xmult,
 						''..(G.GAME and G.GAME.probabilities.normal or 1),
-						center.ability.extra.odds
+						card.ability.extra.odds
 					},
-					main_end = self.create_main_end(self, center)
+					main_end = self.create_main_end(self, card)
 				}
 			end,
 			
-			locked_loc_vars = function(self, info_queue_center)
+			locked_loc_vars = function(self, info_queue, card)
 				return { vars = {
 					CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Scary Face', 'j_scary_face')
 				}}
@@ -385,7 +385,7 @@ local jokerInfo = {
 			
 			set_badges = function(self, card, badges)
 				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
-					badges[#badges+1] = CirnoMod.miscItems.badges.crazyWomen()
+					CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_cir_crazyFace')
 				end
 			end,
 			
@@ -507,6 +507,10 @@ local jokerInfo = {
 				}
 			},
 			
+			shouldAdd = function()
+				return CirnoMod.config.malverkReplacements
+			end,
+			
 			updateCurMult = function(extraTable)
 				if not CirnoMod.miscItems.isState(G.STAGE, G.STAGES.MAIN_MENU) then
 					local counter = 0
@@ -530,8 +534,8 @@ local jokerInfo = {
 			end,
 			
 			blueprint_compat = true,
-			loc_vars = function(self, info_queue, center)
-				self.updateCurMult(center.ability.extra)
+			loc_vars = function(self, info_queue, card)
+				self.updateCurMult(card.ability.extra)
 				
 				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_allegations']
 				
@@ -545,9 +549,9 @@ local jokerInfo = {
 				end]]
 				
 				return { vars = { 
-					center.ability.extra.growth,
+					card.ability.extra.growth,
 					CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}'),
-					center.ability.extra.xmult
+					card.ability.extra.xmult
 					} }
 			end,
 			
@@ -675,8 +679,8 @@ local jokerInfo = {
 			end,
 			
 			blueprint_compat = true,
-			loc_vars = function(self, info_queue, center)
-				self.updateCurMult(center.ability.extra)
+			loc_vars = function(self, info_queue, card)
+				self.updateCurMult(card.ability.extra)
 				
 				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_crazyWomen']
 				
@@ -685,10 +689,10 @@ local jokerInfo = {
 					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
 				end
 				
-				return { vars = { center.ability.extra.growth, center.ability.extra.xmult } }
+				return { vars = { card.ability.extra.growth, card.ability.extra.xmult } }
 			end,
 			
-			locked_loc_vars = function(self, info_queue, center)
+			locked_loc_vars = function(self, info_queue, card)
 				return { vars = { CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('crazy women', 'crazyWomen') } }
 			end,
 			
@@ -773,13 +777,20 @@ local jokerInfo = {
 					['base'] = { atlasX = 0 },
 					['betaLob'] = {
 						atlasX = 1,
-						xmult = 3
+						xmult = 3.313
 					},
 					['plexalLob'] = {
-						atlasX = 2
+						atlasX = 2,
+						phcChips = 20,
+						tpMult = 10,
+						toakMult = 15,
+						flush_xmult = 1.25,
+						fh_xmult = 1.5,
+						foak_xmult = 2
 					},
 					['toadLob'] = {
-						atlasX = 3
+						atlasX = 3,
+						monGain = 1
 					},
 					['vanLob'] = {
 						atlasX = 4
@@ -791,16 +802,25 @@ local jokerInfo = {
 						atlasX = 6
 					},
 					['crescent'] = {
-						atlasX = 7
+						atlasX = 7,
+						monGain = 1,
+						accruedMoney = 0
 					},
 					['forestMaze'] = {
-						atlasX = 8
+						atlasX = 8,
+						xmult = 2,
+						chance1 = 3,
+						chance2 = 4,
+						chance3 = 5,
+						chance4 = 6
 					},
 					['loogi'] = {
-						atlasX = 9
+						atlasX = 9,
+						xchips = 2
 					},
 					['peachCell'] = {
-						atlasX = 10
+						atlasX = 10,
+						polyChance = 4
 					},
 					['nebLob'] = {
 						atlasX = 11
@@ -857,9 +877,55 @@ local jokerInfo = {
 				return nil
 			end,
 			
+			create_vars_table = function(extraTable)
+				if extra.currentForm == 'betaLob' then
+					return { extra.betaLob.xmult }
+				elseif extra.currentForm == 'plexalLob' then
+					return {
+						extra.plexalLob.phcChips,
+						extra.plexalLob.tpMult,
+						extra.plexalLob.toakMult,
+						extra.plexalLob.flush_xmult,
+						extra.plexalLob.fh_xmult,
+						extra.plexalLob.foak_xmult
+					}
+				elseif extra.currentForm == 'toadLob' then
+					return { SMODS.signed_dollar(extra.toadLob.monGain) }
+				elseif extra.currentForm == 'vanLob' then
+					
+				elseif extra.currentForm == '4thFloor' then
+					
+				elseif extra.currentForm == 'crescent' then
+					return { 
+						SMODS.signed_dollar(extra.crescent.monGain),
+						extra.crescent.accruedMoney
+					}
+				elseif extra.currentForm == 'forestMaze' then
+					return {
+						extra.forestMaze.xmult,
+						''..(G.GAME and G.GAME.probabilities.normal or 1),
+						extra.forestMaze.chance1,
+						extra.forestMaze.chance2,
+						extra.forestMaze.chance3,
+						extra.forestMaze.chance4
+					}
+				elseif extra.currentForm == 'loogi' then
+					return { extra.loogi.xchips }
+				elseif extra.currentForm == 'peachCell' then
+					return {
+						''..(G.GAME and G.GAME.probabilities.normal or 1),
+						extra.peachCell.polyChance
+					}
+				elseif extra.currentForm == 'floor3B' then
+					return { G.localization.descriptions.Enhanced.m_steel.name }
+				else
+					return {}
+				end
+			end,
+			
 			blueprint_compat = true,
-			loc_vars = function(self, info_queue, center)
-				local RT = { key = 'cir_b3313_'..center.ability.extra.currentForm }
+			loc_vars = function(self, info_queue, card)
+				local RT = { key = 'cir_b3313_'..card.ability.extra.currentForm, vars = self.create_vars_table(extra) }
 				
 				--[[ This is why Lua is a fucking laughing stock.
 				What the fuck do you mean 'Lua doesn't need a switch statement'?!?!?
@@ -875,33 +941,33 @@ local jokerInfo = {
 				about this game is that if you try to save the game
 				and a card has a function in its config table, it
 				doesn't seem to like it all that much.]]
-				if center.ability.extra.currentForm == 'betaLob' then
+				if card.ability.extra.currentForm == 'betaLob' then
 					
-				elseif center.ability.extra.currentForm == 'plexalLob' then
+				elseif card.ability.extra.currentForm == 'plexalLob' then
 					
-				elseif center.ability.extra.currentForm == 'toadLob' then
+				elseif card.ability.extra.currentForm == 'toadLob' then
 					
-				elseif center.ability.extra.currentForm == 'vanLob' then
+				elseif card.ability.extra.currentForm == 'vanLob' then
 					
-				elseif center.ability.extra.currentForm == 'uncanny' then
+				elseif card.ability.extra.currentForm == 'uncanny' then
 					
-				elseif center.ability.extra.currentForm == '4thFloor' then
+				elseif card.ability.extra.currentForm == '4thFloor' then
 					
-				elseif center.ability.extra.currentForm == 'crescent' then
+				elseif card.ability.extra.currentForm == 'crescent' then
 					
-				elseif center.ability.extra.currentForm == 'forestMaze' then
+				elseif card.ability.extra.currentForm == 'forestMaze' then
 					
-				elseif center.ability.extra.currentForm == 'loogi' then
+				elseif card.ability.extra.currentForm == 'loogi' then
 					
-				elseif center.ability.extra.currentForm == 'peachCell' then
+				elseif card.ability.extra.currentForm == 'peachCell' then
 					
-				elseif center.ability.extra.currentForm == 'nebLob' then
+				elseif card.ability.extra.currentForm == 'nebLob' then
 					
-				elseif center.ability.extra.currentForm == 'floor3B' then
+				elseif card.ability.extra.currentForm == 'floor3B' then
 					
 				end
 				
-				local infoQueueAppend = self.toAppendToInfoQueue(center.ability.extra.currentForm)
+				local infoQueueAppend = self.toAppendToInfoQueue(card.ability.extra.currentForm)
 				
 				if infoQueueAppend then
 					for i, item in ipairs(infoQueueAppend) do
@@ -911,7 +977,7 @@ local jokerInfo = {
 				
 				-- Art credit tooltip
 				if CirnoMod.config['artCredits'] then
-					if center.ability.extra.currentForm == 'uncanny' then
+					if card.ability.extra.currentForm == 'uncanny' then
 						info_queue[#info_queue + 1] = { key = "jA_b3313_uncanny", set = "Other" }
 					else
 						info_queue[#info_queue + 1] = { key = "jA_b3313", set = "Other" }
@@ -919,6 +985,38 @@ local jokerInfo = {
 				end
 				
 				return RT
+			end,
+			
+			shouldReturnToHand = function(self)
+				return self.ability.extra.currentForm == '4thFloor'
+					and (#G.play.cards == 5
+					or #G.play.cards == 3
+					or #G.play.cards == 1)
+			end,
+			
+			returnToHand_func = function(self, old_dfptd)
+				local play_count = #G.play.cards
+				local cardToReturn = 1
+				local finalCount = 0
+				
+				if play_count == 5 then
+					cardToReturn = 3
+				elseif play_count == 3 then
+					cardToReturn = 2
+				end
+				
+				for i = 1, play_count do
+					if
+						not G.play.cards[i].shattered
+						and not G.play.cards[i].destroyed
+					then
+						if i == cardToReturn then
+							draw_card(G.play, G.hand or G.discard, i*100/play_count, 'down', false, G.play.cards[i])
+						else
+							draw_card(G.play, G.discard, i*100/play_count, 'down', false, G.play.cards[i])
+						end
+					end
+				end
 			end,
 			
 			calculate = function(self, card, context)
