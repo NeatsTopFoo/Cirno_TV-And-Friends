@@ -24,7 +24,7 @@ block in the malverk file.]]
 local mlvrkTextPackTextList = {
 	'cir_mlvrk_NormalJokers',
 	'cir_mlvrk_WeeJoker',
-	'cir_mlvrk_LegendaryJokers',
+	'cir_mlvrk_LegendaryJokersAndHolo',
 	
 	'cir_mlvrk_Boosters',
 	'cir_mlvrk_Tarots',
@@ -360,7 +360,7 @@ AltTexture({
 ----- Legendary Jokers -----
 ----------------------------
 AltTexture({
-	key = 'mlvrk_LegendaryJokers',
+	key = 'mlvrk_LegendaryJokersAndHolo',
 	set = 'Joker',
 	path = CirnoMod.replaceDef.getPath("l_joker"),
 	keys = {
@@ -368,18 +368,20 @@ AltTexture({
 		'j_triboulet',
 		'j_yorick',
 		'j_chicot',
-		'j_perkeo'
+		'j_perkeo',
+		'j_hologram'
 	},
 	soul_keys = {
 		'j_caino',
 		'j_triboulet',
 		'j_yorick',
 		'j_chicot',
-		'j_perkeo'
+		'j_perkeo',
+		'j_hologram'
 	},
 	localization = CirnoMod.replaceDef.locChanges.jkrLoc.lgndJkrs,
 	loc_txt = {
-		name = 'Legendary Jokers'
+		name = 'Legendary Jokers & Hologram'
 	}
 })
 

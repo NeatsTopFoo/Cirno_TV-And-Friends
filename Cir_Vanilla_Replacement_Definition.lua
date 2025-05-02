@@ -20,8 +20,8 @@ mature references in any changes we might make to the graphics.</strikethrough>
 I got mad at Cirno repeatedly saying he'd never install the Big Naturals mod, so I
 made Hannah's boobs bigger.]]
 replaceDef.paths.cirLJokerPath = {
-	nrm = 'Vanilla_Replacements/cir_Legendaries.png',
-	safe = 'Vanilla_Replacements/cir_SafeLegendaries.png' }
+	nrm = 'Vanilla_Replacements/cir_Legendaries_AndHolo.png',
+	safe = 'Vanilla_Replacements/cir_SafeLegendaries_AndHolo.png' }
 
 -- Ehh, I don't see the planets or spectrals having mature references, honestly. Should be fine
 replaceDef.paths.cirTPSPath = {
@@ -499,7 +499,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_yorick', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	{ jkrKey = 'j_chicot', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	{ jkrKey = 'j_perkeo', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_hologram', matureRefLevel = 1, artCreditKey = '' },	
+	{ jkrKey = 'j_hologram', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	----- Also, Hologram is funky. Let me know if you work something out for its graphic. -----
 	
 	{ jkrKey = 'j_certificate', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
@@ -536,7 +536,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_baron', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_cloud_9', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
 	-- { jkrKey = 'j_rocket', matureRefLevel = 1 },
-	-- { jkrKey = 'j_obelisk', matureRefLevel = 1 }, -- Petition to rename this "Worst Joker in the Game."
+	{ jkrKey = 'j_obelisk', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' }, -- Petition to rename this "Worst Joker in the Game."
 	
 	{ jkrKey = 'j_midas_mask', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_luchador', matureRefLevel = 1, artCreditKey = 'jA_luchador' },

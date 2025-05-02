@@ -1310,16 +1310,19 @@ jokerLoc.nrmJkrs.j_ride_the_bus = {
 		"{s:0.45,C:inactive}A: 0. There are no buses in Gensokyo."
 	}
 }
---[[
+
 jokerLoc.nrmJkrs.j_shoot_the_moon = {
-	name = "Shoot The Moon",
+	-- name = "Shoot The Moon",
 	text = {
 		"Each {C:attention}Queen{}",
         "held in hand",
-        "gives {C:mult}+#1#{} Mult"
+        "gives {C:mult}+#1#{} Mult",
+		"{s:0.8,C:inactive}...You can't just shoot a hole",
+		"{s:0.8,C:inactive}into the surface of Mars."
 	}
 }
 
+--[[
 jokerLoc.nrmJkrs.j_smeared = {
 	name = "Smeared Joker",
 	text = {
@@ -2210,18 +2213,24 @@ jokerLoc.nrmJkrs.j_shortcut = {
         "made with gaps of {C:attention}1 rank",
         "{C:inactive}(ex: {C:attention}10 8 6 5 3{C:inactive})"
 	}
-}
+}]]
 
-== TODO: Further work out how Hologram should
-be done when we make a graphic for it. ======
-jokerLoc.nrmJkrs.j_hologram = {
-	name = "Hologram",
+jokerLoc.lgndJkrs.j_hologram = {
+	name = "\"Hologram\"",
 	text = {
-		
+		"This Joker gains {X:mult,C:white} X#1# {} Mult",
+        "every time a {C:attention}playing card{}",
+        "is added to your deck",
+        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+		"{s:0.8,C:inactive}I flew all this way to see the famous Miku",
+		"{s:0.8,C:inactive}hologram concert and not only was it just a",
+		"{s:0.8,C:inactive}flatscreen TV, but I got removed from the",
+		"{s:0.8,C:inactive}venue for bringing a raw leek.",
+		"{s:0.8,C:inactive}Hundreds of dollars, wasted."
 	}
 }
-=============================================
 
+--[[
 jokerLoc.nrmJkrs.j_vagabond = {
 	name = "Vagabond",
 	text = {
@@ -2263,18 +2272,24 @@ jokerLoc.nrmJkrs.j_rocket = {
         "Payout increases by {C:money}$#2#{}",
         "when {C:attention}Boss Blind{} is defeated"
 	}
-}
+}]]
 
 jokerLoc.nrmJkrs.j_obelisk = {
-	name = "Obelisk",
+	name = "The Greyhill Incident",
 	text = {
 		"This Joker gains {X:mult,C:white} X#1# {} Mult",
         "per {C:attention}consecutive{} hand played",
         "without playing your",
         "most played {C:attention}poker hand",
-        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+		"{s:0.8,C:inactive}Here's a bat and a gun.",
+		"{s:0.8,C:inactive}They look like they help, but",
+		"{s:0.8,C:inactive}they really don't. It just knocks",
+		"{s:0.8,C:inactive}Ol' Gnorts Mr. Alien to the floor",
+		"{s:0.8,C:inactive}for a few seconds, then he's back",
+		"{s:0.8,C:inactive}choking you again. ...What were we doing?"
 	}
-}]]
+}
 
 
 -- ===== NEXT LINE =====

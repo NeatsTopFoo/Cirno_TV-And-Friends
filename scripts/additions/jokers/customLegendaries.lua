@@ -62,11 +62,11 @@ local jokerInfo = {
 				name = 'Cirno',
 				-- The description the player will see in-game.
 				text = {
-					"This {C:joker}Joker{} gains {X:mult,C:white}X#1#{} Mult",
+					"This {C:joker}Joker{} gains {X:chips,C:white}X#1#{} Chips",
 					"for each scored {C:attention}9{}",
 					"{s:0.8,C:red}If {s:0.8,C:attention}#2#{s:0.8,C:red} is present, it",
 					"{s:0.8,C:red}expires after the first trigger.",
-					"{C:inactive}(Currently {X:mult,C:white}X#3# {C:inactive} Mult)",
+					"{C:inactive}(Currently {X:chips,C:white}X#3# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}\"I don't mean to brag Chat,",
 					"{s:0.8,C:inactive}but I'm stupid.\""
 				},
@@ -76,7 +76,7 @@ local jokerInfo = {
 				}
 			},
 			
-			config = { extra = { Xmult = 1, growth = 0.09 } },
+			config = { extra = { xchips = 1, growth = 0.09 } },
 			
 			--[[
 			Purely aesthetic as blueprint functionality, even though
@@ -128,7 +128,7 @@ local jokerInfo = {
 				return { vars = {
 					card.ability.extra.growth, 
 					CirnoMod.miscItems.obscureJokerNameIfNotEncountered('j_ice_cream'), 
-					card.ability.extra.Xmult
+					card.ability.extra.xchips
 					},
 					main_end = self.create_main_end() }
 				end,
@@ -162,7 +162,7 @@ local jokerInfo = {
 				-- Normal joker calculation.
 				if context.joker_main then
 					return {
-						x_mult = card.ability.extra.Xmult,
+						x_chips = card.ability.extra.xchips,
 						colour = CirnoMod.miscItems.colours.cirCyan,
 						card = card
 					}
@@ -176,14 +176,14 @@ local jokerInfo = {
 					and not context.post_trigger
 				then
 					if context.other_card.base.value == "9" then
-						card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.growth
+						card.ability.extra.xchips = card.ability.extra.xchips + card.ability.extra.growth
 						
 						return {
 							extra = {
 								message = localize {
 									type = 'variable',
 									key = 'a_xmult',
-									vars = { card.ability.extra.Xmult }
+									vars = { card.ability.extra.xchips }
 								},
 								colour = CirnoMod.miscItems.colours.cirCyan,
 								message_card = card

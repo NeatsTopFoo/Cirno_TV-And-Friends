@@ -19,8 +19,9 @@ local jokerInfo = {
 		-- Endless Eight Joker
 		-- Sonic '06 Joker
 		-- Emotional Support Broken Man Joker
-		-- Money laundry?
 		-- Turn all left cards into right cards
+		-- Money laundry?
+		-- Air fryer?
 	jokerConfigs = {
 		-- Crystal Tap
 		{
@@ -808,7 +809,7 @@ local jokerInfo = {
 					},
 					['forestMaze'] = {
 						atlasX = 8,
-						xmult = 2,
+						xmult = 1.5,
 						chance1 = 3,
 						chance2 = 4,
 						chance3 = 5,

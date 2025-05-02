@@ -480,10 +480,9 @@ RV.descriptions.Joker.cir_b3313_base = {
 	name = 'B3313',
 	text = {
 		"This {C:joker}Joker{} is exclusive",
-		"to the {C:attention}show{}. It's connected to a",
-		"variety of {C:attention}worlds{}, so",
-		"play some {C:blue}hands{} and get",
-		"adventuring."
+		"to the {C:attention}show{}.",
+		"It's connected to a variety of {C:attention}worlds{},",
+		"so play some {C:blue}hands{} and get adventuring."
 	}
 }
 
@@ -545,15 +544,19 @@ RV.descriptions.Joker.cir_b3313_toadLob = { name = 'Toad\'s Lobby',
 -- B3313 Three of a Kind Form
 RV.descriptions.Joker.cir_b3313_vanLob = { name = 'Vanilla Lobby',
 	text = {
-		''
+		'When a hand is played, scales the',
+		'current {C:attention}edition{} on this {C:joker}Joker{}',
+		'Every {C:attention}played card{} that would normally score, doesn\'t',
+		'Conversely, every {C:attention}played card{C:attention} that would',
+		'normally be unscored, does'
 	}
 }
 
 -- B3313 Straight Form
 RV.descriptions.Joker.cir_b3313_uncanny = { name = 'Uncanny Basement',
 	text = { {
-		'{X:mult,C:white}XMult{} equal to the lowest rank',
-		'in scored hand'
+		'{X:mult,C:white}XMult{} equal to the lowest ranked',
+		'card in scored hand'
 		}, {
 		'All {C:attention}played numbered cards{}',
 		'have their ranks randomised',
@@ -572,7 +575,10 @@ RV.descriptions.Joker.cir_b3313_4thFloor = { name = '4th Floor',
 		'have their ranks {C:attention}decreased{} by {C;attention}1',
 		'The {C:attention}middle{} card, if not {C:red}destroyed{},',
 		'is {C:attention}returned to hand',
-		'{s:0.8,C:inactive}'
+		'{s:0.8,C:inactive}This will be where we part ways.',
+		'{s:0.8,C:inactive}But will you go via the pipe, the pipe,',
+		'{s:0.8,C:inactive}the door, the door, the door, the door,',
+		'{s:0.8,C:inactive}the door, or the door?'
 	}
 }
 
@@ -638,7 +644,7 @@ RV.descriptions.Joker.cir_b3313_nebLob = { name = 'Nebula Lobby',
 	text = {
 		'Combined base value of played hand',
 		'is added to {C:mult}mult',
-		'{C:attention}Balances {C:chips}chips{} and {C:mult}mult{C:attention} before scoring',
+		'{C:attention}Balances {C:chips}Chips{} and {C:mult}Mult{C:attention} before scoring',
 		'{s:0.8,C:inactive}Want to sound less negative?',
 		"{s:0.8,C:inactive}try \"menx'k rxxp qiurezok\""
 	}
