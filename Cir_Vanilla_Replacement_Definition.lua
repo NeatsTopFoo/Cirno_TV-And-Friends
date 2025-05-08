@@ -190,9 +190,9 @@ if CirnoMod.config['playingCardTextures'] then -- The suits here should be in th
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Hearts = 'cA_DaemonTsun'
 	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Hearts = 'cA_DaemonTsun'
 	
-	--CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Clubs = 'cA_DaemonTsun'
+	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Clubs = 'cA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Queen_Clubs = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Clubs = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Clubs = 'cA_DaemonTsun'
 	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Clubs = 'cA_DaemonTsun'
 	
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Diamonds = 'cA_DaemonTsun'
@@ -202,7 +202,7 @@ if CirnoMod.config['playingCardTextures'] then -- The suits here should be in th
 	
 	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Spades = 'cA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Queen_Spades = 'cA_DaemonTsun'
-	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Spades = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Spades = 'cA_DaemonTsun'
 	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Spades = 'cA_DaemonTsun'
 end
 
@@ -457,7 +457,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_fibonacci', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_stencil', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_space', matureRefLevel = 1 },
-	-- { jkrKey = 'j_matador', matureRefLevel = 1 },
+	{ jkrKey = 'j_matador', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_ceremonial', matureRefLevel = 1, artCreditKey = 'jA_DuoDagger' },
 	{ jkrKey = 'j_ring_master', matureRefLevel = 1, artCreditKey = 'jA_JustIRLCirno' }, -- Yes, this is Showman. You have no idea how mad I am that it's called this internally.
 	-- { jkrKey = 'j_fortune_teller', matureRefLevel = 1 },
@@ -500,7 +500,6 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_chicot', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	{ jkrKey = 'j_perkeo', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_hologram', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	----- Also, Hologram is funky. Let me know if you work something out for its graphic. -----
 	
 	{ jkrKey = 'j_certificate', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_bootstraps', matureRefLevel = 1, artCreditKey = 'jA_Unknown_NTFEdit' },
@@ -532,7 +531,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_riff_raff', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_vampire', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	-- { jkrKey = 'j_shortcut', matureRefLevel = 1 },
-	-- { jkrKey = 'j_vagabond', matureRefLevel = 1 },
+	{ jkrKey = 'j_vagabond', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_baron', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_cloud_9', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
 	-- { jkrKey = 'j_rocket', matureRefLevel = 1 },

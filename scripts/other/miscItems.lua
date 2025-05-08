@@ -1,5 +1,6 @@
 local miscItems = {
 	artCreditKeys = {},
+	allFaceCards = { 'Jack', 'Queen', 'King' },
 	weirdArtCreditExceptionalCircumstanceKeys = {}, -- Some things seem to do weird things, like Wild cards.
 	descExtensionTooltips = {},
 	-- handsThatContainOtherHands = {},

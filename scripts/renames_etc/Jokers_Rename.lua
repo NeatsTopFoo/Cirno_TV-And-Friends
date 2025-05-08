@@ -1148,16 +1148,18 @@ jokerLoc.nrmJkrs.j_space = {
         "upgrade level of",
         "played {C:attention}poker hand{}"
 	}
-}
+}]]
 
 jokerLoc.nrmJkrs.j_matador = {
-	name = "Matador",
+	-- name = "Matador",
 	text = {
 		"Earn {C:money}$#1#{} if played",
         "hand triggers the",
-        "{C:attention}Boss Blind{} ability"
+        "{C:attention}Boss Blind{} ability",
+		"{s:0.8,C:inactive}He's just standing there...",
+		"{s:0.8,C:inactive}Menacingly."
 	}
-}]]
+}
 
 jokerLoc.nrmJkrs.j_ceremonial = {
 	name = "Friendsword",
@@ -1834,7 +1836,7 @@ jokerLoc.nrmJkrs.j_egg = {
         "Gains {C:money}$#1#{} of",
         "{C:attention}sell value{} at",
         "end of round",
-		"{s:0.8,C:inactive}Jiiiiiiiiiiiii..."
+		"{s:0.8,C:inactive}...What's wrong?"
     }
 }
 
@@ -2230,16 +2232,16 @@ jokerLoc.lgndJkrs.j_hologram = {
 	}
 }
 
---[[
 jokerLoc.nrmJkrs.j_vagabond = {
-	name = "Vagabond",
+	name = "Figurine Collector",
 	text = {
-		"Create a {C:purple}Tarot{} card",
+		"Create a {C:tarot}Tarot{} card",
         "if hand is played",
-        "with {C:money}$#1#{} or less"
+        "with {C:money}$#1#{} or less",
+		"{s:0.8,C:inactive}Your wallet may be empty,",
+		"{s:0.8,C:inactive}but at least your heart's full."
 	}
 }
-]]
 
 jokerLoc.nrmJkrs.j_baron = {
 	name = "Gigachad",
@@ -2301,8 +2303,11 @@ jokerLoc.nrmJkrs.j_midas_mask = {
 		"All played {C:attention}face{} cards",
         "become {C:attention}"..goldIntent.."{} cards",
         "when scored",
-		"{s:0.8,C:inactive}\"Come Nerevar, and look",
-		"{s:0.8,C:inactive}upon the heart.\""
+		"{s:0.8,C:inactive}\"Welcome, Moon-and-Star, to",
+		"{s:0.8,C:inactive}this place where {s:0.8,C:inactive}YOUR{s:0.8,C:inactive} destiny",
+		"{s:0.8,C:inactive}is made. Dagoth Ur weclomes you",
+		"{s:0.8,C:inactive}Nerevar, my old friend. Come to",
+		"{s:0.8,C:inactive}the Heart Chamber.\""
 	}
 }
 
@@ -2403,7 +2408,7 @@ jokerLoc.nrmJkrs.j_erosion = {
         "in your full deck",
         "{C:inactive}(Currently {C:red}+#2#{C:inactive} Mult)",
 		"{s:0.8,C:inactive}When you're in a falling apart",
-		"{s:0.8,C:inactive}contest and your competition is",
+		"{s:0.8,C:inactive}competition and your opponent is",
 		"{s:0.8,C:inactive}a gingerbread house built by Cirno."
 	}
 }

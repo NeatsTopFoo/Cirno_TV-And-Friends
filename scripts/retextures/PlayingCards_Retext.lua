@@ -18,25 +18,17 @@ local cardSuits = { 'Hearts', 'Clubs', 'Diamonds', 'Spades' }
 -- Which ranks to replace
 local cardSuitRanks = {
 	skin_1 = {
-		Hearts = {
-			'Jack',
-			'Queen',
-			'King'
-		},
+		Hearts = copy_table(CirnoMod.miscItems.allFaceCards),
 		Clubs = {
 			-- 'Jack',
 			'Queen',
-			-- 'King'
-		},
-		Diamonds = {
-			'Jack',
-			'Queen',
 			'King'
 		},
+		Diamonds = copy_table(CirnoMod.miscItems.allFaceCards),
 		Spades = {
 			-- 'Jack',
 			'Queen',
-			-- 'King'
+			'King'
 		}
 	}
 }

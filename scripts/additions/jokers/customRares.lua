@@ -800,7 +800,8 @@ local jokerInfo = {
 						atlasX = 5
 					},
 					['4thFloor'] = {
-						atlasX = 6
+						atlasX = 6,
+						rankChange = 1
 					},
 					['crescent'] = {
 						atlasX = 7,
@@ -850,28 +851,10 @@ local jokerInfo = {
 			
 			-- Crying
 			toAppendToInfoQueue = function(curForm)
-				if curForm == 'betaLob' then
-					
-				elseif curForm == 'plexalLob' then
-					
-				elseif curForm == 'toadLob' then
-					
-				elseif curForm == 'vanLob' then
-					
-				elseif curForm == 'uncanny' then
-					
-				elseif curForm == '4thFloor' then
-					
-				elseif curForm == 'crescent' then
-					
-				elseif curForm == 'forestMaze' then
-					
-				elseif curForm == 'loogi' then
+				if curForm == 'loogi' then
 					return { { key = 'pCardNegative', set = 'Other' } }
 				elseif curForm == 'peachCell' then
-					return { G.P_CENTERS.e_polychrome }
-				elseif curForm == 'nebLob' then
-					
+					return { G.P_CENTERS.e_polychrome }					
 				elseif curForm == 'floor3B' then
 					return { G.P_CENTERS.m_steel }
 				end
@@ -892,10 +875,8 @@ local jokerInfo = {
 					}
 				elseif extra.currentForm == 'toadLob' then
 					return { SMODS.signed_dollar(extra.toadLob.monGain) }
-				elseif extra.currentForm == 'vanLob' then
-					
 				elseif extra.currentForm == '4thFloor' then
-					
+					return { extra['4thFloor'].rankChange }
 				elseif extra.currentForm == 'crescent' then
 					return { 
 						SMODS.signed_dollar(extra.crescent.monGain),
@@ -926,8 +907,7 @@ local jokerInfo = {
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
-				local RT = { key = 'cir_b3313_'..card.ability.extra.currentForm, vars = self.create_vars_table(extra) }
-				
+				local RT = { key = 'cir_b3313_'..card.ability.extra.currentForm, vars = self.create_vars_table(card.ability.extra) }				
 				--[[ This is why Lua is a fucking laughing stock.
 				What the fuck do you mean 'Lua doesn't need a switch statement'?!?!?
 				And no, I can't do a table lookup for this, because some of the
@@ -942,32 +922,7 @@ local jokerInfo = {
 				about this game is that if you try to save the game
 				and a card has a function in its config table, it
 				doesn't seem to like it all that much.]]
-				if card.ability.extra.currentForm == 'betaLob' then
-					
-				elseif card.ability.extra.currentForm == 'plexalLob' then
-					
-				elseif card.ability.extra.currentForm == 'toadLob' then
-					
-				elseif card.ability.extra.currentForm == 'vanLob' then
-					
-				elseif card.ability.extra.currentForm == 'uncanny' then
-					
-				elseif card.ability.extra.currentForm == '4thFloor' then
-					
-				elseif card.ability.extra.currentForm == 'crescent' then
-					
-				elseif card.ability.extra.currentForm == 'forestMaze' then
-					
-				elseif card.ability.extra.currentForm == 'loogi' then
-					
-				elseif card.ability.extra.currentForm == 'peachCell' then
-					
-				elseif card.ability.extra.currentForm == 'nebLob' then
-					
-				elseif card.ability.extra.currentForm == 'floor3B' then
-					
-				end
-				
+								
 				local infoQueueAppend = self.toAppendToInfoQueue(card.ability.extra.currentForm)
 				
 				if infoQueueAppend then

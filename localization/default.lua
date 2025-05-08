@@ -546,9 +546,12 @@ RV.descriptions.Joker.cir_b3313_vanLob = { name = 'Vanilla Lobby',
 	text = {
 		'When a hand is played, scales the',
 		'current {C:attention}edition{} on this {C:joker}Joker{}',
-		'Every {C:attention}played card{} that would normally score, doesn\'t',
+		'Every {C:attention}played card{} that would normally score, {C:red}doesn\'t',
 		'Conversely, every {C:attention}played card{C:attention} that would',
-		'normally be unscored, does'
+		'normally be unscored, {C:attention}does',
+		'{s:0.8,C:inactive}>Jump into pipe',
+		'{s:0.8,C:inactive}>Die',
+		'{s:0.8,C:inactive}Mood.'
 	}
 }
 
@@ -570,9 +573,9 @@ RV.descriptions.Joker.cir_b3313_4thFloor = { name = '4th Floor',
 	text = {
 		'If scoring hand contains an {C:attention}odd{} number of cards (5, 3, 1),',
 		'All cards {C:attention}left of the middle card',
-		'have their ranks {C:attention}increased{} by {C;attention}1',
+		'have their ranks {C:attention}increased{} by {C;attention}#1#',
 		'All cards {C:attention}right of the middle card',
-		'have their ranks {C:attention}decreased{} by {C;attention}1',
+		'have their ranks {C:attention}decreased{} by {C;attention}#1#',
 		'The {C:attention}middle{} card, if not {C:red}destroyed{},',
 		'is {C:attention}returned to hand',
 		'{s:0.8,C:inactive}This will be where we part ways.',
