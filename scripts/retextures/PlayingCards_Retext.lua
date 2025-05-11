@@ -19,17 +19,9 @@ local cardSuits = { 'Hearts', 'Clubs', 'Diamonds', 'Spades' }
 local cardSuitRanks = {
 	skin_1 = {
 		Hearts = copy_table(CirnoMod.miscItems.allFaceCards),
-		Clubs = {
-			-- 'Jack',
-			'Queen',
-			'King'
-		},
+		Clubs = copy_table(CirnoMod.miscItems.allFaceCards),
 		Diamonds = copy_table(CirnoMod.miscItems.allFaceCards),
-		Spades = {
-			-- 'Jack',
-			'Queen',
-			'King'
-		}
+		Spades = copy_table(CirnoMod.miscItems.allFaceCards)
 	}
 }
 

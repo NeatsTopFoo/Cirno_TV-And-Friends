@@ -185,7 +185,29 @@ miscItems.addHighlightedUITextNode = function(nodes, alignment, HColour, radius,
 	
 	return nodes[#nodes]
 end
+
+miscItems.flippyFlip = function(card, func, pitchPercent)
+	local percent = pitchPercent or 1
 	
+	G.E_MANAGER:add_event(Event({
+		trigger = 'after',
+		delay = 0.15,
+		func = function()
+			card:flip();play_sound('card1', percent);card:juice_up(0.3, 0.3);return true 
+		end }))
+	
+	if func and type(func) == 'function' then
+		func()
+	end
+	
+	G.E_MANAGER:add_event(Event({
+		trigger = 'after',
+		delay = 0.15,
+		func = function()
+			card:flip();play_sound('tarot2', percent * 0.85, 0.6);card:juice_up(0.3, 0.3);return true
+		end }))
+end
+
 miscItems.manuallyAnimateAtlasItem = function(UINodeConfigTable)
 	G.E_MANAGER:add_event(Event({
 		trigger = 'immediate',

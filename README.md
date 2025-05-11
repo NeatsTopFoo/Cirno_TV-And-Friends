@@ -13,7 +13,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 ![Showcase of Gluttonous Joker](https://i.imgur.com/du2Qrgf.png)
 
-![Showcase of Playing Cards](https://i.imgur.com/mV5wuaO.png)
+![Showcase of Playing Cards](https://i.imgur.com/uiOWONu.png)
 
 **Cirno_TV & Friends** currently:
 - Retextures:

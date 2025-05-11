@@ -2870,7 +2870,7 @@ jokerLoc.nrmJkrs.j_smiley = {
         "Played {C:attention}face{} cards",
         "give {C:mult}+#1#{} Mult",
         "when scored",
-		"{s:0.75,C:inactive}A smile better suits a spoiler."
+		"{s:0.8,C:inactive}A smile better suits a Joker."
     }
 }
 

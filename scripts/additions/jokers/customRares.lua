@@ -975,8 +975,10 @@ local jokerInfo = {
 				end
 			end,
 			
+			
+			
 			calculate = function(self, card, context)
-				
+				-- Working on it.
 			end
 		}
 	}

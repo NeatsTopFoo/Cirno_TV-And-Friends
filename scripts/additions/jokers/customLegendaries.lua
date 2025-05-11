@@ -1070,6 +1070,56 @@ local jokerInfo = {
 					}
 				end
 			end
+		},
+		-- Demeorin Legendary
+		{
+			-- How the Joker will be referred to internally.
+			key = 'demeorin_l',
+			
+			object_type = "Joker",
+			
+			matureRefLevel = 1,
+			
+			loc_txt = {
+				-- The name the player will see in-game.
+				name = "Demeorin",
+				-- The description the player will see in-game.
+				text = {
+					"" -- TODO
+				},
+				unlock = {
+					"Find this {C:joker}Joker",
+					"from the {C:spectral}Soul{} card"
+				}
+			},
+			
+			config = {
+				extra = {
+				}
+			},
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				-- Art credit tooltip
+				if CirnoMod.config['artCredits'] then
+					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
+				end
+				
+				return { vars = { } }
+			end,
+			unlocked = false,
+			
+			atlas = 'cir_cLegendaries',
+			pos = { x = 1, y = 4}, -- Defines base card graphic position in the atlas.
+			soul_pos = { x = 1, y = 5}, -- Defines where this card's soul overlay is in the given atlas
+			rarity = 4, -- Legendary rarity
+			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
+			eternal_compat = true,
+			perishable_compat = true,
+			
+			calculate = function(self, card, context)
+				-- TODO
+			end
 		}
 	}
 }

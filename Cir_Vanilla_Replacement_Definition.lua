@@ -190,7 +190,7 @@ if CirnoMod.config['playingCardTextures'] then -- The suits here should be in th
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Hearts = 'cA_DaemonTsun'
 	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Hearts = 'cA_DaemonTsun'
 	
-	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Clubs = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Clubs = 'cA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Queen_Clubs = 'cA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Clubs = 'cA_DaemonTsun'
 	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Clubs = 'cA_DaemonTsun'
@@ -200,7 +200,7 @@ if CirnoMod.config['playingCardTextures'] then -- The suits here should be in th
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Diamonds = 'cA_DaemonTsun'
 	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Diamonds = 'cA_DaemonTsun'
 	
-	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Spades = 'cA_DaemonTsun'
+	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Jack_Spades = 'cA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_Queen_Spades = 'cA_DaemonTsun'
 	CirnoMod.miscItems.artCreditKeys.cirSkin_1_King_Spades = 'cA_DaemonTsun'
 	-- CirnoMod.miscItems.artCreditKeys.cirSkin_1_Ace_Spades = 'cA_DaemonTsun'
