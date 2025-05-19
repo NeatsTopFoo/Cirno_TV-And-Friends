@@ -17,5 +17,5 @@ return {
 	['miscRenames'] = true,
 	['additionalChallenges'] = false,
 	['artCredits'] = true,
-	['encounteredJokers'] = {}
+	['encounteredJokers'] = {{},{},{}}
 }

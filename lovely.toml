@@ -24,6 +24,7 @@ local replace_card = G.FUNCS.title_screen_card(self, SC_scale)
 
 if CirnoMod then
 	CirnoMod.titleCard = replace_card
+	CirnoMod.titleTop = self.title_top
 end
 '''
 match_indent = true
@@ -77,6 +78,75 @@ match_indent = true
 overwrite = false
 times = 1
 
+# If the title screen card was polychrome, remove it when
+# cycling to the first item
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "replace_card:start_dissolve({G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD})"
+position = "after"
+payload = '''
+
+if replace_card.edition then
+	replace_card:set_edition(nil, true, true)
+end
+
+'''
+match_indent = true
+overwrite = false
+times = 1
+
+# Adjusts the logic that cycles through cards in the main
+# menu screen to allow it to cycle for as long as the game
+# stays on the main menu, and will additionally include
+# every face card - This basically 
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "self.title_top:emplace(card)"
+position = "after"
+payload = '''
+
+if CirnoMod then
+	CirnoMod.miscItems.doTitleCardCycle(viable_unlockables, card, SC_scale)
+end
+
+'''
+match_indent = true
+overwrite = false
+times = 1
+
+# Allows cycling to happen if there is nothing to unlock.
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "if #viable_unlockables > 0 then"
+position = "at"
+payload = '''if #viable_unlockables == 0 then
+	CirnoMod.miscItems.doTitleCardCycle(viable_unlockables, replace_card, SC_scale)
+else'''
+match_indent = true
+times = 1
+
+# Deleting profile also resets encountered Jokers.
+# Have to patch it instead of hooking because it
+# seems there's a fork inside the function that
+# looks like it might branch to not deleting
+# the profile.
+[[patches]]
+[patches.pattern]
+target = "button_callbacks.lua"
+pattern = "G.PROFILES[G.focused_profile] = {}"
+position = "after"
+payload = '''
+	if CirnoMod and CirnoMod.config.encounteredJokers[G.focused_profile] then
+		CirnoMod.config.encounteredJokers[G.focused_profile] = {}
+	end
+'''
+match_indent = true
+overwrite = false
+times = 1
+
 # Creates a variable that is set to true whenever a wheel of fortune is used, intended to be used with the NopeTooFast legendary.
 # This is lifted from Cryptid, but should still be compatible as it does not directly interfere with anything.
 [[patches]]
@@ -114,8 +184,8 @@ match_indent = false
 
 # Fixes generate_card_ui() 
 # Credit to Breezebuilder for figuring this out
-# Will likely be removed if it gets included as
-# part of a Steamodded build.
+# Will likely be removed if it ever gets included
+# in a Steamodded build.
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"

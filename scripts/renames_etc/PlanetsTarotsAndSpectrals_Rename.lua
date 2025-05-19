@@ -81,7 +81,7 @@ PTSloc.tarots.c_wheel_of_fortune = {
 			"{s:0.8,C:inactive}one more spin."
 		}
 	}
-				
+
 PTSloc.tarots.c_strength = {
 	-- name = "Strength",
 	text = {
@@ -214,9 +214,9 @@ PTSloc.spectrals.c_trance = {
 		"Add a {C:blue}"..sealIntent.blue_seal.."{} to {C:attention}1{} selected card in your hand",
 		"{s:0.8,C:inactive}You know, if I had a nickel for every Canadian catgirl VTuber",
 		"{s:0.8,C:inactive}I knew that has a weird sorta love-hate relationship with Souls",
-		"{s:0.8,C:inactive}games & dropped CrossCode (although one picked it back up) among",
-		"{s:0.8,C:inactive}various other commonalities, I'd have -$69.90 US, as one of them",
-		"{s:0.8,C:inactive}would have charged me for two backseats over this bit."
+		"{s:0.8,C:inactive}games & dropped CrossCode among various other commonalities,",
+		"{s:0.8,C:inactive}I'd have -$69.90 US, as one of them would have charged me",
+		"{s:0.8,C:inactive}for two backseats over this bit."
 		}
 	}
 

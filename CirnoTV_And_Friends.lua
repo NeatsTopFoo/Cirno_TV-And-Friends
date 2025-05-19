@@ -13,18 +13,12 @@ CirnoMod = {}
 CirnoMod.path = cMod_SMODSLoc.path
 CirnoMod.config = cMod_SMODSLoc.config
 
-CirnoMod.miscItems = assert(SMODS.load_file("scripts/other/miscItems.lua")())
+CirnoMod.miscItems = assert(SMODS.load_file("scripts/other/miscItems.lua"))()
 
 if
 	#SMODS.find_mod("soj") > 0
 then
 	CirnoMod.miscItems.otherModPresences.isSealsOnJokersPresent = true
-end
-
-if
-	#SMODS.find_mod("talisman") > 0
-then
-	CirnoMod.miscItems.otherModPresences.isTalimanPresent = true
 end
 
 CirnoMod.miscItems.getLocColour = function(colourNameStr, defaultColourStr)
@@ -210,7 +204,7 @@ if CirnoMod.config['malverkReplacements'] then
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()
 end
 
-SMODS.load_file("scripts/other/extDescTooltips.lua")()
+assert(SMODS.load_file("scripts/other/extDescTooltips.lua"))()
 
 -- Additional Custom Jokers
 if CirnoMod.config['addCustomJokers'] then
@@ -407,7 +401,7 @@ if CirnoMod.config['addCustomConsumables'] then
 								card = self
 							}
 						end
-					else
+					else						
 						return {
 							repetitions = 1,
 							card = self
@@ -777,25 +771,25 @@ end
 
 --[[
 There appears to be no game function that can be
-hooked into relating to when a shop phase starts
+hooked relating to when a shop phase starts
 ]]
 
 
 -- Need this hook for Joker functionality
-local old_dfptd = G.FUNCS.drawfromplaytodiscard
-G.FUNCS.drawfromplaytodiscard = function(e)
+local old_dfptd = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
 	for i, k in ipairs(CirnoMod.miscItems.returnToHand_Jokers) do
 		local FCR = SMODS.find_card(k)
-		
+				
 		if next(FCR) then
-			for i_, jkr in FCR do
+			for i_, jkr in ipairs(FCR) do				
 				if
-					jkr.shouldReturnToHand
-					and type(jkr.shouldReturnToHand) == 'function'
-					and jkr:shouldReturnToHand()
-					and jkr.returnToHand_func
-					and type(jkr.returnToHand_func) == 'function'
-					and jkr:returnToHand_func(old_dfptd)
+					jkr.config.center.shouldReturnToHand
+					and type(jkr.config.center.shouldReturnToHand) == 'function'
+					and jkr.config.center:shouldReturnToHand(jkr)
+					and jkr.config.center.returnToHand_func
+					and type(jkr.config.center.returnToHand_func) == 'function'
+					and jkr.config.center:returnToHand_func(old_dfptd)
 				then
 					return
 				end

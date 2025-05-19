@@ -72,10 +72,7 @@ CirnoMod.extendedDescTooltip{
 CirnoMod.extendedDescTooltip{
 	key = '2max',
 	
-	loc_txt = {
-		name = "2 Max Jokers",
-		text = {}
-	},
+	loc_txt = { name = "2 Max Jokers", text = {} },
 	
 	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 		if
@@ -102,10 +99,7 @@ CirnoMod.extendedDescTooltip{
 CirnoMod.extendedDescTooltip{
 	key = 'Guns',
 	
-	loc_txt = {
-		name = "cirGuns Jokers",
-		text = {}
-	},
+	loc_txt = { name = "cirGuns Jokers", text = {} },
 	
 	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 		if
@@ -132,10 +126,7 @@ CirnoMod.extendedDescTooltip{
 CirnoMod.extendedDescTooltip{
 	key = 'crazyWomen',
 	
-	loc_txt = {
-		name = "Crazy Women Jokers",
-		text = {}
-	},
+	loc_txt = { name = "Crazy Women Jokers", text = {} },
 	
 	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 		if
@@ -185,6 +176,61 @@ CirnoMod.extendedDescTooltip{
 					{ x = CirnoMod.miscItems.cirGunsSpriteX, y = 0 } -- Position in the Atlas
 				)
 			)
+		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+	end
+}
+
+--[[ For saying how an edition will scale.
+anything referencing this should change
+eDT_edScale_T in miscItems first]]
+CirnoMod.extendedDescTooltip{
+	key = 'editionScale',
+	
+	loc_txt = { name = 'Edition Scaling', text = {} },
+	
+	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+		local scalar = CirnoMod.miscItems.eDT_edScale_T.scalar or 1
+		desc_nodes[#desc_nodes+1] = {}
+		
+		if CirnoMod.miscItems.eDT_edScale_T.type == 'foil' then
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'Foil', G.C.BLUE, 0.8)
+		elseif CirnoMod.miscItems.eDT_edScale_T.type == 'holo' then
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'Holographic', G.C.RED, 0.8)
+		elseif CirnoMod.miscItems.eDT_edScale_T.type == 'polychrome' then
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'Polychrome', G.C.RED, 0.8)
+		end
+		
+		desc_nodes[#desc_nodes+1] = {}
+		
+		if CirnoMod.miscItems.eDT_edScale_T.type == 'foil' then
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], '+'..CirnoMod.miscItems.eDT_edScale_T.mod, G.C.BLUE, 0.8)			
+		elseif CirnoMod.miscItems.eDT_edScale_T.type == 'holo' then
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], '+'..CirnoMod.miscItems.eDT_edScale_T.mod, G.C.RED, 0.8)
+		elseif CirnoMod.miscItems.eDT_edScale_T.type == 'polychrome' then
+			CirnoMod.miscItems.addHighlightedUITextNode(desc_nodes[#desc_nodes], 'cm', G.C.RED, 0, 0, 'X'..CirnoMod.miscItems.eDT_edScale_T.mod, G.C.UI.TEXT_LIGHT, 0.8)
+		end
+		
+		CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], ' -> ', G.C.UI.TEXT_DARK, 0.8)
+		
+		if CirnoMod.miscItems.eDT_edScale_T.type == 'foil' then
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], '+'..CirnoMod.miscItems.eDT_edScale_T.mod+50*scalar, G.C.BLUE, 0.8)			
+		elseif CirnoMod.miscItems.eDT_edScale_T.type == 'holo' then
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], '+'..CirnoMod.miscItems.eDT_edScale_T.mod+10*scalar, G.C.RED, 0.8)
+		elseif CirnoMod.miscItems.eDT_edScale_T.type == 'polychrome' then
+			CirnoMod.miscItems.addHighlightedUITextNode(desc_nodes[#desc_nodes], 'cm', G.C.RED, 0, 0.025, 'X'..CirnoMod.miscItems.eDT_edScale_T.mod+0.5*scalar, G.C.UI.TEXT_LIGHT, 0.8)
+		end
+		
+		desc_nodes[#desc_nodes+1] = {}
+		
+		if CirnoMod.miscItems.eDT_edScale_T.type == 'foil' then
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'chips', G.C.UI.TEXT_DARK, 0.8)
+		elseif
+			CirnoMod.miscItems.eDT_edScale_T.type == 'holo'
+			or CirnoMod.miscItems.eDT_edScale_T.type == 'polychrome'
+		then
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'mult', G.C.UI.TEXT_DARK, 0.8)
+		end
+		
 		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 	end
 }

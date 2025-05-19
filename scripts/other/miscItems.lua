@@ -1,8 +1,39 @@
 local miscItems = {
 	artCreditKeys = {},
 	allFaceCards = { 'Jack', 'Queen', 'King' },
+	cardRanksToValues_AceLow = {
+		['King'] = 10,
+		['Queen'] = 10,
+		['Jack'] = 10,
+		['10'] = 10,
+		['9'] = 9,
+		['8'] = 8,
+		['7'] = 7,
+		['6'] = 6,
+		['5'] = 5,
+		['4'] = 4,
+		['3'] = 3,
+		['2'] = 2,
+		['Ace'] = 1
+	},
+	cardRanksToValues_AceHigh = {
+		['Ace'] = 11,
+		['King'] = 10,
+		['Queen'] = 10,
+		['Jack'] = 10,
+		['10'] = 10,
+		['9'] = 9,
+		['8'] = 8,
+		['7'] = 7,
+		['6'] = 6,
+		['5'] = 5,
+		['4'] = 4,
+		['3'] = 3,
+		['2'] = 2
+	},
 	weirdArtCreditExceptionalCircumstanceKeys = {}, -- Some things seem to do weird things, like Wild cards.
 	descExtensionTooltips = {},
+	eDT_edScale_T = {},
 	-- handsThatContainOtherHands = {},
 	alphabetNumberConv = {
 		numToAlphabet = {},
@@ -19,7 +50,16 @@ local miscItems = {
 		'j_cir_b3313'
 	},
 	switchKeys = {},
-	switchTables = {}
+	switchTables = {},
+	createErrorLocTxt = function(custName) return { name = custName or 'ERROR', text = {
+			'This text should {C:red}not{} be visible.',
+			'If you are seeing this, please contact',
+			'your local {C:dark_edition}system administrator',
+			'for {C:attention}troubleshooting{}.',
+			'{s:0.8,C:inactive}Seriously, this shouldn\'t be',
+			'{s:0.8,C:inactive}appearing anywhere. This IS a bug.'
+		} }
+	end
 }
 
 miscItems.cirGunsSpriteX = 0
@@ -27,7 +67,8 @@ miscItems.cirGunsSpriteX = 0
 miscItems.keysOfJokersToUpdateStateOnLoad = {
 	j_cir_arumia_l = true,
 	j_cir_naro_l = true,
-	j_cir_crystalTap = true
+	j_cir_crystalTap = true,
+	j_cir_b3313 = true
 }
 	
 miscItems.otherModPresences = {
@@ -41,7 +82,8 @@ miscItems.matureReferencesOpt = { "(Hopefully) Safest", "Some", "All" } -- These
 miscItems.redSealRetriggerIgnoreTable = {
 		j_fortune_teller = { 'using_consumeable' },
 		j_cir_naro_l = { 'using_consumeable' },
-		j_cir_arumia_l = { 'using_consumeable', 'setting_blind', 'hand_drawn' }
+		j_cir_arumia_l = { 'using_consumeable', 'setting_blind', 'hand_drawn' },
+		j_cir_b3313 = { 'modify_scoring_hand' }
 	}
 	
 miscItems.colours = {
@@ -186,26 +228,307 @@ miscItems.addHighlightedUITextNode = function(nodes, alignment, HColour, radius,
 	return nodes[#nodes]
 end
 
-miscItems.flippyFlip = function(card, func, pitchPercent)
-	local percent = pitchPercent or 1
-	
-	G.E_MANAGER:add_event(Event({
-		trigger = 'after',
-		delay = 0.15,
-		func = function()
-			card:flip();play_sound('card1', percent);card:juice_up(0.3, 0.3);return true 
-		end }))
-	
-	if func and type(func) == 'function' then
-		func()
+miscItems.addJokerToTableIfDiscovered = function(t, joker)
+	if joker.discovered then
+		table.insert(t, joker)
+	end
+end
+
+miscItems.addJokerToTableIfEncountered = function(t, joker)
+	if CirnoMod.miscItems.hasEncounteredJoker(joker.key) then
+		table.insert(t, joker)
+	end
+end
+
+miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
+	if #viable_unlockables == 0 then
+		for k, v in ipairs(G.P_CENTERS) do
+			if
+				(v.set == 'Voucher'
+				or v.set == 'Tarot'
+				or v.set == 'Planet'
+				or v.set == 'Spectral'
+				or v.set == 'Enhanced'
+				or v.set == 'Joker')
+				and v.discovered
+				and not v.demo
+			then
+				viable_unlockables[#viable_unlockables+1] = v
+			end
+		end
+	else
+		CirnoMod.miscItems.addJokerToTableIfDiscovered(viable_unlockables, G.P_CENTERS.j_blueprint)
+		
+		CirnoMod.miscItems.addJokerToTableIfDiscovered(viable_unlockables, G.P_CENTERS.j_egg)
+		
+		if CirnoMod.miscItems.jkrKeyGroups.fingerGuns then
+			for k, b in pairs (CirnoMod.miscItems.jkrKeyGroups.fingerGuns) do
+				if
+					k == 'j_ring_master'
+					or CirnoMod.miscItems.hasEncounteredJoker(k)
+				then
+					CirnoMod.miscItems.addJokerToTableIfDiscovered(viable_unlockables, G.P_CENTERS[k])
+				end
+			end
+		end
+		
+		if CirnoMod.miscItems.jkrKeyGroups.allegations then
+			for k, b in pairs (CirnoMod.miscItems.jkrKeyGroups.allegations) do
+				CirnoMod.miscItems.addJokerToTableIfEncountered(viable_unlockables, G.P_CENTERS[k])
+			end
+		end
+		
+		local jkrKeys_AddIfEncountered = {
+			'j_joker',
+			'j_mime',
+			'j_credit_card',
+			'j_duo',
+			'j_family',
+			'j_mr_bones',
+			'j_smiley',
+			'j_caino',
+			'j_triboulet',
+			'j_yorick',
+			'j_chicot',
+			'j_perkeo',
+		}
+		
+		if CirnoMod.config.addCustomJokers then
+			if G.P_CENTERS.j_cir_crazyFace.unlocked then
+				table.insert(viable_unlockables, G.P_CENTERS.j_cir_crazyFace)
+			end
+			
+			jkrKeys_AddIfEncountered = SMODS.merge_lists({ jkrKeys_AddIfEncountered, {
+				'j_cir_cirno_l',
+				'j_cir_nope_l',
+				'j_cir_naro_l',
+				'j_cir_arumia_l',
+				'j_cir_houdini_l',
+				'j_cir_wolsk_l',
+				'j_cir_demeorin_l'
+			} })
+		end
+		
+		for i, k in ipairs (jkrKeys_AddIfEncountered) do
+			CirnoMod.miscItems.addJokerToTableIfEncountered(viable_unlockables, G.P_CENTERS[k])
+		end
 	end
 	
-	G.E_MANAGER:add_event(Event({
+	table.insert(viable_unlockables, { set = 'Playing', card = "C_K", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" })
+	table.insert(viable_unlockables, { set = 'Playing', card = "C_Q", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" })
+	table.insert(viable_unlockables, { set = 'Playing', card = "C_J", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" })
+	table.insert(viable_unlockables, { set = 'Playing', card = "D_K", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" })
+	table.insert(viable_unlockables, { set = 'Playing', card = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" })
+	table.insert(viable_unlockables, { set = 'Playing', card = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" })
+	table.insert(viable_unlockables, { set = 'Playing', card = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" })
+	--[[ Bias towards my kamioshi? No wayyyy
+	(...Again, no. Not possessive 'my'.)]]
+	table.insert(viable_unlockables, { set = 'Playing', card = "D_J", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" })
+	table.insert(viable_unlockables, { set = 'Playing', card = "H_K", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" })
+	table.insert(viable_unlockables, { set = 'Playing', card = "H_Q", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" })
+	table.insert(viable_unlockables, { set = 'Playing', card = "H_J", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" })
+	table.insert(viable_unlockables, { set = 'Playing', card = "S_K", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" })
+	table.insert(viable_unlockables, { set = 'Playing', card = "S_Q", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" })
+	table.insert(viable_unlockables, { set = 'Playing', card = "S_J", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" })
+	
+	local holdUntilNew = false
+	local lastFive = {}
+	local existingCard = cardIn or CirnoMod.titleCard
+	local newCard
+	local doRandomEdition = false
+	
+	local isInLastFive = function(decidedElement)
+		if #lastFive > 0 then
+			local toCheck
+			
+			if decidedElement.set == 'Playing' then
+				toCheck = decidedElement.card
+			else
+				toCheck = decidedElement.key
+			end
+			
+			for i = 1, #lastFive do
+				if lastFive[i] == toCheck then
+					return true
+				end
+			end
+		end
+		
+		return false
+	end
+	
+	local cycleEvent
+	cycleEvent = Event({
 		trigger = 'after',
-		delay = 0.15,
+		timer = 'UPTIME',
+		delay = 20,
+		blockable = false,
+		blocking = false,
 		func = function()
-			card:flip();play_sound('tarot2', percent * 0.85, 0.6);card:juice_up(0.3, 0.3);return true
-		end }))
+			if not CirnoMod.miscItems.isStage(G.STAGE, G.STAGES.MAIN_MENU) then
+				return true
+			end
+			
+			if holdUntilNew then
+				return false
+			end
+			
+			G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 4.04,
+                func = (function()
+					if not CirnoMod.miscItems.isStage(G.STAGE, G.STAGES.MAIN_MENU) then
+						return true
+					end
+					
+					local decidedElement = pseudorandom_element(viable_unlockables)
+					
+					for i = 1, 5 do
+						if not isInLastFive(decidedElement) then
+							if decidedElement.set == 'Playing' then
+								if G.SETTINGS.CUSTOM_DECK.Collabs[decidedElement.suit] == decidedElement.skin then
+									break
+								end
+							else
+								break
+							end
+						end
+						
+						decidedElement = pseudorandom_element(viable_unlockables)
+					end
+					
+					if decidedElement.set == 'Playing' then
+						newCard = Card(CirnoMod.titleTop.T.x, CirnoMod.titleTop.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS[decidedElement.card], G.P_CENTERS.c_base)
+						
+						if decidedElement.card ~= 'D_Q' then -- No problem here, move along
+							table.insert(lastFive, decidedElement.card)
+						end
+						
+						if decidedElement.card == 'D_Q' then
+							doRandomEdition = 'dm'
+						else
+							doRandomEdition = 'nrm'
+						end
+					else
+						newCard = Card(CirnoMod.titleTop.T.x, CirnoMod.titleTop.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, nil, decidedElement or self.P_CENTERS.j_blueprint)
+						
+						table.insert(lastFive, decidedElement.key)
+						
+						if decidedElement.key == 'j_caino' then
+							doRandomEdition = 'dm'
+						elseif decidedElement.discovered then
+							doRandomEdition = 'nrm'
+						else
+							doRandomEdition = nil
+						end
+					end
+					
+					if #lastFive > 5 then
+						table.remove(lastFive, 1)
+					end
+					
+					if decidedElement.set == 'Playing' then
+						newCard.no_ui = true
+					elseif not decidedElement.unlocked then
+						newCard.no_ui = false
+					else
+						newCard.no_ui = #viable_unlockables > 0
+						and not CirnoMod.miscItems.hasEncounteredJoker(decidedElement.key)
+					end
+                    
+                    newCard.states.visible = false
+                    existingCard.parent = nil
+                    existingCard:start_dissolve({G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD})
+					
+					if existingCard.edition then
+						existingCard:set_edition(nil, true, true)
+					end
+					
+                    return true
+            end)}))
+			
+			G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 1.04,
+                func = (function()
+					if not CirnoMod.miscItems.isStage(G.STAGE, G.STAGES.MAIN_MENU) then
+						return true
+					end
+					
+                    newCard:start_materialize()
+                    CirnoMod.titleTop:emplace(newCard)
+					existingCard = newCard
+					newCard = nil
+					
+					if doRandomEdition == 'dm' and pseudorandom('dmEdition', 1, 2) < 2 then
+						existingCard:set_edition(poll_edition('dmEdition', 1, false, true), true)
+					elseif doRandomEdition == 'nrm' then
+						existingCard:set_edition(poll_edition('generic_edition'), true)
+					end
+					
+					holdUntilNew = false
+                    return true
+            end)}))
+			
+			holdUntilNew = true
+			cycleEvent.start_timer = false
+			return false
+		end })
+	
+	G.E_MANAGER:add_event(cycleEvent)
+end
+
+miscItems.flippyFlip = {
+	fStart = function(card, pitchPercent)
+		local percent = pitchPercent and math.max(pitchPercent - 0.09, 0.5) or 1
+		
+		G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 0.1,
+			blocking = true,
+			blockable = true,
+			func = function()
+				card:flip();play_sound('card1', percent);card:juice_up(0.3, 0.3);return true 
+			end }))
+		
+		pitchPercent = percent
+	end,
+	
+	fEnd = function(card, pitchPercent)
+		local percent = pitchPercent and math.max(pitchPercent - 0.09, 0.5) or 1
+		
+		G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 0.15,
+			blocking = true,
+			blockable = true,
+			func = function()
+				card:flip();play_sound('tarot2', percent, 0.6);card:juice_up(0.3, 0.3);return true
+			end }))
+		
+		pitchPercent = percent
+	end
+}
+
+miscItems.pullEditionModifierValue = function(edition)
+	if edition.type == 'foil' then
+		return edition.chips
+	elseif edition.type == 'holo' then
+		return edition.mult
+	elseif edition.type == 'polychrome' then
+		return edition.x_mult
+	end
+	return nil
+end
+
+miscItems.scaleEdition_FHP = function(card, scalar)
+	if card.edition.type == 'foil' then
+		card.edition.chips = card.edition.chips + 50 * scalar
+	elseif card.edition.type == 'holo' then
+		card.edition.mult = card.edition.mult + 10 * scalar
+	elseif card.edition.type == 'polychrome' then
+		card.edition.x_mult = card.edition.x_mult + 0.5 * scalar
+	end
 end
 
 miscItems.manuallyAnimateAtlasItem = function(UINodeConfigTable)
@@ -334,7 +657,7 @@ miscItems.isStage = function(curGameStage, stageToCheck)
 		curGameStage
 		and stageToCheck
 	then 
-		return curGameStge == stageToCheck
+		return curGameStage == stageToCheck
 	end
 	return false
 end
@@ -509,8 +832,8 @@ miscItems.jkrKeyGroupTotalEncounters = function(groupName, stopAt1)
 	if miscItems.jkrKeyGroups[groupName] then
 		for i, k in ipairs(miscItems.jkrKeyGroups[groupName]) do
 			if
-				CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name]
-				and CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][k]
+				CirnoMod.config.encounteredJokers[G.SETTINGS.profile]
+				and CirnoMod.config.encounteredJokers[G.SETTINGS.profile][k]
 			then
 				RV = RV + CirnoMod.config.encounteredJokers[k]
 			end
@@ -538,15 +861,11 @@ miscItems.encounterJoker = function(jkrKey)
 	if
 		CirnoMod.config.encounteredJokers
 	then
-		if not CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name] then
-			CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name] = {}
+		if not CirnoMod.config.encounteredJokers[G.SETTINGS.profile][jkrKey] then
+			CirnoMod.config.encounteredJokers[G.SETTINGS.profile][jkrKey] = 0
 		end
 		
-		if not CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][jkrKey] then
-			CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][jkrKey] = 0
-		end
-		
-		CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][jkrKey] = CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][jkrKey] + 1
+		CirnoMod.config.encounteredJokers[G.SETTINGS.profile][jkrKey] = CirnoMod.config.encounteredJokers[G.SETTINGS.profile][jkrKey] + 1
 		return true
 	end
 	
@@ -556,10 +875,10 @@ end
 miscItems.hasEncounteredJoker = function(jkrKey)
 	if
 		CirnoMod.config.encounteredJokers
-		and CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name]
-		and CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][jkrKey]
+		and CirnoMod.config.encounteredJokers[G.SETTINGS.profile]
+		and CirnoMod.config.encounteredJokers[G.SETTINGS.profile][jkrKey]
 	then
-		return CirnoMod.config.encounteredJokers[G.PROFILES[G.SETTINGS.profile].name][jkrKey] > 0
+		return CirnoMod.config.encounteredJokers[G.SETTINGS.profile][jkrKey] > 0
 	end
 	
 	return false

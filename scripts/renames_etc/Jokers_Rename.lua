@@ -511,8 +511,7 @@ jokerLoc.nrmJkrs.j_wrathful_joker = {
         "Played cards with",
         "{C:spades}#2#{} suit give",
         "{C:mult}+#1#{} Mult when scored",
-		"{s:0.8,C:inactive}I play Anon face-up",
-		"{s:0.8,C:inactive}in defence position."
+		"{s:0.8,C:inactive}Biggdeck? This is Anon, silly."
     }
 }
 
@@ -1324,17 +1323,16 @@ jokerLoc.nrmJkrs.j_shoot_the_moon = {
 	}
 }
 
---[[
 jokerLoc.nrmJkrs.j_smeared = {
-	name = "Smeared Joker",
+	name = "Struggling Joker",
 	text = {
 		"{C:hearts}Hearts{} and {C:diamonds}Diamonds",
         "count as the same suit,",
         "{C:spades}Spades{} and {C:clubs}Clubs",
-        "count as the same suit"
+        "count as the same suit",
+		"{s:0.8,C:inactive}HHHHHHH ANXIETYYYYYYYYYYY"
 	}
 }
-]]
 
 jokerLoc.nrmJkrs.j_oops = {
 	-- name = "Oops! All 6s",
@@ -1342,7 +1340,7 @@ jokerLoc.nrmJkrs.j_oops = {
 		"Doubles all {C:attention}listed",
         "{C:green,E:1,S:1.1}probabilities",
         "{C:inactive}(ex: {C:green}1 in 3{C:inactive} -> {C:green}2 in 3{C:inactive})",
-		"{s:0.8,C:inactive}Here we go gambling again."
+		"{s:0.8,C:inactive}Let's go gambling!!!1"
 	}
 }
 
@@ -1360,15 +1358,19 @@ jokerLoc.nrmJkrs.j_four_fingers = {
 }
 
 jokerLoc.nrmJkrs.j_gros_michel = {
-	name = "Sosig",
+	name = "CirLami",
 	text = {
 		"{C:mult}+#1#{} Mult",
         "{C:green}#2# in #3#{} chance this",
         "card is destroyed",
-        "at end of round"
+        "at end of round",
+		"{s:0.8,C:inactive}A lesson for the ages:",
+		"{s:0.8,C:inactive}Microwaving salami =",
+		"{s:0.8,C:inactive}very, very greasy."
 	}
 }
 
+--[[
 if CirnoMod.config['matureReferences_cyc'] == 3 then
 	table.insert(jokerLoc.nrmJkrs.j_gros_michel.text,
 		"{s:0.8,C:inactive}But why is it so... Meaty?")
@@ -1414,7 +1416,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			main_end = self.create_main_end() }
 		end
 	}, true)
-end
+end]]
 
 jokerLoc.nrmJkrs.j_stuntman = {
 	name = "HelmetGuns",
@@ -1809,7 +1811,9 @@ jokerLoc.lgndJkrs.j_perkeo = {
 		"{C:attention}1{} random {C:attention}consumable{}",
 		"card in your possession",
 		"at the end of the {C:attention}shop",
-		"{s:0.8,C:inactive}Biggdeck? This is Anon, silly."
+		"{s:0.8,C:inactive}Y'know, there's something",
+		"{s:0.8,C:inactive}almost intoxicating about",
+		"{s:0.8,C:inactive}drinking fifteen beers."
 	}
 }
 
@@ -2874,17 +2878,18 @@ jokerLoc.nrmJkrs.j_smiley = {
     }
 }
 
---[[
 jokerLoc.nrmJkrs.j_ancient = {
-	name = "Ancient Joker",
+	name = "CirOldge",
     text = {
         "Each played card with",
         "{V:1}#2#{} suit gives",
         "{X:mult,C:white} X#1# {} Mult when scored,",
-        "{s:0.8}suit changes at end of round"
+        "{s:0.8}suit changes at end of round",
+		"{s:0.8,C:inactive}It's well known that your",
+		"{s:0.8,C:inactive}body just starts turning to",
+		"{s:0.8,C:inactive}dust 3 decades into life."
     }
 }
-]]
 
 jokerLoc.nrmJkrs.j_walkie_talkie = {
 	name = "Lifeline",

@@ -66,7 +66,7 @@ local jokerInfo = {
 					"for each scored {C:attention}9{}",
 					"{s:0.8,C:red}If {s:0.8,C:attention}#2#{s:0.8,C:red} is present, it",
 					"{s:0.8,C:red}expires after the first trigger.",
-					"{C:inactive}(Currently {X:chips,C:white}X#3# {C:inactive} Mult)",
+					"{C:inactive}(Currently {X:chips,C:white}X#3# {C:inactive} Chips)",
 					"{s:0.8,C:inactive}\"I don't mean to brag Chat,",
 					"{s:0.8,C:inactive}but I'm stupid.\""
 				},
@@ -118,8 +118,8 @@ local jokerInfo = {
 				-- Art credit tooltip
 				if
 					CirnoMod.config.artCredits
-					and (not CirnoMod.config.malverkReplacements -- Ice Cream  already has a duplicate credit in its queue
-					or not CirnoMod.miscItems.hasEncounteredJoker('j_ice_cream'))
+					and (not CirnoMod.config.malverkReplacements
+					or not CirnoMod.miscItems.hasEncounteredJoker('j_ice_cream')) -- Ice Cream  already has a duplicate credit in its queue
 				then
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun", set = 'Other' }
 				end
@@ -179,10 +179,10 @@ local jokerInfo = {
 						card.ability.extra.xchips = card.ability.extra.xchips + card.ability.extra.growth
 						
 						return {
-							extra = {
+							extra = { 
 								message = localize {
 									type = 'variable',
-									key = 'a_xmult',
+									key = 'a_xchips',
 									vars = { card.ability.extra.xchips }
 								},
 								colour = CirnoMod.miscItems.colours.cirCyan,
@@ -554,7 +554,7 @@ local jokerInfo = {
 			--[[ Stay out of Balatro UI code if you value your sanity.
 			Fun fact about sanity: Did you know it's possible to keep
 			losing your sanity with increasing depth? It isn't just one
-			and then it stops. I'm on like 5 layers of lost sanity.]]
+			and then it stops. I'm on like 15 layers of lost sanity.]]
 			generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 				SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 				
@@ -1085,7 +1085,9 @@ local jokerInfo = {
 				name = "Demeorin",
 				-- The description the player will see in-game.
 				text = {
-					"" -- TODO
+					"After defeating a {C:attention}Boss Blind{},",
+					"create a {C:dark_edition}Negative {C:spectral}Spectral{} card",
+					--"{s:0.8,C:inactive}"
 				},
 				unlock = {
 					"Find this {C:joker}Joker",
@@ -1093,19 +1095,18 @@ local jokerInfo = {
 				}
 			},
 			
-			config = {
-				extra = {
-				}
-			},
+			config = {},
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
+				info_queue[#info_queue + 1] = { key = 'consumNegative', set = 'Other' }
+				
 				-- Art credit tooltip
 				if CirnoMod.config['artCredits'] then
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
 				end
 				
-				return { vars = { } }
+				return nil
 			end,
 			unlocked = false,
 			
@@ -1118,7 +1119,13 @@ local jokerInfo = {
 			perishable_compat = true,
 			
 			calculate = function(self, card, context)
-				-- TODO
+				if context.end_of_round and context.main_eval and G.GAME.blind.boss then
+					return { func = function()
+							card:juice_up()
+							play_sound('generic1')
+							SMODS.add_card({ set = 'Spectral', edition = 'e_negative' })
+						end }
+				end
 			end
 		}
 	}

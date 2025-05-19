@@ -78,10 +78,10 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_Unknown_NTFEdit = {
-		name = creditSources.cr_JokerArt,
+	cA_LocalThunk_NTFEdit = {
+		name = creditSources.cr_CardArt,
 		text = {
-			creditSources.unknown..", edited",
+			"{s:0.8}"..creditSources.thunk..", edited",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
@@ -89,6 +89,13 @@ RV.descriptions.Other = {
 		name = creditSources.cr_EnhancerArt,
 		text = {
 			"{s:0.8}"..creditSources.thunk..", edited",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
+	jA_Unknown_NTFEdit = {
+		name = creditSources.cr_JokerArt,
+		text = {
+			creditSources.unknown..", edited",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
@@ -163,6 +170,13 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
+	bA_DaemonTsun_NTFEdit = {
+		name = creditSources.cr_BoosterArt,
+		text = {
+			"{s:0.8}"..creditSources.DTsun..", edited",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
 	gA_DaemonTsun_NTFEdit = {
 		name = creditSources.cr_GenericArt,
 		text = {
@@ -204,6 +218,14 @@ RV.descriptions.Other = {
 		text = {
 			"{s:0.8}"..creditSources.DTsun.." edit of",
 			"{s:0.8}"..creditSources.thunk.." art."
+		}
+	},
+	jA_LocalThunk_DaemonTsunEdit_ComCon = {
+		name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}"..creditSources.DTsun.." edit of",
+			"{s:0.8}"..creditSources.thunk.." art.",
+			creditSources.CommunityContrib
 		}
 	},
 	gA_LocalThunk_DaemonTsunEdit = {
@@ -331,7 +353,7 @@ RV.descriptions.Other = {
 			"{s:0.7,C:inactive}'-'; ...Listen. It's fine.",
 			"{s:0.7,C:inactive}Someone whose uncle works",
 			"{s:0.7,C:inactive}there told me that this",
-			"{s:0.7,C:inactive}is DEFINITELY okay.",
+			"{s:0.7,C:inactive}is {s:0.7,E:1,C:inactive}DEFINITELY{s:0.7,C:inactive} okay.",
 			"{s:0.45,C:inactive}Definitely."
 		}
 	},
@@ -356,8 +378,8 @@ RV.descriptions.Other = {
 		name = creditSources.cr_GenericArt,
 		text = { "{s:0.8}Idea Factory" }
 	},
-	gA_Sun = {
-		name = creditSources.cr_GenericArt,
+	cA_Sun = {
+		name = creditSources.cr_CardArt,
 		text = {
 			"{s:0.8}"..creditSources.muddle..", edited",
 			"{s:0.8}by "..creditSources.NTF
@@ -398,6 +420,15 @@ RV.descriptions.Other = {
 			"{s:0.8}Mojang art."
 		}
 	},
+	jA_smeared = {
+		name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}...Now I'm no expert, but",
+			"{s:0.8}I'm fairly certain this is a",
+			"{s:0.8}still from {s:0.8,E:2}Bocchi The Rock{s:0.8}.",
+			"{s:0.8}I'll have to consult on it."
+		}
+	},
 	jA_fourFingers = {
 		name = creditSources.cr_JokerArt,
 		text = {
@@ -433,6 +464,12 @@ RV.descriptions.Other = {
 		name = 'Negative',
 		text = {
 			'{C:dark_edition}+1{} hand size'
+		}
+	},
+	consumNegative={
+		name = 'Negative',
+		text = {
+			'{C:dark_edition}+1{} consumable Slot'
 		}
 	},
 	testHeader = { text = { "Test Header" } },
@@ -475,25 +512,21 @@ custom Joker text; The pipeline
 here is that for Jokers where the
 name needs to change, we return
 a key variable in loc_vars that
-corresponds with an entry here. ]]
-RV.descriptions.Joker.cir_b3313_base = {
-	name = 'B3313',
-	text = {
-		"This {C:joker}Joker{} is exclusive",
-		"to the {C:attention}show{}.",
+corresponds with an entry here.]]
+RV.descriptions.Joker.cir_b3313_base = { name = 'B3313', text = {
+		"This {C:joker}Joker{} is exclusive to the {C:attention}show{}.",
 		"It's connected to a variety of {C:attention}worlds{},",
 		"so play some {C:blue}hands{} and get adventuring."
 	}
 }
 
 -- B3313 High Card Form
-RV.descriptions.Joker.cir_b3313_betaLob = { name = 'Beta Lobby',
-	text = { {
+RV.descriptions.Joker.cir_b3313_betaLob = { name = 'Beta Lobby', text = { {
 			'If scored card is a {C:attention}3{} or {C:attention}Ace',
 			'and has no {C:attention}enhancement{},',
 			'it gains a random enhancement.'
 		}, {
-			'{X:mult,C:white}X#1#{} mult if full hand reads',
+			'{X:mult,C:white}X3.313{} mult if full hand reads',
 			'{C:attention}3{}, {C:attention}3{}, {C:attention}Ace{}, {C:attention}3',
 			'{s:0.8}(Excluding {s:0.8,C:red}debuffed{s:0.8} cards)',
 			'{s:0.8,C:inactive}To be fair, the thing with the doors',
@@ -504,16 +537,14 @@ RV.descriptions.Joker.cir_b3313_betaLob = { name = 'Beta Lobby',
 }
 
 -- B3313 Pair Form
-RV.descriptions.Joker.cir_b3313_plexalLob = { name = 'Plexal Lobby',
-	text = { {
+RV.descriptions.Joker.cir_b3313_plexalLob = { name = 'Plexal Lobby', text = { {
 		'If played hand is a {C:attention}Pair{} or {C:attention}High Card{},',
-		'{C:chips}+#1#{} Chips'
-		}, {
+		'{C:chips}+#1#{} Chips',
 		'Otherwise, if played hand contains a {C:attention}Two Pair{},',
 		'{C:mult}+#2#{} Mult'
 		}, {
 		'If played hand contains a',
-		'C:attention}Three of a Kind{} or {C:attention}Straight{},',
+		'{C:attention}Three of a Kind{} or {C:attention}Straight{},',
 		'{C:mult}+#3#{} Mult'
 		}, {
 		'If played hand contains a {C:attention}Flush{},',
@@ -527,13 +558,13 @@ RV.descriptions.Joker.cir_b3313_plexalLob = { name = 'Plexal Lobby',
 		'{X:mult,C:white}X#6#{} Mult'
 		}, {
 		'{s:0.8,C:inactive}...So from here, you go... You get to...',
+		'{s:0.8,C:inactive}...',
 		'{s:0.8,C:inactive}Uh... Chat, I\'m lost.'
 	} }
 }
 
 -- B3313 Two Pair Form
-RV.descriptions.Joker.cir_b3313_toadLob = { name = 'Toad\'s Lobby',
-	text = {
+RV.descriptions.Joker.cir_b3313_toadLob = { name = 'Toad\'s Lobby', text = {
 		'Earn {C:money}#1#{} every time a {C:joker}Joker{} triggers',
 		'{s:0.8}(Excluding this {s:0.8,C:joker}Joker{s:0.8})',
 		'{s:0.8,C:inactive}Please enquire with Cirno about his',
@@ -542,40 +573,42 @@ RV.descriptions.Joker.cir_b3313_toadLob = { name = 'Toad\'s Lobby',
 }
 
 -- B3313 Three of a Kind Form
-RV.descriptions.Joker.cir_b3313_vanLob = { name = 'Vanilla Lobby',
-	text = {
+RV.descriptions.Joker.cir_b3313_vanLob = { name = 'Vanilla Lobby', text = { {
+		'After the first played hand:',
+		}, {
 		'When a hand is played, scales the',
-		'current {C:attention}edition{} on this {C:joker}Joker{}',
-		'Every {C:attention}played card{} that would normally score, {C:red}doesn\'t',
-		'Conversely, every {C:attention}played card{C:attention} that would',
-		'normally be unscored, {C:attention}does',
+		'current {C:attention}edition{} on this {C:joker}Joker{}','{s:0.8}({s:0.8,C:dark_edition}Foil{s:0.8}/{s:0.8,C:dark_edition}Holographic{s:0.8}/{s:0.8,C:dark_edition}Polychrome{s:0.8} only)'
+		}, {
+		'Every {C:attention}played card{} that would',
+		'normally score, {C:red}doesn\'t{},',
+		'and vice versa',
 		'{s:0.8,C:inactive}>Jump into pipe',
 		'{s:0.8,C:inactive}>Die',
 		'{s:0.8,C:inactive}Mood.'
-	}
+	} }
 }
 
 -- B3313 Straight Form
-RV.descriptions.Joker.cir_b3313_uncanny = { name = 'Uncanny Basement',
-	text = { {
-		'{X:mult,C:white}XMult{} equal to the lowest ranked',
-		'card in scored hand'
+RV.descriptions.Joker.cir_b3313_uncanny = { name = 'Uncanny Basement', text = { {
+		'{X:mult,C:white}XMult{} equal to the {C:attention}lowest{} ranked',
+		'card in scored hand',
+		'{s:0.8}(King/Queen/Jack are considered 10)'
 		}, {
 		'All {C:attention}played numbered cards{}',
 		'have their ranks randomised',
 		'{s:0.8}(They cannot become face cards)',
-		'{s:0.8,C:inactive}HOW DO I GET OUT OF HERE?!'
+		'{s:0.8,C:inactive}HOW DO I GET TO WHERE I WANT TO GO?!'
 	} }
 }
 
 -- B3313 Flush Form
-RV.descriptions.Joker.cir_b3313_4thFloor = { name = '4th Floor',
-	text = {
-		'If scoring hand contains an {C:attention}odd{} number of cards (5, 3, 1),',
-		'All cards {C:attention}left of the middle card',
-		'have their ranks {C:attention}increased{} by {C;attention}#1#',
-		'All cards {C:attention}right of the middle card',
-		'have their ranks {C:attention}decreased{} by {C;attention}#1#',
+RV.descriptions.Joker.cir_b3313_4thFloor = { name = '4th Floor', text = {
+		'If played hand contains an',
+		'{C:attention}odd{} number of cards (5, 3, 1),',
+		'All cards {C:attention}left{} of the {C:attention}middle card',
+		'have their ranks {C:attention}increased{} by {C:attention}#1#',
+		'All cards {C:attention}right{} of the {C:attention}middle card',
+		'have their ranks {C:attention}decreased{} by {C:attention}#1#',
 		'The {C:attention}middle{} card, if not {C:red}destroyed{},',
 		'is {C:attention}returned to hand',
 		'{s:0.8,C:inactive}This will be where we part ways.',
@@ -586,8 +619,7 @@ RV.descriptions.Joker.cir_b3313_4thFloor = { name = '4th Floor',
 }
 
 -- B3313 Full House Form
-RV.descriptions.Joker.cir_b3313_crescent = { name = 'Crescent Castle',
-	text = {
+RV.descriptions.Joker.cir_b3313_crescent = { name = 'Crescent Castle', text = {
 		'Earn {C:money}#1#{} at the end of round per',
 		'{C:attention}face card{} played this round',
 		'{C:inactive}(Currently {C:money}#2#{C:inactive})',
@@ -597,10 +629,10 @@ RV.descriptions.Joker.cir_b3313_crescent = { name = 'Crescent Castle',
 }
 
 -- B3313 Four of a Kind Form
-RV.descriptions.Joker.cir_b3313_forestMaze = { name = 'Forest Maze',
-	text = { {
-			'For the first {C:attention}scored{} card in played hand,',
-			'give {X:chips,C:white}XChips{} equal to the {C:chips}chips{} it scored'
+RV.descriptions.Joker.cir_b3313_forestMaze = { name = 'Forest Maze', text = { {
+			'The first {C:attention}scored{} card gives',
+			'{X:chips,C:white}XChips{} equal to {C:attention}1/4',
+			'the {C:attention}total {C:chips}chips{} it scored'
 		}, {
 			'{C:green}#2# in #3#{} chance for {X:mult,C:white}X#1#{} mult,',
 			'{C:green}#2# in #4#{} chance for {X:mult,C:white}X#1#{} mult,',
@@ -609,15 +641,16 @@ RV.descriptions.Joker.cir_b3313_forestMaze = { name = 'Forest Maze',
 			'That was not a typo.',
 			'{s:0.8,C:inactive}Behold, the fruits of my alchemy:',
 			'{s:0.8,C:inactive}Gamba maze.',
-			'{s:0.5,C:inactive}...What\'s that? What? ...What?'
+			'{s:0.5,C:inactive}...What\'s that? What?',
+			'{s:0.4,C:inactive}...What?'
 		} }
 }
 
 -- B3313 Straight Flush Form
-RV.descriptions.Joker.cir_b3313_loogi = { name = 'IT HURTS',
-	text = {
-		'All {C:attention}played 2{}s without an {C:attention}edition',
-		'become {C:dark_edition}negative{}',
+RV.descriptions.Joker.cir_b3313_loogi = { name = 'IT HURTS', text = {
+		'{s:0.8,C:red}(Not implemented)',
+		'All {C:attention}played 2s{} without an {C:attention}edition',
+		'become {C:dark_edition}Negative',
 		'All {C:attention}2{}s {C:attention}held in hand{} give',
 		'{X:chips,C:white}X#1#{} Chips',
 		'{C:red}-2{} hand size',
@@ -628,8 +661,7 @@ RV.descriptions.Joker.cir_b3313_loogi = { name = 'IT HURTS',
 }
 
 -- B3313 Five of a Kind Form
-RV.descriptions.Joker.cir_b3313_peachCell = { name = 'Peach\'s Cell',
-	text = { {
+RV.descriptions.Joker.cir_b3313_peachCell = { name = 'Peach\'s Cell', text = { {
 			'All scored {C:attention}Kings{} become {C:attention}Queens',
 			'All scored {C:attention}Jacks{} become {C:attention}Queens',
 			'All scored {C:attention}Queens{} without an {C:attention}edition',
@@ -643,39 +675,24 @@ RV.descriptions.Joker.cir_b3313_peachCell = { name = 'Peach\'s Cell',
 }
 
 -- B3313 Flush House Form
-RV.descriptions.Joker.cir_b3313_nebLob = { name = 'Nebula Lobby',
-	text = {
+RV.descriptions.Joker.cir_b3313_nebLob = { name = 'Nebula Lobby', text = {
+		'{s:0.8,C:red}(Not implemented)',
 		'Combined base value of played hand',
 		'is added to {C:mult}mult',
 		'{C:attention}Balances {C:chips}Chips{} and {C:mult}Mult{C:attention} before scoring',
 		'{s:0.8,C:inactive}Want to sound less negative?',
-		"{s:0.8,C:inactive}try \"menx'k rxxp qiurezok\""
+		'{s:0.8,C:inactive}try "menx\'k rxxp qiurezok"'
 	}
 }
 
 -- B3313 Flush Five Form
-RV.descriptions.Joker.cir_b3313_floor3B = { name = 'Floor 3B',
-	text = {
+RV.descriptions.Joker.cir_b3313_floor3B = { name = 'Floor 3B', text = {
+		'{s:0.8,C:red}(Not implemented)',
 		'All played {C:attention}Queens of Clubs{} without an',
 		'{C:attention}enhancement{} become {C:attention}#1#s',
 		'{s:0.8,C:inactive}Found the orange sky yet?'
 	}
 }
-
-RV.misc.dictionary.k_b3313_base = 'Back!'
-RV.misc.dictionary.k_b3313_betaLob = 'Beta Lobby'
-RV.misc.dictionary.k_b3313_plexalLob = 'Plexal Lobby'
-RV.misc.dictionary.k_b3313_toadLob = 'Toad\'s Lobby'
-RV.misc.dictionary.k_b3313_vanLob = 'Vanilla Lobby'
-RV.misc.dictionary.k_b3313_uncanny = 'Uncanny Basement'
-RV.misc.dictionary.k_b3313_4thFloor = '4th Floor'
-RV.misc.dictionary.k_b3313_crescent = 'Crescent Castle'
-RV.misc.dictionary.k_b3313_forestMaze = 'Forest Maze'
-RV.misc.dictionary.k_b3313_loogi = '...'
-RV.misc.dictionary.k_b3313_peachCell = '...'
-RV.misc.dictionary.k_b3313_nebLob = 'Nebula Lobby'
-RV.misc.dictionary.k_b3313_floor3B = 'Floor 3B'
-
 
 --[[
 This just populates the localization vars for extended desc tooltips,

@@ -231,13 +231,17 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 				Ln1 = {},
 				Ln2 = {},
 				Ln3 = {},
-				Ln4 = {}
+				Ln4 = {},
+				Ln5 = {},
+				Ln6 = {}
 			}
 			local nodeKeys = {
 				'Ln1',
 				'Ln2',
 				'Ln3',
-				'Ln4'
+				'Ln4',
+				'Ln5',
+				'Ln6'
 			}
 			
 			CirnoMod.miscItems.addUISpriteNode(nodes_.Ln1, Sprite(
@@ -259,7 +263,17 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 				0.8)
 			
 			CirnoMod.miscItems.addUITextNode(nodes_.Ln4,
-				'What? Of course I\'m gonna be biased towards my oshi.',
+				'What? Of course I\'m gonna be biased towards my kamioshi.',
+				G.C.UI.TEXT_INACTIVE,
+				0.5)
+			
+			CirnoMod.miscItems.addUITextNode(nodes_.Ln5,
+				'(Disclaimer: Not "my" as in possessive "my".',
+				G.C.UI.TEXT_INACTIVE,
+				0.5)
+			
+			CirnoMod.miscItems.addUITextNode(nodes_.Ln6,
+				'Important distinction. Boundaries. Respect them.)',
 				G.C.UI.TEXT_INACTIVE,
 				0.5)
 			
@@ -285,7 +299,13 @@ else
 		'{s:0.8,C:blue}https://twitch.tv/girl_dm_/subscribe')
 		
 	table.insert(miscLoc.tags.tag_coupon.text,
-		'{s:0.5,C:inactive}What? Of course I\'m gonna be biased towards my oshi.')
+		'{s:0.5,C:inactive}What? Of course I\'m gonna be biased towards my kamioshi.')
+		
+	table.insert(miscLoc.tags.tag_coupon.text,
+		'{s:0.5,C:inactive}(Disclaimer: Not "my" as in possessive "my".')
+		
+	table.insert(miscLoc.tags.tag_coupon.text,
+		'{s:0.5,C:inactive}Important distinction. Boundaries. Respect them.)')
 end
 
 miscLoc.tags.tag_buffoon = {
@@ -338,7 +358,7 @@ miscLoc.tags.tag_garbage = {
        "{C:red}discard{} this run",
        "{C:inactive}(Will give {C:money}$#2#{C:inactive})",
 		"{s:0.8,C:inactive}I know it looks exactly",
-		"{s:0.8,C:inactive}like the vanilla Balatro",
+		"{s:0.8,C:inactive}like the vanilla Garbage",
 		"{s:0.8,C:inactive}tag, but if you look at",
 		"{s:0.8,C:inactive}them side by side, you'll",
 		"{s:0.8,C:inactive}see that we changed the",
