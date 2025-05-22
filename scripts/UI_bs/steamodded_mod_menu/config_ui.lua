@@ -138,7 +138,7 @@ local configUI = function()
 									{
 										n = G.UIT.T, -- Top text
 										config = {
-											text = "(I can't believe Steamodded devs hate people without function keys, such as my kamioshi Girl_DM_.",
+											text = "(I can't believe Steamodded devs hate people without function keys, such as Girl_DM_.",
 											scale = 0.25,
 											colour = G.C.UI.TEXT_LIGHT,
 											align = 'tm',
@@ -181,50 +181,7 @@ local configUI = function()
 									{
 										n = G.UIT.T, -- Top text
 										config = {
-											text = "(Disclaimer: Not \"my\" as in possessive \"my\". Important distinction. Boundaries. Respect them.)",
-											scale = 0.25,
-											colour = G.C.UI.TEXT_LIGHT,
-											align = 'tm',
-											w = 3,
-											h = 1,
-											hover = true
-										}
-									}
-								}
-							},
-							{
-								n = G.UIT.R, -- Spacer wrapper
-								config = {
-									r = 0.1,
-									padding = 0.0,
-									align = 'tm',
-									colour = G.C.CLEAR
-								},
-								nodes = {
-									{
-										-- Spacer
-										n = G.UIT.B,
-										config = {
-											colour = G.C.CLEAR,
-											w = 0.1,
-											h = 0.1
-										}
-									}
-								}
-							},
-							{
-								n = G.UIT.R, -- Text rows wrapper
-								config = {
-									r = 0.1,
-									padding = 0.0,
-									align = 'tm',
-									colour = G.C.CLEAR
-								},
-								nodes = {
-									{
-										n = G.UIT.T, -- Top text
-										config = {
-											text = "Very clear case of discrimination against her, smh >:( )",
+											text = "Very clear case of discrimination specifically against her, smh >:( )",
 											scale = 0.25,
 											colour = G.C.UI.TEXT_LIGHT,
 											align = 'tm',
@@ -581,6 +538,21 @@ local configUI = function()
 														ref_table = CirnoMod.config,
 														ref_value = 'allowCosmeticTakeOwnership',
 														-- callback = CirnoMod.callback_allowCosmeticTakeOwnershipToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
+											},
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "Negative Playing Card Rebalance",
+														w = 1,
+														text_scale = 0.75,
+														ref_table = CirnoMod.config,
+														ref_value = 'negativePCardsBalancing',
+														-- callback = CirnoMod.callback_negativePCardsBalancingToggle,
 														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}

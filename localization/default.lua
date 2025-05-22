@@ -1,6 +1,15 @@
 local creditSources = {}
 local RV = { descriptions = { Joker = {} }, misc = { dictionary = {}, v_text = {} } }
+local replaceIntents = {
+	stone = G.localization.descriptions.Enhanced.m_stone.name,
+	bones = CirnoMod.miscItems.getJokerNameByKey('j_mr_bones'),
+	splash = CirnoMod.miscItems.getJokerNameByKey('j_splash')
+}
 
+if CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone then
+	replaceIntents.stone = CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name
+end
+	
 --#region What will go in the top of an art credit tooltip.
 creditSources.cr_JokerArt = "Joker Art By"
 creditSources.cr_DeckArt = "Deck Art By"
@@ -40,9 +49,9 @@ creditSources.unknown = "{s:0.8,X:black,C:white}Unknown{s:0.8}"
 
 
 --[[
-So because of the way this bullshit works, we have to do one of these... For every unique case. Yes.
+So because of the way this bullshit works, we have to do one of these... For every unique credit case. Yes.
 I'm mad. We could have done a lot more progammatically, but instead every time we run into a unique
-circumstance, we have to add it here. Have fun sifting through this shit because apparently this.
+circumstance, we have to add it here. Have fun sifting through this shit because apparently this
 is the way we have to do it.]]
 RV.descriptions.Other = {
 	--[[
@@ -460,18 +469,6 @@ RV.descriptions.Other = {
 			"Joker {C:attention}1{} time"
 		}
 	},
-	pCardNegative={
-		name = 'Negative',
-		text = {
-			'{C:dark_edition}+1{} hand size'
-		}
-	},
-	consumNegative={
-		name = 'Negative',
-		text = {
-			'{C:dark_edition}+1{} consumable Slot'
-		}
-	},
 	testHeader = { text = { "Test Header" } },
 	testTooltip = {
 		name = 'testHeader',
@@ -506,6 +503,19 @@ RV.descriptions.Other = {
 	blankTooltip = { name = 'blankHeader', text = { '' } },
 	blankTooltipA = { name = '', text = { '' } }
 }
+
+RV.descriptions.Edition = {}
+
+if CirnoMod.config.negativePCardsBalancing then
+	RV.descriptions.Edition.e_negative_playing_card = { name = "Negative",
+		text = {
+			'{C:dark_edition}+#1#{} hand size',
+			'Scores {C:dark_edition}regardless',
+			'{C:dark_edition}of hand',
+			'{s:0.8,C:inactive}(ala '..replaceIntents.splash..'/'..string.sub(replaceIntents.stone, 1, #replaceIntents.stone - 5)..')'
+		}
+	}
+end
 
 --[[ For facilitating some
 custom Joker text; The pipeline
@@ -713,16 +723,7 @@ stopped working for stone card related
 things.]]
 if
 	CirnoMod.config['enhancerRenames']
-then
-	local replaceIntents = {
-		stone = G.localization.descriptions.Enhanced.m_stone.name,
-		bones = CirnoMod.miscItems.getJokerNameByKey('j_mr_bones')
-	}
-	
-	if CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone then
-		replaceIntents.stone = CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name
-	end
-	
+then	
 	-- RV.descriptions.Enhanced = { m_stone = { name = "Whump Card" } }
 	RV.misc.dictionary.k_plus_stone = "+1 "..replaceIntents.stone
 	RV.misc.dictionary.ph_deck_preview_stones = replaceIntents.stone.."s"

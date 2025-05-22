@@ -23,6 +23,7 @@ The mod key can be found in the config file
 block in the malverk file.]]
 local mlvrkTextPackTextList = {
 	'cir_mlvrk_NormalJokers',
+	'cir_mlvrk_GrnJoker',
 	'cir_mlvrk_WeeJoker',
 	'cir_mlvrk_LegendaryJokersAndHolo',
 	
@@ -259,6 +260,7 @@ if CirnoMod.config['jokerRenames'] then
 	replacement definition]]
 	CirnoMod.replaceDef.locChanges.jkrLoc.nrmJkrs = copy_table(CirnoMod.miscItems.newFilteredTable(jkrLoc.nrmJkrs, CirnoMod.replaceDef.jokerReplacementKeys))
 	
+	CirnoMod.replaceDef.locChanges.jkrLoc.grnJkr = jkrLoc.grnJkr
 	CirnoMod.replaceDef.locChanges.jkrLoc.delGrat = jkrLoc.delGrat
 	CirnoMod.replaceDef.locChanges.jkrLoc.weeJkr = jkrLoc.weeJkr
 	CirnoMod.replaceDef.locChanges.jkrLoc.lgndJkrs = jkrLoc.lgndJkrs
@@ -319,6 +321,10 @@ end
 if CirnoMod.config.matureReferences_cyc >= 2 then
 	table.insert(mlvrkTextPackTextList, 'cir_mlvrk_DelGrat')
 	table.insert(mlvrkDefaultOffPackTextList, 'cir_mlvrk_DelGrat')
+end
+
+for i, at in ipairs (mlvrkTextPackTextList) do
+	CirnoMod.miscItems.mlvrk_tex_keys['alt_tex_'..at] = true
 end
 
 --[[-------------------------------------------------------------------
@@ -627,9 +633,6 @@ AltTexture({
 	}
 })
 
---------------------------
------ Regular Jokers -----
---------------------------
 AltTexture({
 	key = 'mlvrk_DelGrat',
 	set = 'Joker',
@@ -643,6 +646,22 @@ AltTexture({
 	localization = CirnoMod.replaceDef.locChanges.jkrLoc.delGrat,
 	loc_txt = {
 		name = 'Delayed Gratification'
+	}
+})
+
+AltTexture({
+	key = 'mlvrk_GrnJoker',
+	set = 'Joker',
+	path = CirnoMod.replaceDef.getPath("joker"),
+	
+	-- This just informs the mod that the graphic we're providing is the
+	-- exact dimensions of the default Balatro Joker sheet
+	original_sheet = true,
+	
+	keys = { 'j_green_joker' },
+	localization = CirnoMod.replaceDef.locChanges.jkrLoc.grnJkr,
+	loc_txt = {
+		name = 'Green Joker'
 	}
 })
 

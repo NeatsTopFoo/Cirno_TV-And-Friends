@@ -44,6 +44,7 @@ local miscItems = {
 	keysOfAllCirnoModItems = {}, -- This will be used for any effects the focus on stuff edited or introduced by this mod
 	jkrKeyGroups = {},
 	jkrKeyGroupArrays = {},
+	mlvrk_tex_keys = {},
 	funnyAtlases = {},
 	otherAtlases = {},
 	returnToHand_Jokers = {
@@ -240,7 +241,7 @@ miscItems.addJokerToTableIfEncountered = function(t, joker)
 	end
 end
 
-miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
+miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)	
 	if #viable_unlockables == 0 then
 		for k, v in ipairs(G.P_CENTERS) do
 			if
@@ -314,48 +315,46 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 		end
 	end
 	
-	table.insert(viable_unlockables, { set = 'Playing', card = "C_K", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" })
-	table.insert(viable_unlockables, { set = 'Playing', card = "C_Q", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" })
-	table.insert(viable_unlockables, { set = 'Playing', card = "C_J", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" })
-	table.insert(viable_unlockables, { set = 'Playing', card = "D_K", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" })
-	table.insert(viable_unlockables, { set = 'Playing', card = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" })
-	table.insert(viable_unlockables, { set = 'Playing', card = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" })
-	table.insert(viable_unlockables, { set = 'Playing', card = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" })
-	--[[ Bias towards my kamioshi? No wayyyy
-	(...Again, no. Not possessive 'my'.)]]
-	table.insert(viable_unlockables, { set = 'Playing', card = "D_J", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" })
-	table.insert(viable_unlockables, { set = 'Playing', card = "H_K", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" })
-	table.insert(viable_unlockables, { set = 'Playing', card = "H_Q", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" })
-	table.insert(viable_unlockables, { set = 'Playing', card = "H_J", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" })
-	table.insert(viable_unlockables, { set = 'Playing', card = "S_K", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" })
-	table.insert(viable_unlockables, { set = 'Playing', card = "S_Q", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" })
-	table.insert(viable_unlockables, { set = 'Playing', card = "S_J", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" })
+	viable_unlockables = SMODS.merge_lists({ viable_unlockables, {
+		{ set = 'Playing', key = "C_K", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" },
+		{ set = 'Playing', key = "C_Q", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" },
+		{ set = 'Playing', key = "C_J", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" },
+		
+		{ set = 'Playing', key = "D_K", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
+		{ set = 'Playing', key = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
+		{ set = 'Playing', key = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
+		{ set = 'Playing', key = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
+		--[[ Bias towards my kamioshi? No wayyyy
+		(...Again, no. Not possessive 'my'.)]]
+		{ set = 'Playing', key = "D_J", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
+		
+		{ set = 'Playing', key = "H_K", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" },
+		{ set = 'Playing', key = "H_Q", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" },
+		{ set = 'Playing', key = "H_J", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" },
+		
+		{ set = 'Playing', key = "S_K", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" },
+		{ set = 'Playing', key = "S_Q", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" },
+		{ set = 'Playing', key = "S_J", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" }
+	} })
 	
 	local holdUntilNew = false
+	local texPack_ProbablyNotActive = false
 	local lastFive = {}
 	local existingCard = cardIn or CirnoMod.titleCard
 	local newCard
 	local doRandomEdition = false
 	
 	local isInLastFive = function(decidedElement)
-		if #lastFive > 0 then
-			local toCheck
-			
-			if decidedElement.set == 'Playing' then
-				toCheck = decidedElement.card
-			else
-				toCheck = decidedElement.key
-			end
-			
-			for i = 1, #lastFive do
-				if lastFive[i] == toCheck then
-					return true
+			if #lastFive > 0 then
+				for i = 1, #lastFive do
+					if lastFive[i] == decidedElement.key then
+						return true
+					end
 				end
 			end
+			
+			return false
 		end
-		
-		return false
-	end
 	
 	local cycleEvent
 	cycleEvent = Event({
@@ -369,7 +368,8 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 				return true
 			end
 			
-			if holdUntilNew then
+			if holdUntilNew or texPack_ProbablyNotActive then
+				cycleEvent.start_timer = false
 				return false
 			end
 			
@@ -383,14 +383,35 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 					
 					local decidedElement = pseudorandom_element(viable_unlockables)
 					
-					for i = 1, 5 do
+					for i = 1, 5 do						
 						if not isInLastFive(decidedElement) then
 							if decidedElement.set == 'Playing' then
 								if G.SETTINGS.CUSTOM_DECK.Collabs[decidedElement.suit] == decidedElement.skin then
+									texPack_ProbablyNotActive = false
 									break
 								end
 							else
-								break
+								if
+									decidedElement.set == 'Joker'
+									and decidedElement.unlocked
+									and (decidedElement.atlas
+									or (decidedElement.config
+									and decidedElement.config.center
+									and decidedElement.config.center.atlas))
+								then
+									if CirnoMod.miscItems.atlasCheck(decidedElement) then
+										texPack_ProbablyNotActive = false
+										break
+									else
+										texPack_ProbablyNotActive = true
+										if i >= 5 then
+											return false
+										end
+									end
+								else
+									texPack_ProbablyNotActive = false
+									break
+								end
 							end
 						end
 						
@@ -398,22 +419,16 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 					end
 					
 					if decidedElement.set == 'Playing' then
-						newCard = Card(CirnoMod.titleTop.T.x, CirnoMod.titleTop.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS[decidedElement.card], G.P_CENTERS.c_base)
+						newCard = Card(CirnoMod.titleTop.T.x, CirnoMod.titleTop.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS[decidedElement.key], G.P_CENTERS.c_base)
 						
-						if decidedElement.card ~= 'D_Q' then -- No problem here, move along
-							table.insert(lastFive, decidedElement.card)
-						end
-						
-						if decidedElement.card == 'D_Q' then
+						if decidedElement.key == 'D_Q' then
 							doRandomEdition = 'dm'
 						else
 							doRandomEdition = 'nrm'
 						end
 					else
 						newCard = Card(CirnoMod.titleTop.T.x, CirnoMod.titleTop.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, nil, decidedElement or self.P_CENTERS.j_blueprint)
-						
-						table.insert(lastFive, decidedElement.key)
-						
+												
 						if decidedElement.key == 'j_caino' then
 							doRandomEdition = 'dm'
 						elseif decidedElement.discovered then
@@ -421,6 +436,10 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 						else
 							doRandomEdition = nil
 						end
+					end
+					
+					if decidedElement.key ~= 'D_Q' then -- No problem here, move along
+						table.insert(lastFive, decidedElement.key)
 					end
 					
 					if #lastFive > 5 then
@@ -455,6 +474,10 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 						return true
 					end
 					
+					if texPack_ProbablyNotActive then
+						return false
+					end
+					
                     newCard:start_materialize()
                     CirnoMod.titleTop:emplace(newCard)
 					existingCard = newCard
@@ -463,7 +486,7 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 					if doRandomEdition == 'dm' and pseudorandom('dmEdition', 1, 2) < 2 then
 						existingCard:set_edition(poll_edition('dmEdition', 1, false, true), true)
 					elseif doRandomEdition == 'nrm' then
-						existingCard:set_edition(poll_edition('generic_edition'), true)
+						existingCard:set_edition(poll_edition('titleCard_edition'), true)
 					end
 					
 					holdUntilNew = false
@@ -640,6 +663,14 @@ miscItems.getAllDebuffedCardsInCardTable = function(cardTable)
 	end
 	
 	return RV
+end
+
+miscItems.isNegativePlayingCard = function(card)
+	return (card
+		and card.edition
+		and card.edition.type == 'negative'
+		and (card.ability.set == 'Default'
+		or card.ability.set == 'Enhanced'))
 end
 
 miscItems.isState = function(curGameState, stateToCheck)
@@ -926,6 +957,12 @@ miscItems.obscureStringIfNoneInJokerKeyGroupEncountered = function(string, group
 	else
 		return '?????'
 	end
+end
+
+miscItems.atlasCheck = function(card)
+	return CirnoMod.miscItems.mlvrk_tex_keys[card.atlas]
+		or (card.config and card.config.center
+		and CirnoMod.miscItems.mlvrk_tex_keys[card.config.center.atlas])
 end
 
 miscItems.isUnlockedAndDisc = function(card)

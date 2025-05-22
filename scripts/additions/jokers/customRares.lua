@@ -895,7 +895,7 @@ local jokerInfo = {
 						return { CirnoMod.miscItems.descExtensionTooltips['eDT_cir_editionScale'] }
 					end
 				elseif extraTable.currentForm == 'loogi' then
-					return { { key = 'pCardNegative', set = 'Other' } }
+					return { { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } } }
 				elseif extraTable.currentForm == 'peachCell' then
 					return { G.P_CENTERS.e_polychrome }					
 				elseif extraTable.currentForm == 'floor3B' then
@@ -1070,6 +1070,27 @@ local jokerInfo = {
 					
 					return RV
 				end
+			end,
+			
+			jkr_shouldSkipRedSeal = function(self, context)
+				return CirnoMods.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
+					or ((self.ability.extra.currentForm == 'betaLob'
+					or (self.ability.extra.currentForm == 'base'
+					and context.scoring_name == 'High Card'))
+					and context.individual) -- High Card form skip conditions
+					or (self.ability.extra.currentForm == 'peachCell'
+					or (self.ability.extra.currentForm == 'base'
+					and context.scoring_name == 'Five of a Kind')
+					and context.individual
+					and context.other_card
+					and context.other_card.base.value ~= 'Queen') -- Five of a Kind form skip conditions
+					or (self.ability.extra.currentForm == 'nebLob'
+					or (self.ability.extra.currentForm == 'base'
+					and context.scoring_name == 'Flush House')
+					and context.before) -- Flush House form skip conditions
+					or (self.ability.extra.currentForm == 'floor3B'
+					or (self.ability.extra.currentForm == 'base'
+					and context.scoring_name == 'Flush Five')) -- Flush Five form skip conditions
 			end,
 			
 			calc_highCard = function(self, card, context, formTable)
@@ -1520,7 +1541,6 @@ local jokerInfo = {
 			
 			calc_straightFlush = function(self, card, context, formTable)
 				--[[ Todo:
-					- Negative Edition changes
 					- Apply Negative to played 2s w/o edition
 					- 2s held in hand give X2 chips
 					- -2 hand size (for blind)

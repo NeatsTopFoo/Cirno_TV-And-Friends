@@ -152,16 +152,11 @@ SMODS.process_loc_text(G.localization.misc.quips, "wq_7", {
 
 --#region Tags
 
-miscLoc.tags.tag_uncommon = {
-	name = "Uncommon Fairy Tag"
-}
+miscLoc.tags.tag_uncommon = { name = "Uncommon Fairy Tag" }
 
-miscLoc.tags.tag_rare = {
-	name = "Rare Fairy Tag"
-}
+miscLoc.tags.tag_rare = { name = "Rare Fairy Tag" }
 
-miscLoc.tags.tag_foil = {
-	name = "Foil Fairy Tag",
+miscLoc.tags.tag_foil = { name = "Foil Fairy Tag",
     text={
         "Next base edition shop",
         "Joker is free and",
@@ -173,34 +168,24 @@ miscLoc.tags.tag_foil = {
 		"{s:0.8,C:inactive}look like?",
 		"{s:0.8,C:inactive}...Conspiracy theorist fairy?",
 		"{s:0.8,C:inactive}No wait, that's just Cirno, nevermind."
-    }
-}
+    } }
 
-miscLoc.tags.tag_holo = {
-	name = "Holographic Fairy Tag"
-}
+miscLoc.tags.tag_holo = { name = "Holographic Fairy Tag" }
 
-miscLoc.tags.tag_polychrome = {
-	name = "Polychrome Fairy Tag"
-}
+miscLoc.tags.tag_polychrome = { name = "Polychrome Fairy Tag" }
 
-miscLoc.tags.tag_negative = {
-	name = "Negative Fairy Tag"
-}
+miscLoc.tags.tag_negative = { name = "Negative Fairy Tag" }
 
-miscLoc.tags.tag_double = {
-	name = "Pepsi Tag",
+miscLoc.tags.tag_double = { name = "Pepsi Tag",
     text={
         "Gives a copy of the",
         "next selected {C:attention}Tag{}",
         "{s:0.8,C:attention}Double Tag{s:0.8} excluded",
 		"{s:0.8,C:inactive}Wait, why do we have a",
 		"{s:0.8,C:inactive}South Korea Ta- OH! OHHHHHH..."
-    }
-}
+    } }
 
-miscLoc.tags.tag_coupon = {
-	name = "Prime Gaming Tag",
+miscLoc.tags.tag_coupon = { name = "Prime Gaming Tag",
     text = {
         "Initial cards and",
         "booster packs in next",
@@ -209,11 +194,9 @@ miscLoc.tags.tag_coupon = {
 		"{s:0.8,C:inactive}have Amazon Prime, you can",
 		"{s:0.8,C:inactive}sub to one streamer per",
 		"{s:0.8,C:inactive}month for FREE?"
-    }
-}
+    } }
 
-miscLoc.tags.tag_investment = {
-	name="cirGreed Tag",
+miscLoc.tags.tag_investment = { name="cirGreed Tag",
     text={
         "After defeating",
         "the Boss Blind,",
@@ -221,8 +204,7 @@ miscLoc.tags.tag_investment = {
 		"{s:0.8,C:inactive}...Come on, you",
 		"{s:0.8,C:inactive}know you want to.",
 		"{s:0.8,C:inactive}It's so tempting."
-    }
-}
+    } }
 
 if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Tag:take_ownership('coupon', {			
@@ -292,25 +274,16 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 		end
 	}, true)
 else
-	table.insert(miscLoc.tags.tag_coupon.text,
-		'{s:0.8,C:inactive}Learn more at')
-		
-	table.insert(miscLoc.tags.tag_coupon.text,
-		'{s:0.8,C:blue}https://twitch.tv/girl_dm_/subscribe')
-		
-	table.insert(miscLoc.tags.tag_coupon.text,
-		'{s:0.5,C:inactive}What? Of course I\'m gonna be biased towards my kamioshi.')
-		
-	table.insert(miscLoc.tags.tag_coupon.text,
-		'{s:0.5,C:inactive}(Disclaimer: Not "my" as in possessive "my".')
-		
-	table.insert(miscLoc.tags.tag_coupon.text,
-		'{s:0.5,C:inactive}Important distinction. Boundaries. Respect them.)')
+	miscLoc.tags.tag_coupon.text = SMODS.merge_lists({ miscLoc.tags.tag_coupon.text, {
+		'{s:0.8,C:inactive}Learn more at',
+		'{s:0.8,C:blue}https://twitch.tv/girl_dm_/subscribe',
+		'{s:0.5,C:inactive}What? Of course I\'m gonna be biased towards my kamioshi.',
+		'{s:0.5,C:inactive}(Disclaimer: Not "my" as in possessive "my".',
+		'{s:0.5,C:inactive}Important distinction. Boundaries. Respect them.)'
+	} })
 end
 
-miscLoc.tags.tag_buffoon = {
-	name="cirMega Tag"
-}
+miscLoc.tags.tag_buffoon = { name = "cirMega Tag" }
 
 if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Tag:take_ownership('buffoon', {			
@@ -352,8 +325,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	}, true)
 end
 
-miscLoc.tags.tag_garbage = {
-	text={
+miscLoc.tags.tag_garbage = { text = {
        "Gives {C:money}$#1#{} per unused",
        "{C:red}discard{} this run",
        "{C:inactive}(Will give {C:money}$#2#{C:inactive})",
@@ -365,8 +337,7 @@ miscLoc.tags.tag_garbage = {
 		"{s:0.8,C:inactive}colour to blue for Cirno.",
 		"{s:0.8,C:inactive}But yes, that's the only",
 		"{s:0.8,C:inactive}difference."
-   }
-}
+   } }
 
 --#endregion
 

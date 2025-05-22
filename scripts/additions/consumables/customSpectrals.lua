@@ -85,7 +85,7 @@ local spectralInfo = {
 				return RV
 			end,
 			
-			use = function(self, card, area)				
+			use = function(self, card, area)
 				local jkrsToSeal = {}
 				local finalSealChoice = nil
 				

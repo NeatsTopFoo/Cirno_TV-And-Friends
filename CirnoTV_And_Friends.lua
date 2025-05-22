@@ -73,7 +73,7 @@ cMod_SMODSLoc.extra_tabs = assert(SMODS.load_file("scripts/UI_bs/steamodded_mod_
 --[[
 Change title screen logo to mod's logo & replace the ace that appears first with the blueprint joker (If the setting is enabled)
 Has corresponding patcher code in the lovely.toml]]
-if CirnoMod.config['titleLogo'] then
+if CirnoMod.config.titleLogo then
 	-- Replaces the Ace that appears at start with the Blueprint Joker.
 	G.TITLE_SCREEN_CARD = 'j_blueprint'
 	
@@ -126,9 +126,17 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 for more info. Though for your sanity, it's probably
 best not to.]]
 CirnoMod.ParseVanillaCredit = function(card, specific_vars)
---[[ Comes in from generate_card_ui() in common_events.lua,
-which passes in _c and specific_vars (After checking if the
-specified card isn't locked or undiscovered)]]
+	if
+		(not specific_vars
+		or not specific_vars.playing_card)
+		and not CirnoMod.miscItems.atlasCheck(card)
+	then
+		return nil
+	end
+
+	--[[ Comes in from generate_card_ui() in common_events.lua,
+	which passes in _c and specific_vars (After checking if the
+	specified card isn't locked or undiscovered)]]
 	local RV = nil
 	local keyToCheck = card.key
 	
@@ -193,13 +201,13 @@ end
 CirnoMod.replaceDef = assert(SMODS.load_file("Cir_Vanilla_Replacement_Definition.lua"))()
 
 -- Playing Card Textures
-if CirnoMod.config['playingCardTextures'] then
+if CirnoMod.config.playingCardTextures then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	assert(SMODS.load_file("scripts/retextures/PlayingCards_Retext.lua"))()
 end
 
 -- Texture Pack
-if CirnoMod.config['malverkReplacements'] then
+if CirnoMod.config.malverkReplacements then
 	-- Runs the Lua that handles everything in the texture pack.
 	SMODS.load_file("scripts/retextures/Malverk_Texture_Replacements.lua")()
 end
@@ -207,7 +215,7 @@ end
 assert(SMODS.load_file("scripts/other/extDescTooltips.lua"))()
 
 -- Additional Custom Jokers
-if CirnoMod.config['addCustomJokers'] then
+if CirnoMod.config.addCustomJokers then
 	-- Iterates through all lua files in scripts\additions\jokers\ and SMODS.load_file them.
 	for i, Jkr in ipairs (cirInitConfig.customJokers) do
 		-- Runs the lua and puts its returned var into the var.
@@ -295,9 +303,101 @@ if CirnoMod.config['addCustomJokers'] then
 		end		
 	end
 end
+	
+--[[ Hooks into the normal calculate_seal()
+to facilitate Red Seal Joker functionality
+and deal with instances of ]]
+local oldSealCalc = Card.calculate_seal
+function Card:calculate_seal(context)
+	if
+		self.debuff
+	then
+		return nil
+	end
+	
+	if
+		self.ability
+		and self.ability.set == 'Joker'
+	then				
+		if
+			context.retrigger_joker_check
+			and not context.retrigger_joker
+			and self == context.other_card
+			and self.seal == 'Red'
+		then
+			if
+				self.config.center.jkr_shouldSkipRedSeal
+				and type(self.config.center.jkr_shouldSkipRedSeal) == 'function'
+				and self.config.center:jkr_shouldSkipRedSeal(context)
+			then
+				return nil
+			end
+			
+			if
+				CirnoMod.miscItems.redSealRetriggerIgnoreTable[self.config.center.key]
+			then
+				local allowRedSeal = true
+				
+				for i, cntxt in ipairs (CirnoMod.miscItems.redSealRetriggerIgnoreTable[self.config.center.key]) do
+					if
+						context[cntxt]
+						or cntxt == 'any'
+						or (context.other_context
+						and context.other_context[cntxt])
+					then
+						allowRedSeal = false
+						break
+					end
+				end
+				
+				if
+					allowRedSeal
+				then
+					return {
+						repetitions = 1,
+						card = self
+					}
+				else
+					return nil
+				end
+			else						
+				return {
+					repetitions = 1,
+					card = self
+				}
+			end
+		end
+	end
+	
+	return oldSealCalc(self, context)
+end
+
+if
+	CirnoMod.miscItems.otherModPresences.isSealsOnJokersPresent == false
+then
+	-- Fix for a weird-interaction with red seal on Mail-In Rebate
+	SMODS.Joker:take_ownership('mail',
+		{
+			calculate = function(self, card, context)
+				if
+					context.discard
+					and not context.other_card.debuff
+					and (context.other_card:get_id() == G.GAME.current_round.mail_card.id)
+				then
+					return {
+						dollars = card.ability.extra,
+						colour = G.C.MONEY,
+						card = card
+					}
+				end
+			end
+		},
+		true
+	)
+end
 
 -- Additional Custom Consumables
-if CirnoMod.config['addCustomConsumables'] then
+if CirnoMod.config.addCustomConsumables then
 	for i, Csnm in ipairs (cirInitConfig.customConsumables) do
 		-- Runs the lua and puts its returned var into the var.
 		local cnsmInfo = assert(SMODS.load_file('scripts/additions/consumables/'..Csnm..".lua"))()
@@ -349,96 +449,186 @@ if CirnoMod.config['addCustomConsumables'] then
 			end
 		end
 	end
+end
+
+--[[ Negative playing card rebalance is optional:
+Makes Negative always score when played like
+Splash or Stone card, while also adjusting
+card copying to prevent the propagation of
+Negative across playing cards. ]]
+if CirnoMod.config.negativePCardsBalancing then
+	-- Adjusts Negative to make it always score.
+	SMODS.Edition:take_ownership('negative', {
+		always_scores = true 
+	}, true)
+	
+	--[[ Rewrites copy_card() to strip Negative if the copied
+	card was Negative ]]
+	local oldCopyCard = copy_card
+	copy_card = function(other, new_card, card_scale, playing_card, strip_edition)
+		local returnCard = oldCopyCard(other, new_card, card_scale, playing_card, strip_edition)
 		
-	--[[ The author of the mod "Seals on Jokers"
-	helped me greatly with the functionality here,
-	but obviously, we don't want to be running it
-	if that mod is also running alongside this.]]
-	if
-		CirnoMod.miscItems.otherModPresences.isSealsOnJokersPresent == false
-	then
-		-- Hooks into the normal calculate_seal() 
-		local oldSealCalc = Card.calculate_seal
-		function Card:calculate_seal(context)
-			if
-				self.debuff
-			then
-				return nil
-			end
-			
-			if
-				self.ability
-				and self.ability.set == 'Joker'
-			then				
-				if
-					context.retrigger_joker_check
-					and not context.retrigger_joker
-					and self == context.other_card
-					and self.seal == 'Red'
-				then
-					if
-						CirnoMod.miscItems.redSealRetriggerIgnoreTable[self.config.center.key]
-					then
-						local allowRedSeal = true
-						
-						for i, cntxt in ipairs (CirnoMod.miscItems.redSealRetriggerIgnoreTable[self.config.center.key]) do
-							if
-								context[cntxt]
-								or cntxt == 'any'
-								or (context.other_context
-								and context.other_context[cntxt])
-							then
-								allowRedSeal = false
-								break
-							end
-						end
-						
-						if
-							allowRedSeal
-						then
-							return {
-								repetitions = 1,
-								card = self
-							}
-						end
-					else						
-						return {
-							repetitions = 1,
-							card = self
-						}
-					end
-				end
-				
-				return nil
-			end
-			
-			return oldSealCalc(self, context)
+		if CirnoMod.miscItems.isNegativePlayingCard(returnCard) then
+			returnCard:set_edition(nil, true, true)
 		end
 		
-		-- Fix for a weird-interaction with red seal on Mail-In Rebate
-		SMODS.Joker:take_ownership('mail',
-			{
-				calculate = function(self, card, context)
-					if
-						context.discard
-						and not context.other_card.debuff
-						and (context.other_card:get_id() == G.GAME.current_round.mail_card.id)
-					then
-						return {
-							dollars = card.ability.extra,
-							colour = G.C.MONEY,
-							card = card
-						}
+		return returnCard
+	end
+	
+	--[[ Adjusts DNA's description to account for the
+	fact that Negative is removed from the copies. ]]
+	SMODS.Joker:take_ownership('dna', {
+		create_main_end = function(removeNegative)
+			local RT = {{
+					n = G.UIT.C,
+					config = {
+						align = 'bm',
+						padding = 0.02
+					},
+					nodes = {}
+				}}
+				
+			CirnoMod.miscItems.addUITextNode(RT[1].nodes,
+				"(Removes ",
+				G.C.UI.TEXT_INACTIVE,
+				0.9)
+			
+			CirnoMod.miscItems.addUITextNode(RT[1].nodes,
+				"Negative",
+				G.C.DARK_EDITION,
+				0.9)
+			
+			CirnoMod.miscItems.addUITextNode(RT[1].nodes,
+				" from copy)",
+				G.C.UI.TEXT_INACTIVE,
+				0.9)
+					
+			return RT
+		end,
+		
+		loc_vars = function(self, info_queue, card)
+			info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
+			
+			if not CirnoMod.miscItems.atlasCheck(card) then
+				return { main_end = self.create_main_end() }
+			end
+		end
+	}, true)
+	
+	--[[ Adjusts Death's description to account for the
+	fact that Negative is removed from the copies. ]]
+	SMODS.Consumable:take_ownership('death', {
+		create_main_end = function(removeNegative)
+			if removeNegative then
+				local RT = {{
+						n = G.UIT.C,
+						config = {
+							align = 'bm',
+							padding = 0.02
+						},
+						nodes = {}
+					}}
+					
+				CirnoMod.miscItems.addUITextNode(RT[1].nodes,
+					"(Removes ",
+					G.C.UI.TEXT_INACTIVE,
+					0.9)
+				
+				CirnoMod.miscItems.addUITextNode(RT[1].nodes,
+					"Negative",
+					G.C.DARK_EDITION,
+					0.9)
+				
+				CirnoMod.miscItems.addUITextNode(RT[1].nodes,
+					" from copy)",
+					G.C.UI.TEXT_INACTIVE,
+					0.9)
+						
+				return RT
+			end
+		end,
+		
+		loc_vars = function(self, info_queue, card)
+			local removeNegative = false
+			
+			if G.hand.highlighted and #G.hand.highlighted > 0 then
+				for i, c in ipairs (G.hand.highlighted) do
+					if c.edition and c.edition.type == 'negative' and G.localization.descriptions.Other.remove_negative then
+						info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
+						
+						removeNegative = true
+						break
 					end
 				end
-			},
-			true
-		)
-	end
+			end
+			
+			if not CirnoMod.miscItems.atlasCheck(card) then
+				return { vars = { card.ability.max_highlighted }, main_end = self.create_main_end(removeNegative) }
+			end
+			
+			return { vars = { card.ability.max_highlighted } }
+		end
+	}, true)
+	
+	--[[ Adjusts Cryptid's description to account for the
+	fact that Negative is removed from the copies. ]]
+	SMODS.Consumable:take_ownership('cryptid', {		
+		create_main_end = function(removeNegative)
+			if removeNegative then
+				local RT = {{
+						n = G.UIT.C,
+						config = {
+							align = 'bm',
+							padding = 0.02
+						},
+						nodes = {}
+					}}
+					
+				CirnoMod.miscItems.addUITextNode(RT[1].nodes,
+					"(Removes ",
+					G.C.UI.TEXT_INACTIVE,
+					0.9)
+				
+				CirnoMod.miscItems.addUITextNode(RT[1].nodes,
+					"Negative",
+					G.C.DARK_EDITION,
+					0.9)
+				
+				CirnoMod.miscItems.addUITextNode(RT[1].nodes,
+					" from copy)",
+					G.C.UI.TEXT_INACTIVE,
+					0.9)
+						
+				return RT
+			end
+		end,
+		
+		loc_vars = function(self, info_queue, card)
+			local removeNegative = false
+			
+			if G.hand.highlighted and #G.hand.highlighted > 0 then
+				for i, c in ipairs (G.hand.highlighted) do
+					if c.edition and c.edition.type == 'negative' and G.localization.descriptions.Other.remove_negative then
+						info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
+						
+						removeNegative = true
+						break
+					end
+				end
+			end
+			
+			if not CirnoMod.miscItems.atlasCheck(card) then
+				return { vars = { card.ability.extra }, main_end = self.create_main_end(removeNegative) }
+			end
+			
+			return { vars = { card.ability.extra } }
+		end
+	}, true)
+
 end
 
 -- Additional Custom Challenges
-if CirnoMod.config['additionalChallenges'] then	
+if CirnoMod.config.additionalChallenges then	
 	CirnoMod.ChallengeRefs = {}
 	
 	--[[ Initialises a challenge functions holder.
@@ -507,7 +697,7 @@ function Game:main_menu(change_context)
 	--[[
 	If our colours are enabled, set the vortex colours to
 	our colours. If not, set them to the default ones.]]
-	if CirnoMod.config['titleColours'] then
+	if CirnoMod.config.titleColours then
 		G.C.SPLASH[1] = CirnoMod.miscItems.colours.cirBlue
 		G.C.SPLASH[2] = CirnoMod.miscItems.colours.cirCyan
 	else
@@ -521,7 +711,7 @@ function Game:main_menu(change_context)
 	
 	-- Set Tarot colour.
 	if
-		CirnoMod.config['malverkReplacements']
+		CirnoMod.config.malverkReplacements
 		and CirnoMod.miscItems.colours.tarot
 	then
 		G.C.SECONDARY_SET.Tarot = CirnoMod.miscItems.colours.tarot
@@ -529,13 +719,13 @@ function Game:main_menu(change_context)
 	
 	-- Set Planet colour (If Planets Are Hus is active)
 	if
-		CirnoMod.config['planetsAreHus']
+		CirnoMod.config.planetsAreHus
 		and CirnoMod.miscItems.colours.planet
 	then
 		G.C.SECONDARY_SET.Planet = CirnoMod.miscItems.colours.planet
 	end
 	
-	if CirnoMod.config['additionalChallenges'] then
+	if CirnoMod.config.additionalChallenges then
 		--[[
 		Should update the joker stencil challenge text
 		with whatever name Joker Stencil is set to at this
@@ -598,7 +788,7 @@ Game.start_run = function(self, args)
 	Check if challenges are on and the
 	challenge functions aren't empty]]
 	if
-		CirnoMod.config['additionalChallenges']
+		CirnoMod.config.additionalChallenges
 		and CirnoMod.ChalFuncs ~= nil
 	then
 		--[[ Is the stencil jokers challenge active?
@@ -625,7 +815,7 @@ Game.start_run = function(self, args)
 	
 	-- Randomises shop flavour text.
 	if
-		CirnoMod.config['miscRenames']
+		CirnoMod.config.miscRenames
 		and type(CirnoMod.miscItems.pickRandShopFlavour) == 'function'
 	then
 		CirnoMod.miscItems.pickRandShopFlavour()
@@ -698,7 +888,7 @@ function new_round()
 	Check if challenges are on and the
 	challenge functions aren't empty]]
 	if
-		CirnoMod.config['additionalChallenges']
+		CirnoMod.config.additionalChallenges
 		and CirnoMod.ChalFuncs ~= nil
 	then
 		--[[ Is the stencil jokers challenge active?
@@ -732,7 +922,7 @@ function end_round()
 	Check if challenges are on and the
 	challenge functions aren't empty]]
 	if
-		CirnoMod.config['additionalChallenges']
+		CirnoMod.config.additionalChallenges
 		and CirnoMod.ChalFuncs ~= nil
 	then
 		--[[ Is the stencil jokers challenge active?
@@ -759,7 +949,7 @@ function end_round()
 	
 	-- Randomises shop flavour text.
 	if
-		CirnoMod.config['miscRenames']
+		CirnoMod.config.miscRenames
 		and type(CirnoMod.miscItems.pickRandShopFlavour) == 'function'
 	then
 		CirnoMod.miscItems.pickRandShopFlavour()

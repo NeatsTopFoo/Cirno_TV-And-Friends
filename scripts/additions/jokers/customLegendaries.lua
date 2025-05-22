@@ -1034,7 +1034,7 @@ local jokerInfo = {
 			calculate = function(self, card, context)
 				if
 					not context.blueprint
-					and context.setting_blind
+					and context.first_hand_drawn
 					and not context.retrigger_joker
 				then
 					card.ability.extra.firstHand = true
@@ -1099,7 +1099,7 @@ local jokerInfo = {
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
-				info_queue[#info_queue + 1] = { key = 'consumNegative', set = 'Other' }
+				info_queue[#info_queue + 1] = { key = 'e_negative_consumable', set = 'Edition', config = { extra = 1 } }
 				
 				-- Art credit tooltip
 				if CirnoMod.config['artCredits'] then

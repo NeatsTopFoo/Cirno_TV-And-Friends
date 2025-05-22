@@ -301,6 +301,7 @@ if we add other things to this ]]
 replaceDef.allKeysToIgnore = { -- There's probably a better way to do this
 	j_wee = true,
 	j_delayed_grat = true,
+	j_green_joker = true,
 	j_caino = true,
 	j_triboulet = true,
 	j_yorick = true,
@@ -453,7 +454,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_business', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	{ jkrKey = 'j_supernova', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
 	{ jkrKey = 'j_mr_bones', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
-	-- { jkrKey = 'j_seeing_double', matureRefLevel = 1 },
+	{ jkrKey = 'j_seeing_double', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_duo', matureRefLevel = 1, artCreditKey = 'jA_DuoDagger' },
 	-- { jkrKey = 'j_trio', matureRefLevel = 1 },
 	{ jkrKey = 'j_family', matureRefLevel = 1, artCreditKey = 'jA_Family' },
@@ -519,7 +520,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_runner', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_dna', matureRefLevel = 1, artCreditKey = 'jA_Unknown_NTFEdit' },
 	-- { jkrKey = 'j_splash', matureRefLevel = 1 },
-	-- { jkrKey = 'j_blue_joker', matureRefLevel = 1 },
+	{ jkrKey = 'j_blue_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_sixth_sense', matureRefLevel = 1, artCreditKey = 'jA_ciwnoEdit' },
 	-- { jkrKey = 'j_constellation', matureRefLevel = 1 },
 	
@@ -568,7 +569,7 @@ replaceDef.jokerReplacements = {
 	
 	{ jkrKey = 'j_flash', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_popcorn', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
-	-- { jkrKey = 'j_ramen', matureRefLevel = 1 },
+	{ jkrKey = 'j_ramen', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_selzer', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	{ jkrKey = 'j_trousers', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	{ jkrKey = 'j_campfire', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
