@@ -339,6 +339,11 @@ miscLoc.tags.tag_garbage = { text = {
 		"{s:0.8,C:inactive}difference."
    } }
 
+SMODS.process_loc_text(G.localization.descriptions.Tag.tag_meteor, "text", {
+		"Gives a free",
+		"{C:planet}Mega "..celestPackIntent
+	})
+
 --#endregion
 
 --#region Boosters

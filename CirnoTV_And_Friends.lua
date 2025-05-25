@@ -15,6 +15,26 @@ CirnoMod.config = cMod_SMODSLoc.config
 
 CirnoMod.miscItems = assert(SMODS.load_file("scripts/other/miscItems.lua"))()
 
+--[[ My understanding of the way Talisman works is
+that you have to run every major component of a
+numerical calculation through its to_big() function.
+To support that while retaining functionality when
+Talisman isn't installed, you make a dummy function
+with the same name. This just returns what is input
+if Talisman's to_big() doesn't exist, but if Talisman
+is around, then it defaults io its to_big().
+This way, you can just run everything through to_big()
+and it will work.
+...It's very stupid. It's also the second best
+solution. The first best solution is to mark Talisman
+as a conflicting mod and wait until Talisman implements
+a better method :^)
+But people have been asking me about Talisman compatibility,
+so this... Shooould work? For now? I hope? This mod
+is primarily just a texture pack in the first place,
+so]]
+to_big = to_big or function(x) return x end
+
 if
 	#SMODS.find_mod("soj") > 0
 then
@@ -318,17 +338,21 @@ function Card:calculate_seal(context)
 	if
 		self.ability
 		and self.ability.set == 'Joker'
-	then				
+		and self.seal == 'Red'
+	then
 		if
-			context.retrigger_joker_check
+			self == context.other_card
+			and context.retrigger_joker_check
 			and not context.retrigger_joker
-			and self == context.other_card
-			and self.seal == 'Red'
 		then
 			if
-				self.config.center.jkr_shouldSkipRedSeal
+				(context.other_ret
+				and context.other_ret.jokers
+				and (context.other_ret.jokers.balance
+				or context.other_ret.jokers.doNotRedSeal))
+				or (self.config.center.jkr_shouldSkipRedSeal
 				and type(self.config.center.jkr_shouldSkipRedSeal) == 'function'
-				and self.config.center:jkr_shouldSkipRedSeal(context)
+				and self.config.center:jkr_shouldSkipRedSeal(context, self))
 			then
 				return nil
 			end
@@ -367,6 +391,8 @@ function Card:calculate_seal(context)
 				}
 			end
 		end
+		
+		return nil
 	end
 	
 	return oldSealCalc(self, context)
@@ -376,8 +402,7 @@ if
 	CirnoMod.miscItems.otherModPresences.isSealsOnJokersPresent == false
 then
 	-- Fix for a weird-interaction with red seal on Mail-In Rebate
-	SMODS.Joker:take_ownership('mail',
-		{
+	SMODS.Joker:take_ownership('mail', {
 			calculate = function(self, card, context)
 				if
 					context.discard
@@ -385,15 +410,13 @@ then
 					and (context.other_card:get_id() == G.GAME.current_round.mail_card.id)
 				then
 					return {
-						dollars = card.ability.extra,
+						dollars = to_big(card.ability.extra),
 						colour = G.C.MONEY,
 						card = card
 					}
 				end
 			end
-		},
-		true
-	)
+		}, true )
 end
 
 -- Additional Custom Consumables
@@ -506,7 +529,7 @@ if CirnoMod.config.negativePCardsBalancing then
 			return RT
 		end,
 		
-		loc_vars = function(self, info_queue, card)
+		loc_vars = function(self, info_queue, card)			
 			info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
 			
 			if not CirnoMod.miscItems.atlasCheck(card) then
@@ -551,7 +574,7 @@ if CirnoMod.config.negativePCardsBalancing then
 		loc_vars = function(self, info_queue, card)
 			local removeNegative = false
 			
-			if G.hand.highlighted and #G.hand.highlighted > 0 then
+			if G.hand and G.hand.highlighted and #G.hand.highlighted > 0 then
 				for i, c in ipairs (G.hand.highlighted) do
 					if c.edition and c.edition.type == 'negative' and G.localization.descriptions.Other.remove_negative then
 						info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
@@ -606,7 +629,7 @@ if CirnoMod.config.negativePCardsBalancing then
 		loc_vars = function(self, info_queue, card)
 			local removeNegative = false
 			
-			if G.hand.highlighted and #G.hand.highlighted > 0 then
+			if G.hand and G.hand.highlighted and #G.hand.highlighted > 0 then
 				for i, c in ipairs (G.hand.highlighted) do
 					if c.edition and c.edition.type == 'negative' and G.localization.descriptions.Other.remove_negative then
 						info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
@@ -701,8 +724,8 @@ function Game:main_menu(change_context)
 		G.C.SPLASH[1] = CirnoMod.miscItems.colours.cirBlue
 		G.C.SPLASH[2] = CirnoMod.miscItems.colours.cirCyan
 	else
-		G.C.SPLASH[1] = G.C.RED
-		G.C.SPLASH[2] = G.C.BLUE
+		G.C.SPLASH[1] = G.C.SPLASH[1] or G.C.RED
+		G.C.SPLASH[2] = G.C.SPLASH[2] or G.C.BLUE
 	end
 	
 	G.C.SECONDARY_SET.UIDefault = G.C.SECONDARY_SET.Spectral
@@ -988,4 +1011,31 @@ G.FUNCS.draw_from_play_to_discard = function(e)
 	end
 	
 	old_dfptd(e)
+end
+
+local old_smodsCalcContext = SMODS.calculate_context
+SMODS.calculate_context = function(context, return_table)
+	if 
+		G.jokers
+		and G.jokers.cards
+		and #G.jokers.cards > 0
+		and context.end_of_round
+	then
+		for i, jkr in ipairs(G.jokers.cards) do
+			if
+				jkr.ability.debuff_sources
+				and next(jkr.ability.debuff_sources)
+				and jkr.ability.debuff_sources['cir_Jkr_autoEORUndebuff']
+			then
+				jkr:juice_up()
+				SMODS.debuff_card(jkr, false, 'cir_Jkr_autoEORUndebuff')
+			end
+		end
+	end
+	
+	local ret = old_smodsCalcContext(context, return_table)
+	
+	if ret then
+		return ret
+	end
 end

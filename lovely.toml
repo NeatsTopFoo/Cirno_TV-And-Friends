@@ -243,6 +243,24 @@ payload = '''
 times = 1
 match_indent = false
 
+# Changes adding the tooltip to Red Seals to
+# add the Joker version when it's on a Joker.
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "info_queue[#info_queue+1] = seal"
+position = "at"
+payload = '''
+if v == 'red_seal' and _c.set == 'Joker' and CirnoMod then
+	info_queue[#info_queue + 1] = { key = "jkrRedSeal", set = "Other" }
+else
+	info_queue[#info_queue+1] = seal
+end
+'''
+times = 1
+match_indent = true
+
+
 # Makes a bunch of the normally red buttons blue!
 [[patches]]
 [patches.pattern]

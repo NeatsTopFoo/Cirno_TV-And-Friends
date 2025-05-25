@@ -126,9 +126,9 @@ local jokerInfo = {
 				
 				-- Defines #1#, #2# & #3#
 				return { vars = {
-					card.ability.extra.growth, 
+					to_big(card.ability.extra.growth), 
 					CirnoMod.miscItems.obscureJokerNameIfNotEncountered('j_ice_cream'), 
-					card.ability.extra.xchips
+					to_big(card.ability.extra.xchips)
 					},
 					main_end = self.create_main_end() }
 				end,
@@ -162,7 +162,7 @@ local jokerInfo = {
 				-- Normal joker calculation.
 				if context.joker_main then
 					return {
-						x_chips = card.ability.extra.xchips,
+						x_chips = to_big(card.ability.extra.xchips),
 						colour = CirnoMod.miscItems.colours.cirCyan,
 						card = card
 					}
@@ -176,14 +176,14 @@ local jokerInfo = {
 					and not context.post_trigger
 				then
 					if context.other_card.base.value == "9" then
-						card.ability.extra.xchips = card.ability.extra.xchips + card.ability.extra.growth
+						card.ability.extra.xchips = to_big(card.ability.extra.xchips) + to_big(card.ability.extra.growth)
 						
 						return {
 							extra = { 
 								message = localize {
 									type = 'variable',
 									key = 'a_xchips',
-									vars = { card.ability.extra.xchips }
+									vars = { to_big(card.ability.extra.xchips) }
 								},
 								colour = CirnoMod.miscItems.colours.cirCyan,
 								message_card = card
@@ -274,7 +274,7 @@ local jokerInfo = {
 				end
 				
 				-- Here is how #1# and #2# are defined.
-				return { vars = { card.ability.extra.extra, card.ability.extra.x_mult } }
+				return { vars = { to_big(card.ability.extra.extra), to_big(card.ability.extra.x_mult) } }
 			end,
 			unlocked = false,
 			
@@ -309,7 +309,7 @@ local jokerInfo = {
 					and not context.after -- Context after is things that modify the score after all cards are scored
 				then
 					return { -- Multiply the current mult by mult accrued on card?
-						x_mult = card.ability.extra.x_mult -- Multiplies the current mult by the card's stored mult
+						x_mult = to_big(card.ability.extra.x_mult) -- Multiplies the current mult by the card's stored mult
 					}, true
 				end
 				-- This section detects the use of a wheel of fortune tarot
@@ -323,7 +323,7 @@ local jokerInfo = {
 																	-- it inserts code to detect wheel usage
 					then
 						-- Add the extra mult as defined in config extra extra above, to the card's stored mult in config extra x_mult
-						card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.extra
+						card.ability.extra.x_mult = to_big(card.ability.extra.x_mult) + to_big(card.ability.extra.extra)
 						
 						-- Animate wink
 						G.E_MANAGER:add_event(Event({
@@ -345,7 +345,10 @@ local jokerInfo = {
 							end}))
 						return {
 							extra = {
-								message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }),
+								message = localize({
+									type = "variable",
+									key = "a_xmult",
+									vars = { to_big(card.ability.extra.x_mult) } }),
 								colour = G.C.PURPLE,
 								message_card = card
 							}
@@ -388,6 +391,8 @@ local jokerInfo = {
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
+				local RT = { to_big(card.ability.extra.extra), 1 }
+				
 				-- Adds a description of Neptune to tooltip by appending
 				-- to info_queue
 				info_queue[#info_queue + 1] = G.P_CENTERS.c_neptune
@@ -397,15 +402,16 @@ local jokerInfo = {
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
 				end
 				
+				
+				
 				-- Here is how #1# and #2# are defined.
-				if G.GAME.consumeable_usage then
-					if G.GAME.consumeable_usage['c_neptune'] then
-						return { vars = { card.ability.extra.extra, (G.GAME.consumeable_usage['c_neptune'].count * card.ability.extra.extra) + 1 or 1 } }
-					else
-						return { vars = { card.ability.extra.extra, 1 } }
-					end
-				else
-					return { vars = { card.ability.extra.extra, 1 } }
+				if
+					G.GAME
+					and G.GAME.consumeable_usage
+					and G.GAME.consumeable_usage['c_neptune']
+					and G.GAME.consumeable_usage['c_neptune'].count
+				then
+					RT[2] = (to_big(G.GAME.consumeable_usage['c_neptune'].count) * to_big(card.ability.extra.extra)) + to_big(1)
 				end
 			end,
 			unlocked = false,
@@ -457,7 +463,7 @@ local jokerInfo = {
 					and not context.after -- Context after is things that modify the score after all cards are scored
 				then
 					return { -- Multiply the current mult by mult accrued on card?
-						x_mult = (G.GAME.consumeable_usage_total and (G.GAME.consumeable_usage['c_neptune'].count * card.ability.extra.extra) + 1 or 1) -- Multiplies the current mult by the desired amount
+						x_mult = (G.GAME.consumeable_usage_total and (to_big(G.GAME.consumeable_usage['c_neptune'].count) * to_big(card.ability.extra.extra)) + to_big(1) or 1) -- Multiplies the current mult by the desired amount
 					}, true
 				elseif
 					not context.blueprint
@@ -475,7 +481,7 @@ local jokerInfo = {
 									type = "variable",
 									key = "a_xmult",
 									vars = {
-											(G.GAME.consumeable_usage_total and (G.GAME.consumeable_usage['c_neptune'].count * card.ability.extra.extra) + 1 or 1)
+											(G.GAME.consumeable_usage_total and (to_big(G.GAME.consumeable_usage['c_neptune'].count) * to_big(card.ability.extra.extra)) + to_big(1) or 1)
 										}
 								}),
 								colour = CirnoMod.miscItems.colours.cirNep,
@@ -577,11 +583,11 @@ local jokerInfo = {
 				end
 				
 				return { vars = {
-					card.ability.extra.active,
-					card.ability.extra.discardDecrementCounter,
-					card.ability.extra.extra,
-					card.ability.extra.xChips,
-					card.ability.extra.xMult,
+					to_big(card.ability.extra.active),
+					to_big(card.ability.extra.discardDecrementCounter),
+					to_big(card.ability.extra.extra),
+					to_big(card.ability.extra.xChips),
+					to_big(card.ability.extra.xMult),
 					colours = { card.ability.extra.chipsMultColour[card.ability.extra.active] }
 				} }
 			end,
@@ -753,7 +759,7 @@ local jokerInfo = {
 						-- print('X '..card.ability.extra.chipsMultOpposite[card.ability.extra.active]..", "..card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]]..' -> '..card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]] + card.ability.extra.extra)
 						
 						-- Whichever multiplier is INACTIVE (for chips, mult and mult, chips), we increase that by our extra value.
-						card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]] = card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]] + card.ability.extra.extra
+						card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]] = to_big(card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]]) + to_big(card.ability.extra.extra)
 						
 						card.ability.extra.extra = initialCounterAmount / 10
 						
@@ -764,7 +770,7 @@ local jokerInfo = {
 								colour = G.C.GREEN,
 								card = card
 							},
-							message = 'X'..card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
+							message = 'X'..to_big(card.ability.extra['x'..card.ability.extra.chipsMultOpposite[card.ability.extra.active]]),
 							colour = card.ability.extra.chipsMultColour[card.ability.extra.chipsMultOpposite[card.ability.extra.active]],
 							card = card
 						}, true
@@ -809,11 +815,11 @@ local jokerInfo = {
 						local localiseKey = ''
 						
 						if card.ability.extra.active == 'Chips' then
-							RT.x_chips = card.ability.extra.xChips
-							shouldReturnMessage = RT.x_chips > 1
+							RT.x_chips = to_big(card.ability.extra.xChips)
+							shouldReturnMessage = RT.x_chips > to_big(1)
 						elseif card.ability.extra.active == 'Mult' then
-							RT.x_mult = card.ability.extra.xMult
-							shouldReturnMessage = RT.x_mult > 1
+							RT.x_mult = to_big(card.ability.extra.xMult)
+							shouldReturnMessage = RT.x_mult > to_big(1)
 						end
 						
 						if shouldReturnMessage then
@@ -930,8 +936,8 @@ local jokerInfo = {
 					
 					-- If we're adding any mult, do so
 					if permMultToAdd > 0 then
-						context.other_card.ability.perma_mult = context.other_card.ability.perma_mult or 0
-						context.other_card.ability.perma_mult = context.other_card.ability.perma_mult + permMultToAdd
+						context.other_card.ability.perma_mult = to_big(context.other_card.ability.perma_mult) or 0
+						context.other_card.ability.perma_mult = to_big(context.other_card.ability.perma_mult) + to_big(permMultToAdd)
 						
 						-- Return table (in extra to prevent the colour being overridden by Blueprint/Brainstorm)
 						return {
@@ -1039,11 +1045,9 @@ local jokerInfo = {
 				then
 					card.ability.extra.firstHand = true
 					
-					juice_card_until(card,
-					function()
+					juice_card_until(card, function()
 						return G.GAME.current_round.hands_played == 0
-					end,
-					true)
+					end, true)
 				elseif
 					card.ability.extra.firstHand
 					and context.individual
@@ -1055,8 +1059,8 @@ local jokerInfo = {
 						timesTriggeredThisHand = timesTriggeredThisHand + 1
 					end
 					
-					context.other_card.ability.perma_x_mult = context.other_card.ability.perma_x_mult or 0
-					context.other_card.ability.perma_x_mult = context.other_card.ability.perma_x_mult + card.ability.extra.extra
+					context.other_card.ability.perma_x_mult = to_big(context.other_card.ability.perma_x_mult) or 0
+					context.other_card.ability.perma_x_mult = to_big(context.other_card.ability.perma_x_mult) + to_big(card.ability.extra.extra)
 					
 					self:handplayLatchDisableCheck(card)
 					

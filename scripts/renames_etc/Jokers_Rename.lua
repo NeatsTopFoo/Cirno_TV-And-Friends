@@ -615,7 +615,7 @@ jokerLoc.nrmJkrs.j_hack = { -- name = "Hack",
         "{C:attention}2{}, {C:attention}3{}, {C:attention}4{}, or {C:attention}5{}",
 		"{s:0.8,C:inactive}This just in, streamer",
 		"{s:0.8,C:inactive}cheats at videogame by",
-		"{s:0.8,C:inactive}watching his own stream."
+		"{s:0.8,C:inactive}watching their own stream."
     }
 }
 
@@ -1098,7 +1098,12 @@ jokerLoc.nrmJkrs.j_8_ball = { name = "9 Ball",
 		"{C:green}#1# in #2#{} chance for each",
         "played {C:attention}8{} to create a",
         "{C:tarot}Tarot{} card when scored",
-        "{C:inactive}(Must have room)"
+        "{C:inactive}(Must have room)",
+		"{s:0.8,C:inactive}If you drink the blue liquid"
+		"{s:0.8,C:inactive}from a Magic 8-Ball, you can"
+		"{s:0.8,C:inactive}see the future. Trust me, my"
+		"{s:0.8,C:inactive}friend Keith did once and said"
+		"{s:0.8,C:inactive}he was gonna die. Then he did!"
 	}
 }]]
 
@@ -1227,15 +1232,16 @@ else
 	table.insert(jokerLoc.nrmJkrs.j_ring_master.text, "{s:0.8,C:inactive}Ka-chow!")
 end
 
---[[
-jokerLoc.nrmJkrs.j_fortune_teller = { name = "Fortune Teller",
+jokerLoc.nrmJkrs.j_fortune_teller = { name = "Deadly Premonition",
 	text = {
 		"{C:red}+#1#{} Mult per {C:purple}Tarot{}",
         "card used this run",
-        "{C:inactive}(Currently {C:red}+#2#{C:inactive})"
+        "{C:inactive}(Currently {C:red}+#2#{C:inactive})",
+		"{s:0.8,C:inactive}Don't do what the coffee",
+		"{s:0.8,C:inactive}tells you. Well, not IN",
+		"{s:0.8,C:inactive}the coffee itself, at least."
 	}
 }
-]]
 
 jokerLoc.nrmJkrs.j_hit_the_road = { -- name = "Hit The Road",
 	text = {
@@ -2272,7 +2278,7 @@ jokerLoc.nrmJkrs.j_obelisk = { name = "The Greyhill Incident",
 jokerLoc.nrmJkrs.j_midas_mask = { name = "Dagoth Ur",
 	text = {
 		"All played {C:attention}face{} cards",
-        "become {C:attention}"..goldIntent.."{} cards",
+        "become {C:attention}"..string.sub(goldIntent, 1, #goldIntent - 5).."{} cards",
         "when scored",
 		"{s:0.8,C:inactive}\"Welcome, Moon-and-Star, to",
 		"{s:0.8,C:inactive}this place where {s:0.8,C:cirInactiveAtt}YOUR{s:0.8,C:inactive} destiny",
@@ -2585,15 +2591,18 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('wily', wilyTakeOwnershipTable, true)
 end
 
-jokerLoc.nrmJkrs.j_clever = { name = "Clever Fumo", --[[
+jokerLoc.nrmJkrs.j_clever = { name = "Clever Fumo",
     text={
         "{C:chips}+#1#{} Chips if played",
         "hand contains",
         "a {C:attention}#2#",
-    }]]
+		"{s:0.8,C:inactive}Have you seen her",
+		"{s:0.8,C:inactive}play Sound Voltex?",
+		"{s:0.8,C:inactive}It's true! She's good at it."
+    }
 }
 
-jokerLoc.nrmJkrs.j_devious = { name = "Devious Doppelganger",
+jokerLoc.nrmJkrs.j_devious = { name = "Devious Doppelgänger",
     text={
         "{C:chips}+#1#{} Chips if played",
         "hand contains",
@@ -2737,32 +2746,23 @@ jokerLoc.nrmJkrs.j_flash = { name = "Takane Takamine",
 }
 
 if CirnoMod.config['matureReferences_cyc'] >= 2 then
-	table.insert(jokerLoc.nrmJkrs.j_flash.text,
-		"{s:0.8,C:inactive}\"...So she takes her panties off and it like,")
-		
-	table.insert(jokerLoc.nrmJkrs.j_flash.text,
-		"{s:0.8,C:inactive}wipes everyone's mind, so she gets to do the test")
-		
-	table.insert(jokerLoc.nrmJkrs.j_flash.text,
-		"{s:0.8,C:inactive}again, and she calls this guy her closet and makes")
-		
-	table.insert(jokerLoc.nrmJkrs.j_flash.text,
-		"{s:0.8,C:inactive}him put panties on her every time she does it,")
-	
-	table.insert(jokerLoc.nrmJkrs.j_flash.text,
-		"{s:0.8,C:inactive}because her panties disappear each time.\"")
-	
-	table.insert(jokerLoc.nrmJkrs.j_flash.text,
-		"{s:0.8,C:inactive}-- Cirno_TV (approx. quote), circa 2020")
+	jokerLoc.nrmJkrs.j_flash.text = SMODS.merge_lists({ jokerLoc.nrmJkrs.j_flash.text, 
+	{
+		"{s:0.8,C:inactive}\"...So she takes her panties off and it like,",
+		"{s:0.8,C:inactive}wipes everyone's minds, so she gets to do the test",
+		"{s:0.8,C:inactive}again, and she calls this guy her closet and makes",
+		"{s:0.8,C:inactive}him put panties on her every time she does it,",
+		"{s:0.8,C:inactive}because her panties disappear each time.\"",
+		"{s:0.8,C:inactive}-- Cirno_TV (approx. quote), circa 2020"
+	}})
 else
-	table.insert(jokerLoc.nrmJkrs.j_flash.text,
-		"{s:0.8,C:inactive}...How do I possibly explain this one?")
 	
-	table.insert(jokerLoc.nrmJkrs.j_flash.text,
-		"{s:0.8,C:inactive}I've kinda dug myself a hole, here.")
-		
-	table.insert(jokerLoc.nrmJkrs.j_flash.text,
-		"{s:0.8,C:inactive}...Maybe don't think about it too much.")
+	jokerLoc.nrmJkrs.j_flash.text = SMODS.merge_lists({ jokerLoc.nrmJkrs.j_flash.text, 
+	{
+		"{s:0.8,C:inactive}...How do I possibly explain this one?",
+		"{s:0.8,C:inactive}I've kinda dug myself a hole, here.",
+		"{s:0.8,C:inactive}...Maybe don't think about it too much."
+	}})
 end
 
 if CirnoMod.config.allowCosmeticTakeOwnership then

@@ -277,9 +277,9 @@ local jokerInfo = {
 					RV = {}
 					
 					if card.ability.extra.spriteX == 7 then
-						RV.mult = card.ability.extra.mult
+						RV.mult = to_big(card.ability.extra.mult)
 					elseif card.ability.extra.spriteX == 8 then
-						RV.x_mult = card.ability.extra.xmult
+						RV.x_mult = to_big(card.ability.extra.xmult)
 					end
 					
 					RV.colour = G.C.MULT
@@ -397,7 +397,7 @@ local jokerInfo = {
 					and context.joker_main
 				then
 					return {
-						x_mult = card.ability.extra.xmult,
+						x_mult = to_big(card.ability.extra.xmult),
 						colour = G.C.RED
 					}
 				end
@@ -530,9 +530,9 @@ local jokerInfo = {
 					end
 					
 					if counter > 0 then
-						extraTable.xmult = counter * extraTable.growth
+						extraTable.xmult = to_big(counter) * to_big(extraTable.growth)
 					else
-						extraTable.xmult = 1
+						extraTable.xmult = to_big(1)
 					end
 				end
 			end,
@@ -553,9 +553,9 @@ local jokerInfo = {
 				end]]
 				
 				return { vars = { 
-					card.ability.extra.growth,
+					to_big(card.ability.extra.growth),
 					CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}'),
-					card.ability.extra.xmult
+					to_big(card.ability.extra.xmult)
 					} }
 			end,
 			
@@ -599,7 +599,7 @@ local jokerInfo = {
 					and context.joker_main
 				then
 					return {
-						x_mult = card.ability.extra.xmult,
+						x_mult = to_big(card.ability.extra.xmult),
 						colour = G.C.RED
 					}
 				end
@@ -658,7 +658,7 @@ local jokerInfo = {
 			
 			updateCurMult = function(extraTable)
 				if not CirnoMod.miscItems.isState(G.STAGE, G.STAGES.MAIN_MENU) then
-					local prevMult = extraTable.xmult
+					local prevMult = to_big(extraTable.xmult)
 					local counter = 0
 					
 					for i, jkr in ipairs(G.jokers.cards) do
@@ -672,7 +672,7 @@ local jokerInfo = {
 					end
 					
 					if counter > 0 then
-						extraTable.xmult = counter * extraTable.growth
+						extraTable.xmult = to_big(counter) * to_big(extraTable.growth)
 						
 						return extraTable.xmult > prevMult
 					else
@@ -693,7 +693,7 @@ local jokerInfo = {
 					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
 				end
 				
-				return { vars = { card.ability.extra.growth, card.ability.extra.xmult } }
+				return { vars = { to_big(card.ability.extra.growth), to_big(card.ability.extra.xmult) } }
 			end,
 			
 			locked_loc_vars = function(self, info_queue, card)
@@ -733,7 +733,7 @@ local jokerInfo = {
 					and context.joker_main
 				then
 					return {
-						x_mult = card.ability.extra.xmult,
+						x_mult = to_big(card.ability.extra.xmult),
 						colour = G.C.RED
 					}
 				end
@@ -845,11 +845,14 @@ local jokerInfo = {
 					},
 					['loogi'] = {
 						atlasX = 9,
+						storedHandSize = 8,
 						xchips = 2,
 						funcName = 'calc_straightFlush'
 					},
 					['peachCell'] = {
 						atlasX = 10,
+						parsedKingsJacks = {},
+						queenPolycule = {}, -- Tee hee.
 						handContainedFaceCards = false,
 						polyChance = 4,
 						funcName = 'calc_fiveKind'
@@ -867,9 +870,20 @@ local jokerInfo = {
 			
 			updateState = function(jkr)
 				if
-					jkr.ability
-					and jkr.children
+					jkr.ability.extra.currentForm ~= 'base'
+					and (CirnoMod.miscItems.isState(G.STATE, G.STATES.SHOP)
+					or CirnoMod.miscItems.isState(G.STATE, G.STATES.BLIND_SELECT)
+					or CirnoMod.miscItems.isState(G.STATE, 999)
+					or CirnoMod.miscItems.isState(G.STATE, G.STATES.TAROT_PACK)
+					or CirnoMod.miscItems.isState(G.STATE, G.STATES.PLANET_PACK)
+					or CirnoMod.miscItems.isState(G.STATE, G.STATES.SPECTRAL_PACK)
+					or CirnoMod.miscItems.isState(G.STATE, G.STATES.STANDARD_PARK)
+					or CirnoMod.miscItems.isState(G.STATE, G.STATES.BUFFOON_PACK))
 				then
+					jkr.ability.extra.currentForm = 'base'
+				end
+				
+				if jkr.ability and jkr.children then
 					if -- If the soul_pos is not what I want it to be. I make it what I want it to be.
 						jkr.config.center.pos.x ~= jkr.ability.extra.formsInfo[jkr.ability.extra.currentForm].atlasX
 					then
@@ -888,16 +902,14 @@ local jokerInfo = {
 						curEdition
 						and curEdition.type ~= 'negative'
 					then
-						CirnoMod.miscItems.eDT_edScale_T.type = curEdition.type
-						CirnoMod.miscItems.eDT_edScale_T.mod = CirnoMod.miscItems.pullEditionModifierValue(curEdition)
-						CirnoMod.miscItems.eDT_edScale_T.scalar = extraTable.formsInfo.vanLob.scalar
-						
-						return { CirnoMod.miscItems.descExtensionTooltips['eDT_cir_editionScale'] }
+						return { CirnoMod.miscItems.getEditionScalingInfo(curEdition, extraTable.formsInfo.vanLob.scalar) }
 					end
 				elseif extraTable.currentForm == 'loogi' then
 					return { { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } } }
 				elseif extraTable.currentForm == 'peachCell' then
-					return { G.P_CENTERS.e_polychrome }					
+					if curEdition.type ~= 'polychrome' then
+						return { G.P_CENTERS.e_polychrome }
+					end
 				elseif extraTable.currentForm == 'floor3B' then
 					return { G.P_CENTERS.m_steel }
 				end
@@ -921,47 +933,47 @@ local jokerInfo = {
 				doesn't seem to like it all that much.]]
 				if extraTable.currentForm == 'plexalLob' then
 					return {
-						extraTable.formsInfo.plexalLob.phcChips,
-						extraTable.formsInfo.plexalLob.tpMult,
-						extraTable.formsInfo.plexalLob.toakMult,
-						extraTable.formsInfo.plexalLob.flush_xmult,
-						extraTable.formsInfo.plexalLob.fh_xmult,
-						extraTable.formsInfo.plexalLob.foak_xmult
+						to_big(extraTable.formsInfo.plexalLob.phcChips),
+						to_big(extraTable.formsInfo.plexalLob.tpMult),
+						to_big(extraTable.formsInfo.plexalLob.toakMult),
+						to_big(extraTable.formsInfo.plexalLob.flush_xmult),
+						to_big(extraTable.formsInfo.plexalLob.fh_xmult),
+						to_big(extraTable.formsInfo.plexalLob.foak_xmult)
 					}
 				elseif extraTable.currentForm == 'toadLob' then
-					return { SMODS.signed_dollars(extraTable.formsInfo.toadLob.monGain) }
+					return { SMODS.signed_dollars(to_big(extraTable.formsInfo.toadLob.monGain)) }
 				elseif extraTable.currentForm == '4thFloor' then
 					return { extraTable.formsInfo['4thFloor'].rankChange }
 				elseif extraTable.currentForm == 'crescent' then
 					local currentCount = nil
 					
 					if extraTable.formsInfo.crescent.accruedMoney > 0 then
-						currentCount = SMODS.signed_dollars(extraTable.formsInfo.crescent.accruedMoney)
+						currentCount = SMODS.signed_dollars(to_big(extraTable.formsInfo.crescent.accruedMoney))
 					else
 						currentCount = '$0'
 					end
 					
 					return { 
-						SMODS.signed_dollars(extraTable.formsInfo.crescent.monGain),
+						SMODS.signed_dollars(to_big(extraTable.formsInfo.crescent.monGain)),
 						currentCount
 					}
 				elseif extraTable.currentForm == 'forestMaze' then
 					return {
-						extraTable.formsInfo.forestMaze.xmult,
+						to_big(extraTable.formsInfo.forestMaze.xmult),
 						''..(G.GAME and G.GAME.probabilities.normal or 1),
 						extraTable.formsInfo.forestMaze.chance1,
 						extraTable.formsInfo.forestMaze.chance2,
 						extraTable.formsInfo.forestMaze.chance3,
 						extraTable.formsInfo.forestMaze.chance4
 					}
-				elseif extraTable.formsInfo.currentForm == 'loogi' then
-					return { extraTable.formsInfo.loogi.xchips }
-				elseif extraTable.formsInfo.currentForm == 'peachCell' then
+				elseif extraTable.currentForm == 'loogi' then
+					return { to_big(extraTable.formsInfo.loogi.xchips) }
+				elseif extraTable.currentForm == 'peachCell' then
 					return {
 						''..(G.GAME and G.GAME.probabilities.normal or 1),
 						extraTable.formsInfo.peachCell.polyChance
 					}
-				elseif extraTable.formsInfo.currentForm == 'floor3B' then
+				elseif extraTable.currentForm == 'floor3B' then
 					return { G.localization.descriptions.Enhanced.m_steel.name }
 				else
 					return {}
@@ -1065,32 +1077,40 @@ local jokerInfo = {
 				to happen, such as form reversion.]]
 				self.change_form(self, card, 'base')
 				
-				if card.ability.extra.formsInfo.crescent.accruedMoney > 0 then
-					local RV = card.ability.extra.formsInfo.crescent.accruedMoney
+				if to_big(card.ability.extra.formsInfo.crescent.accruedMoney) > 0 then
+					local RV = to_big(card.ability.extra.formsInfo.crescent.accruedMoney)
 					
 					return RV
 				end
 			end,
 			
-			jkr_shouldSkipRedSeal = function(self, context)
-				return CirnoMods.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
-					or ((self.ability.extra.currentForm == 'betaLob'
-					or (self.ability.extra.currentForm == 'base'
-					and context.scoring_name == 'High Card'))
-					and context.individual) -- High Card form skip conditions
-					or (self.ability.extra.currentForm == 'peachCell'
-					or (self.ability.extra.currentForm == 'base'
-					and context.scoring_name == 'Five of a Kind')
-					and context.individual
-					and context.other_card
-					and context.other_card.base.value ~= 'Queen') -- Five of a Kind form skip conditions
-					or (self.ability.extra.currentForm == 'nebLob'
-					or (self.ability.extra.currentForm == 'base'
-					and context.scoring_name == 'Flush House')
-					and context.before) -- Flush House form skip conditions
-					or (self.ability.extra.currentForm == 'floor3B'
-					or (self.ability.extra.currentForm == 'base'
-					and context.scoring_name == 'Flush Five')) -- Flush Five form skip conditions
+			jkr_shouldSkipRedSeal = function(self, context, card)
+				return CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
+					or context.other_context.first_hand_drawn
+					
+					--[[
+					
+					In the process of being deprecated.
+					
+					or ((card.ability.extra.currentForm == 'betaLob'
+					or (card.ability.extra.currentForm == 'base'
+					and context.other_context.scoring_name == 'High Card'))
+					and context.other_context.individual) -- High Card form skip conditions
+					or ((card.ability.extra.currentForm == 'peachCell'
+					or (card.ability.extra.currentForm == 'base'
+					and context.other_context.scoring_name == 'Five of a Kind'))
+					and context.other_context.individual
+					and context.other_context.other_card
+					and context.other_context.other_card.base.value ~= 'Queen') -- Five of a Kind form skip conditions
+					-- or ((card.ability.extra.currentForm == 'nebLob'
+					-- or (card.ability.extra.currentForm == 'base'
+					-- and context.other_context.scoring_name == 'Flush House'))
+					-- and context.other_context.before) -- Flush House form skip conditions
+					or (card.ability.extra.currentForm == 'floor3B'
+					or (card.ability.extra.currentForm == 'base'
+					and context.other_context.scoring_name == 'Flush Five')) -- Flush Five form skip conditions
+					
+					]]
 			end,
 			
 			calc_highCard = function(self, card, context, formTable)
@@ -1123,7 +1143,8 @@ local jokerInfo = {
 					-- This setup looks weird, but it's all to achieve a specific visual timing.
 					CirnoMod.miscItems.flippyFlip.fStart(cardRef, formTable_.pitch)
 					
-					return { func = function()
+					return { doNotRedSeal = true,
+					func = function()
 						-- Sets the random enhancement
 						cardRef:set_ability(SMODS.poll_enhancement({ guaranteed = true }), nil, true)
 						
@@ -1163,44 +1184,44 @@ local jokerInfo = {
 							formTable.threeThreeOneThree = false
 						end
 						
-						return { xmult = formTable.xmult }
+						return { xmult = to_big(formTable.xmult) }
 					end
 				end
 			end,
 			
 			calc_pair = function(self, card, context, formTable)
 				if context.joker_main and context.cardarea == G.jokers then
-					local RT = { extra = {}, mult = 0 }
+					local RT = { extra = {}, mult = to_big(0) }
 										
 					if
 						context.scoring_name == 'High Card'
 						or context.scoring_name == 'Pair'
 					then
-						RT.chips = formTable.phcChips
+						RT.chips = to_big(formTable.phcChips)
 					end
 					
 					if next(context.poker_hands['Two Pair']) then
-						RT.mult = formTable.tpMult
+						RT.mult = to_big(formTable.tpMult)
 					end
 					
 					if
 						next(context.poker_hands['Three of a Kind'])
 						or next(context.poker_hands['Straight'])
 					then
-						RT.mult = RT.mult + formTable.toakMult
+						RT.mult = to_big(RT.mult) + to_big(formTable.toakMult)
 					end
 					
 					if next(context.poker_hands['Flush']) then
-						RT.xmult = formTable.flush_xmult
+						RT.xmult = to_big(formTable.flush_xmult)
 					end
 					
 					if next(context.poker_hands['Full House']) then
-						RT.extra.xmult = formTable.fh_xmult
+						RT.extra.xmult = to_big(formTable.fh_xmult)
 					elseif
 						next(context.poker_hands['Four of a Kind'])
 						or next(context.poker_hands['Straight Flush'])
 					then
-						RT.extra.xmult = formTable.foak_xmult
+						RT.extra.xmult = to_big(formTable.foak_xmult)
 					end
 					
 					return RT
@@ -1220,7 +1241,7 @@ local jokerInfo = {
 						mCard = context.blueprint_card
 					end
 					
-					return { dollars = formTable.monGain, message_card = mCard }
+					return { dollars = to_big(formTable.monGain), message_card = mCard }
 				end
 			end,
 			
@@ -1282,9 +1303,9 @@ local jokerInfo = {
 							Bless Steamodded devs (Although this is
 							an undocumented context as of writing).]]
 							if cardScores then
-								return { remove_from_hand = true }
+								return { doNotRedSeal = true, remove_from_hand = true }
 							else
-								return { add_to_hand = true }
+								return { doNotRedSeal = true, add_to_hand = true }
 							end
 						end
 					end
@@ -1305,13 +1326,19 @@ local jokerInfo = {
 					out of all the ones that can calculate, then
 					flips them.]]
 					for i = 1, #G.play.cards do
-						if G.play.cards[i]:can_calculate() then
+						if
+							G.play.cards[i]:can_calculate()
+							and not SMODS.has_enhancement(G.play.cards[i], 'm_stone')
+						then
 							entireHandDebuffed = false
 							if CirnoMod.miscItems.cardRanksToValues_AceLow[G.play.cards[i].base.value] < findLowest then
 								findLowest = CirnoMod.miscItems.cardRanksToValues_AceLow[G.play.cards[i].base.value]
 							end
 							
-							if not G.play.cards[i]:is_face() then
+							if
+								not G.play.cards[i]:is_face()
+								and not SMODS.has_enhancement(G.play.cards[i], 'm_stone')
+							then
 								CirnoMod.miscItems.flippyFlip.fStart(G.play.cards[i], percent)
 							end
 						end
@@ -1331,6 +1358,7 @@ local jokerInfo = {
 						if
 							not G.play.cards[i]:is_face()
 							and G.play.cards[i]:can_calculate()
+							and not SMODS.has_enhancement(G.play.cards[i], 'm_stone')
 						then
 							G.E_MANAGER:add_event(Event({
 								trigger = 'immediate',
@@ -1350,7 +1378,7 @@ local jokerInfo = {
 				end
 				
 				if context.joker_main and context.cardarea == G.jokers then
-					return { xmult = formTable.xmult }
+					return { xmult = to_big(formTable.xmult) }
 				end
 			end,
 			
@@ -1416,6 +1444,7 @@ local jokerInfo = {
 					and context.other_card
 					and context.other_card:can_calculate()
 					and context.other_card:is_face()
+					and not SMODS.has_enhancement(context.other_card, 'm_stone')
 				then
 					local juiceCard = card
 					
@@ -1423,7 +1452,7 @@ local jokerInfo = {
 						juiceCard = context.blueprint_card
 					end
 					
-					formTable.accruedMoney = formTable.accruedMoney + formTable.monGain
+					formTable.accruedMoney = to_big(formTable.accruedMoney) + to_big(formTable.monGain)
 					return { func = function()
 						juiceCard:juice_up()
 					end }
@@ -1437,7 +1466,7 @@ local jokerInfo = {
 					and context.scoring_hand
 					and context.scoring_hand[1] == context.other_card
 				then
-					local firstCardChips = CirnoMod.miscItems.cardRanksToValues_AceHigh[context.other_card.base.value]
+					local firstCardChips = to_big(CirnoMod.miscItems.cardRanksToValues_AceHigh[context.other_card.base.value])
 					
 					local e_Table = SMODS.get_enhancements(context.other_card)
 					local replacesBase = false
@@ -1453,26 +1482,26 @@ local jokerInfo = {
 					
 					if enhancement and enhancement.config.bonus then
 						if replacesBase then
-							firstCardChips = enhancement.config.bonus
+							firstCardChips = to_big(enhancement.config.bonus)
 						else
-							firstCardChips = firstCardChips + enhancement.config.bonus
+							firstCardChips = to_big(firstCardChips) + to_big(enhancement.config.bonus)
 						end
 					end
 					
-					if card.ability.perma_bonus and card.ability.perma_bonus > 0 then
-						firstCardChips = firstCardChips + card.ability.perma_bonus
+					if card.ability.perma_bonus and to_big(card.ability.perma_bonus) > 0 then
+						firstCardChips = to_big(firstCardChips) + to_big(card.ability.perma_bonus)
 					end
 					
 					local edition = context.other_card.edition
 					
-					if edition and edition.type == 'foil' then
-						firstCardChips = firstCardChips + edition.chips
+					if edition and edition.chips then
+						firstCardChips = to_big(firstCardChips) + to_big(edition.chips)
 					end
 					
-					local final_xChips = math.max(firstCardChips / 4, 1)
+					local final_xChips = math.max(to_big(firstCardChips) / to_big(4), 1)
 					
 					if final_xChips > 1 then
-						return { x_chips = final_xChips }
+						return { x_chips = to_big(final_xChips) }
 					end
 				end
 				
@@ -1511,23 +1540,23 @@ local jokerInfo = {
 					
 					-- .-.
 					if xmultsRequired > 0 then
-						RT.xmult = formTable.xmult
+						RT.xmult = to_big(formTable.xmult)
 						
 						if xmultsRequired > 1 then
 							RT.extra = {
-							xmult = formTable.xmult,
+							xmult = to_big(formTable.xmult),
 							message_card = mCard,
 							colour = mColour }
 							
 							if xmultsRequired > 2 then
 								RT.extra.extra = {
-								xmult = formTable.xmult,
+								xmult = to_big(formTable.xmult),
 								message_card = mCard,
 								colour = mColour }
 								
 								if xmultsRequired == 4 then
 									RT.extra.extra.extra = {
-									xmult = formTable.xmult,
+									xmult = to_big(formTable.xmult),
 									message_card = mCard,
 									colour = mColour }
 								end
@@ -1540,12 +1569,71 @@ local jokerInfo = {
 			end,
 			
 			calc_straightFlush = function(self, card, context, formTable)
-				--[[ Todo:
-					- Apply Negative to played 2s w/o edition
-					- 2s held in hand give X2 chips
-					- -2 hand size (for blind)
-					- -2 discards (for blind)
-				]]
+				if
+					not context.blueprint
+					and not context.retrigger_joker
+					and not context.retrigger_joker_check
+					and context.before
+					and context.cardarea == G.jokers
+				then
+					if context.b3313_formChange then
+						formTable.storedHandSize = to_big(G.hand.config.card_limit)
+						
+						local discardTarget = to_big(G.GAME.current_round.discards_left) - to_big(2)
+						local handSizeTarget = to_big(G.hand.config.card_limit) - to_big(2)
+						
+						if to_big(discardTarget) < to_big(0) then
+							discardTarget = to_big(0)
+						end
+						
+						if to_big(handSizeTarget) <= to_big(0) then
+							handSizeTarget = to_big(1)
+						end
+						
+						ease_discard(to_big(-G.GAME.current_round.discards_left) + to_big(discardTarget), nil, true)
+						
+						G.hand:change_size(to_big(-G.hand.config.card_limit) + to_big(handSizeTarget))
+					end
+					
+					for i, c in ipairs(G.play.cards) do
+						if
+							c.base.value == "2"
+							and not c.edition
+							and c:can_calculate()
+							and not SMODS.has_enhancement(c, 'm_stone')
+						then
+							c:set_edition('e_negative')
+						end
+					end
+				end
+				
+				if
+					not context.end_of_round
+					and context.individual
+					and context.cardarea == G.hand
+					and context.other_card
+					and context.other_card.base.value == "2"
+					and not SMODS.has_enhancement(context.other_card, 'm_stone')
+				then
+					if context.other_card.debuff then
+						return {
+							message = localize('k_debuffed'),
+							colour = G.C.RED
+						}
+					else
+						return { x_chips = to_big(formTable.xchips) }
+					end
+				end
+				
+				if
+					not context.blueprint
+					and not context.retrigger_joker
+					and not context.retrigger_joker_check
+					and context.end_of_round
+					and context.main_eval
+				then
+					G.hand:change_size(to_big(2))
+				end
 			end,
 			
 			calc_fiveKind = function(self, card, context, formTable)
@@ -1557,6 +1645,7 @@ local jokerInfo = {
 					and context.cardarea == G.play
 					and context.other_card:can_calculate()
 					and context.other_card:is_face()
+					and not SMODS.has_enhancement(context.other_card, 'm_stone')
 				then
 					if not formTable.handContainedFaceCards then
 						formTable.handContainedFaceCards = true
@@ -1566,47 +1655,170 @@ local jokerInfo = {
 					local cardRef = context.other_card
 					local jkrRef = card
 					
-					if cardRef.base.value == "Queen" then
-						if
-							cardRef.base.value == "Queen"
-							and not cardRef.edition
-							and pseudorandom('queenPolyChance'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/formTable.polyChance
-						then
-							cardRef:set_edition(poll_edition('queenPoly'..G.GAME.round_resets.ante, nil, true, true), true, false)
-						else
-							return { func = function()
-								attention_text({
-										text = localize('k_nope_ex'),
-										scale = 1.3,
-										hold = 1.4,
-										major = cardRef,
-										backdrop_colour = G.C.SECONDARY_SET.Tarot,
-										align = 'cm',
-										offset = {x = 0, y = 0},
-										silent = true })
-									
+					if
+						not cardRef.edition
+						and (cardRef.base.value == "Queen"
+						or formTable.parsedKingsJacks[cardRef])
+						and not formTable.queenPolycule[cardRef]						
+					then
+						if pseudorandom('queenPolyChance'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/formTable.polyChance then
+							formTable.queenPolycule[cardRef] = true
+							
+							return { doNotRedSeal = true,
+								func = function()
 									G.E_MANAGER:add_event(Event({
-										trigger = 'after',
-										delay = 0.06*G.SETTINGS.GAMESPEED,
-										blockable = false,
-										blocking = false,
+										trigger = 'immediate',
+										blocking = true,
+										blockable = true,
 										func = function()
-											play_sound('tarot2', 0.76, 0.4);return true end}))
-									
-									play_sound('tarot2', 1, 0.4)
-									cardRef:juice_up(0.3, 0.5)
-							end }
+											cardRef:set_edition('e_polychrome', true)
+										return true 
+										end }))
+								end }
+						else
+							return { doNotRedSeal = true,
+								func = function()
+									G.E_MANAGER:add_event(Event({
+										trigger = 'immediate',
+										blocking = true,
+										blockable = true,
+										func = function()
+											attention_text({
+												text = localize('k_nope_ex'),
+												scale = 1.3,
+												hold = 1.4,
+												major = cardRef,
+												backdrop_colour = G.C.SECONDARY_SET.Tarot,
+												align = 'cm',
+												offset = {x = 0, y = 0},
+												silent = true })
+											
+											G.E_MANAGER:add_event(Event({
+												trigger = 'after',
+												delay = 0.06*G.SETTINGS.GAMESPEED,
+												blockable = false,
+												blocking = false,
+												func = function()
+													play_sound('tarot2', 0.76, 0.4);return true
+												end}))
+										
+											play_sound('tarot2', 1, 0.4)
+											cardRef:juice_up(0.3, 0.5)
+										return true 
+										end }))
+								end }
 						end
-					else
+					elseif
+						cardRef.base.value == "King"
+						or cardRef.base.value == "Jack"
+						and not formTable.parsedKingsJacks[cardRef]
+					then
+						formTable.parsedKingsJacks[cardRef] = true
+						
 						-- This setup looks weird, but it's all to achieve a specific visual timing.
 						CirnoMod.miscItems.flippyFlip.fStart(cardRef, formTable_.pitch)
 						
-						return { func = function()
-							if cardRef.base.value == "King" then
-								SMODS.modify_rank(cardRef, -1)
-							elseif cardRef.base.value == "Jack" then
-								SMODS.modify_rank(cardRef, 1)
-							end
+						return { doNotRedSeal = true,
+							func = function()
+								formTable_.pitch = 1
+								
+								G.E_MANAGER:add_event(Event({
+									trigger = 'immediate',
+									blocking = true,
+									blockable = true,
+									func = function()
+										if cardRef.base.value == "King" then
+											SMODS.modify_rank(cardRef, -1)
+										elseif cardRef.base.value == "Jack" then
+											SMODS.modify_rank(cardRef, 1)
+										end
+										
+										formTable_.pitch = math.max(formTable_.pitch - 0.09, 0.5)
+										jkrRef:juice_up();play_sound('generic1', formTable_.pitch)
+									return true 
+									end }))
+								
+								formTable_.pitch = 1
+								
+								CirnoMod.miscItems.flippyFlip.fEnd(cardRef, formTable_.pitch)
+							end }
+					end
+				end
+				
+				if
+					not context.blueprint
+					and not context.retrigger_joker
+					and not context.retrigger_joker_check
+					and context.joker_main
+					and context.cardarea == G.jokers
+				then
+					if not formTable.handContainedFaceCards then
+						G.E_MANAGER:add_event(Event({
+									trigger = 'immediate',
+									blocking = true,
+									blockable = true,
+									func = function()
+										card:juice_up();play_sound('tarot2')
+										SMODS.debuff_card(card, true, 'cir_Jkr_autoEORUndebuff')
+									return true 
+									end }))
+					end
+					formTable.parsedKingsJacks = {}
+					formTable.queenPolycule = {}
+					formTable.handContainedFaceCards = false
+				end
+			end,
+			
+			calc_flushHouse = function(self, card, context, formTable)
+				if
+					not context.blueprint
+					and not context.retrigger_joker
+					and not context.retrigger_joker_check
+					and context.before
+					and context.cardarea == G.jokers
+				then
+					return { balance = true }
+				end
+				
+				if context.joker_main and context.cardarea == G.jokers then
+					local combinedBaseValue = 0
+					
+					for i, c in ipairs (G.hand.cards) do
+						if
+							c:can_calculate()
+							and not SMODS.has_enhancement(c, 'm_stone')
+						then
+							combinedBaseValue = to_big(combinedBaseValue) + to_big(CirnoMod.miscItems.cardRanksToValues_AceHigh[c.base.value])
+						end
+					end
+					
+					return { mult = to_big(combinedBaseValue) }
+				end
+			end,
+			
+			calc_flushFive = function(self, card, context, formTable)
+				if
+					not context.blueprint
+					and not context.retrigger_joker
+					and not context.retrigger_joker_check
+					and context.individual
+					and context.cardarea == G.play
+					and context.other_card:can_calculate()
+					and context.other_card:is_suit("Clubs")
+					and context.other_card.base.value == "Queen"
+					and not next(SMODS.get_enhancements(context.other_card))
+				then
+					local formTable_ = formTable
+					local cardRef = context.other_card
+					local jkrRef = card
+					
+					-- This setup looks weird, but it's all to achieve a specific visual timing.
+					CirnoMod.miscItems.flippyFlip.fStart(cardRef, formTable_.pitch)
+					
+					return { doNotRedSeal = true,
+						func = function()
+							-- Sets the random enhancement
+							cardRef:set_ability('m_steel', nil, true)
 							
 							formTable_.pitch = 1
 							
@@ -1624,24 +1836,7 @@ local jokerInfo = {
 							
 							CirnoMod.miscItems.flippyFlip.fEnd(cardRef, formTable_.pitch)
 						end }
-					end
 				end
-				
-				-- Todo: debuff for remainder of blind if no face cards were played
-				
-			end,
-			
-			calc_flushHouse = function(self, card, context, formTable)
-				--[[ Todo:
-					- Return { balance = true } from context.before
-					- Add total base value of played hand to mult during context.joker_main
-				]]
-			end,
-			
-			calc_flushFive = function(self, card, context, formTable)
-				--[[ Todo:
-					- Make played Queens of Clubs w/o enhancement become steel cards
-				]]
 			end,
 			
 			calculate = function(self, card, context)
@@ -1653,6 +1848,16 @@ local jokerInfo = {
 					card.ability.extra.formsInfo.crescent.accruedMoney = 0
 					card.ability.extra.formsInfo.peachCell.handContainedFaceCards = false
 					card.ability.extra.scoredHandName = nil
+				end
+				
+				if
+					not context.blueprint
+					and not context.retrigger_joker
+					and context.first_hand_drawn
+				then
+					juice_card_until(card, function()
+						return G.GAME.current_round.hands_played == 0
+					end, true)
 				end
 				
 				local formTable = nil
@@ -1670,6 +1875,7 @@ local jokerInfo = {
 						end
 						
 						self:change_form(card, card.ability.extra.handToForm[context.scoring_name])
+						context.b3313_formChange = true
 					end
 					
 					if
@@ -1678,6 +1884,8 @@ local jokerInfo = {
 						or context.main_eval
 						or context.post_trigger
 						or context.cardarea == G.play
+						or (context.individual
+						and context.cardarea == G.hand)
 					then
 						local findScoringName = context.scoring_name
 						
@@ -1700,6 +1908,10 @@ local jokerInfo = {
 					and type(self[formTable.funcName]) == 'function'
 				then
 					local RT = self[formTable.funcName](self, card, context, formTable)
+					
+					if context.b3313_formChange then
+						context.b3313_formChange = nil
+					end
 					
 					if RT then
 						return RT

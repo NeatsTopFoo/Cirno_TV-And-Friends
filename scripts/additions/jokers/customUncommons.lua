@@ -66,7 +66,7 @@ local jokerInfo = {
 						message = localize {
 							type = 'variable',
 							key = 'a_xmult',
-							vars = { card.ability.extra.Xmult }
+							vars = { to_big(card.ability.extra.Xmult) }
 						}
 					}
 				end

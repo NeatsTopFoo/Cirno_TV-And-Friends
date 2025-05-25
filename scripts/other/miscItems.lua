@@ -33,8 +33,6 @@ local miscItems = {
 	},
 	weirdArtCreditExceptionalCircumstanceKeys = {}, -- Some things seem to do weird things, like Wild cards.
 	descExtensionTooltips = {},
-	eDT_edScale_T = {},
-	-- handsThatContainOtherHands = {},
 	alphabetNumberConv = {
 		numToAlphabet = {},
 		alphabetToNum = {}
@@ -534,23 +532,40 @@ miscItems.flippyFlip = {
 }
 
 miscItems.pullEditionModifierValue = function(edition)
-	if edition.type == 'foil' then
-		return edition.chips
-	elseif edition.type == 'holo' then
-		return edition.mult
-	elseif edition.type == 'polychrome' then
-		return edition.x_mult
+	if edition and edition.type == 'foil' then
+		return to_big(edition.chips)
+	elseif edition and edition.type == 'holo' then
+		return to_big(edition.mult)
+	elseif edition and edition.type == 'polychrome' then
+		return to_big(edition.x_mult)
+	end
+	return nil
+end
+
+miscItems.getEditionScalingInfo = function(edition, scalar)	
+	if edition and edition.type == 'foil' then
+		return { key = 'foilScale',
+			set = 'Other',
+			vars = { to_big(edition.chips), to_big(edition.chips) + to_big(50 * scalar) } }
+	elseif edition and edition.type == 'holo' then
+		return { key = 'holoScale',
+			set = 'Other',
+			vars = { to_big(edition.mult), to_big(edition.mult) + to_big(10 * scalar) } }
+	elseif edition and edition.type == 'polychrome' then
+		return { key = 'polyScale',
+			set = 'Other',
+			vars = { to_big(edition.x_mult), to_big(edition.x_mult) + to_big(0.5 * scalar) } }
 	end
 	return nil
 end
 
 miscItems.scaleEdition_FHP = function(card, scalar)
 	if card.edition.type == 'foil' then
-		card.edition.chips = card.edition.chips + 50 * scalar
+		card.edition.chips = to_big(card.edition.chips) + to_big(50 * scalar)
 	elseif card.edition.type == 'holo' then
-		card.edition.mult = card.edition.mult + 10 * scalar
+		card.edition.mult = to_big(card.edition.mult) + to_big(10 * scalar)
 	elseif card.edition.type == 'polychrome' then
-		card.edition.x_mult = card.edition.x_mult + 0.5 * scalar
+		card.edition.x_mult = to_big(card.edition.x_mult) + to_big(0.5 * scalar)
 	end
 end
 

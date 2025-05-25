@@ -344,10 +344,10 @@ replaceDef.deckReplacements = {
 -------------------
 replaceDef.boosterReplacements = { -- These are just in the order Malverk's codebase had them in. Could rearrange them to match the graphic for easier editing.
 	{ bstKey = 'p_arcana_normal_1', matureRefLevel = 1, artCreditKey = 'bA_DaemonTsun_BigNTFEdit' },
-	--	{ bstKey = 'p_arcana_normal_2', matureRefLevel = 1, },
+	{ bstKey = 'p_arcana_normal_2', matureRefLevel = 1, artCreditKey = 'bA_RH_DaemonTsunEdit' },
 	--	{ bstKey = 'p_arcana_normal_3', matureRefLevel = 1, },
 	--	{ bstKey = 'p_arcana_normal_4', matureRefLevel = 1, },
-	--	{ bstKey = 'p_arcana_jumbo_1', matureRefLevel = 1, },
+	{ bstKey = 'p_arcana_jumbo_1', matureRefLevel = 1, artCreditKey = 'bA_RH_DaemonTsunEdit' },
 	--	{ bstKey = 'p_arcana_jumbo_2', matureRefLevel = 1, },
 	--	{ bstKey = 'p_arcana_mega_1', matureRefLevel = 1, },
 	--	{ bstKey = 'p_arcana_mega_2', matureRefLevel = 1, },
@@ -405,7 +405,7 @@ replaceDef.jokerReplacements = {
 	this, so. I did also check with Cirno, the artist behind cirFairy
 	is apparently some giga old chatter from back in the day and is
 	to my knowledge, not any of the listed artists on his channel.]]
-	{ jkrKey = 'j_wee', matureRefLevel = 1, artCreditKey = 'jA_Unknown' },
+	{ jkrKey = 'j_wee', matureRefLevel = 1, artCreditKey = 'jA_solgryn' },
 	
 	{ jkrKey = 'j_chaos', matureRefLevel = 1, artCreditKey = 'jA_MikuTheClown' },
 	{ jkrKey = 'j_jolly', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
@@ -468,7 +468,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_matador', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_ceremonial', matureRefLevel = 1, artCreditKey = 'jA_DuoDagger' },
 	{ jkrKey = 'j_ring_master', matureRefLevel = 1, artCreditKey = 'jA_JustIRLCirno' }, -- Yes, this is Showman. You have no idea how mad I am that it's called this internally.
-	-- { jkrKey = 'j_fortune_teller', matureRefLevel = 1 },
+	{ jkrKey = 'j_fortune_teller', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_hit_the_road', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_swashbuckler', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	
@@ -574,7 +574,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_trousers', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	{ jkrKey = 'j_campfire', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_smiley', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
-	{ jkrKey = 'j_ancient', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
+	{ jkrKey = 'j_ancient', matureRefLevel = 1, artCreditKey = 'jA_Ancient' },
 	{ jkrKey = 'j_walkie_talkie', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_castle', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' }
 }
@@ -591,14 +591,14 @@ replaceDef.tarotReplacements = {
 	{ trtKey = 'c_heirophant', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' }, -- Yes, also mispelled internally; Make sure to have it right... Or wrong, in this case.
 	{ trtKey = 'c_lovers', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
 	{ trtKey = 'c_chariot', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
-	{ trtKey = 'c_justice', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_justice', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
 	{ trtKey = 'c_hermit', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_wheel_of_fortune', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
 	{ trtKey = 'c_strength', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
 	{ trtKey = 'c_hanged_man', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
-	{ trtKey = 'c_death', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
-	{ trtKey = 'c_temperance', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
-	{ trtKey = 'c_devil', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
+	{ trtKey = 'c_death', matureRefLevel = 1, artCreditKey = 'cA_RHEdit' },
+	{ trtKey = 'c_temperance', matureRefLevel = 1, artCreditKey = 'cA_RHEdit' },
+	{ trtKey = 'c_devil', matureRefLevel = 1, artCreditKey = 'cA_Devil' },
 	{ trtKey = 'c_tower', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_star', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_moon', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },

@@ -48,8 +48,7 @@ end
 
 --#region Tarots
 
-PTSloc.tarots.c_fool = {
-	-- name = "The Fool",
+PTSloc.tarots.c_fool = { -- name = "The Fool",
 	text = {
 			"Creates the last",
 			"{C:tarot}Tarot{} or {C:planet}"..planetIntent.."{} card",
@@ -60,8 +59,7 @@ PTSloc.tarots.c_fool = {
 		}
 	}
 				
-PTSloc.tarots.c_high_priestess = {
-	-- name = "High Priestess",
+PTSloc.tarots.c_high_priestess = { -- name = "High Priestess",
 	text = {
 			"Creates up to {C:attention}#1#",
 			"random {C:planet}"..planetIntent.."{} cards",
@@ -69,8 +67,7 @@ PTSloc.tarots.c_high_priestess = {
 		}
 	}
 
-PTSloc.tarots.c_wheel_of_fortune = {
-	name = "Wheel of Nope",
+PTSloc.tarots.c_wheel_of_fortune = { name = "Wheel of Nope",
 	text = {
 			"{C:green}#1# in #2#{} chance to add",
 			"{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
@@ -82,8 +79,7 @@ PTSloc.tarots.c_wheel_of_fortune = {
 		}
 	}
 
-PTSloc.tarots.c_strength = {
-	-- name = "Strength",
+PTSloc.tarots.c_strength = { -- name = "Strength",
 	text = {
 			"Increases rank of",
 			"up to {C:attention}#1#{} selected",
@@ -93,19 +89,16 @@ PTSloc.tarots.c_strength = {
 		}
 	}
 
-PTSloc.tarots.c_devil = {
-	-- name = "The Devil",
+PTSloc.tarots.c_devil = { -- name = "The Devil",
 	text = {
 			"Enhances {C:attention}#1#{} selected",
 			"card into a",
 			"{C:attention}#2#",
-			"{s:0.8,C:inactive}Going for the Matterhorn",
-			"{s:0.8,C:inactive}again, are we? Bold choice."
+			"{s:0.8,C:inactive}\"Who's laughing now?\""
 		}
 	}
 
-PTSloc.tarots.c_sun= {
-	name = "The Sus",
+PTSloc.tarots.c_sun= { name = "The Sus",
 	text = {
 			"Converts up to",
 			"{C:attention}#1#{} selected cards",
@@ -116,8 +109,7 @@ PTSloc.tarots.c_sun= {
 		}
 	}
 
-PTSloc.tarots.c_lovers = {
-	-- name = "The Lovers",
+PTSloc.tarots.c_lovers = { -- name = "The Lovers",
 	text = {
 			"Enhances {C:attention}#1#{} selected",
 			"card into a {C:attention}#2#",
@@ -130,12 +122,47 @@ PTSloc.tarots.c_lovers = {
 		}
 	}
 
+PTSloc.tarots.c_death = { -- name = "Death",
+	text = {
+			"Select {C:attention}#1#{} cards,",
+			"convert the {C:attention}left{} card",
+			"into the {C:attention}right{} card",
+			"{C:inactive}(Drag to rearrange)",
+			"{s:0.8,C:inactive}VTubers & dying to",
+			"{s:0.8,C:inactive}the most random, yet",
+			"{s:0.8,C:inactive}classic stuff in games,",
+			"{s:0.8,C:inactive}name a more iconic duo."
+		}
+	}
+
+PTSloc.tarots.c_temperance = { -- name = "Temperance",
+	text = {
+			"Gives the total sell",
+			"value of all current",
+			"Jokers {C:inactive}(Max of {C:money}$#1#{C:inactive})",
+			"{C:inactive}(Currently {C:money}$#2#{C:inactive})",
+			"{s:0.8,C:inactive}No drinking allowed?!",
+			"{s:0.8,C:inactive}How will Biggdeck ever recover?"
+		}
+	}
+
+PTSloc.tarots.c_justice = { -- name = "Justice",
+	text = {
+			"Creates a random",
+			"{C:attention}Joker{} card",
+			"{C:inactive}(Must have room)",
+			"{s:0.8,C:inactive}What the...",
+			"{s:0.8,C:inactive}I was missold!",
+			"{s:0.8,C:inactive}This isn't \"just ice\"",
+			"{s:0.8,C:inactive}at all!"
+		}
+	}
+
 --#endregion
 
 --#region Spectrals
 
-PTSloc.spectrals.c_black_hole = {
-	name = "MahoHuh",
+PTSloc.spectrals.c_black_hole = { name = "MahoHuh",
 	text = {
 			"Upgrade every",
 			"{C:legendary,E:1}poker hand",
@@ -144,8 +171,7 @@ PTSloc.spectrals.c_black_hole = {
 		}
 	}
 
-PTSloc.c_soul = {
-	-- name = "The Soul",
+PTSloc.c_soul = { -- name = "The Soul",
 	text = {
 			"Creates a",
 			"{C:legendary,E:1}Legendary{} Joker",
@@ -154,8 +180,7 @@ PTSloc.c_soul = {
 		}
 	}
 
-PTSloc.spectrals.c_ankh = {
-	name = "Ankha",
+PTSloc.spectrals.c_ankh = { name = "Ankha",
 	text = {
 			"Create a copy of a random {C:attention}Joker{},",
 			"{C:red}destroy all other Jokers",
@@ -165,8 +190,7 @@ PTSloc.spectrals.c_ankh = {
 		}
 	}
 
-PTSloc.spectrals.c_wraith = {
-	name = "Frieren",
+PTSloc.spectrals.c_wraith = { name = "Frieren",
 	text = {
 			"Creates a random",
 			"{C:red}Rare{C:attention} Joker{},",
@@ -175,9 +199,7 @@ PTSloc.spectrals.c_wraith = {
 		}
 	}
 
-PTSloc.spectrals.c_ouija = {
-	name = "Chat Ouija"
-}
+PTSloc.spectrals.c_ouija = { name = "Chat Ouija" }
 
 if CirnoMod.config['matureReferences_cyc'] == 3 then
 	PTSloc.spectrals.c_ouija.text = {
@@ -198,8 +220,7 @@ else
 	}
 end
 
-PTSloc.spectrals.c_deja_vu = {
-	-- name = "Deja Vu",
+PTSloc.spectrals.c_deja_vu = { -- name = "Deja Vu",
 	text = {
 			"Add a {C:red}"..sealIntent.red_seal,
 			"to {C:attention}1{} selected",
@@ -208,8 +229,7 @@ PTSloc.spectrals.c_deja_vu = {
 		}
 	}
 
-PTSloc.spectrals.c_trance = {
-	name = "Overlap",
+PTSloc.spectrals.c_trance = { name = "Overlap",
 	text = {
 		"Add a {C:blue}"..sealIntent.blue_seal.."{} to {C:attention}1{} selected card in your hand",
 		"{s:0.8,C:inactive}You know, if I had a nickel for every Canadian catgirl VTuber",
