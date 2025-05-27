@@ -9,19 +9,20 @@ local jokerInfo = {
 		py = 95
 	},
 	
-	-- TODO:
-		-- Ornstein & Smough Joker pair that respectively become Super Ornstein & Super Smough when the other of the two is destroyed (not sold)
-		-- Redacted '██████' Joker whose effects are not clear, highly unpredictable and inconsistent, heavily RNG-based but also extremely confusing
-		-- Mac n' Cheese Joker; Every 2 Boss Blinds, if there's room, creates a Ketchup (Seltzer). Gains x0.1 mult every time a ketchup runs out.
-		-- Bloodborne on PC Joker: Dithering between the effect of "Sell this Joker during a blind to draw 2x hand size to card", "In X rounds, sell this Joker to multiply your number of discards by 1.5" & "Sell this Joker during a blind to discard all held cards and draw a new hand (If deck is empty, refresh deck)."
-		-- "Help I'm Trapped In The Joker Factory" will have some different effects that get selected randomly on joker creation, all related to blinds, one off the top of my head is "This Joker gives +5 mult during The Memory (the boss blind) & also gains X0.05 mult whenever Cirno forgets something" and then it just randomly gains X0.05 mult based on random, unpredictable criteria.
-		-- "Fuckin' Catgirl Sex Fuckin Footjob Dick Suckin' Simulator" No idea what this could do.
-		-- Endless Eight Joker
-		-- Sonic '06 Joker
-		-- Emotional Support Broken Man Joker
-		-- Turn all left cards into right cards
-		-- Money laundry?
-		-- Air fryer?
+	--[[ TODO:
+		- Ornstein & Smough Joker pair that respectively become Super Ornstein & Super Smough when the other of the two is destroyed (not sold)
+		- Redacted '██████' Joker whose effects are not clear, highly unpredictable and inconsistent, heavily RNG-based but also extremely confusing
+		- Mac n' Cheese Joker; Every 2 Boss Blinds, if there's room, creates a Ketchup (Seltzer). Gains x0.1 mult every time a ketchup runs out.
+		- Bloodborne on PC Joker: Dithering between the effect of "Sell this Joker during a blind to draw 2x hand size to card", "In X rounds, sell this Joker to multiply your number of discards by 1.5" & "Sell this Joker during a blind to discard all held cards and draw a new hand (If deck is empty, refresh deck)."
+		- "Help I'm Trapped In The Joker Factory" will have some different effects that get selected randomly on joker creation, all related to blinds, one off the top of my head is "This Joker gives +5 mult during The Memory (the boss blind) & also gains X0.05 mult whenever Cirno forgets something" and then it just randomly gains X0.05 mult based on random, unpredictable criteria.
+		- "Fuckin' Catgirl Sex Fuckin Footjob Dick Suckin' Simulator" No idea what this could do.
+		- Endless Eight Joker
+		- Sonic '06 Joker
+		- Emotional Support Broken Man Joker
+		- Turn all left cards into right cards
+		- Money laundry?
+		- Air fryer?
+	]]
 	jokerConfigs = {
 		-- Crystal Tap
 		{
@@ -186,7 +187,7 @@ local jokerInfo = {
 				CirnoMod.miscItems.addUITextNode(nodes_.Ln1, ' Mult,', G.C.UI.TEXT_DARK, 1)
 				
 				CirnoMod.miscItems.addUITextNode(nodes_.Ln2, 'If played ', G.C.UI.TEXT_DARK, 1)
-				CirnoMod.miscItems.addUITextNode(nodes_.Ln2, 'poker hand ', G.C.FILTER, 1)
+				CirnoMod.miscItems.addUITextNode(nodes_.Ln2, 'poker hand', G.C.FILTER, 1)
 				
 				CirnoMod.miscItems.addUITextNode(nodes_.Ln3, 'contains a ', G.C.UI.TEXT_DARK, 1)
 				CirnoMod.miscItems.addUITextNode(nodes_.Ln3, localize(card.ability.extra.pHand, 'poker_hands') or card.ability.extra.pHand, G.C.FILTER, 1)
@@ -420,8 +421,9 @@ local jokerInfo = {
 						local RT = { message_card = context.other_card }
 						
 						-- Decide if card should be destroyed
-						if pseudorandom('mitaKill') < G.GAME.probabilities.normal/card.ability.extra.odds then
+						if to_big(pseudorandom('mitaKill')) < to_big(G.GAME.probabilities.normal)/to_big(card.ability.extra.odds) then
 							context.other_card.getting_sliced = true -- Marks the card for destruction.
+							RT.doNotRedSeal = true
 							RT.message = '  '
 							RT.colour = G.C.RED
 							RT.func = function()
@@ -960,7 +962,7 @@ local jokerInfo = {
 				elseif extraTable.currentForm == 'forestMaze' then
 					return {
 						to_big(extraTable.formsInfo.forestMaze.xmult),
-						''..(G.GAME and G.GAME.probabilities.normal or 1),
+						''..(G.GAME and to_big(G.GAME.probabilities.normal) or 1),
 						extraTable.formsInfo.forestMaze.chance1,
 						extraTable.formsInfo.forestMaze.chance2,
 						extraTable.formsInfo.forestMaze.chance3,
@@ -1661,7 +1663,7 @@ local jokerInfo = {
 						or formTable.parsedKingsJacks[cardRef])
 						and not formTable.queenPolycule[cardRef]						
 					then
-						if pseudorandom('queenPolyChance'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/formTable.polyChance then
+						if to_big(pseudorandom('queenPolyChance'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.polyChance) then
 							formTable.queenPolycule[cardRef] = true
 							
 							return { doNotRedSeal = true,

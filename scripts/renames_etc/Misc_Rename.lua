@@ -339,10 +339,40 @@ miscLoc.tags.tag_garbage = { text = {
 		"{s:0.8,C:inactive}difference."
    } }
 
-SMODS.process_loc_text(G.localization.descriptions.Tag.tag_meteor, "text", {
+miscLoc.tags.tag_ethereal = { name = "Mima Tag",
+	text={
 		"Gives a free",
-		"{C:planet}Mega "..celestPackIntent
-	})
+		"{C:spectral}Spectral Pack",
+		"{s:0.8,C:inactive}ZUN, pls."
+	} }
+
+if CirnoMod.config.planetsAreHus then
+	miscLoc.tags.tag_meteor = { name = "Hu Tag",
+		text={
+			"Gives a free",
+			"{C:planet}Mega "..celestPackIntent,
+			"{s:0.8,C:cirInactiveAtt}Warning{s:0.8,C:inactive}: This Tag may contain",
+			"{s:0.8,C:inactive}Double Spoilers and is Highly",
+			"{s:0.8,C:inactive}Responsive to Prayers. Practice",
+			"{s:0.8,C:inactive}safe Tag usage and consult a",
+			"{s:0.8,C:inactive}certified Double Dealing Character",
+			"{s:0.8,C:inactive}whenever using {s:0.8,C:planet}Hu Tags{s:0.8,C:inactive}."
+		} }
+	
+	miscLoc.tags.tag_orbital = { name = "Bomb Tag",
+		text={
+			"Upgrade {C:attention}#1#",
+			"by {C:attention}#2# levels",
+			"{s:0.8,C:inactive}It's yours, my friend.",
+			"{s:0.8,C:inactive}As long as you have",
+			"{s:0.8,C:inactive}enough rupees."
+		} }
+else
+	SMODS.process_loc_text(G.localization.descriptions.Tag.tag_meteor, "text", {
+			"Gives a free",
+			"{C:planet}Mega "..celestPackIntent
+		})
+end
 
 --#endregion
 

@@ -264,7 +264,7 @@ RV.descriptions.Other = {
 			"{s:0.6}...I don't know what to",
 			"{s:0.6}say, it's literally just",
 			"{s:0.6}a screenshot of the",
-			creditSources.CirnoTV_smol.." {s:0.6}stream."
+			creditSources.CirnoTV_smol.."{s:0.6} stream."
 		}
 	},
 	jA_Baseball = { name = creditSources.cr_JokerArt,

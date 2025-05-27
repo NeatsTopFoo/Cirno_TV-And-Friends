@@ -54,7 +54,8 @@ replaceDef.paths.cirBoostersPath = {
 
 -- Guess we doin tags now
 replaceDef.paths.cirTagsPath = {
-	nrm = 'Vanilla_Replacements/cir_Tags.png'
+	nrm = 'Vanilla_Replacements/cir_Tags_NoHu.png',
+	planetsAreHus = 'Vanilla_Replacements/cir_Tags.png'
 }
 
 replaceDef.getPath = function(replaceType)
@@ -163,7 +164,11 @@ replaceDef.getPath = function(replaceType)
 			replaceType == "tags"
 			or replaceType == "tag"
 		then
-			RV = replaceDef.paths.cirTagsPath.nrm
+			if CirnoMod.config['planetsAreHus'] then
+				RV = replaceDef.paths.cirTagsPath.planetsAreHus
+			else
+				RV = replaceDef.paths.cirTagsPath.nrm
+			end
 		elseif
 			replaceType == "voucher"
 			or replaceType == "vouchers"
@@ -326,16 +331,16 @@ replaceDef.deckReplacements = {
 	{ dckKey = 'b_yellow', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	{ dckKey = 'b_green', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	{ dckKey = 'b_black', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
-	-- { dckKey = 'b_magic', matureRefLevel = 1 },
+	{ dckKey = 'b_magic', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	{ dckKey = 'b_nebula', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	{ dckKey = 'b_ghost', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
-	-- { dckKey = 'b_abandoned', matureRefLevel = 1 },
+	{ dckKey = 'b_abandoned', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	{ dckKey = 'b_checkered', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	-- { dckKey = 'b_zodiac', matureRefLevel = 1 },
 	{ dckKey = 'b_painted', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	{ dckKey = 'b_anaglyph', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	{ dckKey = 'b_plasma', matureRefLevel = 1 },
-	-- { dckKey = 'b_erratic', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
+	{ dckKey = 'b_erratic', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	-- { dckKey = 'b_challenge, matureRefLevel = 1 }
 }
 
@@ -408,11 +413,11 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_wee', matureRefLevel = 1, artCreditKey = 'jA_solgryn' },
 	
 	{ jkrKey = 'j_chaos', matureRefLevel = 1, artCreditKey = 'jA_MikuTheClown' },
-	{ jkrKey = 'j_jolly', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
-	{ jkrKey = 'j_zany', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
+	{ jkrKey = 'j_jolly', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
+	{ jkrKey = 'j_zany', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
 	{ jkrKey = 'j_mad', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	{ jkrKey = 'j_crazy', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
-	{ jkrKey = 'j_droll', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
+	{ jkrKey = 'j_crazy', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
+	{ jkrKey = 'j_droll', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
 	{ jkrKey = 'j_half', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_merry_andy', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_stone', matureRefLevel = 1, artCreditKey = 'jA_BocchiTheRock' },
@@ -494,7 +499,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_rough_gem', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	
 	
-	-- { jkrKey = 'j_bloodstone', matureRefLevel = 1 },
+	{ jkrKey = 'j_bloodstone', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	-- { jkrKey = 'j_arrowhead', matureRefLevel = 1 },
 	{ jkrKey = 'j_onyx_agate', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	
@@ -502,9 +507,9 @@ replaceDef.jokerReplacements = {
 	----- Malverk script from this, because they have to be handled  -----
 	----- by a different alt texture block. However, they're present -----
 	----- for simplificiation of doing the credits, anyrway.			 -----
-	{ jkrKey = 'j_caino', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
-	{ jkrKey = 'j_triboulet', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
-	{ jkrKey = 'j_yorick', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
+	{ jkrKey = 'j_caino', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
+	{ jkrKey = 'j_triboulet', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
+	{ jkrKey = 'j_yorick', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
 	{ jkrKey = 'j_chicot', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
 	{ jkrKey = 'j_perkeo', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_hologram', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
@@ -530,7 +535,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_superposition', matureRefLevel = 1 },
 	{ jkrKey = 'j_todo_list', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_cavendish', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
-	-- { jkrKey = 'j_card_sharp', matureRefLevel = 1 },
+	{ jkrKey = 'j_card_sharp', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_red_card', matureRefLevel = 1, artCreditKey = 'jA_RedCard' },
 	-- { jkrKey = 'j_madness', matureRefLevel = 1 },
 	{ jkrKey = 'j_square', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
@@ -556,11 +561,11 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_to_the_moon', matureRefLevel = 1 },
 	{ jkrKey = 'j_hallucination', matureRefLevel = 1, artCreditKey = 'jA_ObsvDuty' },
 	
-	{ jkrKey = 'j_sly', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
-	{ jkrKey = 'j_wily', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
+	{ jkrKey = 'j_sly', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
+	{ jkrKey = 'j_wily', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
 	{ jkrKey = 'j_clever', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	{ jkrKey = 'j_devious', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
-	{ jkrKey = 'j_crafty', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
+	{ jkrKey = 'j_devious', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
+	{ jkrKey = 'j_crafty', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
 	{ jkrKey = 'j_lucky_cat', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_baseball', matureRefLevel = 1, artCreditKey = 'jA_Baseball' },
 	-- { jkrKey = 'j_bull', matureRefLevel = 1 },
@@ -678,18 +683,18 @@ replaceDef.tagReplacements = {
     -- { tagKey = 'tag_boss', matureRefLevel = 1 },
     -- { tagKey = 'tag_standard', matureRefLevel = 1 },
     -- { tagKey = 'tag_charm', matureRefLevel = 1 },
-    -- { tagKey = 'tag_meteor', matureRefLevel = 1 },
+    { tagKey = 'tag_meteor', matureRefLevel = 1, artCreditKey = { planetsAreHus = 'gA_NTF' }, planetsAreHus = true },
     { tagKey = 'tag_buffoon', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_NTF_Both' },
     -- { tagKey = 'tag_handy', matureRefLevel = 1 },
     { tagKey = 'tag_garbage', matureRefLevel = 1, artCreditKey = 'gA_neptunia' },
-    -- { tagKey = 'tag_ethereal', matureRefLevel = 1 },
+    { tagKey = 'tag_ethereal', matureRefLevel = 1, artCreditKey = 'gA_NTF' },
     { tagKey = 'tag_coupon', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
     { tagKey = 'tag_double', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
     -- { tagKey = 'tag_juggle', matureRefLevel = 1 },
     -- { tagKey = 'tag_d_six', matureRefLevel = 1 },
     -- { tagKey = 'tag_top_up', matureRefLevel = 1 },
     -- { tagKey = 'tag_skip', matureRefLevel = 1 },
-    -- { tagKey = 'tag_orbital', matureRefLevel = 1 },
+    { tagKey = 'tag_orbital', matureRefLevel = 1, artCreditKey = { planetsAreHus = 'gA_NTF' }, planetsAreHus = true },
     -- { tagKey = 'tag_economy', matureRefLevel = 1 }
 }
 

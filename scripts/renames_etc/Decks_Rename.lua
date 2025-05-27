@@ -1,6 +1,6 @@
 local deckLoc = {}
 
--- deckLoc.b_abandoned = { name = "Abandoned Deck" }
+deckLoc.b_abandoned = { name = "Yuuma Deck" }
 deckLoc.b_anaglyph = { name = "Pepsi Deck",
 	text={
 		"After defeating each",
@@ -17,10 +17,18 @@ deckLoc.b_checkered = { name = "Eirin Deck" }
 deckLoc.b_erratic = { name = "Flandre Deck" }
 deckLoc.b_ghost = { name = "Prismriver Deck" }
 deckLoc.b_green = { name = "Meiling Deck" }
--- deckLoc.b_magic = { name = "Magic Deck" }
+deckLoc.b_magic = { name = "Patchouli Deck" }
 deckLoc.b_nebula = { name = "Yukari Deck" }
 deckLoc.b_painted = { name = "Chie Deck" }
--- deckLoc.b_plasma = { name = "Plasma Deck" }
+deckLoc.b_plasma = { name = "Utsuho Deck",
+	text={
+		"Balance {C:blue}Chips{} and",
+		"{C:red}Mult{} when calculating",
+		"score for played hand",
+		"{C:red}X#1#{} base Blind size",
+		"{s:0.8,C:inactive}Obligatory Best Hu",
+		"{s:0.8,C:inactive}statement."
+	} }
 deckLoc.b_red = { name = "Reimu Deck" }
 deckLoc.b_yellow = { name = "Alice Deck" }
 -- deckLoc.b_zodiac = { name = "Zodiac Deck" }

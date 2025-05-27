@@ -723,12 +723,10 @@ jokerLoc.nrmJkrs.j_glass = { name = "Ice Joker",
 
 jokerLoc.nrmJkrs.j_scary_face = { name = "Curly's Scary Face",
 	text = {
-		"Played {C:attention}face{} cards",
-        "give {C:chips}+#1#{} Chips",
-        "when scored",
-		"{s:0.8,C:inactive}...What do you mean",
-		"{s:0.8,C:inactive}you fed the tooth",
-		"{s:0.8,C:inactive}rat child to the wall?"
+		"Played {C:attention}face{} cards give",
+        "{C:chips}+#1#{} Chips when scored",
+		"{s:0.8,C:inactive}...What do you mean, you fed",
+		"{s:0.8,C:inactive}the tooth rat child to the wall?"
 	}
 }
 
@@ -1595,20 +1593,25 @@ jokerLoc.nrmJkrs.j_rough_gem = { name = "Diamond In The Rough",
 -- ===== NEXT LINE =====
 
 
---[[
-jokerLoc.nrmJkrs.j_bloodstone = { name = "Bloodstone",
+jokerLoc.nrmJkrs.j_bloodstone = { name = "Leviteto",
 	text = {
 		"Played cards with",
-        "{C:diamonds}Diamond{} suit earn",
-        "{C:money}$#1#{} when scored"
+        "{C:hearts}Heart{} suit earn",
+        "{C:money}$#1#{} when scored",
+		"{s:0.8,C:inactive}It seems crazy, but",
+		"{s:0.8,C:inactive}it makes me feel alive."
 	}
+}
 
+--[[
 jokerLoc.nrmJkrs.j_arrowhead = { name = "Arrowhead",
 	text = {
 		"Played cards with",
         "{C:spades}Spade{} suit give",
         "{C:chips}+#1#{} Chips when scored"
-	}]]
+	}
+}
+]]
 
 jokerLoc.nrmJkrs.j_onyx_agate = { name = "Demon Core",
 	text = {
@@ -2089,15 +2092,17 @@ jokerLoc.nrmJkrs.j_cavendish = { -- name = "Cavendish",
     }
 }
 
---[[
-jokerLoc.nrmJkrs.j_card_sharp = { name = "Card Sharp",
+jokerLoc.nrmJkrs.j_card_sharp = { name = "Liar Dancer",
 	text = {
 		"{X:mult,C:white} X#1# {} Mult if played",
         "{C:attention}poker hand{} has already",
-        "been played this round"
+        "been played this round",
+		"{s:0.8,C:inactive}Throw away everything in the",
+		"{s:0.8,C:inactive}past and wave your arms around!",
+		"{s:0.8,C:inactive}Have a party night of lies!"
 	}
 }
-]]
+
 jokerLoc.nrmJkrs.j_red_card = { name = "Principal of the Thing",
 	text = {
 		"This Joker gains",

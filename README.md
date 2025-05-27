@@ -1,7 +1,7 @@
 # Cirno_TV And Friends
 A Balatro mod themed around [Cirno_TV](https://www.twitch.tv/Cirno_TV/), with various references & memes.
 
-**WARNING:** Cirno_TV & Friends isn't explicitly an NSFW-oriented mod, but it does contain a handful of overt, (hopefully) stream-safe mature references in relation to community inside jokes (most particularly those with varying degrees of sexual connotation). This mod is *NOT* intended for children. By default, these (especially overt) mature references are significantly toned-down/altered, with the intent of having reduced mature references (in both number and intensity) encounterable in gameplay for anyone who wants to experience the mod, but is not particularly as interested in the some of the more mature references (and/or wants to stream it, but does not want to have that kind of stuff on their stream) - These changes can be adjusted in the mod's config settings, via the Mature References setting (Config setting changes require a game restart to take effect).
+**WARNING:** Cirno_TV & Friends isn't explicitly an NSFW-oriented mod, but it does contain a handful of overt, (hopefully) stream-safe mature references in relation to community inside jokes (most particularly those with varying degrees of sexual connotation). This mod is *NOT* intended for children. By default, these (especially overt) mature references are significantly toned-down/altered, with the intent of having reduced mature references (in both number and intensity) encounterable in gameplay for anyone who wants to experience the mod, but is not particularly as interested in the some of the more mature references (and/or wants to stream it, but does not want to have that kind of stuff on their stream) - These changes can be adjusted in the mod's config settings, via the Mature References setting (In-game config setting changes require a game restart to take effect).
 
 ![CTVaF Logo](https://i.imgur.com/CcRk9nq.png)
 
@@ -17,13 +17,13 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 127 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
+  - 129 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
   - All Blind Chips
   - All Seals
   - All Planet Cards
   - 15 Booster Packs
-  - 11 Decks
-  - 11 Tags
+  - 14 Decks
+  - 14 Tags
   - 8 Tarot Cards
   - 7 Spectral Cards
   - 4 Enhancements
