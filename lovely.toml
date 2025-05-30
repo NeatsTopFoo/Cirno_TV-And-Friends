@@ -26,6 +26,10 @@ if CirnoMod then
 	CirnoMod.titleCard = replace_card
 	CirnoMod.titleTop = self.title_top
 end
+
+local dissolveColours = function()
+	return CirnoMod and CirnoMod.miscItems.titleDissolveColours() or { G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD }
+end
 '''
 match_indent = true
 overwrite = false
@@ -84,8 +88,9 @@ times = 1
 [patches.pattern]
 target = "game.lua"
 pattern = "replace_card:start_dissolve({G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD})"
-position = "after"
+position = "at"
 payload = '''
+replace_card:start_dissolve(dissolveColours())
 
 if replace_card.edition then
 	replace_card:set_edition(nil, true, true)
@@ -93,7 +98,6 @@ end
 
 '''
 match_indent = true
-overwrite = false
 times = 1
 
 # Adjusts the logic that cycles through cards in the main
@@ -248,14 +252,13 @@ match_indent = false
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
-pattern = "info_queue[#info_queue+1] = seal"
-position = "at"
+pattern = "if seal.loc_vars and type(seal.loc_vars) == 'function' then"
+position = "before"
 payload = '''
 if v == 'red_seal' and _c.set == 'Joker' and CirnoMod then
-	info_queue[#info_queue + 1] = { key = "jkrRedSeal", set = "Other" }
-else
-	info_queue[#info_queue+1] = seal
+	t.key = "jkrRedSeal"
 end
+
 '''
 times = 1
 match_indent = true

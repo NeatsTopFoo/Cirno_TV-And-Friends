@@ -18,8 +18,8 @@ my intentions so far for challenges being:
 
 - "Only Cir": Just bans anything not edited or added by
   this mod, including the deck - With the alterations at
-  the time of writing (20th of March), deck should be half
-  the size and consist entirely of Queens. Revise if there
+  the time of writing (30th of May), deck should be half
+  the size and consist entirely of Face cards. Revise if there
   were changes to the deck skin.
 ]]
 local stencilIntencil = G.localization.descriptions.Joker.j_stencil.name
@@ -55,15 +55,11 @@ local chalInfo = {
 		type = 'Challenge Deck'
 	},
 	restrictions = {
-            banned_cards = {
-            },
-            banned_tags = {
-            },
+            banned_cards = {},
+            banned_tags = {},
 			
 			-- "Other" can only be used to ban blind types.
-            banned_other = {
-				{ id = 'bl_final_leaf', type = 'blind' }
-            }
+            banned_other = { { id = 'bl_final_leaf', type = 'blind' } }
 	},
 	unlocked = function(self)
 		return true

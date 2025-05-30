@@ -29,7 +29,7 @@ creditSources.DTsun = "DaemonTsun"
 --[[
 Have to do underscores here because X doesn't work with spaces.
 As a result, we end up with this nonsense.]]
-creditSources.CommunityContrib = "{s:0.6,X:inactive,C:white}(Cirno_TV{s:0.6,X:inactive,C:inactive}_{s:0.6,X:inactive,C:white}Community-Contributed{s:0.6,X:inactive,C:inactive}_{s:0.6,X:inactive,C:white}Idea)"
+creditSources.CommunityContrib = "{s:0.6,X:inactive,C:white}(Cirno_TV{s:0.6,X:inactive,C:cirBgInactive}_{s:0.6,X:inactive,C:white}Community-Contributed{s:0.6,X:inactive,C:cirBgInactive}_{s:0.6,X:inactive,C:white}Idea)"
 creditSources.masthir = "Masthir"
 creditSources.sanglune = "Sanglune"
 
@@ -146,6 +146,13 @@ RV.descriptions.Other = {
 	cA_DaemonTsun = {
 		name = creditSources.cr_CardArt,
 		text = {"{s:0.8}"..creditSources.DTsun}
+	},
+	cA_DaemonTsun_ComCon = {
+		name = creditSources.cr_CardArt,
+		text = {
+			"{s:0.8}"..creditSources.DTsun,
+			creditSources.CommunityContrib
+		}
 	},
 	gA_DaemonTsun_ComCon = {
 		name = creditSources.cr_GenericArt,
@@ -388,6 +395,13 @@ RV.descriptions.Other = {
 			"{s:0.8}"..creditSources.radicalHighway.." art."
 		}
 	},
+	cA_RHEdit_ComCon = { name = creditSources.cr_CardArt,
+		text = {
+			"{s:0.8}"..creditSources.DTsun.." edit of",
+			"{s:0.8}"..creditSources.radicalHighway.." art.",
+			creditSources.CommunityContrib
+		}
+	},
 	bA_genPack_ZUN = { name = creditSources.cr_BoosterArt,
 		text = {
 			"{s:0.8}"..creditSources.DTsun..", ZUN",
@@ -525,6 +539,39 @@ if CirnoMod.config.negativePCardsBalancing then
 		}
 	}
 end
+
+RV.descriptions.Joker.j_dna_negativePCardRebalancing = { name = "DNA",
+	text = {
+        "If {C:attention}first hand{} of round",
+        "has only {C:attention}1{} card, add a",
+        "permanent copy to deck",
+        "and draw it to {C:attention}hand",
+		"{C:inactive,s:0.9}(Removes {C:dark_edition,s:0.9}Negative{C:inactive,s:0.9} from copy)"
+	}
+}
+
+RV.descriptions.Joker.cir_j_dna_negativePCardRebalancing = {
+	text = {
+        "If {C:attention}first hand{} of round",
+        "has only {C:attention}1{} card, add a",
+        "permanent copy to deck",
+        "and draw it to {C:attention}hand",
+		"{C:inactive,s:0.9}(Removes {C:dark_edition,s:0.9}Negative{C:inactive,s:0.9} from copy)",
+		"{s:0.8,C:inactive}At Twitch Inc, we strive to foster",
+		"{s:0.8,C:inactive}a healthy & safe community. Click",
+		"{s:0.8,C:blue}here {s:0.8,C:inactive}to learn more about our policy",
+		"{s:0.8,C:inactive}on VTuber hips and why you need to",
+		"{s:0.8,C:inactive}be protected from them."
+    }
+}
+
+if CirnoMod.config['matureReferences_cyc'] >= 2 then
+	RV.descriptions.Joker.j_dna_negativePCardRebalancing.name = "\"DNA\""
+else
+	RV.descriptions.Joker.j_dna_negativePCardRebalancing.name = "DNA"
+end
+
+
 
 --[[ For facilitating some
 custom Joker text; The pipeline
@@ -668,9 +715,10 @@ RV.descriptions.Joker.cir_b3313_forestMaze = { name = 'Forest Maze', text = { {
 -- B3313 Straight Flush Form
 RV.descriptions.Joker.cir_b3313_loogi = { name = 'IT HURTS', text = {
 		'All {C:attention}played 2s{} without an ',
-		'{C:attention}edition{} become {C:dark_edition}Negative',
+		'{C:attention}edition{} have a {C:green}#1# in #2#',
+		'chance to become {C:dark_edition}Negative',
 		'Each {C:attention}2{} {C:attention}held in hand{} gives',
-		'{X:chips,C:white}X#1#{} Chips',
+		'{X:chips,C:white}X#3#{} Chips',
 		'{C:red}-2{} hand size',
 		'{C:red}-2{} discards',
 		'{s:0.8,C:inactive}SHHHH! PLEASE WALK QUIETLY',
@@ -707,6 +755,22 @@ RV.descriptions.Joker.cir_b3313_floor3B = { name = 'Floor 3B', text = {
 		'All played {C:attention}Queens of Clubs{} without an',
 		'{C:attention}enhancement{} become {C:attention}#1#s',
 		'{s:0.8,C:inactive}Found the orange sky yet?'
+	}
+}
+
+RV.descriptions.Joker.cir_j_confusedRumi_nPCardRebalanced = { name = "Confused Rumi",
+	text = {
+		"During the first hand of a round,",
+		"Convert all played {C:attention}left{} cards",
+		"into {C:attention}right{} cards",
+		"{C:inactive,s:0.9}(Removes {C:dark_edition,s:0.9}Negative{C:inactive,s:0.9} from copy)",
+		"{s:0.8,C:inactive}What is \"left card?\"",
+		"{s:0.8,C:inactive}How do you define \"left card?\"",
+		"{s:0.8,C:inactive}If you're talking about what",
+		"{s:0.8,C:inactive}you can feel, what you can taste,",
+		"{s:0.8,C:inactive}and see, then \"left card\" is",
+		"{s:0.8,C:inactive}simply electrical signals",
+		"{s:0.8,C:inactive}interpreted by your brain"
 	}
 }
 

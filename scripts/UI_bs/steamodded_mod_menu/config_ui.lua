@@ -439,6 +439,21 @@ local configUI = function()
 														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
+											},
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "8 Ball -> 9 Ball",
+														w = 1.,
+														text_scale = 0.75,
+														ref_table = CirnoMod.config,
+														ref_value = '8ballTo9ball',
+														-- callback = CirnoMod.callback_8ballTo9ballToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
 											}
 										}
 									},

@@ -40,6 +40,7 @@ PTSloc.planets.c_neptune = { -- name = "Neptune",
 			"{s:0.8,C:inactive}Nep nep!"
 		}
 	}
+
 if CirnoMod.config.planetsAreHus then
 	table.insert(PTSloc.planets.c_neptune.text, "{s:0.6,C:inactive}...Wait a minute?")
 end
@@ -148,13 +149,23 @@ PTSloc.tarots.c_temperance = { -- name = "Temperance",
 
 PTSloc.tarots.c_justice = { -- name = "Justice",
 	text = {
-			"Creates a random",
-			"{C:attention}Joker{} card",
-			"{C:inactive}(Must have room)",
+			"Enhances {C:attention}#1#{} selected",
+			"card into a",
+			"{C:attention}#2#",
 			"{s:0.8,C:inactive}What the...",
 			"{s:0.8,C:inactive}I was missold!",
 			"{s:0.8,C:inactive}This isn't \"just ice\"",
 			"{s:0.8,C:inactive}at all!"
+		}
+	}
+
+PTSloc.tarots.c_moon = { -- name = "The Moon",
+	text = {
+			"Converts up to",
+			"{C:attention}#1#{} selected cards",
+			"to {V:1}#2#{}",
+			"{s:0.8,C:inactive}Dawn Of The Final Day",
+			"{s:0.8,C:inactive}24 Hours Remaining"
 		}
 	}
 

@@ -19,7 +19,6 @@ local jokerInfo = {
 		- Endless Eight Joker
 		- Sonic '06 Joker
 		- Emotional Support Broken Man Joker
-		- Turn all left cards into right cards
 		- Money laundry?
 		- Air fryer?
 	]]
@@ -371,8 +370,8 @@ local jokerInfo = {
 				end
 				
 				return { vars = {
-						card.ability.extra.xmult,
-						''..(G.GAME and G.GAME.probabilities.normal or 1),
+						to_big(card.ability.extra.xmult),
+						''..(G.GAME and to_big(G.GAME.probabilities.normal) or 1),
 						card.ability.extra.odds
 					},
 					main_end = self.create_main_end(self, card)
@@ -848,6 +847,7 @@ local jokerInfo = {
 					['loogi'] = {
 						atlasX = 9,
 						storedHandSize = 8,
+						negativeChance = 2,
 						xchips = 2,
 						funcName = 'calc_straightFlush'
 					},
@@ -969,10 +969,14 @@ local jokerInfo = {
 						extraTable.formsInfo.forestMaze.chance4
 					}
 				elseif extraTable.currentForm == 'loogi' then
-					return { to_big(extraTable.formsInfo.loogi.xchips) }
+					return {
+						''..(G.GAME and to_big(G.GAME.probabilities.normal) or 1),
+						extraTable.formsInfo.loogi.negativeChance,
+						to_big(extraTable.formsInfo.loogi.xchips)
+					}
 				elseif extraTable.currentForm == 'peachCell' then
 					return {
-						''..(G.GAME and G.GAME.probabilities.normal or 1),
+						''..(G.GAME and to_big(G.GAME.probabilities.normal) or 1),
 						extraTable.formsInfo.peachCell.polyChance
 					}
 				elseif extraTable.currentForm == 'floor3B' then
@@ -1089,30 +1093,6 @@ local jokerInfo = {
 			jkr_shouldSkipRedSeal = function(self, context, card)
 				return CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
 					or context.other_context.first_hand_drawn
-					
-					--[[
-					
-					In the process of being deprecated.
-					
-					or ((card.ability.extra.currentForm == 'betaLob'
-					or (card.ability.extra.currentForm == 'base'
-					and context.other_context.scoring_name == 'High Card'))
-					and context.other_context.individual) -- High Card form skip conditions
-					or ((card.ability.extra.currentForm == 'peachCell'
-					or (card.ability.extra.currentForm == 'base'
-					and context.other_context.scoring_name == 'Five of a Kind'))
-					and context.other_context.individual
-					and context.other_context.other_card
-					and context.other_context.other_card.base.value ~= 'Queen') -- Five of a Kind form skip conditions
-					-- or ((card.ability.extra.currentForm == 'nebLob'
-					-- or (card.ability.extra.currentForm == 'base'
-					-- and context.other_context.scoring_name == 'Flush House'))
-					-- and context.other_context.before) -- Flush House form skip conditions
-					or (card.ability.extra.currentForm == 'floor3B'
-					or (card.ability.extra.currentForm == 'base'
-					and context.other_context.scoring_name == 'Flush Five')) -- Flush Five form skip conditions
-					
-					]]
 			end,
 			
 			calc_highCard = function(self, card, context, formTable)
@@ -1157,7 +1137,7 @@ local jokerInfo = {
 							blocking = true,
 							blockable = true,
 							func = function()								
-								formTable_.pitch = math.max(formTable_.pitch - 0.09, 0.5)
+								formTable_.pitch = math.max(formTable_.pitch - 0.09, 0.3)
 								jkrRef:juice_up();play_sound('generic1', formTable_.pitch)
 								return true 
 							end }))
@@ -1318,65 +1298,79 @@ local jokerInfo = {
 				if
 					context.before
 					and context.cardarea == G.jokers
-					and not context.blueprint
 				then
+					local contextRef = context
+					local handRef = G.play.cards
 					local findLowest = CirnoMod.miscItems.cardRanksToValues_AceLow[G.play.cards[1].base.value]
 					local entireHandDebuffed = true
 					local percent = 1
 					
-					--[[ Works out the lowest ranked card in hand,
-					out of all the ones that can calculate, then
-					flips them.]]
 					for i = 1, #G.play.cards do
-						if
-							G.play.cards[i]:can_calculate()
-							and not SMODS.has_enhancement(G.play.cards[i], 'm_stone')
-						then
+						if G.play.cards[i]:can_calculate() then
 							entireHandDebuffed = false
-							if CirnoMod.miscItems.cardRanksToValues_AceLow[G.play.cards[i].base.value] < findLowest then
-								findLowest = CirnoMod.miscItems.cardRanksToValues_AceLow[G.play.cards[i].base.value]
-							end
-							
+							break
+						end
+					end
+					
+					return { doNotRedSeal = entireHandDebuffed, func = function()
+						--[[ Works out the lowest ranked card in hand,
+						out of all the ones that can calculate, then
+						flips them.]]
+						for i = 1, #handRef do
 							if
-								not G.play.cards[i]:is_face()
-								and not SMODS.has_enhancement(G.play.cards[i], 'm_stone')
+								handRef[i]:can_calculate()
+								and not SMODS.has_enhancement(handRef[i], 'm_stone')
 							then
-								CirnoMod.miscItems.flippyFlip.fStart(G.play.cards[i], percent)
+								if CirnoMod.miscItems.cardRanksToValues_AceLow[handRef[i].base.value] < findLowest then
+									findLowest = CirnoMod.miscItems.cardRanksToValues_AceLow[handRef[i].base.value]
+								end
+								
+								if
+									not handRef[i]:is_face()
+									and not SMODS.has_enhancement(handRef[i], 'm_stone')
+								then
+									CirnoMod.miscItems.flippyFlip.fStart(handRef[i], percent)
+								end
 							end
 						end
-					end
-					
-					-- Sets up the xmult.
-					if entireHandDebuffed then
-						formTable.xmult = 1
-					else
-						formTable.xmult = findLowest
-					end
-					
-					percent = 1
-					
-					-- Randomises numbered rank cards, then unflips them.
-					for i = 1, #G.play.cards do
+						
 						if
-							not G.play.cards[i]:is_face()
-							and G.play.cards[i]:can_calculate()
-							and not SMODS.has_enhancement(G.play.cards[i], 'm_stone')
+							not contextRef.blueprint
+							and not contextRef.retrigger_joker
 						then
-							G.E_MANAGER:add_event(Event({
-								trigger = 'immediate',
-								blocking = true,
-								blockable = true,
-								func = function()
-									local cardRef = G.play.cards[i]
-									
-									SMODS.change_base(cardRef, nil, pseudorandom_element(formTable.rankTable, pseudoseed('uncannyRanks')))
-									
-									return true
-									end }))
-							
-							CirnoMod.miscItems.flippyFlip.fEnd(G.play.cards[i], percent)
+							-- Sets up the xmult.
+							if entireHandDebuffed then
+								formTable.xmult = 1
+							else
+								formTable.xmult = findLowest
+							end
 						end
-					end
+						
+						percent = 1
+						
+						-- Randomises numbered rank cards, then unflips them.
+						for i = 1, #handRef do
+							if
+								not handRef[i]:is_face()
+								and handRef[i]:can_calculate()
+								and not SMODS.has_enhancement(handRef[i], 'm_stone')
+							then
+								G.E_MANAGER:add_event(Event({
+									trigger = 'immediate',
+									blocking = true,
+									blockable = true,
+									func = function()
+										local cardRef = handRef[i]
+										
+										SMODS.change_base(cardRef, nil, pseudorandom_element(formTable.rankTable, pseudoseed('uncannyRanks')))
+										
+										return true
+										end }))
+								
+								CirnoMod.miscItems.flippyFlip.fEnd(handRef[i], percent)
+							end
+						end
+					end }
 				end
 				
 				if context.joker_main and context.cardarea == G.jokers then
@@ -1391,9 +1385,9 @@ local jokerInfo = {
 						or #G.play.cards == 3
 						or #G.play.cards == 1)
 					
-					local middleCard = nil
-					
 					if isOdd then
+						local handRef = G.play.cards
+						local middleCard = nil
 						local percent = 1
 						
 						if #G.play.cards == 5 then
@@ -1404,37 +1398,56 @@ local jokerInfo = {
 							middleCard = 1
 						end
 						
-						for i = 1, #G.play.cards do
-							if
-								G.play.cards[i]:can_calculate()
-								and i ~= middleCard
-							then
-								CirnoMod.miscItems.flippyFlip.fStart(G.play.cards[i], percent)
-								
-								local amount = formTable.rankChange
-								
-								if i > middleCard then
-									amount = -formTable.rankChange
+						--[[ This setup looks odd, but if I don't do it this way,
+						it displaces the retrigger messages in instances where
+						this joker is retriggered.]]
+						return { func = function()
+							for i = 1, #handRef do
+								if
+									i ~= middleCard
+									and handRef[i]:can_calculate()
+								then
+									CirnoMod.miscItems.flippyFlip.fStart(handRef[i], percent)
 								end
-								
-								G.E_MANAGER:add_event(Event({
-								trigger = 'immediate',
-								blocking = true,
-								blockable = true,
-								func = function()
-									local cardRef = G.play.cards[i]
-									local amount_ = amount
-									
-									SMODS.modify_rank(cardRef, amount_)
-									
-									return true
-									end }))
-								
-								CirnoMod.miscItems.flippyFlip.fEnd(G.play.cards[i], percent)
 							end
-						end
-						
-						return nil
+							
+							for i = 1, #handRef do
+								if
+									i ~= middleCard
+									and handRef[i]:can_calculate()
+								then
+									local amount = formTable.rankChange
+									
+									if i > middleCard then
+										amount = -formTable.rankChange
+									end
+									
+									G.E_MANAGER:add_event(Event({
+									trigger = 'immediate',
+									blocking = true,
+									blockable = true,
+									func = function()
+										local cardRef = handRef[i]
+										local amount_ = amount
+										
+										SMODS.modify_rank(cardRef, amount_)
+										
+										return true
+										end }))
+								end
+							end
+							
+							percent = 1
+							
+							for i = 1, #handRef do
+								if
+									i ~= middleCard
+									and handRef[i]:can_calculate() 
+								then
+									CirnoMod.miscItems.flippyFlip.fEnd(handRef[i], percent)
+								end
+							end
+						end }
 					end
 				end
 			end,
@@ -1524,19 +1537,19 @@ local jokerInfo = {
 					local RT = {}
 					local xmultsRequired = 0
 					
-					if pseudorandom('forestMazeOne'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/formTable.chance1 then
+					if to_big(pseudorandom('forestMazeOne'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.chance1) then
 						xmultsRequired = 1
 					end
 					
-					if pseudorandom('forestMazeTwo'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/formTable.chance2 then
+					if to_big(pseudorandom('forestMazeTwo'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.chance2) then
 						xmultsRequired = xmultsRequired + 1
 					end
 					
-					if pseudorandom('forestMazeThree'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/formTable.chance3 then
+					if to_big(pseudorandom('forestMazeThree'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.chance3) then
 						xmultsRequired = xmultsRequired + 1
 					end
 					
-					if pseudorandom('forestMazeFour'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/formTable.chance4 then
+					if to_big(pseudorandom('forestMazeFour'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.chance4) then
 						xmultsRequired = xmultsRequired + 1
 					end
 					
@@ -1604,7 +1617,38 @@ local jokerInfo = {
 							and c:can_calculate()
 							and not SMODS.has_enhancement(c, 'm_stone')
 						then
-							c:set_edition('e_negative')
+							if to_big(pseudorandom('2negativeChance'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.negativeChance) then
+								c:set_edition('e_negative')
+							else
+								G.E_MANAGER:add_event(Event({
+									trigger = 'immediate',
+									blocking = true,
+									blockable = true,
+									func = function()
+										attention_text({
+											text = localize('k_nope_ex'),
+											scale = 1.3,
+											hold = 1.4,
+											major = cardRef,
+											backdrop_colour = G.C.UI.TEXT_DARK,
+											align = 'cm',
+											offset = {x = 0, y = 0},
+											silent = true })
+										
+										G.E_MANAGER:add_event(Event({
+											trigger = 'after',
+											delay = 0.06*G.SETTINGS.GAMESPEED,
+											blockable = false,
+											blocking = false,
+											func = function()
+												play_sound('tarot2', 0.76, 0.4);return true
+											end}))
+									
+										play_sound('tarot2', 1, 0.4)
+										cardRef:juice_up(0.3, 0.5)
+									return true 
+									end }))
+							end
 						end
 					end
 				end
@@ -1918,6 +1962,136 @@ local jokerInfo = {
 					if RT then
 						return RT
 					end
+				end
+			end
+		},
+		-- Confused Rumi
+		{
+			key = 'confusedRumi',
+			
+			object_type = 'Joker',
+			
+			matureRefLevel = 1,
+			
+			loc_txt = {
+				name = "Confused Rumi",
+				text = {
+					"During the first {C:blue}hand{} of a round,",
+					"Convert all played {C:attention}left{} cards",
+					"into {C:attention}right{} cards",
+					"{s:0.8,C:inactive}What is \"left card?\"",
+					"{s:0.8,C:inactive}How do you define \"left card?\"",
+					"{s:0.8,C:inactive}If you're talking about what",
+					"{s:0.8,C:inactive}you can feel, what you can taste,",
+					"{s:0.8,C:inactive}and see, then \"left card\" is",
+					"{s:0.8,C:inactive}simply electrical signals,",
+					"{s:0.8,C:inactive}interpreted by your brain"
+				}
+			},
+			
+			atlas = 'cir_cRares',
+			pos = { x = 2, y = 2 },
+			rarity = 3,
+			cost = 8,
+			eternal_compat = true,
+			perishable_compat = true,
+			
+			config = { extra = { ready = true } },
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				local ret = {}
+				
+				if CirnoMod.config.negativePCardsBalancing then
+					ret.key = 'cir_j_confusedRumi_nPCardRebalanced'
+					
+					info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
+				end
+				
+				-- Art credit tooltip
+				if CirnoMod.config['artCredits'] then
+					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
+				end
+				
+				return ret
+			end,
+			
+			set_badges = function(self, card, badges)
+				if CirnoMod.miscItems.isUnlockedAndDisc(card) then
+					CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_cir_confusedRumi')
+				end
+			end,
+			
+			calculate = function(self, card, context)
+				if
+					not context.blueprint
+					and not context.retrigger_joker
+					and context.first_hand_drawn
+				then
+					card.ability.extra.ready = true
+					juice_card_until(card, function()
+						return G.GAME.current_round.hands_played == 0
+					end, true)
+				end
+				
+				if
+					context.main_eval
+					and ((context.before
+					and card.ability.extra.ready)
+					or context.retrigger_joker)
+				then
+					local handRef = G.play.cards
+					local cardRef = card
+					local pitch = 1
+					
+					if context.blueprint then
+						cardRef = context.blueprint_card
+					else
+						card.ability.extra.ready = false
+					end
+					
+					--[[ This setup looks odd, but if I don't do it this way,
+						it displaces the retrigger messages in instances where
+						this joker is retriggered.]]
+					return { func = function()
+						for i = 1, #handRef do
+							CirnoMod.miscItems.flippyFlip.fStart(handRef[i], pitch)
+						end
+						
+						G.E_MANAGER:add_event(Event({
+							trigger = 'immediate',
+							blocking = true,
+							blockable = true,
+							func = function()
+								cardRef:juice_up()
+								
+								return true
+								end }))
+						
+						for i = 1, #handRef do
+							if handRef[i+1] then
+								G.E_MANAGER:add_event(Event({
+									trigger = 'after',
+									delay = 0.1,
+									blocking = true,
+									blockable = true,
+									func = function()
+										local fromCard = handRef[i]
+										local toCard = handRef[i+1]
+										
+										copy_card(toCard, fromCard)
+										
+										return true
+										end }))
+							end
+						end
+						
+						pitch = 1
+						
+						for i = 1, #handRef do
+							CirnoMod.miscItems.flippyFlip.fEnd(handRef[i], pitch)
+						end
+					end }
 				end
 			end
 		}

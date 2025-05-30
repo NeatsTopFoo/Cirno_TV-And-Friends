@@ -55,6 +55,8 @@ if CirnoMod.replaceDef.locChanges.enhancerLoc.m_glass then
 	glassIntent = CirnoMod.replaceDef.locChanges.enhancerLoc.m_glass.name
 end
 
+goldIntent = string.sub(goldIntent, 1, #goldIntent - 5)
+
 --[[ Bootstraps goes first, as some future (cosmetic)
 changes depend on a variable that's decided here]]
 if CirnoMod.config['matureReferences_cyc'] >= 2 then
@@ -809,11 +811,13 @@ then
 	}, true)
 end
 
---[[
-jokerLoc.nrmJkrs.j_ticket = { name = "Golden Ticket",
+jokerLoc.nrmJkrs.j_ticket = { -- name = "Golden Ticket",
 	text = {
 		"Played {C:attention}"..goldIntent.."{} cards",
-        "earn {C:money}$#1#{} when scored"
+        "earn {C:money}$#1#{} when scored",
+		"{s:0.8,C:inactive}Going for the Matterhorn again,",
+		"{s:0.8,C:inactive}are we? Bold choice. Let's see",
+		"{s:0.8,C:inactive}if it pays off."
 	},
     unlock = {
         "Play a 5 card hand",
@@ -821,7 +825,6 @@ jokerLoc.nrmJkrs.j_ticket = { name = "Golden Ticket",
         "{C:attention,E:1}"..goldIntent.."{} cards",
     }
 }
-]]
 
 jokerLoc.nrmJkrs.j_pareidolia = { -- name = "Pareidolia",
 	text = {
@@ -1090,20 +1093,32 @@ jokerLoc.nrmJkrs.j_tribe = { name = "The Tribe",
 
 -- ===== NEXT LINE =====
 
---[[
-jokerLoc.nrmJkrs.j_8_ball = { name = "9 Ball",
-	text = {
+
+jokerLoc.nrmJkrs.j_8_ball = { name = "9 Ball" }
+
+if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball'] then
+	jokerLoc.nrmJkrs.j_8_ball.text = {
+		"{C:green}#1# in #2#{} chance for each",
+        "played {C:attention}#3#{} to create a",
+        "{C:tarot}Tarot{} card when scored",
+        "{C:inactive}(Must have room)"
+	}
+else
+	jokerLoc.nrmJkrs.j_8_ball.text = {
 		"{C:green}#1# in #2#{} chance for each",
         "played {C:attention}8{} to create a",
         "{C:tarot}Tarot{} card when scored",
-        "{C:inactive}(Must have room)",
-		"{s:0.8,C:inactive}If you drink the blue liquid"
-		"{s:0.8,C:inactive}from a Magic 8-Ball, you can"
-		"{s:0.8,C:inactive}see the future. Trust me, my"
-		"{s:0.8,C:inactive}friend Keith did once and said"
-		"{s:0.8,C:inactive}he was gonna die. Then he did!"
+        "{C:inactive}(Must have room)"
 	}
-}]]
+end
+
+jokerLoc.nrmJkrs.j_8_ball.text = SMODS.merge_lists({ jokerLoc.nrmJkrs.j_8_ball.text, {
+	"{s:0.8,C:inactive}If you drink the blue liquid",
+	"{s:0.8,C:inactive}from a Magic 8-Ball, you can",
+	"{s:0.8,C:inactive}see the future. Trust me, my",
+	"{s:0.8,C:inactive}friend Keith did once and said",
+	"{s:0.8,C:inactive}he was gonna die. Then he did!"
+} })
 
 jokerLoc.nrmJkrs.j_fibonacci = { name = "Why It's Called XBox 360",
 	text = {
@@ -1294,9 +1309,9 @@ jokerLoc.nrmJkrs.j_ride_the_bus = { name = "Toho Bus",
         "without a scoring {C:attention}face{} card",
         "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)",
 		"{s:0.8,C:inactive}If a bus leaves the Scarlet Devil Mansion",
-		"{s:0.8,C:inactive}with three people on board, one gets off",
+		"{s:0.8,C:inactive}with three people on board, one leaves",
 		"{s:0.8,C:inactive}and half a person boards at Hakugyokurou,",
-		"{s:0.8,C:inactive}then two people get off at Yakumo House,",
+		"{s:0.8,C:inactive}then two people leave at Yakumo House,",
 		"{s:0.8,C:inactive}how many passengers are there left on the bus?",
 		"{s:0.45,C:inactive}A: 0. There are no buses in Gensokyo."
 	}
@@ -1912,10 +1927,12 @@ if CirnoMod.config['matureReferences_cyc'] >= 2 then
 	jokerLoc.nrmJkrs.j_dna.name = "\"DNA\""
 end
 
+--[[
 if CirnoMod.config.negativePCardsBalancing then
 	table.insert(jokerLoc.nrmJkrs.j_dna.text,
 		"{C:inactive,s:0.9}(Removes {C:dark_edition,s:0.9}Negative{C:inactive,s:0.9} from copy)")
 end
+]]
 
 jokerLoc.nrmJkrs.j_dna.text = SMODS.merge_lists({ jokerLoc.nrmJkrs.j_dna.text, {
 	"{s:0.8,C:inactive}At Twitch Inc, we strive to foster",
@@ -2097,8 +2114,8 @@ jokerLoc.nrmJkrs.j_card_sharp = { name = "Liar Dancer",
 		"{X:mult,C:white} X#1# {} Mult if played",
         "{C:attention}poker hand{} has already",
         "been played this round",
-		"{s:0.8,C:inactive}Throw away everything in the",
-		"{s:0.8,C:inactive}past and wave your arms around!",
+		"{s:0.8,C:inactive}Throw everything away",
+		"{s:0.8,C:inactive}and wave your arms around!",
 		"{s:0.8,C:inactive}Have a party night of lies!"
 	}
 }
@@ -2283,7 +2300,7 @@ jokerLoc.nrmJkrs.j_obelisk = { name = "The Greyhill Incident",
 jokerLoc.nrmJkrs.j_midas_mask = { name = "Dagoth Ur",
 	text = {
 		"All played {C:attention}face{} cards",
-        "become {C:attention}"..string.sub(goldIntent, 1, #goldIntent - 5).."{} cards",
+        "become {C:attention}"..goldIntent.."{} cards",
         "when scored",
 		"{s:0.8,C:inactive}\"Welcome, Moon-and-Star, to",
 		"{s:0.8,C:inactive}this place where {s:0.8,C:cirInactiveAtt}YOUR{s:0.8,C:inactive} destiny",
@@ -2745,8 +2762,9 @@ end
 
 jokerLoc.nrmJkrs.j_flash = { name = "Takane Takamine",
 	text={
-        "Each played {C:attention}Ace{}, {C:attention}2{}, {C:attention}3{}, {C:attention}5{}, or {C:attention}8",
-        "gives {C:mult}+#1#{} Mult when scored"
+        "This Joker gains {C:mult}+#1#{} Mult",
+		"per {C:attention}reroll{} in the shop",
+		"{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
     }
 }
 

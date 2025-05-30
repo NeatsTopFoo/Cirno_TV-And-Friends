@@ -9,6 +9,7 @@ return {
 	['allowCosmeticTakeOwnership'] = true,
 	['addCustomJokers'] = true,
 	['addCustomConsumables'] = true,
+	['8ballTo9ball'] = true,
 	['negativePCardsBalancing'] = true,
 	['blindRenames'] = true,
 	['deckRenames'] = true,

@@ -48,8 +48,8 @@ CirnoMod.miscItems.getLocColour = function(colourNameStr, defaultColourStr)
 	return defaultColourStr
 end
 
--- Hook into localise colour and interpose with
--- detection for our own custom colours.
+--[[ Hook into localise colour and interpos
+with detection for our own custom colours.]]
 local old_loc_colour = loc_colour
 function loc_colour(_c, _default)
 	if CirnoMod.miscItems.colours[_c] then
@@ -345,16 +345,40 @@ function Card:calculate_seal(context)
 			and context.retrigger_joker_check
 			and not context.retrigger_joker
 		then
-			if
-				(context.other_ret
+			local stopEvalling = false
+			
+			if 
+				context.other_ret
 				and context.other_ret.jokers
-				and (context.other_ret.jokers.balance
-				or context.other_ret.jokers.doNotRedSeal))
+			then
+				if context.other_ret.jokers.balance then
+					stopEvalling = true
+				elseif context.other_ret.jokers.doNotRedSeal then
+					if type(context.other_ret.jokers.doNotRedSeal) == 'function' then
+						stopEvalling = context.other_ret.jokers.doNotRedSeal()
+					else
+						stopEvalling = true
+					end
+				end
+			end
+			
+			if
+				stopEvalling
 				or (self.config.center.jkr_shouldSkipRedSeal
 				and type(self.config.center.jkr_shouldSkipRedSeal) == 'function'
 				and self.config.center:jkr_shouldSkipRedSeal(context, self))
-			then
+			then				
 				return nil
+			end
+			
+			local ret = { repetitions = 1 }
+			
+			if
+				context.other_ret
+				and context.other_ret.jokers
+				and context.other_ret.jokers.suppressRetriggerMessage
+			then
+				ret.remove_default_message = true
 			end
 			
 			if
@@ -377,18 +401,12 @@ function Card:calculate_seal(context)
 				if
 					allowRedSeal
 				then
-					return {
-						repetitions = 1,
-						card = self
-					}
+					return ret
 				else
 					return nil
 				end
 			else						
-				return {
-					repetitions = 1,
-					card = self
-				}
+				return ret
 			end
 		end
 		
@@ -529,11 +547,19 @@ if CirnoMod.config.negativePCardsBalancing then
 			return RT
 		end,
 		
-		loc_vars = function(self, info_queue, card)			
+		loc_vars = function(self, info_queue, card)
+			local ret = { main_end = self.create_main_end() }
+		
 			info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
 			
+			if CirnoMod.miscItems.atlasCheck(card) then
+				ret.key = 'cir_j_dna_negativePCardRebalancing'
+			elseif CirnoMod.miscItems.isUsingAnyCustomAtlas(card) then
+				ret.key = 'j_dna_negativePCardRebalancing'
+			end
+			
 			if not CirnoMod.miscItems.atlasCheck(card) then
-				return { main_end = self.create_main_end() }
+				return ret
 			end
 		end
 	}, true)
@@ -648,6 +674,74 @@ if CirnoMod.config.negativePCardsBalancing then
 		end
 	}, true)
 
+end
+
+if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball'] then
+	SMODS.Joker:take_ownership('8_ball', {
+		loc_vars = function(self, info_queue, card)
+			local ret = { vars = {
+				''..(G.GAME and to_big(G.GAME.probabilities.normal) or 1),
+				card.ability.extra
+			} }
+			
+			if CirnoMod.config['8ballTo9ball'] then
+				ret.vars[3] = "9"
+			else
+				ret.vars[3] = "8"
+			end
+			
+			return ret
+		end,
+		
+		calculate = function(self, card, context)
+			if 
+				not context.end_of_round
+				and G.consumeables.cards
+				and (to_big(#G.consumeables.cards) + to_big(G.GAME.consumeable_buffer)) < to_big(G.consumeables.config.card_limit)
+				and context.individual
+				and context.cardarea == G.play
+				and context.other_card:can_calculate()
+				and not SMODS.has_enhancement(context.other_card, 'm_stone')
+			then
+				local checkFor = "8"
+				
+				if CirnoMod.config['8ballTo9ball'] and CirnoMod.miscItems.atlasCheck(card) then
+					checkFor = "9"
+				end
+				
+				if
+					context.other_card.base.value == checkFor
+					and (to_big(pseudorandom('8ball')) < to_big(G.GAME.probabilities.normal)/to_big(card.ability.extra)
+					or context.retrigger_joker)
+				then
+					local ret = {
+						extra = {
+							func = function()
+							G.E_MANAGER:add_event(Event({
+								trigger = 'before',
+								delay = 0.0,
+								func = (function()
+									SMODS.add_card({ set = 'Tarot' })
+									return true
+								end)}))
+							end
+						},
+						focus = card,
+						message = localize('k_plus_tarot'),
+						colour = G.C.SECONDARY_SET.Tarot
+					}
+					
+					if context.blueprint then
+						ret.focus = context.blueprint_card
+					end
+					
+					return ret
+				else
+					return { doNotRedSeal = true }
+				end
+			end
+		end
+	}, not CirnoMod.config['8ballTo9ball'])
 end
 
 -- Additional Custom Challenges

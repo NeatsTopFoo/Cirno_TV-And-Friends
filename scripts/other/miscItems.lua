@@ -58,6 +58,13 @@ local miscItems = {
 			'{s:0.8,C:inactive}Seriously, this shouldn\'t be',
 			'{s:0.8,C:inactive}appearing anywhere. This IS a bug.'
 		} }
+	end,
+	titleDissolveColours = function()
+		if CirnoMod.config.titleColours then
+			return { G.C.BLACK, CirnoMod.miscItems.colours.cirBlue, CirnoMod.miscItems.colours.cirCyan, CirnoMod.miscItems.colours.cirCyan }
+		end
+		
+		return { G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD }
 	end
 }
 
@@ -87,6 +94,7 @@ miscItems.redSealRetriggerIgnoreTable = {
 	
 miscItems.colours = {
 	cirInactiveAtt = HEX('BFB199FF'),
+	cirBgInactive = HEX('66666600'),
 	cirFaintLavender = HEX('ABA3CCFF'),
 	cirBlue = HEX('0766EBFF'),
 	cirCyan = HEX('0AD0F7FF'),
@@ -341,6 +349,7 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 	local existingCard = cardIn or CirnoMod.titleCard
 	local newCard
 	local doRandomEdition = false
+	local materialiseColours = nil
 	
 	local isInLastFive = function(decidedElement)
 			if #lastFive > 0 then
@@ -421,12 +430,23 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 						
 						if decidedElement.key == 'D_Q' then
 							doRandomEdition = 'dm'
+							materialiseColours = { G.C.GOLD, G.C.GREEN, G.C.GOLD, G.C.GREEN, G.C.GOLD }
 						else
 							doRandomEdition = 'nrm'
+							materialiseColours = CirnoMod.miscItems.titleDissolveColours()
 						end
 					else
 						newCard = Card(CirnoMod.titleTop.T.x, CirnoMod.titleTop.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, nil, decidedElement or self.P_CENTERS.j_blueprint)
-												
+						
+						if
+							decidedElement.unlocked
+							and CirnoMod.miscItems.keyGroupOfJokerKey(decidedElement.key) == 'allegations'
+						then
+							materialiseColours = { G.C.GREEN, G.C.BLACK, G.C.GREEN, G.C.BLACK, G.C.GREEN }
+						else
+							materialiseColours = nil
+						end
+						
 						if decidedElement.key == 'j_caino' then
 							doRandomEdition = 'dm'
 						elseif decidedElement.discovered then
@@ -455,7 +475,7 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
                     
                     newCard.states.visible = false
                     existingCard.parent = nil
-                    existingCard:start_dissolve({G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD})
+                    existingCard:start_dissolve(CirnoMod.miscItems.titleDissolveColours())
 					
 					if existingCard.edition then
 						existingCard:set_edition(nil, true, true)
@@ -476,7 +496,7 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 						return false
 					end
 					
-                    newCard:start_materialize()
+                    newCard:start_materialize(materialiseColours)
                     CirnoMod.titleTop:emplace(newCard)
 					existingCard = newCard
 					newCard = nil
@@ -500,12 +520,13 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 end
 
 miscItems.flippyFlip = {
-	fStart = function(card, pitchPercent)
-		local percent = pitchPercent and math.max(pitchPercent - 0.09, 0.5) or 1
+	fStart = function(card, pitchPercent, delay)
+		local percent = pitchPercent and math.max(pitchPercent - 0.09, 0.3) or 1
+		local flipDelay = delay or 0.1
 		
 		G.E_MANAGER:add_event(Event({
 			trigger = 'after',
-			delay = 0.1,
+			delay = flipDelay,
 			blocking = true,
 			blockable = true,
 			func = function()
@@ -515,12 +536,13 @@ miscItems.flippyFlip = {
 		pitchPercent = percent
 	end,
 	
-	fEnd = function(card, pitchPercent)
-		local percent = pitchPercent and math.max(pitchPercent - 0.09, 0.5) or 1
+	fEnd = function(card, pitchPercent, delay)
+		local percent = pitchPercent and math.max(pitchPercent - 0.09, 0.3) or 1
+		local flipDelay = delay or 0.15
 		
 		G.E_MANAGER:add_event(Event({
 			trigger = 'after',
-			delay = 0.15,
+			delay = flipDelay,
 			blocking = true,
 			blockable = true,
 			func = function()
@@ -867,6 +889,7 @@ if CirnoMod.config.addCustomJokers then
 	miscItems.jkrKeyGroups.TwoMax.j_cir_naro_l = true
 	
 	miscItems.jkrKeyGroups.crazyWomen.j_cir_crazyFace = true
+	miscItems.jkrKeyGroups.crazyWomen.j_cir_confusedRumi = true
 	miscItems.jkrKeyGroups.crazyWomen.j_cir_nope_l = true
 	miscItems.jkrKeyGroups.crazyWomen.j_cir_naro_l = true
 	miscItems.jkrKeyGroups.crazyWomen.j_cir_arumia_l = true
@@ -976,8 +999,25 @@ end
 
 miscItems.atlasCheck = function(card)
 	return CirnoMod.miscItems.mlvrk_tex_keys[card.atlas]
-		or (card.config and card.config.center
+		or (card.config
+		and card.config.center
 		and CirnoMod.miscItems.mlvrk_tex_keys[card.config.center.atlas])
+end
+
+miscItems.isUsingAnyCustomAtlas = function(card)
+	local atlasKey = nil
+	
+	if card.atlas then
+		atlasKey = card.atlas
+	elseif card.config and card.config.center then
+		atlasKey = card.config.center.atlas
+	end
+	
+	if atlasKey then
+		return string.sub(atlasKey, 1, 7) == 'alt_tex_'
+	end
+	
+	return false
 end
 
 miscItems.isUnlockedAndDisc = function(card)
