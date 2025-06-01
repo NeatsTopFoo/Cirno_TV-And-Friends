@@ -70,10 +70,20 @@ enhLoc.seals.red_seal = { name = "Power Seal" }
 
 --#region Enhancers
 
+enhLoc.enhancers.m_bonus = { name = "Knife Card",
+	text={
+        "{s:0.8,C:inactive}Padding is the white space",
+		"{s:0.8,C:inactive}immediately surrounding an",
+		"{s:0.8,C:inactive}element or another object",
+		"{s:0.8,C:inactive}on a web page, used to",
+		"{s:0.8,C:inactive}create space around an",
+		"{s:0.8,C:inactive}element's content."
+    }
+}
+
 enhLoc.enhancers.m_stone = { name = "Whump Card" }
 
-enhLoc.enhancers.m_gold = {
-	name = "Skyrim Card",
+enhLoc.enhancers.m_gold = { name = "Skyrim Card",
     text={
         "{C:money}#1#{} if this",
         "card is held in hand",
@@ -84,8 +94,7 @@ enhLoc.enhancers.m_gold = {
     }
 }
 
-enhLoc.enhancers.m_wild = {
-	name = "Pencil Card",
+enhLoc.enhancers.m_wild = { name = "Pencil Card",
     text={
         "Can be used",
         "as any suit",

@@ -245,17 +245,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 				0.8)
 			
 			CirnoMod.miscItems.addUITextNode(nodes_.Ln4,
-				'What? Of course I\'m gonna be biased towards my kamioshi.',
-				G.C.UI.TEXT_INACTIVE,
-				0.5)
-			
-			CirnoMod.miscItems.addUITextNode(nodes_.Ln5,
-				'(Disclaimer: Not "my" as in possessive "my".',
-				G.C.UI.TEXT_INACTIVE,
-				0.5)
-			
-			CirnoMod.miscItems.addUITextNode(nodes_.Ln6,
-				'Important distinction. Boundaries. Respect them.)',
+				'What? Of course I\'m gonna be biased towards DM.',
 				G.C.UI.TEXT_INACTIVE,
 				0.5)
 			
@@ -277,9 +267,7 @@ else
 	miscLoc.tags.tag_coupon.text = SMODS.merge_lists({ miscLoc.tags.tag_coupon.text, {
 		'{s:0.8,C:inactive}Learn more at',
 		'{s:0.8,C:blue}https://twitch.tv/girl_dm_/subscribe',
-		'{s:0.5,C:inactive}What? Of course I\'m gonna be biased towards my kamioshi.',
-		'{s:0.5,C:inactive}(Disclaimer: Not "my" as in possessive "my".',
-		'{s:0.5,C:inactive}Important distinction. Boundaries. Respect them.)'
+		'{s:0.5,C:inactive}What? Of course I\'m gonna be biased towards DM.'
 	} })
 end
 

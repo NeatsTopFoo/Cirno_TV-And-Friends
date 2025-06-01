@@ -341,7 +341,7 @@ replaceDef.deckReplacements = {
 	{ dckKey = 'b_anaglyph', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
 	{ dckKey = 'b_plasma', matureRefLevel = 1 },
 	{ dckKey = 'b_erratic', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' },
-	-- { dckKey = 'b_challenge, matureRefLevel = 1 }
+	{ dckKey = 'b_challenge', matureRefLevel = 1, artCreditKey = 'dA_DaemonTsun' }
 }
 
 -------------------
@@ -495,7 +495,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_throwback', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_idol', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	{ jkrKey = 'j_brainstorm', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_BigNTFEdit' },
-	-- { jkrKey = 'j_satellite', matureRefLevel = 1 },
+	{ jkrKey = 'j_satellite', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_rough_gem', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	
 	
@@ -527,7 +527,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_splash', matureRefLevel = 1 },
 	{ jkrKey = 'j_blue_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_sixth_sense', matureRefLevel = 1, artCreditKey = 'jA_ciwnoEdit' },
-	-- { jkrKey = 'j_constellation', matureRefLevel = 1 },
+	{ jkrKey = 'j_constellation', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	
 	{ jkrKey = 'j_hiker', matureRefLevel = 1, artCreditKey = 'jA_JustIRLCirno' },
 	{ jkrKey = 'j_faceless', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
@@ -543,7 +543,7 @@ replaceDef.jokerReplacements = {
 	-- { jkrKey = 'j_seance', matureRefLevel = 1 },
 	{ jkrKey = 'j_riff_raff', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_vampire', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_shortcut', matureRefLevel = 1 },
+	{ jkrKey = 'j_shortcut', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_vagabond', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_baron', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_cloud_9', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
@@ -658,7 +658,7 @@ replaceDef.spectralReplacements = {
 ---- Enhancers -----
 --------------------
 replaceDef.enhancerReplacements = {
-	--	{ enhKey = 'm_bonus', matureRefLevel = 1, },
+	{ enhKey = 'm_bonus', matureRefLevel = 1, artCreditKey = 'eA_DaemonTsun' },
 	--	{ enhKey = 'm_mult', matureRefLevel = 1, },
 	{ enhKey = 'm_wild', matureRefLevel = 1, artCreditKey = 'eA_DaemonTsun' },
 	{ enhKey = 'm_glass', matureRefLevel = 1, artCreditKey = 'eA_DaemonTsun' },

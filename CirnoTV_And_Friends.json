@@ -8,7 +8,7 @@
 	"main_file": "CirnoTV_And_Friends.lua",
 	"version": "1.0.0",
 	"dependencies": [
-		"Steamodded (>=1.0.0~BETA-0506a)",
+		"Steamodded (>=1.0.0~BETA-0530b)",
 		"malverk (>=1.1.3)"
 		],
 	"badge_colour": "0AD0F7"

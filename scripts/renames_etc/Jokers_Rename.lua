@@ -1469,12 +1469,15 @@ jokerLoc.nrmJkrs.j_drivers_license = { name = "Multipass",
     }
 }
 
-jokerLoc.nrmJkrs.j_invisible = { name = "Impossible Crossword",
+jokerLoc.nrmJkrs.j_invisible = { -- name = "Invisible Joker",
 	text = {
         "After {C:attention}#1#{} rounds, sell this",
         "card to {C:attention}Duplicate{} a random",
         "{C:joker}Joker{}. {C:inactive}(Currently {C:attention}#2#{C:inactive}/#1#)",
-        "{s:0.8,C:inactive}Stop stalling, Cirno."
+        "{s:0.8,C:inactive}No-one hears a word",
+        "{s:0.8,C:inactive}I say",
+        "{s:0.8,C:inactive}Has the memory gone?",
+        "{s:0.8,C:inactive}Are you feeling numb?"
     }
 }
 
@@ -1570,22 +1573,27 @@ jokerLoc.nrmJkrs.j_brainstorm = { -- name = "Brainstorm",
 	}
 }
 
---[[ Malverk does not do the thing if it is not set to replace that key.
-jokerLoc.nrmJkrs.j_satellite = { -- name = "Satelilte",
+jokerLoc.nrmJkrs.j_satellite = { name = "Mike Goutokuji",
 	text = {
         "Earn {C:money}$#1#{} at end of",
         "round per unique {C:planet}"..planetIntent,
         "card used this run",
-        "{C:inactive}(Currently {C:money}$#2#{C:inactive})"
+        "{C:inactive}(Currently {C:money}$#2#{C:inactive})",
+        "{s:0.8,C:inactive}\"She can either invite money",
+        "{s:0.8,C:inactive}or people to do business. The",
+        "{s:0.8,C:inactive}other will often be driven away.\"",
+        "{s:0.8,C:inactive}That's pretty relatable, honestly."
     }
-}]]
+}
 
+--[[
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_satellite, "text", {
         "Earn {C:money}$#1#{} at end of",
         "round per unique {C:planet}"..planetIntent,
         "card used this run",
         "{C:inactive}(Currently {C:money}$#2#{C:inactive})"
     })
+]]
 
 jokerLoc.nrmJkrs.j_rough_gem = { name = "Diamond In The Rough",
 	text = {
@@ -1970,22 +1978,25 @@ jokerLoc.nrmJkrs.j_sixth_sense = { -- name = "Sixth Sense",
 	}
 }
 
---[[ Malverk does not do the thing if it is not set to replace that key.
-jokerLoc.nrmJkrs.j_constellation = { -- name = "Constellation",
+jokerLoc.nrmJkrs.j_constellation = { name = "Ex-Keine",
 	text = {
         "This Joker gains",
 		"{X:mult,C:white} X#1# {} Mult every time",
 		"a {C:planet}"..planetIntent.."{} card is used",
-		"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+		"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+        "{s:0.8,C:inactive}Not someone to be challenged",
+        "{s:0.8,C:inactive}during a full moon."
     }
-}]]
+}
 
+--[[
 SMODS.process_loc_text(G.localization.descriptions.Joker.j_constellation, "text", {
         "This Joker gains",
 		"{X:mult,C:white} X#1# {} Mult every time",
 		"a {C:planet}"..planetIntent.."{} card is used",
 		"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
     })
+]]
 
 
 -- ===== NEXT LINE =====
@@ -2214,14 +2225,14 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	}, true)
 end
 
---[[
-jokerLoc.nrmJkrs.j_shortcut = { name = "Shortcut",
+jokerLoc.nrmJkrs.j_shortcut = { name = "Impossible Crossword",
 	text = {
 		"Allows {C:attention}Straights{} to be",
         "made with gaps of {C:attention}1 rank",
-        "{C:inactive}(ex: {C:attention}10 8 6 5 3{C:inactive})"
+        "{C:inactive}(ex: {C:attention}10 8 6 5 3{C:inactive})",
+        "{s:0.8,C:inactive}Stop stalling, Cirno."
 	}
-}]]
+}
 
 jokerLoc.lgndJkrs.j_hologram = { name = "\"Hologram\"",
 	text = {

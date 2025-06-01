@@ -330,8 +330,7 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 		{ set = 'Playing', key = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
 		{ set = 'Playing', key = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
 		{ set = 'Playing', key = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
-		--[[ Bias towards my kamioshi? No wayyyy
-		(...Again, no. Not possessive 'my'.)]]
+		-- Bias towards DM? No wayyyy
 		{ set = 'Playing', key = "D_J", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
 		
 		{ set = 'Playing', key = "H_K", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" },

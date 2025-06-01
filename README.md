@@ -17,7 +17,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 131 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
+  - 134 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
   - All Blind Chips
   - All Seals
   - All Planet Cards
@@ -26,7 +26,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
   - 14 Tags
   - 10 Tarot Cards
   - 7 Spectral Cards
-  - 4 Enhancements
+  - 5 Enhancements
   - The title screen
 
 - Renames & Alters Descriptions Of:
@@ -34,10 +34,10 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
   - All Planet Cards
   - Most blinds
   - A significant amount of retextured Jokers
-  - 6 Tarot Cards
-  - 6 Spectral Cards
-  - 5 Tags
-  - 1 Enhancement
+  - 10 Tarot Cards
+  - 7 Spectral Cards
+  - 14 Tags
+  - 5 Enhancements
 
 - Adds:
   - Various fun flavour text to numerous items
