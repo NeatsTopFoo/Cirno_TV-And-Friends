@@ -65,6 +65,10 @@ PTSloc.tarots.c_high_priestess = { -- name = "High Priestess",
 			"Creates up to {C:attention}#1#",
 			"random {C:planet}"..planetIntent.."{} cards",
 			"{C:inactive}(Must have room)",
+			"{s:0.8,C:inactive}Huh? No, retro consoles are",
+			"{s:0.8,C:inactive}like the NES & SNES, right?",
+			"{s:0.8,C:inactive}The Playstation 2 and DS",
+			"{s:0.8,C:inactive}are still pretty new..."
 		}
 	}
 
@@ -164,8 +168,43 @@ PTSloc.tarots.c_moon = { -- name = "The Moon",
 			"Converts up to",
 			"{C:attention}#1#{} selected cards",
 			"to {V:1}#2#{}",
-			"{s:0.8,C:inactive}Dawn Of The Final Day",
+			"{s:0.8,C:inactive}Dawn of The Final Day",
 			"{s:0.8,C:inactive}24 Hours Remaining"
+		}
+	}
+
+PTSloc.tarots.c_heirophant = { -- name = "The Hierophant",
+	text = {
+			"Enhances {C:attention}#1#",
+			"selected cards to",
+			"{C:attention}#2#s",
+			"{s:0.8,C:inactive}On today's docket:",
+			"{s:0.8,C:inactive}Giving Hell Ravens",
+			"{s:0.8,C:inactive}nuclear powers.",
+			"{s:0.7,C:inactive}Well, not directly, but"
+		}
+	}
+
+PTSloc.tarots.c_hanged_man = { -- name = "The Hanged Man",
+	text = {
+			"Destroys up to",
+			"{C:attention}#1#{} selected cards",
+			"{s:0.8,C:inactive}This... is a bucket.",
+			"{s:0.7,C:inactive}Dear god...",
+			"{s:0.8,C:inactive}There's more.",
+			"{s:0.7,C:inactive}No!"
+		}
+	}
+
+PTSloc.tarots.c_tower = { -- name = "The Tower",
+	text = {
+			"Enhances {C:attention}#1#{} selected",
+			"card into a",
+			"{C:attention}#2#",
+			"{s:0.8,C:inactive}Nice ~$100 order with",
+			"{s:0.8,C:inactive}inexact change, here's",
+			"{s:0.8,C:inactive}your reward, idiot.",
+			"{s:0.8,C:inactive}Whump Whump."
 		}
 	}
 
@@ -245,7 +284,7 @@ PTSloc.spectrals.c_trance = { name = "Overlap",
 		"Add a {C:blue}"..sealIntent.blue_seal.."{} to {C:attention}1{} selected card in your hand",
 		"{s:0.8,C:inactive}You know, if I had a nickel for every Canadian catgirl VTuber",
 		"{s:0.8,C:inactive}I knew that has a weird sorta love-hate relationship with Souls",
-		"{s:0.8,C:inactive}games & dropped CrossCode among various other commonalities,",
+		"{s:0.8,C:inactive}games & dropped CrossCode among various other things in common,",
 		"{s:0.8,C:inactive}I'd have -$69.90 US, as one of them would have charged me",
 		"{s:0.8,C:inactive}for two backseats over this bit."
 		}
@@ -279,6 +318,26 @@ if CirnoMod.config['allowCosmeticTakeOwnership'] then
 		end
 	}, true)
 end
+
+PTSloc.spectrals.c_grim = { name = "Anxiety",
+	text = {
+			"Destroy {C:attention}1{} random",
+			"card in your hand,",
+			"add {C:attention}#1#{} random {C:attention}Enhanced",
+			"{C:attention}Aces{} to your hand",
+			"{s:0.8,C:inactive}What, it's just an ordinary-",
+			"{s:0.8,C:inactive}OH MY GOODNESS!"
+		}
+	}
+
+PTSloc.spectrals.c_aura = { -- name = "Aura",
+	text = {
+			"Add {C:dark_edition}Foil{}, {C:dark_edition}Holographic{},",
+			"or {C:dark_edition}Polychrome{} effect to",
+			"{C:attention}1{} selected card in hand",
+			"{s:0.8,C:inactive}She's fuming."
+		}
+	}
 
 --#endregion
 return PTSloc

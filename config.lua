@@ -19,5 +19,7 @@ return {
 	['miscRenames'] = true,
 	['additionalChallenges'] = false,
 	['artCredits'] = true,
+	['startedModOnce'] = false,
+	['quittingIsAnOption'] = true,
 	['encounteredJokers'] = {{},{},{}}
 }

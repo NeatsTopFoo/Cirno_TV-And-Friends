@@ -122,24 +122,24 @@ CirnoMod.extendedDescTooltip{
 	end
 }
 
--- Crazy Women Jokers
+-- Unhinged Jokers
 CirnoMod.extendedDescTooltip{
-	key = 'crazyWomen',
+	key = 'unhinged',
 	
-	loc_txt = { name = "Crazy Women Jokers", text = {} },
+	loc_txt = { name = "Unhinged Jokers", text = {} },
 	
 	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 		if
-			CirnoMod.miscItems.jkrKeyGroups.crazyWomen
-			and next(CirnoMod.miscItems.jkrKeyGroups.crazyWomen)
+			CirnoMod.miscItems.jkrKeyGroups.unhinged
+			and next(CirnoMod.miscItems.jkrKeyGroups.unhinged)
 		then
 			local counter = 0
 			desc_nodes[#desc_nodes+1] = {}
 			
-			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.crazyWomen) do
+			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.unhinged) do
 				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k), G.C.FILTER, 0.8)
 				
-				if next(CirnoMod.miscItems.jkrKeyGroups.crazyWomen, k) == nil then
+				if next(CirnoMod.miscItems.jkrKeyGroups.unhinged, k) == nil then
 					break
 				end
 				

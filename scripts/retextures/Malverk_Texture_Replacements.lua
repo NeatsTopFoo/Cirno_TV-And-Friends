@@ -10,7 +10,7 @@ CirnoMod.replaceDef.locChanges = {
 	soulLoc = {},
 	boosterLoc = {},
 	tagLoc = {},
-	-- TODO: Vouchers
+	voucherLoc = {},
 	jkrLoc = {}
 }
 
@@ -27,6 +27,7 @@ local mlvrkTextPackTextList = {
 	'cir_mlvrk_WeeJoker',
 	'cir_mlvrk_LegendaryJokersAndHolo',
 	
+	'cir_mlvrk_Vouchers',
 	'cir_mlvrk_Boosters',
 	'cir_mlvrk_Tarots',
 	'cir_mlvrk_Planets',
@@ -209,7 +210,21 @@ for i, b in ipairs (CirnoMod.replaceDef.boosterReplacements) do
 	end
 end
 
--- TODO: Vouchers.
+CirnoMod.replaceDef.voucherReplacementKeys = {}
+for i, v in ipairs (CirnoMod.replaceDef.voucherReplacements) do
+	if v.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+		-- Ignore exceptional circumstances as defined in the file.
+		if
+			not CirnoMod.replaceDef.allKeysToIgnore[v.vchKey]
+		then
+			table.insert(CirnoMod.replaceDef.voucherReplacementKeys, v.vchKey)
+		end			
+		
+		if v.artCreditKey then
+			CirnoMod.miscItems.artCreditKeys[v.vchKey] = v.artCreditKey
+		end
+	end
+end
 
 -- Parse Planets are Hus
 if CirnoMod.config['planetsAreHus'] then
@@ -307,6 +322,7 @@ if CirnoMod.config['miscRenames'] then
 		end
 	end
 	
+	CirnoMod.replaceDef.locChanges.voucherLoc = miscLoc.vouchers
 	CirnoMod.replaceDef.locChanges.tagLoc = miscLoc.tags
 	
 	-- TODO: Vouchers
@@ -458,7 +474,18 @@ AltTexture({
 ----- Vouchers & Boosters -----
 -------------------------------
 
--- TODO
+-- Vouchers
+AltTexture({
+	key = 'mlvrk_Vouchers',
+	set = 'Voucher',
+	path = CirnoMod.replaceDef.getPath("voucher"),
+	original_sheet = true,
+	keys = CirnoMod.replaceDef.voucherReplacementKeys,
+	localization = CirnoMod.replaceDef.locChanges.voucherLoc,
+	loc_txt = {
+		name = 'Vouchers'
+	}
+})
 
 -- Boosters
 AltTexture({

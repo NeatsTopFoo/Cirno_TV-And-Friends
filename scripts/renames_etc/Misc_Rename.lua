@@ -245,7 +245,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 				0.8)
 			
 			CirnoMod.miscItems.addUITextNode(nodes_.Ln4,
-				'What? Of course I\'m gonna be biased towards DM.',
+				'What\'s that look for? Something on my face?',
 				G.C.UI.TEXT_INACTIVE,
 				0.5)
 			
@@ -267,7 +267,7 @@ else
 	miscLoc.tags.tag_coupon.text = SMODS.merge_lists({ miscLoc.tags.tag_coupon.text, {
 		'{s:0.8,C:inactive}Learn more at',
 		'{s:0.8,C:blue}https://twitch.tv/girl_dm_/subscribe',
-		'{s:0.5,C:inactive}What? Of course I\'m gonna be biased towards DM.'
+		'{s:0.5,C:inactive}What\'s that look for? Something on my face?'
 	} })
 end
 
@@ -406,7 +406,53 @@ miscLoc.boosters.p_celestial_mega.text = {
 --#endregion
 
 --#region Vouchers
--- TODO: Vouchers, when we replace some.
+
+miscLoc.vouchers.v_grabber = { name = "White Knuckle",
+		text={
+			"Permanently",
+			"gain {C:blue}+#1#{} hand",
+			"per round",
+			"{s:0.8,C:inactive}Nice to see Master Hand",
+			"{s:0.8,C:inactive}still getting work."
+		}
+	}
+
+miscLoc.vouchers.v_nacho_tong = { name="Red Knuckle",
+		text={
+			"Permanently",
+			"gain {C:blue}+#1#{} hand",
+			"per round",
+			"{s:0.8,C:inactive}Here I come, rougher",
+			"{s:0.8,C:inactive}than the rest of them."
+		}
+	}
+
+miscLoc.vouchers.v_blank = { name = "Disconnect Protection",
+		text = {
+			"{C:inactive}Does nothing?",
+			"{s:0.8,C:inactive}Strimmer gone forever."
+		}
+	}
+
+miscLoc.vouchers.v_hieroglyph = { -- name = "Hieroglyph",
+		text = {
+			"{C:attention}-#1#{} Ante,",
+			"{C:blue}-#1#{} hand",
+			"each round",
+			"{s:0.8,C:inactive}Back in my day, school",
+			"{s:0.8,C:inactive}was uphill. Both ways."
+		}
+	}
+
+miscLoc.vouchers.v_petroglyph = { -- name = "Petroglyph",
+		text = {
+			"{C:attention}-#1#{} Ante,",
+			"{C:red}-#1#{} discard",
+			"each round",
+			"{s:0.8,C:inactive}Did you know Twitch used",
+			"{s:0.8,C:inactive}to be called Justin.tv?"
+		}
+	}
 
 if not CirnoMod.config['planetsAreHus'] then
 	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_telescope, "name", "Telescope")

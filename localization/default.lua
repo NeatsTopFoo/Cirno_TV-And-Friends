@@ -110,6 +110,13 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
+	jA_Gote_NTFEdit = {
+		name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}Gote, edited",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
 	gA_BlackHole = {
 		name = creditSources.cr_JokerArt,
 		text = {
@@ -283,6 +290,12 @@ RV.descriptions.Other = {
 	},
 	
 	----- Other -----
+	gA_cirThing_Edit = { name = creditSources.cr_GenericArt,
+		text = {
+			"{s:0.8}A screenshot of the "..creditSources.CirnoTV,
+			"{s:0.8}stream, edited by "..creditSources.NTF
+		}
+	},
 	jA_Acrobat = { name = creditSources.cr_JokerArt,
 		text = {
 			"{s:0.8}"..creditSources.DTsun.." edit of",
@@ -434,7 +447,7 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_luchador = { name = creditSources.cr_JokerArt,
+	jA_mcMeme = { name = creditSources.cr_JokerArt,
 		text = {
 			"{s:0.8}"..creditSources.DTsun.." edit of",
 			"{s:0.8}Mojang art."
@@ -550,7 +563,22 @@ RV.descriptions.Joker.j_dna_negativePCardRebalancing = { name = "DNA",
 	}
 }
 
-RV.descriptions.Joker.cir_j_dna_negativePCardRebalancing = {
+RV.descriptions.Joker.cir_j_dna_negativePCardRebalancing = { name = "\"DNA\"",
+	text = {
+        "If {C:attention}first hand{} of round",
+        "has only {C:attention}1{} card, add a",
+        "permanent copy to deck",
+        "and draw it to {C:attention}hand",
+		"{C:inactive,s:0.9}(Removes {C:dark_edition,s:0.9}Negative{C:inactive,s:0.9} from copy)",
+		"{s:0.8,C:inactive}At Twitch Inc, we strive to foster",
+		"{s:0.8,C:inactive}a healthy & safe community. Click",
+		"{s:0.8,C:blue}here {s:0.8,C:inactive}to learn more about our policy",
+		"{s:0.8,C:inactive}on VTuber hips and why you need to",
+		"{s:0.8,C:inactive}be protected from them."
+    }
+}
+
+RV.descriptions.Joker.cir_j_dna_negativePCardRebalancing_safe = { name = "DNA",
 	text = {
         "If {C:attention}first hand{} of round",
         "has only {C:attention}1{} card, add a",

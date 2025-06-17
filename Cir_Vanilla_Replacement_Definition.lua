@@ -40,10 +40,10 @@ Blind Chips are basically complete. I don't see there being any
 mature references in any changes we might make to the graphics.]]
 replaceDef.paths.cirBlindChipsPath = { nrm = 'Vanilla_Replacements/cir_BlindChips.png' }
 
---	replaceDef.paths.cirVouchersPath = {
---		nrm = '',
---		safe = ''
---		}
+replaceDef.paths.cirVouchersPath = {
+	nrm = 'Vanilla_Replacements/cir_Vouchers.png',
+	-- safe = 'Vanilla_Replacements/'
+	}
 
 -- Can't see the boosters having mature references, either.
 replaceDef.paths.cirBoostersPath = {
@@ -173,10 +173,17 @@ replaceDef.getPath = function(replaceType)
 			replaceType == "voucher"
 			or replaceType == "vouchers"
 		then
-			print("Not implemented (CirnoMod.replaceDef.getPath(voucher))")
+			if
+				CirnoMod.config.matureReferences_cyc < 3
+				and replaceDef.paths.cirVouchersPath.safe
+			then
+				RV = replaceDef.paths.cirVouchersPath.safe
+			else
+				RV = replaceDef.paths.cirVouchersPath.nrm
+			end
 		end		
 	else
-		print("CirnoMod.replaceDef.getPath() called with an invalid argument")
+		print("Not implemented ("..replaceType..")")
 	end
 	-- print(RV)
 	return RV
@@ -350,11 +357,11 @@ replaceDef.deckReplacements = {
 replaceDef.boosterReplacements = { -- These are just in the order Malverk's codebase had them in. Could rearrange them to match the graphic for easier editing.
 	{ bstKey = 'p_arcana_normal_1', matureRefLevel = 1, artCreditKey = 'bA_DaemonTsun_BigNTFEdit' },
 	{ bstKey = 'p_arcana_normal_2', matureRefLevel = 1, artCreditKey = 'bA_RH_DaemonTsunEdit' },
-	--	{ bstKey = 'p_arcana_normal_3', matureRefLevel = 1, },
+	{ bstKey = 'p_arcana_normal_3', matureRefLevel = 1, artCreditKey = 'bA_DaemonTsun_BigNTFEdit' },
 	--	{ bstKey = 'p_arcana_normal_4', matureRefLevel = 1, },
 	{ bstKey = 'p_arcana_jumbo_1', matureRefLevel = 1, artCreditKey = 'bA_RH_DaemonTsunEdit' },
 	--	{ bstKey = 'p_arcana_jumbo_2', matureRefLevel = 1, },
-	--	{ bstKey = 'p_arcana_mega_1', matureRefLevel = 1, },
+	{ bstKey = 'p_arcana_mega_1', matureRefLevel = 1, artCreditKey = 'bA_DaemonTsun_BigNTFEdit' },
 	--	{ bstKey = 'p_arcana_mega_2', matureRefLevel = 1, },
 	{ bstKey = 'p_celestial_normal_1', matureRefLevel = 1, artCreditKey = { planetsAreHus = 'bA_genPack_ZUN' }, planetsAreHus = true },
 	{ bstKey = 'p_celestial_normal_2', matureRefLevel = 1, artCreditKey = { planetsAreHus = 'bA_genPack_Daiyousei' }, planetsAreHus = true },
@@ -469,7 +476,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_8_ball', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_NTFEdit' },
 	{ jkrKey = 'j_fibonacci', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_stencil', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_space', matureRefLevel = 1 },
+	{ jkrKey = 'j_space', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_matador', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_ceremonial', matureRefLevel = 1, artCreditKey = 'jA_DuoDagger' },
 	{ jkrKey = 'j_ring_master', matureRefLevel = 1, artCreditKey = 'jA_JustIRLCirno' }, -- Yes, this is Showman. You have no idea how mad I am that it's called this internally.
@@ -477,7 +484,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_hit_the_road', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_swashbuckler', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_ComCon' },
 	
-	-- { jkrKey = 'j_flower_pot', matureRefLevel = 1 },
+	{ jkrKey = 'j_flower_pot', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_ride_the_bus', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_shoot_the_moon', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_smeared', matureRefLevel = 1, artCreditKey = 'jA_smeared' },
@@ -500,7 +507,7 @@ replaceDef.jokerReplacements = {
 	
 	
 	{ jkrKey = 'j_bloodstone', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
-	-- { jkrKey = 'j_arrowhead', matureRefLevel = 1 },
+	{ jkrKey = 'j_arrowhead', matureRefLevel = 1, artCreditKey = 'jA_mcMeme' },
 	{ jkrKey = 'j_onyx_agate', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	
 	----- Legendary Jokers & Hologram don't get passed into the		 -----
@@ -523,8 +530,8 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_blackboard', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_ice_cream', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_runner', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
-	{ jkrKey = 'j_dna', matureRefLevel = 1, artCreditKey = 'jA_Unknown_NTFEdit' },
-	-- { jkrKey = 'j_splash', matureRefLevel = 1 },
+	{ jkrKey = 'j_dna', matureRefLevel = 1, artCreditKey = 'jA_Gote_NTFEdit' },
+	{ jkrKey = 'j_splash', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_blue_joker', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_sixth_sense', matureRefLevel = 1, artCreditKey = 'jA_ciwnoEdit' },
 	{ jkrKey = 'j_constellation', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
@@ -532,12 +539,12 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_hiker', matureRefLevel = 1, artCreditKey = 'jA_JustIRLCirno' },
 	{ jkrKey = 'j_faceless', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_green_joker', matureRefLevel = 2, artCreditKey = 'jA_DaemonTsun' },
-	-- { jkrKey = 'j_superposition', matureRefLevel = 1 },
+	{ jkrKey = 'j_superposition', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_todo_list', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_cavendish', matureRefLevel = 1, artCreditKey = 'jA_LocalThunk_DaemonTsunEdit' },
 	{ jkrKey = 'j_card_sharp', matureRefLevel = 1, artCreditKey = 'jA_NTF' },
 	{ jkrKey = 'j_red_card', matureRefLevel = 1, artCreditKey = 'jA_RedCard' },
-	-- { jkrKey = 'j_madness', matureRefLevel = 1 },
+	{ jkrKey = 'j_madness', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_square', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	
 	-- { jkrKey = 'j_seance', matureRefLevel = 1 },
@@ -551,9 +558,9 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_obelisk', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' }, -- Petition to rename this "Worst Joker in the Game."
 	
 	{ jkrKey = 'j_midas_mask', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
-	{ jkrKey = 'j_luchador', matureRefLevel = 1, artCreditKey = 'jA_luchador' },
+	{ jkrKey = 'j_luchador', matureRefLevel = 1, artCreditKey = 'jA_mcMeme' },
 	{ jkrKey = 'j_photograph', matureRefLevel = 1, artCreditKey = 'jA_ciwnoEdit' },
-	-- { jkrKey = 'j_gift', matureRefLevel = 1 },
+	{ jkrKey = 'j_gift', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_turtle_bean', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_erosion', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_reserved_parking', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
@@ -568,7 +575,7 @@ replaceDef.jokerReplacements = {
 	{ jkrKey = 'j_crafty', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun_NTF_Both' },
 	{ jkrKey = 'j_lucky_cat', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_baseball', matureRefLevel = 1, artCreditKey = 'jA_Baseball' },
-	-- { jkrKey = 'j_bull', matureRefLevel = 1 },
+	{ jkrKey = 'j_bull', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_diet_cola', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	{ jkrKey = 'j_trading', matureRefLevel = 1, artCreditKey = 'jA_DaemonTsun' },
 	
@@ -590,21 +597,21 @@ replaceDef.jokerReplacements = {
 replaceDef.tarotReplacements = {
 	{ trtKey = 'c_fool', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
 	{ trtKey = 'c_magician', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
-	{ trtKey = 'c_high_priestess', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_high_priestess', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
 	{ trtKey = 'c_empress', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_emperor', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
-	{ trtKey = 'c_heirophant', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' }, -- Yes, also mispelled internally; Make sure to have it right... Or wrong, in this case.
+	{ trtKey = 'c_heirophant', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' }, -- Yes, also mispelled internally; Make sure to have it right... Or wrong, in this case.
 	{ trtKey = 'c_lovers', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
 	{ trtKey = 'c_chariot', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_justice', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
 	{ trtKey = 'c_hermit', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_wheel_of_fortune', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
 	{ trtKey = 'c_strength', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun_ComCon' },
-	{ trtKey = 'c_hanged_man', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_hanged_man', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
 	{ trtKey = 'c_death', matureRefLevel = 1, artCreditKey = 'cA_RHEdit_ComCon' },
 	{ trtKey = 'c_temperance', matureRefLevel = 1, artCreditKey = 'cA_RHEdit' },
 	{ trtKey = 'c_devil', matureRefLevel = 1, artCreditKey = 'cA_Devil' },
-	{ trtKey = 'c_tower', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
+	{ trtKey = 'c_tower', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
 	{ trtKey = 'c_star', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' },
 	{ trtKey = 'c_moon', matureRefLevel = 1, artCreditKey = 'cA_RHEdit' },
 	{ trtKey = 'c_sun', matureRefLevel = 1, artCreditKey = 'cA_Sun' },
@@ -635,13 +642,13 @@ replaceDef.planetReplacements = {
 --------------------
 replaceDef.spectralReplacements = {
 	{ spcKey = 'c_ankh', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_NTFEdit' },
-	--	{ spcKey = 'c_aura', matureRefLevel = 1 },
+	{ spcKey = 'c_aura', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
 	{ spcKey = 'c_black_hole', matureRefLevel = 1, artCreditKey = 'gA_BlackHole' },
 	--	{ spcKey = 'c_cryptid', matureRefLevel = 1 },
 	{ spcKey = 'c_deja_vu', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
 	--	{ spcKey = 'c_octoplasm', matureRefLevel = 1 },
 	--	{ spcKey = 'c_familiar', matureRefLevel = 1 },
-	--	{ spcKey = 'c_grim', matureRefLevel = 1 },
+	{ spcKey = 'c_grim', matureRefLevel = 1, artCreditKey = 'gA_cirThing_Edit' },
 	--	{ spcKey = 'c_hex', matureRefLevel = 1 },
 	--	{ spcKey = 'c_immolate', matureRefLevel = 1 },
 	--	{ spcKey = 'c_incantation', matureRefLevel = 1 },
@@ -698,6 +705,42 @@ replaceDef.tagReplacements = {
     -- { tagKey = 'tag_economy', matureRefLevel = 1 }
 }
 
--- TODO: Vouchers
+--------------------
+----- Vouchers -----
+--------------------
+replaceDef.voucherReplacements = {
+	-- { vchKey = 'v_overstock_norm', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_clearance_sale', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_hone', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_reroll_surplus', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_crystal_ball', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_telescope', matureRefLevel = 1, artCreditKey = '' },
+    { vchKey = 'v_grabber', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
+    -- { vchKey = 'v_wasteful', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_tarot_merchant', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_planet_merchant', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_seed_money', matureRefLevel = 1, artCreditKey = '' },
+    { vchKey = 'v_blank', matureRefLevel = 1, artCreditKey = 'gA_NTF' },
+    -- { vchKey = 'v_magic_trick', matureRefLevel = 1, artCreditKey = '' },
+	{ vchKey = 'v_hieroglyph', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
+    -- { vchKey = 'v_directors_cut', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_paint_brush', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_overstock_plus', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_liquidation', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_glow_up', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_reroll_glut', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_omen_globe', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_observatory', matureRefLevel = 1, artCreditKey = '' },
+    { vchKey = 'v_nacho_tong', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
+    -- { vchKey = 'v_recyclomancy', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_tarot_tycoon', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_planet_tycoon', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_money_tree', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_antimatter', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_illusion', matureRefLevel = 1, artCreditKey = '' },
+    { vchKey = 'v_petroglyph', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
+    -- { vchKey = 'v_retcon', matureRefLevel = 1, artCreditKey = '' },
+    -- { vchKey = 'v_palette' matureRefLevel = 1, artCreditKey = '' }
+}
 
 return replaceDef

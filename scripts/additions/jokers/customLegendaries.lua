@@ -53,8 +53,6 @@ local jokerInfo = {
 			-- How the Joker will be referred to internally.
 			key = 'cirno_l',
 			
-			object_type = "Joker",
-			
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -69,10 +67,6 @@ local jokerInfo = {
 					"{C:inactive}(Currently {X:chips,C:white}X#3# {C:inactive} Chips)",
 					"{s:0.8,C:inactive}\"I don't mean to brag Chat,",
 					"{s:0.8,C:inactive}but I'm stupid.\""
-				},
-				unlock = {
-					"Find this {C:joker}Joker",
-					"from the {C:spectral}Soul{} card"
 				}
 			},
 			
@@ -132,12 +126,9 @@ local jokerInfo = {
 					},
 					main_end = self.create_main_end() }
 				end,
-			unlocked = false,
 			
-			atlas = 'cir_cLegendaries',
 			pos = { x = 0, y = 0}, -- Defines base card graphic position in the atlas.
 			soul_pos = { x = 0, y = 1}, -- Defines where this card's soul overlay is in the given atlas
-			rarity = 4, -- Legendary rarity
 			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
 			
 			dropIceCream = function(iceCream)
@@ -216,8 +207,6 @@ local jokerInfo = {
 			-- How the Joker will be referred to internally.
 			key = 'nope_l',
 			
-			object_type = "Joker",
-			
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -230,10 +219,6 @@ local jokerInfo = {
 					"a {C:attention}"..intents.c_wheel.."{}",
 					"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}\"I mean, it is my wheel. Ehe~\""
-				},
-				unlock = {
-					"Find this {C:joker}Joker",
-					"from the {C:spectral}Soul{} card"
 				}
 			},
 			
@@ -276,12 +261,9 @@ local jokerInfo = {
 				-- Here is how #1# and #2# are defined.
 				return { vars = { to_big(card.ability.extra.extra), to_big(card.ability.extra.x_mult) } }
 			end,
-			unlocked = false,
 			
-			atlas = 'cir_cLegendaries',
 			pos = { x = 1, y = 0}, -- Defines base card graphic position in the atlas.
 			soul_pos = { x = 1, y = 1}, -- Defines where this card's soul overlay is in the given atlas
-			rarity = 4, -- Legendary rarity
 			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
 			eternal_compat = true,
 			perishable_compat = true,
@@ -362,8 +344,6 @@ local jokerInfo = {
 			-- How the Joker will be referred to internally.
 			key = 'naro_l',
 			
-			object_type = "Joker",
-			
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -377,10 +357,6 @@ local jokerInfo = {
 					"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
 					"{s:0.8,C:inactive}He is the missile.",
 					"{s:0.8,C:inactive}He knows where he is."
-				},
-				unlock = {
-					"Find this {C:joker}Joker",
-					"from the {C:spectral}Soul{} card"
 				}
 			},
 			
@@ -414,12 +390,9 @@ local jokerInfo = {
 					RT[2] = (to_big(G.GAME.consumeable_usage['c_neptune'].count) * to_big(card.ability.extra.extra)) + to_big(1)
 				end
 			end,
-			unlocked = false,
 			
-			atlas = 'cir_cLegendaries',
 			pos = { x = 0, y = 2}, -- Defines base card graphic position in the atlas.
 			soul_pos = { x = 1, y = 3}, -- Defines where this card's soul overlay is in the given atlas
-			rarity = 4, -- Legendary rarity
 			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
 			eternal_compat = true,
 			perishable_compat = true,
@@ -509,8 +482,6 @@ local jokerInfo = {
 			-- How the Joker will be referred to internally.
 			key = 'arumia_l',
 			
-			object_type = "Joker",
-			
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -529,10 +500,6 @@ local jokerInfo = {
 						'{C:inactive}(Currently {X:chips,C:white}X#4#{C:inactive} Chips, {X:mult,C:white}X#5#{C:inactive} Mult)'
 					},
 					{ '{s:0.8,C:inactive}...So, you fall asleep reading this yet?' }
-				},
-				unlock = {
-					"Find this {C:joker}Joker",
-					"from the {C:spectral}Soul{} card"
 				}
 			},
 			
@@ -591,18 +558,15 @@ local jokerInfo = {
 					colours = { card.ability.extra.chipsMultColour[card.ability.extra.active] }
 				} }
 			end,
-			unlocked = false,
 			
-			atlas = 'cir_cLegendaries',
 			pos = { x = 2, y = 0}, -- Defines base card graphic position in the atlas.
 			soul_pos = { x = 2, y = 1}, -- Defines where this card's soul overlay is in the given atlas
-			rarity = 4, -- Legendary rarity
 			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
 			eternal_compat = true,
 			perishable_compat = true,
 			
 			--[[ Causes crashes. No-one knows why.
-			!! DO NOT UNCOMMENT if the set_sprites() call below is with
+			!! DO NOT UNCOMMENT if the set_sprite_pos() call below is with
 			a : and not a .
 			That just causes stack overflow
 			set_sprites = function(self, card, front)
@@ -858,8 +822,6 @@ local jokerInfo = {
 			-- How the Joker will be referred to internally.
 			key = 'houdini_l',
 			
-			object_type = "Joker",
-			
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -876,10 +838,6 @@ local jokerInfo = {
 					"{s:0.8,C:inactive}central piece. Don't let that",
 					"{s:0.8,C:inactive}stop you, ascend and have",
 					"{s:0.8,C:inactive}some fun becoming #2#1.\""
-				},
-				unlock = {
-					"Find this {C:joker}Joker",
-					"from the {C:spectral}Soul{} card"
 				}
 			},
 			
@@ -898,12 +856,9 @@ local jokerInfo = {
 				
 				return { vars = { card.ability.extra.extra, "#" } }
 			end,
-			unlocked = false,
 			
-			atlas = 'cir_cLegendaries',
 			pos = { x = 3, y = 0}, -- Defines base card graphic position in the atlas.
 			soul_pos = { x = 3, y = 1}, -- Defines where this card's soul overlay is in the given atlas
-			rarity = 4, -- Legendary rarity
 			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
 			eternal_compat = true,
 			perishable_compat = true,
@@ -956,8 +911,6 @@ local jokerInfo = {
 			-- How the Joker will be referred to internally.
 			key = 'wolsk_l',
 			
-			object_type = "Joker",
-			
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -968,10 +921,6 @@ local jokerInfo = {
 					"Every played {C:attention}card",
 					"in the first {C:blue}hand{} of the round",
 					"{C:attention}permanently{} gains {X:mult,C:white}X#1#{} Mult"
-				},
-				unlock = {
-					"Find this {C:joker}Joker",
-					"from the {C:spectral}Soul{} card"
 				}
 			},
 			
@@ -1014,12 +963,9 @@ local jokerInfo = {
 				vars = { card.ability.extra.extra },
 				main_end = self.create_main_end() }
 			end,
-			unlocked = false,
 			
-			atlas = 'cir_cLegendaries',
 			pos = { x = 3, y = 2}, -- Defines base card graphic position in the atlas.
 			soul_pos = { x = 3, y = 3}, -- Defines where this card's soul overlay is in the given atlas
-			rarity = 4, -- Legendary rarity
 			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
 			eternal_compat = true,
 			perishable_compat = true,
@@ -1080,8 +1026,6 @@ local jokerInfo = {
 			-- How the Joker will be referred to internally.
 			key = 'demeorin_l',
 			
-			object_type = "Joker",
-			
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -1092,10 +1036,6 @@ local jokerInfo = {
 					"After defeating a {C:attention}Boss Blind{},",
 					"create a {C:dark_edition}Negative {C:spectral}Spectral{} card",
 					--"{s:0.8,C:inactive}"
-				},
-				unlock = {
-					"Find this {C:joker}Joker",
-					"from the {C:spectral}Soul{} card"
 				}
 			},
 			
@@ -1112,12 +1052,9 @@ local jokerInfo = {
 				
 				return nil
 			end,
-			unlocked = false,
 			
-			atlas = 'cir_cLegendaries',
 			pos = { x = 1, y = 4}, -- Defines base card graphic position in the atlas.
 			soul_pos = { x = 1, y = 5}, -- Defines where this card's soul overlay is in the given atlas
-			rarity = 4, -- Legendary rarity
 			cost = 20, -- Sell value, since Legendary Jokers only appear via Soul spectral cards.
 			eternal_compat = true,
 			perishable_compat = true,
@@ -1134,5 +1071,20 @@ local jokerInfo = {
 		}
 	}
 }
+
+--[[ Define things that are constant with every Joker in
+this file once in a loop, rather than repeatedly per
+table element ]]
+for i, jkr in ipairs(jokerInfo.jokerConfigs) do
+	jkr.object_type = 'Joker'
+	jkr.atlas = 'cir_cLegendaries'
+	jkr.rarity = 4
+	
+	jkr.unlocked = false
+	jkr.loc_txt.unlock = {
+		"Find this {C:joker}Joker",
+		"from the {C:spectral}Soul{} card"
+	}
+end
 
 return jokerInfo

@@ -263,6 +263,15 @@ end
 times = 1
 match_indent = true
 
+# Quitting is an option.
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''return {n=G.UIT.ROOT, config={align = "cm", padding = 0.05, colour = G.C.CLEAR}, nodes={'''
+position = "at"
+payload = '''return CirnoMod and CirnoMod.quittingIsAnOption() or {n=G.UIT.ROOT, config={align = "cm", padding = 0.05, colour = G.C.CLEAR}, nodes={'''
+match_indent = true
+times = 1
 
 # Makes a bunch of the normally red buttons blue!
 [[patches]]

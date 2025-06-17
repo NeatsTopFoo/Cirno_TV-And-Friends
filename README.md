@@ -17,34 +17,38 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 134 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
+  - 142 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
   - All Blind Chips
   - All Seals
   - All Planet Cards
-  - 15 Booster Packs
+  - 17 Booster Packs
   - 15 Decks
   - 14 Tags
-  - 10 Tarot Cards
-  - 7 Spectral Cards
+  - 14 Tarot Cards
+  - 9 Spectral Cards
   - 5 Enhancements
+  - 5 Vouchers
   - The title screen
 
-- Renames & Alters Descriptions Of:
+- Renames/Alters Descriptions Of:
   - All Seals
   - All Planet Cards
   - Most blinds
   - A significant amount of retextured Jokers
-  - 10 Tarot Cards
-  - 7 Spectral Cards
+  - 15 Decks
+  - 14 Tarot Cards
   - 14 Tags
+  - 9 Spectral Cards
   - 5 Enhancements
+  - 5 Vouchers
 
 - Adds:
   - Various fun flavour text to numerous items
   - Some custom playing card skins
   - 14 custom Jokers
-  - 1 custom Spectral Card
+  - 2 custom Spectral Cards
   - 1 custom Challenge
+  - Sometimes, quitting is an option. :)
 
 All retextures and renames are optional and they're somewhat mix n' match (You can't have it rename some Jokers enabled in the texture pack and not others. You either get all Joker renames or none - But you do otherwise have decent control over it) - But all additions are fully optional.
 
@@ -62,7 +66,6 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 - Download the latest version of this mod from the releases page.
 - Either by extracting the contents of or otherwise opening this mod's .zip, you should get a folder of the same name as the zip file (or similar). Move that folder to the .../Balatro/mods directory you created in the previous tutorial.
 - You have finished installing Cirno & Friends. *Changes may not immediately appear* as they need to be enabled in both the Steamodded mod menu (Specifically in this mod's config, although they are set to enabled by default) and in Malverk's textures menu for them to appear in-game.
-- *IMPORTANT*: Because of a bug in the current release of Malverk (at the time of writing), enabling the default textures in Malverk and then trying to interact with its card afterwards causes the game to error. Disabling (As in, removing from the top line. It does not remove it from the mod entirely) the default texture pack card either requires removal of the '"default",' line in Malverk's config file under ["selected"], Which itself is generally accessible by going up one level from the .../Balatro/mods/ folder, into the /config folder that should be under that /Balatro directory. This is currently fixed in the current dev version of Malverk & should be fixed with the next Malverk release.
 
 **Updating this mod:**
 - If this mod has since added any new dependencies since the last time you downloaded it (We probably won't? But generally it's safer to check than be confused why things broke later, and for whatever reason the possibility isn't zero), get those dependencies and ensure Balatro runs.
@@ -70,13 +73,13 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), t
 - Follow the steps outlined in **Installing this mod** again.
 
 ## Credits
-- The Cirno_TV & Friends mod is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.expert), additionally with some idea and art contributions from the Cirno_TV community discord.
-- [Turpix](https://bsky.app/profile/turpix.bsky.social) for [the art](https://www.nexusmods.com/balatro/mods/114) used for the Stone Joker.
-- This [Miku replacement mod](https://www.nexusmods.com/balatro/mods/223) for art used for the Chaos the Clown Joker.
+- The Cirno_TV & Friends mod is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.expert), additionally with some idea and art contributions from the Cirno_TV community discord (Including emotes by [Solgryn](https://twitch.tv/solgryn) & [RadicalHighway](https://twitch.tv/radicalhighway)).
+- [Turpix](https://x.com/turpix_00) for [the art](https://www.nexusmods.com/balatro/mods/114) used for the Stone Joker.
+- Solgalestia for art used from their [Miku replacement mod](https://www.nexusmods.com/balatro/mods/223) for the Chaos the Clown Joker.
 - [Muddleee for art used for The Sun Tarot card](https://github.com/Muddieee/sun_is_sus).
 - The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art used for the DNA Joker (The art itself appears to not be credited to any specific contributing artist), as well as code for changing the card that appears on the title screen.
-- Code for a certain custom Legendary Joker was based off of a similar Joker in the [Cryptid](https://github.com/MathIsFun0/Cryptid) mod.
-- Code that changes the colours of the main menu vortex was based off of similar functionality in the [Trance](https://github.com/MathIsFun0/Trance) mod.
-- [Aikoyori](https://bsky.app/profile/aikoyori.xyz), BreezeBuilder, Eremel, Somethimgcom515 and many other members of the Balatro modding community for help with code & troubleshooting code issues.
+- Code for a certain custom Legendary Joker was based off of a similar Joker in the [Cryptid](https://github.com/SpectralPack/Cryptid) mod.
+- Code that changes the colours of the main menu vortex was based off of similar functionality in the [Trance](https://github.com/SpectralPack/Trance) mod.
+- [Aikoyori](https://bsky.app/profile/aikoyori.xyz), BreezeBuilder, Eremel, Somethingcom515 and many other members of the Balatro modding community for help with code & troubleshooting code issues.
 - [Cirno_TV](https://www.twitch.tv/Cirno_TV/) for the art used for the Misprint Joker.
-- Credits are also included in in-game tooltips to any cards that are edited & added; Optionally disableable in the mod's config menu.
+- Credits are also included in in-game tooltips to any cards that are edited & added; Which are optionally disableable in the mod's config menu, which also contains a credits tab.

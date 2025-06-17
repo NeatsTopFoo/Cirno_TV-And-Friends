@@ -63,7 +63,6 @@ end
 This is what the new cycle option calls when it's cycled
 Yes, it HAS to be in G.FUNCS.]]
 G.FUNCS.cir_CycMatureReferencesVal = function(e)
-	-- CirnoMod.allEnabledOptions.matureReferences_cyc = e.to_key
 	CirnoMod.config.matureReferences_cyc = e.to_key
 end
 
@@ -131,6 +130,62 @@ function G.FUNCS.splash_screen_card(card_pos, card_size)
 	return Card(card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
 				card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
 				card_size*G.CARD_W, card_size*G.CARD_H, pseudorandom_element(G.P_CARDS), G.P_CENTERS.c_base)
+end
+
+CirnoMod.quittingIsAnOption = function()
+	local ret = nil
+	
+	if CirnoMod.config.quittingIsAnOption then
+		ret = {n=G.UIT.ROOT, config={align = "cm", padding = 0.05, colour = G.C.CLEAR}, nodes={ {
+			n = G.UIT.C,
+			config = { align = "cm" },
+			nodes = {{
+				n = G.UIT.R,
+				config = { align = "cm" },
+				nodes = {
+					create_option_cycle({label = localize('b_set_gamespeed'),scale = 0.8, options = {0.5, 1, 2, 4}, opt_callback = 'change_gamespeed', current_option = (G.SETTINGS.GAMESPEED == 0.5 and 1 or G.SETTINGS.GAMESPEED == 4 and 4 or G.SETTINGS.GAMESPEED + 1)}),
+					
+					create_option_cycle({w = 5, label = localize('b_set_play_discard_pos'),scale = 0.8, options = localize('ml_play_discard_pos_opt'), opt_callback = 'change_play_discard_position', current_option = (G.SETTINGS.play_button_pos)}),
+					
+					G.F_RUMBLE and create_toggle({label = localize('b_set_rumble'), ref_table = G.SETTINGS, ref_value = 'rumble'}) or nil,
+					
+					create_slider({label = localize('b_set_screenshake'),w = 4, h = 0.4, ref_table = G.SETTINGS, ref_value = 'screenshake', min = 0, max = 100}),
+					
+					create_toggle({label = localize('ph_display_stickers'), ref_table = G.SETTINGS, ref_value = 'run_stake_stickers'}),
+					
+					create_toggle({label = localize('b_high_contrast_cards'), ref_table = G.SETTINGS, ref_value = 'colourblind_option', callback = G.FUNCS.refresh_contrast_mode}),
+					
+					create_toggle({label = localize('b_reduced_motion'), ref_table = G.SETTINGS, ref_value = 'reduced_motion'}),
+					
+					G.F_CRASH_REPORTS and create_toggle({label = localize('b_set_crash_reports'), ref_table = G.SETTINGS, ref_value = 'crashreports', info = localize('ml_crash_report_info')}) or nil,
+					
+					{
+						n = G.UIT.R, -- Spacer wrapper
+						config = {
+							r = 0.1,
+							padding = 0.0,
+							align = 'tm',
+							colour = G.C.CLEAR
+						},
+						nodes = {
+							{
+								-- Spacer
+								n = G.UIT.B,
+								config = {
+									colour = G.C.CLEAR,
+									w = 0.05,
+									h = 0.35
+								}
+							}
+						}
+					},
+					
+					UIBox_button{button = 'quit', colour = G.C.RED, label = {localize('b_quit_cap')}, scale = 0.7}
+			}}}}
+		}}
+	end
+	
+	return ret
 end
 
 --[[
@@ -211,7 +266,7 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars)
 	return RV
 end
 
---[[
+--[[ Unneeded for now, but may be investigated should a new, similar issue arise that this functionality can solve.
 CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys.m_gold = function(card, loc_vars, specific_vars, info_queue, card_type, badges, main_start, main_end)
 	info_queue[#info_queue + 1] = { key = 'blankTooltipA', set = 'Other', replace_base_card = true }
 end
@@ -234,8 +289,23 @@ end
 
 assert(SMODS.load_file("scripts/other/extDescTooltips.lua"))()
 
+
+	
+local dependencyCheck = function(additionInfo_)
+	if
+		additionInfo_.dependenciesForAddition
+		and type(additionInfo_.dependenciesForAddition) == 'function'
+	then
+		return additionInfo_.dependenciesForAddition()
+	else
+		return true
+	end
+end
+
 -- Additional Custom Jokers
 if CirnoMod.config.addCustomJokers then
+	local jkrLoadOrder = {}
+	
 	-- Iterates through all lua files in scripts\additions\jokers\ and SMODS.load_file them.
 	for i, Jkr in ipairs (cirInitConfig.customJokers) do
 		-- Runs the lua and puts its returned var into the var.
@@ -243,7 +313,8 @@ if CirnoMod.config.addCustomJokers then
 		local loadAtlas = true
 		
 		if
-			(jokerInfo.matureRefLevel or 3) <= CirnoMod.config.matureReferences_cyc
+			(dependencyCheck(jokerInfo)
+			and (jokerInfo.matureRefLevel or 3) <= CirnoMod.config.matureReferences_cyc)
 			or jokerInfo.isMultipleJokers
 		then
 			if
@@ -256,11 +327,11 @@ if CirnoMod.config.addCustomJokers then
 					or
 					(jokerInfo.isMultipleJokers and jokerInfo.jokerConfigs) -- Or this for multiple jokers in one.
 					--[[
-					Yes, could do just checking for either config singular or config plural, but
-					that makes this confusable at a quick glance since they're similar. Could
-					ultimately name them something else, but then you run into stuff like
-					"well how do you read back through this," etc. etc. It looks stupid, but
-					when you stop and think about it, it makes sense. It's clunky, yes, but
+					Yes, I could do just checking for either config singular or config plural
+					but that makes this confusable at a quick glance since they're similar.
+					Could ultimately name them something else, but then you run into stuff
+					like "well how do you read back through this," etc. etc. It looks stupid,
+					but when you stop and think about it, it makes sense. It's clunky, yes, but
 					it makes sense.]]
 				)
 			then
@@ -268,7 +339,7 @@ if CirnoMod.config.addCustomJokers then
 					loadAtlas = false -- No point in loading the Atlas if all the jokers in the file's mature ref levels are higher than the current setting.
 					
 					for i_, JkrChk in ipairs (jokerInfo.jokerConfigs) do
-						loadAtlas = JkrChk.matureRefLevel <= CirnoMod.config.matureReferences_cyc
+						loadAtlas = (dependencyCheck(JkrChk) and JkrChk.matureRefLevel <= CirnoMod.config.matureReferences_cyc)
 						
 						if loadAtlas then
 							break
@@ -286,7 +357,7 @@ if CirnoMod.config.addCustomJokers then
 				
 				if jokerInfo.isMultipleJokers then
 					for iI_, Jkr_ in ipairs (jokerInfo.jokerConfigs) do
-						jkr_shouldAdd = true
+						jkr_shouldAdd = dependencyCheck(Jkr_)
 						
 						if
 							Jkr_.shouldAdd
@@ -300,7 +371,14 @@ if CirnoMod.config.addCustomJokers then
 							and Jkr_.matureRefLevel <= CirnoMod.config.matureReferences_cyc
 						then
 							
-							SMODS.Joker(Jkr_)
+							if
+								Jkr_.loadOrder
+								and type(Jkr_.loadOrder) == 'string'
+							then
+								jkrLoadOrder[Jkr_.loadOrder] = Jkr_
+							else
+								SMODS.Joker(Jkr_)
+							end
 							
 							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..Jkr_.key)
 						end
@@ -314,14 +392,25 @@ if CirnoMod.config.addCustomJokers then
 					end
 					
 					if jkr_shouldAdd then
-						SMODS.Joker(jokerInfo.jokerConfig)
+						if
+							jokerInfo.jokerConfig.loadOrder
+							and type(jokerInfo.jokerConfig.loadOrder) == 'string'
+						then
+							jkrLoadOrder[jokerInfo.jokerConfig.loadOrder] = jokerInfo.jokerConfig
+						else
+							SMODS.Joker(jokerInfo.jokerConfig)
+						end
 					
 						table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..jokerInfo.jokerConfig.key)
 					end
 				end
 			end
-		end		
+		end	
 	end
+	
+	jkrLoadOrder['test'] = 'a'
+	
+	print(#jkrLoadOrder)
 end
 	
 --[[ Hooks into the normal calculate_seal()
@@ -445,7 +534,8 @@ if CirnoMod.config.addCustomConsumables then
 		local loadAtlas = true
 		
 		if
-			(cnsmInfo.matureRefLevel or 3) <= CirnoMod.config.matureReferences_cyc
+			(dependencyCheck(cnsmInfo)
+			and (cnsmInfo.matureRefLevel or 3) <= CirnoMod.config.matureReferences_cyc)
 			or cnsmInfo.isMultipleConsumables
 		then
 			if
@@ -462,7 +552,7 @@ if CirnoMod.config.addCustomConsumables then
 					loadAtlas = false
 					
 					for i_, CnsmChk in ipairs (cnsmInfo.cnsmConfigs) do
-						loadAtlas = CnsmChk.matureRefLevel <= CirnoMod.config.matureReferences_cyc
+						loadAtlas = (dependencyCheck(CnsmChk) and CnsmChk.matureRefLevel <= CirnoMod.config.matureReferences_cyc)
 						
 						if loadAtlas then
 							break
@@ -476,7 +566,10 @@ if CirnoMod.config.addCustomConsumables then
 				
 				if cnsmInfo.isMultipleConsumables then
 					for iI_, Cnsm_ in ipairs (cnsmInfo.cnsmConfigs) do
-						if Cnsm_.matureRefLevel <= CirnoMod.config.matureReferences_cyc then
+						if
+							dependencyCheck(Cnsm_)
+							and Cnsm_.matureRefLevel <= CirnoMod.config.matureReferences_cyc
+						then
 							SMODS.Consumable(Cnsm_)
 							
 							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..Cnsm_.key)
@@ -519,7 +612,7 @@ if CirnoMod.config.negativePCardsBalancing then
 	--[[ Adjusts DNA's description to account for the
 	fact that Negative is removed from the copies. ]]
 	SMODS.Joker:take_ownership('dna', {
-		create_main_end = function(removeNegative)
+		create_main_end = function()
 			local RT = {{
 					n = G.UIT.C,
 					config = {
@@ -548,19 +641,21 @@ if CirnoMod.config.negativePCardsBalancing then
 		end,
 		
 		loc_vars = function(self, info_queue, card)
-			local ret = { main_end = self.create_main_end() }
+			local ret = {}
 		
 			info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
 			
-			if CirnoMod.miscItems.atlasCheck(card) then
+			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.config.matureReferences_cyc >= 2 then
 				ret.key = 'cir_j_dna_negativePCardRebalancing'
+			elseif CirnoMod.miscItems.atlasCheck(card) then
+				ret.key = 'cir_j_dna_negativePCardRebalancing_safe'
 			elseif CirnoMod.miscItems.isUsingAnyCustomAtlas(card) then
+				ret.main_end = self.create_main_end()
+			else
 				ret.key = 'j_dna_negativePCardRebalancing'
 			end
 			
-			if not CirnoMod.miscItems.atlasCheck(card) then
-				return ret
-			end
+			return ret
 		end
 	}, true)
 	
@@ -754,17 +849,6 @@ if CirnoMod.config.additionalChallenges then
 	file itself.]]
 	CirnoMod.ChalFuncs = {}
 	
-	local dependencyCheck = function(chInfo_)
-		if
-			chInfo_.dependenciesForAddition
-			and type(chInfo_.dependenciesForAddition) == 'function'
-		then
-			return chInfo_.dependenciesForAddition()
-		else
-			return true
-		end
-	end
-	
 	for i, Ch in ipairs (cirInitConfig.additionalChallenges) do
 		-- Runs the lua and puts its returned var into the var.
 		local chalInfo = assert(SMODS.load_file('scripts/additions/challenges/'..Ch..".lua"))()
@@ -807,6 +891,20 @@ end
 
 local main_menuRef = Game.main_menu -- Main_menu() hook
 function Game:main_menu(change_context)	
+	if not CirnoMod.launching then
+		if not CirnoMod.config.startedModOnce then
+			CirnoMod.config.startedModOnce = true
+		else
+			CirnoMod.config.quittingIsAnOption = math.random() < 0.5
+		end
+		
+		if G.F_QUIT_BUTTON == CirnoMod.config.quittingIsAnOption then
+			G.F_QUIT_BUTTON = not CirnoMod.config.quittingIsAnOption
+		end
+		
+		CirnoMod.launching = true
+	end
+	
 	if not G.C.SPLASH then -- Ensure splash is initalised
 		G.C.SPLASH = {}
 	end

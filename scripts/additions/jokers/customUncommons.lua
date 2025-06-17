@@ -13,9 +13,7 @@ local jokerInfo = {
 		-- The Solo, x1 mult on high card lol
 		{
 			key = 'cir_the_solo',
-			
-			object_type = "Joker",
-			
+						
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -53,9 +51,7 @@ local jokerInfo = {
 				return { vars = { card.ability.extra.Xmult } }
 			end,
 			
-			atlas = 'cir_cUncommons',
 			pos = { x = 0, y = 0},
-			rarity = 2, -- Uncommon rarity
 			cost = 6,
 			
 			calculate = function(self, card, context)
@@ -74,5 +70,14 @@ local jokerInfo = {
 		}
 	}
 }
+
+--[[ Define things that are constant with every Joker in
+this file once in a loop, rather than repeatedly per
+table element ]]
+for i, jkr in ipairs(jokerInfo.jokerConfigs) do
+	jkr.object_type = 'Joker'
+	jkr.atlas = 'cir_cUncommons'
+	jkr.rarity = 2
+end
 
 return jokerInfo

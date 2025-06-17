@@ -1,5 +1,22 @@
 local miscItems = {
 	artCreditKeys = {},
+	creditLinks = {
+		daemonTsun = "https://bsky.app/profile/daemontsun.bsky.social",
+		ntf_bsky = "https://bsky.app/profile/nopetoofast.bsky.expert",
+		ntf_twch = "https://www.twitch.tv/NopeTooFast",
+		cirnotv_bsky = "https://bsky.app/profile/cirnotv.bsky.social",
+		cirnotv_twch = "https://www.twitch.tv/Cirno_TV/",
+		cardsauce = "https://github.com/BarrierTrio/Cardsauce",
+		cryptid = "https://github.com/SpectralPack/Cryptid",
+		trance = "https://github.com/SpectralPack/Trance",
+		turpix_tw = "https://x.com/turpix_00",
+		turpix_nm = "https://www.nexusmods.com/balatro/mods/114",
+		solgalestia = "https://www.nexusmods.com/balatro/mods/223",
+		solgryn = "https://twitch.tv/solgryn",
+		radicalhighway = "https://twitch.tv/radicalhighway",
+		muddleee = "https://github.com/Muddieee/sun_is_sus",
+		aikoyori = "https://bsky.app/profile/aikoyori.xyz"
+	},
 	allFaceCards = { 'Jack', 'Queen', 'King' },
 	cardRanksToValues_AceLow = {
 		['King'] = 10,
@@ -116,7 +133,8 @@ miscItems.badges = {
 	allegations = function(bootstrapsName) return create_badge(bootstrapsName or 'You Forgot To Pass The Name In', G.C.GREEN, G.C.UI.TEXT_LIGHT, 0.8 ) end,
 	TwoMax = function() return create_badge("2 Max", miscItems.colours.cirNep, G.C.UI.TEXT_LIGHT, 0.8) end,
 	cirGuns = function() return create_badge("cirGuns", miscItems.colours.cirCyan, G.C.UI.TEXT_LIGHT, 0.8 ) end,
-	crazyWomen = function() return create_badge("Crazy Women", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 ) end
+	unhinged = function() return create_badge("Unhinged", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 ) end,
+	chatBrainrot = function() return create_badge("Chat Brainrot", miscItems.colours.cirBlue, G.C.UI.TEXT_LIGHT, 0.8 ) end
 }
 
 miscItems.addBadgesToJokerByKey = function(badgesTable, jkrKey, extArg)
@@ -124,6 +142,8 @@ miscItems.addBadgesToJokerByKey = function(badgesTable, jkrKey, extArg)
 		if
 			g[jkrKey]
 			and CirnoMod.miscItems.badges[k]
+			and (type(g[jkrKey]) ~= 'function'
+			or g[jkrKey]())
 		then
 			badgesTable[#badgesTable+1] = CirnoMod.miscItems.badges[k](extArg)
 		end
@@ -330,7 +350,7 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 		{ set = 'Playing', key = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
 		{ set = 'Playing', key = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
 		{ set = 'Playing', key = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
-		-- Bias towards DM? No wayyyy
+		-- No problem here.
 		{ set = 'Playing', key = "D_J", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
 		
 		{ set = 'Playing', key = "H_K", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" },
@@ -567,26 +587,41 @@ miscItems.getEditionScalingInfo = function(edition, scalar)
 	if edition and edition.type == 'foil' then
 		return { key = 'foilScale',
 			set = 'Other',
-			vars = { to_big(edition.chips), to_big(edition.chips) + to_big(50 * scalar) } }
+			vars = { to_big(edition.chips), to_big(edition.chips) + to_big(50) * to_big(scalar) } }
 	elseif edition and edition.type == 'holo' then
 		return { key = 'holoScale',
 			set = 'Other',
-			vars = { to_big(edition.mult), to_big(edition.mult) + to_big(10 * scalar) } }
+			vars = { to_big(edition.mult), to_big(edition.mult) + to_big(10) * to_big(scalar) } }
 	elseif edition and edition.type == 'polychrome' then
 		return { key = 'polyScale',
 			set = 'Other',
-			vars = { to_big(edition.x_mult), to_big(edition.x_mult) + to_big(0.5 * scalar) } }
+			vars = { to_big(edition.x_mult), to_big(edition.x_mult) + to_big(0.5) * to_big(scalar) } }
+	end
+	return nil
+end
+
+miscItems.localizeEditionValue = function(edition)
+	if edition and edition.type == 'foil' then
+		
+	elseif edition and edition.type == 'holo' then
+		
+	elseif edition and edition.type == 'polychrome' then
+		
 	end
 	return nil
 end
 
 miscItems.scaleEdition_FHP = function(card, scalar)
 	if card.edition.type == 'foil' then
-		card.edition.chips = to_big(card.edition.chips) + to_big(50 * scalar)
+		card.edition.chips = to_big(card.edition.chips) + to_big(50) * to_big(scalar)
+		return card.edition.chips..' Chips'
 	elseif card.edition.type == 'holo' then
-		card.edition.mult = to_big(card.edition.mult) + to_big(10 * scalar)
+		card.edition.mult = to_big(card.edition.mult) + to_big(10) * to_big(scalar)
+		local ret = localize{ type = 'variable', key = 'a_mult', vars = { card.edition.chips } }
+		return string.sub(ret, 2, #ret)
 	elseif card.edition.type == 'polychrome' then
-		card.edition.x_mult = to_big(card.edition.x_mult) + to_big(0.5 * scalar)
+		card.edition.x_mult = to_big(card.edition.x_mult) + to_big(0.5) * to_big(scalar)
+		return localize{ type = 'variable', key = 'a_xmult', vars = { card.edition.x_mult } }
 	end
 end
 
@@ -836,62 +871,180 @@ miscItems.getJokerNameByKey = function(jkrKey, default)
 	return RV
 end
 
+miscItems.jkrKeyGroups.allegations = {}
+miscItems.jkrKeyGroups.fingerGuns = {}
 miscItems.jkrKeyGroups.TwoMax = {}
-miscItems.jkrKeyGroups.crazyWomen = {}
+miscItems.jkrKeyGroups.unhinged = {}
+miscItems.jkrKeyGroups.chatBrainrot = {}
 
 if
 	CirnoMod.config.malverkReplacements
 then
-	miscItems.jkrKeyGroups.allegations = {
-		j_bootstraps = true,
-		j_riff_raff = true,
-		j_trading = true
-	}
+	miscItems.jkrKeyGroups.allegations.j_bootstraps = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_bootstraps) end
 	
-	miscItems.jkrKeyGroups.TwoMax.j_duo = true
-	miscItems.jkrKeyGroups.TwoMax.j_sly = true
+	miscItems.jkrKeyGroups.allegations.j_riff_raff = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_riff_raff) end
 	
-	miscItems.jkrKeyGroups.fingerGuns = {
-		j_golden = true,
-		j_ring_master = true,
-		j_stuntman = true
-	}
+	miscItems.jkrKeyGroups.allegations.j_trading = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_trading) end
 	
-	miscItems.jkrKeyGroups.crazyWomen.j_chaos = true
-	miscItems.jkrKeyGroups.crazyWomen.j_zany = true
-	miscItems.jkrKeyGroups.crazyWomen.j_crazy = true
-	miscItems.jkrKeyGroups.crazyWomen.j_drunkard = true
-	miscItems.jkrKeyGroups.crazyWomen.j_sock_and_buskin = true
-	miscItems.jkrKeyGroups.crazyWomen.j_mime = true
-	miscItems.jkrKeyGroups.crazyWomen.j_greedy_joker = true
-	miscItems.jkrKeyGroups.crazyWomen.j_lusty_joker = true
-	miscItems.jkrKeyGroups.crazyWomen.j_delayed_grat = true
-	miscItems.jkrKeyGroups.crazyWomen.j_even_steven = true
-	miscItems.jkrKeyGroups.crazyWomen.j_odd_todd = true
-	miscItems.jkrKeyGroups.crazyWomen.j_supernova = true
-	miscItems.jkrKeyGroups.crazyWomen.j_swashbuckler = true
-	miscItems.jkrKeyGroups.crazyWomen.j_astronomer = true
-	miscItems.jkrKeyGroups.crazyWomen.j_burnt = true
-	miscItems.jkrKeyGroups.crazyWomen.j_caino = true
-	miscItems.jkrKeyGroups.crazyWomen.j_triboulet = true
-	miscItems.jkrKeyGroups.crazyWomen.j_yorick = true
-	miscItems.jkrKeyGroups.crazyWomen.j_chicot = true
-	miscItems.jkrKeyGroups.crazyWomen.j_vampire = true
-	miscItems.jkrKeyGroups.crazyWomen.j_midas_mask = true
-	miscItems.jkrKeyGroups.crazyWomen.j_wily = true
-	miscItems.jkrKeyGroups.crazyWomen.j_devious = true
-	miscItems.jkrKeyGroups.crazyWomen.j_lucky_cat = true
-	miscItems.jkrKeyGroups.crazyWomen.j_flash = true
+	miscItems.jkrKeyGroups.TwoMax.j_duo = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_duo) end
+	
+	miscItems.jkrKeyGroups.TwoMax.j_sly = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_sly) end
+	
+	miscItems.jkrKeyGroups.fingerGuns.j_golden = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_golden) end
+		
+	miscItems.jkrKeyGroups.fingerGuns.j_ring_master = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_ring_master) end
+		
+	miscItems.jkrKeyGroups.fingerGuns.j_stuntman = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_stuntman) end
+		
+	miscItems.jkrKeyGroups.unhinged.j_chaos = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_chaos) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_crazy = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_crazy) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_drunkard = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_drunkard) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_sock_and_buskin = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_sock_and_buskin) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_mime = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_mime) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_greedy_joker = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_greedy_joker) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_lusty_joker = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_lusty_joker) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_marble = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_marble) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_delayed_grat = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_delayed_grat) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_even_steven = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_even_steven) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_odd_todd = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_odd_todd) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_supernova = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_supernova) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_space = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_space) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_swashbuckler = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_swashbuckler) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_shoot_the_moon = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_shoot_the_moon) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_astronomer = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_astronomer) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_burnt = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_burnt) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_caino = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_caino) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_triboulet = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_triboulet) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_yorick = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_yorick) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_chicot = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_chicot) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_constellation = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_constellation) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_card_sharp = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_card_sharp) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_vampire = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_vampire) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_midas_mask = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_midas_mask) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_gift = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_gift) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_wily = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_wily) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_devious = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_devious) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_lucky_cat = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_lucky_cat) end
+	
+	miscItems.jkrKeyGroups.unhinged.j_flash = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_flash) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_merry_andy = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_merry_andy) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_drunkard = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_drunkard) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_acrobat = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_acrobat) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_sock_and_buskin = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_sock_and_buskin) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_credit_card = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_credit_card) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_marble = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_marble) end
+		
+	miscItems.jkrKeyGroups.chatBrainrot.j_abstract = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_abstract) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_delayed_grat = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_delayed_grat) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_mr_bones = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_mr_bones) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_seeing_double = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_seeing_double) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_family = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_family) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_four_fingers = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_four_fingers) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_gros_michel = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_gros_michel) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_hanging_chad = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_hanging_chad) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_invisible = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_invisible) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_arrowhead = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_arrowhead) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_onyx_agate = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_onyx_agate) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_certificate = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_certificate) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_egg = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_egg) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_ice_cream = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_ice_cream) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_dna = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_dna) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_splash = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_splash) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_sixth_sense = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_sixth_sense) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_hiker = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_hiker) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_todo_list = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_todo_list) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_madness = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_madness) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_riff_raff = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_riff_raff) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_shortcut = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_shortcut) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_baron = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_baron) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_midas_mask = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_midas_mask) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_luchador = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_luchador) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_photograph = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_photograph) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_gift = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_gift) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_turtle_bean = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_turtle_bean) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_erosion = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_erosion) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_lucky_cat = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_lucky_cat) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_bull = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_bull) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_popcorn = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_popcorn) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_trousers = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_trousers) end
+	
+	miscItems.jkrKeyGroups.chatBrainrot.j_ancient = function() return CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_ancient) end
 end
 
 if CirnoMod.config.addCustomJokers then
 	miscItems.jkrKeyGroups.TwoMax.j_cir_naro_l = true
 	
-	miscItems.jkrKeyGroups.crazyWomen.j_cir_crazyFace = true
-	miscItems.jkrKeyGroups.crazyWomen.j_cir_confusedRumi = true
-	miscItems.jkrKeyGroups.crazyWomen.j_cir_nope_l = true
-	miscItems.jkrKeyGroups.crazyWomen.j_cir_naro_l = true
-	miscItems.jkrKeyGroups.crazyWomen.j_cir_arumia_l = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_crazyFace = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_confusedRumi = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_nope_l = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_naro_l = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_arumia_l = true
 end
 
 miscItems.jkrKeyGroupTotalEncounters = function(groupName, stopAt1)
@@ -902,6 +1055,8 @@ miscItems.jkrKeyGroupTotalEncounters = function(groupName, stopAt1)
 			if
 				CirnoMod.config.encounteredJokers[G.SETTINGS.profile]
 				and CirnoMod.config.encounteredJokers[G.SETTINGS.profile][k]
+				and (type(k) ~= 'function'
+				or k())
 			then
 				RV = RV + CirnoMod.config.encounteredJokers[k]
 			end
@@ -917,7 +1072,11 @@ end
 
 miscItems.keyGroupOfJokerKey = function(jkrKey)
 	for k, t in pairs(CirnoMod.miscItems.jkrKeyGroups) do
-		if t[jkrKey] then
+		if
+			t[jkrKey]
+			and (type(t[jkrKey]) ~= 'function'
+			or t[jkrKey]())
+		then
 			return k
 		end
 	end
@@ -1013,7 +1172,7 @@ miscItems.isUsingAnyCustomAtlas = function(card)
 	end
 	
 	if atlasKey then
-		return string.sub(atlasKey, 1, 7) == 'alt_tex_'
+		return string.sub(atlasKey, 1, 8) == 'alt_tex_'
 	end
 	
 	return false
@@ -1036,6 +1195,33 @@ miscItems.updateModAchievementDesc = function(achKey, newDescTable)
 		achKey,
 		newDescTable)
 end
+
+miscItems.perfectionismUpgradable_Jokers = {
+	j_crazy = function() return { msg = ' impossible ', frc_incompatible = true } end,
+	
+	j_baron = function() return { msg = ' impossible ', frc_incompatible = true } end,
+	
+	j_erosion = function() return { msg = ' impossible ', frc_incompatible = true } end,
+	
+	j_egg = function() return { msg = ' impossible ', frc_incompatible = true } end,
+	
+	j_four_fingers = function() return { msg = ' impossible ', frc_incompatible = true } end,
+	
+	j_marble = function() return { msg = ' impossible ', frc_incompatible = true } end,
+	
+	j_photograph = function() return { msg = ' impossible ', frc_incompatible = true } end,
+	
+	j_walkie_talkie = function() return { msg = ' impossible ', frc_incompatible = true } end,
+	
+	j_delayed_grat = function() local ret = { frc_incompatible = true }
+			if CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_delayed_grat) then
+				ret.msg = ' impossible '
+				ret.clr = CirnoMod.miscItems.colours.cirLucy
+			end
+		return ret end,
+	
+	j_scary_face = 'j_cir_crazyFace'
+}
 
 -- These are surprise tools that will help us later. :)
 miscItems.funnyAtlases.cirGuns = SMODS.Atlas({
@@ -1121,7 +1307,7 @@ SMODS.DrawStep{
 		if
 			card
 			and card.children.knifeSprite
-			and card.mitaKill
+			and card.stab
 		then
 			card.children.knifeSprite:draw_shader('dissolve', nil, nil, nil, card.children.center)
 		end

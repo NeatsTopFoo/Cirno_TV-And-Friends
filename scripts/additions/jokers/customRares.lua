@@ -27,9 +27,7 @@ local jokerInfo = {
 		{
 			-- How the Joker will be referred to internally.
 			key = 'crystalTap',
-			
-			object_type = 'Joker',
-			
+						
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -37,10 +35,8 @@ local jokerInfo = {
 				text = { '' }
 			},
 			
-			atlas = 'cir_cRares',
 			pos = { x = 7, y = 1}, -- Defines base card graphic position in the atlas.
 			soul_pos = { x = 9, y = 1}, -- Defines where this card's soul overlay is in the given atlas
-			rarity = 3, -- Rare rarity
 			cost = 8, -- Base sell value is half of cost
 			eternal_compat = true,
 			perishable_compat = true,
@@ -291,9 +287,7 @@ local jokerInfo = {
 		-- Crazy Face
 		{
 			key = 'crazyFace',
-			
-			object_type = 'Joker',
-			
+						
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -313,9 +307,7 @@ local jokerInfo = {
 			},
 			unlocked = false,
 			
-			atlas = 'cir_cRares',
 			pos = { x = 6, y = 1 },
-			rarity = 3,
 			cost = 8,
 			eternal_compat = true,
 			perishable_compat = true,
@@ -439,7 +431,7 @@ local jokerInfo = {
 											{ x = 0, y = 0 }) -- Position in the Atlas
 										
 										context.other_card.children.knifeSprite.role.draw_major = context.other_card
-										context.other_card.mitaKill = true -- Purely for the visual effect.
+										context.other_card.stab = true -- Purely for the visual effect.
 										return true
 									end}))
 							end
@@ -466,9 +458,7 @@ local jokerInfo = {
 		-- We Only Have 3 Jokes?
 		{
 			key = 'onlyHaveThreeJokes',
-			
-			object_type = 'Joker',
-			
+						
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -493,9 +483,7 @@ local jokerInfo = {
 			},
 			unlocked = false,
 			
-			atlas = 'cir_cRares',
 			pos = { x = 0, y = 2 },
-			rarity = 3,
 			cost = 8,
 			eternal_compat = true,
 			perishable_compat = true,
@@ -615,9 +603,7 @@ local jokerInfo = {
 		-- Rubber Room
 		{
 			key = 'rubberRoom',
-			
-			object_type = 'Joker',
-			
+						
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -637,15 +623,13 @@ local jokerInfo = {
 					"Encounter at least",
 					"three Jokers that",
 					"either are or are",
-					"references to",
+					"references to being",
 					"{C:attention}#1#"
 				}
 			},
 			unlocked = false,
 			
-			atlas = 'cir_cRares',
 			pos = { x = 1, y = 2 },
-			rarity = 3,
 			cost = 8,
 			eternal_compat = true,
 			perishable_compat = true,
@@ -666,7 +650,7 @@ local jokerInfo = {
 						if jkr.config.center.key ~= 'j_cir_rubberRoom' then
 							local jkrKeyGroup = CirnoMod.miscItems.keyGroupOfJokerKey(jkr.config.center.key)
 							
-							if jkrKeyGroup and jkrKeyGroup == 'crazyWomen' then
+							if jkrKeyGroup and jkrKeyGroup == 'unhinged' then
 								counter = counter + 1
 							end
 						end
@@ -687,7 +671,7 @@ local jokerInfo = {
 			loc_vars = function(self, info_queue, card)
 				self.updateCurMult(card.ability.extra)
 				
-				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_crazyWomen']
+				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_unhinged']
 				
 				--[Art credit tooltip
 				if CirnoMod.config['artCredits'] then
@@ -698,7 +682,7 @@ local jokerInfo = {
 			end,
 			
 			locked_loc_vars = function(self, info_queue, card)
-				return { vars = { CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('crazy women', 'crazyWomen') } }
+				return { vars = { CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('unhinged', 'unhinged') } }
 			end,
 			
 			calculate = function(self, card, context)				
@@ -741,22 +725,18 @@ local jokerInfo = {
 			end,
 			
 			check_for_unlock = function(self, args)
-				return CirnoMod.miscItems.jkrKeyGroupTotalEncounters('crazyWomen', true) > 3
+				return CirnoMod.miscItems.jkrKeyGroupTotalEncounters('unhinged', true) > 3
 			end
 		},
 		-- B3313
 		{
 			key = 'b3313',
 			
-			object_type = 'Joker',
-			
 			matureRefLevel = 1,
 			
 			loc_txt = CirnoMod.miscItems.createErrorLocTxt('B3313'),
 			
-			atlas = 'cir_cRares',
 			pos = { x = 0, y = 0 },
-			rarity = 3,
 			cost = 12,
 			eternal_compat = true,
 			perishable_compat = true,
@@ -1248,11 +1228,8 @@ local jokerInfo = {
 							local cardRef = card
 							
 							return {
-								message = localize('k_upgrade_ex'),
-								message_card = card,
-								func = function()
-									CirnoMod.miscItems.scaleEdition_FHP(cardRef, formTable.scalar)
-								end
+								message = CirnoMod.miscItems.scaleEdition_FHP(cardRef, formTable.scalar),
+								message_card = card
 							}
 						end
 					end
@@ -1319,7 +1296,7 @@ local jokerInfo = {
 						for i = 1, #handRef do
 							if
 								handRef[i]:can_calculate()
-								and not SMODS.has_enhancement(handRef[i], 'm_stone')
+								and not SMODS.has_no_rank(handRef[i])
 							then
 								if CirnoMod.miscItems.cardRanksToValues_AceLow[handRef[i].base.value] < findLowest then
 									findLowest = CirnoMod.miscItems.cardRanksToValues_AceLow[handRef[i].base.value]
@@ -1327,7 +1304,7 @@ local jokerInfo = {
 								
 								if
 									not handRef[i]:is_face()
-									and not SMODS.has_enhancement(handRef[i], 'm_stone')
+									and not SMODS.has_no_rank(handRef[i])
 								then
 									CirnoMod.miscItems.flippyFlip.fStart(handRef[i], percent)
 								end
@@ -1353,7 +1330,7 @@ local jokerInfo = {
 							if
 								not handRef[i]:is_face()
 								and handRef[i]:can_calculate()
-								and not SMODS.has_enhancement(handRef[i], 'm_stone')
+								and not SMODS.has_no_rank(handRef[i])
 							then
 								G.E_MANAGER:add_event(Event({
 									trigger = 'immediate',
@@ -1459,7 +1436,7 @@ local jokerInfo = {
 					and context.other_card
 					and context.other_card:can_calculate()
 					and context.other_card:is_face()
-					and not SMODS.has_enhancement(context.other_card, 'm_stone')
+					and not SMODS.has_no_rank(context.other_card)
 				then
 					local juiceCard = card
 					
@@ -1615,7 +1592,7 @@ local jokerInfo = {
 							c.base.value == "2"
 							and not c.edition
 							and c:can_calculate()
-							and not SMODS.has_enhancement(c, 'm_stone')
+							and not SMODS.has_no_rank(c)
 						then
 							if to_big(pseudorandom('2negativeChance'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.negativeChance) then
 								c:set_edition('e_negative')
@@ -1659,7 +1636,7 @@ local jokerInfo = {
 					and context.cardarea == G.hand
 					and context.other_card
 					and context.other_card.base.value == "2"
-					and not SMODS.has_enhancement(context.other_card, 'm_stone')
+					and not SMODS.has_no_rank(context.other_card)
 				then
 					if context.other_card.debuff then
 						return {
@@ -1691,7 +1668,7 @@ local jokerInfo = {
 					and context.cardarea == G.play
 					and context.other_card:can_calculate()
 					and context.other_card:is_face()
-					and not SMODS.has_enhancement(context.other_card, 'm_stone')
+					and not SMODS.has_no_rank(context.other_card)
 				then
 					if not formTable.handContainedFaceCards then
 						formTable.handContainedFaceCards = true
@@ -1832,7 +1809,7 @@ local jokerInfo = {
 					for i, c in ipairs (G.hand.cards) do
 						if
 							c:can_calculate()
-							and not SMODS.has_enhancement(c, 'm_stone')
+							and not SMODS.has_no_rank(c)
 						then
 							combinedBaseValue = to_big(combinedBaseValue) + to_big(CirnoMod.miscItems.cardRanksToValues_AceHigh[c.base.value])
 						end
@@ -1969,8 +1946,6 @@ local jokerInfo = {
 		{
 			key = 'confusedRumi',
 			
-			object_type = 'Joker',
-			
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -1989,9 +1964,7 @@ local jokerInfo = {
 				}
 			},
 			
-			atlas = 'cir_cRares',
 			pos = { x = 2, y = 2 },
-			rarity = 3,
 			cost = 8,
 			eternal_compat = true,
 			perishable_compat = true,
@@ -2097,5 +2070,14 @@ local jokerInfo = {
 		}
 	}
 }
+
+--[[ Define things that are constant with every Joker in
+this file once in a loop, rather than repeatedly per
+table element ]]
+for i, jkr in ipairs(jokerInfo.jokerConfigs) do
+	jkr.object_type = 'Joker'
+	jkr.atlas = 'cir_cRares'
+	jkr.rarity = 3
+end
 
 return jokerInfo
