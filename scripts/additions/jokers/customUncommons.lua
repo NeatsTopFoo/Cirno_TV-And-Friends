@@ -43,7 +43,7 @@ local jokerInfo = {
 			just says 'Stone card' in the description.]]
 			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
-				if CirnoMod.config['artCredits'] then
+				if CirnoMod.config['artCredits'] and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_Unknown_LocalThunkEdit", set = "Other" }
 				end
 				
@@ -54,16 +54,30 @@ local jokerInfo = {
 			pos = { x = 0, y = 0},
 			cost = 6,
 			
+			joker_display_def = function(JokerDisplay)
+				---@type JDJokerDefinition
+				return {
+					text = {
+						{ border_nodes = {
+							{ text = 'X' },
+							{ ref_table = 'card.ability.extra', ref_value = 'Xmult' }
+						} }
+					}
+				}
+			end,
+			
 			calculate = function(self, card, context)
 				-- Normal joker calculation.
 				if context.joker_main and next(context.poker_hands['High Card']) then
 					return {
-						mult_mod = card.ability.extra.Xmult,
+						x_mult_mod = card.ability.extra.Xmult,
 						message = localize {
 							type = 'variable',
 							key = 'a_xmult',
 							vars = { to_big(card.ability.extra.Xmult) }
-						}
+						},
+						colour = G.C.MULT,
+						sound = 'multhit2'
 					}
 				end
 			end
@@ -77,6 +91,7 @@ table element ]]
 for i, jkr in ipairs(jokerInfo.jokerConfigs) do
 	jkr.object_type = 'Joker'
 	jkr.atlas = 'cir_cUncommons'
+	jkr.ladOrder = 'uncmn'
 	jkr.rarity = 2
 end
 

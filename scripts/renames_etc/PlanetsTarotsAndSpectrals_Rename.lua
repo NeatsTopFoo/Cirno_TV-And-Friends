@@ -29,6 +29,10 @@ then
 	}
 end
 
+local getSealName = function(type)
+	return G.localization.descriptions.Other[type..'_seal'].name
+end
+
 --#region Planets
 
 PTSloc.planets.c_neptune = { -- name = "Neptune",
@@ -181,7 +185,7 @@ PTSloc.tarots.c_heirophant = { -- name = "The Hierophant",
 			"{s:0.8,C:inactive}On today's docket:",
 			"{s:0.8,C:inactive}Giving Hell Ravens",
 			"{s:0.8,C:inactive}nuclear powers.",
-			"{s:0.7,C:inactive}Well, not directly, but"
+			"{s:0.6,C:inactive}Well, not directly, but"
 		}
 	}
 
@@ -205,6 +209,102 @@ PTSloc.tarots.c_tower = { -- name = "The Tower",
 			"{s:0.8,C:inactive}inexact change, here's",
 			"{s:0.8,C:inactive}your reward, idiot.",
 			"{s:0.8,C:inactive}Whump Whump."
+		}
+	}
+
+PTSloc.tarots.c_judgement = { -- name = "Judgement",
+	text = {
+			"Creates a random",
+			"{C:attention}Joker{} card",
+			"{C:inactive}(Must have room)",
+			"{s:0.8,C:inactive}...What do you mean, you",
+			"{s:0.8,C:inactive}aren't using rats to",
+			"{s:0.8,C:inactive}open doors? How do you",
+			"{s:0.8,C:inactive}do anything?",
+			"{s:0.6,C:inactive}Ohhh, Alberta. That makes sense."
+		}
+	}
+
+PTSloc.tarots.c_chariot = { -- name = "The Chariot",
+	text = {
+			"Enhances {C:attention}#1#{} selected",
+			"card into a",
+			"{C:attention}#2#",
+			"{s:0.8,C:inactive}Training options have",
+			"{s:0.8,C:inactive}been restricted."
+		}
+	}
+
+PTSloc.tarots.c_emperor = { -- name = "The Emperor",
+	text = {
+			"Creates up to {C:attention}#1#",
+			"random {C:tarot}Tarot{} cards",
+			"{C:inactive}(Must have room)",
+			"{s:0.8,C:inactive}Have you ever noticed",
+			"{s:0.8,C:inactive}just how much space",
+			"{s:0.8,C:inactive}her skill name takes",
+			"{s:0.8,C:inactive}up in the skills screen?",
+			"{s:0.8,C:inactive}It gets so small!"
+		}
+	}
+
+--[[
+PTSloc.tarots.c_empress = { -- name = "The Emperor",
+		text = {
+			"Enhances {C:attention}#1#",
+			"selected cards to",
+			"{C:attention}#2#s"
+		}
+	}
+]]
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Consumable:take_ownership('empress', {
+		create_main_end = function()
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					0.8, 0.8, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 2, y = 2 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, card)
+			local RT = { vars = {
+				card.ability.max_highlighted,
+				localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv }
+			} }
+			
+			info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+			
+			if CirnoMod.miscItems.atlasCheck(card) then
+				RT.main_end = self.create_main_end()
+			end
+			
+			return RT
+		end
+	}, true)
+end
+
+PTSloc.tarots.c_magician = { -- name = "The Magician",
+	text = {
+			"Enhances {C:attention}#1#{}",
+			"selected cards to",
+			"{C:attention}#2#s",
+			"{s:0.8,C:inactive}You should eat",
+			"{s:0.8,C:inactive}your vegetables."
 		}
 	}
 
@@ -337,6 +437,15 @@ PTSloc.spectrals.c_aura = { -- name = "Aura",
 			"{C:attention}1{} selected card in hand",
 			"{s:0.8,C:inactive}She's fuming."
 		}
+	}
+
+PTSloc.spectrals.c_immolate = { -- name = "Immolate",
+		text = {
+			"Destroys {C:attention}#1#{} random",
+			"cards in hand,",
+			"gain {C:money}$#2#",
+			"{s:0.8,C:inactive}This is fine"
+		},
 	}
 
 --#endregion

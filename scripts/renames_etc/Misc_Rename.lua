@@ -1,40 +1,15 @@
 local miscLoc = { tags = {}, boosters = {}, vouchers = {} }
-local planetIntent = G.localization.misc.labels.planet
---[[
-Can't go based off the actual localisation variable name because it isn't changed  yet.
-Thus, we need to establish what our intended changes will be and do it that way.]]
-if CirnoMod.config.planetsAreHus then
-	planetIntent = "Hu"
-end
 
--- ...There's probably a better way to do this.
-local sealIntent = {
-		blue_seal = G.localization.descriptions.Other.blue_seal.name,
-		red_seal = G.localization.descriptions.Other.red_seal.name,
-		gold_seal = G.localization.descriptions.Other.gold_seal.name,
-		purple_seal = G.localization.descriptions.Other.purple_seal.name
-	}
-
-if
-	CirnoMod.replaceDef.locChanges.sealLoc.blue_seal
-	and CirnoMod.replaceDef.locChanges.sealLoc.red_seal
-	and CirnoMod.replaceDef.locChanges.sealLoc.gold_seal
-	and CirnoMod.replaceDef.locChanges.sealLoc.purple_seal
-then
-	sealIntent = {
-		blue_seal = CirnoMod.replaceDef.locChanges.sealLoc.blue_seal.name,
-		red_seal = CirnoMod.replaceDef.locChanges.sealLoc.red_seal.name,
-		gold_seal = CirnoMod.replaceDef.locChanges.sealLoc.gold_seal.name,
-		purple_seal = CirnoMod.replaceDef.locChanges.sealLoc.purple_seal.name
-	}
-end
-
-local celestPackIntent = G.localization.descriptions.Other.p_celestial_normal.name
-
-if CirnoMod.replaceDef.locChanges.boosterLoc then
-	if CirnoMod.replaceDef.locChanges.boosterLoc.p_celestial_normal then
-		celestPackIntent = CirnoMod.replaceDef.locChanges.boosterLoc.p_celestial_normal.name or celestPackIntent
+local getSealName = function(type)
+	if
+		CirnoMod.replaceDef
+		and CirnoMod.replaceDef.locChanges
+		and CirnoMod.replaceDef.locChanges.sealLoc
+	then
+		return CirnoMod.replaceDef.locChanges.sealLoc[type..'_seal'].name
 	end
+	
+	return G.localization.descriptions.Other[type..'_seal'].name
 end
 
 --#region Win/Lose Quips
@@ -69,7 +44,7 @@ SMODS.process_loc_text(G.localization.misc.quips, "lq_4", {
 
 SMODS.process_loc_text(G.localization.misc.quips, "lq_5", {
 		"Looks like you're trying",
-		"to make a {C:red}"..sealIntent.red_seal,
+		"to make a {C:red}"..getSealName('red'),
 		"{C:attention}Steel King{} build. Would",
 		"you like help with that?"
 	})
@@ -196,18 +171,8 @@ miscLoc.tags.tag_coupon = { name = "Prime Gaming Tag",
 		"{s:0.8,C:inactive}month for FREE?"
     } }
 
-miscLoc.tags.tag_investment = { name="cirGreed Tag",
-    text={
-        "After defeating",
-        "the Boss Blind,",
-        "gain {C:money}$#1#",
-		"{s:0.8,C:inactive}...Come on, you",
-		"{s:0.8,C:inactive}know you want to.",
-		"{s:0.8,C:inactive}It's so tempting."
-    } }
-
 if CirnoMod.config.allowCosmeticTakeOwnership then
-	SMODS.Tag:take_ownership('coupon', {			
+	SMODS.Tag:take_ownership('coupon', {
 		create_main_end = function()
 			local nodes_ = {
 				Ln1 = {},
@@ -259,7 +224,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 				}}
 		end,
 		
-		loc_vars = function(self, info_queue, card)
+		loc_vars = function(self, info_queue, tag)
 			return { vars = {}, main_end = self.create_main_end() }
 		end
 	}, true)
@@ -271,22 +236,26 @@ else
 	} })
 end
 
+miscLoc.tags.tag_investment = { name="cirGreed Tag",
+    text={
+        "After defeating",
+        "the Boss Blind,",
+        "gain {C:money}$#1#",
+		"{s:0.8,C:inactive}...Come on, you",
+		"{s:0.8,C:inactive}know you want to.",
+		"{s:0.8,C:inactive}It's so tempting."
+    } }
+
 miscLoc.tags.tag_buffoon = { name = "cirMega Tag" }
 
 if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Tag:take_ownership('buffoon', {			
 		create_main_end = function()
 			local nodes_ = {
-				Ln1 = {},
-				Ln2 = {},
-				Ln3 = {},
-				Ln4 = {}
+				Ln1 = {}
 			}
 			local nodeKeys = {
-				'Ln1',
-				'Ln2',
-				'Ln3',
-				'Ln4'
+				'Ln1'
 			}
 			
 			CirnoMod.miscItems.addUISpriteNode(nodes_.Ln1, Sprite(
@@ -307,7 +276,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 				}}
 		end,
 		
-		loc_vars = function(self, info_queue, card)
+		loc_vars = function(self, info_queue, tag)
 			return { vars = {}, main_end = self.create_main_end() }
 		end
 	}, true)
@@ -328,17 +297,97 @@ miscLoc.tags.tag_garbage = { text = {
    } }
 
 miscLoc.tags.tag_ethereal = { name = "Mima Tag",
-	text={
+	text = {
 		"Gives a free",
 		"{C:spectral}Spectral Pack",
 		"{s:0.8,C:inactive}ZUN, pls."
 	} }
 
+miscLoc.tags.tag_economy = { name = "Stonks Tag",
+		text = {
+			"Doubles your money",
+			"{C:inactive}(Max of {C:money}$#1#{C:inactive})",
+			"{s:0.8,C:inactive}...What's the status on",
+			"{s:0.8,C:inactive}this one? Old? Dead?",
+			"{s:0.8,C:inactive}Classic? What"
+		} }
+
+miscLoc.tags.tag_juggle = { name = "Jiggle Tag",
+		text = {
+			"{C:attention}+#1#{} hand size",
+			"next round",
+			"{s:0.8,C:inactive}I miss old POGGIES."
+		} }
+
+miscLoc.tags.tag_d_six = { name = "2nd Opinion Tag", --[[
+		text = {
+			"Rerolls in next shop",
+			"start at {C:money}$0",
+		} ]] }
+
+miscLoc.tags.tag_standard = { name = "Standard Tag",
+	text = {
+		"Gives a free",
+		"{C:attention}Mega Standard Pack",
+		"{s:0.8,C:inactive}I don't have a joke",
+		"{s:0.8,C:inactive}for this one. I spent",
+		"{s:0.8,C:inactive}like half an hour",
+		"{s:0.8,C:inactive}trying to think of one,",
+		"{s:0.8,C:inactive}so I guess... uh, Chat,",
+		"{s:0.8,C:inactive}just ping random people.",
+		"{s:0.8,C:inactive}The funnier, the better.",
+		"{s:0.8,C:inactive}...What do you mean it's",
+		"{s:0.8,C:inactive}not a good substitute?"
+	} }
+
+miscLoc.tags.tag_top_up = { name = "cirMany Tag" }
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Tag:take_ownership('top_up', {			
+		create_main_end = function()
+			local nodes_ = {
+				Ln1 = {}
+			}
+			local nodeKeys = {
+				'Ln1'
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(nodes_.Ln1, Sprite(
+					0, 0, -- Sprite X & Y
+					2.4, 0.6, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.didYouMeanGermany, -- Sprite Atlas
+					{ x = 0, y = 0 } -- Position in the atlas
+				)
+			)
+			
+			return {{
+					n = G.UIT.C,
+					config = {
+						align = 'bm',
+						padding = 0.02
+					},
+					nodes = CirnoMod.miscItems.restructureNodesTableIntoRowsOrColumns(nodes_, nodeKeys, 'R', { align = 'cm' })
+				}}
+		end,
+		
+		loc_vars = function(self, info_queue, tag)
+			return { vars = { tag.config.spawn_jokers }, main_end = self.create_main_end() }
+		end
+	}, true)
+else
+	miscLoc.tags.tag_top_up.text = {
+			"Create up to {C:attention}#1#",
+			"{C:blue}Common{} Jokers",
+			"{C:inactive}(Must have room)",
+			"{s:0.8,C:inactive}Did you mean: Germany?"
+		}
+end
+
 if CirnoMod.config.planetsAreHus then
 	miscLoc.tags.tag_meteor = { name = "Hu Tag",
 		text={
 			"Gives a free",
-			"{C:planet}Mega "..celestPackIntent,
+			"{C:planet}Mega #1#",
 			"{s:0.8,C:cirInactiveAtt}Warning{s:0.8,C:inactive}: This Tag may contain",
 			"{s:0.8,C:inactive}Double Spoilers and is Highly",
 			"{s:0.8,C:inactive}Responsive to Prayers. Practice",
@@ -358,9 +407,16 @@ if CirnoMod.config.planetsAreHus then
 else
 	SMODS.process_loc_text(G.localization.descriptions.Tag.tag_meteor, "text", {
 			"Gives a free",
-			"{C:planet}Mega "..celestPackIntent
+			"{C:planet}Mega #1#"
 		})
 end
+
+SMODS.Tag:take_ownership('meteor', {
+	loc_vars = function(self, info_queue, tag)
+		return { vars = { G.localization.descriptions.Other.p_celestial_normal.name } }
+	end
+} , true)
+
 
 --#endregion
 
@@ -407,6 +463,30 @@ miscLoc.boosters.p_celestial_mega.text = {
 
 --#region Vouchers
 
+miscLoc.vouchers.v_wasteful = { name = "Noire",
+		text = {
+			"Permanently",
+			"gain {C:red}+#1#{} discard",
+			"each round",
+			"{s:0.8,C:inactive}Nowa nowa no,",
+			"{s:0.8,C:inactive}Nowa nowa nowa nowa,",
+			"{s:0.8,C:inactive}Nowa, nowa"
+		}
+	}
+
+miscLoc.vouchers.v_recyclomancy = { name = "Black Heart",
+		text = {
+			"Permanently",
+			"gain {C:red}+#1#{} discard",
+			"each round",
+			"{s:0.8,C:inactive}So Purple Heart has purple hair",
+			"{s:0.8,C:inactive}Green Heart is blonde",
+			"{s:0.8,C:inactive}Black Heart has white hair",
+			"{s:0.8,C:inactive}And White Heart has blue hair",
+			"{s:0.8,C:inactive}...What exactly are the rules here?"
+		}
+	}
+
 miscLoc.vouchers.v_grabber = { name = "White Knuckle",
 		text={
 			"Permanently",
@@ -417,7 +497,7 @@ miscLoc.vouchers.v_grabber = { name = "White Knuckle",
 		}
 	}
 
-miscLoc.vouchers.v_nacho_tong = { name="Red Knuckle",
+miscLoc.vouchers.v_nacho_tong = { name = "Red Knuckle",
 		text={
 			"Permanently",
 			"gain {C:blue}+#1#{} hand",
@@ -431,6 +511,18 @@ miscLoc.vouchers.v_blank = { name = "Disconnect Protection",
 		text = {
 			"{C:inactive}Does nothing?",
 			"{s:0.8,C:inactive}Strimmer gone forever."
+		}
+	}
+
+miscLoc.vouchers.v_antimatter = { name = "Zirno_BV",
+		text = {
+			"{C:dark_edition}+1{} Joker Slot",
+			"{s:0.8,C:inactive}\"Does powdered water exist?\""
+		},
+		unlock = {
+			"Redeem {C:voucher}Disconnect Protection{}",
+			"{C:attention}#1#{} total times",
+			"{C:inactive}(#2#)",
 		}
 	}
 
@@ -454,62 +546,249 @@ miscLoc.vouchers.v_petroglyph = { -- name = "Petroglyph",
 		}
 	}
 
-if not CirnoMod.config['planetsAreHus'] then
-	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_telescope, "name", "Telescope")
+miscLoc.vouchers.v_hone = { -- name = "Hone",
+		text = {
+			"{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, and",
+			"{C:dark_edition}Polychrome{} cards",
+			"appear {C:attention}#1#X{} more often",
+			"{s:0.8,C:inactive}You found a car!",
+			"{s:0.8,C:inactive}Doesn't look like much now,",
+			"{s:0.8,C:inactive}but with a little love, it'll",
+			"{s:0.8,C:inactive}look amazing!"
+		}
+	}
+
+miscLoc.vouchers.v_glow_up = { -- name = "Glow Up",
+		text = {
+			"{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, and",
+			"{C:dark_edition}Polychrome{} cards",
+			"appear {C:attention}#1#X{} more often",
+			"{s:0.8,C:inactive}See? What did I tell you?"
+		}
+	}
+
+miscLoc.vouchers.v_tarot_merchant = { -- name = "Tarot Merchant",
+		text = {
+			"{C:tarot}Tarot{} cards appear",
+			"{C:attention}#1#X{} more frequently",
+			"in the shop",
+			"{s:0.8,C:inactive}Todd Howard is my",
+			"{s:0.8,C:inactive}favourite Touhou character."
+		},
+	}
+
+miscLoc.vouchers.v_tarot_tycoon = { name = "CirSona",
+		text = {
+			"{C:tarot}Tarot{} cards appear",
+			"{C:attention}#1#X{} more frequently",
+			"in the shop",
+			"{s:0.8,C:inactive}Now I face out, I hold out",
+			"{s:0.8,C:inactive}I reach out to the truth of",
+			"{s:0.8,C:inactive}my life, seeking to seize",
+			"{s:0.8,C:inactive}On the whole moment, yeah"
+		},
+	}
+
+miscLoc.vouchers.v_clearance_sale = { name = "Balatro Discount",
+		text={
+			"All cards and packs in",
+			"shop are {C:attention}#1#%{} off",
+			"{s:0.8,C:inactive}Hey, you should buy Balatro",
+			"{s:0.8,C:inactive}if you haven't already.",
+			"{s:0.8,C:inactive}...What?"
+		},
+	}
+
+miscLoc.vouchers.v_liquidation = { name = "Steam Summer Sale",
+		text={
+			"All cards and packs in",
+			"shop are {C:attention}#1#%{} off",
+			"{s:0.8,C:inactive}There'll be 0% of your",
+			"{s:0.8,C:inactive}wallet left afterwards."
+		},
+	}
+
+miscLoc.vouchers.v_crystal_ball = { name = "Yin-Yang Orb",
+		text = {
+			"{C:attention}+1{} consumable slot",
+			"{s:0.8,C:inactive}I would like to put forth",
+			"{s:0.8,C:inactive}that Reimu was, while not",
+			"{s:0.8,C:inactive}the first, at least one",
+			"{s:0.8,C:inactive}of the OG orb ponderers."
+		},
+	}
+
+miscLoc.vouchers.v_omen_globe = { name = "Eternal Shrine Maiden",
+		text = {
+			"{C:spectral}Spectral{} cards may",
+			"appear in any of",
+			"the {C:attention}Arcana Packs",
+			"{s:0.8,C:inactive}Something usually happens",
+			"{s:0.8,C:inactive}during the summer."
+		}
+	}
+
+miscLoc.vouchers.v_overstock_norm = { name = "Card Table",
+    text = {
+        "{C:attention}+1{} card slot",
+        "available in shop",
+		"{s:0.8,C:inactive}I always thought it a",
+		"{s:0.8,C:inactive}bold move to just",
+		"{s:0.8,C:inactive}have your valuable",
+		"{s:0.8,C:inactive}cardboard sit out in",
+		"{s:0.8,C:inactive}the open like that."
+    },
+}
+
+miscLoc.vouchers.v_overstock_plus = { name = "Display Cabinets",
+    text = {
+        "{C:attention}+1{} card slot",
+        "available in shop",
+		"{s:0.8,C:inactive}"
+    }
+}
+
+if CirnoMod.config.planetsAreHus then
+	miscLoc.vouchers.v_telescope = { name = 'Tewi Inaba',
+		text = {
+			"{C:attention}#1#s{} always",
+			"contain the {C:planet}#2#",
+			"card for your most",
+			"played {C:attention}poker hand",
+			"{s:0.8,C:inactive}\"It is said that although",
+			"{s:0.8,C:inactive}the rabbit is supposed to",
+			"{s:0.8,C:inactive}cross the river, it tricked",
+			"{s:0.8,C:inactive}and crossed the shark\""
+		}
+	}
+else
+	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_telescope, "text", {
+			"{C:attention}#1#s{} always",
+			"contain the {C:planet}#2#",
+			"card for your most",
+			"played {C:attention}poker hand",
+		})
 end
 
-SMODS.process_loc_text(G.localization.descriptions.Voucher.v_telescope, "text", {
-                    "{C:attention}"..celestPackIntent.."s{} always",
-                    "contain the {C:planet}"..planetIntent,
-                    "card for your most",
-                    "played {C:attention}poker hand",
-                })
+SMODS.Voucher:take_ownership('telescope',{
+	loc_vars = function(self, info_queue, card)
+		return { vars = {
+			G.localization.descriptions.Other.p_celestial_normal.name,
+			G.localization.misc.labels.planet
+		} }
+	end
+}, true)
 
-if not CirnoMod.config['planetsAreHus'] then
+if not CirnoMod.config.planetsAreHus then
 	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "name", "Observatory")
 end
 
 SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "text", {
-                    "{C:planet}"..planetIntent.."{} cards in your",
-                    "{C:attention}consumable{} area give",
-                    "{X:red,C:white} X#1# {} Mult for their",
-                    "specified {C:attention}poker hand",
-                })
+		"{C:planet}#1#{} cards in your",
+		"{C:attention}consumable{} area give",
+		"{X:red,C:white} X#1# {} Mult for their",
+		"specified {C:attention}poker hand",
+	})
 				
 SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "unlock", {
-                    "Use a total of {C:attention}#1#",
-                    "{C:planet}"..planetIntent.."{} cards from any",
-                    "{C:planet}"..celestPackIntent,
-                    "{C:inactive}(#2#)",
-                })
+		"Use a total of {C:attention}#1#",
+		"{C:planet}#2#{} cards from any",
+		"{C:planet}#3#",
+		"{C:inactive}(#2#)",
+	})
 
-if not CirnoMod.config['planetsAreHus'] then
-	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_merchant, "name", "Planet Merchant")
+SMODS.Voucher:take_ownership('observatory',{
+	loc_vars = function(self, info_queue, card)
+		return { vars = {
+			G.localization.misc.labels.planet
+		} }
+	end,
+	
+	locked_loc_vars = function(self, info_queue, card)
+		return { vars = {
+			25,
+			G.localization.misc.labels.planet,
+			G.localization.descriptions.Other.p_celestial_normal.name
+		} }
+	end
+}, true)
+
+if CirnoMod.config.planetsAreHus then
+	miscLoc.vouchers.v_planet_merchant = { name = "Hu Merchant",
+			text = {
+				"{C:planet}#2#{} cards appear",
+				"{C:attention}#1#X{} more frequently",
+				"in the shop",
+				"{s:0.8,C:inactive}Fun Cirno_TV Facts No. 9:",
+				"{s:0.8,C:inactive}He LOVES the old classic",
+				"{s:0.8,C:inactive}Ran Ran Ruu McDonalds JP",
+				"{s:0.8,C:inactive}YTPMVs, his favourite."
+			}
+		}
+	
+	miscLoc.vouchers.v_planet_tycoon = { name = "Hu Tycoon",
+			text = {
+				"{C:planet}#2#{} cards appear",
+				"{C:attention}#1#X{} more frequently",
+				"in the shop",
+				"{s:0.8,C:inactive}Fun Cirno_TV Facts No. 99:",
+				"{s:0.8,C:inactive}His favourite Touhou",
+				"{s:0.8,C:inactive}character is Sakuya Izayoi."
+			},
+			unlock = {
+				"Buy a total of",
+				"{C:attention}#1#{C:planet} #3#{} cards",
+				"from the shop",
+				"{C:inactive}(#2#)"
+			}
+		}
+else
+	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_merchant, "text", {
+			"{C:planet}#2#{} cards appear",
+			"{C:attention}#1#X{} more frequently",
+			"in the shop",
+		})
+
+	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "text", {
+			"{C:planet}#2#{} cards appear",
+			"{C:attention}#1#X{} more frequently",
+			"in the shop",
+		})
+
+	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "unlock", {
+			"Buy a total of",
+			"{C:attention}#1#{C:planet} #3#{} cards",
+			"from the shop",
+			"{C:inactive}(#2#)",
+		})
 end
 
-SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_merchant, "text", {
-                    "{C:planet}"..planetIntent.."{} cards appear",
-                    "{C:attention}#1#X{} more frequently",
-                    "in the shop",
-                })
+SMODS.Voucher:take_ownership('planet_merchant',{
+	loc_vars = function(self, info_queue, card)
+		return { vars = {
+			card.ability.display,
+			G.localization.misc.labels.planet
+		} }
+	end
+}, true)
 
-if not CirnoMod.config['planetsAreHus'] then
-	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "name", "Planet Tycoon")
-end
+SMODS.Voucher:take_ownership('planet_tycoon',{
+	loc_vars = function(self, info_queue, card)
+		return { vars = {
+			card.ability.display,
+			G.localization.misc.labels.planet
+		} }
+	end,
+	
+	locked_loc_vars = function(self, info_queue, card)
+		return { vars = {
+			50,
+			G.PROFILES[G.SETTINGS.profile].career_stats.c_planets_bought,
+			G.localization.misc.labels.planet
+		} }
+	end
+}, true)
 
-SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "text", {
-                    "{C:planet}"..planetIntent.."{} cards appear",
-                    "{C:attention}#1#X{} more frequently",
-                    "in the shop",
-                })
-
-SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "unlock", {
-                    "Buy a total of",
-                    "{C:attention}#1#{C:planet} "..planetIntent.."{} cards",
-                    "from the shop",
-                    "{C:inactive}(#2#)",
-                })
-				
 --#endregion
 
 --#region Shop flavour text
@@ -537,7 +816,9 @@ CirnoMod.miscItems.miscRenameTables.shopFlavourPool = {
 	"Pretend to be bad at the game for content!",
 	"Chat, check this out!",
 	"Watch this, Chat.",
-	"Immortalise your stupidity!"
+	"Immortalise your stupidity!",
+	"Try the other escalator!",
+	"Use your gun!"
 }
 
 --#endregion

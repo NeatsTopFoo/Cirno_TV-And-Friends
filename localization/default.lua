@@ -1,19 +1,32 @@
 local creditSources = {}
-local RV = { descriptions = { Joker = {} }, misc = { dictionary = {}, v_text = {} } }
+local RV = {
+	descriptions = { Joker = {} },
+	misc = {
+		labels = {
+			k_upgradedjkr = 'Upgraded'
+		},
+		dictionary = {
+			k_upgradedjkr = 'Upgraded'
+		},
+		v_text = {}
+	}
+}
+
 local replaceIntents = {
-	stone = G.localization.descriptions.Enhanced.m_stone.name,
-	bones = CirnoMod.miscItems.getJokerNameByKey('j_mr_bones'),
-	splash = CirnoMod.miscItems.getJokerNameByKey('j_splash')
+	stone = string.sub(G.localization.descriptions.Enhanced.m_stone.name, 1, #G.localization.descriptions.Enhanced.m_stone.name - 5),
+	bones = G.localization.descriptions.Joker.j_mr_bones.name,
+	splash = G.localization.descriptions.Joker.j_splash.name
 }
 
 if CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone then
-	replaceIntents.stone = CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name
+	replaceIntents.stone = string.sub(CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name, 1, #CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name - 5)
 end
 	
 --#region What will go in the top of an art credit tooltip.
 creditSources.cr_JokerArt = "Joker Art By"
 creditSources.cr_DeckArt = "Deck Art By"
 creditSources.cr_EnhancerArt = "Enhancer Art By"
+creditSources.cr_SealArt = "Seal Art By"
 creditSources.cr_CardArt = "Card Art By"
 creditSources.cr_BoosterArt = "Booster Art By"
 creditSources.cr_GenericArt = "Art By"
@@ -37,7 +50,11 @@ creditSources.sanglune = "Sanglune"
 creditSources.CirnoTV = "{s:0.8,X:cirCyan,C:white}Cirno_TV{s:0.8}"
 creditSources.CirnoTV_smol = "{s:0.6,X:cirCyan,C:white}Cirno_TV"
 
-creditSources.solga = "Solgalestia"
+creditSources.artdef = "artbydefault"
+creditSources.yakitsuki = "Yakitsuki"
+creditSources.yuniiho = "Yuniiho"
+creditSources.zenko404 = "Zenko404"
+creditSources.chocpocalypse = "Chocpocalypse"
 creditSources.solgryn = "Solgryn"
 creditSources.radicalHighway = "RadicalHighway"
 creditSources.zoeyism = "Zoeyism"
@@ -65,60 +82,52 @@ RV.descriptions.Other = {
 	Joker_Art_By = { text = { creditSources.cr_JokerArt } },
 	Deck_Art_By = { text = { creditSources.cr_DeckArt } },
 	Enhancer_Art_By = { text = { creditSources.cr_EnhancerArt } },
+	Seal_Art_By = { text = { creditSources.cr_SealArt } },
 	Card_Art_By = { text = { creditSources.cr_CardArt } },
 	Booster_Art_By = { text = { creditSources.cr_BoosterArt } },
 	Generic_Art_By = { text = { creditSources.cr_GenericArt } },
 	
 	----- Me -----
-	jA_NTF = {
-		name = creditSources.cr_JokerArt,
+	jA_NTF = { name = creditSources.cr_JokerArt,
 		text = { creditSources.NTF }
 	},
-	gA_NTF = {
-		name = creditSources.cr_GenericArt,
+	gA_NTF = { name = creditSources.cr_GenericArt,
 		text = { creditSources.NTF }
 	},
-	eA_NTF = {
-		name = creditSources.cr_EnhancerArt,
+	eA_NTF = { name = creditSources.cr_EnhancerArt,
 		text = { creditSources.NTF }
 	},
-	jA_LocalThunk_NTFEdit = {
-		name = creditSources.cr_JokerArt,
+	jA_LocalThunk_NTFEdit = { name = creditSources.cr_JokerArt,
 		text = {
 			"{s:0.8}"..creditSources.thunk..", edited",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	cA_LocalThunk_NTFEdit = {
-		name = creditSources.cr_CardArt,
+	cA_LocalThunk_NTFEdit = { name = creditSources.cr_CardArt,
 		text = {
 			"{s:0.8}"..creditSources.thunk..", edited",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	eA_LocalThunk_NTFEdit = {
-		name = creditSources.cr_EnhancerArt,
+	eA_LocalThunk_NTFEdit = { name = creditSources.cr_EnhancerArt,
 		text = {
 			"{s:0.8}"..creditSources.thunk..", edited",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_Unknown_NTFEdit = {
-		name = creditSources.cr_JokerArt,
+	jA_Unknown_NTFEdit = { name = creditSources.cr_JokerArt,
 		text = {
 			creditSources.unknown..", edited",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_Gote_NTFEdit = {
-		name = creditSources.cr_JokerArt,
+	jA_Gote_NTFEdit = { name = creditSources.cr_JokerArt,
 		text = {
 			"{s:0.8}Gote, edited",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	gA_BlackHole = {
-		name = creditSources.cr_JokerArt,
+	gA_BlackHole = { name = creditSources.cr_JokerArt,
 		text = {
 			"{s:0.8}"..creditSources.thunk.." & "..creditSources.unknown..",",
 			"{s:0.8}edited by "..creditSources.NTF,
@@ -127,57 +136,49 @@ RV.descriptions.Other = {
 	},
 	
 	----- You -----
-	jA_DaemonTsun = {
-		name = creditSources.cr_JokerArt,
+	jA_DaemonTsun = { name = creditSources.cr_JokerArt,
 		text = {"{s:0.8}"..creditSources.DTsun}
 	},
-	jA_DaemonTsun_ComCon = {
-		name = creditSources.cr_JokerArt,
+	jA_DaemonTsun_ComCon = { name = creditSources.cr_JokerArt,
 		text = {
 			"{s:0.8}"..creditSources.DTsun,
 			creditSources.CommunityContrib
 		}
 	},
-	dA_DaemonTsun = {
-		name = creditSources.cr_DeckArt,
+	dA_DaemonTsun = { name = creditSources.cr_DeckArt,
 		text = {"{s:0.8}"..creditSources.DTsun}
 	},
-	eA_DaemonTsun = {
-		name = creditSources.cr_EnhancerArt,
+	eA_DaemonTsun = { name = creditSources.cr_EnhancerArt,
 		text = {"{s:0.8}"..creditSources.DTsun}
 	},
-	gA_DaemonTsun = {
-		name = creditSources.cr_GenericArt,
+	sA_DaemonTsun = { name = creditSources.cr_SealArt,
 		text = {"{s:0.8}"..creditSources.DTsun}
 	},
-	cA_DaemonTsun = {
-		name = creditSources.cr_CardArt,
+	gA_DaemonTsun = { name = creditSources.cr_GenericArt,
 		text = {"{s:0.8}"..creditSources.DTsun}
 	},
-	cA_DaemonTsun_ComCon = {
-		name = creditSources.cr_CardArt,
+	cA_DaemonTsun = { name = creditSources.cr_CardArt,
+		text = {"{s:0.8}"..creditSources.DTsun}
+	},
+	cA_DaemonTsun_ComCon = { name = creditSources.cr_CardArt,
 		text = {
 			"{s:0.8}"..creditSources.DTsun,
 			creditSources.CommunityContrib
 		}
 	},
-	gA_DaemonTsun_ComCon = {
-		name = creditSources.cr_GenericArt,
+	gA_DaemonTsun_ComCon = { name = creditSources.cr_GenericArt,
 		text = {
 			"{s:0.8}"..creditSources.DTsun,
 			creditSources.CommunityContrib
 		}
 	},
-	jA_DaemonTsun_NTF_Both = {
-		name = creditSources.cr_JokerArt,
+	jA_DaemonTsun_NTF_Both = { name = creditSources.cr_JokerArt,
 		text = {"{s:0.8}"..creditSources.DTsun.." &", creditSources.NTF}
 	},
-	bA_DaemonTsun_NTF_Both = {
-		name = creditSources.cr_BoosterArt,
+	bA_DaemonTsun_NTF_Both = { name = creditSources.cr_BoosterArt,
 		text = {"{s:0.8}"..creditSources.DTsun.." &", creditSources.NTF}
 	},
-	gA_DaemonTsun_NTF_Both = {
-		name = creditSources.cr_GenericArt,
+	gA_DaemonTsun_NTF_Both = { name = creditSources.cr_GenericArt,
 		text = {"{s:0.8}"..creditSources.DTsun.." &", creditSources.NTF}
 	},
 	gA_DaemonTsun_NTF_Both_ComCon = { name = creditSources.cr_GenericArt,
@@ -333,10 +334,64 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_MikuTheClown = { name = creditSources.cr_JokerArt,
+	jA_Hannah = { name = creditSources.cr_JokerArt,
 		text = {
-			"{s:0.8}"..creditSources.solga..", edited",
+			"{s:0.8}"..creditSources.yuniiho..", rendition",
 			"{s:0.8}by "..creditSources.NTF
+		}
+	},
+	jA_Naro = { name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}"..creditSources.radicalHighway..", rendition",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
+	jA_Naro2 = { name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}Idea Factory, rendition",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
+	jA_Reimmomo = { name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}"..creditSources.zenko404..", rendition",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
+	jA_Rumi = { name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}"..creditSources.artdef..", rendition",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
+	jA_Deck = { name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}Yu-Gi-Oh! card art,",
+			"{s:0.8}rendition by "..creditSources.NTF
+		}
+	},
+	jA_Houdini = { name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}"..creditSources.yakitsuki..", rendition",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
+	jA_Wolsk = { name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}"..creditSources.chocpocalypse..", rendition",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
+	jA_Deme = { name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}Touhou Cannonball, rendition",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
+	jA_confusedRumi = { name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}"..creditSources.artdef..", rendition",
+			"{s:0.8}& edits by "..creditSources.NTF
 		}
 	},
 	jA_BocchiTheRock = { name = creditSources.cr_JokerArt,
@@ -359,7 +414,7 @@ RV.descriptions.Other = {
 	},
 	jA_CrysTap = { name = creditSources.cr_JokerArt,
 		text = {
-			"{s:0.6,X:mult,C:white}Uhh...{}, heavily edited",
+			"{s:0.6,X:mult,C:white}Uhh...{s:0.6}, heavily edited",
 			"by "..creditSources.NTF,
 			"{s:0.7,C:inactive}'-'; ...Listen. It's fine.",
 			"{s:0.7,C:inactive}Someone whose uncle works",
@@ -370,12 +425,14 @@ RV.descriptions.Other = {
 	},
 	jA_b3313 = { name = creditSources.cr_JokerArt,
 		text = {
-			"{s:0.8,X:mult,C:white}'-';;"
+			"{s:0.8,X:mult,C:white}'-';;{s:0.6}, heavily edited",
+			"by "..creditSources.NTF
 		}
 	},
 	jA_b3313_uncanny = { name = creditSources.cr_JokerArt,
 		text = {
-			"{s:0.8,X:mult,C:white}'-';;",
+			"{s:0.8,X:mult,C:white}'-';;{s:0.6}, heavily edited",
+			"by "..creditSources.NTF,
 			'{s:0.8,C:inactive}+ edit of '..creditSources.DTsun..' art'
 		}
 	},
@@ -403,6 +460,12 @@ RV.descriptions.Other = {
 		}
 	},
 	cA_RHEdit = { name = creditSources.cr_CardArt,
+		text = {
+			"{s:0.8}"..creditSources.DTsun.." edit of",
+			"{s:0.8}"..creditSources.radicalHighway.." art."
+		}
+	},
+	gA_RHEdit = { name = creditSources.cr_GenericArt,
 		text = {
 			"{s:0.8}"..creditSources.DTsun.." edit of",
 			"{s:0.8}"..creditSources.radicalHighway.." art."
@@ -447,6 +510,12 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
+	gA_Immolate = { name = creditSources.cr_GenericArt,
+		text = {
+			"{s:0.8}CloudxMiku, rendition",
+			"{s:0.8}& edits by "..creditSources.DTsun
+		}
+	},
 	jA_mcMeme = { name = creditSources.cr_JokerArt,
 		text = {
 			"{s:0.8}"..creditSources.DTsun.." edit of",
@@ -479,6 +548,18 @@ RV.descriptions.Other = {
 			"{s:0.8}of "..creditSources.thunk.." art."
 		}
 	},
+	gaben = { name = creditSources.cr_GenericArt,
+		text = {
+			"{s:0.8}"..creditSources.DTsun..",",
+			"{s:0.8}Gabe Newell"
+		}
+	},
+	petroglyph = { name = creditSources.cr_GenericArt,
+		text = {
+			"{s:0.8}"..creditSources.DTsun..",",
+			"{s:0.8}"..creditSources.CirnoTV
+		}
+	},
 	
 	-- Non-Art Credit Things --
 	jkrRedSeal = { name = 'Red Seal',
@@ -506,6 +587,32 @@ RV.descriptions.Other = {
 			'{X:mult,C:white}X#1#{} Mult',
 			'->',
 			'{X:mult,C:white}X#2#{} Mult'
+		}
+	},
+	editionScaling = { name = 'Edition Scaling',
+		text = {
+			'Scalar #1#:',
+			'{X:dark_edition,C:white} Polychrome ',
+			'{X:mult,C:white}X#2#{} Mult',
+			'->',
+			'{X:mult,C:white}X#3#{} Mult',
+			'{s:0.6} ',
+			'{X:dark_edition,C:white} Holographic ',
+			'{C:mult}+#4#{} Mult',
+			'->',
+			'{C:mult}+#5#{} Mult',
+			'{s:0.6} ',
+			'{X:dark_edition,C:white}  Foil  ',
+			'{C:chips}+#6#{} Chips',
+			'->',
+			'{C:chips}+#7#{} Chips'
+		}
+	},
+	perfectionismUpg = { name = 'Upgrade Info',
+		text = {
+			'{C:attention}#1#',
+			'->',
+			'{B:1,V:2}#2#'
 		}
 	},
 	testHeader = { text = { "Test Header" } },
@@ -547,8 +654,8 @@ if CirnoMod.config.negativePCardsBalancing then
 		text = {
 			'{C:dark_edition}+#1#{} hand size',
 			'Scores {C:dark_edition}regardless',
-			'{C:dark_edition}of hand',
-			'{s:0.8,C:inactive}(ala '..replaceIntents.splash..'/'..string.sub(replaceIntents.stone, 1, #replaceIntents.stone - 5)..')'
+			'{C:dark_edition}of poker hand',
+			'{s:0.8,C:inactive}(ala #2#/#3#)'
 		}
 	}
 end
@@ -714,7 +821,7 @@ RV.descriptions.Joker.cir_b3313_4thFloor = { name = '4th Floor', text = {
 
 -- B3313 Full House Form
 RV.descriptions.Joker.cir_b3313_crescent = { name = 'Crescent Castle', text = {
-		'Earn {C:money}#1#{} at the end of round per',
+		'Earn {C:money}#1#{} at end of round per',
 		'{C:attention}face card{} played this round',
 		'{C:inactive}(Currently {C:money}#2#{C:inactive})',
 		'{s:0.8,C:inactive}Our house, in the',
@@ -802,6 +909,17 @@ RV.descriptions.Joker.cir_j_confusedRumi_nPCardRebalanced = { name = "Confused R
 	}
 }
 
+RV.descriptions.Joker.j_cir_tom_l_noPerfectionism = { name = "Tom",
+	text = {
+		"After each {C:attention}Boss Blind{},",
+		"scale all {C:joker}Joker{C:dark_edition} Editions{} by",
+		"a scalar of #1#",
+		"{s:0.8,C:inactive}Remember kids, when you fail",
+		"{s:0.8,C:inactive}to kill your assassination",
+		"{s:0.8,C:inactive}target,open the bible."
+	}
+}
+
 --[[
 This just populates the localization vars for extended desc tooltips,
 otherwise mousing over something that uses them causes a crash.]]
@@ -831,7 +949,7 @@ then
 		RV.descriptions.Joker.j_stone = {
 			text = {
 				"Gives {C:chips}+#1#{} Chips for",
-				"each {C:attention}"..replaceIntents.stone,
+				"each {C:attention}"..replaceIntents.stone.." Card",
 				"in your {C:attention}full deck",
 				"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
 			}
@@ -839,7 +957,7 @@ then
 		
 		RV.descriptions.Joker.j_marble = {
 			text = {
-				"Adds one {C:attention}"..replaceIntents.stone,
+				"Adds one {C:attention}"..replaceIntents.stone.."{} card",
 				"to deck when",
 				"{C:attention}Blind{} is selected",
 			}

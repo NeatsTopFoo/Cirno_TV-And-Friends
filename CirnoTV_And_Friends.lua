@@ -10,6 +10,7 @@ end
 SMODS.Sound:register_global()
 
 CirnoMod = {}
+CirnoMod.id = cMod_SMODSLoc.id
 CirnoMod.path = cMod_SMODSLoc.path
 CirnoMod.config = cMod_SMODSLoc.config
 
@@ -48,7 +49,7 @@ CirnoMod.miscItems.getLocColour = function(colourNameStr, defaultColourStr)
 	return defaultColourStr
 end
 
---[[ Hook into localise colour and interpos
+--[[ Hook into localise colour and interposes
 with detection for our own custom colours.]]
 local old_loc_colour = loc_colour
 function loc_colour(_c, _default)
@@ -71,6 +72,7 @@ local cirInitConfig = {
 	customJokers = {
 		'customUncommons',
 		'customRares',
+		'customUpgradeds',
 		'customLegendaries'
 	},
 	customConsumables = {
@@ -202,7 +204,8 @@ for more info. Though for your sanity, it's probably
 best not to.]]
 CirnoMod.ParseVanillaCredit = function(card, specific_vars)
 	if
-		(not specific_vars
+		card.fake_card
+		or (not specific_vars
 		or not specific_vars.playing_card)
 		and not CirnoMod.miscItems.atlasCheck(card)
 	then
@@ -224,12 +227,14 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars)
 			and specific_vars.playing_card -- These are edge cases where specific_vars is passed and not nil, but these values aren't present.
 			and specific_vars.suit
 			and specific_vars.value
-		then			
+		then
 			if
 				G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit] == CirnoMod.miscItems.deckSkinNames[specific_vars.suit]
 				and CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit]]
 			then
 				keyToCheck = CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit]].."_"..specific_vars.value.."_"..specific_vars.suit
+			else
+				
 			end
 		end
 	end
@@ -289,8 +294,6 @@ end
 
 assert(SMODS.load_file("scripts/other/extDescTooltips.lua"))()
 
-
-	
 local dependencyCheck = function(additionInfo_)
 	if
 		additionInfo_.dependenciesForAddition
@@ -304,7 +307,19 @@ end
 
 -- Additional Custom Jokers
 if CirnoMod.config.addCustomJokers then
-	local jkrLoadOrder = {}
+	local jkrLoadTable = {}
+	
+	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'cmn')
+	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'upgCmn')
+	
+	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'uncmn')
+	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'upgUncmn')
+	
+	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'rare')
+	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'upgRare')
+	
+	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'lgnd')
+	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'upgLgnd')
 	
 	-- Iterates through all lua files in scripts\additions\jokers\ and SMODS.load_file them.
 	for i, Jkr in ipairs (cirInitConfig.customJokers) do
@@ -313,9 +328,9 @@ if CirnoMod.config.addCustomJokers then
 		local loadAtlas = true
 		
 		if
-			(dependencyCheck(jokerInfo)
-			and (jokerInfo.matureRefLevel or 3) <= CirnoMod.config.matureReferences_cyc)
-			or jokerInfo.isMultipleJokers
+			dependencyCheck(jokerInfo)
+			and ((jokerInfo.matureRefLevel or 3) <= CirnoMod.config.matureReferences_cyc
+			or jokerInfo.isMultipleJokers)
 		then
 			if
 				-- Atlas definition is required. No atlas, get out.
@@ -375,12 +390,16 @@ if CirnoMod.config.addCustomJokers then
 								Jkr_.loadOrder
 								and type(Jkr_.loadOrder) == 'string'
 							then
-								jkrLoadOrder[Jkr_.loadOrder] = Jkr_
+								if not jkrLoadTable[Jkr_.loadOrder] then
+									jkrLoadTable[Jkr_.loadOrder] = {}
+								end
+								
+								table.insert(jkrLoadTable[Jkr_.loadOrder], Jkr_)
 							else
 								SMODS.Joker(Jkr_)
 							end
 							
-							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..Jkr_.key)
+							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'j_cir_'..Jkr_.key)
 						end
 					end
 				else
@@ -396,21 +415,30 @@ if CirnoMod.config.addCustomJokers then
 							jokerInfo.jokerConfig.loadOrder
 							and type(jokerInfo.jokerConfig.loadOrder) == 'string'
 						then
-							jkrLoadOrder[jokerInfo.jokerConfig.loadOrder] = jokerInfo.jokerConfig
+							if not jkrLoadTable[jokerInfo.jokerConfig.loadOrder] then
+								jkrLoadTable[jokerInfo.jokerConfig.loadOrder] = {}
+							end
+							
+							table.insert(jkrLoadOrder[jokerInfo.jokerConfig.loadOrder], jokerInfo.jokerConfig)
 						else
 							SMODS.Joker(jokerInfo.jokerConfig)
 						end
 					
-						table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..jokerInfo.jokerConfig.key)
+						table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'j_cir_'..jokerInfo.jokerConfig.key)
 					end
 				end
 			end
 		end	
 	end
 	
-	jkrLoadOrder['test'] = 'a'
+	for i, tbl in ipairs(CirnoMod.miscItems.jkrLoadOrder) do
+		if jkrLoadTable[tbl] and #jkrLoadTable[tbl] > 0 then
+			for i, _jkr in ipairs(jkrLoadTable[tbl]) do
+				SMODS.Joker(_jkr)
+			end
+		end
+	end
 	
-	print(#jkrLoadOrder)
 end
 	
 --[[ Hooks into the normal calculate_seal()
@@ -572,13 +600,13 @@ if CirnoMod.config.addCustomConsumables then
 						then
 							SMODS.Consumable(Cnsm_)
 							
-							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..Cnsm_.key)
+							table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'c_cir_'..Cnsm_.key)
 						end
 					end
 				else
 					SMODS.Consumable(cnsmInfo.cnsmConfig)
 				
-					table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'cir_'..cnsmInfo.cnsmConfig.key)
+					table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'c_cir_'..cnsmInfo.cnsmConfig.key)
 				end
 			end
 		end
@@ -596,8 +624,8 @@ if CirnoMod.config.negativePCardsBalancing then
 		always_scores = true 
 	}, true)
 	
-	--[[ Rewrites copy_card() to strip Negative if the copied
-	card was Negative ]]
+	--[[ Rewrites copy_card() to strip Negative if the
+	copied playing card was Negative ]]
 	local oldCopyCard = copy_card
 	copy_card = function(other, new_card, card_scale, playing_card, strip_edition)
 		local returnCard = oldCopyCard(other, new_card, card_scale, playing_card, strip_edition)
@@ -643,7 +671,13 @@ if CirnoMod.config.negativePCardsBalancing then
 		loc_vars = function(self, info_queue, card)
 			local ret = {}
 		
-			info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
+			info_queue[#info_queue + 1] = { key = 'e_negative_playing_card',
+				set = 'Edition',
+				config = { extra = 1 },
+				vars = { 1,
+					G.localization.descriptions.Joker.j_splash.name,
+					string.sub(G.localization.descriptions.Enhanced.m_stone.name, 1, #G.localization.descriptions.Enhanced.m_stone.name - 5)
+				} }
 			
 			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.config.matureReferences_cyc >= 2 then
 				ret.key = 'cir_j_dna_negativePCardRebalancing'
@@ -698,7 +732,13 @@ if CirnoMod.config.negativePCardsBalancing then
 			if G.hand and G.hand.highlighted and #G.hand.highlighted > 0 then
 				for i, c in ipairs (G.hand.highlighted) do
 					if c.edition and c.edition.type == 'negative' and G.localization.descriptions.Other.remove_negative then
-						info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
+						info_queue[#info_queue + 1] = { key = 'e_negative_playing_card',
+							set = 'Edition',
+							config = { extra = 1 },
+							vars = { 1,
+								G.localization.descriptions.Joker.j_splash.name,
+								string.sub(G.localization.descriptions.Enhanced.m_stone.name, 1, #G.localization.descriptions.Enhanced.m_stone.name - 5)
+							} }
 						
 						removeNegative = true
 						break
@@ -753,7 +793,13 @@ if CirnoMod.config.negativePCardsBalancing then
 			if G.hand and G.hand.highlighted and #G.hand.highlighted > 0 then
 				for i, c in ipairs (G.hand.highlighted) do
 					if c.edition and c.edition.type == 'negative' and G.localization.descriptions.Other.remove_negative then
-						info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
+						info_queue[#info_queue + 1] = { key = 'e_negative_playing_card',
+							set = 'Edition',
+							config = { extra = 1 },
+							vars = { 1,
+								G.localization.descriptions.Joker.j_splash.name,
+								string.sub(G.localization.descriptions.Enhanced.m_stone.name, 1, #G.localization.descriptions.Enhanced.m_stone.name - 5)
+							} }
 						
 						removeNegative = true
 						break
@@ -775,7 +821,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball']
 	SMODS.Joker:take_ownership('8_ball', {
 		loc_vars = function(self, info_queue, card)
 			local ret = { vars = {
-				''..(G.GAME and to_big(G.GAME.probabilities.normal) or 1),
+				''..(G.GAME and to_big(G.GAME.probabilities.normal) or 1), -- TODO: UPDATE TO NEW PROBABILITY READING METHOD
 				card.ability.extra
 			} }
 			
@@ -806,7 +852,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball']
 				
 				if
 					context.other_card.base.value == checkFor
-					and (to_big(pseudorandom('8ball')) < to_big(G.GAME.probabilities.normal)/to_big(card.ability.extra)
+					and (to_big(pseudorandom('8ball')) < to_big(G.GAME.probabilities.normal)/to_big(card.ability.extra) -- TODO: UPDATE TO NEW PROBABILITY READING METHOD
 					or context.retrigger_joker)
 				then
 					local ret = {
@@ -1179,27 +1225,48 @@ There appears to be no game function that can be
 hooked relating to when a shop phase starts
 ]]
 
-
 -- Need this hook for Joker functionality
 local old_dfptd = G.FUNCS.draw_from_play_to_discard
 G.FUNCS.draw_from_play_to_discard = function(e)
+	local wasCalledOnce = false
+	local redrawJkrs = {}
+	local redrawCards = {}
+	
 	for i, k in ipairs(CirnoMod.miscItems.returnToHand_Jokers) do
 		local FCR = SMODS.find_card(k)
-				
+		
 		if next(FCR) then
-			for i_, jkr in ipairs(FCR) do				
-				if
-					jkr.config.center.shouldReturnToHand
-					and type(jkr.config.center.shouldReturnToHand) == 'function'
-					and jkr.config.center:shouldReturnToHand(jkr)
-					and jkr.config.center.returnToHand_func
-					and type(jkr.config.center.returnToHand_func) == 'function'
-					and jkr.config.center:returnToHand_func(old_dfptd)
-				then
-					return
+			for i_, jkr in ipairs(FCR) do
+				table.insert(redrawJkrs, jkr)
+			end
+		end
+	end
+	
+	if #redrawJkrs > 0 then
+		for _, card in ipairs(redrawJkrs) do
+			if
+				card.config.center.shouldReturnToHand
+				and type(card.config.center.shouldReturnToHand) == 'function'
+				and card.config.center:shouldReturnToHand(card)
+				and card.config.center.returnToHand_func
+				and type(card.config.center.returnToHand_func) == 'function'
+			then
+				local jkrRet = card.config.center:returnToHand_func(card, _ == #redrawJkrs, old_dfptd)
+				wasCalledOnce = true
+				
+				if jkrRet and #jkrRet > 0 then
+					SMODS.merge_lists({ redrawCards, jkrRet })
 				end
 			end
 		end
+	end
+	
+	if wasCalledOnce then
+		for _, c in ipairs(redrawCards) do
+			c.beingRedrawn = false
+		end
+		
+		return
 	end
 	
 	old_dfptd(e)
@@ -1207,11 +1274,23 @@ end
 
 local old_smodsCalcContext = SMODS.calculate_context
 SMODS.calculate_context = function(context, return_table)
+	if
+		CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
+		and G.hand.cards
+		and #G.hand.cards > 0
+	then
+		for i, c in ipairs(G.hand.cards) do
+			if c.beingRedrawn then
+				c.beingRedrawn = false
+			end
+		end
+	end
+	
 	if 
-		G.jokers
+		context.end_of_round
+		and G.jokers
 		and G.jokers.cards
 		and #G.jokers.cards > 0
-		and context.end_of_round
 	then
 		for i, jkr in ipairs(G.jokers.cards) do
 			if
@@ -1231,3 +1310,72 @@ SMODS.calculate_context = function(context, return_table)
 		return ret
 	end
 end
+
+--[[ This is the functionality that should make the
+mod badge text cycle between the mod name and streamer(s)
+the thing is relevant to. This is largely lifted from
+Cryptid with some tweaks. ]]
+local SMcmb = SMODS.create_mod_badges
+function SMODS.create_mod_badges(obj, badges)
+	SMcmb(obj, badges)
+	
+	if 
+		not SMODS.no_mod_badges
+		and obj
+		and obj.cir_Friend
+		and (type(obj.cir_Friend) == 'string'
+		or type(obj.cir_Friend) == 'table')
+	then
+		local badge_text = { { string = 'Cirno_TV & Friends' } }
+		
+		if type(obj.cir_Friend) == 'table' then
+			for i, str in ipairs(obj.cir_Friend) do
+				table.insert(badge_text, { string = str })
+			end
+		else
+			badge_text[2] = { string = obj.cir_Friend }
+		end
+		
+		local cir_badge = CirnoMod.miscItems.createDynaTextBadge(badge_text, CirnoMod.miscItems.colours.cirCyan)
+		
+		--[[
+		And then this part is about looking through the badges for
+		the mod badge that Steamodded created by colour, yoinking
+		that and replacing it with what we just created.
+		
+		...Not really the best way to look for it, but... Eh? ]]
+		
+		-- This is what compares the two colours to see if they're the same colour.
+		local function eq_col(x, y)
+			for i = 1, 4 do
+				if x[1] ~= y[1] then
+					return false
+				end
+			end
+			return true
+		end
+		
+		--[[
+		This then looks through the badges and finds the first one matching
+		the mod badge colour, then replaces it with the created badge. ]]
+		for i = 1, #badges do
+			if eq_col(badges[i].nodes[1].config.colour, CirnoMod.miscItems.colours.cirCyan) then
+				badges[i].nodes[1].nodes[2].config.object:remove()
+				badges[i] = cir_badge
+				break
+			end
+		end
+	end
+end
+
+--[[
+local leq_ref = love.quit
+love.quit = function()
+	
+	-- love.keyboard.isDown{ 'lalt', 'ralt' } and love.keyboard.isDown{ 'f4' }
+	-- set card var in update(), do nilcheck
+	-- 
+	
+	return leq_ref()
+end
+]]

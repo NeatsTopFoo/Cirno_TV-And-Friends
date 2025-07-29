@@ -16,7 +16,14 @@ return {
 	b_erratic = { name = "Flandre Deck" },
 	b_ghost = { name = "Prismriver Deck" },
 	b_green = { name = "Meiling Deck" },
-	b_magic = { name = "Patchouli Deck" },
+	b_magic = { name = "Patchouli Deck",
+		text={
+			"Start run with the",
+			"{C:tarot,T:v_crystal_ball}#1#{} voucher",
+			"and {C:attention}2{} copies",
+			"of {C:tarot,T:c_fool}#2#",
+			"{s:0.8,C:inactive}All caked up on a Tuesday."
+		} },
 	b_nebula = { name = "Yukari Deck",
 		text={
 			"Start run with the",

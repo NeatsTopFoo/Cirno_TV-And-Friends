@@ -11,10 +11,10 @@ local jokerInfo = {
 	
 	--[[ TODO:
 		- Ornstein & Smough Joker pair that respectively become Super Ornstein & Super Smough when the other of the two is destroyed (not sold)
-		- Redacted '██████' Joker whose effects are not clear, highly unpredictable and inconsistent, heavily RNG-based but also extremely confusing
+		- Redacted '██████' Joker whose effects are not clear, highly unpredictable and inconsistent, heavily RNG-based but also extremely confusing (Note, Mario the Idea vs. Mario the Man)
 		- Mac n' Cheese Joker; Every 2 Boss Blinds, if there's room, creates a Ketchup (Seltzer). Gains x0.1 mult every time a ketchup runs out.
 		- Bloodborne on PC Joker: Dithering between the effect of "Sell this Joker during a blind to draw 2x hand size to card", "In X rounds, sell this Joker to multiply your number of discards by 1.5" & "Sell this Joker during a blind to discard all held cards and draw a new hand (If deck is empty, refresh deck)."
-		- "Help I'm Trapped In The Joker Factory" will have some different effects that get selected randomly on joker creation, all related to blinds, one off the top of my head is "This Joker gives +5 mult during The Memory (the boss blind) & also gains X0.05 mult whenever Cirno forgets something" and then it just randomly gains X0.05 mult based on random, unpredictable criteria.
+		- "Help! I'm Trapped In The Joker Factory" will have some different effects that get selected randomly on joker creation, all related to blinds, one off the top of my head is "This Joker gives +5 mult during The Memory (the boss blind) & also gains X0.05 mult whenever Cirno forgets something" and then it just randomly gains X0.05 mult based on random, unpredictable criteria.
 		- "Fuckin' Catgirl Sex Fuckin Footjob Dick Suckin' Simulator" No idea what this could do.
 		- Endless Eight Joker
 		- Sonic '06 Joker
@@ -50,6 +50,22 @@ local jokerInfo = {
 					preventEndOfRoundChange = false
 				}
 			},
+			
+			--[[
+			How do I do this one '-'
+			joker_display_def = function(JokerDisplay)
+				---@type JDJokerDefinition
+				return {
+					mod_function = function(card, mod_joker)
+						if card.ability.extra.spriteX == 7 then
+							return { mult = card.ability.extra.mult }
+						else
+							return { x_mult = card.ability.extra.xmult }
+						end
+					end
+				}
+			end,
+			]]
 			
 			updateState = function(jkr)
 				if
@@ -124,7 +140,7 @@ local jokerInfo = {
 						rMessage = 'Raise!'
 					end
 					
-					SMODS.calculate_effect({ message = rMessage, colour, G.C.BLUE }, card)
+					SMODS.calculate_effect({ message = rMessage, colour = G.C.BLUE }, card)
 				end
 			end,
 			
@@ -214,7 +230,7 @@ local jokerInfo = {
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
-				if CirnoMod.config['artCredits'] then
+				if CirnoMod.config['artCredits'] and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_CrysTap", set = "Other" }
 				end
 				
@@ -226,8 +242,8 @@ local jokerInfo = {
 				end
 				
 				return { vars = {
-						card.ability.extra.mult,
-						card.ability.extra.xmult
+						to_big(card.ability.extra.mult),
+						to_big(card.ability.extra.xmult)
 					},
 					main_end = self.create_main_end(self, card)
 				}
@@ -319,6 +335,31 @@ local jokerInfo = {
 				}
 			},
 			
+			--[[
+			joker_display_def = function(JokerDisplay)
+				---@type JDJokerDefinition
+				return {
+					text = {
+						{ border_nodes = {
+							{ ref_table = 'card.ability.extra', ref_value = 'xmult' }
+						} },
+						{ text = "Destroy:", color = G.C.RED, scale = 0.45 }
+					},
+					extra = { {
+						ref_table = "card.joker_display_values", ref_value = "odds"
+					} },
+					extra_config { color = G.C.GREEN, scale = 0.45 },
+					calc_function = function(card)
+						if not card.joker_display_values then
+							card.joker_display_values = {}
+						end
+						
+						card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+					end
+				}
+			end,
+			]]
+			
 			create_main_end = function(self, card)
 				local nodes_ = {
 					Ln1 = {},
@@ -357,14 +398,16 @@ local jokerInfo = {
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
-				if CirnoMod.config['artCredits'] then
+				if CirnoMod.config['artCredits'] and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
 				end
 				
+				local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds)
+				
 				return { vars = {
 						to_big(card.ability.extra.xmult),
-						''..(G.GAME and to_big(G.GAME.probabilities.normal) or 1),
-						card.ability.extra.odds
+						numerator,
+						denominator
 					},
 					main_end = self.create_main_end(self, card)
 				}
@@ -412,9 +455,9 @@ local jokerInfo = {
 						local RT = { message_card = context.other_card }
 						
 						-- Decide if card should be destroyed
-						if to_big(pseudorandom('mitaKill')) < to_big(G.GAME.probabilities.normal)/to_big(card.ability.extra.odds) then
+						if SMODS.pseudorandom_probability(context.other_card, 'mitaKill', 1, card.ability.extra.odds) then
 							context.other_card.getting_sliced = true -- Marks the card for destruction.
-							RT.doNotRedSeal = true
+							RT.doNotRedSeal = true -- If the card is being destroyed, we don't need to retrigger this card via red seal.
 							RT.message = '  '
 							RT.colour = G.C.RED
 							RT.func = function()
@@ -431,7 +474,7 @@ local jokerInfo = {
 											{ x = 0, y = 0 }) -- Position in the Atlas
 										
 										context.other_card.children.knifeSprite.role.draw_major = context.other_card
-										context.other_card.stab = true -- Purely for the visual effect.
+										context.other_card.stab = true -- Purely for the visual effect on the Drawstep.
 										return true
 									end}))
 							end
@@ -460,6 +503,7 @@ local jokerInfo = {
 			key = 'onlyHaveThreeJokes',
 						
 			matureRefLevel = 1,
+			cir_Friend = CirnoMod.miscItems.cirFriends.cir,
 			
 			loc_txt = {
 				name = "We Only Have 3 Jokes?",
@@ -487,6 +531,18 @@ local jokerInfo = {
 			cost = 8,
 			eternal_compat = true,
 			perishable_compat = true,
+			
+			joker_display_def = function(JokerDisplay)
+				---@type JDJokerDefinition
+				return {
+					text = {
+						{ border_nodes = {
+							{ text = 'X' },
+							{ ref_table = 'card.ability.extra', ref_value = 'xmult' }
+						} }
+					}
+				}
+			end,
 			
 			config = {
 				extra = {
@@ -537,7 +593,7 @@ local jokerInfo = {
 				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_Guns']
 				
 				--[[ Art credit tooltip
-				if CirnoMod.config['artCredits'] then
+				if CirnoMod.config['artCredits'] and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "", set = "Other" }
 				end]]
 				
@@ -623,8 +679,7 @@ local jokerInfo = {
 					"Encounter at least",
 					"three Jokers that",
 					"either are or are",
-					"references to being",
-					"{C:attention}#1#"
+					"references to #1#{C:attention}#2#"
 				}
 			},
 			unlocked = false,
@@ -634,12 +689,28 @@ local jokerInfo = {
 			eternal_compat = true,
 			perishable_compat = true,
 			
+			joker_display_def = function(JokerDisplay)
+				---@type JDJokerDefinition
+				return {
+					text = {
+						{ border_nodes = {
+							{ text = 'X' },
+							{ ref_table = 'card.ability.extra', ref_value = 'xmult' }
+						} }
+					}
+				}
+			end,
+			
 			config = {
 				extra = {
 					xmult = 1,
 					growth = 1.75
 				}
 			},
+			
+			shouldAdd = function()
+				return CirnoMod.config.malverkReplacements
+			end,
 			
 			updateCurMult = function(extraTable)
 				if not CirnoMod.miscItems.isState(G.STAGE, G.STAGES.MAIN_MENU) then
@@ -674,7 +745,7 @@ local jokerInfo = {
 				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_unhinged']
 				
 				--[Art credit tooltip
-				if CirnoMod.config['artCredits'] then
+				if CirnoMod.config['artCredits'] and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
 				end
 				
@@ -682,7 +753,11 @@ local jokerInfo = {
 			end,
 			
 			locked_loc_vars = function(self, info_queue, card)
-				return { vars = { CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('unhinged', 'unhinged') } }
+				if CirnoMod.miscItems.jkrKeyGroupTotalEncounters('unhinged', true) > 0 then
+					return { vars = { 'being ', 'unhinged' } }
+				end
+				
+				return { vars = { '', '?????' } }
 			end,
 			
 			calculate = function(self, card, context)				
@@ -733,6 +808,7 @@ local jokerInfo = {
 			key = 'b3313',
 			
 			matureRefLevel = 1,
+			cir_Friend = CirnoMod.miscItems.cirFriends.cir,
 			
 			loc_txt = CirnoMod.miscItems.createErrorLocTxt('B3313'),
 			
@@ -850,6 +926,44 @@ local jokerInfo = {
 				}
 			} },
 			
+			--[[
+			HJGKNUEJKNHUGSEGKJSEDNKJSGEKJUIN
+			joker_display_def = function(JokerDisplay)
+				---@type JDJokerDefinition
+				return {
+					mod_function = function(card, mod_joker)
+						if extraTable.currentForm == 'betaLob' then
+							
+						elseif extraTable.currentForm == 'plexalLob' then
+							
+						elseif extraTable.currentForm == 'toadLob' then
+							
+						elseif extraTable.currentForm == 'vanLob' then
+							
+						elseif extraTable.currentForm == 'uncanny' then
+							
+						elseif extraTable.currentForm == '4thFloor' then
+							
+						elseif extraTable.currentForm == 'crescent' then
+							
+						elseif extraTable.currentForm == 'forestMaze' then
+							
+						elseif extraTable.currentForm == 'loogi' then
+							
+						elseif extraTable.currentForm == 'peachCell' then
+							
+						elseif extraTable.currentForm == 'nebLob' then
+							
+						elseif extraTable.currentForm == 'floor3B' then
+							
+						else
+							
+						end
+					end
+				}
+			end,
+			]]
+			
 			updateState = function(jkr)
 				if
 					jkr.ability.extra.currentForm ~= 'base'
@@ -887,7 +1001,13 @@ local jokerInfo = {
 						return { CirnoMod.miscItems.getEditionScalingInfo(curEdition, extraTable.formsInfo.vanLob.scalar) }
 					end
 				elseif extraTable.currentForm == 'loogi' then
-					return { { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } } }
+					return { { key = 'e_negative_playing_card',
+						set = 'Edition',
+						config = { extra = 1 },
+						vars = { 1,
+							G.localization.descriptions.Joker.j_splash.name,
+							string.sub(G.localization.descriptions.Enhanced.m_stone.name, 1, #G.localization.descriptions.Enhanced.m_stone.name - 5)
+						} } }
 				elseif extraTable.currentForm == 'peachCell' then
 					if curEdition.type ~= 'polychrome' then
 						return { G.P_CENTERS.e_polychrome }
@@ -898,7 +1018,7 @@ local jokerInfo = {
 				return nil
 			end,
 			
-			create_vars_table = function(extraTable)
+			create_vars_table = function(extraTable, card)
 				--[[ This is why Lua is a fucking laughing stock.
 				What the fuck do you mean 'Lua doesn't need a switch statement'?!?!?
 				And no, I can't do a table lookup for this, because some of the
@@ -927,37 +1047,35 @@ local jokerInfo = {
 				elseif extraTable.currentForm == '4thFloor' then
 					return { extraTable.formsInfo['4thFloor'].rankChange }
 				elseif extraTable.currentForm == 'crescent' then
-					local currentCount = nil
-					
-					if extraTable.formsInfo.crescent.accruedMoney > 0 then
-						currentCount = SMODS.signed_dollars(to_big(extraTable.formsInfo.crescent.accruedMoney))
-					else
-						currentCount = '$0'
-					end
-					
 					return { 
 						SMODS.signed_dollars(to_big(extraTable.formsInfo.crescent.monGain)),
-						currentCount
+						extraTable.formsInfo.crescent.accruedMoney > 0 and SMODS.signed_dollars(to_big(extraTable.formsInfo.crescent.accruedMoney)) or '$0'
 					}
 				elseif extraTable.currentForm == 'forestMaze' then
+					local curProbability, chance1 = SMODS.get_probability_vars(card or self, 1, extraTable.formsInfo.forestMaze.chance1)
+					
 					return {
 						to_big(extraTable.formsInfo.forestMaze.xmult),
-						''..(G.GAME and to_big(G.GAME.probabilities.normal) or 1),
-						extraTable.formsInfo.forestMaze.chance1,
+						curProbability,
+						chance1,
 						extraTable.formsInfo.forestMaze.chance2,
 						extraTable.formsInfo.forestMaze.chance3,
 						extraTable.formsInfo.forestMaze.chance4
 					}
 				elseif extraTable.currentForm == 'loogi' then
+					local curProbability, negativeChance = SMODS.get_probability_vars(card or self, 1, extraTable.formsInfo.loogi.negativeChance)
+					
 					return {
-						''..(G.GAME and to_big(G.GAME.probabilities.normal) or 1),
-						extraTable.formsInfo.loogi.negativeChance,
+						curProbability,
+						negativeChance,
 						to_big(extraTable.formsInfo.loogi.xchips)
 					}
 				elseif extraTable.currentForm == 'peachCell' then
+					local curProbability, polyChance = SMODS.get_probability_vars(card or self, 1, extraTable.formsInfo.peachCell.polyChance)
+					
 					return {
-						''..(G.GAME and to_big(G.GAME.probabilities.normal) or 1),
-						extraTable.formsInfo.peachCell.polyChance
+						curProbability,
+						polyChance
 					}
 				elseif extraTable.currentForm == 'floor3B' then
 					return { G.localization.descriptions.Enhanced.m_steel.name }
@@ -968,7 +1086,7 @@ local jokerInfo = {
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
-				local RT = { key = 'cir_b3313_'..card.ability.extra.currentForm, vars = self.create_vars_table(card.ability.extra) }
+				local RT = { key = 'cir_b3313_'..card.ability.extra.currentForm, vars = self.create_vars_table(card.ability.extra, card) }
 								
 				local infoQueueAppend = self.toAppendToInfoQueue(card.ability.extra, card.edition)
 				
@@ -979,7 +1097,7 @@ local jokerInfo = {
 				end
 				
 				-- Art credit tooltip
-				if CirnoMod.config['artCredits'] then
+				if CirnoMod.config['artCredits'] and not card.fake_card then
 					if card.ability.extra.currentForm == 'uncanny' then
 						info_queue[#info_queue + 1] = { key = "jA_b3313_uncanny", set = "Other" }
 					else
@@ -992,7 +1110,7 @@ local jokerInfo = {
 			
 			shouldReturnToHand = function(self, card)
 				--[[ Returns true if the card is in the correct form,
-				And if the amount of cards played is 5, 3 or 1]]
+				And if the amount of cards played is 5, 3 or 1 ]]
 				return (card.ability.extra.currentForm == '4thFloor'
 					or (card.ability.extra.currentForm == 'base'
 					and card.ability.extra.scoredHandName
@@ -1002,7 +1120,8 @@ local jokerInfo = {
 					or #G.play.cards == 1)
 			end,
 			
-			returnToHand_func = function(self, old_dfptd)
+			returnToHand_func = function(self, card, isLastIteration, old_dfptd)
+				local ret = {}
 				local play_count = #G.play.cards
 				local cardToReturn = 1
 				local finalCount = 0
@@ -1016,20 +1135,23 @@ local jokerInfo = {
 				for i = 1, play_count do
 					-- Ensures we're not dealing with a destroyed card
 					if
-						not G.play.cards[i].shattered
+						not G.play.cards[i].beingRedrawn
+						and not G.play.cards[i].shattered
 						and not G.play.cards[i].destroyed
 					then
 						if i == cardToReturn then
 							-- If it's the middle card, return it to hand.
+							G.play.cards[i].beingRedrawn = true
+							table.insert(ret, G.play.cards[i])
 							draw_card(G.play, G.hand or G.discard, i*100/play_count, 'down', false, G.play.cards[i], 0.1, false, false)
-						else
+						elseif isLastIteration then
 							-- If it's any other card, discard as normal.
 							draw_card(G.play, G.discard, i*100/play_count, 'down', false, G.play.cards[i])
 						end
 					end
 				end
 				
-				return true
+				return ret
 			end,
 			
 			change_form = function(self, card, form)				
@@ -1229,6 +1351,9 @@ local jokerInfo = {
 							
 							return {
 								message = CirnoMod.miscItems.scaleEdition_FHP(cardRef, formTable.scalar),
+								colour = CirnoMod.miscItems.cardEditionTypeToColour(cardRef) or G.C.FILTER,
+								sound = CirnoMod.miscItems.cardEditionTypeToSfx(cardRef) or 'generic1',
+								volume = 0.5,
 								message_card = card
 							}
 						end
@@ -1514,19 +1639,19 @@ local jokerInfo = {
 					local RT = {}
 					local xmultsRequired = 0
 					
-					if to_big(pseudorandom('forestMazeOne'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.chance1) then
+					if SMODS.pseudorandom_probability(card, 'forestMazeOne', 1, formTable.chance1) then
 						xmultsRequired = 1
 					end
 					
-					if to_big(pseudorandom('forestMazeTwo'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.chance2) then
+					if SMODS.pseudorandom_probability(card, 'forestMazeOne', 1, formTable.chance2) then
 						xmultsRequired = xmultsRequired + 1
 					end
 					
-					if to_big(pseudorandom('forestMazeThree'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.chance3) then
+					if SMODS.pseudorandom_probability(card, 'forestMazeOne', 1, formTable.chance3) then
 						xmultsRequired = xmultsRequired + 1
 					end
 					
-					if to_big(pseudorandom('forestMazeFour'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.chance4) then
+					if SMODS.pseudorandom_probability(card, 'forestMazeOne', 1, formTable.chance4) then
 						xmultsRequired = xmultsRequired + 1
 					end
 					
@@ -1594,8 +1719,16 @@ local jokerInfo = {
 							and c:can_calculate()
 							and not SMODS.has_no_rank(c)
 						then
-							if to_big(pseudorandom('2negativeChance'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.negativeChance) then
-								c:set_edition('e_negative')
+							local cardRef = c
+							
+							if SMODS.pseudorandom_probability(card, '2negativeChance', 1, formTable.negativeChance) then
+								G.E_MANAGER:add_event(Event({
+											trigger = 'immediate',
+											blocking = true,
+											blockable = true,
+											func = function()
+												cardRef:set_edition('e_negative')
+											end }))
 							else
 								G.E_MANAGER:add_event(Event({
 									trigger = 'immediate',
@@ -1641,7 +1774,8 @@ local jokerInfo = {
 					if context.other_card.debuff then
 						return {
 							message = localize('k_debuffed'),
-							colour = G.C.RED
+							colour = G.C.RED,
+							sound = 'cancel'
 						}
 					else
 						return { x_chips = to_big(formTable.xchips) }
@@ -1684,7 +1818,7 @@ local jokerInfo = {
 						or formTable.parsedKingsJacks[cardRef])
 						and not formTable.queenPolycule[cardRef]						
 					then
-						if to_big(pseudorandom('queenPolyChance'..G.GAME.round_resets.ante)) < to_big(G.GAME.probabilities.normal)/to_big(formTable.polyChance) then
+						if SMODS.pseudorandom_probability(card, 'queenPolyChance', 1, formTable.polyChance) then
 							formTable.queenPolycule[cardRef] = true
 							
 							return { doNotRedSeal = true,
@@ -1865,9 +1999,13 @@ local jokerInfo = {
 			calculate = function(self, card, context)
 				if
 					context.setting_blind
-					and (card.ability.extra.formsInfo.crescent.accruedMoney > 0
-					or card.ability.extra.formsInfo.peachCell.handContainedFaceCards)
+					or context.starting_shop
 				then
+					if card.ability.extra.currentForm ~= 'base' then
+						cardRef.ability.extra.currentForm = 'base'
+						self.updateState(card)
+					end
+					
 					card.ability.extra.formsInfo.crescent.accruedMoney = 0
 					card.ability.extra.formsInfo.peachCell.handContainedFaceCards = false
 					card.ability.extra.scoredHandName = nil
@@ -1880,6 +2018,7 @@ local jokerInfo = {
 				then
 					juice_card_until(card, function()
 						return G.GAME.current_round.hands_played == 0
+							and not G.RESET_JIGGLES
 					end, true)
 				end
 				
@@ -1947,6 +2086,7 @@ local jokerInfo = {
 			key = 'confusedRumi',
 			
 			matureRefLevel = 1,
+			cir_Friend = CirnoMod.miscItems.cirFriends.rmi,
 			
 			loc_txt = {
 				name = "Confused Rumi",
@@ -1978,12 +2118,18 @@ local jokerInfo = {
 				if CirnoMod.config.negativePCardsBalancing then
 					ret.key = 'cir_j_confusedRumi_nPCardRebalanced'
 					
-					info_queue[#info_queue + 1] = { key = 'e_negative_playing_card', set = 'Edition', config = { extra = 1 } }
+					info_queue[#info_queue + 1] = { key = 'e_negative_playing_card',
+						set = 'Edition',
+						config = { extra = 1 },
+						vars = { 1,
+							G.localization.descriptions.Joker.j_splash.name,
+							string.sub(G.localization.descriptions.Enhanced.m_stone.name, 1, #G.localization.descriptions.Enhanced.m_stone.name - 5)
+						} }
 				end
 				
 				-- Art credit tooltip
-				if CirnoMod.config['artCredits'] then
-					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = "jA_confusedRumi", set = "Other" }
 				end
 				
 				return ret
@@ -2004,6 +2150,7 @@ local jokerInfo = {
 					card.ability.extra.ready = true
 					juice_card_until(card, function()
 						return G.GAME.current_round.hands_played == 0
+							and not G.RESET_JIGGLES
 					end, true)
 				end
 				
@@ -2077,6 +2224,7 @@ table element ]]
 for i, jkr in ipairs(jokerInfo.jokerConfigs) do
 	jkr.object_type = 'Joker'
 	jkr.atlas = 'cir_cRares'
+	jkr.loadOrder = 'rare'
 	jkr.rarity = 3
 end
 

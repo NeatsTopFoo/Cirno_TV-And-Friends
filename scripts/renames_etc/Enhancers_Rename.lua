@@ -15,6 +15,54 @@ SMODS.process_loc_text(G.localization.misc.labels, "purple_seal", "Life Seal")
 SMODS.process_loc_text(G.localization.misc.labels, "red_seal", "Power Seal")
 
 --[[
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Seal:take_ownership('blue',
+		{
+			loc_vars = function(self, info_queue, card)
+				if CirnoMod.config.artCredits and CirnoMod.miscItems.atlasCheck(card) then
+					info_queue[#info_queue + 1] = { key = 'sA_DaemonTsun', set = 'Other' }
+				end
+			end
+		},
+		true)
+		
+	SMODS.Seal:take_ownership('gold',
+		{
+			loc_vars = function(self, info_queue, card)
+				if CirnoMod.config.artCredits and CirnoMod.miscItems.atlasCheck(card) then
+					info_queue[#info_queue + 1] = { key = 'sA_DaemonTsun', set = 'Other' }
+				end
+				
+				return { vars = { (self.config.extra and self.config.extra.money) or SMODS.signed_dollars(3) } }
+			end
+		},
+		true)
+		
+	SMODS.Seal:take_ownership('purple',
+		{
+			loc_vars = function(self, info_queue, card)
+				if CirnoMod.config.artCredits and CirnoMod.miscItems.atlasCheck(card) then
+					info_queue[#info_queue + 1] = { key = 'sA_DaemonTsun', set = 'Other' }
+				end
+			end
+		},
+		true)
+		
+	SMODS.Seal:take_ownership('red',
+		{
+			loc_vars = function(self, info_queue, card)
+				if CirnoMod.config.artCredits and CirnoMod.miscItems.atlasCheck(card) then
+					info_queue[#info_queue + 1] = { key = 'sA_DaemonTsun', set = 'Other' }
+				end
+				
+				return { vars = { (self.config.extra and self.config.extra.retriggers) or 1 } }
+			end
+		},
+		true)
+end
+]]
+
+--[[
 if not CirnoMod.config.planetTarotSpectralRenames then
 SMODS.process_loc_text(G.localization.descriptions.Spectral.c_deja_vu, "text", {
                     "Add a {C:red}"..G.localization.misc.labels.red_seal,

@@ -21,5 +21,10 @@ return {
 	['artCredits'] = true,
 	['startedModOnce'] = false,
 	['quittingIsAnOption'] = true,
-	['encounteredJokers'] = {{},{},{}}
+	['testVar'] = false,
+	['jkrVals'] = {
+		{ store = {}, encountered = {} },
+		{ store = {}, encountered = {} },
+		{ store = {}, encountered = {} }
+	}
 }

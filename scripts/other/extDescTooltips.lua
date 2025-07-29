@@ -160,6 +160,45 @@ CirnoMod.extendedDescTooltip{
 	end
 }
 
+-- Chat Brainrot Jokers
+CirnoMod.extendedDescTooltip{
+	key = 'chatBrainrot',
+	
+	loc_txt = { name = "Chat Brainrot Jokers", text = {} },
+	
+	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+		if
+			CirnoMod.miscItems.jkrKeyGroups.chatBrainrot
+			and next(CirnoMod.miscItems.jkrKeyGroups.chatBrainrot)
+		then
+			local counter = 0
+			desc_nodes[#desc_nodes+1] = {}
+			
+			for k, b in pairs(CirnoMod.miscItems.jkrKeyGroups.chatBrainrot) do
+				CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], CirnoMod.miscItems.obscureJokerNameIfNotEncountered(k), G.C.FILTER, 0.8)
+				
+				if next(CirnoMod.miscItems.jkrKeyGroups.chatBrainrot, k) == nil then
+					break
+				end
+				
+				if counter >= 2 then
+					CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], ',', G.C.UI.TEXT_DARK, 0.8)
+					desc_nodes[#desc_nodes+1] = {}
+					counter = 0
+				else
+					CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], ', ', G.C.UI.TEXT_DARK, 0.8)
+					counter = counter + 1
+				end
+			end
+		else
+			desc_nodes[#desc_nodes+1] = {}
+			CirnoMod.miscItems.addUITextNode(desc_nodes[#desc_nodes], 'Not Active', G.C.RED, 0.8)
+		end
+		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+	end
+}
+
+
 -- cirGuns (It's just cirGuns)
 CirnoMod.extendedDescTooltip{
 	key = 'cirGuns',

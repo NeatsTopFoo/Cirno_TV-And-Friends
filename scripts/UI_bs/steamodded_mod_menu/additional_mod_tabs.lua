@@ -92,8 +92,8 @@ local extraUI = function()
 																			nodes = {
 																				UIBox_button{
 																					button = 'cir_credit_daemonTsun_link',
-																					colour = CirnoMod.miscItems.colours.cirCyan,
-																					label = {"BSky"},
+																					colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.daemonTsun.type],
+																					label = { CirnoMod.miscItems.creditLinks.daemonTsun.type },
 																					minh = creditLinkBt_h,
 																					minw = creditLinkBt_w}
 																			}
@@ -147,8 +147,8 @@ local extraUI = function()
 																			nodes = {
 																				UIBox_button{
 																					button = 'cir_credit_ntf_link',
-																					colour = CirnoMod.miscItems.colours.cirCyan,
-																					label = {"BSky"},
+																					colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.ntf_bsky.type],
+																					label = { CirnoMod.miscItems.creditLinks.ntf_bsky.type },
 																					minh = creditLinkBt_h,
 																					minw = creditLinkBt_w}
 																				}
@@ -166,8 +166,8 @@ local extraUI = function()
 																				nodes = {
 																					UIBox_button{
 																						button = 'cir_credit_ntf_link2',
-																						colour = G.C.PURPLE,
-																						label = {"Twitch"},
+																						colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.ntf_twch.type],
+																						label = { CirnoMod.miscItems.creditLinks.ntf_twch.type },
 																						minh = creditLinkBt_h,
 																						minw = creditLinkBt_w}
 																					}
@@ -222,8 +222,8 @@ local extraUI = function()
 																			nodes = {
 																				UIBox_button{
 																					button = 'cir_credit_cirno_link',
-																					colour = CirnoMod.miscItems.colours.cirCyan,
-																					label = {"BSky"},
+																					colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.cirnotv_bsky.type],
+																					label = { CirnoMod.miscItems.creditLinks.cirnotv_bsky.type },
 																					minh = creditLinkBt_h,
 																					minw = creditLinkBt_w}
 																				}
@@ -241,8 +241,8 @@ local extraUI = function()
 																			nodes = {
 																				UIBox_button{
 																					button = 'cir_credit_cirno_link2',
-																					colour = G.C.PURPLE,
-																					label = {"Twitch"},
+																					colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.cirnotv_twch.type],
+																					label = { CirnoMod.miscItems.creditLinks.cirnotv_twch.type },
 																					minh = creditLinkBt_h,
 																					minw = creditLinkBt_w}
 																			}
@@ -319,8 +319,8 @@ local extraUI = function()
 																			nodes = {
 																				UIBox_button{
 																					button = 'cir_credit_csau_link',
-																					colour = G.C.GREY,
-																					label = {"GitHub"},
+																					colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.cardsauce.type],
+																					label = { CirnoMod.miscItems.creditLinks.cardsauce.type },
 																					minh = creditLinkBt_h,
 																					minw = creditLinkBt_w}
 																			}
@@ -331,7 +331,7 @@ local extraUI = function()
 																		nodes = { {
 																			n = G.UIT.T,
 																			config = {
-																					text = "Art used for DNA (by Gote),",
+																					text = "Art edited for DNA (by Gote),",
 																					maxw = G.ROOM.T.w*0.9,
 																					scale = 0.3,
 																					colour = G.C.UI.TEXT_INACTIVE,
@@ -388,8 +388,8 @@ local extraUI = function()
 																			nodes = {
 																				UIBox_button{
 																					button = 'cir_credit_cry_link',
-																					colour = G.C.GREY,
-																					label = {"GitHub"},
+																					colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.cryptid.type],
+																					label = { CirnoMod.miscItems.creditLinks.cryptid.type },
 																					minh = creditLinkBt_h,
 																					minw = creditLinkBt_w}
 																			}
@@ -442,9 +442,9 @@ local extraUI = function()
 																			config = { align = 'cm' },
 																			nodes = {
 																				UIBox_button{
-																					button = 'cir_credit_trance_link',
+																					button = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.trance.type],
 																					colour = G.C.GREY,
-																					label = {"GitHub"},
+																					label = { CirnoMod.miscItems.creditLinks.trance.type },
 																					minh = creditLinkBt_h,
 																					minw = creditLinkBt_w}
 																			}
@@ -507,8 +507,8 @@ local extraUI = function()
 																				nodes = {
 																					UIBox_button{
 																						button = 'cir_credit_turpix_link1',
-																						colour = CirnoMod.miscItems.colours.bbBlack,
-																						label = {"Twitter"},
+																						colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.turpix_tw.type],
+																						label = { CirnoMod.miscItems.creditLinks.turpix_tw.type },
 																						minh = creditLinkBt_h,
 																						minw = creditLinkBt_w}
 																					}
@@ -526,8 +526,8 @@ local extraUI = function()
 																				nodes = {
 																					UIBox_button{
 																						button = 'cir_credit_turpix_link2',
-																						colour = G.C.FILTER,
-																						label = {"Nexus"},
+																						colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.turpix_nm.type],
+																						label = { CirnoMod.miscItems.creditLinks.turpix_nm.type },
 																						minh = creditLinkBt_h,
 																						minw = creditLinkBt_w}
 																					}
@@ -569,7 +569,7 @@ local extraUI = function()
 																			{
 																				n = G.UIT.T,
 																				config = {
-																						text = "Solgalestia ",
+																						text = "Artbydefault ",
 																						maxw = G.ROOM.T.w*0.9,
 																						scale = 0.4,
 																						colour = G.C.UI.TEXT_LIGHT,
@@ -581,9 +581,9 @@ local extraUI = function()
 																			config = { align = 'cm' },
 																			nodes = {
 																				UIBox_button{
-																					button = 'cir_credit_solgalestia_link',
-																					colour = G.C.FILTER,
-																					label = {"Nexus"},
+																					button = 'cir_credit_artbydefault',
+																					colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.artbydefault.type],
+																					label = { CirnoMod.miscItems.creditLinks.artbydefault.type },
 																					minh = creditLinkBt_h,
 																					minw = creditLinkBt_w}
 																			}
@@ -594,7 +594,7 @@ local extraUI = function()
 																		nodes = { {
 																			n = G.UIT.T,
 																			config = {
-																					text = "Art edited for the Chaos the Clown Joker",
+																					text = "Art reference for Arumia Jokers",
 																					maxw = G.ROOM.T.w*0.9,
 																					scale = 0.3,
 																					colour = G.C.UI.TEXT_INACTIVE,
@@ -637,8 +637,8 @@ local extraUI = function()
 																			nodes = {
 																				UIBox_button{
 																					button = 'cir_credit_solgryn_link',
-																					colour = G.C.PURPLE,
-																					label = {"Twitch"},
+																					colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.solgryn.type],
+																					label = { CirnoMod.miscItems.creditLinks.solgryn.type },
 																					minh = creditLinkBt_h,
 																					minw = creditLinkBt_w}
 																			}
@@ -715,8 +715,8 @@ local extraUI = function()
 																			nodes = {
 																				UIBox_button{
 																					button = 'cir_credit_radicalHighway_link',
-																					colour = G.C.PURPLE,
-																					label = {"Twitch"},
+																					colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.radicalhighway.type],
+																					label = { CirnoMod.miscItems.creditLinks.radicalhighway.type },
 																					minh = creditLinkBt_h,
 																					minw = creditLinkBt_w}
 																			}
@@ -770,8 +770,8 @@ local extraUI = function()
 																			nodes = {
 																				UIBox_button{
 																					button = 'cir_credit_muddleee_link',
-																					colour = G.C.GREY,
-																					label = {"GitHub"},
+																					colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.muddleee.type],
+																					label = { CirnoMod.miscItems.creditLinks.muddleee.type },
 																					minh = creditLinkBt_h,
 																					minw = creditLinkBt_w}
 																			}
@@ -835,8 +835,8 @@ local extraUI = function()
 																			nodes = {
 																				UIBox_button{
 																					button = 'cir_credit_aikoyori_link',
-																					colour = CirnoMod.miscItems.colours.cirCyan,
-																					label = {"BSky"},
+																					colour = CirnoMod.miscItems.creditLinkTypeToColour[CirnoMod.miscItems.creditLinks.aikoyori.type],
+																					label = { CirnoMod.miscItems.creditLinks.aikoyori.type },
 																					minh = creditLinkBt_h,
 																					minw = creditLinkBt_w}
 																			}
@@ -902,63 +902,63 @@ local extraUI = function()
 end
 
 G.FUNCS.cir_credit_daemonTsun_link = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.daemonTsun)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.daemonTsun.link)
 end
 
 G.FUNCS.cir_credit_ntf_link = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.ntf_bsky)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.ntf_bsky.link)
 end
 
 G.FUNCS.cir_credit_ntf_link2 = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.ntf_twch)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.ntf_twch.link)
 end
 
 G.FUNCS.cir_credit_cirno_link = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.cirnotv_bsky)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.cirnotv_bsky.link)
 end
 
 G.FUNCS.cir_credit_cirno_link2 = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.cirnotv_twch)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.cirnotv_twch.link)
 end
 
 G.FUNCS.cir_credit_csau_link = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.cardsauce)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.cardsauce.link)
 end
 
 G.FUNCS.cir_credit_cry_link = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.cryptid)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.cryptid.link)
 end
 
 G.FUNCS.cir_credit_trance_link = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.trance)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.trance.link)
 end
 
 G.FUNCS.cir_credit_turpix_link1 = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.turpix_tw)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.turpix_tw.link)
 end
 
 G.FUNCS.cir_credit_turpix_link2 = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.turpix_nm)
-end
-
-G.FUNCS.cir_credit_solgalestia_link = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.solgalestia)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.turpix_nm.link)
 end
 
 G.FUNCS.cir_credit_solgryn = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.solgryn)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.solgryn.link)
 end
 
 G.FUNCS.cir_credit_radicalhighway = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.radicalhighway)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.radicalhighway.link)
 end
 
 G.FUNCS.cir_credit_muddleee = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.muddleee)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.muddleee.link)
 end
 
 G.FUNCS.cir_credit_aikoyori = function(e)
-	love.system.openURL(CirnoMod.miscItems.creditLinks.aikoyori)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.aikoyori.link)
+end
+
+G.FUNCS.cir_credit_artbydefault = function(e)
+	love.system.openURL(CirnoMod.miscItems.creditLinks.artbydefault.link)
 end
 
 return extraUI

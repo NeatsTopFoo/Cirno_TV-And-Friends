@@ -1,61 +1,4 @@
 local jokerLoc = { nrmJkrs = {}, delGrat = {}, grnJkr = {}, weeJkr = {}, lgndJkrs = {} }
-local planetIntent = G.localization.misc.labels.planet
-local planetPackIntent = G.localization.descriptions.Other.p_celestial_normal.name
---[[
-Can't go based off the actual localisation variable name because it isn't changed  yet.
-Thus, we need to establish what our intended changes will be and do it that way.]]
-if CirnoMod.config.planetsAreHus then
-	planetIntent = "Hu"
-	planetPackIntent = "Gensokyo Pack"
-end
-
--- ...There's probably a better way to do these.
-local sealIntent = {
-		blue_seal = G.localization.descriptions.Other.blue_seal.name,
-		red_seal = G.localization.descriptions.Other.red_seal.name,
-		gold_seal = G.localization.descriptions.Other.gold_seal.name,
-		purple_seal = G.localization.descriptions.Other.purple_seal.name
-	}
-
-if
-	CirnoMod.replaceDef.locChanges.sealLoc.blue_seal
-	and CirnoMod.replaceDef.locChanges.sealLoc.red_seal
-	and CirnoMod.replaceDef.locChanges.sealLoc.gold_seal
-	and CirnoMod.replaceDef.locChanges.sealLoc.purple_seal
-then
-	sealIntent = {
-		blue_seal = CirnoMod.replaceDef.locChanges.sealLoc.blue_seal.name,
-		red_seal = CirnoMod.replaceDef.locChanges.sealLoc.red_seal.name,
-		gold_seal = CirnoMod.replaceDef.locChanges.sealLoc.gold_seal.name,
-		purple_seal = CirnoMod.replaceDef.locChanges.sealLoc.purple_seal.name
-	}
-end
-
-local celestPackIntent = G.localization.descriptions.Other.p_celestial_normal.name
-
-if CirnoMod.replaceDef.locChanges.boosterLoc then
-	if CirnoMod.replaceDef.locChanges.boosterLoc.p_celestial_normal then
-		celestPackIntent = CirnoMod.replaceDef.locChanges.boosterLoc.p_celestial_normal.name or celestPackIntent
-	end
-end
-
-local stoneIntent = G.localization.descriptions.Enhanced.m_stone.name
-local goldIntent = G.localization.descriptions.Enhanced.m_gold.name
-local glassIntent = G.localization.descriptions.Enhanced.m_glass.name
-
-if CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone then
-	stoneIntent = CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name
-end
-
-if CirnoMod.replaceDef.locChanges.enhancerLoc.m_gold then
-	goldIntent = CirnoMod.replaceDef.locChanges.enhancerLoc.m_gold.name
-end
-	
-if CirnoMod.replaceDef.locChanges.enhancerLoc.m_glass then
-	glassIntent = CirnoMod.replaceDef.locChanges.enhancerLoc.m_glass.name
-end
-
-goldIntent = string.sub(goldIntent, 1, #goldIntent - 5)
 
 --[[ Bootstraps goes first, as some future (cosmetic)
 changes depend on a variable that's decided here]]
@@ -93,8 +36,6 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 end
 
 
-
-
 -- ======================================================================
 
 jokerLoc.nrmJkrs.j_joker = { name = "Clippy",
@@ -128,7 +69,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 				)
 			)
 			
-			CirnoMod.miscItems.addUITextNode(firstLine, 's in the chat.', G.C.UI.TEXT_INACTIVE, 0.8)
+			CirnoMod.miscItems.addUITextNode(firstLine, 's in the chat', G.C.UI.TEXT_INACTIVE, 0.8)
 			
 			return { mainEndRV }
 		end,
@@ -151,7 +92,7 @@ else
 		"{C:chips}+#2#{} Chips when each",
 		"played {C:attention}2{} is scored",
 		"{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
-		"{s:0.35,C:inactive}Something about cirFairies in the chat."
+		"{s:0.35,C:inactive}Something about cirFairies in the chat"
 	}
 end
 
@@ -159,7 +100,7 @@ jokerLoc.nrmJkrs.j_chaos = { name = "Miku The Clown",
 	text = {
         "{C:attention}#1#{} free {C:green}Reroll",
         "per shop",
-		"{s:0.8,C:inactive}Society..."
+		"{s:0.8,C:inactive}Society...?"
     }
 }
 
@@ -202,7 +143,7 @@ jokerLoc.nrmJkrs.j_mad = { name = "Mad Fumo",
         "hand contains",
         "a {C:attention}#2#",
 		"{s:0.8,C:inactive}...I can't quite tell",
-		"{s:0.8,C:inactive}from the expression."
+		"{s:0.8,C:inactive}from the expression"
 	}
 }
 
@@ -214,7 +155,7 @@ jokerLoc.nrmJkrs.j_crazy = { name = "Crazy DM",
 		"{s:0.8,C:inactive}You must needs understand,",
 		"{s:0.8,C:inactive}wouldst thou be in her shoes,",
 		"{s:0.8,C:inactive}thine disposition mayhaps be",
-		"{s:0.8,C:inactive}of similar vexation."
+		"{s:0.8,C:inactive}of similar vexation"
 	}
 }
 
@@ -244,7 +185,7 @@ jokerLoc.nrmJkrs.j_half = { name = "Half Clippy",
         "hand contains",
         "{C:attention}#2#{} or fewer cards",
 		"{s:0.8,C:inactive}...Somehow even",
-		"{s:0.8,C:inactive}more annoying."
+		"{s:0.8,C:inactive}more annoying"
 	}
 }
 
@@ -271,12 +212,24 @@ end
 jokerLoc.nrmJkrs.j_stone = { name = "Bocchi The Rock",
 	text = {
 		"Gives {C:chips}+#1#{} Chips for",
-		"each {C:attention}Whump Card",
+		"each {C:attention}#3#",
 		"in your {C:attention}full deck",
 		"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
 		"{s:0.8,C:inactive}jgtkjhjngtjkhbjgfhjgfjjhfgfh"
 	}
 }
+
+SMODS.Joker:take_ownership('stone', {
+	loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
+		
+		return { vars = {
+			card.ability.extra,
+			card.ability.extra * (card.ability.stone_tally or 0),
+			G.localization.descriptions.Enhanced.m_stone.name
+		} }
+	end
+}, true)
 
 
 -- ===== NEXT LINE =====
@@ -290,7 +243,7 @@ jokerLoc.nrmJkrs.j_juggler = { name = "Chuckster",
 		"{s:0.8,C:inactive}controls for a 3D game is pretty",
 		"{s:0.8,C:inactive}hard, I've tried it, but - They",
 		"{s:0.8,C:inactive}had way more people & money to",
-		"{s:0.8,C:inactive}throw at this than I do."
+		"{s:0.8,C:inactive}throw at this than I do"
 	}
 }
 
@@ -356,7 +309,7 @@ jokerLoc.nrmJkrs.j_acrobat = { name = "Bar-Using Incel",
         "{X:red,C:white} X#1# {} Mult on {C:attention}final",
         "{C:attention}hand{} of round",
 		"{s:0.8,C:inactive}Makes me sick watching",
-		"{s:0.8,C:inactive}people play DDR like this."
+		"{s:0.8,C:inactive}people play DDR like this"
     }
 }
 
@@ -374,7 +327,7 @@ jokerLoc.nrmJkrs.j_sock_and_buskin = { name = "Bad Apple",
 	text = {
 		"Retrigger all",
         "played {C:attention}face{} cards",
-		"{s:0.8,C:inactive}Balatro, but it's Bad Apple."
+		"{s:0.8,C:inactive}Balatro, but it's Bad Apple"
 	}
 }
 
@@ -436,7 +389,7 @@ jokerLoc.nrmJkrs.j_mime = { name = "Clownpiece",
         "card {C:attention}held in",
         "{C:attention}hand{} abilities",
 		"{s:0.8,C:inactive}Look chat, it's",
-		"{s:0.8,C:inactive}Cirno's favourite."
+		"{s:0.8,C:inactive}Cirno's favourite"
     }
 }
 
@@ -528,7 +481,7 @@ jokerLoc.nrmJkrs.j_wrathful_joker = { name = "Wrathful Biggdeck",
         "Played cards with",
         "{C:spades}#2#{} suit give",
         "{C:mult}+#1#{} Mult when scored",
-		"{s:0.8,C:inactive}Biggdeck? This is Anon, silly."
+		"{s:0.8,C:inactive}Biggdeck? This is Anon, silly"
     }
 }
 
@@ -547,13 +500,13 @@ jokerLoc.nrmJkrs.j_gluttenous_joker = { name = "Gluttonous Cirno",
 -- ===== NEXT LINE =====
 
 
---[[
-jokerLoc.nrmJkrs.j_troubadour = { name = "Troubadour",
+jokerLoc.nrmJkrs.j_troubadour = { name = "Muse Dash",
 	text = {
 		"{C:attention}+#1#{} hand size,",
-        "{C:blue}-#2#{} hand each round"
+        "{C:blue}-#2#{} hand each round",
+		"{s:0.8,C:inactive}Drop me a LINE"
 	}
-}]]
+}
 
 jokerLoc.nrmJkrs.j_banner = { name = "Gacha Banner",
 	text = {
@@ -580,52 +533,52 @@ jokerLoc.nrmJkrs.j_mystic_summit = { name = "Jump King",
 
 jokerLoc.nrmJkrs.j_marble = { name = "Cement Bread",
 	text = {
-		"Adds one {C:attention}Whump{} card",
+		"Adds one {C:attention}#1#{} card",
 		"to deck when",
 		"{C:attention}Blind{} is selected"
 	}
 }
 
-if CirnoMod.config.allowCosmeticTakeOwnership then
-	SMODS.Joker:take_ownership('marble', {
-		set_badges = function(self, card, badges)
-			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_marble')
-			end
-		end,
-		
-		create_main_end = function()
-			local mainEndRV = {
-				n = G.UIT.C,
-				config = {
-					align = 'bm',
-					padding = 0.02
-				},
-				nodes = {}
-			}
-			
-			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
-					0, 0, -- Sprite X & Y
-					0.8, 0.8, -- Sprite W & H
-					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
-					{ x = 4, y = 0 } -- Position in the Atlas
-				)
-			)
-			
-			return { mainEndRV }
-		end,
-		
-		loc_vars = function(self, info_queue, card)
-			info_queue[#info_queue+1] = G.P_CENTERS.m_stone
-			
-			if CirnoMod.miscItems.atlasCheck(card) then
-				return { main_end = self.create_main_end() }
-			end
-			
-			return nil
+SMODS.Joker:take_ownership('marble', {
+	set_badges = function(self, card, badges)
+		if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
+			CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_marble')
 		end
-	}, true)
-end
+	end,
+	
+	create_main_end = function()
+		local mainEndRV = {
+			n = G.UIT.C,
+			config = {
+				align = 'bm',
+				padding = 0.02
+			},
+			nodes = {}
+		}
+		
+		CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+				0, 0, -- Sprite X & Y
+				0.8, 0.8, -- Sprite W & H
+				CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+				{ x = 4, y = 0 } -- Position in the Atlas
+			)
+		)
+		
+		return { mainEndRV }
+	end,
+	
+	loc_vars = function(self, info_queue, card)
+		local ret = { vars = { string.sub(G.localization.descriptions.Enhanced.m_stone.name, 1, #G.localization.descriptions.Enhanced.m_stone.name - 5) } }
+		
+		info_queue[#info_queue+1] = G.P_CENTERS.m_stone
+		
+		if CirnoMod.miscItems.atlasCheck(card) then
+			ret.main_end = self.create_main_end()
+		end
+		
+		return ret
+	end
+}, true)
 
 jokerLoc.nrmJkrs.j_loyalty_card = { name = "New Sub",
 	text = {
@@ -643,7 +596,7 @@ jokerLoc.nrmJkrs.j_hack = { -- name = "Hack",
         "{C:attention}2{}, {C:attention}3{}, {C:attention}4{}, or {C:attention}5{}",
 		"{s:0.8,C:inactive}This just in, streamer",
 		"{s:0.8,C:inactive}cheats at videogame by",
-		"{s:0.8,C:inactive}watching their own stream."
+		"{s:0.8,C:inactive}watching their own stream"
     }
 }
 
@@ -677,12 +630,12 @@ jokerLoc.nrmJkrs.j_raised_fist = { name = "Raised Fist",
 }
 ]]
 
-jokerLoc.nrmJkrs.j_golden = { name = "CirGlod",
+jokerLoc.nrmJkrs.j_golden = { name = "cirGlod",
 	text = {
 		"Earn {C:money}$#1#{} at",
         "end of round",
 		"{s:0.8,C:inactive}...These aren't the golden",
-		"{s:0.8,C:inactive}guns I remember."
+		"{s:0.8,C:inactive}guns I remember"
 	}
 }
 
@@ -736,19 +689,31 @@ jokerLoc.nrmJkrs.j_blueprint = { -- name = "Blueprint",
 		"Copies ability of",
 		"{C:attention}Joker{} to the right",
 		"{s:0.8,C:inactive}In the shape of",
-		"{s:0.8,C:inactive}a friend-to-be."
+		"{s:0.8,C:inactive}a friend-to-be"
 	}
 }
 
 jokerLoc.nrmJkrs.j_glass = { name = "Ice Joker",
 	text = {
 		"This Joker gains {X:mult,C:white} X#1# {} Mult",
-        "for every {C:attention}"..glassIntent.." Card",
+        "for every {C:attention}#3# Card",
         "that is destroyed",
         "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
 		"{s:0.8,C:inactive}What's cooler than being cool?"
 	}
 }
+
+SMODS.Joker:take_ownership('glass', {
+	loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
+		
+		return { vars = {
+			card.ability.extra,
+			card.ability.x_mult,
+			G.localization.descriptions.Enhanced.m_glass.name
+		} }
+	end
+}, true)
 
 jokerLoc.nrmJkrs.j_scary_face = { name = "Curly's Scary Face",
 	text = {
@@ -797,10 +762,8 @@ elseif CirnoMod.config.matureReferences_cyc == 2 then
         "Earn {C:money}$#1#{} per {C:attention}discard{} if",
         "no discards are used",
         "by end of the round",
-		"{s:0.8,C:inactive}\"{s:0.8,C:cirLucy}Hey sweet one",
-		"{s:0.8,C:cirLucy}To the grave I won't go",
-		"{s:0.8,C:cirLucy}For when I am done",
-		"{s:0.8,C:cirLucy}Kill me all you want{s:0.8,C:inactive}\""
+		"{s:0.8,C:cirLucy}Do{s:0.8,C:inactive}n{s:0.8,C:cirLucy}'t for{s:0.8,C:inactive}get,",
+		"{s:0.8,C:inactive}You're {s:0.8,C:cirLucy}her{s:0.8,C:inactive}e forever"
     }
 end
 
@@ -850,7 +813,7 @@ end
 
 jokerLoc.nrmJkrs.j_ticket = { -- name = "Golden Ticket",
 	text = {
-		"Played {C:attention}"..goldIntent.."{} cards",
+		"Played {C:attention}#2#{} cards",
         "earn {C:money}$#1#{} when scored",
 		"{s:0.8,C:inactive}Going for the Matterhorn again,",
 		"{s:0.8,C:inactive}are we? Bold choice. Let's see",
@@ -859,9 +822,24 @@ jokerLoc.nrmJkrs.j_ticket = { -- name = "Golden Ticket",
     unlock = {
         "Play a 5 card hand",
         "that contains only",
-        "{C:attention,E:1}"..goldIntent.."{} cards",
+        "{C:attention,E:1}#1#{} cards",
     }
 }
+
+SMODS.Joker:take_ownership('ticket', {
+	loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS.m_gold
+		
+		return { vars = {
+			card.ability.extra,
+			string.sub(G.localization.descriptions.Enhanced.m_gold.name, 1, #G.localization.descriptions.Enhanced.m_gold.name - 5)
+		} }
+	end,
+	
+	locked_loc_vars = function(self, info_queue, card)
+		return { vars = { string.sub(G.localization.descriptions.Enhanced.m_gold.name, 1, #G.localization.descriptions.Enhanced.m_gold.name - 5) } }
+	end
+}, true)
 
 jokerLoc.nrmJkrs.j_pareidolia = { -- name = "Pareidolia",
 	text = {
@@ -882,7 +860,7 @@ jokerLoc.nrmJkrs.j_cartomancer = { name = "Iku Nagae",
 		"{s:0.8,C:inactive}purely because of the fact that",
 		"{s:0.8,C:inactive}they don't require a member of",
 		"{s:0.8,C:inactive}the Hinanawi clan to be present",
-		"{s:0.8,C:inactive}in order to deliver them."
+		"{s:0.8,C:inactive}in order to deliver them"
 	}
 }
 
@@ -893,7 +871,7 @@ jokerLoc.nrmJkrs.j_even_steven = { name = "Even Ariral",
         "{C:mult}+#1#{} Mult when scored",
         "{C:inactive}(10, 8, 6, 4, 2)",
 		"{s:0.8,C:inactive}Unfortunately, Arirals are",
-		"{s:0.8,C:inactive}banned from Alberta."
+		"{s:0.8,C:inactive}banned from Alberta"
 	}
 }
 
@@ -930,16 +908,25 @@ end
 
 -- ===== NEXT LINE =====
 
---[[
-jokerLoc.nrmJkrs.j_scholar = { name = "Scholar",
+
+jokerLoc.nrmJkrs.j_scholar = { name = "Teaching Your Girlfriend's Dad How To Twerk",
 	text = {
-		"Played {C:attention}Aces{}",
-        "give {C:chips}+#2#{} Chips",
-        "and {C:mult}+#1#{} Mult",
-        "when scored"
+		"Played {C:attention}Aces{} give {C:chips}+#2#{} Chips",
+        "and {C:mult}+#1#{} Mult when scored",
+		"{s:0.8,C:inactive}Never change, Chubby"
 	}
 }
-]]
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Joker:take_ownership('scholar', {
+		set_badges = function(self, card, badges)
+			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
+				CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_scholar')
+			end
+		end
+	}, true)
+end
+
 jokerLoc.nrmJkrs.j_business = { -- name = "Business Card"
 	text = {
         "Played {C:attention}face{} cards have",
@@ -980,7 +967,7 @@ jokerLoc.nrmJkrs.j_mr_bones = { name = "Excuses",
 		"{s:0.8,C:inactive}Chat, it's the RNG, I",
 		"{s:0.8,C:inactive}can't do anything if",
 		"{s:0.8,C:inactive}the game doesn't give",
-		"{s:0.8,C:inactive}me the cards I need."
+		"{s:0.8,C:inactive}me the cards I need"
     }
 }
 
@@ -1067,15 +1054,53 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	}, true)
 end
 
---[[
-jokerLoc.nrmJkrs.j_trio = { name = "The Trio",
+jokerLoc.nrmJkrs.j_trio = { name = "The Confirmation",
 	text = {
 		"{X:mult,C:white} X#1# {} Mult if played",
         "hand contains",
-        "a {C:attention}#2#"
-	}
+        "a {C:attention}#2#",
+		"{s:0.8,C:inactive}Hopefully, it was worth the wait"
+	} 
 }
-]]
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	SMODS.Joker:take_ownership('trio', {
+		create_main_end = function()			
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			local firstLine = CirnoMod.miscItems.addUIColumnOrRowNode(mainEndRV.nodes, 'cm', 'R', G.C.CLEAR, 0, 0).nodes
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					0.8, 0.8, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 4, y = 0 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, card)
+			local RT = { vars = {
+				card.ability.x_mult,
+				localize(card.ability.type, 'poker_hands') } }
+			
+			if CirnoMod.miscItems.atlasCheck(card) then
+				RT.main_end = self.create_main_end()
+			end
+			
+			return RT
+		end
+	}, true)
+end
 
 jokerLoc.nrmJkrs.j_family = {
 		-- name = "The Family"
@@ -1102,8 +1127,8 @@ if CirnoMod.config['matureReferences_cyc'] >= 2 then
 				
 		
 				locAB = {
-					A = "This is the nicest Joker.",
-					B = "This is the incest Joker."
+					A = "This is the nicest Joker",
+					B = "This is the incest Joker"
 				},
 				
 				loc_vars = function(self, info_queue, card)
@@ -1125,7 +1150,7 @@ if CirnoMod.config['matureReferences_cyc'] >= 2 then
 			"{X:mult,C:white} X#1# {} Mult if played",
 			"hand contains",
 			"a {C:attention}#2#",
-			"{s:0.8,C:inactive}This is the nicest Joker.",
+			"{s:0.8,C:inactive}This is the nicest Joker",
 			"{s:0.5,C:inactive}Search \"Cirno_TV Let me rephrase that\"",
 			"{s:0.5,C:inactive}on YouTube to learn more!"
 		}
@@ -1135,7 +1160,7 @@ else
         "{X:mult,C:white} X#1# {} Mult if played",
         "hand contains",
         "a {C:attention}#2#",
-		"{s:0.8,C:inactive}...Should probably rephrase that.",
+		"{s:0.8,C:inactive}...Should probably rephrase that",
 		"{s:0.5,C:inactive}Search \"Cirno_TV Let me rephrase that\"",
 		"{s:0.5,C:inactive}on YouTube to learn more!"
     }
@@ -1148,15 +1173,16 @@ jokerLoc.nrmJkrs.j_order = { name = "The Order",
         "hand contains",
         "a {C:attention}#2#"
 	}
-}
+}]]
 
-jokerLoc.nrmJkrs.j_tribe = { name = "The Tribe",
+jokerLoc.nrmJkrs.j_tribe = { name = "The God Pull",
 	text = {
 		"{X:mult,C:white} X#1# {} Mult if played",
         "hand contains",
-        "a {C:attention}#2#"
+        "a {C:attention}#2#",
+		"{s:0.8,C:inactive}Check him PC"
 	}
-}]]
+}
 
 
 -- ===== NEXT LINE =====
@@ -1194,7 +1220,7 @@ jokerLoc.nrmJkrs.j_fibonacci = { name = "Why It's Called XBox 360",
         "{C:attention}2{}, {C:attention}3{}, {C:attention}5{}, or {C:attention}8{} gives",
         "{C:mult}+#1#{} Mult when scored",
 		"{s:0.8,C:inactive}You turn 360 degrees and",
-		"{s:0.8,C:inactive}walk away from the console."
+		"{s:0.8,C:inactive}walk away from the console"
 	}
 }
 
@@ -1218,7 +1244,7 @@ jokerLoc.nrmJkrs.j_space = { name = "Kaguya Houraisan",
 		"{C:green}#1# in #2#{} chance to",
         "upgrade level of",
         "played {C:attention}poker hand{}",
-		"{s:0.8,C:inactive}Moon's haunted."
+		"{s:0.8,C:inactive}Moon's haunted"
 	}
 }
 
@@ -1255,77 +1281,77 @@ jokerLoc.nrmJkrs.j_ceremonial = { name = "Friendsword",
 		"{s:0.8,C:inactive}In the old days, Cirno would",
 		"{s:0.8,C:inactive}freely bestow these upon",
 		"{s:0.8,C:inactive}people, with the hope that",
-		"{s:0.8,C:inactive}they would stick around."
+		"{s:0.8,C:inactive}they would stick around"
 	}
 }
 
-jokerLoc.nrmJkrs.j_ring_master = { name = "CirGuns",
+jokerLoc.nrmJkrs.j_ring_master = { name = "cirGuns",
 	text = {
-        "{C:attention}Joker{}, {C:tarot}Tarot{}, {C:planet}"..planetIntent.."{},",
+        "{C:attention}Joker{}, {C:tarot}Tarot{}, {C:planet}#1#{},",
         "and {C:spectral}Spectral{} cards may",
         "appear multiple times",
 		"{s:0.8,C:inactive}The last time I put cirGuns",
-		"{s:0.8,C:inactive}in a game, Cirno gave me VIP",
+		"{s:0.8,C:inactive}in a game, Cirno gave me VIP.",
 		"{s:0.8,C:inactive}So clearly Twitch needs to",
-		"{s:0.8,C:inactive}invent VIP 2 so Cirno can give",
+		"{s:0.8,C:inactive}invent VIP 2, so Cirno can give",
 		"{s:0.8,C:inactive}me that when he sees this.",
     }
 }
-if CirnoMod.config.allowCosmeticTakeOwnership then
-	SMODS.Joker:take_ownership('ring_master', {
-		set_badges = function(self, card, badges)
-			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_ring_master')
-			end
-		end,
-		
-		create_main_end = function(card)
-			if not CirnoMod.miscItems.atlasCheck(card) then
-				return nil
-			end
-			
-			local mainEndRV = {
-				n = G.UIT.C,
-				config = {
-					align = 'bm',
-					padding = 0.02
-				},
-				nodes = {}
-			}			
-			
-			if
-				card.edition
-				and card.edition.key == 'e_negative'
-			then
-				CirnoMod.miscItems.cirGunsSpriteX = 1
-			else
-				CirnoMod.miscItems.cirGunsSpriteX = 0
-			end
-			
-			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
-					0, 0, -- Sprite X & Y
-					1.0, 1.3, -- Sprite W & H
-					CirnoMod.miscItems.funnyAtlases.cirGuns, -- Sprite Atlas
-					{ x = CirnoMod.miscItems.cirGunsSpriteX, y = 0 } -- Position in the Atlas
-				)
-			)
-			
-			return { mainEndRV }
-		end,
-		
-		loc_vars = function(self, info_queue, card)
-			info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_cirGuns']
-			
-			return { main_end = self.create_main_end(card) }
+
+SMODS.Joker:take_ownership('ring_master', {
+	set_badges = function(self, card, badges)
+		if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
+			CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_ring_master')
 		end
-	}, true)
-else
-	table.insert(jokerLoc.nrmJkrs.j_ring_master.text, "{s:0.8,C:inactive}Ka-chow!")
-end
+	end,
+	
+	create_main_end = function(card)
+		if not CirnoMod.miscItems.atlasCheck(card) then
+			return nil
+		end
+		
+		local mainEndRV = {
+			n = G.UIT.C,
+			config = {
+				align = 'bm',
+				padding = 0.02
+			},
+			nodes = {}
+		}			
+		
+		if
+			card.edition
+			and card.edition.key == 'e_negative'
+		then
+			CirnoMod.miscItems.cirGunsSpriteX = 1
+		else
+			CirnoMod.miscItems.cirGunsSpriteX = 0
+		end
+		
+		CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+				0, 0, -- Sprite X & Y
+				1.0, 1.3, -- Sprite W & H
+				CirnoMod.miscItems.funnyAtlases.cirGuns, -- Sprite Atlas
+				{ x = CirnoMod.miscItems.cirGunsSpriteX, y = 0 } -- Position in the Atlas
+			)
+		)
+		
+		return { mainEndRV }
+	end,
+	
+	loc_vars = function(self, info_queue, card)
+		if CirnoMod.miscItems.atlasCheck(card) then
+			info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_cirGuns']
+		end
+		
+		return { vars = { G.localization.misc.labels.planet },
+			main_end = self.create_main_end(card) }
+	end
+}, true)
 
 jokerLoc.nrmJkrs.j_fortune_teller = { name = "Deadly Premonition",
 	text = {
-		"{C:red}+#1#{} Mult per {C:purple}Tarot{}",
+		"{C:red}+#1#{} Mult per {C:tarot}Tarot{}",
         "card used this run",
         "{C:inactive}(Currently {C:red}+#2#{C:inactive})",
 		"{s:0.8,C:inactive}Don't do what the coffee",
@@ -1445,7 +1471,7 @@ jokerLoc.nrmJkrs.j_four_fingers = { name = "Four Panels",
 		"{s:0.8,C:inactive}Do I look like I know",
 		"{s:0.8,C:inactive}what a .jpg is?",
 		"{s:0.8,C:inactive}I just want a picture of",
-		"{s:0.8,C:inactive}a god-dang hotdog."
+		"{s:0.8,C:inactive}a god-dang hotdog"
 	}
 }
 
@@ -1459,7 +1485,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	}, true)
 end
 
-jokerLoc.nrmJkrs.j_gros_michel = { name = "CirLami",
+jokerLoc.nrmJkrs.j_gros_michel = { name = "cirLami",
 	text = {
 		"{C:mult}+#1#{} Mult",
         "{C:green}#2# in #3#{} chance this",
@@ -1467,7 +1493,7 @@ jokerLoc.nrmJkrs.j_gros_michel = { name = "CirLami",
         "at end of round",
 		"{s:0.8,C:inactive}A lesson for the ages:",
 		"{s:0.8,C:inactive}Microwaving salami =",
-		"{s:0.8,C:inactive}very, very greasy."
+		"{s:0.8,C:inactive}very, very greasy"
 	}
 }
 
@@ -1480,59 +1506,6 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 		end
 	}, true)
 end
-
---[[
-if CirnoMod.config['matureReferences_cyc'] == 3 then
-	table.insert(jokerLoc.nrmJkrs.j_gros_michel.text,
-		"{s:0.8,C:inactive}But why is it so... Meaty?")
-else
-	table.insert(jokerLoc.nrmJkrs.j_gros_michel.text,
-		"{s:0.8,C:inactive}Sometimes, chat will just")
-		
-	table.insert(jokerLoc.nrmJkrs.j_gros_michel.text,
-		"{s:0.8,C:inactive}latch onto something they")
-		
-	table.insert(jokerLoc.nrmJkrs.j_gros_michel.text,
-		"{s:0.8,C:inactive}find funny and it sticks.")
-end
-
-if CirnoMod.config.allowCosmeticTakeOwnership then	
-	SMODS.Joker:take_ownership('gros_michel', {
-		create_main_end = function()
-			local mainEndRV = {
-				n = G.UIT.C,
-				config = {
-					align = 'bm',
-					padding = 0.02
-				},
-				nodes = {}
-			}
-			
-			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
-					0, 0, -- Sprite X & Y
-					0.8, 0.8, -- Sprite W & H
-					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
-					{ x = 2, y = 1 } -- Position in the Atlas
-				)
-			)
-			
-			return { mainEndRV }
-		end,
-		
-		loc_vars = function(self, info_queue, card)
-			local RT = { vars = {
-				card.ability.extra.mult,
-				''..(G.GAME and G.GAME.probabilities.normal or 1),
-				card.ability.extra.odds } }
-			
-			if CirnoMod.miscItems.atlasCheck(card) then
-				RT.main_end = self.create_main_end()
-			end
-			
-			return RT
-		end
-	}, true)
-end]]
 
 jokerLoc.nrmJkrs.j_stuntman = { name = "HelmetGuns",
 	text = {
@@ -1614,7 +1587,7 @@ end
 
 jokerLoc.nrmJkrs.j_astronomer = { name = "Marisa Kirisame",
 	text = {
-        "All {C:planet}"..planetIntent.."{} cards and {C:planet}"..string.sub(planetPackIntent, 1, #planetPackIntent - 5),
+        "All {C:planet}#1#{} cards and {C:planet}#2#",
         "{C:planet}Packs{} in the shop are {C:attention}free",
         "{s:0.8,C:inactive}\"It's bad of me to keep borrowing",
         "{s:0.8,C:inactive}books, so I'll put my book here at the",
@@ -1623,19 +1596,28 @@ jokerLoc.nrmJkrs.j_astronomer = { name = "Marisa Kirisame",
     },
 	unlock = {
         "Discover every",
-        "{E:1,C:planet}"..planetIntent.."{} card",
+        "{E:1,C:planet}#1#{} card",
     }
 }
 
-if CirnoMod.config.allowCosmeticTakeOwnership then
-	SMODS.Joker:take_ownership('astronomer', {
-		set_badges = function(self, card, badges)
-			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_astronomer')
-			end
+SMODS.Joker:take_ownership('astronomer', {
+	set_badges = function(self, card, badges)
+		if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
+			CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_astronomer')
 		end
-	}, true)
-end
+	end,
+	
+	loc_vars = function(self, info_queue, card)
+		return { vars = {
+			G.localization.misc.labels.planet,
+			string.sub(G.localization.descriptions.Other.p_celestial_normal.name, 1, #G.localization.descriptions.Other.p_celestial_normal.name - 5)
+		} }
+	end,
+	
+	locked_loc_vars = function(self, info_queue, card)
+		return { vars = { G.localization.misc.labels.planet } }
+	end
+}, true)
 
 jokerLoc.nrmJkrs.j_burnt = { name = "Flandre Scarlet",
 	text = {
@@ -1666,7 +1648,7 @@ jokerLoc.nrmJkrs.j_dusk = { name = "The Duskbloods",
 		"{s:0.8,C:inactive}In those who once claimed their {s:0.8,C:cirInactiveAtt}Cores Armoured{s:0.8,C:inactive},",
 		"{s:0.8,C:inactive}I sense great lamentation and boiling {s:0.8,C:cirInactiveAtt}Blood{s:0.8,C:inactive}, {s:0.8,C:cirInactiveAtt}borne",
 		"{s:0.8,C:inactive}from sheer frustration at how tone-deaf this affair seems to",
-		"{s:0.8,C:inactive}them. Oh, these {s:0.8,C:cirInactiveAtt}Dark-ened Souls{s:0.8,C:inactive} and deeply {s:0.8,C:cirInactiveAtt}Seki-furrowed{s:0.8,C:inactive} brows!",
+		"{s:0.8,C:inactive}them. Oh, these {s:0.8,C:cirInactiveAtt}Dark{s:0.8,C:inactive}-ened {s:0.8,C:cirInactiveAtt}Souls{s:0.8,C:inactive} and deeply {s:0.8,C:cirInactiveAtt}Seki{s:0.8,C:inactive}-fur{s:0.8,C:cirInactiveAtt}ro{s:0.8,C:inactive}wed brows!",
 		"{s:0.8,C:inactive}We'll be having a {s:0.8,C:cirInactiveAtt}King's Field{s:0.8,C:inactive} day."
 	}
 }
@@ -1689,7 +1671,7 @@ jokerLoc.nrmJkrs.j_idol = { -- name = "The Idol",
         "{X:mult,C:white} X#1# {} Mult when scored",
         "{s:0.8}Card changes every round",
         "{s:0.8,C:inactive}I saw Hatsune Miku at a grocery",
-        "{s:0.8,C:inactive}store in Akihabara yesterday."
+        "{s:0.8,C:inactive}store in Akihabara yesterday"
     }
 }
 
@@ -1707,24 +1689,30 @@ jokerLoc.nrmJkrs.j_brainstorm = { -- name = "Brainstorm",
 jokerLoc.nrmJkrs.j_satellite = { name = "Mike Goutokuji",
 	text = {
         "Earn {C:money}$#1#{} at end of",
-        "round per unique {C:planet}"..planetIntent,
+        "round per unique {C:planet}#3#",
         "card used this run",
         "{C:inactive}(Currently {C:money}$#2#{C:inactive})",
-        "{s:0.8,C:inactive}\"She can either invite money",
-        "{s:0.8,C:inactive}or people to do business. The",
-        "{s:0.8,C:inactive}other will often be driven away.\"",
-        "{s:0.8,C:inactive}That's pretty relatable, honestly."
+        "{s:0.8,C:inactive}Tear down my house!",
+        "{s:0.8,C:inactive}Tear down my kids!",
+        "{s:0.6,C:inactive}...What's that? Different Mike? Oh."
     }
 }
 
---[[
-SMODS.process_loc_text(G.localization.descriptions.Joker.j_satellite, "text", {
-        "Earn {C:money}$#1#{} at end of",
-        "round per unique {C:planet}"..planetIntent,
-        "card used this run",
-        "{C:inactive}(Currently {C:money}$#2#{C:inactive})"
-    })
-]]
+SMODS.Joker:take_ownership('satellite', {
+	loc_vars = function(self, info_queue, card)
+		local planets_used = 0
+		
+        for k, v in pairs(G.GAME.consumeable_usage) do
+		if v.set == 'Planet' then planets_used = planets_used + 1 end
+		end
+		
+		return { vars = {
+			card.ability.extra,
+			planets_used * card.ability.extra,
+			G.localization.misc.labels.planet
+		} }
+	end
+}, true)
 
 jokerLoc.nrmJkrs.j_rough_gem = { name = "Diamond In The Rough",
 	text = {
@@ -1749,11 +1737,12 @@ jokerLoc.nrmJkrs.j_rough_gem = { name = "Diamond In The Rough",
 
 jokerLoc.nrmJkrs.j_bloodstone = { name = "Leviteto",
 	text = {
-		"Played cards with",
-        "{C:hearts}Heart{} suit earn",
-        "{C:money}$#1#{} when scored",
-		"{s:0.8,C:inactive}It seems crazy, but",
-		"{s:0.8,C:inactive}it makes me feel alive."
+		"{C:green}#1# in #2#{} chance for",
+		"played cards with",
+		"{C:hearts}Heart{} suit to give",
+		"{X:mult,C:white} X#3# {} Mult when scored",
+		"{s:0.8,C:inactive}It seems crazy, but it's",
+		"{s:0.8,C:inactive}what makes me feel alive"
 	}
 }
 
@@ -1762,7 +1751,7 @@ jokerLoc.nrmJkrs.j_arrowhead = { -- name = "Arrowhead",
 		"Played cards with",
         "{C:spades}Spade{} suit give",
         "{C:chips}+#1#{} Chips when scored",
-		"{s:0.8,C:inactive}There it is."
+		"{s:0.8,C:inactive}There it is"
 	}
 }
 
@@ -1825,7 +1814,7 @@ if CirnoMod.config['matureReferences_cyc'] == 3 then
 		"{C:attention}Queens{} each give",
 		"{X:mult,C:white} X#1# {} Mult when scored",
 		"{s:0.8,C:inactive}Wow look Chat, Cirno finally",
-		"{s:0.8,C:inactive}added the Big Naturals mod."
+		"{s:0.8,C:inactive}added the Big Naturals mod"
 	}
 else
 	jokerLoc.lgndJkrs.j_triboulet.text = {
@@ -1835,7 +1824,7 @@ else
 		"{s:0.8,C:inactive}Hannah has a large, fearsome",
 		"{s:0.8,C:inactive}& awesome pirate armada, with",
 		"{s:0.8,C:inactive}a big galleon & a couple of",
-		"{s:0.8,C:inactive}big pirate airships."
+		"{s:0.8,C:inactive}big pirate airships"
 	}
 end
 
@@ -1865,7 +1854,7 @@ else
 		"{X:mult,C:white} X#1# {} Mult every {C:attention}#2#{C:inactive} [#3#]{}",
 		"cards discarded",
 		"{C:inactive}(Currently {X:mult,C:white} X#4# {C:inactive} Mult)",
-		"{s:0.8,C:inactive}...I think he found pickles."
+		"{s:0.8,C:inactive}...I think he found pickles"
 	}
 end
 
@@ -1975,7 +1964,7 @@ jokerLoc.lgndJkrs.j_perkeo = { name = "Biggdeck",
 		"at the end of the {C:attention}shop",
 		"{s:0.8,C:inactive}Y'know, there's something",
 		"{s:0.8,C:inactive}almost intoxicating about",
-		"{s:0.8,C:inactive}drinking fifteen beers."
+		"{s:0.8,C:inactive}drinking fifteen beers"
 	}
 }
 
@@ -2024,7 +2013,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	}, true)
 end
 
-jokerLoc.nrmJkrs.j_burglar = { name = "CirThief",
+jokerLoc.nrmJkrs.j_burglar = { name = "cirThief",
 	text = {
 		"When {C:attention}Blind{} is selected,",
 		"gain {C:blue}+#1#{} Hands and",
@@ -2068,7 +2057,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			then
 				RT.vars[3] = "Wow, gold splits!"
 			else
-				RT.vars[3] = "Keep going, you're at PB pace."
+				RT.vars[3] = "Keep going, you're at PB pace"
 			end
 			
 			return RT
@@ -2080,7 +2069,7 @@ else
         "if played hand",
         "contains a {C:attention}Straight{}",
         "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
-		"{s:0.8,C:inactive}Keep going, you're at PB pace."
+		"{s:0.8,C:inactive}Keep going, you're at PB pace"
     }
 end
 
@@ -2144,8 +2133,8 @@ jokerLoc.nrmJkrs.j_splash = { name = "Trust Issues",
 		"{s:0.8,C:inactive}by a paying chatter, will go in the",
 		"{s:0.8,C:inactive}complete opposite direction because",
 		"{s:0.8,C:inactive}they were convinced that they're being",
-		"{s:0.8,C:inactive}given malicious advice. And the other",
-		"{s:0.8,C:inactive}will charge you $35."
+		"{s:0.8,C:inactive}given malicious advice. The other will",
+		"{s:0.8,C:inactive}charge you $35 US."
 	}
 }
 
@@ -2164,7 +2153,7 @@ jokerLoc.nrmJkrs.j_blue_joker = { name = "Blue Checkmark",
 		"{C:chips}+#1#{} Chips for each",
         "remaining card in {C:attention}deck",
         "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
-		"{s:0.8,C:inactive}Probably the biggest joke yet."
+		"{s:0.8,C:inactive}Probably the biggest joke yet"
 	}
 }
 
@@ -2174,7 +2163,7 @@ jokerLoc.nrmJkrs.j_sixth_sense = { -- name = "Sixth Sense",
         "a single {C:attention}6{}, destroy it and",
         "create a {C:spectral}Spectral{} card",
         "{C:inactive}(Must have room)",
-		"{s:0.8,C:inactive}We're watching."
+		"{s:0.8,C:inactive}We're watching"
 	}
 }
 
@@ -2192,31 +2181,28 @@ jokerLoc.nrmJkrs.j_constellation = { name = "Ex-Keine",
 	text = {
         "This Joker gains",
 		"{X:mult,C:white} X#1# {} Mult every time",
-		"a {C:planet}"..planetIntent.."{} card is used",
+		"a {C:planet}#3#{} card is used",
 		"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
         "{s:0.8,C:inactive}Not someone to be challenged",
-        "{s:0.8,C:inactive}during a full moon."
+        "{s:0.8,C:inactive}during a full moon"
     }
 }
 
-if CirnoMod.config.allowCosmeticTakeOwnership then
-	SMODS.Joker:take_ownership('constellation', {
-		set_badges = function(self, card, badges)
-			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_constellation')
-			end
+SMODS.Joker:take_ownership('constellation', {
+	set_badges = function(self, card, badges)
+		if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
+			CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_constellation')
 		end
-	}, true)
-end
-
---[[
-SMODS.process_loc_text(G.localization.descriptions.Joker.j_constellation, "text", {
-        "This Joker gains",
-		"{X:mult,C:white} X#1# {} Mult every time",
-		"a {C:planet}"..planetIntent.."{} card is used",
-		"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
-    })
-]]
+	end,
+	
+	loc_vars = function(self, info_queue, card)
+        return { vars = {
+			card.ability.extra,
+			card.ability.x_mult,
+			G.localization.misc.labels.planet
+		} }
+    end
+}, true)
 
 
 -- ===== NEXT LINE =====
@@ -2272,13 +2258,10 @@ jokerLoc.nrmJkrs.j_superposition = { name = "Discerning Tastes",
         "poker hand contains an",
         "{C:attention}Ace{} and a {C:attention}Straight{}",
         "{C:inactive}(Must have room)",
-		"{s:0.8,C:inactive}Honestly, you could probably",
-		"{s:0.8,C:inactive}tune a metronome to how often",
-		"{s:0.8,C:inactive}Cirno changes his choice of",
-		"{s:0.8,C:inactive}waifu and you'd probably get",
-		"{s:0.8,C:inactive}a fun 4/4-ish time signature.",
-		"{s:0.6,C:inactive}...Do you tune metronomes...?",
-		"{s:0.6,C:inactive}That's how that works, right?"
+		"{s:0.8,C:inactive}You know, {s:0.8,E:1,C:inactive}Cirno star star star POI",
+		"{s:0.8,C:inactive}and {s:0.8,E:1,C:inactive}JOHN CENA{s:0.8,C:inactive} seem to make pretty",
+		"{s:0.8,C:inactive}interesting choices when it",
+		"{s:0.8,C:inactive}comes to women."
 	}
 }
 
@@ -2420,7 +2403,7 @@ jokerLoc.nrmJkrs.j_square = { -- name = "Square Joker",
         "if played hand has",
         "exactly {C:attention}4{} cards",
         "{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips)",
-		"{s:0.8,C:inactive}Squares, famously six-sided."
+		"{s:0.8,C:inactive}Squares, famously six-sided"
     }
 }
 
@@ -2428,16 +2411,18 @@ jokerLoc.nrmJkrs.j_square = { -- name = "Square Joker",
 -- ===== NEXT LINE =====
 
 
---[[
-jokerLoc.nrmJkrs.j_seance = { name = "Séance",
+jokerLoc.nrmJkrs.j_seance = { name = "Poltergeist",
 	text = {
 		"If {C:attention}poker hand{} is a",
         "{C:attention}#1#{}, create a",
         "random {C:spectral}Spectral{} card",
-        "{C:inactive}(Must have room)"
+        "{C:inactive}(Must have room)",
+		"{s:0.8,C:inactive}\"Bartenders, give me a response,",
+		"{s:0.8,C:inactive}I need more than just a beer,",
+		"{s:0.8,C:inactive}must I first hold a séance to",
+		"{s:0.8,C:inactive}get some spirits around here?\""
 	}
 }
-]]
 
 jokerLoc.nrmJkrs.j_riff_raff = { name = "Twitch Chat" }
 if CirnoMod.config['matureReferences_cyc'] == 3 then
@@ -2493,7 +2478,7 @@ jokerLoc.nrmJkrs.j_shortcut = { name = "Impossible Crossword",
 		"Allows {C:attention}Straights{} to be",
         "made with gaps of {C:attention}1 rank",
         "{C:inactive}(ex: {C:attention}10 8 6 5 3{C:inactive})",
-        "{s:0.8,C:inactive}Stop stalling, Cirno."
+        "{s:0.8,C:inactive}Stop stalling, Cirno"
 	}
 }
 
@@ -2527,7 +2512,7 @@ jokerLoc.nrmJkrs.j_vagabond = { name = "Figurine Collector",
         "if hand is played",
         "with {C:money}$#1#{} or less",
 		"{s:0.8,C:inactive}Your wallet may be empty,",
-		"{s:0.8,C:inactive}but at least your heart's full."
+		"{s:0.8,C:inactive}but at least your heart's full"
 	}
 }
 
@@ -2536,7 +2521,7 @@ jokerLoc.nrmJkrs.j_baron = { name = "Gigachad",
         "Each {C:attention}King{}",
         "held in hand",
         "gives {X:mult,C:white} X#1# {} Mult",
-		"{s:0.8,C:inactive}You dropped your crown, king."
+		"{s:0.8,C:inactive}You dropped your crown, king"
     }
 }
 
@@ -2562,14 +2547,15 @@ jokerLoc.nrmJkrs.j_cloud_9 = { -- name = "Cloud 9",
     }
 }
 
---[[
-jokerLoc.nrmJkrs.j_rocket = { name = "Rocket",
+jokerLoc.nrmJkrs.j_rocket = { name = "Kerbal Space Program",
 	text = {
 		"Earn {C:money}$#1#{} at end of round",
         "Payout increases by {C:money}$#2#{}",
-        "when {C:attention}Boss Blind{} is defeated"
+        "when {C:attention}Boss Blind{} is defeated",
+		"{s:0.8,C:inactive}Do you think the Canadian Space",
+		"{s:0.8,C:inactive}Agency would take Cirno?"
 	}
-}]]
+}
 
 jokerLoc.nrmJkrs.j_obelisk = { name = "The Greyhill Incident",
 	text = {
@@ -2582,7 +2568,7 @@ jokerLoc.nrmJkrs.j_obelisk = { name = "The Greyhill Incident",
 		"{s:0.8,C:inactive}They look like they help, but",
 		"{s:0.8,C:inactive}they really don't. It just knocks",
 		"{s:0.8,C:inactive}Ol' Gnorts Mr. Alien to the floor",
-		"{s:0.8,C:inactive}for a few seconds, then he's back",
+		"{s:0.8,C:inactive}for a few seconds, then he's back to",
 		"{s:0.8,C:inactive}choking you again. ...What were we doing?"
 	}
 }
@@ -2594,7 +2580,7 @@ jokerLoc.nrmJkrs.j_obelisk = { name = "The Greyhill Incident",
 jokerLoc.nrmJkrs.j_midas_mask = { name = "Dagoth Ur",
 	text = {
 		"All played {C:attention}face{} cards",
-        "become {C:attention}"..goldIntent.."{} cards",
+        "become {C:attention}#1#{} cards",
         "when scored",
 		"{s:0.8,C:inactive}\"Welcome, Moon-and-Star, to",
 		"{s:0.8,C:inactive}this place where {s:0.8,C:cirInactiveAtt}YOUR{s:0.8,C:inactive} destiny",
@@ -2604,15 +2590,19 @@ jokerLoc.nrmJkrs.j_midas_mask = { name = "Dagoth Ur",
 	}
 }
 
-if CirnoMod.config.allowCosmeticTakeOwnership then
-	SMODS.Joker:take_ownership('midas_mask', {
-		set_badges = function(self, card, badges)
-			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_midas_mask')
-			end
+SMODS.Joker:take_ownership('midas_mask', {
+	set_badges = function(self, card, badges)
+		if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
+			CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_midas_mask')
 		end
-	}, true)
-end
+	end,
+	
+	loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS.m_gold
+		
+		return { vars = { string.sub(G.localization.descriptions.Enhanced.m_gold.name, 1, #G.localization.descriptions.Enhanced.m_gold.name - 5) } }
+    end
+}, true)
 
 jokerLoc.nrmJkrs.j_luchador = { name = "Chicken Jockey",
 	text = {
@@ -2621,7 +2611,7 @@ jokerLoc.nrmJkrs.j_luchador = { name = "Chicken Jockey",
         "{C:attention}Boss Blind{}",
 		"{s:0.8,C:inactive}I want to be perfectly",
 		"{s:0.8,C:inactive}clear that this was not",
-		"{s:0.8,C:inactive}my idea."
+		"{s:0.8,C:inactive}my idea"
 	}
 }
 
@@ -2635,14 +2625,14 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	}, true)
 end
 
-jokerLoc.nrmJkrs.j_photograph = { name = "CirMing",
+jokerLoc.nrmJkrs.j_photograph = { name = "cirMing",
 	text = {
 		"First played {C:attention}face",
         "card gives {X:mult,C:white} X#1# {} Mult",
         "when scored",
 		"{s:0.8,C:inactive}Look at this photograph.",
 		"{s:0.8,C:inactive}Every time I do,",
-		"{s:0.8,C:inactive}it makes me laugh."
+		"{s:0.8,C:inactive}it makes me laugh"
 	}
 }
 
@@ -2656,24 +2646,65 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	}, true)
 end
 
-jokerLoc.nrmJkrs.j_gift = { name = "Accept Gift!",
-	text = {
-		"Add {C:money}$#1#{} of {C:attention}sell value",
-        "to every {C:attention}Joker{} and",
-        "{C:attention}Consumable{} card at",
-        "end of round",
-		"{s:0.8,C:inactive}Chat elped."
-	}
-}
+jokerLoc.nrmJkrs.j_gift = { name = "Accept Gift!" }
 
 if CirnoMod.config.allowCosmeticTakeOwnership then
+	jokerLoc.nrmJkrs.j_gift.text = {
+			"Add {C:money}$#1#{} of {C:attention}sell value",
+			"to every {C:attention}Joker{} and",
+			"{C:attention}Consumable{} card at",
+			"end of round",
+			"{s:0.8,C:inactive}ACCEPT GIFT!"
+		}
+	
 	SMODS.Joker:take_ownership('gift', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
 				CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_gift')
 			end
+		end,
+		
+		create_main_end = function()
+			local mainEndRV = {
+				n = G.UIT.C,
+				config = {
+					align = 'bm',
+					padding = 0.02
+				},
+				nodes = {}
+			}
+			
+			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+					0, 0, -- Sprite X & Y
+					0.8, 0.8, -- Sprite W & H
+					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+					{ x = 2, y = 1 } -- Position in the Atlas
+				)
+			)
+			
+			return { mainEndRV }
+		end,
+		
+		loc_vars = function(self, info_queue, card)
+			local RT = { vars = {
+					card.ability.extra
+				} }
+			
+			if CirnoMod.miscItems.atlasCheck(card) then
+				RT.main_end = self.create_main_end()
+			end
+			
+			return RT
 		end
 	}, true)
+else
+	jokerLoc.nrmJkrs.j_gift.text = {
+			"Add {C:money}$#1#{} of {C:attention}sell value",
+			"to every {C:attention}Joker{} and",
+			"{C:attention}Consumable{} card at",
+			"end of round",
+			"{s:0.8,C:inactive}Chat elped."
+		}
 end
 
 jokerLoc.nrmJkrs.j_turtle_bean = { name = "Talus Dome",
@@ -2802,7 +2833,7 @@ jokerLoc.nrmJkrs.j_mail = { name = "Idolmaster Gacha",
         "changes every round",
 		"{s:0.8,C:inactive}Over 90% of gacha players",
 		"{s:0.8,C:inactive}stop pulling right before",
-		"{s:0.8,C:inactive}they pull who they're after."
+		"{s:0.8,C:inactive}they pull who they're after"
     }
 }
 
@@ -2901,7 +2932,7 @@ if CirnoMod.config['matureReferences_cyc'] == 3 then
         "a {C:attention}#2#",
 		"{s:0.8,C:inactive}You know, the cards there",
 		"{s:0.8,C:inactive}like that make it look",
-		"{s:0.8,C:inactive}way more suspect."
+		"{s:0.8,C:inactive}way more suspect"
     }
 else
 	jokerLoc.nrmJkrs.j_wily.text={
@@ -2958,7 +2989,7 @@ jokerLoc.nrmJkrs.j_clever = { name = "Clever Fumo",
         "a {C:attention}#2#",
 		"{s:0.8,C:inactive}Have you seen her",
 		"{s:0.8,C:inactive}play Sound Voltex?",
-		"{s:0.8,C:inactive}It's true! She's good at it."
+		"{s:0.8,C:inactive}It's true! She's good at it"
     }
 }
 
@@ -3020,7 +3051,7 @@ jokerLoc.nrmJkrs.j_crafty = { name = "Dark Magician Girl",
         "{C:chips}+#1#{} Chips if played",
         "hand contains",
         "a {C:attention}#2#",
-		"{s:0.8,C:inactive}The classic."
+		"{s:0.8,C:inactive}The classic"
     }
 }
 
@@ -3049,7 +3080,7 @@ jokerLoc.nrmJkrs.j_baseball = { -- name = "Baseball Card",
         "{C:green}Uncommon{} Jokers",
         "each give {X:mult,C:white} X#1# {} Mult",
 		"{s:0.8,C:inactive}I seriously hope you",
-		"{s:0.8,C:inactive}guys don't do this."
+		"{s:0.8,C:inactive}guys don't do this"
     }
 }
 
@@ -3079,7 +3110,7 @@ jokerLoc.nrmJkrs.j_diet_cola = { name = "Pepsiman",
 		"Sell this card to",
 		"create a free",
 		"{C:attention}#1#",
-		"{s:0.8,C:inactive}90's ads sure were weird."
+		"{s:0.8,C:inactive}90's ads sure were weird"
 	}
 }
 
@@ -3122,7 +3153,7 @@ if CirnoMod.config['matureReferences_cyc'] >= 2 then
 	jokerLoc.nrmJkrs.j_flash.text = SMODS.merge_lists({ jokerLoc.nrmJkrs.j_flash.text, 
 	{
 		"{s:0.8,C:inactive}\"...So she takes her panties off and it like,",
-		"{s:0.8,C:inactive}wipes everyone's minds, so she gets to do the test",
+		"{s:0.8,C:inactive}wipes everyone's minds so she gets to do the test",
 		"{s:0.8,C:inactive}again, and she calls this guy her closet and makes",
 		"{s:0.8,C:inactive}him put panties on her every time she does it,",
 		"{s:0.8,C:inactive}because her panties disappear each time.\"",
@@ -3197,7 +3228,7 @@ jokerLoc.nrmJkrs.j_trousers = { name = "SachikoJeans",
         "if played hand contains",
         "a {C:attention}#2#",
         "{C:inactive}(Currently {C:red}+#3#{C:inactive} Mult)",
-		"{s:0.8,C:inactive}Ey, I'm walkin' here."
+		"{s:0.8,C:inactive}Ey, I'm walkin' here"
     }
 }
 
@@ -3227,11 +3258,11 @@ jokerLoc.nrmJkrs.j_smiley = { -- name = "Smiley Face",
         "Played {C:attention}face{} cards",
         "give {C:mult}+#1#{} Mult",
         "when scored",
-		"{s:0.8,C:inactive}A smile better suits a Joker."
+		"{s:0.8,C:inactive}A smile better suits a Joker"
     }
 }
 
-jokerLoc.nrmJkrs.j_ancient = { name = "CirOldge",
+jokerLoc.nrmJkrs.j_ancient = { name = "cirOldge",
     text = {
         "Each played card with",
         "{V:1}#2#{} suit gives",
@@ -3239,7 +3270,7 @@ jokerLoc.nrmJkrs.j_ancient = { name = "CirOldge",
         "{s:0.8}suit changes at end of round",
 		"{s:0.8,C:inactive}It's well known that your",
 		"{s:0.8,C:inactive}body just starts turning to",
-		"{s:0.8,C:inactive}dust 3 decades into life."
+		"{s:0.8,C:inactive}dust 3 decades into life"
     }
 }
 
