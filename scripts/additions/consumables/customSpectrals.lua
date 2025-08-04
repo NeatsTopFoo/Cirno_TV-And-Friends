@@ -126,55 +126,57 @@ local spectralInfo = {
 						card.ability.extra }
 				}
 				
-				local upJkrRet = nil
-				
-				if
-					G.jokers
-					and G.jokers.highlighted
-					and #G.jokers.highlighted > 0
-				then
-					if #G.jokers.highlighted > 1 then
-						ret.vars[1] = 'Select only one Joker'
-					elseif CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key] then
-						if type(CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]) == 'function' then
-							upJkrRet = CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]()
-							
-							if upJkrRet.clr then
-								ret.vars.colours[1] = upJkrRet.clr
+				if not card.fake_card then
+					local upJkrRet = nil
+					
+					if
+						G.jokers
+						and G.jokers.highlighted
+						and #G.jokers.highlighted > 0
+					then
+						if #G.jokers.highlighted > 1 then
+							ret.vars[1] = 'Select only one Joker'
+						elseif CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key] then
+							if type(CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]) == 'function' then
+								upJkrRet = CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]()
+								
+								if upJkrRet.clr then
+									ret.vars.colours[1] = upJkrRet.clr
+								end
+								
+								ret.vars[1] = upJkrRet.msg
+							else
+								upJkrRet = CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
+								ret.vars.colours[1] = G.C.GREEN
+								ret.vars[1] = ' '..localize('k_compatible')..' '
 							end
-							
-							ret.vars[1] = upJkrRet.msg
 						else
-							upJkrRet = CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
-							ret.vars.colours[1] = G.C.GREEN
-							ret.vars[1] = ' '..localize('k_compatible')..' '
+							ret.vars[1] = ' '..localize('k_incompatible')..' '
 						end
-					else
-						ret.vars[1] = ' '..localize('k_incompatible')..' '
-					end
-				end
-				
-				if upJkrRet and not upJkrRet.frc_incompatible then
-					local upgTxtClrs = { G.C.CLEAR, G.C.FILTER }
-					
-					if CirnoMod.miscItems.getJokerRarityByKey(upJkrRet) == 'cir_UpgradedJkr' then
-						upgTxtClrs[1] = CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[CirnoMod.miscItems.getJokerRarityByKey(G.jokers.highlighted[1].config.center_key)] or CirnoMod.miscItems.colours.cirUpgradedJkrClr
-						upgTxtClrs[2] = G.C.WHITE
 					end
 					
-					info_queue[#info_queue + 1] = { key = 'perfectionismUpg',
-						set = 'Other',
-						vars = {
-							colours = upgTxtClrs,
-							CirnoMod.miscItems.getJokerNameByKey(G.jokers.highlighted[1].config.center.key),
-							CirnoMod.miscItems.obscureJokerNameIfLockedOrUndisc(upJkrRet)
-					} }
-				end
-				
-				info_queue[#info_queue + 1] = CirnoMod.miscItems.getEditionScalingInfo({ type = 'example' }, card.ability.extra )
-				
-				if CirnoMod.config.artCredits and not card.fake_card then
-					info_queue[#info_queue + 1] = { key = "gA_NTF", set = "Other" }
+					if upJkrRet and not upJkrRet.frc_incompatible then
+						local upgTxtClrs = { G.C.CLEAR, G.C.FILTER }
+						
+						if CirnoMod.miscItems.getJokerRarityByKey(upJkrRet) == 'cir_UpgradedJkr' then
+							upgTxtClrs[1] = CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[CirnoMod.miscItems.getJokerRarityByKey(G.jokers.highlighted[1].config.center_key)] or CirnoMod.miscItems.colours.cirUpgradedJkrClr
+							upgTxtClrs[2] = G.C.WHITE
+						end
+						
+						info_queue[#info_queue + 1] = { key = 'perfectionismUpg',
+							set = 'Other',
+							vars = {
+								colours = upgTxtClrs,
+								CirnoMod.miscItems.getJokerNameByKey(G.jokers.highlighted[1].config.center.key),
+								CirnoMod.miscItems.obscureJokerNameIfLockedOrUndisc(upJkrRet)
+						} }
+					end
+					
+					info_queue[#info_queue + 1] = CirnoMod.miscItems.getEditionScalingInfo({ type = 'example' }, card.ability.extra )
+					
+					if CirnoMod.config.artCredits and not card.fake_card then
+						info_queue[#info_queue + 1] = { key = "gA_NTF", set = "Other" }
+					end
 				end
 				
 				return ret

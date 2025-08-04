@@ -12,8 +12,7 @@ local jokerInfo = {
 	jokerConfigs = {
 		-- The Solo, x1 mult on high card lol
 		{
-			key = 'cir_the_solo',
-						
+			key = 'solo',
 			matureRefLevel = 1,
 			
 			loc_txt = {
@@ -21,9 +20,9 @@ local jokerInfo = {
 				name = 'The Solo',
 				-- The description the player will see in-game.
 				text = {
-					"{X:mult,C:white}X1 {} Mult if played",
+					"{X:mult,C:white} X#1# {} Mult if played",
 					"hand contains",
-                    "a {C:attention}High Card {}"
+                    "a {C:attention}High Card{}"
 				}
 			},
 			

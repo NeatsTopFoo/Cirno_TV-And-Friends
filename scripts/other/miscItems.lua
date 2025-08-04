@@ -80,6 +80,7 @@ local miscItems = {
 	funnyAtlases = {},
 	otherAtlases = {},
 	returnToHand_Jokers = {
+		'j_cir_dabber',
 		'j_cir_somnolent',
 		'j_cir_enthusiast',
 		'j_cir_b3313'
@@ -105,6 +106,13 @@ local miscItems = {
 }
 
 miscItems.cirGunsSpriteX = 0
+
+miscItems.upgradedExtraValue = {
+	2,
+	5,
+	10,
+	15
+}
 
 miscItems.keysOfJokersToUpdateStateOnLoad = {
 	j_cir_crystalTap = true,
@@ -647,6 +655,10 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 		if CirnoMod.config.addCustomJokers then
 			if G.P_CENTERS.j_cir_crazyFace.unlocked then
 				table.insert(viable_unlockables, G.P_CENTERS.j_cir_crazyFace)
+			end
+			
+			if G.P_CENTERS.j_cir_dabber.unlocked then
+				table.insert(viable_unlockables, G.P_CENTERS.j_cir_dabber)
 			end
 			
 			jkrKeys_AddIfEncountered = SMODS.merge_lists({ jkrKeys_AddIfEncountered, {
@@ -1432,6 +1444,10 @@ if CirnoMod.config.addCustomJokers then
 	miscItems.jkrKeyGroups.unhinged.j_cir_catboy = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_qualityAssured = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_sadist = true
+	
+	miscItems.jkrKeyGroups.unhinged.j_cir_queenOfDiamonds = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_kingOfHearts = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_SPGP = true
 end
 
 miscItems.jkrKeyGroupTotalEncounters = function(groupName, stopAt1)
@@ -1511,9 +1527,15 @@ miscItems.obscureJokerNameIfNotEncountered = function(jkrKey)
 	end
 end
 
-miscItems.obscureJokerTooltipIfNotEncountered = function(jkrKey)
+miscItems.obscureJokerTooltipIfNotEncountered = function(jkrKey, fake_card)
 	if CirnoMod.miscItems.hasEncounteredJoker(jkrKey) then
 		if G.P_CENTERS[jkrKey] then
+			if fake_card then
+				local ret = copy_table(G.P_CENTERS[jkrKey])
+				ret.fake_card = true
+				return ret
+			end
+			
 			return G.P_CENTERS[jkrKey]
 		else
 			return { key = 'errorTooltip', set = 'Other' }
@@ -1742,7 +1764,7 @@ SMODS.DrawStep{
 			local scale_mod = 0.05 + 0.055*math.sin(1.8*G.TIMERS.REAL) + 0.1*math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3.1
 			local rotate_mod = 0.1*math.sin(1.219*G.TIMERS.REAL) + 0.07*math.sin((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
 			
-			card.children.floating_sprite:draw_shader('dissolve',0, nil, nil, card.children.center,scale_mod, rotate_mod,nil, 0.1 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
+			card.children.floating_sprite:draw_shader('dissolve',0, nil, nil, card.children.center,scale_mod, rotate_mod, nil, 0.1 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
 			card.children.floating_sprite:draw_shader('dissolve', nil, nil, nil, card.children.center, scale_mod, rotate_mod)
 		end
 	end,

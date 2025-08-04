@@ -70,6 +70,7 @@ end
 local cirInitConfig = {
 	-- Mature reference level is now determined within each Joker.
 	customJokers = {
+		'customCommons',
 		'customUncommons',
 		'customRares',
 		'customUpgradeds',
@@ -1368,14 +1369,20 @@ function SMODS.create_mod_badges(obj, badges)
 	end
 end
 
---[[
 local leq_ref = love.quit
 love.quit = function()
 	
-	-- love.keyboard.isDown{ 'lalt', 'ralt' } and love.keyboard.isDown{ 'f4' }
-	-- set card var in update(), do nilcheck
-	-- 
+	if 
+		not CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4
+		and love.keyboard.isDown{ 'lalt', 'ralt' }
+		and love.keyboard.isDown{ 'f4' }
+		and (CirnoMod.dabber ~= nil
+		or (CirnoMod.dabber
+		and not CirnoMod.dabber.REMOVED))
+	then
+		CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4 = true
+		SMODS.save_mod_config(CirnoMod)
+	end
 	
 	return leq_ref()
 end
-]]

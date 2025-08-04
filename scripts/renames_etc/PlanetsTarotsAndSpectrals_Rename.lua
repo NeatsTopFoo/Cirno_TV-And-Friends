@@ -1,11 +1,4 @@
 local PTSloc = { planets = {}, tarots = {}, spectrals = {}, c_soul = {} }
-local planetIntent = G.localization.misc.labels.planet
---[[
-Can't go based off the actual localisation variable name because it isn't changed  yet.
-Thus, we need to establish what our intended changes will be and do it that way.]]
-if CirnoMod.config.planetsAreHus then
-	planetIntent = "Hu"
-end
 
 -- ...There's probably a better way to do this.
 local sealIntent = {
@@ -56,18 +49,55 @@ end
 PTSloc.tarots.c_fool = { -- name = "The Fool",
 	text = {
 			"Creates the last",
-			"{C:tarot}Tarot{} or {C:planet}"..planetIntent.."{} card",
+			"{C:tarot}Tarot{} or {C:planet}#2#{} card",
 			"used during this run",
 			"{s:0.8,C:tarot}The Fool{s:0.8} excluded",
 			"{s:0.8,C:inactive}\"You sorry fool... You could",
 			"{s:0.8,C:inactive}not be the chosen one...\""
 		}
 	}
-				
+
+SMODS.Consumable:take_ownership('fool', {
+		loc_vars = function(self, info_queue, card)
+			
+			local fool_c = G.GAME.last_tarot_planet and G.P_CENTERS[G.GAME.last_tarot_planet] or nil
+			local last_tarot_planet = fool_c and localize { type = 'name_text', key = fool_c.key, set = fool_c.set } or
+				localize('k_none')
+			local colour = (not fool_c or fool_c.name == 'The Fool') and G.C.RED or G.C.GREEN
+	
+			if not (not fool_c or fool_c.name == 'The Fool') then
+				info_queue[#info_queue + 1] = fool_c
+			end
+	
+			local main_end = {
+				{
+					n = G.UIT.C,
+					config = { align = "bm", padding = 0.02 },
+					nodes = {
+						{
+							n = G.UIT.C,
+							config = { align = "m", colour = colour, r = 0.05, padding = 0.05 },
+							nodes = {
+								{ n = G.UIT.T, config = { text = ' ' .. last_tarot_planet .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.3, shadow = true } },
+							}
+						}
+					}
+				}
+			}
+			
+			return { vars = {
+				last_tarot_planet,
+				G.localization.misc.labels.planet
+				},
+				main_end = main_end
+			}
+		end
+	}, true)
+
 PTSloc.tarots.c_high_priestess = { -- name = "High Priestess",
 	text = {
 			"Creates up to {C:attention}#1#",
-			"random {C:planet}"..planetIntent.."{} cards",
+			"random {C:planet}#2#{} cards",
 			"{C:inactive}(Must have room)",
 			"{s:0.8,C:inactive}Huh? No, retro consoles are",
 			"{s:0.8,C:inactive}like the NES & SNES, right?",
@@ -75,6 +105,15 @@ PTSloc.tarots.c_high_priestess = { -- name = "High Priestess",
 			"{s:0.8,C:inactive}are still pretty new..."
 		}
 	}
+
+SMODS.Consumable:take_ownership('high_priestess', {
+		loc_vars = function(self, info_queue, card)
+			return { vars = {
+				card.ability.planets,
+				G.localization.misc.labels.planet
+			} }
+		end
+	}, true)
 
 PTSloc.tarots.c_wheel_of_fortune = { name = "Wheel of Nope",
 	text = {
@@ -84,7 +123,7 @@ PTSloc.tarots.c_wheel_of_fortune = { name = "Wheel of Nope",
 			"to a random {C:attention}Joker",
 			"{s:0.8,C:inactive}Just keep trying, you'll",
 			"{s:0.8,C:inactive}get it eventually. Just",
-			"{s:0.8,C:inactive}one more spin."
+			"{s:0.8,C:inactive}one more spin"
 		}
 	}
 
@@ -111,10 +150,12 @@ PTSloc.tarots.c_sun= { name = "The Sus",
 	text = {
 			"Converts up to",
 			"{C:attention}#1#{} selected cards",
-			"to {V:1}#2#{}",
-			"{s:0.8,C:inactive}Hey, just letting you",
-			"{s:0.8,C:inactive}know that I got the",
-			"{s:0.8,C:inactive}card swipe first try."
+			"to {V:1}#2#",
+			"{s:0.8,C:inactive}Hey, I'm just",
+			"{s:0.8,C:inactive}calling this meeting",
+			"{s:0.8,C:inactive}to let you know that",
+			"{s:0.8,C:inactive}I got the card swipe",
+			"{s:0.8,C:inactive}first try"
 		}
 	}
 
@@ -140,7 +181,7 @@ PTSloc.tarots.c_death = { -- name = "Death",
 			"{s:0.8,C:inactive}VTubers & dying to",
 			"{s:0.8,C:inactive}the most random, yet",
 			"{s:0.8,C:inactive}classic stuff in games,",
-			"{s:0.8,C:inactive}name a more iconic duo."
+			"{s:0.8,C:inactive}name a more iconic duo"
 		}
 	}
 
@@ -171,7 +212,7 @@ PTSloc.tarots.c_moon = { -- name = "The Moon",
 	text = {
 			"Converts up to",
 			"{C:attention}#1#{} selected cards",
-			"to {V:1}#2#{}",
+			"to {V:1}#2#",
 			"{s:0.8,C:inactive}Dawn of The Final Day",
 			"{s:0.8,C:inactive}24 Hours Remaining"
 		}
@@ -208,7 +249,7 @@ PTSloc.tarots.c_tower = { -- name = "The Tower",
 			"{s:0.8,C:inactive}Nice ~$100 order with",
 			"{s:0.8,C:inactive}inexact change, here's",
 			"{s:0.8,C:inactive}your reward, idiot.",
-			"{s:0.8,C:inactive}Whump Whump."
+			"{s:0.8,C:inactive}Whump Whump"
 		}
 	}
 
@@ -231,7 +272,7 @@ PTSloc.tarots.c_chariot = { -- name = "The Chariot",
 			"card into a",
 			"{C:attention}#2#",
 			"{s:0.8,C:inactive}Training options have",
-			"{s:0.8,C:inactive}been restricted."
+			"{s:0.8,C:inactive}been restricted"
 		}
 	}
 
@@ -304,7 +345,28 @@ PTSloc.tarots.c_magician = { -- name = "The Magician",
 			"selected cards to",
 			"{C:attention}#2#s",
 			"{s:0.8,C:inactive}You should eat",
-			"{s:0.8,C:inactive}your vegetables."
+			"{s:0.8,C:inactive}your vegetables"
+		}
+	}
+
+PTSloc.tarots.c_star = { -- name = "The Star",
+	text = {
+			"Converts up to",
+			"{C:attention}#1#{} selected cards",
+			"to {V:1}#2#",
+			"{s:0.8,C:inactive}Cirno v. Gold Ship,",
+			"{s:0.8,C:inactive}who wins?"
+		}
+	}
+
+PTSloc.tarots.c_hermit = { -- name = "The Hermit",
+		text = {
+			"Doubles money",
+			"{C:inactive}(Max of {C:money}$#1#{C:inactive})",
+			"{s:0.8,C:inactive}Remember, always have",
+			"{s:0.8,C:inactive}the viewer list open",
+			"{s:0.8,C:inactive}and greet everyone that",
+			"{s:0.8,C:inactive}shows up to watch"
 		}
 	}
 
@@ -326,7 +388,7 @@ PTSloc.c_soul = { -- name = "The Soul",
 			"Creates a",
 			"{C:legendary,E:1}Legendary{} Joker",
 			"{C:inactive}(Must have room)",
-			"{s:0.8,C:inactive}The shape of a friend."
+			"{s:0.8,C:inactive}The shape of a friend"
 		}
 	}
 
@@ -357,7 +419,7 @@ if CirnoMod.config['matureReferences_cyc'] == 3 then
 		"to a single random {C:attention}rank",
 		"{C:red}-1{} hand size",
 		"{s:0.8,C:inactive}Nintendo... Official... Sex.",
-		"{s:0.8,C:inactive}Great work, chat."
+		"{s:0.8,C:inactive}Great work, chat"
 	}
 else
 	PTSloc.spectrals.c_ouija.text = {
@@ -435,7 +497,7 @@ PTSloc.spectrals.c_aura = { -- name = "Aura",
 			"Add {C:dark_edition}Foil{}, {C:dark_edition}Holographic{},",
 			"or {C:dark_edition}Polychrome{} effect to",
 			"{C:attention}1{} selected card in hand",
-			"{s:0.8,C:inactive}She's fuming."
+			"{s:0.8,C:inactive}She's fuming"
 		}
 	}
 
@@ -445,8 +507,19 @@ PTSloc.spectrals.c_immolate = { -- name = "Immolate",
 			"cards in hand,",
 			"gain {C:money}$#2#",
 			"{s:0.8,C:inactive}This is fine"
-		},
+		}
 	}
+	
+--[[ 
+PTSloc.spectrals.c_cryptid = { -- name = "Cryptid", 
+		text = {
+			"Create {C:attention}#1#{} copies of",
+			"{C:attention}1{} selected card",
+			"in your hand",
+			"{s:0.8,C:inactive}"
+		}
+	}
+]]
 
 --#endregion
 return PTSloc

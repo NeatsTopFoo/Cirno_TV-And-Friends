@@ -8,7 +8,7 @@ cirAch.crazyFace = {
 	
 	info = {
 		loc_txt = {
-			name = "I See Your Scary Face And Raise You...",
+			name = "Hm, I Wonder What's Down Here?",
 			description = {
 				"Encounter "..CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Scary Face', 'j_scary_face').."'s reskin",
 				"(in an unseeded run)"
@@ -56,6 +56,27 @@ cirAch.hasThreeJokes = {
 			return (CirnoMod.miscItems.jkrKeyGroupTotalEncounters('allegations', true) > 0
 					and CirnoMod.miscItems.jkrKeyGroupTotalEncounters('TwoMax', true) > 0
 					and CirnoMod.miscItems.jkrKeyGroupTotalEncounters('fingerGuns', true) > 0)
+		end
+	}
+}
+
+cirAch.gottem = {
+	shouldBeAdded = function()
+		return CirnoMod.config.addCustomJokers
+	end,
+	
+	info = {
+		loc_txt = {
+			name = 'Gottem',
+			description = {
+				'Unlock Dabber'
+			}
+		},
+		
+		hidden_text = true,
+		
+		unlock_condition = function(self, args)
+			return CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4
 		end
 	}
 }

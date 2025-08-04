@@ -282,7 +282,8 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	}, true)
 end
 
-miscLoc.tags.tag_garbage = { text = {
+miscLoc.tags.tag_garbage = { -- name = "Garbage Tag",
+	text = {
        "Gives {C:money}$#1#{} per unused",
        "{C:red}discard{} this run",
        "{C:inactive}(Will give {C:money}$#2#{C:inactive})",
@@ -293,7 +294,7 @@ miscLoc.tags.tag_garbage = { text = {
 		"{s:0.8,C:inactive}see that we changed the",
 		"{s:0.8,C:inactive}colour to blue for Cirno.",
 		"{s:0.8,C:inactive}But yes, that's the only",
-		"{s:0.8,C:inactive}difference."
+		"{s:0.8,C:inactive}difference"
    } }
 
 miscLoc.tags.tag_ethereal = { name = "Mima Tag",
@@ -316,7 +317,7 @@ miscLoc.tags.tag_juggle = { name = "Jiggle Tag",
 		text = {
 			"{C:attention}+#1#{} hand size",
 			"next round",
-			"{s:0.8,C:inactive}I miss old POGGIES."
+			"{s:0.8,C:inactive}I miss old POGGIES"
 		} }
 
 miscLoc.tags.tag_d_six = { name = "2nd Opinion Tag", --[[
@@ -325,7 +326,7 @@ miscLoc.tags.tag_d_six = { name = "2nd Opinion Tag", --[[
 			"start at {C:money}$0",
 		} ]] }
 
-miscLoc.tags.tag_standard = { name = "Standard Tag",
+miscLoc.tags.tag_standard = { -- name = "Standard Tag",
 	text = {
 		"Gives a free",
 		"{C:attention}Mega Standard Pack",
@@ -339,6 +340,28 @@ miscLoc.tags.tag_standard = { name = "Standard Tag",
 		"{s:0.8,C:inactive}...What do you mean it's",
 		"{s:0.8,C:inactive}not a good substitute?"
 	} }
+
+miscLoc.tags.tag_handy = { -- name = "Handy Tag",
+		text = {
+			"Gives {C:money}$#1#{} per played",
+			"{C:blue}hand{} this run",
+			"{C:inactive}(Will give {C:money}$#2#{C:inactive})",
+			"{s:0.8,C:inactive}Cirno's favourite thing",
+			"{s:0.8,C:inactive}in games, being chased"
+		},
+	}
+
+miscLoc.tags.tag_skip = { name = "Adge Tag",
+		text = {
+			"Gives {C:money}$#1#{} per skipped",
+			"Blind this run",
+			"{C:inactive}(Will give {C:money}$#2#{C:inactive})",
+			"{s:0.8,C:inactive}Want a break from the ads?",
+			"{s:0.8,C:inactive}If you tap now to watch a",
+			"{s:0.8,C:inactive}short video, you'll receive",
+			"{s:0.8,C:inactive}30 minutes of ad-free music"
+		}
+	}
 
 miscLoc.tags.tag_top_up = { name = "cirMany Tag" }
 
@@ -393,7 +416,7 @@ if CirnoMod.config.planetsAreHus then
 			"{s:0.8,C:inactive}Responsive to Prayers. Practice",
 			"{s:0.8,C:inactive}safe Tag usage and consult a",
 			"{s:0.8,C:inactive}certified Double Dealing Character",
-			"{s:0.8,C:inactive}whenever using {s:0.8,C:planet}Hu Tags{s:0.8,C:inactive}."
+			"{s:0.8,C:inactive}whenever using {s:0.8,C:planet}Hu Tags"
 		} }
 	
 	miscLoc.tags.tag_orbital = { name = "Bomb Tag",
@@ -402,7 +425,7 @@ if CirnoMod.config.planetsAreHus then
 			"by {C:attention}#2# levels",
 			"{s:0.8,C:inactive}It's yours, my friend.",
 			"{s:0.8,C:inactive}As long as you have",
-			"{s:0.8,C:inactive}enough rupees."
+			"{s:0.8,C:inactive}enough rupees"
 		} }
 else
 	SMODS.process_loc_text(G.localization.descriptions.Tag.tag_meteor, "text", {
@@ -493,7 +516,7 @@ miscLoc.vouchers.v_grabber = { name = "White Knuckle",
 			"gain {C:blue}+#1#{} hand",
 			"per round",
 			"{s:0.8,C:inactive}Nice to see Master Hand",
-			"{s:0.8,C:inactive}still getting work."
+			"{s:0.8,C:inactive}still getting work"
 		}
 	}
 
@@ -503,7 +526,7 @@ miscLoc.vouchers.v_nacho_tong = { name = "Red Knuckle",
 			"gain {C:blue}+#1#{} hand",
 			"per round",
 			"{s:0.8,C:inactive}Here I come, rougher",
-			"{s:0.8,C:inactive}than the rest of them."
+			"{s:0.8,C:inactive}than the rest of them"
 		}
 	}
 
@@ -573,7 +596,7 @@ miscLoc.vouchers.v_tarot_merchant = { -- name = "Tarot Merchant",
 			"{C:attention}#1#X{} more frequently",
 			"in the shop",
 			"{s:0.8,C:inactive}Todd Howard is my",
-			"{s:0.8,C:inactive}favourite Touhou character."
+			"{s:0.8,C:inactive}favourite Touhou character"
 		},
 	}
 
@@ -604,7 +627,7 @@ miscLoc.vouchers.v_liquidation = { name = "Steam Summer Sale",
 			"All cards and packs in",
 			"shop are {C:attention}#1#%{} off",
 			"{s:0.8,C:inactive}There'll be 0% of your",
-			"{s:0.8,C:inactive}wallet left afterwards."
+			"{s:0.8,C:inactive}wallet left afterwards"
 		},
 	}
 
@@ -614,7 +637,7 @@ miscLoc.vouchers.v_crystal_ball = { name = "Yin-Yang Orb",
 			"{s:0.8,C:inactive}I would like to put forth",
 			"{s:0.8,C:inactive}that Reimu was, while not",
 			"{s:0.8,C:inactive}the first, at least one",
-			"{s:0.8,C:inactive}of the OG orb ponderers."
+			"{s:0.8,C:inactive}of the OG orb ponderers"
 		},
 	}
 
@@ -624,7 +647,7 @@ miscLoc.vouchers.v_omen_globe = { name = "Eternal Shrine Maiden",
 			"appear in any of",
 			"the {C:attention}Arcana Packs",
 			"{s:0.8,C:inactive}Something usually happens",
-			"{s:0.8,C:inactive}during the summer."
+			"{s:0.8,C:inactive}during the summer"
 		}
 	}
 
@@ -636,7 +659,7 @@ miscLoc.vouchers.v_overstock_norm = { name = "Card Table",
 		"{s:0.8,C:inactive}bold move to just",
 		"{s:0.8,C:inactive}have your valuable",
 		"{s:0.8,C:inactive}cardboard sit out in",
-		"{s:0.8,C:inactive}the open like that."
+		"{s:0.8,C:inactive}the open like that"
     },
 }
 
@@ -644,7 +667,29 @@ miscLoc.vouchers.v_overstock_plus = { name = "Display Cabinets",
     text = {
         "{C:attention}+1{} card slot",
         "available in shop",
-		"{s:0.8,C:inactive}"
+		"{s:0.8,C:inactive}This makes more sense"
+    }
+}
+
+miscLoc.vouchers.v_reroll_surplus = { name = "Reroll Gamblecore",
+	text = {
+		"Rerolls cost",
+		"{C:money}$#1#{} less",
+		"{s:0.8,C:inactive}I can't stop winning!"
+	},
+}
+
+miscLoc.vouchers.v_paint_brush = { name = "Work-In-Progress",
+    text = {
+        "{C:attention}+#1#{} hand size",
+		"{s:0.8,C:inactive}You can't rush art"
+    }
+}
+
+miscLoc.vouchers.v_palette = { name = "Masterpiece",
+    text = {
+        "{C:attention}+#1#{} hand size",
+		"{s:0.8,C:inactive}There! Now it's art"
     }
 }
 

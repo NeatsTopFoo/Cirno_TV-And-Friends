@@ -10,6 +10,7 @@ local jokerInfo = {
 	},
 	
 	--[[ TODO:
+		- "Sir No" X4 Chips, played [random hand]s are not allowed
 		- Ornstein & Smough Joker pair that respectively become Super Ornstein & Super Smough when the other of the two is destroyed (not sold)
 		- Redacted '██████' Joker whose effects are not clear, highly unpredictable and inconsistent, heavily RNG-based but also extremely confusing (Note, Mario the Idea vs. Mario the Man)
 		- Mac n' Cheese Joker; Every 2 Boss Blinds, if there's room, creates a Ketchup (Seltzer). Gains x0.1 mult every time a ketchup runs out.
@@ -521,8 +522,8 @@ local jokerInfo = {
 				},
 				unlock = {
 					"Encounter at least one Joker reskin per",
-					"skin that is {C:attention}#1#{}, {C:attention}#2#{} or",
-					"{C:attention}#3#{} related."
+					"skin that is {E:1,C:attention}#1#{}, {E:1,C:attention}#2#{} or",
+					"{E:1,C:attention}#3#{} related."
 				}
 			},
 			unlocked = false,
@@ -679,7 +680,7 @@ local jokerInfo = {
 					"Encounter at least",
 					"three Jokers that",
 					"either are or are",
-					"references to #1#{C:attention}#2#"
+					"references to #1#{E:1,C:attention}#2#"
 				}
 			},
 			unlocked = false,
@@ -1230,7 +1231,7 @@ local jokerInfo = {
 					return { doNotRedSeal = true,
 					func = function()
 						-- Sets the random enhancement
-						cardRef:set_ability(SMODS.poll_enhancement({ guaranteed = true }), nil, true)
+						cardRef:set_ability(SMODS.poll_enhancement{ guaranteed = true }, nil, true)
 						
 						formTable_.pitch = 1
 						
@@ -1315,17 +1316,11 @@ local jokerInfo = {
 			calc_twoPair = function(self, card, context, formTable)
 				if
 					context.post_trigger
-					and not (card.ability.extra.currentForm == 'base'
-					and CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND))
+					and not (context.other_context.mod_probability
+					or context.other_context.fix_probability)
 				then
 					-- Gives money when other Jokers are triggered
-					local mCard = card
-					
-					if context.blueprint then
-						mCard = context.blueprint_card
-					end
-					
-					return { dollars = to_big(formTable.monGain), message_card = mCard }
+					return { dollars = to_big(formTable.monGain), message_card = context.blueprint_card or card }
 				end
 			end,
 			
@@ -1334,37 +1329,27 @@ local jokerInfo = {
 					if
 						context.before
 						and context.cardarea == G.jokers
-					then
-						if
-							not context.retrigger_joker
-							and not context.retrigger_joker_check
-							and not context.blueprint
-						then
-							--[[ Gives the Joker a little jiggle to visually connect it
-							to the inverse splash mechanic occurring]]
-							card:juice_up()
-						end
-						
+						and card.edition
+						and card.edition.type ~= 'negative'
+					then						
 						-- Processes edition scaling				
-						if card.edition and card.edition.type ~= 'negative' then
-							local cardRef = card
-							
-							return {
-								message = CirnoMod.miscItems.scaleEdition_FHP(cardRef, formTable.scalar),
-								colour = CirnoMod.miscItems.cardEditionTypeToColour(cardRef) or G.C.FILTER,
-								sound = CirnoMod.miscItems.cardEditionTypeToSfx(cardRef) or 'generic1',
-								volume = 0.5,
-								message_card = card
-							}
-						end
+						local cardRef = card
+						
+						return {
+							message = CirnoMod.miscItems.scaleEdition_FHP(cardRef, formTable.scalar),
+							colour = CirnoMod.miscItems.cardEditionTypeToColour(cardRef) or G.C.FILTER,
+							sound = CirnoMod.miscItems.cardEditionTypeToSfx(cardRef) or 'generic1',
+							volume = 0.5,
+							message_card = card
+						}
 					end
 					
 					-- Inverse splash mechanics
 					if
 						context.modify_scoring_hand
 						and context.main_eval
-						and not context.retrigger_joker
-						and not context.retrigger_joker_check
+						and not (context.retrigger_joker
+						or context.retrigger_joker_check)
 						and not context.blueprint
 					then
 						-- Ensure we're only looking at undebuffed cards
@@ -2044,7 +2029,16 @@ local jokerInfo = {
 						context.before
 						or context.joker_main
 						or context.main_eval
-						or context.post_trigger
+						or (context.post_trigger
+						and not (CirnoMod.miscItems.isState(G.STATE, G.STATES.SHOP)
+						or CirnoMod.miscItems.isState(G.STATE, G.STATES.BLIND_SELECT)
+						or CirnoMod.miscItems.isState(G.STATE, G.STATES.NEW_ROUND)
+						or CirnoMod.miscItems.isState(G.STATE, G.STATES.TAROT_PACK)
+						or CirnoMod.miscItems.isState(G.STATE, G.STATES.PLANET_PACK)
+						or CirnoMod.miscItems.isState(G.STATE, G.STATES.SPECTRAL_PACK)
+						or CirnoMod.miscItems.isState(G.STATE, G.STATES.STANDARD_PACK)
+						or CirnoMod.miscItems.isState(G.STATE, G.STATES.BUFFOON_PACK)
+						or CirnoMod.miscItems.isState(G.STATE, 999)))
 						or context.cardarea == G.play
 						or (context.individual
 						and context.cardarea == G.hand)
@@ -2109,8 +2103,6 @@ local jokerInfo = {
 			eternal_compat = true,
 			perishable_compat = true,
 			
-			config = { extra = { ready = true } },
-			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
 				local ret = {}
@@ -2144,31 +2136,28 @@ local jokerInfo = {
 			calculate = function(self, card, context)
 				if
 					not context.blueprint
-					and not context.retrigger_joker
+					and not (context.retrigger_joker
+					or context.retrigger_joker_check)
 					and context.first_hand_drawn
 				then
-					card.ability.extra.ready = true
 					juice_card_until(card, function()
 						return G.GAME.current_round.hands_played == 0
 							and not G.RESET_JIGGLES
 					end, true)
+					
+					return { doNotRedSeal = true,
+						no_retrigger = true,
+						message = localize('k_active_ex') }
 				end
 				
 				if
 					context.main_eval
-					and ((context.before
-					and card.ability.extra.ready)
-					or context.retrigger_joker)
+					and context.before
+					and G.GAME.current_round.hands_played < 1
 				then
 					local handRef = G.play.cards
-					local cardRef = card
+					local cardRef = context.blueprint_card or card
 					local pitch = 1
-					
-					if context.blueprint then
-						cardRef = context.blueprint_card
-					else
-						card.ability.extra.ready = false
-					end
 					
 					--[[ This setup looks odd, but if I don't do it this way,
 						it displaces the retrigger messages in instances where

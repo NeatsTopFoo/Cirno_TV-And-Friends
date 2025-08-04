@@ -768,9 +768,7 @@ local jokerInfo = {
 			
 			config = {
 				extra = {
-					extra = 0.1,
-					firstHand = false,
-					timesTriggeredThisHand = 0
+					extra = 0.1
 				}
 			},
 			
@@ -811,20 +809,6 @@ local jokerInfo = {
 			eternal_compat = true,
 			perishable_compat = true,
 			
-			handplayLatchDisableCheck = function(self, card)
-				if	
-					card.ability.extra.timesTriggeredThisHand == 1
-					and card.seal
-					and card.seal == 'Red'
-				then
-					return false
-				end
-				
-				card.ability.extra.firstHand = false
-				card.ability.extra.timesTriggeredThisHand = 0
-				return true
-			end,
-			
 			updateState = function(jkr)
 				if
 					CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
@@ -841,32 +825,26 @@ local jokerInfo = {
 				if
 					not context.blueprint
 					and context.first_hand_drawn
-					and not context.retrigger_joker
-				then
-					card.ability.extra.firstHand = true
-					
+					and not (context.retrigger_joker
+					or context.retrigger_joker_check)
+				then					
 					juice_card_until(card, function()
 						return G.GAME.current_round.hands_played == 0
 							and not G.RESET_JIGGLES
 					end, true)
+					
+					return { doNotRedSeal = true,
+						no_retrigger = true,
+						message = localize('k_active_ex') }
 				elseif
-					card.ability.extra.firstHand
+					G.GAME.current_round.hands_played < 1
 					and context.individual
 					and (context.cardarea == G.play
 					or context.cardarea == 'unscored')
 					and context.other_card
 				then
-					
 					context.other_card.ability.perma_x_mult = to_big(context.other_card.ability.perma_x_mult) or 0
 					context.other_card.ability.perma_x_mult = to_big(context.other_card.ability.perma_x_mult) + to_big(card.ability.extra.extra)
-					
-					if context.other_card == context.full_hand[#context.full_hand] then
-						if not context.blueprint then
-							card.ability.extra.timesTriggeredThisHand = card.ability.extra.timesTriggeredThisHand + 1
-						end
-						
-						self:handplayLatchDisableCheck(card)
-					end
 					
 					-- Return table (in extra to prevent the colour being overridden by Blueprint/Brainstorm)
 					return {
@@ -894,11 +872,9 @@ local jokerInfo = {
 				text = {
 					"After defeating a {C:attention}Boss Blind{},",
 					"create a {C:dark_edition}Negative {C:spectral}Spectral{} card",
-					--"{s:0.8,C:inactive}"
+					-- "{s:0.8,C:inactive}"
 				}
 			},
-			
-			config = {},
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
@@ -957,12 +933,16 @@ local jokerInfo = {
 				if CirnoMod.config.addCustomConsumables then
 					info_queue[#info_queue + 1] = { key = 'e_negative_consumable', set = 'Edition', config = { extra = 1 } }
 					
-					if CirnoMod.miscItems.isUnlockedAndDisc(G.P_CENTERS.c_cir_sPerfectionism_l) then
-						info_queue[#info_queue + 1] = G.P_CENTERS.c_cir_sPerfectionism_l
-						ret.vars[1] = 'Perfectionism'
+					if CirnoMod.miscItems.obscurePerfectionismNameUnlessDiscovered then
+						ret.vars[1] = CirnoMod.miscItems.obscurePerfectionismNameUnlessDiscovered()
 					else
-						info_queue[#info_queue + 1] = { key = 'questionMarkTooltip', set = 'Other' }
-						ret.vars[1] = '?????'
+						if CirnoMod.miscItems.isUnlockedAndDisc(G.P_CENTERS.c_cir_sPerfectionism_l) then
+							info_queue[#info_queue + 1] = G.P_CENTERS.c_cir_sPerfectionism_l
+							ret.vars[1] = 'Perfectionism'
+						else
+							info_queue[#info_queue + 1] = { key = 'questionMarkTooltip', set = 'Other' }
+							ret.vars[1] = '?????'
+						end
 					end
 					
 					ret.vars[2] = card.ability.extra.rCounter
@@ -1037,11 +1017,11 @@ local jokerInfo = {
 				name = "NopeTooFast",
 				-- The description the player will see in-game.
 				text = {
-					"This {C:joker}Joker{} gains",
-					"{X:mult,C:white} X#1# {} Mult when failing",
-					"a {C:attention}#2#{}",
-					"{C:inactive}(Currently {X:mult,C:white} X#3# {C:inactive} Mult)",
-					"{s:0.8,C:inactive}Well, it IS my wheel..."
+					'This {C:joker}Joker{} gains',
+					'{X:mult,C:white} X#1# {} Mult when failing',
+					'a {C:attention}#2#',
+					'{C:inactive}(Currently {X:mult,C:white} X#3# {C:inactive} Mult)',
+					'{s:0.8,C:inactive}Well, it IS my wheel...'
 				}
 			},
 			
@@ -1074,14 +1054,15 @@ local jokerInfo = {
 			loc_vars = function(self, info_queue, card)
 				-- Adds a description of Wheel of Fortune to tooltip by appending
 				-- to info_queue
-				info_queue[#info_queue + 1] = { key = 'c_wheel_of_fortune', set = 'Tarot', config = { extra = 4 } }
+				info_queue[#info_queue + 1] = copy_table(G.P_CENTERS.c_wheel_of_fortune)
+				info_queue[#info_queue].fake_card = true
 				
 				-- Art credit tooltip
 				if CirnoMod.config['artCredits'] and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_DaemonTsun_BigNTFEdit", set = "Other" }
 				end
 				
-				-- Here is how #1# and #2# are defined.
+				-- Here is how #1#, #2# & #3# are defined.
 				return { vars = {
 					to_big(card.ability.extra.growth),
 					G.localization.descriptions.Tarot.c_wheel_of_fortune.name,
@@ -1110,12 +1091,8 @@ local jokerInfo = {
 			calculate = function(self, card, context)
 				-- This section seems to define the standard joker function? Which would be multiplying the mult by the stored around
 				if
-					context.cardarea == G.jokers -- If we are iterating through owned jokers
-					and	context.joker_main -- If the context is during the main scoring timing of jokers
+					context.joker_main -- If the context is during the main scoring timing of jokers
 					and (card.ability.extra.x_mult > 1) -- And the card's mult is more than 1
-					and mult ~= nil -- And global mult is not nil
-					and not context.before -- Context before is things that happen in the scoring loop, but before anything is scored
-					and not context.after -- Context after is things that modify the score after all cards are scored
 				then
 					return { -- Multiply the current mult by mult accrued on card?
 						x_mult = to_big(card.ability.extra.x_mult) -- Multiplies the current mult by the card's stored mult
@@ -1181,7 +1158,7 @@ for i, jkr in ipairs(jokerInfo.jokerConfigs) do
 	jkr.unlocked = false
 	jkr.loc_txt.unlock = {
 		"Find this {C:joker}Joker",
-		"from the {C:spectral}Soul{} card"
+		"from the {E:1,C:spectral}Soul{} card"
 	}
 end
 

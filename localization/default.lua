@@ -91,6 +91,12 @@ RV.descriptions.Other = {
 	jA_NTF = { name = creditSources.cr_JokerArt,
 		text = { creditSources.NTF }
 	},
+	jA_NTF_Rend = { name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}Rendition by",
+			creditSources.NTF
+		}
+	},
 	gA_NTF = { name = creditSources.cr_GenericArt,
 		text = { creditSources.NTF }
 	},
@@ -346,7 +352,13 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_Naro2 = { name = creditSources.cr_JokerArt,
+	jA_IF_NTF = { name = creditSources.cr_JokerArt,
+		text = {
+			"{s:0.8}Idea Factory, rendition",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
+	gA_IF_NTF = { name = creditSources.cr_GenericArt,
 		text = {
 			"{s:0.8}Idea Factory, rendition",
 			"{s:0.8}by "..creditSources.NTF
@@ -406,6 +418,12 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
+	jA_MIYAZAKI = { name = creditSources.cr_JokerArt,
+		text = {
+			"{s:1.2}MIYZAKIIIIIIII",
+			"{s:0.8}rendition by "..creditSources.NTF
+		}
+	},
 	jA_RedCard = { name = creditSources.cr_JokerArt,
 		text = { 
 			"{s:0.8}mystman12, edited",
@@ -453,7 +471,7 @@ RV.descriptions.Other = {
 	},
 	cA_Devil = { name = creditSources.cr_CardArt,
 		text = {
-			"{s:0.8}This is just an",
+			"{s:0.8}This is a "..creditSources.DTsun,
 			"{s:0.8}edit of Todd Howard.",
 			"{s:0.8}And you should buy all",
 			"{s:0.8}the Elder Scrolls games.",
