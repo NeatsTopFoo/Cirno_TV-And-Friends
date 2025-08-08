@@ -363,6 +363,17 @@ miscLoc.tags.tag_skip = { name = "Adge Tag",
 		}
 	}
 
+miscLoc.tags.tag_boss = { name = "Boss Tag",
+		text = {
+			"Rerolls the",
+			"{C:attention}Boss Blind",
+			"{s:0.8,C:inactive}Have you ever fought",
+			"{s:0.8,C:inactive}a lava spidergirl and",
+			"{s:0.8,C:inactive}a lightning dragoon on",
+			"{s:0.8,C:inactive}a cramped rooftop?"
+		}
+	}
+
 miscLoc.tags.tag_top_up = { name = "cirMany Tag" }
 
 if CirnoMod.config.allowCosmeticTakeOwnership then
@@ -655,8 +666,8 @@ miscLoc.vouchers.v_overstock_norm = { name = "Card Table",
     text = {
         "{C:attention}+1{} card slot",
         "available in shop",
-		"{s:0.8,C:inactive}I always thought it a",
-		"{s:0.8,C:inactive}bold move to just",
+		"{s:0.8,C:inactive}I always thought it",
+		"{s:0.8,C:inactive}a bold move to just",
 		"{s:0.8,C:inactive}have your valuable",
 		"{s:0.8,C:inactive}cardboard sit out in",
 		"{s:0.8,C:inactive}the open like that"
@@ -811,7 +822,7 @@ end
 SMODS.Voucher:take_ownership('planet_merchant',{
 	loc_vars = function(self, info_queue, card)
 		return { vars = {
-			card.ability.display,
+			card.ability.extra_disp,
 			G.localization.misc.labels.planet
 		} }
 	end
@@ -820,7 +831,7 @@ SMODS.Voucher:take_ownership('planet_merchant',{
 SMODS.Voucher:take_ownership('planet_tycoon',{
 	loc_vars = function(self, info_queue, card)
 		return { vars = {
-			card.ability.display,
+			card.ability.extra_disp,
 			G.localization.misc.labels.planet
 		} }
 	end,

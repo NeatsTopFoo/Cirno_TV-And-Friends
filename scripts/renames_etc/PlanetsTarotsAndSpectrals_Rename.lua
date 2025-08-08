@@ -290,7 +290,7 @@ PTSloc.tarots.c_emperor = { -- name = "The Emperor",
 	}
 
 --[[
-PTSloc.tarots.c_empress = { -- name = "The Emperor",
+PTSloc.tarots.c_empress = { -- name = "The Empress",
 		text = {
 			"Enhances {C:attention}#1#",
 			"selected cards to",
@@ -355,7 +355,7 @@ PTSloc.tarots.c_star = { -- name = "The Star",
 			"{C:attention}#1#{} selected cards",
 			"to {V:1}#2#",
 			"{s:0.8,C:inactive}Cirno v. Gold Ship,",
-			"{s:0.8,C:inactive}who wins?"
+			"{s:0.8,C:inactive}who's dumber?"
 		}
 	}
 
@@ -367,6 +367,15 @@ PTSloc.tarots.c_hermit = { -- name = "The Hermit",
 			"{s:0.8,C:inactive}the viewer list open",
 			"{s:0.8,C:inactive}and greet everyone that",
 			"{s:0.8,C:inactive}shows up to watch"
+		}
+	}
+
+PTSloc.tarots.c_world = { -- name = "The World",
+		text = {
+			"Converts up to",
+			"{C:attention}#1#{} selected cards",
+			"to {V:1}#2#{}",
+			"{s:0.8,C:inactive}\"You have bees here?\""
 		}
 	}
 
@@ -434,16 +443,22 @@ end
 
 PTSloc.spectrals.c_deja_vu = { -- name = "Deja Vu",
 	text = {
-			"Add a {C:red}"..sealIntent.red_seal,
+			"Add a {C:red}#1#",
 			"to {C:attention}1{} selected",
 			"card in your hand",
 			"{s:0.8,C:inactive}MULTi-track drifting."
 		}
 	}
 
+SMODS.Consumable:take_ownership('deja_vu', {
+	loc_vars = function(self, info_queue, card)
+		return { vars = { getSealName('red') } }
+	end
+}, true)
+
 PTSloc.spectrals.c_trance = { name = "Overlap",
 	text = {
-		"Add a {C:blue}"..sealIntent.blue_seal.."{} to {C:attention}1{} selected card in your hand",
+		"Add a {C:blue}#1#{} to {C:attention}1{} selected card in your hand",
 		"{s:0.8,C:inactive}You know, if I had a nickel for every Canadian catgirl VTuber",
 		"{s:0.8,C:inactive}I knew that has a weird sorta love-hate relationship with Souls",
 		"{s:0.8,C:inactive}games & dropped CrossCode among various other things in common,",
@@ -452,34 +467,38 @@ PTSloc.spectrals.c_trance = { name = "Overlap",
 		}
 	}
 
-if CirnoMod.config['allowCosmeticTakeOwnership'] then
-	SMODS.Consumable:take_ownership('trance', {
-		create_main_end = function()
-			local mainEndRV = {
-				n = G.UIT.C,
-				config = {
-					align = 'bm',
-					padding = 0.02
-				},
-				nodes = {}
-			}
-			
-			CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
-					0, 0, -- Sprite X & Y
-					1, 1, -- Sprite W & H
-					CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
-					{ x = 0, y = 1 } -- Position in the Atlas
-				)
-			)
-			
-			return { mainEndRV }
-		end,
+SMODS.Consumable:take_ownership('trance', {
+	create_main_end = function()
+		local mainEndRV = {
+			n = G.UIT.C,
+			config = {
+				align = 'bm',
+				padding = 0.02
+			},
+			nodes = {}
+		}
 		
-		loc_vars = function(self, info_queue, card)
-			return { main_end = self.create_main_end() }
+		CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+				0, 0, -- Sprite X & Y
+				1, 1, -- Sprite W & H
+				CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+				{ x = 0, y = 1 } -- Position in the Atlas
+			)
+		)
+		
+		return { mainEndRV }
+	end,
+	
+	loc_vars = function(self, info_queue, card)
+		local RT = { vars = { getSealName('blue') } }
+		
+		if CirnoMod.miscItems.atlasCheck(card) then
+			RT.main_end = self.create_main_end()
 		end
-	}, true)
-end
+		
+		return RT
+	end
+}, true)
 
 PTSloc.spectrals.c_grim = { name = "Anxiety",
 	text = {
@@ -509,7 +528,7 @@ PTSloc.spectrals.c_immolate = { -- name = "Immolate",
 			"{s:0.8,C:inactive}This is fine"
 		}
 	}
-	
+
 --[[ 
 PTSloc.spectrals.c_cryptid = { -- name = "Cryptid", 
 		text = {
@@ -520,6 +539,37 @@ PTSloc.spectrals.c_cryptid = { -- name = "Cryptid",
 		}
 	}
 ]]
+
+PTSloc.spectrals.c_familiar = { -- name = "Familiar", 
+		text = {
+			"Destroy {C:attention}1{} random",
+			"card in your hand, add",
+			"{C:attention}#1#{} random {C:attention}Enhanced face",
+			"{C:attention}cards{} to your hand",
+			"{s:0.8,C:inactive}Oh no, he's hot!"
+		}
+	}
+
+PTSloc.spectrals.c_talisman = { -- name = "Talisman", 
+		text = {
+			"Add a {C:attention}#1#",
+			"to {C:attention}1{} selected",
+			"card in your hand",
+			"{s:0.8,C:inactive}Reimu exterminates yōkai",
+			"{s:0.8,C:inactive}with her job bonus",
+			"{s:0.8,C:inactive}...Okay, yes, exterminators",
+			"{s:0.8,C:inactive}usually spend money on",
+			"{s:0.8,C:inactive}equipment. I'm saying she",
+			"{s:0.8,C:inactive}is literally smacking them",
+			"{s:0.8,C:inactive}with it"
+		}
+	}
+
+SMODS.Consumable:take_ownership('talisman', {
+	loc_vars = function(self, info_queue, card)
+		return { vars = { getSealName('gold') } }
+	end
+}, true)
 
 --#endregion
 return PTSloc

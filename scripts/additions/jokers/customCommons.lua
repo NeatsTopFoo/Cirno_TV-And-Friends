@@ -43,6 +43,20 @@ local jokerInfo = {
 			pos = { x = 0, y = 0},
 			cost = 3,
 			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{C:mult}'..to_big(card.ability.extra.growth)..'{} Mult growth',
+					'->',
+					'{C:mult}'..to_big(card.ability.extra.growth) * to_big(2)..'{} Mult growth'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.growth = to_big(card.ability.extra.growth) * to_big(2)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
+			
 			calculate = function(self, card, context)
 				if
 					context.before

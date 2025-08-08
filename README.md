@@ -21,31 +21,31 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
   - All Blind Chips
   - All Seals
   - All Planet Cards
+  - All Tarot Cards
   - 24 Vouchers
-  - 21 Tags
-  - 21 Tarot Cards
-  - 19 Booster Packs
+  - 22 Tags
+  - 20 Booster Packs
   - 15 Decks
-  - 11 Spectral Cards
+  - 13 Spectral Cards
   - 5 Enhancements
   - The title screen
 
 - Renames/Alters Descriptions Of:
   - All Seals
   - All Planet Cards
+  - All Tarot Cards
   - Most blinds
   - A significant amount of retextured Jokers
   - 24 Vouchers
-  - 21 Tags
-  - 21 Tarot Cards
+  - 22 Tags
   - 15 Decks
-  - 11 Spectral Cards
+  - 13 Spectral Cards
   - 5 Enhancements
 
-- Adds:
+- Adds:	
   - Various fun flavour text to numerous items
   - Some custom playing card skins
-  - 36 custom Jokers
+  - 37 custom Jokers
   - 2 custom Spectral Cards
   - 1 custom Challenge
   - Sometimes, quitting is an option. :)

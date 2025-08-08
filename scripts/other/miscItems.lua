@@ -117,6 +117,7 @@ miscItems.upgradedExtraValue = {
 miscItems.keysOfJokersToUpdateStateOnLoad = {
 	j_cir_crystalTap = true,
 	j_cir_b3313 = true,
+	j_cir_confusedRumi = true,
 	
 	j_cir_naro_l = true,
 	j_cir_arumia_l = true,

@@ -31,7 +31,6 @@ local jokerInfo = {
 	},
 	
 	--[[ TODO:
-		- Scarlet Police Ghetto Patrol
 		- Platinum Joker
 		- Floor Plan
 		- Cirno's Perfect Freeze
@@ -2701,7 +2700,8 @@ local jokerInfo = {
 					}, {
 					'Scored {C:attention}Kings{} of {C:hearts_hc}#1#',
 					'give {X:mult,C:white} X#3# {} Mult',
-					'{s:0.8,C:inactive}'
+					'{s:0.8,C:inactive}"This is my house',
+					'{s:0.8,C:inactive}can you get out of here?"'
 				} }
 			},
 			

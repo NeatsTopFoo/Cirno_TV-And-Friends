@@ -356,7 +356,7 @@ replaceDef.boosterReplacements = { -- These are just in the order Malverk's code
 	{ bstKey = 'p_arcana_normal_1', matureRefLevel = 1, artCreditKey = 'bA_DaemonTsun_BigNTFEdit' },
 	{ bstKey = 'p_arcana_normal_2', matureRefLevel = 1, artCreditKey = 'bA_RH_DaemonTsunEdit' },
 	{ bstKey = 'p_arcana_normal_3', matureRefLevel = 1, artCreditKey = 'bA_DaemonTsun_BigNTFEdit' },
-	--	{ bstKey = 'p_arcana_normal_4', matureRefLevel = 1, },
+	{ bstKey = 'p_arcana_normal_4', matureRefLevel = 1, artCreditKey = 'bA_DaemonTsun_BigNTFEdit' },
 	{ bstKey = 'p_arcana_jumbo_1', matureRefLevel = 1, artCreditKey = 'bA_RH_DaemonTsunEdit' },
 	{ bstKey = 'p_arcana_jumbo_2', matureRefLevel = 1, artCreditKey = 'bA_DaemonTsun_BigNTFEdit' },
 	{ bstKey = 'p_arcana_mega_1', matureRefLevel = 1, artCreditKey = 'bA_DaemonTsun_BigNTFEdit' },
@@ -614,7 +614,7 @@ replaceDef.tarotReplacements = {
 	{ trtKey = 'c_moon', matureRefLevel = 1, artCreditKey = 'cA_RHEdit' },
 	{ trtKey = 'c_sun', matureRefLevel = 1, artCreditKey = 'cA_Sun' },
 	{ trtKey = 'c_judgement', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' },
-	{ trtKey = 'c_world', matureRefLevel = 1, artCreditKey = 'cA_LocalThunk_NTFEdit' }
+	{ trtKey = 'c_world', matureRefLevel = 1, artCreditKey = 'cA_DaemonTsun' }
 }
 
 -----------------
@@ -645,7 +645,7 @@ replaceDef.spectralReplacements = {
 	{ spcKey = 'c_cryptid', matureRefLevel = 1 },
 	{ spcKey = 'c_deja_vu', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
 	--	{ spcKey = 'c_octoplasm', matureRefLevel = 1 },
-	--	{ spcKey = 'c_familiar', matureRefLevel = 1 },
+	{ spcKey = 'c_familiar', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
 	{ spcKey = 'c_grim', matureRefLevel = 1, artCreditKey = 'gA_cirThing_Edit' },
 	--	{ spcKey = 'c_hex', matureRefLevel = 1 },
 	{ spcKey = 'c_immolate', matureRefLevel = 1, artCreditKey = 'gA_Immolate' },
@@ -654,7 +654,7 @@ replaceDef.spectralReplacements = {
 	{ spcKey = 'c_ouija', matureRefLevel = 1, artCreditKey = 'gA_NTF' },
 	--	{ spcKey = 'c_sigil', matureRefLevel = 1 },
 	{ spcKey = 'c_soul', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
-	--	{ spcKey = 'c_talisman', matureRefLevel = 1 },
+	{ spcKey = 'c_talisman', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
 	{ spcKey = 'c_trance', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
 	{ spcKey = 'c_wraith', matureRefLevel = 1, artCreditKey = 'gA_Wraith' }
 }
@@ -685,13 +685,13 @@ replaceDef.tagReplacements = {
     { tagKey = 'tag_polychrome', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
     { tagKey = 'tag_investment', matureRefLevel = 1, artCreditKey = 'gA_solgryn' },
     -- { tagKey = 'tag_voucher', matureRefLevel = 1 },
-    -- { tagKey = 'tag_boss', matureRefLevel = 1 },
+	{ tagKey = 'tag_boss', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
     { tagKey = 'tag_standard', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
     -- { tagKey = 'tag_charm', matureRefLevel = 1 },
     { tagKey = 'tag_meteor', matureRefLevel = 1, artCreditKey = { planetsAreHus = 'gA_NTF' }, planetsAreHus = true },
     { tagKey = 'tag_buffoon', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_NTF_Both' },
     { tagKey = 'tag_handy', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
-    { tagKey = 'tag_garbage', matureRefLevel = 1, artCreditKey = 'gA_neptunia' },
+    { tagKey = 'tag_garbage', matureRefLevel = 1, artCreditKey = 'gA_IF_NTF' },
     { tagKey = 'tag_ethereal', matureRefLevel = 1, artCreditKey = 'gA_NTF' },
     { tagKey = 'tag_coupon', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
     { tagKey = 'tag_double', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },

@@ -136,7 +136,19 @@ local spectralInfo = {
 					then
 						if #G.jokers.highlighted > 1 then
 							ret.vars[1] = 'Select only one Joker'
-						elseif CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key] then
+						elseif
+							(G.jokers.highlighted[1].config.center.cir_upgradeInfo
+							and G.jokers.highlighted[1].config.center.cir_upgrade)
+						then
+							CirnoMod.miscItems.descExtensionTooltips.eDT_cir_perfectionismSpecific.myText =G.jokers.highlighted[1].config.center:cir_upgradeInfo(G.jokers.highlighted[1])
+							
+							info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips.eDT_cir_perfectionismSpecific
+							
+							ret.vars.colours[1] = G.C.GREEN
+							ret.vars[1] = ' '..localize('k_compatible')..' '
+						elseif
+							CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
+						then
 							if type(CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]) == 'function' then
 								upJkrRet = CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]()
 								
@@ -189,8 +201,17 @@ local spectralInfo = {
 					if
 						G.jokers.highlighted
 						and #G.jokers.highlighted == 1
-						and CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
+						and (CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
+						or (G.jokers.highlighted[1].config.center.cir_upgradeInfo
+						and G.jokers.highlighted[1].config.center.cir_upgrade))
 					then
+						if
+							(G.jokers.highlighted[1].config.center.cir_upgradeInfo
+							and G.jokers.highlighted[1].config.center.cir_upgrade)
+						then
+							return true
+						end
+						
 						if type(CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]) == 'function' then
 							local upJkrRet = CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]()
 							
@@ -203,7 +224,6 @@ local spectralInfo = {
 					else
 						ret = false
 					end
-					
 					
 					
 					if not ret then
@@ -236,11 +256,38 @@ local spectralInfo = {
 					G.jokers
 					and G.jokers.highlighted
 					and #G.jokers.highlighted == 1
-					and CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
+					and (CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
+					or (G.jokers.highlighted[1].config.center.cir_upgradeInfo
+					and G.jokers.highlighted[1].config.center.cir_upgrade))
 				then
 					CirnoMod.miscItems.flippyFlip.fStart(G.jokers.highlighted[1])
 					
 					local jkrRef = G.jokers.highlighted[1]
+					
+					if
+						(jkrRef.config.center.cir_upgradeInfo
+						and jkrRef.config.center.cir_upgrade)
+					then
+						G.E_MANAGER:add_event(Event({
+								trigger = 'after',
+								after = 0.25,
+								blocking = true,
+								blockable = true,
+								func = function()
+									local ret = jkrRef.config.center:cir_upgrade(jkrRef)
+									
+									if ret and type(ret) == 'table' then
+										SMODS.calculate_effect(ret, jkrRef)
+									end
+									
+									return true
+									end }))
+						
+						CirnoMod.miscItems.flippyFlip.fEnd(jkrRef, 0.8, 0.45)
+						
+						return
+					end
+					
 					local targetKey = nil
 					local orgExtraTable = nil
 					local orgRarity = jkrRef.config.center.rarity
@@ -318,7 +365,6 @@ local spectralInfo = {
 	}
 }
 
-
 --[[ Define things that are constant with every Spectral in
 this file once in a loop, rather than repeatedly per
 table element ]]
@@ -326,5 +372,39 @@ for i, spc in ipairs(spectralInfo.cnsmConfigs) do
 	spc.set = 'Spectral'
 	spc.atlas = 'cir_cSpectrals'
 end
+
+SMODS.Joker:take_ownership('half', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:mult}'..to_big(card.ability.extra.mult)..'{} Mult',
+			'->',
+			'{C:mult}'..to_big(card.ability.extra.mult) * to_big(2)..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra.mult = to_big(card.ability.extra.mult) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('abstract', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:mult}'..to_big(card.ability.extra)..'{} Mult',
+			'->',
+			'{C:mult}'..to_big(card.ability.extra) * to_big(2)..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+	end
+	
+	}, true)
 
 return spectralInfo

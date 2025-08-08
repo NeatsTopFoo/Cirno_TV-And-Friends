@@ -402,7 +402,8 @@ RV.descriptions.Other = {
 	},
 	jA_confusedRumi = { name = creditSources.cr_JokerArt,
 		text = {
-			"{s:0.8}"..creditSources.artdef..", rendition",
+			"{s:0.8}"..creditSources.artdef..",",
+			"{s:0.8}"..creditSources.DTsun..", rendition",
 			"{s:0.8}& edits by "..creditSources.NTF
 		}
 	},
@@ -459,9 +460,6 @@ RV.descriptions.Other = {
 	},
 	gA_solgryn = { name = creditSources.cr_GenericArt,
 		text = { "{s:0.8}"..creditSources.solgryn }
-	},
-	gA_neptunia = { name = creditSources.cr_GenericArt,
-		text = { "{s:0.8}Idea Factory" }
 	},
 	cA_Sun = { name = creditSources.cr_CardArt,
 		text = {
@@ -913,7 +911,7 @@ RV.descriptions.Joker.cir_b3313_floor3B = { name = 'Floor 3B', text = {
 
 RV.descriptions.Joker.cir_j_confusedRumi_nPCardRebalanced = { name = "Confused Rumi",
 	text = {
-		"During the first hand of a round,",
+		"During the first {C:attention}#1#{C:blue}#2#{} of a round,",
 		"Convert all played {C:attention}left{} cards",
 		"into {C:attention}right{} cards",
 		"{C:inactive,s:0.9}(Removes {C:dark_edition,s:0.9}Negative{C:inactive,s:0.9} from copy)",

@@ -10,7 +10,7 @@ local jokerInfo = {
 	},
 	
 	--[[ TODO:
-		- "Sir No" X4 Chips, played [random hand]s are not allowed
+		- Fixer; X1 Mult for every unique face card
 		- Ornstein & Smough Joker pair that respectively become Super Ornstein & Super Smough when the other of the two is destroyed (not sold)
 		- Redacted '██████' Joker whose effects are not clear, highly unpredictable and inconsistent, heavily RNG-based but also extremely confusing (Note, Mario the Idea vs. Mario the Man)
 		- Mac n' Cheese Joker; Every 2 Boss Blinds, if there's room, creates a Ketchup (Seltzer). Gains x0.1 mult every time a ketchup runs out.
@@ -109,10 +109,7 @@ local jokerInfo = {
 						if card.ability.extra.pHand == oldH then card.ability.extra.pHand = nil end
 					end
 					
-					if
-						not silent
-						or silent == false
-					then
+					if not silent then
 						SMODS.calculate_effect({ message = "Change Hand!", colour = G.C.FILTER }, card)
 					end
 					return true
@@ -2085,19 +2082,20 @@ local jokerInfo = {
 			loc_txt = {
 				name = "Confused Rumi",
 				text = {
-					"During the first {C:blue}hand{} of a round,",
-					"Convert all played {C:attention}left{} cards",
-					"into {C:attention}right{} cards",
-					"{s:0.8,C:inactive}What is \"left card?\"",
-					"{s:0.8,C:inactive}How do you define \"left card?\"",
-					"{s:0.8,C:inactive}If you're talking about what",
-					"{s:0.8,C:inactive}you can feel, what you can taste,",
-					"{s:0.8,C:inactive}and see, then \"left card\" is",
-					"{s:0.8,C:inactive}simply electrical signals,",
-					"{s:0.8,C:inactive}interpreted by your brain"
+					'During the first {C:attention}#1#{C:blue}#2#{} of a round,',
+					'Convert all played {C:attention}left{} cards',
+					'into {C:attention}right{} cards',
+					'{s:0.8,C:inactive}What is "left card?"',
+					'{s:0.8,C:inactive}How do you define "left card?"',
+					'{s:0.8,C:inactive}If you\'re talking about what',
+					'{s:0.8,C:inactive}you can feel, what you can taste,',
+					'{s:0.8,C:inactive}and see, then "left card" is',
+					'{s:0.8,C:inactive}simply Balatro-cal signals,',
+					'{s:0.8,C:inactive}interpreted by your brain'
 				}
 			},
 			
+			config = { extra = { upToHands = 1 } },
 			pos = { x = 2, y = 2 },
 			cost = 8,
 			eternal_compat = true,
@@ -2105,7 +2103,12 @@ local jokerInfo = {
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
-				local ret = {}
+				local ret = { vars = { '', 'hand' } }
+				
+				if card.ability.extra.upToHands > 1 then
+					ret.vars[1] = card.ability.extra.upToHands..' '
+					ret.vars[2] = 'hands'
+				end
 				
 				if CirnoMod.config.negativePCardsBalancing then
 					ret.key = 'cir_j_confusedRumi_nPCardRebalanced'
@@ -2133,6 +2136,42 @@ local jokerInfo = {
 				end
 			end,
 			
+			cir_upgradeInfo = function(self, card)
+				if card.ability.extra.upToHands > 1 then
+					return {
+						'During the first {C:attention}'..to_big(card.ability.extra.upToHands)..'{} hands',
+						'->',
+						'During the first {C:attention}'..to_big(card.ability.extra.upToHands) + to_big(1)..'{} hands'
+					}
+				else
+					return {
+						'During the first hand',
+						'->',
+						'During the first {C:attention}2{} hands'
+					}
+				end
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.upToHands = to_big(card.ability.extra.upToHands) + to_big(1)
+				
+				self.updateState(card)
+				
+				return { message = localize('k_upgrade_ex') }
+			end,
+			
+			updateState = function(jkr)
+				if
+					CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
+					and to_big(G.GAME.current_round.hands_played) < to_big(jkr.ability.extra.upToHands)
+				then
+					juice_card_until(jkr, function()
+						return to_big(G.GAME.current_round.hands_played) < to_big(jkr.ability.extra.upToHands)
+							and not G.RESET_JIGGLES
+					end, true)
+				end
+			end,
+			
 			calculate = function(self, card, context)
 				if
 					not context.blueprint
@@ -2141,7 +2180,7 @@ local jokerInfo = {
 					and context.first_hand_drawn
 				then
 					juice_card_until(card, function()
-						return G.GAME.current_round.hands_played == 0
+						return to_big(G.GAME.current_round.hands_played) < to_big(card.ability.extra.upToHands)
 							and not G.RESET_JIGGLES
 					end, true)
 					
@@ -2153,7 +2192,7 @@ local jokerInfo = {
 				if
 					context.main_eval
 					and context.before
-					and G.GAME.current_round.hands_played < 1
+					and to_big(G.GAME.current_round.hands_played) < to_big(card.ability.extra.upToHands)
 				then
 					local handRef = G.play.cards
 					local cardRef = context.blueprint_card or card
@@ -2201,6 +2240,128 @@ local jokerInfo = {
 							CirnoMod.miscItems.flippyFlip.fEnd(handRef[i], pitch)
 						end
 					end }
+				end
+			end
+		},
+		-- Sir No
+		{
+			key = 'sirNo',
+			matureRefLevel = 1,
+			
+			loc_txt = { name = '"Sir No"',
+				text = {
+					'{X:chips,C:white}X#1#{} Chips',
+					'Played {C:attention}#2#',
+					'{C:red}will not score{},',
+					'poker hand changes',
+					'at end of round',
+					'{s:0.8,C:inactive}I get a lot of requests',
+					'{s:0.8,C:inactive}to add a "Sir No" to the mod.',
+					'{s:0.8,C:inactive}I\'m not sure what that is,',
+					'{s:0.8,C:inactive}or what it has to with Cirno,',
+					'{s:0.8,C:inactive}especially as they sound',
+					'{s:0.8,C:inactive}nothing alike, but I aim to',
+					'{s:0.8,C:inactive}please. So hopefully, this is',
+					'{s:0.8,C:inactive}what people wanted'
+				}
+			},
+			
+			config = { extra = { pHand = '[poker hand]', x_chips = 4 } },
+			
+			pos = { x = 3, y = 2 },
+			cost = 3,
+			eternal_compat = true,
+			perishable_compat = true,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				local ret = { vars = { to_big(card.ability.extra.x_chips) } }
+				
+				if card.ability.extra.pHand == '[poker hand]' then
+					ret.vars[2] = card.ability.extra.pHand
+				else
+					ret.vars[2] = localize(card.ability.extra.pHand, 'poker_hands')
+					
+					if string.sub(card.ability.extra.pHand, #card.ability.extra.pHand - 5, #card.ability.extra.pHand) == 'Flush' then
+						ret.vars[2] = ret.vars[2]..'es'
+					else
+						ret.vars[2] = ret.vars[2]..'s'
+					end
+				end
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = "jA_MIYAZAKI", set = "Other" }
+				end
+				
+				return ret
+			end,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:chips,C:white}X'..to_big(card.ability.extra.x_chips)..'{} Chips',
+					'->',
+					'{X:chips,C:white}X'..to_big(card.ability.extra.x_chips) + to_big(1)..'{} Chips'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.x_chips = to_big(card.ability.extra.x_chips) + to_big(1)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.CHIPS }
+			end,
+			
+			pickRandHand = function(card, silent)
+				if
+					G.GAME
+					and G.GAME.hands
+				then
+					local poker_hands = {}
+					for k, h in pairs (G.GAME.hands) do
+						if
+							h.visible
+							and k ~= card.ability.extra.pHand
+						then
+							poker_hands[#poker_hands + 1] = k
+						end
+					end
+					
+					local oldH = card.ability.extra.pHand
+					card.ability.extra.pHand = nil
+					
+					while not card.ability.extra.pHand do
+						card.ability.extra.pHand = pseudorandom_element(poker_hands, pseudoseed('sirNo_Hand'))
+						
+						if card.ability.extra.pHand == oldH then card.ability.extra.pHand = nil end
+					end
+					
+					if not silent then
+						SMODS.calculate_effect({ message = localize('k_reset'), colour = G.C.FILTER }, card)
+					end
+					return true
+				end
+				
+				return false
+			end,
+			
+			add_to_deck = function(self, card, from_debuff)
+				self.pickRandHand(card)
+			end,
+			
+			calculate = function(self, card, context)
+				if
+					context.debuff_hand
+					and context.main_eval
+					and context.scoring_name == card.ability.extra.pHand
+				then
+					return { debuff = true }
+				end
+				
+				if context.end_of_round and context.main_eval then
+					self.pickRandHand(card)
+				end			
+				
+				if context.joker_main then
+					return { x_chips = to_big(card.ability.extra.x_chips) }
 				end
 			end
 		}

@@ -218,3 +218,26 @@ CirnoMod.extendedDescTooltip{
 		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 	end
 }
+
+-- Specific Upgrade Tooltip
+CirnoMod.extendedDescTooltip{
+	key = 'perfectionismSpecific',
+	
+	loc_txt = { name = 'Upgrade Info', text = {} },
+	
+	myText = nil,
+	
+	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+		if self.myText and type(self.myText) == 'table' then
+			for _, t in ipairs(self.myText) do
+				desc_nodes[#desc_nodes+1] = {{
+					n = G.UIT.R,
+					config = { align = "cm", padding = 0.03 },
+					nodes = SMODS.localize_box(loc_parse_string(t), {scale = 1.0})
+				}}
+			end
+		end
+		
+		SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+	end
+}

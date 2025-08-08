@@ -97,7 +97,7 @@ local jokerInfo = {
 			if you hover over a card that mentions Stone cards and it tells
 			you what Stone cards are, that's this. It's not because it
 			just says 'Stone card' in the description.]]
-			loc_vars = function(self, info_queue, card)
+			loc_vars = function(self, info_queue, card)				
 				-- Ice Cream :)
 				info_queue[#info_queue + 1] = CirnoMod.miscItems.obscureJokerTooltipIfNotEncountered('j_ice_cream')
 				
