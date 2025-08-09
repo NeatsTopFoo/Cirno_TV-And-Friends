@@ -247,6 +247,23 @@ local jokerInfo = {
 				}
 			end,
 			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{C:mult}+'..to_big(card.ability.extra.mult)..'{} Mult,',
+					'{X:mult,C:white}X'..to_big(card.ability.extra.xmult)..'{} Mult',
+					'->',
+					'{C:mult}+'..to_big(card.ability.extra.mult) + to_big(15)..'{} Mult,',
+					'{X:mult,C:white}X'..to_big(card.ability.extra.xmult) + to_big(1)..'{} Mult'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.mult = to_big(card.ability.extra.mult) + to_big(15)
+				card.ability.extra.xmult = to_big(card.ability.extra.xmult) + to_big(1)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
+			
 			calculate = function(self, card, context)
 				if
 					context.cardarea == G.jokers
@@ -454,25 +471,20 @@ local jokerInfo = {
 						
 						-- Decide if card should be destroyed
 						if SMODS.pseudorandom_probability(context.other_card, 'mitaKill', 1, card.ability.extra.odds) then
+							
 							context.other_card.getting_sliced = true -- Marks the card for destruction.
 							RT.doNotRedSeal = true -- If the card is being destroyed, we don't need to retrigger this card via red seal.
 							RT.message = '  '
 							RT.colour = G.C.RED
 							RT.func = function()
+								local cardRef = context.other_card
+								
 								G.E_MANAGER:add_event(Event({
-									trigger = 'after',
-									delay = 1.5,
+									trigger = 'immediate',
 									blocking = false,
 									blockable = true,
 									func = function()
-										context.other_card.children.knifeSprite = Sprite(
-											context.other_card.T.x, context.other_card.T.y, -- Sprite X & Y
-											context.context.other_card.T.w, card.T.w, -- Sprite W & H
-											CirnoMod.miscItems.otherAtlases.cardKnifeStab, -- Sprite Atlas
-											{ x = 0, y = 0 }) -- Position in the Atlas
-										
-										context.other_card.children.knifeSprite.role.draw_major = context.other_card
-										context.other_card.stab = true -- Purely for the visual effect on the Drawstep.
+										cardRef.stab = true -- Purely for the visual effect on the Drawstep.
 										return true
 									end}))
 							end
@@ -590,10 +602,10 @@ local jokerInfo = {
 				
 				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_Guns']
 				
-				--[[ Art credit tooltip
+				-- Art credit tooltip
 				if CirnoMod.config['artCredits'] and not card.fake_card then
-					info_queue[#info_queue + 1] = { key = "", set = "Other" }
-				end]]
+					info_queue[#info_queue + 1] = { key = 'jA_NTF', set = 'Other' }
+				end
 				
 				return { vars = { 
 					to_big(card.ability.extra.growth),
@@ -609,6 +621,20 @@ local jokerInfo = {
 					CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('2 max', 'TwoMax'),
 					CirnoMod.miscItems.obscureStringIfNoneInJokerKeyGroupEncountered('cirGuns', 'fingerGuns')
 				}}
+			end,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth)..'{} Mult scaling',
+					'->',
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth) + to_big(0.5)..'{} Mult scaling'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.growth = to_big(card.ability.extra.growth) + to_big(0.5)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
 			end,
 			
 			calculate = function(self, card, context)				
@@ -666,7 +692,7 @@ local jokerInfo = {
 					"{X:mult,C:white}X#1#{} Mult for every {C:attention}Joker{}",
 					"whose graphic or reskin either",
 					"is or is otherwise related",
-					"to {C:attention}crazy women{}.",
+					"to being {C:attention}unhinged{}.",
 					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)",
 					"{s:0.8,C:inactive}I was gonna reference the pasta,",
 					"{s:0.8,C:inactive}but I'm more intrigued in the fact",
@@ -756,6 +782,20 @@ local jokerInfo = {
 				end
 				
 				return { vars = { '', '?????' } }
+			end,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth)..'{} Mult scaling',
+					'->',
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth) + to_big(0.25)..'{} Mult scaling'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.growth = to_big(card.ability.extra.growth) + to_big(0.25)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
 			end,
 			
 			calculate = function(self, card, context)				
@@ -930,33 +970,7 @@ local jokerInfo = {
 				---@type JDJokerDefinition
 				return {
 					mod_function = function(card, mod_joker)
-						if extraTable.currentForm == 'betaLob' then
-							
-						elseif extraTable.currentForm == 'plexalLob' then
-							
-						elseif extraTable.currentForm == 'toadLob' then
-							
-						elseif extraTable.currentForm == 'vanLob' then
-							
-						elseif extraTable.currentForm == 'uncanny' then
-							
-						elseif extraTable.currentForm == '4thFloor' then
-							
-						elseif extraTable.currentForm == 'crescent' then
-							
-						elseif extraTable.currentForm == 'forestMaze' then
-							
-						elseif extraTable.currentForm == 'loogi' then
-							
-						elseif extraTable.currentForm == 'peachCell' then
-							
-						elseif extraTable.currentForm == 'nebLob' then
-							
-						elseif extraTable.currentForm == 'floor3B' then
-							
-						else
-							
-						end
+						
 					end
 				}
 			end,

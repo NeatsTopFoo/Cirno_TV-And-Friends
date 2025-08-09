@@ -1,6 +1,6 @@
 local creditSources = {}
 local RV = {
-	descriptions = { Joker = {} },
+	descriptions = { Joker = {}, Enhanced = {} },
 	misc = {
 		labels = {
 			k_upgradedjkr = 'Upgraded'
@@ -934,6 +934,18 @@ RV.descriptions.Joker.j_cir_tom_l_noPerfectionism = { name = "Tom",
 		"{s:0.8,C:inactive}to kill your assassination",
 		"{s:0.8,C:inactive}target,open the bible."
 	}
+}
+
+RV.descriptions.Enhanced.m_glass_pFreeze = { name = "Ice Card",
+	text = {
+		"{X:chips,C:white} X#1# {} Chips",
+		"{C:green}#2# in #3#{} chance to",
+		"destroy card",
+	}
+}
+
+RV.descriptions.Enhanced.m_glass_pFreeze_NoCir = { name = "Glass Card",
+	text = RV.descriptions.Enhanced.m_glass_pFreeze.text
 }
 
 --[[

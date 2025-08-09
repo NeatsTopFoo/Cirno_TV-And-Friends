@@ -45,9 +45,9 @@ local jokerInfo = {
 			
 			cir_upgradeInfo = function(self, card)
 				return {
-					'{C:mult}'..to_big(card.ability.extra.growth)..'{} Mult growth',
+					'{C:mult}'..to_big(card.ability.extra.growth)..'{} Mult scaling',
 					'->',
-					'{C:mult}'..to_big(card.ability.extra.growth) * to_big(2)..'{} Mult growth'
+					'{C:mult}'..to_big(card.ability.extra.growth) * to_big(2)..'{} Mult scaling'
 				}
 			end,
 			

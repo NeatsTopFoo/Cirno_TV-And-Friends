@@ -157,6 +157,20 @@ local jokerInfo = {
 			eternal_compat = true,
 			perishable_compat = false,
 			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth)..'{} Mult scaling',
+					'->',
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth) + to_big(1)..'{} Mult scaling'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.growth = to_big(card.ability.extra.growth) * to_big(2)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
+			
 			calculate = function(self, card, context)
 				if
 					card.ability.extra
@@ -354,6 +368,20 @@ local jokerInfo = {
 			cost = 30,
 			eternal_compat = true,
 			perishable_compat = false,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:chips,C:white}X'..to_big(card.ability.extra.growth)..'{} Chips scaling',
+					'->',
+					'{X:chips,C:white}X'..to_big(card.ability.extra.growth) + to_big(0.09)..'{} Chips scaling'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.growth = to_big(card.ability.extra.growth) + to_big(0.09)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.CHIPS }
+			end,
 			
 			calculate = function(self, card, context)
 				if
@@ -561,6 +589,22 @@ local jokerInfo = {
 			cost = 30,
 			eternal_compat = true,
 			perishable_compat = false,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{C:attention}'..G.localization.descriptions.Enhanced.m_gold.name..'s{} grow by',
+					'{C:money}'..SMODS.signed_dollars(to_big(card.ability.extra.dGrowth)),
+					'->',
+					'{C:attention}'..G.localization.descriptions.Enhanced.m_gold.name..'s{} grow by',
+					'{C:money}'..SMODS.signed_dollars(to_big(card.ability.extra.dGrowth) + to_big(1)),
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.dGrowth = to_big(card.ability.extra.dGrowth) + to_big(1)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MONEY }
+			end,
 			
 			calculate = function(self, card, context)
 				if
@@ -774,6 +818,21 @@ local jokerInfo = {
 				return xMult
 			end,
 			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'Create 2 free',
+					'{C:tarot}'..G.localization.descriptions.Tag.tag_meteor.name..'s',
+					'{s:0.8,C:inactive}2 max'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				add_tag(Tag('tag_meteor'))
+				add_tag(Tag('tag_meteor'))
+				card:juice_up()
+				play_sound('generic1')
+			end,
+			
 			calculate = function(self, card, context)
 				if context.before and context.main_eval then
 					local makePlanet = true
@@ -958,6 +1017,25 @@ local jokerInfo = {
 				end
 			end,
 			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:mult,C:white}X'..to_big(card.ability.extra.xmult)..'{} Mult scaling',
+					'{C:money}'..SMODS.signed_dollars(to_big(card.ability.extra.KoD_dollarsEarn))'{} at end of round',
+					'for scored  {C:attention}Kings{} of {C:diamonds_hc}Diamonds',
+					'->',
+					'{X:mult,C:white}X'..to_big(card.ability.extra.xmult) + to_big(1)..'{} Mult scaling',
+					'{C:money}'..SMODS.signed_dollars(to_big(card.ability.extra.KoD_dollarsEarn) + to_big(1))'{} at end of round',
+					'for scored  {C:attention}Kings{} of {C:diamonds_hc}Diamonds'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.xmult = to_big(card.ability.extra.xmult) + to_big(0.5)
+				card.ability.extra.KoD_dollarsEarn = to_big(card.ability.extra.KoD_dollarsEarn) + to_big(1)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
+			
 			calculate = function(self, card, context)
 				if
 					context.setting_blind
@@ -1091,6 +1169,20 @@ local jokerInfo = {
 			remove_from_deck = function(self, card, from_debuff)
 				ease_hands_played(-card.ability.extra.hands)
 				G.hand:change_size(-card.ability.extra.handSize)
+			end,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth)..'{} Mult scaling',
+					'->',
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth) + to_big(0.5)..'{} Mult scaling'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.growth = to_big(card.ability.extra.growth) + to_big(0.5)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
 			end,
 			
 			calculate = function(self, card, context)
@@ -1361,6 +1453,23 @@ local jokerInfo = {
 				return ret
 			end,
 			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'Create 5 random',
+					'{C:dark_edition}Negative {C:tarot}Tarot Cards'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				SMODS.add_card({ set = 'Tarot', edition = 'e_negative' })
+				SMODS.add_card({ set = 'Tarot', edition = 'e_negative' })
+				SMODS.add_card({ set = 'Tarot', edition = 'e_negative' })
+				SMODS.add_card({ set = 'Tarot', edition = 'e_negative' })
+				SMODS.add_card({ set = 'Tarot', edition = 'e_negative' })
+				card:juice_up()
+				play_sound('generic1')
+			end,
+			
 			calculate = function(self, card, context)
 				if
 					context.modify_scoring_hand
@@ -1577,6 +1686,20 @@ local jokerInfo = {
 			eternal_compat = true,
 			perishable_compat = false,
 			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'Create 2 free',
+					'{C:attention}'..G.localization.descriptions.Tag.tag_negative.name..'s'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				add_tag(Tag('tag_negative'))
+				add_tag(Tag('tag_negative'))
+				card:juice_up()
+				play_sound('generic1')
+			end,
+			
 			calculate = function(self, card, context)
 				if context.ending_shop and G.consumeables.cards[1] then
 					return { message = localize('k_duplicated_ex'),
@@ -1733,9 +1856,9 @@ local jokerInfo = {
 				end
 				
 				return { vars = {
-					card.ability.extra.extra,
-					card.ability.extra.dollars,
-					card.ability.extra.xChips
+					to_big(card.ability.extra.extra),
+					SMODS.signed_dollars(to_big(card.ability.extra.dollars)),
+					to_big(card.ability.extra.xChips)
 					} }
 			end,
 			
@@ -1744,6 +1867,16 @@ local jokerInfo = {
 			cost = 30,
 			eternal_compat = true,
 			perishable_compat = false,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'Gain {C:money}$111'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				return { dollars = 111 }
+			end,
 			
 			calculate = function(self, card, context)
 				if context.setting_blind and card.ability.extra.cardsMultAdded > 0 then
@@ -1910,6 +2043,23 @@ local jokerInfo = {
 			cost = 30,
 			eternal_compat = true,
 			perishable_compat = false,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:mult,C:white}X'..to_big(card.ability.extra.extra)..'{} Mult scaling',
+					'{s:0.8( Kings of Spades {s:0.8,X:mult,C:white}X'..to_big(card.ability.extra.extra_KoS)..'{s:0.8})',
+					'->',
+					'{X:mult,C:white}X'..to_big(card.ability.extra.extra) + to_big(0.1)..'{} Mult scaling',
+					'{s:0.8( Kings of Spades {s:0.8,X:mult,C:white}X'..to_big(card.ability.extra.extra_KoS) + to_big(0.1)..'{s:0.8})'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.extra = to_big(card.ability.extra.extra) + to_big(0.1)
+				card.ability.extra.extra_KoS = to_big(card.ability.extra.extra_KoS) + to_big(0.1)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
 			
 			calculate = function(self, card, context)
 				if
@@ -2436,6 +2586,33 @@ local jokerInfo = {
 				card:set_sprites(card.config.center)
 			end,
 			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth)..'{} Mult scaling',
+					'->',
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth) + to_big(0.5)..'{} Mult scaling',
+					'& {C:attention}all stored values X2'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.growth = to_big(card.ability.extra.growth) + to_big(0.5)
+				
+				for k, v in pairs(card.ability.extra.stored) do
+					if
+						(k ~= 'x_chips'
+						and k ~= 'x_mult')
+						or ((k == 'x_chips'
+						or k == 'x_mult')
+						and v > to_big(1))
+					then
+						v = to_big(v) * to_big(2)
+					end
+				end
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
+			
 			calculate = function(self, card, context)
 				if
 					not context.blueprint
@@ -2667,6 +2844,27 @@ local jokerInfo = {
 			eternal_compat = true,
 			perishable_compat = true,
 			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{C:diamonds_hc}'..card.ability.extra.suit..'{} cards give',
+					'{C:mult}+'..to_big(card.ability.s_mult)..'{} Mult',
+					'And {C:attention}Queens',
+					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult)..'{} Mult',
+					'->',
+					'{C:diamonds_hc}'..card.ability.extra.suit..'{} cards give',
+					'{C:mult}+'..to_big(card.ability.s_mult) + to_big(5)..'{} Mult',
+					'And {C:attention}Queens',
+					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult) + to_big(1)..'{} Mult'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.s_mult = to_big(card.ability.s_mult) + to_big(5)
+				card.ability.s_x_mult = to_big(card.ability.s_x_mult) + to_big(1)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
+			
 			calculate = function(self, card, context)
 				if
 					context.individual
@@ -2734,6 +2932,27 @@ local jokerInfo = {
 			eternal_compat = true,
 			perishable_compat = true,
 			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{C:hearts_hc}'..card.ability.extra.suit..'{} cards give',
+					'{C:mult}+'..to_big(card.ability.s_mult)..'{} Mult',
+					'And {C:attention}Kings',
+					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult)..'{} Mult',
+					'->',
+					'{C:hearts_hc}'..card.ability.extra.suit..'{} cards give',
+					'{C:mult}+'..to_big(card.ability.s_mult) + to_big(5)..'{} Mult',
+					'And {C:attention}Kings',
+					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult) + to_big(1)..'{} Mult'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.s_mult = to_big(card.ability.s_mult) + to_big(5)
+				card.ability.s_x_mult = to_big(card.ability.s_x_mult) + to_big(1)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
+			
 			calculate = function(self, card, context)
 				if
 					context.individual
@@ -2800,6 +3019,27 @@ local jokerInfo = {
 			eternal_compat = true,
 			perishable_compat = true,
 			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{C:spades_hc}'..card.ability.extra.suit..'{} cards give',
+					'{C:mult}+'..to_big(card.ability.s_mult)..'{} Mult',
+					'And {C:attention}Queens',
+					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult)..'{} Mult',
+					'->',
+					'{C:spades_hc}'..card.ability.extra.suit..'{} cards give',
+					'{C:mult}+'..to_big(card.ability.s_mult) + to_big(5)..'{} Mult',
+					'And {C:attention}Queens',
+					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult) + to_big(1)..'{} Mult'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.s_mult = to_big(card.ability.s_mult) + to_big(5)
+				card.ability.s_x_mult = to_big(card.ability.s_x_mult) + to_big(1)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
+			
 			calculate = function(self, card, context)
 				if
 					context.individual
@@ -2843,7 +3083,7 @@ local jokerInfo = {
 				card.ability.extra.originalRarity = orgRarity
 				
 				card.ability.extra.s_mult = to_big(card.ability.extra.s_mult) + to_big(2)
-				card.ability.extra.s_x_mult = 1.5
+				card.ability.extra.s_x_mult = to_big(1.5)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -2866,6 +3106,27 @@ local jokerInfo = {
 			soul_pos = { x = 3, y = 4 },
 			eternal_compat = true,
 			perishable_compat = true,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{C:clubs_hc}'..card.ability.extra.suit..'{} cards give',
+					'{C:mult}+'..to_big(card.ability.s_mult)..'{} Mult',
+					'And {C:attention}Queens',
+					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult)..'{} Mult',
+					'->',
+					'{C:clubs_hc}'..card.ability.extra.suit..'{} cards give',
+					'{C:mult}+'..to_big(card.ability.s_mult) + to_big(5)..'{} Mult',
+					'And {C:attention}Queens',
+					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult) + to_big(1)..'{} Mult'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.s_mult = to_big(card.ability.s_mult) + to_big(5)
+				card.ability.s_x_mult = to_big(card.ability.s_x_mult) + to_big(1)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
 			
 			calculate = function(self, card, context)
 				if
@@ -2925,6 +3186,20 @@ local jokerInfo = {
 			pos = { x = 4, y = 4 },
 			eternal_compat = true,
 			perishable_compat = true,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:mult,C:white}X'..to_big(card.ability.x_mult)..'{} Mult',
+					'->',
+					'{X:mult,C:white}X'..to_big(card.ability.x_mult) * to_big(2)..'{} Mult'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.x_mult = to_big(card.ability.x_mult) * to_big(2)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
 			
 			calculate = function(self, card, context)
 				if joker_main then
@@ -3016,6 +3291,181 @@ local jokerInfo = {
 				end
 			end
 		},
+		-- Cirno's Perfect Freeze
+		{
+			key = 'perfectFreeze',
+			upgradesFrom = 'j_glass',
+			
+			matureRefLevel = 1,
+			loadOrder = 'upgUncmn',
+			
+			loc_txt = { name = 'Cirno\'s Perfect Freeze',
+				text = { {
+					'This Joker gains {X:chips,C:white} X#1# {} Chips',
+                    'for every destroyed {C:attention}#2#',
+                    '{C:inactive}(Currently {X:chips,C:white} X#3# {C:inactive} Chips)'
+					}, {
+					'{C:attention}#2#s{} give {X:chips,C:white}XChips',
+                    'instead of {X:mult,C:white}XMult',
+					' ',
+					'The odds for {C:attention}#2#{}',
+					'breaking are now {C:green}#4# in #5#'
+					}, {
+					'Played cards without an',
+					'{C:attention}enhancement{} have a',
+					'{C:green}#6# in #7#{} chance',
+					'to become {C:attention}#2#s',
+					'{s:0.8}(Guaranteed for{s:0.8,C:attention}9s{s:0.8})',
+					'{s:0.8,C:inactive}"I\'m CIRNO TELEVISION!',
+					'{s:0.8,C:inactive}Of course I\'ll get accepted"'
+				} }
+			},
+			
+			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
+				card.ability.extra = {
+					originalRarity = orgRarity,
+					growth = 1,
+					x_chips = orgAbilityTbl.x_mult,
+					odds = 9
+				}
+				
+				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
+				card:set_cost()
+			end,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_DaemonTsun_BigNTFEdit', set = 'Other' }
+				end
+				
+				local breakNom, breakDenom = SMODS.get_probability_vars(card or self, 1, card.ability.extra.odds, 'glass')
+				
+				local iceNom, iceDenom = SMODS.get_probability_vars(card or self, 1, card.ability.extra.odds, 'perfectFreeze')
+				
+				return { vars = {
+					to_big(card.ability.extra.growth),
+					G.localization.descriptions.Enhanced.m_glass.name,
+					to_big(card.ability.extra.x_chips),
+					breakNom,
+					breakDenom,
+					iceNom,
+					iceDenom
+				} }
+			end,
+			
+			pos = { x = 8, y = 4 },
+			eternal_compat = true,
+			perishable_compat = false,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:chips,C:white}X'..to_big(card.ability.extra.growth)..'{} Chips scaling',
+					'->',
+					'{X:chips,C:white}X'..to_big(card.ability.extra.growth) + to_big(0.5)..'{} Chips scaling'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.growth = to_big(card.ability.extra.growth) + to_big(0.5)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.CHIPS }
+			end,
+			
+			calculate = function(self, card, context)
+				if not context.blueprint then
+					if context.before and context.main_eval then
+						local cardsToSet = {}
+						
+						for i, c in ipairs(context.full_hand) do
+							if
+								not next(SMODS.get_enhancements(c))
+								and (c.base.value == '9'
+								or SMODS.pseudorandom_probability(card, 'perfectFreeze', 1, card.ability.extra.odds))
+							then
+								table.insert(cardsToSet, c)
+							end
+						end
+						
+						if #cardsToSet > 0 then
+							for _, pCard in ipairs(cardsToSet) do
+								CirnoMod.miscItems.flippyFlip.fStart(pCard)
+								
+								G.E_MANAGER:add_event(Event({
+									trigger = 'immediate',
+									blocking = true,
+									blockable = true,
+									func = function()								
+										pCard:set_ability('m_glass')
+										return true 
+									end }))
+								
+								CirnoMod.miscItems.flippyFlip.fEnd(pCard)
+							end
+						end
+					end
+					
+					if
+						context.remove_playing_cards
+						or (context.using_consumeable
+						and context.consumeable.config.center.key == 'c_hanged_man')
+					then
+						local removedCards = (context.remove_playing_cards and context.removed) or (context.using_consumeable and G.hand.highlighted) or nil
+						
+						if removedCards then
+							local glass_cards = 0
+							
+							for _, removed_card in ipairs(removedCards) do
+								if
+									removed_card.shattered
+									or (context.using_consumeable
+									and SMODS.has_enhancement(removed_card, 'm_glass'))
+								then
+									glass_cards = glass_cards + 1
+								end
+							end
+							
+							if glass_cards > 0 then
+								local jkrRef = card
+								
+								G.E_MANAGER:add_event(Event({
+									func = function()
+										G.E_MANAGER:add_event(Event({
+											func = function()
+												jkrRef.ability.extra.x_chips = to_big(jkrRef.ability.extra.x_chips) + to_big(jkrRef.ability.extra.growth) * to_big(glass_cards)
+												return true
+											end
+										}))
+										
+										SMODS.calculate_effect( {
+												message = localize { type = 'variable', key = 'a_xchips', vars = { to_big(jkrRef.ability.extra.x_chips) +
+												to_big(jkrRef.ability.extra.growth) * to_big(glass_cards) } }
+											}, jkrRef)
+										return true
+									end
+								}))
+								
+								return nil, true
+							end
+						end
+					end
+				end
+				
+				if
+					context.fix_probability
+					and context.trigger_obj
+					and (context.trigger_obj.ability.effect == 'Glass Card'
+					or context.trigger_obj.ability.cir_ice
+					or context.trigger_obj.ability.mod_conv == 'm_glass')
+				then
+					return { denominator = card.ability.extra.odds }
+				end
+				
+				if context.joker_main then return { x_chips = to_big(card.ability.extra.x_chips) } end
+			end
+		},
 	}
 }
 
@@ -3062,5 +3512,49 @@ for i, jkr in ipairs(jokerInfo.jokerConfigs) do
 		end
 	end
 end
+
+SMODS.Enhancement:take_ownership('glass', {
+	config = { cir_ice = true, Xmult = 1, x_mult = 1, extra = { multiplier = 2, odds = 4 } },
+	
+	shatters = true,
+	
+	loc_vars = function(self, info_queue, card)
+		local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'glass')
+		
+		local ret = { vars = { to_big(card.ability.extra.multiplier), numerator, denominator } }
+		
+		if next(SMODS.find_card('j_cir_perfectFreeze')) then
+			if CirnoMod.miscItems.atlasCheck(card) then
+				ret.key = 'm_glass_pFreeze'
+			else
+				ret.key = 'm_glass_pFreeze_NoCir'
+			end
+		end
+		
+		return ret
+	end,
+	
+	calculate = function(self, card, context)
+		if context.main_scoring and context.cardarea == G.play then
+			if
+				not card.glass_trigger
+				and SMODS.pseudorandom_probability(card, 'glass', 1, card.ability.extra.odds)
+			then
+				card.glass_trigger = true
+			end
+			
+			if next(SMODS.find_card('j_cir_perfectFreeze')) then
+				return { x_chips = to_big(card.ability.extra.multiplier) }
+			end
+			
+			return { x_mult = to_big(card.ability.extra.multiplier) }
+		end
+		
+		if context.destroy_card and context.destroy_card.glass_trigger then
+			return { remove = true }
+		end
+    end
+	
+}, true)
 
 return jokerInfo

@@ -696,9 +696,9 @@ jokerLoc.nrmJkrs.j_blueprint = { -- name = "Blueprint",
 jokerLoc.nrmJkrs.j_glass = { name = "Ice Joker",
 	text = {
 		"This Joker gains {X:mult,C:white} X#1# {} Mult",
-        "for every {C:attention}#3# Card",
+        "for every {C:attention}#2#",
         "that is destroyed",
-        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+        "{C:inactive}(Currently {X:mult,C:white} X#3# {C:inactive} Mult)",
 		"{s:0.8,C:inactive}What's cooler than being cool?"
 	}
 }
@@ -708,9 +708,9 @@ SMODS.Joker:take_ownership('glass', {
         info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
 		
 		return { vars = {
-			card.ability.extra,
-			card.ability.x_mult,
-			G.localization.descriptions.Enhanced.m_glass.name
+			to_big(card.ability.extra),
+			G.localization.descriptions.Enhanced.m_glass.name,
+			to_big(card.ability.x_mult)
 		} }
 	end
 }, true)

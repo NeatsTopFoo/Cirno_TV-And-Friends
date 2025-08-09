@@ -84,7 +84,7 @@ local spectralInfo = {
 		-- Perfectionism
 		{
 			key = 'sPerfectionism_l',
-			cost = 6,
+			cost = 14,
 			pos = { x = 0, y = 1 },
 			soul_pos = { x = 0, y = 2 },
 			config = { extra = 2 },
@@ -376,9 +376,9 @@ end
 SMODS.Joker:take_ownership('half', {
 	cir_upgradeInfo = function(self, card)
 		return {
-			'{C:mult}'..to_big(card.ability.extra.mult)..'{} Mult',
+			'{C:mult}+'..to_big(card.ability.extra.mult)..'{} Mult',
 			'->',
-			'{C:mult}'..to_big(card.ability.extra.mult) * to_big(2)..'{} Mult'
+			'{C:mult}+'..to_big(card.ability.extra.mult) * to_big(2)..'{} Mult'
 		}
 	end,
 	

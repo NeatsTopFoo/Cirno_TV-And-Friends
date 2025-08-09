@@ -45,7 +45,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 - Adds:	
   - Various fun flavour text to numerous items
   - Some custom playing card skins
-  - 37 custom Jokers
+  - 38 custom Jokers
   - 2 custom Spectral Cards
   - 1 custom Challenge
   - Sometimes, quitting is an option. :)

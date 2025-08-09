@@ -608,7 +608,7 @@ miscLoc.vouchers.v_tarot_merchant = { -- name = "Tarot Merchant",
 			"in the shop",
 			"{s:0.8,C:inactive}Todd Howard is my",
 			"{s:0.8,C:inactive}favourite Touhou character"
-		},
+		}
 	}
 
 miscLoc.vouchers.v_tarot_tycoon = { name = "CirSona",
@@ -620,7 +620,7 @@ miscLoc.vouchers.v_tarot_tycoon = { name = "CirSona",
 			"{s:0.8,C:inactive}I reach out to the truth of",
 			"{s:0.8,C:inactive}my life, seeking to seize",
 			"{s:0.8,C:inactive}On the whole moment, yeah"
-		},
+		}
 	}
 
 miscLoc.vouchers.v_clearance_sale = { name = "Balatro Discount",
@@ -630,7 +630,7 @@ miscLoc.vouchers.v_clearance_sale = { name = "Balatro Discount",
 			"{s:0.8,C:inactive}Hey, you should buy Balatro",
 			"{s:0.8,C:inactive}if you haven't already.",
 			"{s:0.8,C:inactive}...What?"
-		},
+		}
 	}
 
 miscLoc.vouchers.v_liquidation = { name = "Steam Summer Sale",
@@ -639,7 +639,7 @@ miscLoc.vouchers.v_liquidation = { name = "Steam Summer Sale",
 			"shop are {C:attention}#1#%{} off",
 			"{s:0.8,C:inactive}There'll be 0% of your",
 			"{s:0.8,C:inactive}wallet left afterwards"
-		},
+		}
 	}
 
 miscLoc.vouchers.v_crystal_ball = { name = "Yin-Yang Orb",
@@ -649,7 +649,7 @@ miscLoc.vouchers.v_crystal_ball = { name = "Yin-Yang Orb",
 			"{s:0.8,C:inactive}that Reimu was, while not",
 			"{s:0.8,C:inactive}the first, at least one",
 			"{s:0.8,C:inactive}of the OG orb ponderers"
-		},
+		}
 	}
 
 miscLoc.vouchers.v_omen_globe = { name = "Eternal Shrine Maiden",
@@ -671,7 +671,7 @@ miscLoc.vouchers.v_overstock_norm = { name = "Card Table",
 		"{s:0.8,C:inactive}have your valuable",
 		"{s:0.8,C:inactive}cardboard sit out in",
 		"{s:0.8,C:inactive}the open like that"
-    },
+    }
 }
 
 miscLoc.vouchers.v_overstock_plus = { name = "Display Cabinets",
@@ -687,7 +687,7 @@ miscLoc.vouchers.v_reroll_surplus = { name = "Reroll Gamblecore",
 		"Rerolls cost",
 		"{C:money}$#1#{} less",
 		"{s:0.8,C:inactive}I can't stop winning!"
-	},
+	}
 }
 
 miscLoc.vouchers.v_paint_brush = { name = "Work-In-Progress",
@@ -742,7 +742,7 @@ end
 SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "text", {
 		"{C:planet}#1#{} cards in your",
 		"{C:attention}consumable{} area give",
-		"{X:red,C:white} X#1# {} Mult for their",
+		"{X:red,C:white} X#2# {} Mult for their",
 		"specified {C:attention}poker hand",
 	})
 				
@@ -756,7 +756,8 @@ SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "unloc
 SMODS.Voucher:take_ownership('observatory',{
 	loc_vars = function(self, info_queue, card)
 		return { vars = {
-			G.localization.misc.labels.planet
+			G.localization.misc.labels.planet,
+			card.ability.extra
 		} }
 	end,
 	

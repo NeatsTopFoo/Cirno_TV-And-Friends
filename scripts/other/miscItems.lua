@@ -1630,7 +1630,12 @@ miscItems.perfectionismUpgradable_Jokers = {
 	
 	j_egg = function() return { msg = ' impossible ', frc_incompatible = true } end,
 	
-	j_four_fingers = function() return { msg = ' impossible ', frc_incompatible = true } end,
+	j_four_fingers = function() local ret = { frc_incompatible = true }
+		if CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_four_fingers) then
+			ret.msg = ' im | || || |_ ible '
+		end
+	return ret
+	end,
 	
 	j_marble = function() return { msg = ' impossible ', frc_incompatible = true } end,
 	
@@ -1725,9 +1730,9 @@ miscItems.funnyAtlases.didYouMeanGermany = SMODS.Atlas({
 	py = 36
 })
 
-miscItems.otherAtlases.cardKnifeStab = SMODS.Atlas({
-	key = 'cir_cardKnifeStab',
-	path = 'Misc/knifeStab.png',
+miscItems.otherAtlases.miscSprites = SMODS.Atlas({
+	key = 'cir_miscSprites',
+	path = 'Misc/miscSprites.png',
 	px = 71,
 	py = 95
 })
@@ -1738,9 +1743,16 @@ SMODS.DrawStep{
 	func = function(card, layer)
 		if
 			card
-			and card.children.knifeSprite
 			and card.stab
 		then
+			if not card.children.knifeSprite then
+				card.children.knifeSprite = Sprite(
+					0, 0, -- Sprite X & Y
+					0, 0, -- Sprite W & H
+					CirnoMod.miscItems.otherAtlases.miscSprites, -- Sprite Atlas
+					{ x = 0, y = 0 })
+			end
+			
 			card.children.knifeSprite.role.draw_major = card
 			card.children.knifeSprite:draw_shader('dissolve', nil, nil, nil, card.children.center)
 		end
