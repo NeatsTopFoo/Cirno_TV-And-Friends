@@ -349,7 +349,7 @@ miscItems.colours.cirUpgradedJkrClr_tbl = {
 miscItems.badges = {
 	allegations = function(bootstrapsName) return create_badge(bootstrapsName or 'You Forgot To Pass The Name In', G.C.GREEN, G.C.UI.TEXT_LIGHT, 0.8 ) end,
 	TwoMax = function() return create_badge("2 Max", miscItems.colours.cirNep, G.C.UI.TEXT_LIGHT, 0.8) end,
-	cirGuns = function() return create_badge("cirGuns", miscItems.colours.cirCyan, G.C.UI.TEXT_LIGHT, 0.8 ) end,
+	fingerGuns = function() return create_badge("cirGuns", miscItems.colours.cirCyan, G.C.UI.TEXT_LIGHT, 0.8 ) end,
 	unhinged = function() return create_badge("Unhinged", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 ) end,
 	chatBrainrot = function() return create_badge("Chat Brainrot", miscItems.colours.cirBlue, G.C.UI.TEXT_LIGHT, 0.8 ) end,
 	upgradedJkr = {
@@ -1449,6 +1449,8 @@ if CirnoMod.config.addCustomJokers then
 	miscItems.jkrKeyGroups.unhinged.j_cir_queenOfDiamonds = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_kingOfHearts = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_SPGP = true
+	
+	miscItems.jkrKeyGroups.fingerGuns.j_cir_platinum = true
 end
 
 miscItems.jkrKeyGroupTotalEncounters = function(groupName, stopAt1)

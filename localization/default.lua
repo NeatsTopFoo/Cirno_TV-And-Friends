@@ -911,17 +911,17 @@ RV.descriptions.Joker.cir_b3313_floor3B = { name = 'Floor 3B', text = {
 
 RV.descriptions.Joker.cir_j_confusedRumi_nPCardRebalanced = { name = "Confused Rumi",
 	text = {
-		"During the first {C:attention}#1#{C:blue}#2#{} of a round,",
-		"Convert all played {C:attention}left{} cards",
-		"into {C:attention}right{} cards",
-		"{C:inactive,s:0.9}(Removes {C:dark_edition,s:0.9}Negative{C:inactive,s:0.9} from copy)",
-		"{s:0.8,C:inactive}What is \"left card?\"",
-		"{s:0.8,C:inactive}How do you define \"left card?\"",
-		"{s:0.8,C:inactive}If you're talking about what",
-		"{s:0.8,C:inactive}you can feel, what you can taste,",
-		"{s:0.8,C:inactive}and see, then \"left card\" is",
-		"{s:0.8,C:inactive}simply electrical signals",
-		"{s:0.8,C:inactive}interpreted by your brain"
+		'During the first {C:attention}#1#{C:blue}#2#{} of a round,',
+		'Convert all played {C:attention}left{} cards',
+		'into {C:attention}right{} cards',
+		'{C:inactive,s:0.9}(Removes {C:dark_edition,s:0.9}Negative{C:inactive,s:0.9} from copy)',
+		'{s:0.8,C:inactive}What is "left card?"',
+		'{s:0.8,C:inactive}How do you define "left card?"',
+		'{s:0.8,C:inactive}If you\'re talking about what',
+		'{s:0.8,C:inactive}you can feel, what you can taste,',
+		'{s:0.8,C:inactive}and see, then "left card" is"',
+		'{s:0.8,C:inactive}simply Balatro-cal signals,',
+		'{s:0.8,C:inactive}interpreted by your brain'
 	}
 }
 
@@ -934,6 +934,29 @@ RV.descriptions.Joker.j_cir_tom_l_noPerfectionism = { name = "Tom",
 		"{s:0.8,C:inactive}to kill your assassination",
 		"{s:0.8,C:inactive}target,open the bible."
 	}
+}
+
+RV.descriptions.Joker.j_cir_platinum_upg = { name = 'Platinum Joker',
+	text = { {
+		'At end of round',
+		'earn either {X:money,C:white}X#1#',
+		'or {C:money}#2#{}, whichever',
+		'is larger',
+		'{C:inactive}(Currently {C:money}#3#{C:inactive})'
+		}, {
+		'{C:attention}#4#s',
+		'held in hand',
+		'have a {C:green}#5# in #6#',
+		'chance to trigger'
+		}, {
+		'Scored cards',
+		'without a {C:attention}seal{}',
+		'have a {C:green}#7# in #8#',
+		'chance to gain a',
+		'{C:attention}#4#',
+		'{s:0.8,C:inactive}Metal Gear Rising 2',
+		'{s:0.8,C:inactive}when?'
+	} }
 }
 
 RV.descriptions.Enhanced.m_glass_pFreeze = { name = "Ice Card",

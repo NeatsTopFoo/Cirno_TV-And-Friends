@@ -937,7 +937,9 @@ for k, ach in pairs(cirAch) do
 end
 
 local main_menuRef = Game.main_menu -- Main_menu() hook
-function Game:main_menu(change_context)	
+function Game:main_menu(change_context)
+	CirnoMod.quipReplace()
+	
 	if not CirnoMod.launching then
 		if not CirnoMod.config.startedModOnce then
 			CirnoMod.config.startedModOnce = true
@@ -1038,7 +1040,6 @@ function Game:main_menu(change_context)
 	end
 end
 
--- CirnoMod.CirnoHooks = {}
 --[[
 Hooks for things like challenge functionality.
 Challenge functionality is a little weird and
@@ -1046,6 +1047,7 @@ primarily facilitated by checking G.GAME.modifiers
 for the challenge id.]]
 local oldRunStart = Game.start_run
 Game.start_run = function(self, args)
+	
 	--[[
 	Check if challenges are on and the
 	challenge functions aren't empty]]

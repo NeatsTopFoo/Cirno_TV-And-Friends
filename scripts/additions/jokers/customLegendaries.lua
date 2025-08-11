@@ -328,6 +328,7 @@ local jokerInfo = {
 					context.end_of_round
 					and context.main_eval
 					and not context.blueprint
+					and not context.game_over
 				then
 					local newX = pseudorandom('naroSpriteChange', 0, 1)
 					
@@ -596,6 +597,7 @@ local jokerInfo = {
 					if
 						context.end_of_round
 						and not context.blueprint
+						and not context.game_over
 					then
 						-- print("Round End Test")
 						
@@ -870,9 +872,9 @@ local jokerInfo = {
 				name = "Demeorin",
 				-- The description the player will see in-game.
 				text = {
-					"After defeating a {C:attention}Boss Blind{},",
-					"create a {C:dark_edition}Negative {C:spectral}Spectral{} card",
-					-- "{s:0.8,C:inactive}"
+					'After defeating a {C:attention}Boss Blind{},',
+					'create a {C:dark_edition}Negative {C:spectral}Spectral{} card',
+					'{s:0.8,C:inactive}"Nya"'
 				}
 			},
 			
@@ -895,7 +897,12 @@ local jokerInfo = {
 			perishable_compat = true,
 			
 			calculate = function(self, card, context)
-				if context.end_of_round and context.main_eval and context.beat_boss then
+				if
+					context.end_of_round
+					and context.main_eval
+					and context.beat_boss
+					and not context.game_over
+				then
 					return { func = function()
 							card:juice_up()
 							play_sound('generic1')
@@ -968,7 +975,12 @@ local jokerInfo = {
 			perishable_compat = false,
 			
 			calculate = function(self, card, context)
-				if context.end_of_round and context.main_eval and not context.blueprint then
+				if
+					context.end_of_round
+					and context.main_eval
+					and not context.blueprint
+					and not context.game_over
+				then
 					if CirnoMod.config.addCustomConsumables then
 						if card.ability.extra.rCounter < 2 then
 							card.ability.extra.rCounter = card.ability.extra.rCounter + 1

@@ -138,6 +138,8 @@ local spectralInfo = {
 							ret.vars[1] = 'Select only one Joker'
 						elseif
 							(G.jokers.highlighted[1].config.center.cir_upgradeInfo
+							and type(G.jokers.highlighted[1].config.center.cir_upgradeInfo) == 'function'
+							and G.jokers.highlighted[1].config.center:cir_upgradeInfo(G.jokers.highlighted[1])
 							and G.jokers.highlighted[1].config.center.cir_upgrade)
 						then
 							CirnoMod.miscItems.descExtensionTooltips.eDT_cir_perfectionismSpecific.myText =G.jokers.highlighted[1].config.center:cir_upgradeInfo(G.jokers.highlighted[1])
@@ -203,6 +205,8 @@ local spectralInfo = {
 						and #G.jokers.highlighted == 1
 						and (CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
 						or (G.jokers.highlighted[1].config.center.cir_upgradeInfo
+						and type(G.jokers.highlighted[1].config.center.cir_upgradeInfo) == 'function'
+						and G.jokers.highlighted[1].config.center:cir_upgradeInfo(G.jokers.highlighted[1])
 						and G.jokers.highlighted[1].config.center.cir_upgrade))
 					then
 						if
@@ -406,5 +410,7 @@ SMODS.Joker:take_ownership('abstract', {
 	end
 	
 	}, true)
+
+
 
 return spectralInfo

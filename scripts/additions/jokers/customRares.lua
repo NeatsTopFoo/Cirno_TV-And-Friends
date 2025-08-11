@@ -267,7 +267,7 @@ local jokerInfo = {
 			calculate = function(self, card, context)
 				if
 					context.cardarea == G.jokers
-					and context.blueprint_card == nil
+					and not context.blueprint
 					and (not context.setting_blind
 					and card.ability.extra.pHand ~= '[HAND]')
 					and not context.using_consumeable
@@ -282,7 +282,8 @@ local jokerInfo = {
 						self.pickRandHand(card, true)
 					elseif
 						(context.end_of_round
-						and card.ability.extra.preventEndOfRoundChange == false)
+						and card.ability.extra.preventEndOfRoundChange == false
+						and not context.game_over)
 						or (context.card_added
 						and context.card == card)
 						or (context.setting_blind
@@ -1761,6 +1762,7 @@ local jokerInfo = {
 				
 				if
 					not context.end_of_round
+					and not context.game_over
 					and context.individual
 					and context.cardarea == G.hand
 					and context.other_card
@@ -1784,6 +1786,7 @@ local jokerInfo = {
 					and not context.retrigger_joker_check
 					and context.end_of_round
 					and context.main_eval
+					and not context.game_over
 				then
 					G.hand:change_size(to_big(2))
 				end
@@ -2370,7 +2373,11 @@ local jokerInfo = {
 					return { debuff = true }
 				end
 				
-				if context.end_of_round and context.main_eval then
+				if
+					context.end_of_round
+					and context.main_eval
+					and not context.game_over
+				then
 					self.pickRandHand(card)
 				end			
 				

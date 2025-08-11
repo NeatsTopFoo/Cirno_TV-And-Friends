@@ -13,116 +13,118 @@ local getSealName = function(type)
 end
 
 --#region Win/Lose Quips
+CirnoMod.quipReplace = function()
+	if CirnoMod.miscItems.atlasCheck(G.P_CENTERS.j_joker) then
+		SMODS.process_loc_text(G.localization.misc.quips, "lq_1", {
+				"Looks like you're being",
+				"backseated by chat.",
+				"Need an additional voice",
+				"in the crowd?"
+			})
+		
+		--[[
+		SMODS.process_loc_text(G.localization.misc.quips, "lq_2", {
+				"We folded like",
+				"a cheap suit!",
+			})]]
+		
+		--[[
+		SMODS.process_loc_text(G.localization.misc.quips, "lq_3", {
+				"Time for us",
+				"to shuffle off",
+				"and try again!",
+			})]]
+		
+		--[[
+		SMODS.process_loc_text(G.localization.misc.quips, "lq_4", {
+				"You know what",
+				"they say, the",
+				"house always wins!"
+			})]]
+		
+		SMODS.process_loc_text(G.localization.misc.quips, "lq_5", {
+				"Looks like you're trying",
+				"to make a {C:red}"..getSealName('red'),
+				"{C:attention}Steel King{} build. Would",
+				"you like help with that?"
+			})
+		
+		--[[
+		SMODS.process_loc_text(G.localization.misc.quips, "lq_6", {
+				"Oh no, were you",
+				"bluffing too?",
+			)]]
+		
+		--[[
+		SMODS.process_loc_text(G.localization.misc.quips, "lq_7", {
+				"Looks like the",
+				"joke's on us!",
+			})]]
+		
+		--[[
+		SMODS.process_loc_text(G.localization.misc.quips, "lq_8", {
+				"If I had hands",
+				"I would have",
+				"covered my eyes!"
+			})]]
+		
+		SMODS.process_loc_text(G.localization.misc.quips, "lq_9", {
+				"I'm literally",
+				"a paperclip, what's",
+				"your excuse?"
+			})
+		
+		SMODS.process_loc_text(G.localization.misc.quips, "lq_10", {
+				"What the",
+				"fluoride?"
+			})
+		--[[
+		
+		SMODS.process_loc_text(G.localization.misc.quips, "wq_1", {
+				"You Aced it!",
+			})]]
+		
+		--[[
+		SMODS.process_loc_text(G.localization.misc.quips, "wq_2", {
+				"You dealt with",
+				"that pretty well!",
+			})]]
+		
+		SMODS.process_loc_text(G.localization.misc.quips, "wq_3", {
+				"Looks like your keyboard",
+				"is working correctly!",
+				"Have you tried the",
+				"function keys?"
+			})
+		
+		--[[
+		SMODS.process_loc_text(G.localization.misc.quips, "wq_4", {
+				"Too bad these",
+				"chips are all",
+				"virtual...",
+			})]]
+		
+		--[[
+		SMODS.process_loc_text(G.localization.misc.quips, "wq_5", {
+				"Looks like I've",
+				"taught you well!",
+			})]]
+		
+		--[[
+		SMODS.process_loc_text(G.localization.misc.quips, "wq_6", {
+				"You made some",
+				"heads up plays!",
+			})]]
+		
+		--[[
+		SMODS.process_loc_text(G.localization.misc.quips, "wq_7", {
+				"Good thing",
+				"I didn't bet",
+				"against you!",
+			})]]
+	end
+end
 
-
-SMODS.process_loc_text(G.localization.misc.quips, "lq_1", {
-		"Looks like you're being",
-		"backseated by chat.",
-		"Need an additional voice",
-		"in the crowd?"
-	})
-
---[[
-SMODS.process_loc_text(G.localization.misc.quips, "lq_2", {
-		"We folded like",
-		"a cheap suit!",
-	})]]
-
---[[
-SMODS.process_loc_text(G.localization.misc.quips, "lq_3", {
-		"Time for us",
-		"to shuffle off",
-		"and try again!",
-	})]]
-
---[[
-SMODS.process_loc_text(G.localization.misc.quips, "lq_4", {
-		"You know what",
-		"they say, the",
-		"house always wins!"
-	})]]
-
-SMODS.process_loc_text(G.localization.misc.quips, "lq_5", {
-		"Looks like you're trying",
-		"to make a {C:red}"..getSealName('red'),
-		"{C:attention}Steel King{} build. Would",
-		"you like help with that?"
-	})
-
---[[
-SMODS.process_loc_text(G.localization.misc.quips, "lq_6", {
-		"Oh no, were you",
-		"bluffing too?",
-	)]]
-
---[[
-SMODS.process_loc_text(G.localization.misc.quips, "lq_7", {
-		"Looks like the",
-		"joke's on us!",
-	})]]
-
---[[
-SMODS.process_loc_text(G.localization.misc.quips, "lq_8", {
-		"If I had hands",
-		"I would have",
-		"covered my eyes!"
-	})]]
-
-SMODS.process_loc_text(G.localization.misc.quips, "lq_9", {
-		"I'm literally",
-		"a paperclip, what's",
-		"your excuse?"
-	})
-
-SMODS.process_loc_text(G.localization.misc.quips, "lq_10", {
-		"What the",
-		"fluoride?"
-	})
---[[
-
-SMODS.process_loc_text(G.localization.misc.quips, "wq_1", {
-        "You Aced it!",
-    })]]
-
---[[
-SMODS.process_loc_text(G.localization.misc.quips, "wq_2", {
-        "You dealt with",
-        "that pretty well!",
-    })]]
-
-SMODS.process_loc_text(G.localization.misc.quips, "wq_3", {
-        "Looks like your keyboard",
-		"is working correctly!",
-		"Have you tried the",
-		"function keys?"
-    })
-
---[[
-SMODS.process_loc_text(G.localization.misc.quips, "wq_4", {
-        "Too bad these",
-        "chips are all",
-        "virtual...",
-    })]]
-
---[[
-SMODS.process_loc_text(G.localization.misc.quips, "wq_5", {
-        "Looks like I've",
-        "taught you well!",
-    })]]
-
---[[
-SMODS.process_loc_text(G.localization.misc.quips, "wq_6", {
-        "You made some",
-        "heads up plays!",
-    })]]
-
---[[
-SMODS.process_loc_text(G.localization.misc.quips, "wq_7", {
-        "Good thing",
-        "I didn't bet",
-        "against you!",
-    })]]
-	
 --#endregion
 
 --#region Tags

@@ -529,16 +529,14 @@ PTSloc.spectrals.c_immolate = { -- name = "Immolate",
 		}
 	}
 
---[[ 
 PTSloc.spectrals.c_cryptid = { -- name = "Cryptid", 
 		text = {
 			"Create {C:attention}#1#{} copies of",
 			"{C:attention}1{} selected card",
 			"in your hand",
-			"{s:0.8,C:inactive}"
+			"{s:0.8,C:inactive}My ice cream"
 		}
 	}
-]]
 
 PTSloc.spectrals.c_familiar = { -- name = "Familiar", 
 		text = {
