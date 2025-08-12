@@ -96,16 +96,7 @@ local spectralInfo = {
 				name = "Perfectionism",
 				text = {
 					'{C:attention}Upgrades{} the currently',
-					'selected {C:attention}Joker',
-					'{B:1,C:white}#1#',
-					'If no compatible Jokers are',
-					'present, scales a random',
-					'Joker\'s {C:dark_edition}edition{} by a scalar of {C:attention}#2#',
-					'{s:0.8}({s:0.8,C:dark_edition}Foil{s:0.8}/{s:0.8,C:dark_edition}Holographic{s:0.8}/{s:0.8,C:dark_edition}Polychrome{s:0.8} only)',
-					'{s:0.8,C:inactive}The factory must grow.',
-					'{s:0.8,C:inactive}The factory must grow.',
-					'{s:0.6,C:inactive}The factory must grow.',
-					'{s:0.4,C:inactive}The factory must grow.'
+					'selected {C:attention}Joker'
 				}
 			},
 			
@@ -119,11 +110,18 @@ local spectralInfo = {
 			end,
 			
 			loc_vars = function(self, info_queue, card)
-				local ret = {
-					vars = {
-						colours = { G.C.RED },
-						' No Joker selected ',
-						card.ability.extra }
+				local ret = {}
+				
+				local compatibility = { mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8), ' No Joker Selected ' }
+				local descAppend = {
+					'If no compatible Jokers are',
+					'present, scales a random',
+					'Joker\'s {C:dark_edition}edition{} by a scalar of {C:attention}'..card.ability.extra,
+					'{s:0.8}({s:0.8,C:dark_edition}Foil{s:0.8}/{s:0.8,C:dark_edition}Holographic{s:0.8}/{s:0.8,C:dark_edition}Polychrome{s:0.8} only)',
+					'{s:0.8,C:inactive}The factory must grow',
+					'{s:0.8,C:inactive}The factory must grow',
+					'{s:0.6,C:inactive}The factory must grow',
+					'{s:0.4,C:inactive}The factory must grow'
 				}
 				
 				if not card.fake_card then
@@ -135,7 +133,7 @@ local spectralInfo = {
 						and #G.jokers.highlighted > 0
 					then
 						if #G.jokers.highlighted > 1 then
-							ret.vars[1] = 'Select only one Joker'
+							compatibility[2] = 'Select only one Joker'
 						elseif
 							(G.jokers.highlighted[1].config.center.cir_upgradeInfo
 							and type(G.jokers.highlighted[1].config.center.cir_upgradeInfo) == 'function'
@@ -146,8 +144,8 @@ local spectralInfo = {
 							
 							info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips.eDT_cir_perfectionismSpecific
 							
-							ret.vars.colours[1] = G.C.GREEN
-							ret.vars[1] = ' '..localize('k_compatible')..' '
+							compatibility[1] = mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8)
+							compatibility[2] = ' '..localize('k_compatible')..' '
 						elseif
 							CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
 						then
@@ -155,17 +153,17 @@ local spectralInfo = {
 								upJkrRet = CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]()
 								
 								if upJkrRet.clr then
-									ret.vars.colours[1] = upJkrRet.clr
+									compatibility[1] = upJkrRet.clr
 								end
 								
-								ret.vars[1] = upJkrRet.msg
+								compatibility[2] = upJkrRet.msg
 							else
 								upJkrRet = CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
-								ret.vars.colours[1] = G.C.GREEN
-								ret.vars[1] = ' '..localize('k_compatible')..' '
+								compatibility[1] = mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8)
+								compatibility[2] = ' '..localize('k_compatible')..' '
 							end
 						else
-							ret.vars[1] = ' '..localize('k_incompatible')..' '
+							compatibility[2] = ' '..localize('k_incompatible')..' '
 						end
 					end
 					
@@ -184,6 +182,74 @@ local spectralInfo = {
 								CirnoMod.miscItems.getJokerNameByKey(G.jokers.highlighted[1].config.center.key),
 								CirnoMod.miscItems.obscureJokerNameIfLockedOrUndisc(upJkrRet)
 						} }
+					end
+					
+					ret.main_end = {
+							{
+								n = G.UIT.C,
+								config = { align = "bm", minh = 0.4 },
+								nodes = { {
+									n = G.UIT.R,
+									config = { align = "bm", minh = 0.4 },
+									nodes = {
+										{
+											n = G.UIT.C, -- Spacer wrapper
+											config = {
+												r = 0.1,
+												padding = 0.0,
+												align = 'tm',
+												colour = G.C.CLEAR
+											},
+											nodes = {
+												{
+													-- Spacer
+													n = G.UIT.B,
+													config = {
+														colour = G.C.CLEAR,
+														w = 0.2,
+														h = 0.1
+													}
+												}
+											}
+										},
+										{
+											n = G.UIT.C,
+											config = { ref_table = card, align = "m", colour = compatibility[1], r = 0.05, padding = 0.06 },
+											nodes = {
+												{ n = G.UIT.T, config = { text = compatibility[2], colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
+											}
+										},
+										{
+											n = G.UIT.C, -- Spacer wrapper
+											config = {
+												r = 0.1,
+												padding = 0.0,
+												align = 'tm',
+												colour = G.C.CLEAR
+											},
+											nodes = {
+												{
+													-- Spacer
+													n = G.UIT.B,
+													config = {
+														colour = G.C.CLEAR,
+														w = 0.2,
+														h = 0.1
+													}
+												}
+											}
+										}
+									}
+								} }
+							}
+						}
+					
+					for _, t in ipairs(descAppend) do
+						ret.main_end[1].nodes[#ret.main_end[1].nodes + 1] = {
+							n = G.UIT.R,
+							config = { align = "cm", padding = 0.03 },
+							nodes = SMODS.localize_box(loc_parse_string(t), {scale = 1.0})
+						}
 					end
 					
 					info_queue[#info_queue + 1] = CirnoMod.miscItems.getEditionScalingInfo({ type = 'example' }, card.ability.extra )
@@ -397,9 +463,9 @@ SMODS.Joker:take_ownership('half', {
 SMODS.Joker:take_ownership('abstract', {
 	cir_upgradeInfo = function(self, card)
 		return {
-			'{C:mult}'..to_big(card.ability.extra)..'{} Mult',
+			'{C:mult}'..to_big(card.ability.extra)..'{} Mult per Joker',
 			'->',
-			'{C:mult}'..to_big(card.ability.extra) * to_big(2)..'{} Mult'
+			'{C:mult}'..to_big(card.ability.extra) * to_big(2)..'{} Mult per Joker'
 		}
 	end,
 	
@@ -411,6 +477,93 @@ SMODS.Joker:take_ownership('abstract', {
 	
 	}, true)
 
+SMODS.Joker:take_ownership('photograph', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{X:mult,C:white}'..to_big(card.ability.extra)..'{} Mult',
+			'->',
+			'{X:mult,C:white}'..to_big(card.ability.extra) + to_big(1)..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) + to_big(1)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+	end
+	
+	}, true)
 
+SMODS.Joker:take_ownership('gift', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'Adds {C:money}'..SMODS.signed_dollars(to_big(card.ability.extra))..'{} of sell value',
+			'->',
+			'Adds {C:money}'..SMODS.signed_dollars(to_big(card.ability.extra) + to_big(1))..'{} of sell value'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) + to_big(1)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MONEY }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('credit_card', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:red}-'..SMODS.signed_dollars(to_big(card.ability.extra))..'{} in debt',
+			'->',
+			'{C:red}-'..SMODS.signed_dollars(math.floor(to_big(card.ability.extra) * to_big(1.5)))..'{} in debt'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		G.GAME.bankrupt_at = to_big(G.GAME.bankrupt_at) + to_big(card.ability.extra)
+		card.ability.extra = math.floor(to_big(card.ability.extra) * to_big(1.5))
+		G.GAME.bankrupt_at = to_big(G.GAME.bankrupt_at) - to_big(card.ability.extra)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.RED }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('chaos', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:attention}'..card.ability.extra..'{} free {C:green}Reroll'..(card.ability.extra > 1 and 's' or ''),
+			'->',
+			'{C:attention}'..(card.ability.extra + 1)..'{} free {C:green}Rerolls'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = card.ability.extra + 1
+		SMODS.change_free_rerolls(1)
+		calculate_reroll_cost(true)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.GREEN }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('fibonacci', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:mult}+'..to_big(card.ability.extra)..'{} Mult',
+			'->',
+			'{C:mult}+'..math.floor(to_big(card.ability.extra) * to_big(1.5))..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = math.floor(to_big(card.ability.extra) * to_big(1.5))
+		
+		return { message = localize('k_upgrade_ex') }
+	end
+	
+	}, true)
 
 return spectralInfo

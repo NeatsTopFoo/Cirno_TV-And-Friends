@@ -1314,6 +1314,19 @@ SMODS.calculate_context = function(context, return_table)
 	end
 end
 
+local old_sm_bp_eff = SMODS.blueprint_effect
+SMODS.blueprint_effect = function(copier, copied_card, context, msg_colour)
+	local ret = old_sm_bp_eff(copier, copied_card, context)
+	
+	if ret then
+		if msg_colour then
+			ret.colour = msg_colour
+		end
+		
+		return ret
+	end
+end
+
 --[[ This is the functionality that should make the
 mod badge text cycle between the mod name and streamer(s)
 the thing is relevant to. This is largely lifted from

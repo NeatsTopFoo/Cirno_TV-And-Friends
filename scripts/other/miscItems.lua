@@ -279,6 +279,10 @@ miscItems.colours = {
 	cirLucy = HEX('7BB083FF'),
 	cirNep = HEX('D066ADFF'),
 	cirUpgradedJkrClr = HEX('CCB35AFF'),
+	dmDark = HEX('395A2FFF'),
+	hanDark = HEX('312842FF'),
+	momoCyan = HEX('068170FF'),
+	houAqua = HEX('62D9D9FF'),
 	bbBlack = HEX('000000FF'),
 	bbInvisText = HEX('00000000')
 }
@@ -296,11 +300,93 @@ for _, c in ipairs(miscItems.cardSuits) do
 	miscItems.colours[string.lower(c)..'_hc'] = G.C.SO_2[c]
 end
 
+miscItems.colours.cirDM = SMODS.Gradient({
+	key = 'cirDM',
+	colours = {
+		G.C.GREEN,
+		miscItems.colours.dmDark
+	}
+})
+
 miscItems.colours.cirNo = SMODS.Gradient({
 	key = 'cirNo',
 	colours = {
 		miscItems.colours.cirCyan,
 		miscItems.colours.cirBlue
+	}
+})
+
+miscItems.colours.cirHan = SMODS.Gradient({
+	key = 'cirHan',
+	colours = {
+		G.C.PURPLE,
+		miscItems.colours.hanDark
+	}
+})
+
+miscItems.colours.cirNaro = SMODS.Gradient({
+	key = 'cirNaro',
+	colours = {
+		G.C.RED,
+		miscItems.colours.cirNep,
+		G.C.BLUE
+	}
+})
+
+miscItems.colours.cirThor = SMODS.Gradient({
+	key = 'cirThor',
+	colours = {
+		G.C.MONEY,
+		miscItems.colours.cirInactiveAtt
+	}
+})
+
+miscItems.colours.cirMomo = SMODS.Gradient({
+	key = 'cirMomo',
+	colours = {
+		G.C.PURPLE,
+		miscItems.colours.momoCyan
+	}
+})
+
+miscItems.colours.cirRumi = SMODS.Gradient({
+	key = 'cirRumi',
+	colours = {
+		G.C.RED,
+		miscItems.colours.cirCyan
+	}
+})
+
+miscItems.colours.cirDeck = SMODS.Gradient({
+	key = 'cirDeck',
+	colours = {
+		G.C.PURPLE,
+		G.C.RED,
+		G.C.GREEN
+	}
+})
+
+miscItems.colours.cirHoudini = SMODS.Gradient({
+	key = 'cirHoudini',
+	colours = {
+		G.C.ORANGE,
+		miscItems.colours.houAqua
+	}
+})
+
+miscItems.colours.cirWolsk = SMODS.Gradient({
+	key = 'cirWolsk',
+	colours = {
+		miscItems.colours.cirCyan,
+		G.C.PURPLE
+	}
+})
+
+miscItems.colours.cirDeme = SMODS.Gradient({
+	key = 'cirDeme',
+	colours = {
+		G.C.RED,
+		G.C.BLACK
 	}
 })
 
@@ -670,7 +756,19 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 				'j_cir_houdini_l',
 				'j_cir_wolsk_l',
 				'j_cir_demeorin_l',
-				'j_cir_villainess'
+				'j_cir_villainess',
+				'j_cir_baka',
+				'j_cir_captain',
+				'j_cir_comfyVibes',
+				'j_cir_enthusiast',
+				'j_cir_challenger',
+				'j_cir_somnolent',
+				'j_cir_anon',
+				'j_cir_enigma',
+				'j_cir_catboy',
+				'j_cir_softSpoken',
+				'j_cir_qualityAssured',
+				'j_cir_sadist'
 			} })
 		end
 		
@@ -804,7 +902,10 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 							materialiseColours = nil
 						end
 						
-						if decidedElement.key == 'j_caino' then
+						if
+							decidedElement.key == 'j_caino'
+							or decidedElement.key == 'j_cir_villainess'
+						then
 							doRandomEdition = 'dm'
 						elseif decidedElement.discovered then
 							doRandomEdition = 'nrm'

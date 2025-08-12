@@ -165,6 +165,47 @@ match_indent = true
 overwrite = false
 times = 1
 
+# Adjusts Chaos the Clown functionality
+# to use its extra value instead of
+# just being a flat 1
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "SMODS.change_free_rerolls(1)"
+position = "at"
+payload = "SMODS.change_free_rerolls(self.ability.extra or 1)"
+match_indent = true
+overwrite = false
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "SMODS.change_free_rerolls(-1)"
+position = "at"
+payload = "SMODS.change_free_rerolls(-(self.ability.extra or 1))"
+match_indent = true
+overwrite = false
+times = 1
+
+# Upgraded Jokers will materialise with the
+# same colours they're destroyed with
+# This is never seen during a run, as
+# upgraded Jokers can only be obtained via
+# Perfectionism. This is exclusively for
+# them appearing on the main menu or in
+# Collections
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "(self.ability.set == 'Joker' and {G.C.RARITY[self.config.center.rarity]}) or"
+position = "before"
+payload = "(self.config.center.rarity == 'cir_UpgradedJkr' and self.config.center.destroyed.colours) or"
+match_indent = true
+overwrite = false
+times = 1
+
+
 # Adjusts dollar calculation at the end of round to account for the presence of red seals.
 [[patches]]
 [patches.pattern]

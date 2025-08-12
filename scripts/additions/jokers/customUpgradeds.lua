@@ -14,6 +14,13 @@ if CirnoMod.config.addCustomConsumables then
 		return '?????'
 	end
 end
+	
+local rarityClr = {
+	['upgCmn'] = G.C.RARITY[1],
+	['upgUncmn'] = G.C.RARITY[2],
+	['upgRare'] = G.C.RARITY[3],
+	['upgLgnd'] = G.C.RARITY[4]
+}
 
 local jokerInfo = {
 	isMultipleJokers = true,
@@ -31,16 +38,13 @@ local jokerInfo = {
 	},
 	
 	--[[ TODO:
-		- Platinum Joker
-		- Floor Plan
 		- Obsessive Face
 		- Utsuho Reiuji
 		- VIP Diamond
 		- Best Buds
 		- Contentious Prediction
 		- Four of a Kind
-		- Rough Sketch
-		- Power Seal Steel King
+		- Power Seal Steel Kingz
 		- Whatever I name the Bootstraps upgrade
 		- Whatever I name the Blackboard upgrade
 		- God Gamer
@@ -68,6 +72,8 @@ local jokerInfo = {
 			matureRefLevel = 1,
 			loadOrder = 'upgLgnd',
 			cir_Friend = CirnoMod.miscItems.cirFriends.dm,
+			
+			destroyed = { colours = { G.C.GREEN, CirnoMod.miscItems.colours.dmDark, G.C.MONEY, CirnoMod.miscItems.colours.dmDark, G.C.GREEN } },
 			
 			loc_txt = { name = 'The Villainess',
 				text = { {
@@ -179,7 +185,7 @@ local jokerInfo = {
 			cir_upgrade = function(self, card)
 				card.ability.extra.growth = to_big(card.ability.extra.growth) * to_big(2)
 				
-				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+				return { message = localize('k_upgrade_ex'), colour = CirnoMod.miscItems.colours.cirDM }
 			end,
 			
 			calculate = function(self, card, context)
@@ -204,6 +210,7 @@ local jokerInfo = {
 						local jkrRef = card
 						
 						return { message = localize{ type = 'variable', key = 'a_xmult', vars = { to_big(card.ability.caino_xmult) } },
+						colour = CirnoMod.miscItems.colours.cirDM,
 							func = function()
 								for i, faceCard in ipairs(face_cards) do
 									if
@@ -244,7 +251,7 @@ local jokerInfo = {
 													
 													jkrRef.ability.extra.creatingMoreThanDestroyed = true
 													
-													SMODS.calculate_effect({ message = localize('k_copied_ex') }, faceCard)
+													SMODS.calculate_effect({ message = localize('k_copied_ex'), colour = CirnoMod.miscItems.colours.cirDM }, faceCard)
 													SMODS.calculate_context({ playing_card_added = true, cards = { copy } })
 												return true
 												end }))
@@ -286,7 +293,7 @@ local jokerInfo = {
 				end
 				
 				if context.joker_main then
-					return { x_mult = to_big(card.ability.caino_xmult) }
+					return { x_mult = to_big(card.ability.caino_xmult), colour = CirnoMod.miscItems.colours.cirDM }
 				end
 				
 				if
@@ -303,7 +310,7 @@ local jokerInfo = {
 							sound = 'cancel'
 						}
 					else
-						return { x_mult = to_big(card.ability.extra.heldDM) }
+						return { x_mult = to_big(card.ability.extra.heldDM), colour = CirnoMod.miscItems.colours.cirDM }
 					end
 				end
 			end
@@ -316,6 +323,8 @@ local jokerInfo = {
 			matureRefLevel = 1,
 			loadOrder = 'upgLgnd',
 			cir_Friend = CirnoMod.miscItems.cirFriends.cir,
+			
+			destroyed = { colours = { G.C.BLUE, CirnoMod.miscItems.colours.cirCyan, G.C.BLACK, CirnoMod.miscItems.colours.cirCyan, G.C.BLUE } },
 			
 			loc_txt = { name = 'The Baka',
 				text = { {
@@ -403,7 +412,7 @@ local jokerInfo = {
 			cir_upgrade = function(self, card)
 				card.ability.extra.growth = to_big(card.ability.extra.growth) + to_big(0.09)
 				
-				return { message = localize('k_upgrade_ex'), colour = G.C.CHIPS }
+				return { message = localize('k_upgrade_ex'), colour = CirnoMod.miscItems.colours.cirNo }
 			end,
 			
 			calculate = function(self, card, context)
@@ -554,6 +563,8 @@ local jokerInfo = {
 			loadOrder = 'upgLgnd',
 			cir_Friend = CirnoMod.miscItems.cirFriends.han,
 			
+			destroyed = { colours = { G.C.PURPLE, CirnoMod.miscItems.colours.hanDark, G.C.BLACK, CirnoMod.miscItems.colours.hanDark, G.C.PURPLE } },
+			
 			loc_txt = { name = 'The Captain',
 				text = { {
 					'Played {C:attention}Kings{} and',
@@ -689,7 +700,7 @@ local jokerInfo = {
 									key = 'a_xmult',
 									vars = { to_big(card.ability.extra.x_mult) }
 								},
-								colour = G.C.PURPLE,
+								colour = CirnoMod.miscItems.colours.cirHan,
 								message_card = card
 							}
 						}
@@ -700,7 +711,7 @@ local jokerInfo = {
 					context.individual
 					and context.cardarea == G.play
 				then
-					local RT = {}
+					local RT = { colour = CirnoMod.miscItems.colours.cirHan }
 					
 					if SMODS.has_enhancement(context.other_card, 'm_gold') then
 						context.other_card.ability.h_dollars = to_big(context.other_card.ability.h_dollars) + to_big(card.ability.extra.dGrowth)
@@ -741,6 +752,8 @@ local jokerInfo = {
 			matureRefLevel = 1,
 			loadOrder = 'upgLgnd',
 			cir_Friend = CirnoMod.miscItems.cirFriends.nrp,
+			
+			destroyed = { colours = { G.C.RED, CirnoMod.miscItems.colours.cirNep, G.C.BLACK, CirnoMod.miscItems.colours.cirNep, G.C.BLUE } },
 			
 			loc_txt = { name = 'The Comfy Vibes',
 				text = { {
@@ -908,7 +921,8 @@ local jokerInfo = {
 					and G.GAME.consumeable_usage -- And global consumeable usage exists
 				then					
 					return { -- Multiply the current mult by mult accrued on card?
-						x_mult = self.calcXMult(card) -- Multiplies the current mult by the desired amount
+						x_mult = self.calcXMult(card), -- Multiplies the current mult by the desired amount
+						colour = CirnoMod.miscItems.colours.cirNaro
 					}, true
 				elseif
 					not context.blueprint
@@ -927,7 +941,7 @@ local jokerInfo = {
 									key = "a_xmult",
 									vars = { self.calcXMult(card) }
 								}),
-								colour = CirnoMod.miscItems.colours.cirNep,
+								colour = CirnoMod.miscItems.colours.cirNaro,
 								message_card = card
 							}
 						}, true
@@ -957,6 +971,8 @@ local jokerInfo = {
 			matureRefLevel = 1,
 			loadOrder = 'upgLgnd',
 			cir_Friend = CirnoMod.miscItems.cirFriends.thr,
+			
+			destroyed = { colours = { G.C.MONEY, CirnoMod.miscItems.colours.cirInactiveAtt, G.C.BLACK, CirnoMod.miscItems.colours.cirInactiveAtt, G.C.MONEY } },
 			
 			loc_txt = { name = 'The Enthusiast',
 				text = { {
@@ -1091,7 +1107,7 @@ local jokerInfo = {
 				card.ability.extra.xmult = to_big(card.ability.extra.xmult) + to_big(0.5)
 				card.ability.extra.KoD_dollarsEarn = to_big(card.ability.extra.KoD_dollarsEarn) + to_big(1)
 				
-				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+				return { message = localize('k_upgrade_ex'), colour = CirnoMod.miscItems.colours.cirThor }
 			end,
 			
 			calculate = function(self, card, context)
@@ -1120,7 +1136,7 @@ local jokerInfo = {
 					
 					if not context.cardarea == 'unscored' and context.repetition and SMODS.pseudorandom_probability(context.other_card, 'retriggerKoD', 1, card.ability.extra.retrigger_odds) then
 						if context.other_card:can_calculate() then
-							return { repetitions = 1 }
+							return { repetitions = 1, colour = CirnoMod.miscItems.colours.cirThor }
 						else
 							return {
 								message = localize('k_debuffed'),
@@ -1140,7 +1156,8 @@ local jokerInfo = {
 								type = 'variable',
 								key = 'a_xmult',
 								vars = { to_big(card.ability.x_mult) }
-							}
+							},
+							colour = CirnoMod.miscItems.colours.cirThor
 						}
 					else
 						card.ability.yorick_discards = card.ability.yorick_discards - 1
@@ -1148,7 +1165,7 @@ local jokerInfo = {
 					end
 				end
 				
-				if context.joker_main then return { x_mult = to_big(card.ability.x_mult) } end
+				if context.joker_main then return { x_mult = to_big(card.ability.x_mult), colour = CirnoMod.miscItems.colours.cirThor } end
 			end
 		},
 		-- The Challenger
@@ -1159,6 +1176,8 @@ local jokerInfo = {
 			matureRefLevel = 1,
 			loadOrder = 'upgLgnd',
 			cir_Friend = CirnoMod.miscItems.cirFriends.mom,
+			
+			destroyed = { colours = { G.C.PURPLE, CirnoMod.miscItems.colours.momoCyan, G.C.RED, CirnoMod.miscItems.colours.momoCyan, G.C.PURPLE } },
 			
 			loc_txt = { name = 'The Challenger',
 				text = { {
@@ -1231,7 +1250,7 @@ local jokerInfo = {
 				if G.GAME.blind and G.GAME.blind.boss and not G.GAME.blind.disabled then
 					G.GAME.blind:disable()
 					play_sound('timpani')
-					SMODS.calculate_effect({ message = localize('ph_boss_disabled') }, card)
+					SMODS.calculate_effect({ message = localize('ph_boss_disabled'), colour = CirnoMod.miscItems.colours.cirMomo }, card)
 				end
 			end,
 			
@@ -1251,7 +1270,7 @@ local jokerInfo = {
 			cir_upgrade = function(self, card)
 				card.ability.extra.growth = to_big(card.ability.extra.growth) + to_big(0.5)
 				
-				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+				return { message = localize('k_upgrade_ex'), colour = CirnoMod.miscItems.colours.cirMomo }
 			end,
 			
 			calculate = function(self, card, context)
@@ -1272,7 +1291,7 @@ local jokerInfo = {
 												return true
 											end
 										}))
-										SMODS.calculate_effect({ message = localize('ph_boss_disabled') }, card)
+										SMODS.calculate_effect({ message = localize('ph_boss_disabled'), colour = CirnoMod.miscItems.colours.cirMomo }, card)
 										return true
 									end
 								}))
@@ -1293,12 +1312,12 @@ local jokerInfo = {
 							key = 'a_xmult',
 							vars = { to_big(card.ability.extra.x_mult) }
 						},
-						colour = G.C.RED,
+						colour = CirnoMod.miscItems.colours.cirMomo,
 						message_card = card
 					}
 				end
 				
-				if context.joker_main then return { x_mult = to_big(card.ability.extra.x_mult) } end
+				if context.joker_main then return { x_mult = to_big(card.ability.extra.x_mult), colour = CirnoMod.miscItems.colours.cirMomo } end
 			end
 		},
 		-- The Somnolent
@@ -1309,6 +1328,8 @@ local jokerInfo = {
 			matureRefLevel = 1,
 			loadOrder = 'upgLgnd',
 			cir_Friend = CirnoMod.miscItems.cirFriends.rmi,
+			
+			destroyed = { colours = { G.C.RED, CirnoMod.miscItems.colours.cirCyan, G.C.PURPLE, CirnoMod.miscItems.colours.cirCyan, G.C.RED } },
 			
 			loc_txt = { name = 'The Somnolent',
 				text = { {
@@ -1585,7 +1606,7 @@ local jokerInfo = {
 					for i, enhKey in ipairs(card.ability.extra[card.ability.extra.active..'Retrigger']) do
 						if SMODS.has_enhancement(context.other_card, enhKey) then
 							if context.other_card:can_calculate() then
-								return { repetitions = 1 }
+								return { repetitions = 1, colour = CirnoMod.miscItems.colours.cirRumi }
 							else
 								return {
 									message = localize('k_debuffed'),
@@ -1720,6 +1741,8 @@ local jokerInfo = {
 			matureRefLevel = 1,
 			loadOrder = 'upgLgnd',
 			cir_Friend = CirnoMod.miscItems.cirFriends.dck,
+			
+			destroyed = { colours = { G.C.PURPLE, G.C.RED, G.C.BLACK, G.C.GREEN, G.C.PURPLE } },
 			
 			loc_txt = { name = 'The Anon',
 				text = { {
@@ -1920,6 +1943,8 @@ local jokerInfo = {
 			loadOrder = 'upgLgnd',
 			cir_Friend = CirnoMod.miscItems.cirFriends.hou,
 			
+			destroyed = { colours = { G.C.ORANGE, CirnoMod.miscItems.colours.houAqua, G.C.BLACK, G.C.ORANGE, CirnoMod.miscItems.colours.houAqua } },
+			
 			loc_txt = { name = 'The Enigma',
 				text = { {
 					'Every played {C:attention}card',
@@ -1989,11 +2014,16 @@ local jokerInfo = {
 			end,
 			
 			cir_upgrade = function(self, card)
-				return { dollars = 111 }
+				return { dollars = 111, colour = CirnoMod.miscItems.colours.cirHoudini }
 			end,
 			
 			calculate = function(self, card, context)
-				if context.setting_blind and card.ability.extra.cardsMultAdded > 0 then
+				if
+					(context.setting_blind
+					or context.starting_shop
+					or context.end_of_round)
+					and card.ability.extra.cardsMultAdded > 0
+				then
 					card.ability.extra.cardsMultAdded = 0
 				end
 				
@@ -2083,7 +2113,7 @@ local jokerInfo = {
 					return ret
 				end
 				
-				if context.joker_main then return { x_chips = to_big(card.ability.extra.xChips) } end
+				if context.joker_main then return { x_chips = to_big(card.ability.extra.xChips), colour = CirnoMod.miscItems.colours.cirHoudini } end
 			end
 		},
 		-- The Catboy
@@ -2094,6 +2124,8 @@ local jokerInfo = {
 			matureRefLevel = 1,
 			loadOrder = 'upgLgnd',
 			cir_Friend = CirnoMod.miscItems.cirFriends.wls,
+			
+			destroyed = { colours = { CirnoMod.miscItems.colours.cirCyan, G.C.PURPLE, G.C.BLACK, CirnoMod.miscItems.colours.cirCyan, G.C.PURPLE } },
 			
 			loc_txt = { name = 'The Catboy',
 				text = { {
@@ -2183,7 +2215,7 @@ local jokerInfo = {
 				card.ability.extra.extra = to_big(card.ability.extra.extra) + to_big(0.1)
 				card.ability.extra.extra_KoS = to_big(card.ability.extra.extra_KoS) + to_big(0.1)
 				
-				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+				return { message = localize('k_upgrade_ex'), colour = CirnoMod.miscItems.colours.cirWolsk }
 			end,
 			
 			calculate = function(self, card, context)
@@ -2225,6 +2257,8 @@ local jokerInfo = {
 			matureRefLevel = 1,
 			loadOrder = 'upgLgnd',
 			cir_Friend = CirnoMod.miscItems.cirFriends.dme,
+			
+			destroyed = { colours = { G.C.RED, G.C.BLACK, G.C.RED, G.C.BLACK, G.C.RED } },
 			
 			loc_txt = { name = 'The Soft-Spoken',
 				text = { {
@@ -2626,6 +2660,8 @@ local jokerInfo = {
 			loadOrder = 'upgLgnd',
 			cir_Friend = CirnoMod.miscItems.cirFriends.ntf,
 			
+			destroyed = { colours = { G.C.PURPLE, CirnoMod.miscItems.colours.cirNep, G.C.BLACK, G.C.PURPLE, CirnoMod.miscItems.colours.cirNep } },
+			
 			loc_txt = { name = 'The Sadist',
 				text = { {
 					'This {C:joker}Joker{} gains',
@@ -2751,7 +2787,7 @@ local jokerInfo = {
 					end
 				end
 				
-				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+				return { message = localize('k_upgrade_ex'), colour = CirnoMod.miscItems.colours.cirNope }
 			end,
 			
 			calculate = function(self, card, context)
@@ -2931,7 +2967,7 @@ local jokerInfo = {
 					or (context.retrigger_joker_check
 					and card.ability.extra.dm_jokers[context.other_card.config.center.key])
 				then
-					return { repetitions = 1 }
+					return { repetitions = 1, colour = CirnoMod.miscItems.colours.cirNope }
 				end
 			end
 		},
@@ -3750,6 +3786,10 @@ local jokerInfo = {
 					ret.vars[8] = sealDenom
 				end
 				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_DaemonTsun_BigNTFEdit', set = 'Other' }
+				end
+				
 				return ret
 			end,
 			
@@ -3895,6 +3935,467 @@ local jokerInfo = {
 				end
 			end
 		},
+		-- Floor Plan
+		{
+			key = 'floorPlan',
+			upgradesFrom = 'j_blueprint',
+			
+			matureRefLevel = 1,
+			loadOrder = 'upgRare',
+			
+			loc_txt = {	name = 'Floor Plan',
+				text = {
+					'Copies ability of',
+                    '{C:attention}2 Jokers{} to the right'
+				}
+			},
+			
+			blueprint_compat = true,
+			
+			loc_vars = function(self, info_queue, card)
+				local descAppend = {
+					'{s:0.8,C:inactive}Everyone knows that the',
+					'{s:0.8,C:inactive}electrical wiring goes',
+					'{s:0.8,C:inactive}through the windows'
+				}
+				
+				local other_joker, other_joker2
+				
+				for i = 1, #G.jokers.cards do
+					if G.jokers.cards[i] == card then
+						other_joker = G.jokers.cards[i + 1]
+						other_joker2 = G.jokers.cards[i + 2]
+					end
+				end
+				
+				local compatible = other_joker and other_joker ~= card and other_joker.config.center.blueprint_compat
+				local compatible2 = other_joker2 and other_joker2 ~= card and other_joker2.config.center.blueprint_compat
+				
+				local fp_main_end = {
+						{
+							n = G.UIT.C,
+							config = { align = "bm", minh = 0.4 },
+							nodes = {
+								{
+									n = G.UIT.R,
+									config = { align = "bm", minh = 0.4 },
+									nodes = {
+										{
+											n = G.UIT.C, -- Spacer wrapper
+											config = {
+												r = 0.1,
+												padding = 0.0,
+												align = 'tm',
+												colour = G.C.CLEAR
+											},
+											nodes = {
+												{
+													-- Spacer
+													n = G.UIT.B,
+													config = {
+														colour = G.C.CLEAR,
+														w = 0.2,
+														h = 0.1
+													}
+												}
+											}
+										},
+										{
+											n = G.UIT.C,
+											config = { ref_table = card, align = "m", colour = compatible and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8) or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8), r = 0.05, padding = 0.06 },
+											nodes = {
+												{ n = G.UIT.T, config = { text = ' 1: ' .. localize('k_' .. (compatible and 'compatible' or 'incompatible')) .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
+											}
+										},
+										{
+											n = G.UIT.C, -- Spacer wrapper
+											config = {
+												r = 0.1,
+												padding = 0.0,
+												align = 'tm',
+												colour = G.C.CLEAR
+											},
+											nodes = {
+												{
+													-- Spacer
+													n = G.UIT.B,
+													config = {
+														colour = G.C.CLEAR,
+														w = 0.2,
+														h = 0.1
+													}
+												}
+											}
+										}
+									}
+								},
+								{
+									n = G.UIT.R, -- Spacer wrapper
+									config = {
+										r = 0.1,
+										padding = 0.0,
+										align = 'tm',
+										colour = G.C.CLEAR
+									},
+									nodes = {
+										{
+											-- Spacer
+											n = G.UIT.B,
+											config = {
+												colour = G.C.CLEAR,
+												w = 0.1,
+												h = 0.1
+											}
+										}
+									}
+								},
+								{
+									n = G.UIT.R,
+									config = { align = "bm", minh = 0.4 },
+									nodes = {
+										{
+											n = G.UIT.C, -- Spacer wrapper
+											config = {
+												r = 0.1,
+												padding = 0.0,
+												align = 'tm',
+												colour = G.C.CLEAR
+											},
+											nodes = {
+												{
+													-- Spacer
+													n = G.UIT.B,
+													config = {
+														colour = G.C.CLEAR,
+														w = 0.2,
+														h = 0.1
+													}
+												}
+											}
+										},
+										{
+											n = G.UIT.C,
+											config = { ref_table = card, align = "m", colour = compatible2 and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8) or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8), r = 0.05, padding = 0.06 },
+											nodes = {
+												{ n = G.UIT.T, config = { text = ' 2: ' .. localize('k_' .. (compatible2 and 'compatible' or 'incompatible')) .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
+											}
+										},
+										{
+											n = G.UIT.C, -- Spacer wrapper
+											config = {
+												r = 0.1,
+												padding = 0.0,
+												align = 'tm',
+												colour = G.C.CLEAR
+											},
+											nodes = {
+												{
+													-- Spacer
+													n = G.UIT.B,
+													config = {
+														colour = G.C.CLEAR,
+														w = 0.2,
+														h = 0.1
+													}
+												}
+											}
+										}
+									}
+								},
+								{
+									n = G.UIT.R, -- Spacer wrapper
+									config = {
+										r = 0.1,
+										padding = 0.0,
+										align = 'tm',
+										colour = G.C.CLEAR
+									},
+									nodes = {
+										{
+											-- Spacer
+											n = G.UIT.B,
+											config = {
+												colour = G.C.CLEAR,
+												w = 0.1,
+												h = 0.1
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				
+				for _, t in ipairs(descAppend) do
+					fp_main_end[1].nodes[#fp_main_end[1].nodes + 1] = {
+						n = G.UIT.R,
+						config = { align = "cm", padding = 0.03 },
+						nodes = SMODS.localize_box(loc_parse_string(t), {scale = 1.0})
+					}
+				end
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_NTF', set = 'Other' }
+				end
+				
+				return { main_end = fp_main_end }
+			end,
+			
+			pos = { x = 7, y = 4 },
+			eternal_compat = true,
+			perishable_compat = false,
+			
+			calculate = function(self, card, context)
+				local other_joker, other_joker2
+				
+				for i = 1, #G.jokers.cards do
+					if G.jokers.cards[i] == card then
+						other_joker = G.jokers.cards[i + 1]
+						other_joker2 = G.jokers.cards[i + 2]
+					end
+				end
+				
+				local ret1 = SMODS.blueprint_effect(card, other_joker, context, G.C.UI.TEXT_DARK)
+				local ret2 = SMODS.blueprint_effect(card, other_joker2, context, G.C.UI.TEXT_DARK)
+				
+				if ret1 and ret2 then
+					return SMODS.merge_effects(ret, ret2)
+				end
+				
+				if ret1 then
+					return ret1
+				end
+				
+				if ret2 then
+					return ret2
+				end
+			end
+		},
+		-- Rough Sketch
+		{
+			key = 'roughSketch',
+			upgradesFrom = 'j_brainstorm',
+			
+			matureRefLevel = 1,
+			loadOrder = 'upgRare',
+			
+			loc_txt = {	name = 'Rough Sketch',
+				text = {
+					'Copies the ability',
+					'of both the {C:joker}Joker',
+					'2nd from the {C:attention}left',
+					'and 2nd from the {C:attention}right'
+				}
+			},
+			
+			blueprint_compat = true,
+			
+			loc_vars = function(self, info_queue, card)
+				local descAppend = {
+					'{s:0.8,C:inactive}Finally, kerJoker'
+				}
+				
+				local other_joker = G.jokers.cards[2]
+				local other_joker2 = G.jokers.cards[#G.jokers.cards - 1]
+				
+				local compatible = other_joker and other_joker ~= card and other_joker.config.center.blueprint_compat
+				local compatible2 = other_joker2 and other_joker2 ~= card and other_joker2.config.center.blueprint_compat
+				
+				local rs_main_end = {
+						{
+							n = G.UIT.C,
+							config = { align = "bm", minh = 0.4 },
+							nodes = {
+								{
+									n = G.UIT.R,
+									config = { align = "bm", minh = 0.4 },
+									nodes = {
+										{
+											n = G.UIT.C, -- Spacer wrapper
+											config = {
+												r = 0.1,
+												padding = 0.0,
+												align = 'tm',
+												colour = G.C.CLEAR
+											},
+											nodes = {
+												{
+													-- Spacer
+													n = G.UIT.B,
+													config = {
+														colour = G.C.CLEAR,
+														w = 0.2,
+														h = 0.1
+													}
+												}
+											}
+										},
+										{
+											n = G.UIT.C,
+											config = { ref_table = card, align = "m", colour = compatible and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8) or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8), r = 0.05, padding = 0.06 },
+											nodes = {
+												{ n = G.UIT.T, config = { text = ' 1: ' .. localize('k_' .. (compatible and 'compatible' or 'incompatible')) .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
+											}
+										},
+										{
+											n = G.UIT.C, -- Spacer wrapper
+											config = {
+												r = 0.1,
+												padding = 0.0,
+												align = 'tm',
+												colour = G.C.CLEAR
+											},
+											nodes = {
+												{
+													-- Spacer
+													n = G.UIT.B,
+													config = {
+														colour = G.C.CLEAR,
+														w = 0.2,
+														h = 0.1
+													}
+												}
+											}
+										}
+									}
+								},
+								{
+									n = G.UIT.R, -- Spacer wrapper
+									config = {
+										r = 0.1,
+										padding = 0.0,
+										align = 'tm',
+										colour = G.C.CLEAR
+									},
+									nodes = {
+										{
+											-- Spacer
+											n = G.UIT.B,
+											config = {
+												colour = G.C.CLEAR,
+												w = 0.1,
+												h = 0.1
+											}
+										}
+									}
+								},
+								{
+									n = G.UIT.R,
+									config = { align = "bm", minh = 0.4 },
+									nodes = {
+										{
+											n = G.UIT.C, -- Spacer wrapper
+											config = {
+												r = 0.1,
+												padding = 0.0,
+												align = 'tm',
+												colour = G.C.CLEAR
+											},
+											nodes = {
+												{
+													-- Spacer
+													n = G.UIT.B,
+													config = {
+														colour = G.C.CLEAR,
+														w = 0.2,
+														h = 0.1
+													}
+												}
+											}
+										},
+										{
+											n = G.UIT.C,
+											config = { ref_table = card, align = "m", colour = compatible2 and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8) or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8), r = 0.05, padding = 0.06 },
+											nodes = {
+												{ n = G.UIT.T, config = { text = ' 2: ' .. localize('k_' .. (compatible2 and 'compatible' or 'incompatible')) .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
+											}
+										},
+										{
+											n = G.UIT.C, -- Spacer wrapper
+											config = {
+												r = 0.1,
+												padding = 0.0,
+												align = 'tm',
+												colour = G.C.CLEAR
+											},
+											nodes = {
+												{
+													-- Spacer
+													n = G.UIT.B,
+													config = {
+														colour = G.C.CLEAR,
+														w = 0.2,
+														h = 0.1
+													}
+												}
+											}
+										}
+									}
+								},
+								{
+									n = G.UIT.R, -- Spacer wrapper
+									config = {
+										r = 0.1,
+										padding = 0.0,
+										align = 'tm',
+										colour = G.C.CLEAR
+									},
+									nodes = {
+										{
+											-- Spacer
+											n = G.UIT.B,
+											config = {
+												colour = G.C.CLEAR,
+												w = 0.1,
+												h = 0.1
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				
+				for _, t in ipairs(descAppend) do
+					rs_main_end[1].nodes[#rs_main_end[1].nodes + 1] = {
+						n = G.UIT.R,
+						config = { align = "cm", padding = 0.03 },
+						nodes = SMODS.localize_box(loc_parse_string(t), {scale = 1.0})
+					}
+				end
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_NTF', set = 'Other' }
+				end
+				
+				return { main_end = rs_main_end }
+			end,
+			
+			pos = { x = 6, y = 5 },
+			eternal_compat = true,
+			perishable_compat = false,
+			
+			calculate = function(self, card, context)
+				local other_joker = G.jokers.cards[2]
+				local other_joker2 = G.jokers.cards[#G.jokers.cards - 1]
+				
+				local ret1 = SMODS.blueprint_effect(card, other_joker, context, CirnoMod.miscItems.colours.cirCyan)
+				local ret2 = SMODS.blueprint_effect(card, other_joker2, context, CirnoMod.miscItems.colours.cirCyan)
+				
+				if ret1 and ret2 then
+					return SMODS.merge_effects(ret, ret2)
+				end
+				
+				if ret1 then
+					return ret1
+				end
+				
+				if ret2 then
+					return ret2
+				end
+			end
+		},
+		
 	}
 }
 
@@ -3940,6 +4441,8 @@ for i, jkr in ipairs(jokerInfo.jokerConfigs) do
 			CirnoMod.miscItems.addBadgesToJokerByKey(badges, card.config.center.key)
 		end
 	end
+	
+	jkr.destroyed = jkr.destroyed or { colours = { rarityClr[jkr.loadOrder], CirnoMod.miscItems.colours.cirUpgradedJkrClr, rarityClr[jkr.loadOrder], CirnoMod.miscItems.colours.cirUpgradedJkrClr, rarityClr[jkr.loadOrder] } }
 end
 
 SMODS.Enhancement:take_ownership('glass', {

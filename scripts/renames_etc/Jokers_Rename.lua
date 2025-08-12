@@ -98,7 +98,7 @@ end
 
 jokerLoc.nrmJkrs.j_chaos = { name = "Miku The Clown",
 	text = {
-        "{C:attention}#1#{} free {C:green}Reroll",
+        "{C:attention}#1#{} free {C:green}#2#",
         "per shop",
 		"{s:0.8,C:inactive}Society...?"
     }
@@ -110,6 +110,16 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
 				CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_chaos')
 			end
+		end,
+		
+		loc_vars = function(self, info_queue, card)
+			local ret = { vars = { card.ability.extra, 'Reroll' } }
+			
+			if card.ability.extra > 1 then
+				ret.vars[2] = 'Rerolls'
+			end
+			
+			return ret
 		end
 	}, true)
 end
@@ -619,16 +629,15 @@ jokerLoc.nrmJkrs.j_steel_joker = { name = "Coldsteel The Jekjek",
     }
 }
 
---[[
-Unsure what to do with Raised Fist.
-jokerLoc.nrmJkrs.j_raised_fist = { name = "Raised Fist",
+jokerLoc.nrmJkrs.j_raised_fist = { -- name = "Raised Fist",
 	text = {
 		"Adds {C:attention}double{} the rank",
 		"of {C:attention}lowest{} ranked card",
-		"held in hand to Mult"
+		"held in hand to Mult",
+		"{s:0.8,C:inactive}Looking For Group:",
+		"{s:0.8,C:inactive}Girl? DM"
     }
 }
-]]
 
 jokerLoc.nrmJkrs.j_golden = { name = "cirGlod",
 	text = {
