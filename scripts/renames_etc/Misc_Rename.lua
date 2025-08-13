@@ -22,11 +22,12 @@ CirnoMod.quipReplace = function()
 				"in the crowd?"
 			})
 		
-		--[[
 		SMODS.process_loc_text(G.localization.misc.quips, "lq_2", {
-				"We folded like",
-				"a cheap suit!",
-			})]]
+				"Hi! I'm Clippy, your",
+				"Balatro assistant.",
+				"Would you like",
+				"assistance in winning?"
+			})
 		
 		--[[
 		SMODS.process_loc_text(G.localization.misc.quips, "lq_3", {
@@ -35,12 +36,10 @@ CirnoMod.quipReplace = function()
 				"and try again!",
 			})]]
 		
-		--[[
 		SMODS.process_loc_text(G.localization.misc.quips, "lq_4", {
-				"You know what",
-				"they say, the",
-				"house always wins!"
-			})]]
+				"You look like",
+				"you need a coffee"
+			})
 		
 		SMODS.process_loc_text(G.localization.misc.quips, "lq_5", {
 				"Looks like you're trying",

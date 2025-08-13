@@ -919,7 +919,7 @@ RV.descriptions.Joker.cir_j_confusedRumi_nPCardRebalanced = { name = "Confused R
 		'{s:0.8,C:inactive}How do you define "left card?"',
 		'{s:0.8,C:inactive}If you\'re talking about what',
 		'{s:0.8,C:inactive}you can feel, what you can taste,',
-		'{s:0.8,C:inactive}and see, then "left card" is"',
+		'{s:0.8,C:inactive}and see, then "left card" is',
 		'{s:0.8,C:inactive}simply Balatro-cal signals,',
 		'{s:0.8,C:inactive}interpreted by your brain'
 	}
@@ -956,6 +956,29 @@ RV.descriptions.Joker.j_cir_platinum_upg = { name = 'Platinum Joker',
 		'{C:attention}#4#',
 		'{s:0.8,C:inactive}Metal Gear Rising 2',
 		'{s:0.8,C:inactive}when?'
+	} }
+}
+
+RV.descriptions.Joker.j_cir_steelKingz_upg = {	name = 'Steel Kingz',
+	text = { {
+		'When round begins,',
+        'add a random {C:attention}playing',
+        '{C:attention}card{} with a random',
+        '{C:attention}seal{} to your hand'
+		}, {
+		'{C:green}#1# in #2#{} chance for',
+		'created card to be',
+		'a {C:attention}King',
+		'{C:green}#3# in #4#{} chance for',
+		'created card to have',
+		'a {C:red}#5#',
+		'{C:green}#6# in #7#{} chance for',
+		'created card to be',
+		'a {C:attention}#8#',
+		'{C:green}#9# in #10#{} chance for',
+		'created card to be',
+		'{C:dark_edition}Polychrome',
+		'{s:0.8,C:inactive}Prayers answered?'
 	} }
 }
 

@@ -209,7 +209,7 @@ miscItems.itmReferenceTable = {
 	j_blackboard = { { miscItems.cirFriends.cir } },
 	j_ice_cream = { { miscItems.cirFriends.cir } },
 	j_runner = { { miscItems.cirFriends.cir, miscItems.cirFriends.nrp, miscItems.cirFriends.rmi } },
-	j_splash = { { miscItems.cirFriends.cir } },
+	j_splash = { { miscItems.cirFriends.cir, miscItems.cirFriends.dm } },
 	j_sixth_sense = { { miscItems.cirFriends.cir } },
 	j_hiker = { { miscItems.cirFriends.cir } },
 	j_faceless = { { miscItems.cirFriends.cir, miscItems.cirFriends.dm, miscItems.cirFriends.tom, miscItems.cirFriends.dck } },
@@ -440,19 +440,19 @@ miscItems.badges = {
 	chatBrainrot = function() return create_badge("Chat Brainrot", miscItems.colours.cirBlue, G.C.UI.TEXT_LIGHT, 0.8 ) end,
 	upgradedJkr = {
 		function()
-			return CirnoMod.miscItems.createDynaTextBadge({ { string = 'Upgraded' }, { string = 'Common' } }, CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[1], nil, 1.3)
+			return CirnoMod.miscItems.createDynaTextBadge({ { string = 'Common' }, { string = 'Upgraded' } }, CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[1], nil, 1.3)
 		end,
 		
 		function()
-			return CirnoMod.miscItems.createDynaTextBadge({ { string = 'Upgraded' }, { string = 'Uncommon' } }, CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[2], nil, 1.3)
+			return CirnoMod.miscItems.createDynaTextBadge({ { string = 'Uncommon' }, { string = 'Upgraded' } }, CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[2], nil, 1.3)
 		end,
 		
 		function()
-			return CirnoMod.miscItems.createDynaTextBadge({ { string = 'Upgraded' }, { string = 'Rare' } }, CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[3], nil, 1.3)
+			return CirnoMod.miscItems.createDynaTextBadge({ { string = 'Rare' }, { string = 'Upgraded' } }, CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[3], nil, 1.3)
 		end,
 		
 		function()
-			return CirnoMod.miscItems.createDynaTextBadge({ { string = 'Upgraded' }, { string = 'Legendary' } }, CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[4], nil, 1.3)
+			return CirnoMod.miscItems.createDynaTextBadge({ { string = 'Legendary' }, { string = 'Upgraded' } }, CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[4], nil, 1.3)
 		end,
 	}
 }
@@ -1527,6 +1527,7 @@ end
 
 if CirnoMod.config.addCustomJokers then
 	miscItems.jkrKeyGroups.TwoMax.j_cir_naro_l = true
+	miscItems.jkrKeyGroups.TwoMax.j_cir_smug = true
 	
 	miscItems.jkrKeyGroups.unhinged.j_cir_crazyFace = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_confusedRumi = true
@@ -1752,6 +1753,10 @@ miscItems.perfectionismUpgradable_Jokers = {
 				ret.clr = CirnoMod.miscItems.colours.cirLucy
 			end
 		return ret end,
+	
+	j_cir_solo = function() return { msg = ' lol, lmao ', frc_incompatible = true } end,
+	
+	j_cir_b3313 = function() return { msg = ' no ', frc_incompatible = true } end,
 	
 	j_scary_face = 'j_cir_crazyFace'
 }

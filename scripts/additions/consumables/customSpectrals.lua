@@ -463,9 +463,9 @@ SMODS.Joker:take_ownership('half', {
 SMODS.Joker:take_ownership('abstract', {
 	cir_upgradeInfo = function(self, card)
 		return {
-			'{C:mult}'..to_big(card.ability.extra)..'{} Mult per Joker',
+			'{C:mult}+'..to_big(card.ability.extra)..'{} Mult per Joker',
 			'->',
-			'{C:mult}'..to_big(card.ability.extra) * to_big(2)..'{} Mult per Joker'
+			'{C:mult}+'..to_big(card.ability.extra) * to_big(2)..'{} Mult per Joker'
 		}
 	end,
 	
@@ -480,9 +480,9 @@ SMODS.Joker:take_ownership('abstract', {
 SMODS.Joker:take_ownership('photograph', {
 	cir_upgradeInfo = function(self, card)
 		return {
-			'{X:mult,C:white}'..to_big(card.ability.extra)..'{} Mult',
+			'{X:mult,C:white}X'..to_big(card.ability.extra)..'{} Mult',
 			'->',
-			'{X:mult,C:white}'..to_big(card.ability.extra) + to_big(1)..'{} Mult'
+			'{X:mult,C:white}X'..to_big(card.ability.extra) + to_big(1)..'{} Mult'
 		}
 	end,
 	
@@ -499,12 +499,12 @@ SMODS.Joker:take_ownership('gift', {
 		return {
 			'Adds {C:money}'..SMODS.signed_dollars(to_big(card.ability.extra))..'{} of sell value',
 			'->',
-			'Adds {C:money}'..SMODS.signed_dollars(to_big(card.ability.extra) + to_big(1))..'{} of sell value'
+			'Adds {C:money}'..SMODS.signed_dollars(to_big(card.ability.extra) * to_big(2))..'{} of sell value'
 		}
 	end,
 	
 	cir_upgrade = function(self, card)
-		card.ability.extra = to_big(card.ability.extra) + to_big(1)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
 		
 		return { message = localize('k_upgrade_ex'), colour = G.C.MONEY }
 	end
@@ -516,13 +516,13 @@ SMODS.Joker:take_ownership('credit_card', {
 		return {
 			'{C:red}-'..SMODS.signed_dollars(to_big(card.ability.extra))..'{} in debt',
 			'->',
-			'{C:red}-'..SMODS.signed_dollars(math.floor(to_big(card.ability.extra) * to_big(1.5)))..'{} in debt'
+			'{C:red}-'..SMODS.signed_dollars(math.floor(to_big(card.ability.extra) * to_big(2)))..'{} in debt'
 		}
 	end,
 	
 	cir_upgrade = function(self, card)
 		G.GAME.bankrupt_at = to_big(G.GAME.bankrupt_at) + to_big(card.ability.extra)
-		card.ability.extra = math.floor(to_big(card.ability.extra) * to_big(1.5))
+		card.ability.extra = math.floor(to_big(card.ability.extra) * to_big(2))
 		G.GAME.bankrupt_at = to_big(G.GAME.bankrupt_at) - to_big(card.ability.extra)
 		
 		return { message = localize('k_upgrade_ex'), colour = G.C.RED }
@@ -532,16 +532,24 @@ SMODS.Joker:take_ownership('credit_card', {
 
 SMODS.Joker:take_ownership('chaos', {
 	cir_upgradeInfo = function(self, card)
+		local firstTextAppend = '{} free {C:green}Reroll'
+		
+		if card.ability.extra > 1 then
+			firstTextAppend = '{} free {C:green}Rerolls'
+		end
+		
 		return {
-			'{C:attention}'..card.ability.extra..'{} free {C:green}Reroll'..(card.ability.extra > 1 and 's' or ''),
+			'{C:attention}'..card.ability.extra..firstTextAppend,
 			'->',
-			'{C:attention}'..(card.ability.extra + 1)..'{} free {C:green}Rerolls'
+			'{C:attention}'..(card.ability.extra * 2)..'{} free {C:green}Rerolls'
 		}
 	end,
 	
 	cir_upgrade = function(self, card)
-		card.ability.extra = card.ability.extra + 1
-		SMODS.change_free_rerolls(1)
+		local before = card.ability.extra
+		
+		card.ability.extra = card.ability.extra * 2
+		SMODS.change_free_rerolls(card.ability.extra - before)
 		calculate_reroll_cost(true)
 		
 		return { message = localize('k_upgrade_ex'), colour = G.C.GREEN }
@@ -554,14 +562,298 @@ SMODS.Joker:take_ownership('fibonacci', {
 		return {
 			'{C:mult}+'..to_big(card.ability.extra)..'{} Mult',
 			'->',
-			'{C:mult}+'..math.floor(to_big(card.ability.extra) * to_big(1.5))..'{} Mult'
+			'{C:mult}+'..math.floor(to_big(card.ability.extra) * to_big(2))..'{} Mult'
 		}
 	end,
 	
 	cir_upgrade = function(self, card)
-		card.ability.extra = math.floor(to_big(card.ability.extra) * to_big(1.5))
+		card.ability.extra = math.floor(to_big(card.ability.extra) * to_big(2))
 		
-		return { message = localize('k_upgrade_ex') }
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('throwback', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{X:mult,C:white}X'..to_big(card.ability.extra)..'{} Mult',
+			'->',
+			'{X:mult,C:white}X'..to_big(card.ability.extra) * to_big(2)..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('ticket', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:money}'..SMODS.signed_dollars(to_big(card.ability.extra)),
+			'->',
+			'{C:money}'..SMODS.signed_dollars(to_big(card.ability.extra) * to_big(2))
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MONEY }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('wee', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:chips}+'..to_big(card.ability.extra.chip_mod)..'{} Chips',
+			'->',
+			'{C:chips}+'..to_big(card.ability.extra.chip_mod) * to_big(2)..'{} Chips'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra.chip_mod = to_big(card.ability.extra.chip_mod) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.CHIPS }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('rough_gem', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:money}'..SMODS.signed_dollars(to_big(card.ability.extra)),
+			'->',
+			'{C:money}'..SMODS.signed_dollars(to_big(card.ability.extra) * to_big(2))
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MONEY }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('onyx_agate', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:mult}+'..to_big(card.ability.extra)..'{} Mult',
+			'->',
+			'{C:mult}+'..to_big(card.ability.extra) * to_big(2)..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('arrowhead', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:chips}+'..to_big(card.ability.extra)..'{} Chips',
+			'->',
+			'{C:chips}+'..to_big(card.ability.extra) * to_big(2)..'{} Chips'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.CHIPS }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('bloodstone', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{X:mult,C:white}X'..to_big(card.ability.extra.Xmult)..'{} Mult',
+			'->',
+			'{X:mult,C:white}X'..to_big(card.ability.extra.Xmult) + to_big(0.5)..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra.Xmult = to_big(card.ability.extra.Xmult) + to_big(0.5)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('castle', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:chips}+'..to_big(card.ability.extra.chip_mod)..'{} Chips on discard',
+			'->',
+			'{C:chips}+'..to_big(card.ability.extra.chip_mod) * to_big(2)..'{} Chips on discard'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra.chip_mod = to_big(card.ability.extra.chip_mod) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.CHIPS }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('matador', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:money}'..SMODS.signed_dollars(to_big(card.ability.extra)),
+			'->',
+			'{C:money}'..SMODS.signed_dollars(to_big(card.ability.extra) * to_big(2))
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MONEY }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('trading', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:money}'..SMODS.signed_dollars(to_big(card.ability.extra)),
+			'->',
+			'{C:money}'..SMODS.signed_dollars(to_big(card.ability.extra) * to_big(2))
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MONEY }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('shoot_the_moon', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{C:mult}+'..to_big(card.ability.extra)..'{} Mult',
+			'->',
+			'{C:mult}+'..math.floor(to_big(card.ability.extra) * to_big(2))..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = math.floor(to_big(card.ability.extra) * to_big(2))
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('popcorn', {
+	cir_upgradeInfo = function(self, card)
+		local result = nil
+		
+		if to_big(card.ability.mult) < to_big(20) then
+			result = 60
+		else
+			result = to_big(card.ability.mult) * to_big(2)
+		end
+		
+		return {
+			'{C:mult}+'..to_big(card.ability.mult)..'{} Mult',
+			'->',
+			'{C:mult}+'..result..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		if to_big(card.ability.mult) < to_big(20) then
+			card.ability.mult = to_big(60)
+		else
+			card.ability.mult = to_big(card.ability.mult) * to_big(2)
+		end
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('seeing_double', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{X:mult,C:white}X'..to_big(card.ability.extra)..'{} Mult',
+			'->',
+			'{X:mult,C:white}X'..to_big(card.ability.extra) * to_big(2)..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('idol', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{X:mult,C:white}X'..to_big(card.ability.extra)..'{} Mult',
+			'->',
+			'{X:mult,C:white}X'..to_big(card.ability.extra) * to_big(2)..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('flower_pot', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{X:mult,C:white}X'..to_big(card.ability.extra)..'{} Mult',
+			'->',
+			'{X:mult,C:white}X'..to_big(card.ability.extra) * to_big(2)..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+	end
+	
+	}, true)
+
+SMODS.Joker:take_ownership('drivers_license', {
+	cir_upgradeInfo = function(self, card)
+		return {
+			'{X:mult,C:white}X'..to_big(card.ability.extra)..'{} Mult',
+			'->',
+			'{X:mult,C:white}X'..to_big(card.ability.extra) * to_big(2)..'{} Mult'
+		}
+	end,
+	
+	cir_upgrade = function(self, card)
+		card.ability.extra = to_big(card.ability.extra) * to_big(2)
+		
+		return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
 	end
 	
 	}, true)

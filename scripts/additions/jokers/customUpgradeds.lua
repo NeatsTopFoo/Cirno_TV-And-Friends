@@ -44,7 +44,6 @@ local jokerInfo = {
 		- Best Buds
 		- Contentious Prediction
 		- Four of a Kind
-		- Power Seal Steel Kingz
 		- Whatever I name the Bootstraps upgrade
 		- Whatever I name the Blackboard upgrade
 		- God Gamer
@@ -1593,7 +1592,7 @@ local jokerInfo = {
 					and context.other_card:can_calculate()
 					and SMODS.has_enhancement(context.other_card, 'm_wild')
 				then
-					return { doNotRedSeal = true, add_to_hand = true }
+					return { doNotRedSeal = true, no_retrigger = true, add_to_hand = true }
 				end
 				
 				if
@@ -3273,7 +3272,7 @@ local jokerInfo = {
 			
 			matureRefLevel = 1,
 			loadOrder = 'upgCmn',
-			cir_Friend = CirnoMod.miscItems.cirFriends.dck,
+			cir_Friend = CirnoMod.miscItems.cirFriends.cir,
 			
 			loc_txt = { name = 'THE Queen Of Clubs',
 				text = { {
@@ -3714,6 +3713,7 @@ local jokerInfo = {
 		{
 			key = 'platinum',
 			upgradesFrom = 'j_golden',
+			cir_Friend = CirnoMod.miscItems.cirFriends.cir,
 			
 			matureRefLevel = 1,
 			loadOrder = 'upgCmn',
@@ -3746,7 +3746,7 @@ local jokerInfo = {
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card, orgRarity, orgAbilityTbl)
+				self.abiInit(card, orgRarity)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -4395,7 +4395,302 @@ local jokerInfo = {
 				end
 			end
 		},
-		
+		-- Steel Kingz
+		{
+			key = 'steelKingz',
+			upgradesFrom = 'j_certificate',
+			
+			matureRefLevel = 1,
+			loadOrder = 'upgUncmn',
+			cir_Friend = CirnoMod.miscItems.cirFriends.cir,
+			
+			loc_txt = {	name = 'Steel Kingz',
+				text = { {
+					'When round begins,',
+                    'add a random {C:attention}playing',
+                    '{C:attention}card{} with a random',
+                    '{C:attention}seal{} to your hand'
+					}, {
+					'{C:green}#1# in #2#{} chance for',
+					'created card to be',
+					'a {C:attention}King',
+					'{C:green}#3# in #4#{} chance for',
+					'created card to have',
+					'a {C:red}#5#',
+					'{C:green}#6# in #7#{} chance for',
+					'created card to be',
+					'a {C:attention}#8#',
+					'{s:0.8,C:inactive}Prayers answered?'
+				} }
+			},
+			
+			abiInit = function(card, orgRarity)
+				card.ability.extra = {
+					upgraded = false,
+					originalRarity = orgRarity,
+					kingOdds = 2,
+					sealOdds = 3,
+					steelOdds = 4,
+					polyOdds = 4,
+					sealOptions = {}
+				}
+				
+				for k, tbl in pairs(G.P_SEALS) do
+					if k ~= 'Red' then
+						table.insert(card.ability.extra.sealOptions, k)
+					end
+				end
+			end,
+			
+			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
+				self.abiInit(card, orgRarity)
+				
+				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
+				card:set_cost()
+			end,
+			
+			blueprint_compat = true,
+			
+			loc_vars = function(self, info_queue, card)
+				if
+					not card.ability.extra
+					or type(card.ability.extra) ~= 'table'
+				then
+					self.abiInit(card, 2)
+				end
+				
+				local kingNom, kingDenom = SMODS.get_probability_vars(card or self, 1, card.ability.extra.kingOdds, 'steelKingz_king')
+				
+				local sealNom, sealDenom = SMODS.get_probability_vars(card or self, 1, card.ability.extra.sealOdds, 'steelKingz_seal')
+				
+				local steelNom, steelDenom = SMODS.get_probability_vars(card or self, 1, card.ability.extra.steelOdds, 'steelKingz_steel')
+				
+				info_queue[#info_queue + 1] = G.P_SEALS.Red
+				
+				info_queue[#info_queue + 1] = G.P_CENTERS.m_steel
+				
+				local ret = { vars = {
+					kingNom, kingDenom,
+					sealNom, sealDenom,
+					G.localization.misc.labels.red_seal,
+					steelNom, steelDenom,
+					G.localization.descriptions.Enhanced.m_steel.name
+				} }
+				
+				if card.ability.extra.upgraded then
+					info_queue[#info_queue + 1] = G.P_CENTERS.e_polychrome
+					
+					local polyNom, polyDenom = SMODS.get_probability_vars(card or self, 1, card.ability.extra.polyOdds, 'steelKingz_poly')
+					
+					ret.vars[9] = polyNom
+					ret.vars[10] = polyDenom
+					
+					ret.key = 'j_cir_steelKingz_upg'
+				end
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_DuoDagger', set = 'Other' }
+				end
+				
+				return ret
+			end,
+			
+			cir_upgradeInfo = function(self, card)
+				local procOdds = function(odds, seed)
+					local num, denum = SMODS.get_probability_vars(card or self, 1, odds, seed)
+					
+					return '{C:green}'..num..' in '..denum..'{} chance'
+				end
+				
+				local targetKingOdds = card.ability.extra.kingOdds
+				local targetSealOdds = card.ability.extra.sealOdds
+				local targetSteelOdds = card.ability.extra.steelOdds
+				local procTable = nil
+				
+				if
+					card.ability.extra.sealOdds == 2
+					and card.ability.extra.steelOdds == 3
+					and card.ability.extra.kingOdds > 1
+				then
+					targetKingOdds = targetKingOdds - 1
+				end
+				
+				if
+					card.ability.extra.sealOdds > 2
+					or (card.ability.extra.sealOdds == 2
+					and card.ability.extra.kingOdds == 1
+					and card.ability.extra.steelOdds <= 3)
+				then
+					targetSealOdds = targetSealOdds - 1
+				end
+				
+				if
+					(card.ability.extra.steelOdds == 4
+					and card.ability.extra.sealOdds == 2)
+					or (card.ability.extra.steelOdds > 1
+					and card.ability.extra.kingOdds == 1
+					and card.ability.extra.sealOdds == 1)
+				then
+					targetSteelOdds = targetSteelOdds - 1
+				end
+				
+				if targetKingOdds < card.ability.extra.kingOdds then
+					procTable = {
+						before = procOdds(card.ability.extra.kingOdds, 'steelKingz_king'),
+						after = procOdds(targetKingOdds, 'steelKingz_king'),
+						type = 'to create a {C:attention}King'
+					}
+				end
+				
+				if targetSealOdds < card.ability.extra.sealOdds then
+					procTable = {
+						before = procOdds(card.ability.extra.sealOdds, 'steelKingz_seal'),
+						after = procOdds(targetSealOdds, 'steelKingz_seal'),
+						type = 'for a {C:red}'..G.localization.misc.labels.red_seal
+					}
+				end
+				
+				if targetSteelOdds < card.ability.extra.steelOdds then
+					procTable = {
+						before = procOdds(card.ability.extra.steelOdds, 'steelKingz_steel'),
+						after = procOdds(targetSteelOdds, 'steelKingz_steel'),
+						type = 'to be a {C:attention}'..G.localization.descriptions.Enhanced.m_steel.name
+					}
+				end
+				
+				if procTable then
+					return {
+							procTable.before,
+							procTable.type,
+							'->',
+							procTable.after,
+							procTable.type
+						}
+				end
+				
+				if not card.ability.extra.upgraded then
+					return {
+						'{s:1.2,C:dark_edition}Adds:',
+						procOdds(card.ability.extra.polyOdds, 'steelKingz_poly')..' for',
+						'created card to be',
+						'{C:dark_edition}Polychrome',
+						'{C:red}Final upgrade'
+					}
+				end
+			end,
+			
+			cir_upgrade = function(self, card)
+				local ret = { message = localize('k_upgrade_ex') }
+				
+				if
+					card.ability.extra.sealOdds == 2
+					and card.ability.extra.steelOdds == 3
+					and card.ability.extra.kingOdds > 1
+				then
+					card.ability.extra.kingOdds = card.ability.extra.kingOdds - 1
+					return ret
+				end
+				
+				if
+					card.ability.extra.sealOdds > 2
+					or (card.ability.extra.sealOdds == 2
+					and card.ability.extra.kingOdds == 1
+					and card.ability.extra.steelOdds <= 3)
+				then
+					card.ability.extra.sealOdds = card.ability.extra.sealOdds - 1
+					return ret
+				end
+				
+				if
+					(card.ability.extra.steelOdds == 4
+					and card.ability.extra.sealOdds == 2)
+					or (card.ability.extra.steelOdds > 1
+					and card.ability.extra.kingOdds == 1
+					and card.ability.extra.sealOdds == 1)
+				then
+					card.ability.extra.steelOdds = card.ability.extra.steelOdds - 1
+					return ret
+				end
+				
+				if not card.ability.extra.upgraded then
+					card.ability.extra.upgraded = true
+					return ret
+				end
+			end,
+			
+			pos = { x = 7, y = 5 },
+			eternal_compat = true,
+			perishable_compat = false,
+			
+			calculate = function(self, card, context)
+				if context.first_hand_drawn then
+					local card_build_table = {
+						set = 'Base',
+						area = G.discard
+					}
+					
+					if
+						SMODS.pseudorandom_probability(card, 'steelKingz_king', 1, card.ability.extra.kingOdds)
+					then
+						card_build_table.rank = 'King'
+					end
+					
+					if
+						SMODS.pseudorandom_probability(card, 'steelKingz_seal', 1, card.ability.extra.sealOdds)
+					then
+						card_build_table.seal = 'Red'
+					else
+						card_build_table.seal = SMODS.poll_seal{ guaranteed = true, options = card.ability.extra.sealOptions }
+					end
+					
+					if
+						SMODS.pseudorandom_probability(card, 'steelKingz_steel', 1, card.ability.extra.steelOdds)
+					then
+						card_build_table.enhancement = 'm_steel'
+					end
+					
+					if
+						card.ability.extra.upgraded
+						and SMODS.pseudorandom_probability(card, 'steelKingz_poly', 1, card.ability.extra.polyOdds)
+					then
+						card_build_table.edition = 'e_polychrome'
+					end
+					
+					local jkrRef = context.blueprint_card or card
+					
+					return { func = function()
+							local pCard = SMODS.create_card(card_build_table)
+							G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+							pCard.playing_card = G.playing_card
+							table.insert(G.playing_cards, pCard)
+							
+							 G.E_MANAGER:add_event(Event({
+									func = function()
+										G.hand:emplace(pCard)
+										pCard:start_materialize()
+										G.GAME.blind:debuff_card(pCard)
+										G.hand:sort()
+										jkrRef:juice_up()
+										save_run()
+										return true
+									end
+								}))
+							
+							SMODS.calculate_context({ playing_card_added = true, cards = { pCard } })
+						end }
+				end
+			end
+		},
+		--[[ Smug Iris Heart
+		{
+			key = 'smug',
+			upgradesFrom = 'j_sly',
+			
+			matureRefLevel = 1,
+			loadOrder = 'upgCmn',
+			
+			
+		}, ]]
 	}
 }
 

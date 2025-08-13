@@ -1620,12 +1620,10 @@ local jokerInfo = {
 				end
 				
 				if context.joker_main and context.cardarea == G.jokers then
-					local mCard = card
+					local mCard = context.blueprint_card or card
 					local mColour = G.C.MULT
 					
 					if context.blueprint then
-						mCard = context.blueprint_card
-						
 						if mCard.ability.name == "Brainstorm" then
 							mColour = G.C.RED
 						else
@@ -1640,15 +1638,15 @@ local jokerInfo = {
 						xmultsRequired = 1
 					end
 					
-					if SMODS.pseudorandom_probability(card, 'forestMazeOne', 1, formTable.chance2) then
+					if SMODS.pseudorandom_probability(card, 'forestMazeTwo', 1, formTable.chance2) then
 						xmultsRequired = xmultsRequired + 1
 					end
 					
-					if SMODS.pseudorandom_probability(card, 'forestMazeOne', 1, formTable.chance3) then
+					if SMODS.pseudorandom_probability(card, 'forestMazeThree', 1, formTable.chance3) then
 						xmultsRequired = xmultsRequired + 1
 					end
 					
-					if SMODS.pseudorandom_probability(card, 'forestMazeOne', 1, formTable.chance4) then
+					if SMODS.pseudorandom_probability(card, 'forestMazeFour', 1, formTable.chance4) then
 						xmultsRequired = xmultsRequired + 1
 					end
 					

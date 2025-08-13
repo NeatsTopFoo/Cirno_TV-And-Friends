@@ -138,51 +138,8 @@ local configUI = function()
 									{
 										n = G.UIT.T, -- Top text
 										config = {
-											text = "(I can't believe Steamodded devs hate people without function keys, such as Girl_DM_.",
-											scale = 0.25,
-											colour = G.C.UI.TEXT_LIGHT,
-											align = 'tm',
-											w = 3,
-											h = 1,
-											hover = true
-										}
-									}
-								}
-							},
-							{
-								n = G.UIT.R, -- Spacer wrapper
-								config = {
-									r = 0.1,
-									padding = 0.0,
-									align = 'tm',
-									colour = G.C.CLEAR
-								},
-								nodes = {
-									{
-										-- Spacer
-										n = G.UIT.B,
-										config = {
-											colour = G.C.CLEAR,
-											w = 0.1,
-											h = 0.1
-										}
-									}
-								}
-							},
-							{
-								n = G.UIT.R, -- Text rows wrapper
-								config = {
-									r = 0.1,
-									padding = 0.0,
-									align = 'tm',
-									colour = G.C.CLEAR
-								},
-								nodes = {
-									{
-										n = G.UIT.T, -- Top text
-										config = {
-											text = "Very clear case of discrimination specifically against her, smh >:( )",
-											scale = 0.25,
+											text = "You can alternatively hold M.",
+											scale = 0.3,
 											colour = G.C.UI.TEXT_LIGHT,
 											align = 'tm',
 											w = 3,
