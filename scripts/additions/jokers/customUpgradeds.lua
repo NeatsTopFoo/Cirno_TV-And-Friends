@@ -39,7 +39,6 @@ local jokerInfo = {
 	
 	--[[ TODO:
 		- Obsessive Face
-		- Utsuho Reiuji
 		- VIP Diamond
 		- Best Buds
 		- Contentious Prediction
@@ -52,7 +51,6 @@ local jokerInfo = {
 		- Lava Chicken
 		- Horse Gacha
 		- Cirno Duty
-		- Smug Iris Heart
 		- Perfect Body Double
 		- Collection
 		- Cirno_TV & Friends
@@ -144,7 +142,7 @@ local jokerInfo = {
 					} }
 				
 				if CirnoMod.config.artCredits and not card.fake_card then
-					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
+					info_queue[#info_queue + 1] = { key = "jA_DM", set = "Other" }
 				end
 				
 				if
@@ -2678,7 +2676,7 @@ local jokerInfo = {
 					'is played'
 					}, {
 					'{C:attention}Queens{} of {C:diamonds_hc}Diamonds{} and',
-					'{C:attention}Girl_DM_{C:joker} Jokers{C:attention} retrigger',
+					'{C:cirDM}Girl_DM_{C:joker} Jokers{C:attention} retrigger',
 					'{s:0.8,C:inactive}Bias? In my house?',
 					'{s:0.8,C:inactive}Nahhhhhh'
 				} }
@@ -3950,9 +3948,29 @@ local jokerInfo = {
 				}
 			},
 			
+			abiInit = function(card, orgRarity)
+				card.ability.extra = {
+					originalRarity = orgRarity
+				}
+			end,
+			
+			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
+				self.abiInit(card, orgRarity)
+				
+				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
+				card:set_cost()
+			end,
+			
 			blueprint_compat = true,
 			
 			loc_vars = function(self, info_queue, card)
+				if
+					not card.ability.extra
+					or type(card.ability.extra) ~= 'table'
+				then
+					self.abiInit(card, 3)
+				end
+				
 				local descAppend = {
 					'{s:0.8,C:inactive}Everyone knows that the',
 					'{s:0.8,C:inactive}electrical wiring goes',
@@ -4188,9 +4206,29 @@ local jokerInfo = {
 				}
 			},
 			
+			abiInit = function(card, orgRarity)
+				card.ability.extra = {
+					originalRarity = orgRarity
+				}
+			end,
+			
+			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
+				self.abiInit(card, orgRarity)
+				
+				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
+				card:set_cost()
+			end,
+			
 			blueprint_compat = true,
 			
 			loc_vars = function(self, info_queue, card)
+				if
+					not card.ability.extra
+					or type(card.ability.extra) ~= 'table'
+				then
+					self.abiInit(card, 3)
+				end
+				
 				local descAppend = {
 					'{s:0.8,C:inactive}Finally, kerJoker'
 				}
@@ -4681,7 +4719,7 @@ local jokerInfo = {
 				end
 			end
 		},
-		--[[ Smug Iris Heart
+		-- Smug Iris Heart
 		{
 			key = 'smug',
 			upgradesFrom = 'j_sly',
@@ -4689,8 +4727,205 @@ local jokerInfo = {
 			matureRefLevel = 1,
 			loadOrder = 'upgCmn',
 			
+			loc_txt = {	name = 'Smug Iris Heart',
+				text = {
+					'{X:chips,C:white} X#1# {} Chips if played',
+                    'hand contains',
+                    'a {C:attention}#2#',
+					'{s:0.8,C:inactive}"If you haven\'t sampled',
+					'{s:0.8,C:inactive}enough of our services',
+					'{s:0.8,C:inactive}menu, I can always offer',
+					'{s:0.8,C:inactive}you some one-on-one service"'
+				}
+			},
 			
-		}, ]]
+			abiInit = function(card, orgRarity)
+				card.ability.extra = {
+					originalRarity = orgRarity,
+					x_chips = 2,
+					type = 'Pair'
+				}
+			end,
+			
+			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
+				self.abiInit(card, orgRarity)
+				
+				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
+				card:set_cost()
+			end,
+			
+			create_main_end = function()
+				local mainEndRV = {
+					n = G.UIT.C,
+					config = {
+						align = 'bm',
+						padding = 0.02
+					},
+					nodes = {}
+				}
+				
+				CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+						0, 0, -- Sprite X & Y
+						0.8, 0.8, -- Sprite W & H
+						CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+						{ x = 3, y = 2 } -- Position in the Atlas
+					)
+				)
+				
+				return { mainEndRV }
+			end,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				if
+					not card.ability.extra
+					or type(card.ability.extra) ~= 'table'
+				then
+					self.abiInit(card, 1)
+				end
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_LocalThunk_NTFEdit', set = 'Other' }
+				end
+				
+				return { main_end = self.create_main_end(),
+					vars = {
+						card.ability.extra.x_chips,
+						localize(card.ability.extra.type, 'poker_hands')
+					} }
+			end,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:chips,C:white} X'..to_big(card.ability.extra.x_chips)..' {} Chips',
+					'->',
+					'{X:chips,C:white} X'..to_big(card.ability.extra.x_chips) * to_big(2)..' {} Chips'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.x_chips = to_big(card.ability.extra.x_chips) * to_big(2)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.CHIPS }
+			end,
+			
+			pos = { x = 6, y = 6 },
+			eternal_compat = true,
+			perishable_compat = false,
+			
+			calculate = function(self, card, context)
+				if context.joker_main and next(context.poker_hands[card.ability.extra.type]) then
+					return {
+						x_chips = card.ability.extra.x_chips
+					}
+				end
+			end
+		},
+		-- Utsuho Reiuji
+		{
+			key = 'utsuho',
+			upgradesFrom = 'j_supernova',
+			
+			matureRefLevel = 1,
+			loadOrder = 'upgCmn',
+			
+			loc_txt = {	name = 'Utsuho Reiuji',
+				text = {
+					'Gives {X:mult,C:white} XMult {} equal to {C:attention}#1#{}the',
+					'number of times {C:attention}poker hand{} has',
+					'been played this run {C:inactive}({X:mult,C:white} X#2# {C:inactive})',
+					'{s:0.8,C:inactive}YOU THOUGHT I DIDN\'T',
+					'{s:0.8,C:inactive}DO ANYTHING FOR BEST HU?!',
+					'{s:0.8,C:inactive}HAHA! YOU ARE WRONG!'
+				}
+			},
+			
+			abiInit = function(card, orgRarity)
+				card.ability.extra = {
+					originalRarity = orgRarity,
+					mod = 1
+				}
+			end,
+			
+			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
+				self.abiInit(card, orgRarity)
+				
+				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
+				card:set_cost()
+			end,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				if
+					not card.ability.extra
+					or type(card.ability.extra) ~= 'table'
+				then
+					self.abiInit(card, 1)
+				end
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_NTF_Rend', set = 'Other' }
+				end
+				
+				local ret = { vars = { '', 1 } }
+				
+				if card.ability.extra.mod > 1 then
+					ret.vars[1] = card.ability.extra.mod..'X '
+				end
+				
+				if
+					G.GAME
+					and G.GAME.current_round
+					and G.GAME.current_round.current_hand
+					and G.GAME.hands
+					and G.GAME.hands[G.GAME.current_round.current_hand.handname]
+				then
+					ret.vars[2] = (to_big(G.GAME.hands[G.GAME.current_round.current_hand.handname].played) + to_big(1)) * to_big(card.ability.extra.mod)
+				end
+				
+				return ret
+			end,
+			
+			cir_upgradeInfo = function(self, card)
+				local target = nil
+				
+				if card.ability.extra.mod == 1 then
+					target = 4
+				else
+					target = to_big(card.ability.extra.mod) * to_big(2)
+				end
+				
+				return {
+					'{C:attention}'..to_big(card.ability.extra.mod)..'X{} the number of times {C:attention}poker hand{} has been played this run',
+					'->',
+					'{C:attention}'..target..'X{} the number of times {C:attention}poker hand{} has been played this run'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				if card.ability.extra.mod == 1 then
+					card.ability.extra.mod = 4
+				else
+					card.ability.extra.mod = to_big(card.ability.extra.mod) * to_big(2)
+				end
+				
+				return { message = localize('k_upgrade_ex') }
+			end,
+			
+			pos = { x = 0, y = 5 },
+			soul_pos = { x = 1, y = 5 },
+			eternal_compat = true,
+			perishable_compat = false,
+			
+			calculate = function(self, card, context)
+				if
+					context.joker_main
+					and to_big(G.GAME.hands[context.scoring_name].played) > to_big(0)
+				then
+					return { x_mult = to_big(G.GAME.hands[context.scoring_name].played) * to_big(card.ability.extra.mod) }
+				end
+			end
+		},
 	}
 }
 

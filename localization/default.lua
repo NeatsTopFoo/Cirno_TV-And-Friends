@@ -24,12 +24,14 @@ end
 	
 --#region What will go in the top of an art credit tooltip.
 creditSources.cr_JokerArt = "Joker Art By"
+creditSources.cr_JokerArtCr = "Joker Art Credit"
 creditSources.cr_DeckArt = "Deck Art By"
 creditSources.cr_EnhancerArt = "Enhancer Art By"
 creditSources.cr_SealArt = "Seal Art By"
 creditSources.cr_CardArt = "Card Art By"
 creditSources.cr_BoosterArt = "Booster Art By"
 creditSources.cr_GenericArt = "Art By"
+creditSources.cr_GenericArtCr = "Art Credit"
 --#endregion
 
 --#region Individuals to be credited
@@ -91,7 +93,7 @@ RV.descriptions.Other = {
 	jA_NTF = { name = creditSources.cr_JokerArt,
 		text = { creditSources.NTF }
 	},
-	jA_NTF_Rend = { name = creditSources.cr_JokerArt,
+	jA_NTF_Rend = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}Rendition by",
 			creditSources.NTF
@@ -133,7 +135,7 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	gA_BlackHole = { name = creditSources.cr_JokerArt,
+	gA_BlackHole = { name = creditSources.cr_GenericArtCr,
 		text = {
 			"{s:0.8}"..creditSources.thunk.." & "..creditSources.unknown..",",
 			"{s:0.8}edited by "..creditSources.NTF,
@@ -258,20 +260,20 @@ RV.descriptions.Other = {
 	},
 	
 	----- Wait, what -----
-	jA_Misprint = { name = creditSources.cr_JokerArt,
+	jA_Misprint = { name = creditSources.cr_JokerArtCr,
 		text = {
 			creditSources.CirnoTV.." & "..creditSources.thunk..",", -- Yes, Cirno drew cirBairy. Formally crediting him is funnier, trust me
 			"{s:0.8}edited by "..creditSources.NTF
 		}
 	},
-	jA_JustIRLCirno = { name = creditSources.cr_JokerArt,
+	jA_JustIRLCirno = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}...I don't know what to",
 			"{s:0.8}say, it's literally just",
 			"{s:0.8}a picture of "..creditSources.CirnoTV.."."
 		}
 	},
-	jA_Egg = { name = creditSources.cr_JokerArt,
+	jA_Egg = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}...I don't know what to",
 			"{s:0.8}say, it's literally just",
@@ -280,7 +282,7 @@ RV.descriptions.Other = {
 			"{s:0.8}edit of any kind."
 		}
 	},
-	jA_Hack = { name = creditSources.cr_JokerArt,
+	jA_Hack = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.6}...I don't know what to",
 			"{s:0.6}say, it's literally just",
@@ -288,7 +290,7 @@ RV.descriptions.Other = {
 			creditSources.CirnoTV_smol.."{s:0.6} stream."
 		}
 	},
-	jA_Baseball = { name = creditSources.cr_JokerArt,
+	jA_Baseball = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}Literally how do I ",
 			"{s:0.8}credit this, it's a",
@@ -297,7 +299,7 @@ RV.descriptions.Other = {
 	},
 	
 	----- Other -----
-	gA_cirThing_Edit = { name = creditSources.cr_GenericArt,
+	gA_cirThing_Edit = { name = creditSources.cr_GenericArtCr,
 		text = {
 			"{s:0.8}A screenshot of the "..creditSources.CirnoTV,
 			"{s:0.8}stream, edited by "..creditSources.NTF
@@ -316,7 +318,7 @@ RV.descriptions.Other = {
 			"{s:0.8}"..creditSources.zoeyism.." art."
 		}
 	},
-	jA_ciwnoEdit = { name = creditSources.cr_JokerArt,
+	jA_ciwnoEdit = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}Image of "..creditSources.CirnoTV..",",
 			"{s:0.8}edited by "..creditSources.NTF
@@ -334,73 +336,79 @@ RV.descriptions.Other = {
 			"{s:0.8}edited by "..creditSources.NTF
 		}
 	},
-	jA_Family = { name = creditSources.cr_JokerArt,
+	jA_Family = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}id software, edited",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_Hannah = { name = creditSources.cr_JokerArt,
+	jA_DM  = { name = creditSources.cr_JokerArtCr,
+		text = {
+			"{s:0.8}kingcraft_kingu, rendition",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
+	jA_Hannah = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}"..creditSources.yuniiho..", rendition",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_Naro = { name = creditSources.cr_JokerArt,
+	jA_Naro = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}"..creditSources.radicalHighway..", rendition",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_IF_NTF = { name = creditSources.cr_JokerArt,
+	jA_IF_NTF = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}Idea Factory, rendition",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	gA_IF_NTF = { name = creditSources.cr_GenericArt,
+	gA_IF_NTF = { name = creditSources.cr_GenericArtCr,
 		text = {
 			"{s:0.8}Idea Factory, rendition",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_Reimmomo = { name = creditSources.cr_JokerArt,
+	jA_Reimmomo = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}"..creditSources.zenko404..", rendition",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_Rumi = { name = creditSources.cr_JokerArt,
+	jA_Rumi = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}"..creditSources.artdef..", rendition",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_Deck = { name = creditSources.cr_JokerArt,
+	jA_Deck = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}Yu-Gi-Oh! card art,",
 			"{s:0.8}rendition by "..creditSources.NTF
 		}
 	},
-	jA_Houdini = { name = creditSources.cr_JokerArt,
+	jA_Houdini = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}"..creditSources.yakitsuki..", rendition",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_Wolsk = { name = creditSources.cr_JokerArt,
+	jA_Wolsk = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}"..creditSources.chocpocalypse..", rendition",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_Deme = { name = creditSources.cr_JokerArt,
+	jA_Deme = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}Touhou Cannonball, rendition",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_confusedRumi = { name = creditSources.cr_JokerArt,
+	jA_confusedRumi = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}"..creditSources.artdef..",",
 			"{s:0.8}"..creditSources.DTsun..", rendition",
@@ -419,7 +427,7 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	jA_MIYAZAKI = { name = creditSources.cr_JokerArt,
+	jA_MIYAZAKI = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:1.2}MIYZAKIIIIIIII",
 			"{s:0.8}rendition by "..creditSources.NTF
@@ -431,7 +439,7 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.DTsun
 		}
 	},
-	jA_CrysTap = { name = creditSources.cr_JokerArt,
+	jA_CrysTap = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.6,X:mult,C:white}Uhh...{s:0.6}, heavily edited",
 			"by "..creditSources.NTF,
@@ -442,13 +450,13 @@ RV.descriptions.Other = {
 			"{s:0.45,C:inactive}Definitely."
 		}
 	},
-	jA_b3313 = { name = creditSources.cr_JokerArt,
+	jA_b3313 = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8,X:mult,C:white}'-';;{s:0.6}, heavily edited",
 			"by "..creditSources.NTF
 		}
 	},
-	jA_b3313_uncanny = { name = creditSources.cr_JokerArt,
+	jA_b3313_uncanny = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8,X:mult,C:white}'-';;{s:0.6}, heavily edited",
 			"by "..creditSources.NTF,
@@ -526,19 +534,19 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	gA_Immolate = { name = creditSources.cr_GenericArt,
+	gA_Immolate = { name = creditSources.cr_GenericArtCr,
 		text = {
 			"{s:0.8}CloudxMiku, rendition",
 			"{s:0.8}& edits by "..creditSources.DTsun
 		}
 	},
-	jA_mcMeme = { name = creditSources.cr_JokerArt,
+	jA_mcMeme = { name = creditSources.cr_JokerArtCr,
 		text = {
-			"{s:0.8}"..creditSources.DTsun.." edit of",
-			"{s:0.8}Mojang art."
+			"{s:0.8}"..creditSources.DTsun.." rendition",
+			"{s:0.8}of Mojang art."
 		}
 	},
-	jA_smeared = { name = creditSources.cr_JokerArt,
+	jA_smeared = { name = creditSources.cr_JokerArtCr,
 		text = {
 			"{s:0.8}...Now I'm no expert, but",
 			"{s:0.8}I'm fairly certain this is a",

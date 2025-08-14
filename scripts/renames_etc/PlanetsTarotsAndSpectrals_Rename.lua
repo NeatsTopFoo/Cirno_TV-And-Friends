@@ -563,6 +563,16 @@ PTSloc.spectrals.c_talisman = { -- name = "Talisman",
 		}
 	}
 
+PTSloc.spectrals.c_ectoplasm = { -- name = "Ectoplasm", 
+		text = {
+			"Add {C:dark_edition}Negative{} to",
+			"a random {C:attention}Joker,",
+			"{C:red}-#1#{} hand size",
+			"{s:0.8,C:inactive}\"Seriously? That's someone's",
+			"{s:0.8,C:inactive}gravestone, you know.\""
+		}
+	}
+
 SMODS.Consumable:take_ownership('talisman', {
 	loc_vars = function(self, info_queue, card)
 		return { vars = { getSealName('gold') } }

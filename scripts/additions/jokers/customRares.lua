@@ -852,7 +852,7 @@ local jokerInfo = {
 			loc_txt = CirnoMod.miscItems.createErrorLocTxt('B3313'),
 			
 			pos = { x = 0, y = 0 },
-			cost = 12,
+			cost = 20,
 			eternal_compat = true,
 			perishable_compat = true,
 			
@@ -2297,7 +2297,7 @@ local jokerInfo = {
 				else
 					ret.vars[2] = localize(card.ability.extra.pHand, 'poker_hands')
 					
-					if string.sub(card.ability.extra.pHand, #card.ability.extra.pHand - 5, #card.ability.extra.pHand) == 'Flush' then
+					if string.sub(card.ability.extra.pHand, #card.ability.extra.pHand - 4, #card.ability.extra.pHand) == 'Flush' then
 						ret.vars[2] = ret.vars[2]..'es'
 					else
 						ret.vars[2] = ret.vars[2]..'s'

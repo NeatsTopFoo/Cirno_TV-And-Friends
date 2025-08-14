@@ -1527,7 +1527,6 @@ end
 
 if CirnoMod.config.addCustomJokers then
 	miscItems.jkrKeyGroups.TwoMax.j_cir_naro_l = true
-	miscItems.jkrKeyGroups.TwoMax.j_cir_smug = true
 	
 	miscItems.jkrKeyGroups.unhinged.j_cir_crazyFace = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_confusedRumi = true
@@ -1537,6 +1536,7 @@ if CirnoMod.config.addCustomJokers then
 	miscItems.jkrKeyGroups.unhinged.j_cir_wolsk_l = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_tom_l = true
 	
+	miscItems.jkrKeyGroups.TwoMax.j_cir_smug = true
 	miscItems.jkrKeyGroups.TwoMax.j_cir_comfyVibes = true
 	
 	miscItems.jkrKeyGroups.unhinged.j_cir_villainess = true
@@ -1550,6 +1550,7 @@ if CirnoMod.config.addCustomJokers then
 	
 	miscItems.jkrKeyGroups.unhinged.j_cir_queenOfDiamonds = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_kingOfHearts = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_utsuho = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_SPGP = true
 	
 	miscItems.jkrKeyGroups.fingerGuns.j_cir_platinum = true

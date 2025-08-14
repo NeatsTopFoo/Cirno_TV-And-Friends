@@ -567,7 +567,7 @@ miscLoc.vouchers.v_hieroglyph = { -- name = "Hieroglyph",
 			"{C:blue}-#1#{} hand",
 			"each round",
 			"{s:0.8,C:inactive}Back in my day, school",
-			"{s:0.8,C:inactive}was uphill. Both ways."
+			"{s:0.8,C:inactive}was uphill. Both ways"
 		}
 	}
 
