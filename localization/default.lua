@@ -350,7 +350,9 @@ RV.descriptions.Other = {
 	},
 	jA_Hannah = { name = creditSources.cr_JokerArtCr,
 		text = {
-			"{s:0.8}"..creditSources.yuniiho..", rendition",
+			"{s:0.8}"..creditSources.yuniiho..",",
+			"{s:0.8}hmmManon_,",
+			"{s:0.8}OniManzei, rendition",
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
@@ -558,6 +560,18 @@ RV.descriptions.Other = {
 		text = {
 			"{s:0.8}"..creditSources.DTsun.." edit",
 			"{s:0.8}of Loss.jpg."
+		}
+	},
+	jA_Yuri = { name = creditSources.cr_JokerArtCr,
+		text = {
+			"{s:0.8}Satchely, rendition",
+			"{s:0.8}by "..creditSources.NTF
+		}
+	},
+	jA_LostWord_NTFRend = { name = creditSources.cr_JokerArtCr,
+		text = {
+			"{s:0.8}Yumeno Rote, rendition",
+			"{s:0.8}by "..creditSources.NTF
 		}
 	},
 	jA_Unknown = { name = creditSources.cr_JokerArt,
@@ -967,7 +981,7 @@ RV.descriptions.Joker.j_cir_platinum_upg = { name = 'Platinum Joker',
 	} }
 }
 
-RV.descriptions.Joker.j_cir_steelKingz_upg = {	name = 'Steel Kingz',
+RV.descriptions.Joker.j_cir_steelKingz_upg = { name = 'Steel Kingz',
 	text = { {
 		'When round begins,',
         'add a random {C:attention}playing',
@@ -988,6 +1002,29 @@ RV.descriptions.Joker.j_cir_steelKingz_upg = {	name = 'Steel Kingz',
 		'{C:dark_edition}Polychrome',
 		'{s:0.8,C:inactive}Prayers answered?'
 	} }
+}
+
+RV.descriptions.Joker.j_cir_vipDiamond_upg = { name = 'VIP Diamond',
+	text = {
+		'When {C:attention}Blind{} is selected,',
+		'permanently add {C:attention}half',
+		'the sell value of {C:joker}Joker',
+		'to the right to',
+		'this {X:mult,C:white}XMult',
+		'{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)',
+		'{s:0.8,C:inactive}Cry about it'
+	}
+}
+
+RV.descriptions.Joker.j_cir_charismaticMistress_upg = {name = 'Modern-Day Makai\'s Charismatic Mistress',
+	text = {
+		'This Joker gains {X:mult,C:white} X#1# {} Mult',
+		'per scoring {C:attention}Enhanced card{} played,',
+		'card becomes a {C:attention}#2#',
+		'{C:inactive}(Currently {X:mult,C:white} X#3# {C:inactive} Mult)',
+		'{s:0.8,C:inactive}"So bored. Go and bring',
+		'{s:0.8,C:inactive}someone interesting over"'
+	}
 }
 
 RV.descriptions.Enhanced.m_glass_pFreeze = { name = "Ice Card",

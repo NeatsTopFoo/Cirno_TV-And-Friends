@@ -1,5 +1,12 @@
 return {
-	b_abandoned = { name = "Yuuma Deck" },
+	b_abandoned = { name = "Yuuma Deck", },
+		--[[
+		text={
+			"Start run with",
+			"no {C:attention}Face Cards",
+			"in your {T:dA_DaemonTsun}deck",
+		} },
+		]]
 	b_anaglyph = { name = "Pepsi Deck",
 		text={
 			"After defeating each",

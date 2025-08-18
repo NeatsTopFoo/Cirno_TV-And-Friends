@@ -573,6 +573,16 @@ PTSloc.spectrals.c_ectoplasm = { -- name = "Ectoplasm",
 		}
 	}
 
+PTSloc.spectrals.c_sigil = { name = "Sigil",
+		text = {
+			"Converts all cards",
+			"in hand to a single",
+			"random {C:attention}suit",
+			"{s:0.8,C:inactive}English's one and only",
+			"{s:0.8,C:inactive}Han character"
+		},
+	}
+
 SMODS.Consumable:take_ownership('talisman', {
 	loc_vars = function(self, info_queue, card)
 		return { vars = { getSealName('gold') } }

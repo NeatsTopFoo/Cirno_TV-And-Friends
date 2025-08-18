@@ -449,7 +449,7 @@ local jokerInfo = {
 				then
 					return {
 						x_mult = to_big(card.ability.extra.xmult),
-						colour = G.C.RED
+						colour = G.C.MULT
 					}
 				end
 				
@@ -474,7 +474,9 @@ local jokerInfo = {
 						if SMODS.pseudorandom_probability(context.other_card, 'mitaKill', 1, card.ability.extra.odds) then
 							
 							context.other_card.getting_sliced = true -- Marks the card for destruction.
-							RT.doNotRedSeal = true -- If the card is being destroyed, we don't need to retrigger this card via red seal.
+							-- If the card is being destroyed, we don't need to retrigger this card
+							RT.doNotRedSeal = true
+							RT.no_retrigger = true
 							RT.message = '  '
 							RT.colour = G.C.RED
 							RT.func = function()
@@ -852,7 +854,7 @@ local jokerInfo = {
 			loc_txt = CirnoMod.miscItems.createErrorLocTxt('B3313'),
 			
 			pos = { x = 0, y = 0 },
-			cost = 20,
+			cost = 17,
 			eternal_compat = true,
 			perishable_compat = true,
 			
@@ -1191,12 +1193,18 @@ local jokerInfo = {
 			end,
 			
 			calc_dollar_bonus = function(self, card)
-				--[[ If calc_dollar_bonus is always called
-				during end of round eval regardless of if
-				there's a condition for its use, may as
-				well use it for things that always need
-				to happen, such as form reversion.]]
-				self.change_form(self, card, 'base')
+				if
+					not (context.blueprint
+					or context.retrigger_joker)
+				then
+					--[[ If calc_dollar_bonus is always called
+					during end of round eval regardless of if
+					there's a condition for its use, may as
+					well use it for things that always need
+					to happen, such as form reversion.]]
+					
+					self.change_form(self, card, 'base')
+				end
 				
 				if to_big(card.ability.extra.formsInfo.crescent.accruedMoney) > 0 then
 					local RV = to_big(card.ability.extra.formsInfo.crescent.accruedMoney)

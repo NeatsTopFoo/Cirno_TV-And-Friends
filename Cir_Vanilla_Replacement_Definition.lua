@@ -652,7 +652,7 @@ replaceDef.spectralReplacements = {
 	--	{ spcKey = 'c_incantation', matureRefLevel = 1 },
 	--	{ spcKey = 'c_medium', matureRefLevel = 1 },
 	{ spcKey = 'c_ouija', matureRefLevel = 1, artCreditKey = 'gA_NTF' },
-	--	{ spcKey = 'c_sigil', matureRefLevel = 1 },
+	{ spcKey = 'c_sigil', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
 	{ spcKey = 'c_soul', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },
 	{ spcKey = 'c_talisman', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun' },
 	{ spcKey = 'c_trance', matureRefLevel = 1, artCreditKey = 'gA_DaemonTsun_BigNTFEdit' },

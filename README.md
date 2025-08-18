@@ -26,7 +26,7 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
   - 22 Tags
   - 21 Booster Packs
   - 15 Decks
-  - 14 Spectral Cards
+  - 15 Spectral Cards
   - 5 Enhancements
   - The title screen
 
@@ -38,14 +38,14 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
   - A significant amount of retextured Jokers
   - 24 Vouchers
   - 22 Tags
-  - 15 Decks
-  - 14 Spectral Cards
+  - 15 Decks	
+  - 15 Spectral Cards
   - 5 Enhancements
 
 - Adds:	
   - Various fun flavour text to numerous items
   - Some custom playing card skins
-  - 44 custom Jokers
+  - 49 custom Jokers
   - 2 custom Spectral Cards
   - 1 custom Challenge
   - Sometimes, quitting is an option. :)

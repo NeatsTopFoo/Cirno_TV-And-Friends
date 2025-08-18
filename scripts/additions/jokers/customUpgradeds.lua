@@ -38,10 +38,7 @@ local jokerInfo = {
 	},
 	
 	--[[ TODO:
-		- Obsessive Face
-		- VIP Diamond
 		- Best Buds
-		- Contentious Prediction
 		- Four of a Kind
 		- Whatever I name the Bootstraps upgrade
 		- Whatever I name the Blackboard upgrade
@@ -55,10 +52,9 @@ local jokerInfo = {
 		- Collection
 		- Cirno_TV & Friends
 		- Cokeman
-		- Albedo
 		- Sattaton
 		- Haurchefant
-		- Modern-Day Makai's Charismatic Mistress
+		- Dev Backseating
 	]]
 	jokerConfigs = {
 		-- The Villainess
@@ -3950,7 +3946,9 @@ local jokerInfo = {
 			
 			abiInit = function(card, orgRarity)
 				card.ability.extra = {
-					originalRarity = orgRarity
+					originalRarity = orgRarity,
+					upgraded = false,
+					EoR_dollars = 0
 				}
 			end,
 			
@@ -3986,8 +3984,9 @@ local jokerInfo = {
 					end
 				end
 				
-				local compatible = other_joker and other_joker ~= card and other_joker.config.center.blueprint_compat
-				local compatible2 = other_joker2 and other_joker2 ~= card and other_joker2.config.center.blueprint_compat
+				local compatible = other_joker and other_joker ~= card and (other_joker.config.center.blueprint_compat or (card.ability.extra.upgraded and (other_joker.calculate_dollar_bonus or other_joker.config.center.calc_dollar_bonus)))
+				
+				local compatible2 = other_joker2 and other_joker2 ~= card and (other_joker2.config.center.blueprint_compat or (card.ability.extra.upgraded and (other_joker2.calculate_dollar_bonus or other_joker2.config.center.calc_dollar_bonus)))
 				
 				local fp_main_end = {
 						{
@@ -4163,7 +4162,66 @@ local jokerInfo = {
 			eternal_compat = true,
 			perishable_compat = false,
 			
+			cir_upgradeInfo = function(self, card)
+				if not card.ability.extra.upgraded then
+					return {
+						'Allows copying {C:attention}end of round',
+						'economy type effects, such as {C:attention}'..G.localization.descriptions.Joker.j_golden.name,
+						'{s:0.8}(Acts strangely & unexpectedly,',
+						'{s:0.8}most notably when trying to copy',
+						'{s:0.8}duplicates or similar econ copying)',
+						'{C:red}Final upgrade'
+					}
+				end
+			end,
+			
+			cir_upgrade = function(self, card)
+				if not card.ability.extra.upgraded then
+					card.ability.extra.upgraded = true
+					
+					return { message = localize('k_upgrade_ex') }
+				end
+			end,
+			
+			calc_dollar_bonus = function(self, card, context)
+				if card.ability.extra.upgraded then
+					local ret = 0
+					
+					if context and context.blueprint then
+						local other_joker, other_joker2
+						local ret = 0
+						
+						for i = 1, #G.jokers.cards do
+							if G.jokers.cards[i] == card then
+								other_joker = G.jokers.cards[i + 1]
+								other_joker2 = G.jokers.cards[i + 2]
+							end
+						end
+						
+						ret = ret + (CirnoMod.blueprint_calcDol_effect(card, other_joker, context) or 0) + (CirnoMod.blueprint_calcDol_effect(card, other_joker2, context) or 0)
+					end
+					
+					if card.ability.extra.EoR_dollars > 0 then
+						ret = ret + card.ability.extra.EoR_dollars
+					end
+					
+					if ret > 0 then
+						return ret
+					end
+				end
+			end,
+			
+			
+			
 			calculate = function(self, card, context)
+				if
+					(context.starting_shop
+					or context.setting_blind)
+					and card.ability.extra.EoR_dollars > 0
+				then
+					card.ability.extra.EoR_dollars = 0
+				end
+				
 				local other_joker, other_joker2
 				
 				for i = 1, #G.jokers.cards do
@@ -4171,6 +4229,10 @@ local jokerInfo = {
 						other_joker = G.jokers.cards[i + 1]
 						other_joker2 = G.jokers.cards[i + 2]
 					end
+				end
+				
+				if context.end_of_round and context.main_eval and card.ability.extra.upgraded then
+					card.ability.extra.EoR_dollars = (CirnoMod.blueprint_calcDol_effect(card, other_joker, context) or 0) + (CirnoMod.blueprint_calcDol_effect(card, other_joker2, context) or 0)
 				end
 				
 				local ret1 = SMODS.blueprint_effect(card, other_joker, context, G.C.UI.TEXT_DARK)
@@ -4208,7 +4270,9 @@ local jokerInfo = {
 			
 			abiInit = function(card, orgRarity)
 				card.ability.extra = {
-					originalRarity = orgRarity
+					originalRarity = orgRarity,
+					upgraded = false,
+					EoR_dollars = 0
 				}
 			end,
 			
@@ -4236,8 +4300,9 @@ local jokerInfo = {
 				local other_joker = G.jokers.cards[2]
 				local other_joker2 = G.jokers.cards[#G.jokers.cards - 1]
 				
-				local compatible = other_joker and other_joker ~= card and other_joker.config.center.blueprint_compat
-				local compatible2 = other_joker2 and other_joker2 ~= card and other_joker2.config.center.blueprint_compat
+				local compatible = other_joker and other_joker ~= card and (other_joker.config.center.blueprint_compat or (card.ability.extra.upgraded and (other_joker.calculate_dollar_bonus or other_joker.config.center.calc_dollar_bonus)))
+				
+				local compatible2 = other_joker2 and other_joker2 ~= card and (other_joker2.config.center.blueprint_compat or (card.ability.extra.upgraded and (other_joker2.calculate_dollar_bonus or other_joker2.config.center.calc_dollar_bonus)))
 				
 				local rs_main_end = {
 						{
@@ -4413,9 +4478,70 @@ local jokerInfo = {
 			eternal_compat = true,
 			perishable_compat = false,
 			
+			cir_upgradeInfo = function(self, card)
+				if not card.ability.extra.upgraded then
+					return {
+						'Allows copying {C:attention}end of round',
+						'economy type effects, such as {C:attention}'..G.localization.descriptions.Joker.j_golden.name,
+						'{s:0.8}(Acts strangely & unexpectedly,',
+						'{s:0.8}most notably when trying to copy',
+						'{s:0.8}duplicates or similar econ copying)',
+						'{C:red}Final upgrade'
+					}
+				end
+			end,
+			
+			cir_upgrade = function(self, card)
+				if not card.ability.extra.upgraded then
+					card.ability.extra.upgraded = true
+					
+					return { message = localize('k_upgrade_ex') }
+				end
+			end,
+			
+			calc_dollar_bonus = function(self, card, context)
+				if card.ability.extra.upgraded then
+					local ret = 0
+					
+					if context and context.blueprint then
+						local other_joker, other_joker2
+						local ret = 0
+						
+						for i = 1, #G.jokers.cards do
+							if G.jokers.cards[i] == card then
+								other_joker = G.jokers.cards[i + 1]
+								other_joker2 = G.jokers.cards[i + 2]
+							end
+						end
+						
+						ret = ret + (CirnoMod.blueprint_calcDol_effect(card, other_joker, context) or 0) + (CirnoMod.blueprint_calcDol_effect(card, other_joker2, context) or 0)
+					end
+					
+					if card.ability.extra.EoR_dollars > 0 then
+						ret = ret + card.ability.extra.EoR_dollars
+					end
+					
+					if ret > 0 then
+						return ret
+					end
+				end
+			end,
+			
 			calculate = function(self, card, context)
+				if
+					(context.starting_shop
+					or context.setting_blind)
+					and card.ability.extra.EoR_dollars > 0
+				then
+					card.ability.extra.EoR_dollars = 0
+				end
+				
 				local other_joker = G.jokers.cards[2]
 				local other_joker2 = G.jokers.cards[#G.jokers.cards - 1]
+				
+				if context.end_of_round and context.main_eval and card.ability.extra.upgraded then
+					card.ability.extra.EoR_dollars = (CirnoMod.blueprint_calcDol_effect(card, other_joker, context) or 0) + (CirnoMod.blueprint_calcDol_effect(card, other_joker2, context) or 0)
+				end
 				
 				local ret1 = SMODS.blueprint_effect(card, other_joker, context, CirnoMod.miscItems.colours.cirCyan)
 				local ret2 = SMODS.blueprint_effect(card, other_joker2, context, CirnoMod.miscItems.colours.cirCyan)
@@ -4923,6 +5049,677 @@ local jokerInfo = {
 					and to_big(G.GAME.hands[context.scoring_name].played) > to_big(0)
 				then
 					return { x_mult = to_big(G.GAME.hands[context.scoring_name].played) * to_big(card.ability.extra.mod) }
+				end
+			end
+		},
+		-- Albedo
+		{
+			key = 'albedo',
+			upgradesFrom = 'j_flash',
+			
+			matureRefLevel = 1,
+			loadOrder = 'upgUncmn',
+			
+			loc_txt = {	name = 'Albedo',
+				text = {
+					'This Joker gains {X:mult,C:white} X#1# {} Mult',
+                    'per {C:attention}reroll{} in the shop',
+                    '{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)',
+					'{s:0.8,C:inactive}I\'ve got another',
+					'{s:0.8,C:inactive}confession to make',
+					'{s:0.8,C:inactive}I\'m your fool',
+					'{s:0.8,C:inactive}Everyone\'s got their',
+					'{s:0.8,C:inactive}chains to break',
+					'{s:0.8,C:inactive}Holdin\' you',
+					'{s:0.8,C:inactive}Were you born to resist',
+					'{s:0.8,C:inactive}or be abused?',
+					'{s:0.8,C:inactive}Is someone getting THE BEST',
+					'{s:0.8,C:inactive}THE BEST THE BEST THE BEST',
+					'{s:0.7,C:inactive}THE BEST THE BEST THE BEST',
+					'{s:0.6,C:inactive}THE BEST THE BEST THE BEST',
+					'{s:0.5,C:inactive}THE BEST THE BEST THE BEST',
+					'{s:0.4,C:inactive}THE BEST THE BEST THE BEST',
+					'{s:0.3,C:inactive}THE BEST THE BEST THE BEST'
+				}
+			},
+			
+			abiInit = function(card, orgRarity, orgAbilityTbl)
+				card.ability.extra = {
+					originalRarity = orgRarity,
+					xmult = to_big(math.max(orgAbilityTbl.mult, 2)) / to_big(2),
+					growth = 1
+				}
+			end,
+			
+			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
+				self.abiInit(card, orgRarity, orgAbilityTbl)
+				
+				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
+				card:set_cost()
+			end,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				if
+					not card.ability.extra
+					or type(card.ability.extra) ~= 'table'
+				then
+					self.abiInit(card, 2, { mult = 2 })
+				end
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_NTF_Rend', set = 'Other' }
+				end
+				
+				return { vars = { to_big(card.ability.extra.growth), to_big(card.ability.extra.xmult) } }
+			end,
+			
+			pos = { x = 0, y = 7 },
+			soul_pos = { x = 1, y =7 },
+			eternal_compat = true,
+			perishable_compat = false,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth)..'{} Mult scaling',
+					'->',
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth) + to_big(1)..'{} Mult scaling'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.growth = to_big(card.ability.extra.growth) + to_big(1)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
+			
+			calculate = function(self, card, context)
+				if context.reroll_shop and not context.blueprint then
+					card.ability.extra.xmult = to_big(card.ability.extra.xmult) + to_big(card.ability.extra.growth)
+					return {
+						message = localize { type = 'variable', key = 'a_xmult', vars = { to_big(card.ability.extra.xmult) } },
+						colour = G.C.MULT,
+					}
+				end
+				
+				if context.joker_main then
+					return { x_mult = to_big(card.ability.extra.xmult) }
+				end
+			end
+		},
+		-- Obsessive Face
+		{
+			key = 'obsessiveFace',
+			upgradesFrom = 'j_cir_crazyFace',
+			
+			matureRefLevel = 1,
+			loadOrder = 'upgRare',
+			
+			loc_txt = {	name = 'Obsessive Face',
+				text = { {
+					'{X:mult,C:white}X#1#{} Mult',
+					'{C:green}#2# in #3#{} chance to',
+					'{C:red}destroy{C:attention} played cards{},',
+					'per card.'
+					}, {
+					'Gains an additional',
+					'{X:mult,C:white}X#4#{} Mult for every',
+					'card destroyed by',
+					'the above effect',
+					'{s:0.8,C:inactive}I\'m pre-emptively',
+					'{s:0.8,C:inactive}denying any allegations',
+					'{s:0.8,C:inactive}of affinity towards',
+					'{s:0.8,C:inactive}purple-haired psychos'
+				} }
+			},
+			
+			abiInit = function(card, orgRarity, orgExtTable)
+				card.ability.extra = orgExtTable
+				card.ability.extra.growth = 2
+				card.ability.extra.odds = 10
+				card.ability.originalRarity = orgRarity
+			end,
+			
+			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
+				self.abiInit(card, orgRarity, orgExtTable)
+				
+				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
+				card:set_cost()
+			end,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				if
+					not card.ability.extra
+					or type(card.ability.extra) ~= 'table'
+				then
+					self.abiInit(card, 3, { xmult = 4 })
+				end
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = "jA_Yuri", set = "Other" }
+				end
+				
+				local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds)
+				
+				return { vars = {
+						to_big(card.ability.extra.xmult),
+						numerator,
+						denominator,
+						to_big(card.ability.extra.growth)
+					} }
+			end,
+			
+			pos = { x = 9, y = 4 },
+			eternal_compat = true,
+			perishable_compat = true,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth)..'{} Mult scaling',
+					'->',
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth) * to_big(2)..'{} Mult scaling'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.growth = to_big(card.ability.extra.growth) * to_big(2)
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+			end,
+			
+			calculate = function(self, card, context)
+				if
+					context.cardarea == G.jokers
+					and context.joker_main
+				then
+					return {
+						x_mult = to_big(card.ability.extra.xmult),
+						colour = G.C.MULT
+					}
+				end
+				
+				-- Card destroy chance processing
+				if
+					not context.blueprint
+					and (context.cardarea == G.play
+					or context.cardarea == 'unscored')
+					--[[ Looks at the entire hand, including unscored cards.
+					I would like this to include debuffed cards at some point,
+					but there appears to be no reasonable way to include them
+					in sequence]]
+				then
+					if
+						context.individual
+						and context.other_card
+						and context.other_card:can_calculate(true)
+					then
+						local RT = { message_card = context.other_card }
+						
+						-- Decide if card should be destroyed
+						if SMODS.pseudorandom_probability(context.other_card, 'yuriKill', 1, card.ability.extra.odds) then
+							
+							context.other_card.getting_sliced = true -- Marks the card for destruction.
+							-- If the card is being destroyed, we don't need to retrigger this card
+							RT.doNotRedSeal = true
+							RT.no_retrigger = true
+							RT.message = '  '
+							RT.colour = G.C.RED
+							RT.func = function()
+								local cardRef = context.other_card
+								local jkrRef = card
+								
+								G.E_MANAGER:add_event(Event({
+									trigger = 'immediate',
+									blocking = false,
+									blockable = true,
+									func = function()
+										cardRef.stab = true -- Purely for the visual effect on the Drawstep.
+										
+										card.ability.extra.xmult = to_big(card.ability.extra.xmult) + to_big(card.ability.extra.growth)
+										
+										SMODS.calculate_effect({
+												message = localize({
+													type = "variable",
+													key = "a_xmult",
+													vars = { to_big(card.ability.extra.xmult) } }),
+												colour = G.C.MULT
+											}, jkrRef)
+										return true
+									end}))
+							end
+							RT.sound = 'slice1'
+						else -- Branch for if the card is not to be destroyed.
+							RT.message = localize('k_safe_ex')
+							RT.colour = G.C.GREEN
+						end
+						
+						return RT
+					end
+					
+					-- Destroy marked cards
+					if context.destroy_card and context.destroy_card.getting_sliced then
+						return { remove = true }
+					end
+				end
+			end
+		},
+		-- VIP Diamond
+		{
+			key = 'vipDiamond',
+			upgradesFrom = 'j_ceremonial',
+			
+			matureRefLevel = 1,
+			loadOrder = 'upgUncmn',
+			
+			loc_txt = {	name = 'VIP Diamond',
+				text = {
+					'When {C:attention}Blind{} is selected,',
+                    'permanently add {C:attention}double',
+                    'the sell value of {C:joker}Joker',
+					'to the right to',
+                    'this {C:red}Mult',
+                    '{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)',
+					'{s:0.8,C:inactive}Cry about it'
+				}
+			},
+			
+			abiInit = function(card, orgRarity, orgAbilityTbl)
+				card.ability.extra = {
+					originalRarity = orgRarity,
+					mult = to_big(orgAbilityTbl.mult),
+					upgraded = false
+				}
+			end,
+			
+			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
+				self.abiInit(card, orgRarity, orgAbilityTbl)
+				
+				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
+				card:set_cost()
+			end,
+			
+			create_main_end = function()
+				local mainEndRV = {
+					n = G.UIT.C,
+					config = {
+						align = 'bm',
+						padding = 0.02
+					},
+					nodes = {}
+				}
+				
+				CirnoMod.miscItems.addUISpriteNode(mainEndRV.nodes, Sprite(
+						0, 0, -- Sprite X & Y
+						0.8, 0.8, -- Sprite W & H
+						CirnoMod.miscItems.funnyAtlases.emotes, -- Sprite Atlas
+						{ x = 3, y = 1 } -- Position in the Atlas
+					)
+				)
+				
+				return { mainEndRV }
+			end,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				if
+					not card.ability.extra
+					or type(card.ability.extra) ~= 'table'
+				then
+					self.abiInit(card, 2, { mult = 0 })
+				end
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_DuoDagger', set = 'Other' }
+				end
+				
+				local ret = { main_end = self.create_main_end(),
+					vars = { to_big(card.ability.extra.mult) }
+				}
+				
+				if card.ability.extra.upgraded then
+					ret.key = 'j_cir_vipDiamond_upg'
+				end
+				
+				return ret
+			end,
+			
+			pos = { x = 2, y = 5 },
+			eternal_compat = true,
+			perishable_compat = false,
+			
+			cir_upgradeInfo = function(self, card)
+				if not card.ability.extra.upgraded then
+					return {
+						'Gain {C:attention}double sell value{} as {C:mult} Mult ',
+						'->',
+						'Gain {C:attention}half sell value{} as {X:mult,C:white} XMult ',
+						'{C:red}Final upgrade'
+					}
+				end
+			end,
+			
+			cir_upgrade = function(self, card)
+				if not card.ability.extra.upgraded then
+					card.ability.extra.mult = to_big(card.ability.extra.mult) / to_big(4)
+					card.ability.extra.upgraded = true
+					
+					return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+				end
+			end,
+			
+			calculate = function(self, card, context)
+				if
+					context.setting_blind
+					and not context.blueprint
+				then
+					local my_pos = nil
+					for i = 1, #G.jokers.cards do
+						if G.jokers.cards[i] == card then
+							my_pos = i
+							break
+						end
+					end
+					
+					if
+						my_pos
+						and G.jokers.cards[my_pos + 1]
+					then
+						local targetCard = G.jokers.cards[my_pos + 1]
+						
+						if card.ability.extra.upgraded then
+							card.ability.extra.mult = to_big(card.ability.extra.mult) + to_big(targetCard.sell_cost) / to_big(2)
+							
+							return { message = localize {
+									type = 'variable',
+									key = 'a_xmult',
+									vars = { card.ability.extra.mult }
+								},
+								colour = G.C.MULT
+							}
+						end
+						
+						card.ability.extra.mult = to_big(card.ability.extra.mult) + to_big(targetCard.sell_cost) * to_big(2)
+						
+						return { message = localize {
+								type = 'variable',
+								key = 'a_mult',
+								vars = { card.ability.extra.mult }
+							},
+							colour = G.C.MULT
+						}
+					end
+				end
+				
+				if context.joker_main then
+					if card.ability.extra.upgraded then
+						return { x_mult = to_big(card.ability.extra.mult) }
+					end
+					
+					return { mult = to_big(card.ability.extra.mult) }
+				end
+			end
+		},
+		-- Modern-Day Makai's Charismatic Mistress
+		{
+			key = 'charismaticMistress',
+			upgradesFrom = 'j_vampire',
+			
+			matureRefLevel = 1,
+			loadOrder = 'upgUncmn',
+			
+			loc_txt = {	name = 'Modern-Day Makai\'s Charismatic Mistress',
+                text = {
+                    'This Joker gains {X:mult,C:white} X#1# {} Mult',
+                    'per scoring {C:attention}Enhanced card{} played,',
+                    'removes card {C:attention}Enhancement',
+                    '{C:inactive}(Currently {X:mult,C:white} X#3# {C:inactive} Mult)',
+					'{s:0.8,C:inactive}"So bored. Go and bring',
+					'{s:0.8,C:inactive}someone interesting over"'
+                }
+			},
+			
+			abiInit = function(card, orgRarity, orgAbilityTbl)
+				card.ability.extra = {
+					originalRarity = orgRarity,
+					growth = 0.2,
+					upgraded = false
+				}
+				
+				if to_big(orgAbilityTbl.x_mult) > to_big(1) then
+					card.ability.x_mult = to_big(orgAbilityTbl.x_mult) * to_big(2)
+				end
+			end,
+			
+			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
+				self.abiInit(card, orgRarity, orgAbilityTbl)
+				
+				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
+				card:set_cost()
+			end,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				if
+					not card.ability.extra
+					or type(card.ability.extra) ~= 'table'
+				then
+					self.abiInit(card, 2, { x_mult = 1 })
+				end
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_LostWord_NTFRend', set = 'Other' }
+				end
+				
+				local ret = { vars = {
+						to_big(card.ability.extra.growth),
+						G.localization.descriptions.Enhanced.m_bonus.name,
+						to_big(card.ability.x_mult)
+					} }
+				
+				if card.ability.extra.upgraded then
+					ret.key = 'j_cir_charismaticMistress_upg'
+				end
+				
+				return ret
+			end,
+			
+			pos = { x = 5, y = 7 },
+			eternal_compat = true,
+			perishable_compat = false,
+			
+			cir_upgradeInfo = function(self, card)
+				if not card.ability.extra.upgraded then
+					return {
+						'{s:1.1,C:dark_edition}Replaces:',
+						'Removes card {C:attention}Enhancement',
+						'{s:1.1,C:dark_edition}With:',
+						'Card becomes a {C:attention}'..G.localization.descriptions.Enhanced.m_bonus.name
+					}
+				end
+				
+				if to_big(card.ability.extra.growth) < to_big(1) then
+					return {
+						'{X:mult,C:white} X'..to_big(card.ability.extra.growth)..' {} Mult scaling',
+						'->',
+						'{X:mult,C:white} X1 {} Mult scaling'
+					}
+				end
+				
+				return {
+						'{X:mult,C:white} X'..to_big(card.ability.extra.growth)..' {} Mult scaling',
+						'->',
+						'{X:mult,C:white} X'..to_big(card.ability.extra.growth) + to_big(0.5)..' {} Mult scaling'
+					}
+			end,
+			
+			cir_upgrade = function(self, card)
+				if not card.ability.extra.upgraded then
+					card.ability.extra.upgraded = true
+					
+					return { message = localize('k_upgrade_ex') }
+				end
+				
+				if to_big(card.ability.extra.growth) < to_big(1) then
+					card.ability.extra.growth = to_big(1)
+				else
+					card.ability.extra.growth = to_big(card.ability.extra.growth) + to_big(0.5)
+				end
+				
+				return { message = localize('k_upgrade_ex') }
+			end,
+			
+			calculate = function(self, card, context)
+				if
+					context.before
+					and context.main_eval
+					and not context.blueprint
+				then
+					local enhanced = {}
+					
+					for _, scored_card in ipairs(context.scoring_hand) do
+						if
+							next(SMODS.get_enhancements(scored_card))
+							and not scored_card.debuff
+							and not scored_card.makai
+						then
+							enhanced[#enhanced + 1] = scored_card
+							
+							if
+								not SMODS.find_card('j_vampire')
+								and not scored_card.vampired
+							then
+								scored_card.makai = true
+								
+								G.E_MANAGER:add_event(Event({
+									func = function()
+										scored_card:juice_up()
+										scored_card.makai = nil
+										return true
+									end
+								}))
+							end
+							
+							scored_card:set_ability(
+								card.ability.extra.upgraded and 'm_bonus' or 'c_base',
+								nil,
+								true)
+						end
+					end
+		
+					if #enhanced > 0 then
+						card.ability.x_mult = to_big(card.ability.x_mult) + to_big(card.ability.extra.growth) * to_big(#enhanced)
+						
+						return {
+							message = localize { type = 'variable', key = 'a_xmult', vars = { to_big(card.ability.x_mult) } },
+							colour = G.C.MULT
+						}
+					end
+				end
+				
+				if context.joker_main then
+					return { xmult = to_big(card.ability.x_mult) }
+				end
+			end
+		},
+		-- Contentious Prediction
+		{
+			key = 'contentiousPrediction',
+			upgradesFrom = 'j_hanging_chad',
+			
+			matureRefLevel = 1,
+			loadOrder = 'upgCmn',
+			
+			loc_txt = {	name = 'Contentious Prediction',
+                text = { {
+                    'Retrigger {C:attention}first{} played card',
+                    'used in scoring {C:attention}#1#',
+                    'additional times'
+					}, {
+					'The other scored cards have a',
+                    '{C:green}#2# in #3#{} chance to be',
+                    '{C:attention}retriggered{} and a further',
+                    '{C:green}#4# in #5#{} chance to be',
+                    'retriggered again',
+					'{s:0.8,C:inactive}...Wait, this bit doesn\'t work,',
+					'{s:0.8,C:inactive}a tied prediction is fine'
+                } }
+			},
+			
+			abiInit = function(card, orgRarity, orgExtTable)
+				card.ability.extra = {
+					originalRarity = orgRarity,
+					repetitions = orgExtTable,
+					oneOddsNm = 3,
+					bothOddsDnm = 4
+				}
+			end,
+			
+			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
+				self.abiInit(card, orgRarity, orgExtTable)
+				
+				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
+				card:set_cost()
+			end,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				if
+					not card.ability.extra
+					or type(card.ability.extra) ~= 'table'
+				then
+					self.abiInit(card, 1, 2)
+				end
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_NTF', set = 'Other' }
+				end
+				
+				local oneNum, oneDenum = SMODS.get_probability_vars(card, card.ability.extra.oneOddsNm, card.ability.extra.bothOddsDnm)
+				
+				local twoNum, twoDenum = SMODS.get_probability_vars(card, 1, card.ability.extra.bothOddsDnm)
+				
+				return { vars = {
+					card.ability.extra.repetitions,
+					oneNum, oneDenum,
+					twoNum, twoDenum
+				} }
+			end,
+			
+			pos = { x = 4, y = 5 },
+			eternal_compat = true,
+			perishable_compat = false,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{C:attention}'..card.ability.extra.repetitions..'{} additional repetitions',
+					'of the {C:attention}first card',
+					'->',
+					'{C:attention}'..(card.ability.extra.repetitions + 1)..'{} additional repetitions',
+					'of the {C:attention}first card'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.repetitions = card.ability.extra.repetitions + 1
+				
+				return { message = localize('k_upgrade_ex') }
+			end,
+			
+			calculate = function(self, card, context)
+				if
+					context.repetition
+					and context.cardarea == G.play
+				then
+					if context.other_card == context.scoring_hand[1] then
+						return { repetitions = card.ability.extra.repetitions }
+					elseif SMODS.pseudorandom_probability(context.other_card, 'predictionRepOne', card.ability.extra.oneOddsNm, card.ability.extra.bothOddsDnm) then
+						if SMODS.pseudorandom_probability(context.other_card, 'predictionRepTwo', 1, card.ability.extra.bothOddsDnm) then
+							return { repetitions = 2 }
+						else
+							return { repetitions = 1 }
+						end
+					end
 				end
 			end
 		},

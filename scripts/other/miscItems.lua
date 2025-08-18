@@ -108,9 +108,9 @@ local miscItems = {
 miscItems.cirGunsSpriteX = 0
 
 miscItems.upgradedExtraValue = {
-	2,
-	5,
-	10,
+	3,
+	6,
+	12,
 	15
 }
 
@@ -1560,12 +1560,12 @@ miscItems.jkrKeyGroupTotalEncounters = function(groupName, stopAt1)
 	local RV = 0
 	
 	if miscItems.jkrKeyGroups[groupName] then
-		for i, k in ipairs(miscItems.jkrKeyGroups[groupName]) do
+		for k, v in pairs(miscItems.jkrKeyGroups[groupName]) do
 			if
 				CirnoMod.config.jkrVals[G.SETTINGS.profile]
 				and CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered[k]
-				and (type(k) ~= 'function'
-				or k())
+				and (type(v) ~= 'function'
+				or v())
 			then
 				RV = RV + CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered[k]
 			end
@@ -1603,6 +1603,7 @@ miscItems.encounterJoker = function(jkrKey)
 		end
 		
 		CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered[jkrKey] = CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered[jkrKey] + 1
+		SMODS.save_mod_config(CirnoMod)
 		return true
 	end
 	

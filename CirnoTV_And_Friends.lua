@@ -55,9 +55,8 @@ local old_loc_colour = loc_colour
 function loc_colour(_c, _default)
 	if CirnoMod.miscItems.colours[_c] then
 		return CirnoMod.miscItems.colours[_c]
-	else
-		return old_loc_colour(_c, _default)
 	end
+	return old_loc_colour(_c, _default)
 end
 
 --[[
@@ -936,6 +935,24 @@ for k, ach in pairs(cirAch) do
 	end
 end
 
+-- Calc_dollar_bonus version of SMODS.blueprint_effect
+function CirnoMod.blueprint_calcDol_effect(copier, copied_card, context)
+	if not copied_card or copied_card == copier or copied_card.debuff or context.no_blueprint then return end
+	if (context.blueprint or 0) > #G.jokers.cards then return end
+	
+	context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
+	
+	context.blueprint_card = context.blueprint_card or copier
+	
+	if copied_card.calculate_dollar_bonus then
+		return copied_card:calculate_dollar_bonus()
+	end
+	
+	if copied_card.config.center.calc_dollar_bonus then
+		return copied_card.config.center:calc_dollar_bonus(copied_card, context)
+	end
+end
+
 local main_menuRef = Game.main_menu -- Main_menu() hook
 function Game:main_menu(change_context)
 	CirnoMod.quipReplace()
@@ -1120,18 +1137,17 @@ end
 local oldCreateCard = create_card
 function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
 	local RV = oldCreateCard(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
-	
+		
 	--[[ Persistently track joker
-	encounters across unseeded runs.]]
+	encounters across unseeded runs. ]]
 	if
 		((not G.GAME.seeded)
 		or SMODS.config.seeded_unlocks)
 		and RV
 		and _type == 'Joker'
-		and CirnoMod.config.malverkRetextures
+		and CirnoMod.config.malverkReplacements
 	then
-		print("parsed "..card.key)
-		CirnoMod.miscItems.encounterJoker(card.key)
+		CirnoMod.miscItems.encounterJoker(RV.config.center.key)
 	end
 	
 	check_for_unlock({ type = 'cardCreate' })
