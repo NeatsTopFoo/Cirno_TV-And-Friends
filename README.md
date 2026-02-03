@@ -59,7 +59,7 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), [
 - [Refer to Steamodded's tutorial on installing both Lovely & Steamodded](https://github.com/Steamodded/smods/wiki)
 
 **Installing Malverk:**
-- After following the previously linked tutorial, download the latest version of Malverk from its releases page (At time of writing, getting Malverk's "Source code" .zip *should* be fine (and is recommended) unless that page explicitly states something specific for you to download instead).
+- After following the previously linked tutorial, download the latest version of Malverk from its releases page - At the time of writing, getting Malverk's "Source code" .zip *should* be fine (and is recommended) unless that page explicitly states something specific for you to download instead.
 - Either by extracting the contents of or otherwise opening the Malverk .zip, you should get a folder of the same name as the zip file (or similar). Move that folder to the .../Balatro/mods directory you created in the previous tutorial.
 - (To be safe) Ensure that Balatro runs properly. 
 
@@ -68,7 +68,7 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), [
 - Either by extracting the contents of or otherwise opening this mod's .zip, you should get a folder of the same name as the zip file (or similar). Move that folder to the .../Balatro/mods directory you created in the previous tutorial.
 
 **First-Time Setup:**
-*Changes may not immediately appear* as the majority of changes need to be enabled via Malkverk's textures menu, with other minor changes enabled in this mod's config menu.
+*Changes may not immediately appear* as the majority of changes need to be enabled via Malverk's textures menu, with other minor changes enabled in this mod's config menu.
 
 To adjust config settings:
 - With the game open and on the main menu, open the *'Mods'* menu, next to *'Collection'*.
