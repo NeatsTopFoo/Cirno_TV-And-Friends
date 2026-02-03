@@ -1175,14 +1175,15 @@ else
     }
 end
 
---[[
-jokerLoc.nrmJkrs.j_order = { name = "The Order",
+jokerLoc.nrmJkrs.j_order = { -- name = "The Order",
 	text = {
 		"{X:mult,C:white} X#1# {} Mult if played",
         "hand contains",
-        "a {C:attention}#2#"
+        "a {C:attention}#2#",
+		"{s:0.8,C:inactive}With energy, everything",
+		"{s:0.8,C:inactive}is ichi, ni, kyuu!"
 	}
-}]]
+}
 
 jokerLoc.nrmJkrs.j_tribe = { name = "The God Pull",
 	text = {
@@ -1363,9 +1364,7 @@ jokerLoc.nrmJkrs.j_fortune_teller = { name = "Deadly Premonition",
 		"{C:red}+#1#{} Mult per {C:tarot}Tarot{}",
         "card used this run",
         "{C:inactive}(Currently {C:red}+#2#{C:inactive})",
-		"{s:0.8,C:inactive}Don't do what the coffee",
-		"{s:0.8,C:inactive}tells you. Well, not IN",
-		"{s:0.8,C:inactive}the coffee itself, at least."
+		"{s:0.8,C:inactive}Tom's definitely a masochist."
 	}
 }
 
@@ -1463,7 +1462,7 @@ jokerLoc.nrmJkrs.j_smeared = { name = "Struggling Joker",
 	}
 }
 
-jokerLoc.nrmJkrs.j_oops = { name = "CloverPit: Oops! All 6s",
+jokerLoc.nrmJkrs.j_oops = { name = "Oops! All 6s",
 	text = {
 		"Doubles all {C:attention}listed",
         "{C:green,E:1,S:1.1}probabilities",
@@ -2279,10 +2278,12 @@ jokerLoc.nrmJkrs.j_todo_list = { name = "Sub Goals",
 		"Earn {C:money}$#1#{} if {C:attention}poker hand{}",
 		"is a {C:attention}#2#{},",
 		"poker hand changes",
-		"at end of round"
+		"at end of round",
+		"{s:0.8,C:inactive}JOKE BOAT! JOKE BOAT!"
 	}
 }
 
+--[[
 if CirnoMod.config['matureReferences_cyc'] == 3 then
 	table.insert(jokerLoc.nrmJkrs.j_todo_list.text,
 		"{s:0.8,C:inactive}So what's the over/under")
@@ -2343,6 +2344,7 @@ else
 	table.insert(jokerLoc.nrmJkrs.j_todo_list.text,
 		"{s:0.8,C:inactive}JOKE BOAT! JOKE BOAT!")
 end
+]]
 
 jokerLoc.nrmJkrs.j_cavendish = { -- name = "Cavendish",
 	text = {
@@ -2846,15 +2848,17 @@ jokerLoc.nrmJkrs.j_mail = { name = "Idolmaster Gacha",
     }
 }
 
---[[
-jokerLoc.nrmJkrs.j_to_the_moon = { name = "To The Moon",
+jokerLoc.nrmJkrs.j_to_the_moon = { -- name = "To The Moon",
 	text = {
 		"Earn an extra {C:money}$#1#{} of",
         "{C:attention}interest{} for every {C:money}$5{} you",
-        "have at end of round"
+        "have at end of round",
+		"{s:0.8,C:inactive}Congratulations, you did it!",
+		"{s:0.8,C:inactive}Now go all the way over to",
+		"{s:0.8,C:inactive}the other side of the map",
+		"{s:0.8,C:inactive}to get the star"
 	}
 }
-]]
 
 jokerLoc.nrmJkrs.j_hallucination = { name = "Imaginary Anomaly",
 	text = {
@@ -3267,6 +3271,7 @@ jokerLoc.nrmJkrs.j_smiley = { -- name = "Smiley Face",
         "Played {C:attention}face{} cards",
         "give {C:mult}+#1#{} Mult",
         "when scored",
+		"{s:0.8,C:inactive}Do not look at me so...",
 		"{s:0.8,C:inactive}A smile better suits a Joker"
     }
 }

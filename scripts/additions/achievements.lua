@@ -81,4 +81,25 @@ cirAch.gottem = {
 	}
 }
 
+cirAch.sixSeven = {
+	shouldBeAdded = function() return true end,
+	
+	info = {
+		loc_txt = {
+			name = 'No Brainrot For You',
+			description = {
+				'Reap the consequences of attempting',
+				'to play a hand consisting of a',
+				'six and a seven, in that order'
+			}
+		},
+		
+		hidden_text = true,
+		
+		unlock_condition = function(self, args)
+			return CirnoMod.sixSevenAttempted
+		end
+	}
+}
+
 return cirAch

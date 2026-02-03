@@ -375,6 +375,14 @@ miscLoc.tags.tag_boss = { name = "Boss Tag",
 		}
 	}
 
+miscLoc.tags.tag_charm = { name = "9 Tag",
+		--[[
+        text = {
+            "Gives a free",
+            "{C:tarot}Mega Arcana Pack",
+        } ]]
+    }
+
 miscLoc.tags.tag_top_up = { name = "cirMany Tag" }
 
 if CirnoMod.config.allowCosmeticTakeOwnership then
@@ -452,6 +460,13 @@ SMODS.Tag:take_ownership('meteor', {
 	end
 } , true)
 
+miscLoc.tags.tag_voucher = { name = "Clover Tag",
+		text = {
+			"Adds one {C:voucher}Voucher",
+			"to the next shop",
+			"{s:0.8,C:inactive}It's payday."
+		},
+	},
 
 --#endregion
 
@@ -705,6 +720,47 @@ miscLoc.vouchers.v_palette = { name = "Masterpiece",
     }
 }
 
+miscLoc.vouchers.v_seed_money = { name = "Golden Glove",
+	text = {
+		"Raise the cap on",
+		"interest earned in",
+		"each round to {C:money}$#1#",
+		"{s:0.8,C:inactive}\"Ich liebe Kapitalismus!\"",
+		"{s:0.8,C:inactive}-- Doktor, Metal Gear Rising"
+    }
+}
+
+miscLoc.vouchers.v_money_tree = { name = "Golden Tome",
+	text = {
+		"Raise the cap on",
+		"interest earned in",
+		"each round to {C:money}$#1#{}",
+		"{s:0.8,C:inactive}Among the worst items",
+		"{s:0.8,C:inactive}in Megabonk, decent in",
+		"{s:0.8,C:inactive}Balatro. Funny, that one"
+    }
+}
+
+miscLoc.vouchers.v_directors_cut = { name = "Cirno_TV Highlights",
+    text = {
+        "Reroll Boss Blind",
+        "{C:attention}1{} time per Ante,",
+        "{C:money}$#1#{} per roll",
+		"{s:0.8,C:inactive}Every year, be",
+		"{s:0.8,C:inactive}reminded of your",
+		"{s:0.8,C:inactive}failings"
+    }
+}
+
+miscLoc.vouchers.v_retcon = { name = "I Don't Know What This Is Referencing",
+    text = {
+        "Reroll Boss Blind",
+        "{C:attention}unlimited{} times,",
+        "{C:money}$#1#{} per roll",
+		"{s:0.8,C:inactive}I'm a fake Cirno fan, smh"
+    }
+}
+
 if CirnoMod.config.planetsAreHus then
 	miscLoc.vouchers.v_telescope = { name = 'Tewi Inaba',
 		text = {
@@ -735,10 +791,6 @@ SMODS.Voucher:take_ownership('telescope',{
 		} }
 	end
 }, true)
-
-if not CirnoMod.config.planetsAreHus then
-	-- SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "name", "Observatory")
-end
 
 SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "text", {
 		"{C:planet}#1#{} cards in your",
@@ -771,6 +823,23 @@ SMODS.Voucher:take_ownership('observatory',{
 	end
 }, true)
 
+miscLoc.vouchers.v_observatory = { name = 'Observe-atory',
+		text = {
+			"{C:planet}#1#{} cards in your",
+			"{C:attention}consumable{} area give",
+			"{X:red,C:white} X#2# {} Mult for their",
+			"specified {C:attention}poker hand",
+			"{s:0.8,C:inactive}...I see.",
+			"{s:0.8,C:inactive}Wait, wrong emote"
+		},
+		unlock = {
+			"Use a total of {C:attention}#1#",
+			"{C:planet}#2#{} cards from any",
+			"{C:planet}#3#",
+			"{C:inactive}(#2#)"
+		}
+	}
+
 if CirnoMod.config.planetsAreHus then
 	miscLoc.vouchers.v_planet_merchant = { name = "Hu Merchant",
 			text = {
@@ -779,8 +848,8 @@ if CirnoMod.config.planetsAreHus then
 				"in the shop",
 				"{s:0.8,C:inactive}Fun Cirno_TV Facts No. 9:",
 				"{s:0.8,C:inactive}He LOVES the old classic",
-				"{s:0.8,C:inactive}Ran Ran Ruu McDonalds JP",
-				"{s:0.8,C:inactive}YTPMVs, his favourite."
+				"{s:0.8,C:inactive}JP Ronald McDonald YTPMVs,",
+				"{s:0.8,C:inactive}they're his favourite."
 			}
 		}
 	

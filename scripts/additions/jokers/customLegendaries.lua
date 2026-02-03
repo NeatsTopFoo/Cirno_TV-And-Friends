@@ -927,7 +927,7 @@ local jokerInfo = {
 					"{C:inactive}(Currently {C:attention}#2#{C:inactive}/2)",
 					"{s:0.8,C:inactive}Remember kids, when you fail",
 					"{s:0.8,C:inactive}to kill your assassination",
-					"{s:0.8,C:inactive}target, open the bible."
+					"{s:0.8,C:inactive}target, open the bible"
 				}
 			},
 			

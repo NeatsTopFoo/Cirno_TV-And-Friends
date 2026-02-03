@@ -1064,7 +1064,6 @@ primarily facilitated by checking G.GAME.modifiers
 for the challenge id.]]
 local oldRunStart = Game.start_run
 Game.start_run = function(self, args)
-	
 	--[[
 	Check if challenges are on and the
 	challenge functions aren't empty]]
@@ -1086,6 +1085,32 @@ Game.start_run = function(self, args)
 				func = function()
 					if G.jokers then
 						CirnoMod.ChalFuncs.jokerStencilsDebuffCheck("runStart")					
+						return true
+					end
+					return false
+				end
+			}))
+		end
+		
+		if not CirnoMod.config.suppress67Kill then
+			G.E_MANAGER:add_event(Event({
+				trigger = 'after',
+				delay = 0.1,
+				blocking = false,
+				blockable = true,
+				func = function()
+					if G.GAME then
+						if
+							G.GAME.seeded
+							and (G.GAME.pseudorandom.seed == '67'
+							or G.GAME.pseudorandom.seed == 'SIXSEVEN'
+							or G.GAME.pseudorandom.seed == '6SEVEN'
+							or G.GAME.pseudorandom.seed == 'SIX7')
+						then
+							G.STATE = G.STATES.GAME_OVER
+							G.STATE_COMPLETE = false
+						end
+						
 						return true
 					end
 					return false
@@ -1293,6 +1318,18 @@ end
 
 local old_smodsCalcContext = SMODS.calculate_context
 SMODS.calculate_context = function(context, return_table)
+	if
+		not CirnoMod.config.suppress67Kill
+		and context.before
+		and #G.play.cards == 2
+		and G.play.cards[1].base.value == '6'
+		and G.play.cards[2].base.value == '7'
+	then
+		CirnoMod.sixSevenAttenpted = true
+		G.STATE = G.STATES.GAME_OVER
+		G.STATE_COMPLETE = false
+	end
+	
 	if
 		CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
 		and G.hand.cards

@@ -40,7 +40,7 @@ local jokerInfo = {
 			soul_pos = { x = 9, y = 1}, -- Defines where this card's soul overlay is in the given atlas
 			cost = 8, -- Base sell value is half of cost
 			eternal_compat = true,
-			perishable_compat = true,
+			perishable_compat = false,
 			
 			config = {
 				extra = {
@@ -228,7 +228,7 @@ local jokerInfo = {
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
-				if CirnoMod.config['artCredits'] and not card.fake_card then
+				if CirnoMod.config.artCredits and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_CrysTap", set = "Other" }
 				end
 				
@@ -414,7 +414,7 @@ local jokerInfo = {
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
-				if CirnoMod.config['artCredits'] and not card.fake_card then
+				if CirnoMod.config.artCredits and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
 				end
 				
@@ -606,7 +606,7 @@ local jokerInfo = {
 				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_Guns']
 				
 				-- Art credit tooltip
-				if CirnoMod.config['artCredits'] and not card.fake_card then
+				if CirnoMod.config.artCredits and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = 'jA_NTF', set = 'Other' }
 				end
 				
@@ -692,21 +692,22 @@ local jokerInfo = {
 			loc_txt = {
 				name = "Rubber Room",
 				text = {
-					"{X:mult,C:white}X#1#{} Mult for every {C:attention}Joker{}",
-					"whose graphic or reskin either",
-					"is or is otherwise related",
-					"to being {C:attention}unhinged{}.",
-					"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)",
-					"{s:0.8,C:inactive}I was gonna reference the pasta,",
-					"{s:0.8,C:inactive}but I'm more intrigued in the fact",
-					"{s:0.8,C:inactive}that no-one seems to agree whether",
-					"{s:0.8,C:inactive}or not 'rubber rats' is part of it."
+					'{X:mult,C:white}X#1#{} Mult for every {C:attention}Joker{}',
+					'whose graphic or reskin either',
+					'is or is otherwise related',
+					'to being {C:attention}unhinged{}',
+					'{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)',
+					'{s:0.8,C:inactive}I was gonna reference the pasta,',
+					'{s:0.8,C:inactive}but I\'m more intrigued in the fact',
+					'{s:0.8,C:inactive}that there\'s discourse over whether',
+					'{s:0.8,C:inactive}or not \'rubber rats\' is part of it'
 				},
 				unlock = {
-					"Encounter at least",
-					"three Jokers that",
-					"either are or are",
-					"references to #1#{E:1,C:attention}#2#"
+					'Encounter at least',
+					'three Jokers that',
+					'either are or are',
+					'references to',
+					'#1#{E:1,C:attention}#2#'
 				}
 			},
 			unlocked = false,
@@ -714,7 +715,7 @@ local jokerInfo = {
 			pos = { x = 1, y = 2 },
 			cost = 8,
 			eternal_compat = true,
-			perishable_compat = true,
+			perishable_compat = false,
 			
 			joker_display_def = function(JokerDisplay)
 				---@type JDJokerDefinition
@@ -772,7 +773,7 @@ local jokerInfo = {
 				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_unhinged']
 				
 				--[Art credit tooltip
-				if CirnoMod.config['artCredits'] and not card.fake_card then
+				if CirnoMod.config.artCredits and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
 				end
 				
@@ -822,7 +823,7 @@ local jokerInfo = {
 						blockable = true,
 						func = function()
 							if self.updateCurMult(card.ability.extra) then
-								SMODS.calculate_effect({ message = 'Into The Room.' }, card)
+								SMODS.calculate_effect({ message = 'Into The Room' }, card)
 							end
 						end}))
 					end
@@ -856,7 +857,7 @@ local jokerInfo = {
 			pos = { x = 0, y = 0 },
 			cost = 17,
 			eternal_compat = true,
-			perishable_compat = true,
+			perishable_compat = false,
 			
 			config = { extra = {
 				currentForm = 'base',
@@ -1112,7 +1113,7 @@ local jokerInfo = {
 				end
 				
 				-- Art credit tooltip
-				if CirnoMod.config['artCredits'] and not card.fake_card then
+				if CirnoMod.config.artCredits and not card.fake_card then
 					if card.ability.extra.currentForm == 'uncanny' then
 						info_queue[#info_queue + 1] = { key = "jA_b3313_uncanny", set = "Other" }
 					else
@@ -2146,7 +2147,7 @@ local jokerInfo = {
 				end
 				
 				-- Art credit tooltip
-				if CirnoMod.config['artCredits'] and not card.fake_card then
+				if CirnoMod.config.artCredits and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_confusedRumi", set = "Other" }
 				end
 				
@@ -2312,7 +2313,7 @@ local jokerInfo = {
 					end
 				end
 				
-				if CirnoMod.config['artCredits'] and not card.fake_card then
+				if CirnoMod.config.artCredits and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_MIYAZAKI", set = "Other" }
 				end
 				
@@ -2391,7 +2392,436 @@ local jokerInfo = {
 					return { x_chips = to_big(card.ability.extra.x_chips) }
 				end
 			end
-		}
+		},
+		-- Smough & Super Smough
+		{
+			key = 'smough',
+			matureRefLevel = 1,
+			
+			loc_txt = { name = 'Smough',
+				text = { {
+					'This {C:joker}Joker{} gains',
+                    '{C:chips}+#1#{} Chips per',
+                    'discarded {C:attention}face card',
+					'{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)'
+					}, {
+					'If {C:attention}#3#{} is present,',
+					'this {C:joker}Joker{} becomes',
+					'{C:attention}Super Smough{} when',
+					'{C:attention}#3#{} is {C:red}destroyed',
+					'{s:0.8,C:inactive}Hold over open flame for',
+					'{s:0.8,C:inactive}roughly 2 minutes or so'
+				} }
+			},
+			
+			config = { extra = {
+					super = false,
+					chips = 0,
+					chipScaling = 5,
+					cardScalar = 0.5,
+					odds = 7,
+					spriteX = 1
+				} },
+			
+			pos = { x = 1, y = 1 },
+			cost = 5,
+			eternal_compat = true,
+			perishable_compat = true,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				local ret = { vars = {
+					card.ability.extra.chipScaling,
+					card.ability.extra.chips
+				} }
+				
+				if card.ability.extra.super then
+					local num, denum = SMODS.get_probability_vars(card or self, 1, card.ability.extra.odds, 'superSmough')
+					
+					ret.vars[3] = num
+					ret.vars[4] = denum
+					ret.vars[5] = card.ability.extra.cardScalar
+					
+					info_queue[#info_queue + 1] = G.P_CENTERS.e_foil
+					
+					info_queue[#info_queue + 1] = G.P_CENTERS.e_holo
+					
+					info_queue[#info_queue + 1] = G.P_CENTERS.e_polychrome
+					
+					info_queue[#info_queue + 1] = CirnoMod.miscItems.getEditionScalingInfo({ type = 'example' }, card.ability.extra.cardScalar )
+					
+					ret.key = 'j_cir_super_smough'
+				else
+					ret.vars[3] = CirnoMod.miscItems.obscureJokerNameIfLockedOrUndisc('j_cir_ornstein')
+				end
+				
+				if CirnoMod.config.artCredits and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = "jA_MIYAZAKI", set = "Other" }
+				end
+				
+				return ret
+			end,
+			
+			updateState = function(card)
+				if
+					card.ability
+					and card.children
+				then
+					if -- If the soul_pos is not what I want it to be. I make it what I wnt it to be.
+						card.config.center.pos.x ~= card.ability.extra.spriteX
+					then
+						card.config.center.pos.x = card.ability.extra.spriteX
+					end
+				end
+				
+				-- Set the sprites.
+				card.children.center:set_sprite_pos(card.config.center.pos)
+			end,
+			
+			cir_upgradeInfo = function(self, card)
+				local ret = {
+					'{C:chips}+'..to_big(card.ability.extra.chipScaling)..'{} Chip scaling',
+					'->',
+					'{C:chips}+'..to_big(card.ability.extra.chipScaling) * to_big(1.5)..'{} Chip scaling'
+				}
+				
+				if
+					card.ability.extra.super
+				then
+					if card.ability.extra.odds > 1 then
+						local procOdds = function(odds, seed)
+							local num, denum = SMODS.get_probability_vars(card or self, 1, odds, seed)
+							
+							return '{C:green}'..num..' in '..denum..'{C:dark_edition} edition{} odds'
+						end
+						
+						ret = {
+							'{X:chips,C:white}X'..to_big(card.ability.extra.chipScaling)..'{} Chip scaling',
+							procOdds(card.ability.extra.odds, 'superSmough'),
+							'->',
+							'{X:chips,C:white}X'..to_big(card.ability.extra.chipScaling) * to_big(1.5)..'{} Chip scaling',
+							procOdds(card.ability.extra.odds - 1, 'superSmough'),
+						}
+					else
+						ret = {
+							'{X:chips,C:white}X'..to_big(card.ability.extra.chipScaling)..'{} Chip scaling',
+							'Card {C:dark_edition}editions{} scale by {C:attention}'..to_big(card.ability.extra.chipScaling)
+							'->',
+							'{X:chips,C:white}X'..to_big(card.ability.extra.chipScaling) * to_big(1.5)..'{} Chip scaling',
+							'Card {C:dark_edition}editions{} scale by {C:attention}'..to_big(card.ability.extra.chipScaling) + to_big(0.25)
+						}
+					end
+				end
+				
+				return ret
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.chipScaling = to_big(card.ability.extra.chipScaling) * to_big(1.5)
+				
+				if
+					card.ability.extra.super
+				then
+					if card.ability.extra.odds > 1 then
+						card.ability.extra.odds = card.ability.extra.odds - 1
+					else
+						card.ability.extra.chipScaling = to_big(card.ability.extra.chipScaling) + to_big(0.25)
+					end
+				end
+				
+				return { message = localize('k_upgrade_ex'), colour = G.C.CHIPS }
+			end,
+			
+			calculate = function(self, card, context)
+				if
+					not (context.blueprint
+					or context.retrigger_joker
+					or context.retrigger_joker_check)
+					and context.joker_type_destroyed
+					and not G.CONTROLLER.locks.selling_card
+					and context.card.ability.set == 'Joker'
+					and context.card.config.center.key == 'j_cir_ornstein'
+					and not card.ability.extra.super
+				then
+					card.ability.extra.spriteX = 3
+					card.ability.extra.super = true
+					
+					CirnoMod.miscItems.flippyFlip.fStart(card)
+					
+					local cardRef = card
+					local selfRef = self
+					
+					card.ability.extra.chipScaling = 10
+					card.ability.extra_value = 5
+					card:set_cost()
+					
+					return { func = function()
+							G.E_MANAGER:add_event(Event({
+								trigger = 'immediate',
+								blockable = true,
+								func = function()
+									selfRef.updateState(cardRef)
+									return true
+									end }))
+							
+							CirnoMod.miscItems.flippyFlip.fEnd(cardRef)
+							
+							G.E_MANAGER:add_event(Event({
+								trigger = 'immediate',
+								blockable = true,
+								func = function()
+									save_run()
+									return true
+									end }))
+						end }
+				end
+				
+				if
+					context.discard
+					and not context.blueprint
+					and context.other_card:can_calculate()
+					and context.other_card:is_face()
+				then
+					card.ability.extra.chips = to_big(card.ability.extra.chips) + to_big(card.ability.extra.chipScaling)
+					return {
+						message = localize('k_upgrade_ex'),
+						colour = G.C.CHIPS
+					}
+				end
+				
+				if
+					context.individual
+					and card.ability.extra.super
+					and context.cardarea == G.play
+					and context.other_card
+				then
+					if
+						context.other_card.edition
+						and CirnoMod.pullCardFHPEditionInfo(context.other_card)
+					then
+						local cardRef = context.other_card
+						
+						return {
+							message = CirnoMod.miscItems.scaleEdition_FHP(cardRef, card.ability.extra.cardScalar),
+							colour = CirnoMod.miscItems.cardEditionTypeToColour(cardRef)
+						}
+					elseif
+						not (context.blueprint
+						or context.retrigger_joker
+						or context.retrigger_joker_check)
+						and not context.other_card.edition
+						and SMODS.pseudorandom_probability(context.other_card, 'superSmoughEdition', 1, card.ability.extra.odds)
+					then
+						local cardRef = context.other_card
+						
+						G.E_MANAGER:add_event(Event({
+							trigger = 'immediate',
+							blockable = true,
+							func = function()
+								cardRef:set_edition(poll_edition('superSmoughEdition', nil, true, true), true)
+								
+								return true
+								end }))
+					end
+				end
+				
+				if context.joker_main then return { chips = to_big(card.ability.extra.chips) } end
+			end
+		},
+		-- Ornstein & Super Ornstein
+		{
+			key = 'ornstein',
+			matureRefLevel = 1,
+			
+			loc_txt = { name = 'Ornstein',
+				text = { {
+					'Scored {C:attention}#1#s',
+					'give an additional',
+					'{C:mult}+#2#{} Mult'
+					}, {
+					'If {C:attention}#3#{} is present,',
+					'this {C:joker}Joker{} becomes',
+					'{C:attention}Super Ornstein{} when',
+					'{C:attention}#3#{} is {C:red}destroyed',
+					'{s:0.8,C:inactive}Famously short for',
+					'{s:0.8,C:inactive}"Ornate Stone"'
+				} }
+			},
+			
+			config = { extra = { mult = 5, scrPrc = 0.90, charges = 0, spriteX = 2, super = false } },
+			
+			pos = { x = 2, y = 1 },
+			cost = 5,
+			eternal_compat = true,
+			perishable_compat = true,
+			
+			blueprint_compat = true,
+			loc_vars = function(self, info_queue, card)
+				local ret = { vars = {
+					G.localization.descriptions.Enhanced.m_mult.name,
+					to_big(card.ability.extra.mult)
+				} }
+				
+				info_queue[#info_queue + 1] = G.P_CENTERS.m_mult
+				
+				if card.ability.extra.super then
+					ret.vars[3] = card.ability.extra.scrPrc * 100
+					ret.vars[4] = card.ability.extra.charges
+					
+					ret.key = 'j_cir_super_ornstein'
+				else
+					ret.vars[3] = CirnoMod.miscItems.obscureJokerNameIfLockedOrUndisc('j_cir_smough')
+				end
+				
+				if CirnoMod.config['artCredits'] and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = "jA_MIYAZAKI", set = "Other" }
+				end
+				
+				return ret
+			end,
+			
+			updateState = function(card)
+				if
+					card.ability
+					and card.children
+				then
+					if -- If the soul_pos is not what I want it to be. I make it what I wnt it to be.
+						card.config.center.pos.x ~= card.ability.extra.spriteX
+					then
+						card.config.center.pos.x = card.ability.extra.spriteX
+					end
+				end
+				
+				-- Set the sprites.
+				card.children.center:set_sprite_pos(card.config.center.pos)
+			end,
+			
+			cir_upgradeInfo = function(self, card)
+				if card.ability.extra.super then
+					if card.ability.extra.scrPrc <= 0.5 then
+						return {
+							'{X:mult,C:white}X'..to_big(card.ability.extra.mult)..'{} Mult per {C:attention}Mult Card',
+							'->',
+							'{X:mult,C:white}X'..to_big(card.ability.extra.mult) * to_big(1.25)..'{} Mult per {C:attention}Mult Card'
+						}
+					end
+					
+					return {
+						'{X:mult,C:white}X'..to_big(card.ability.extra.mult)..'{} Mult per {C:attention}Mult Card',
+						'[{C:attention}'..(card.ability.extra.scrPrc * 100)..'%{} score requirement for Death save',
+						'->',
+						'{X:mult,C:white}X'..to_big(card.ability.extra.mult) * to_big(1.25)..'{} Mult per {C:attention}Mult Card',
+						'[{C:attention}'..((card.ability.extra.scrPrc - 0.1) * 100)..'%{} score requirement for Death save'
+					}
+				end
+			end,
+			
+			cir_upgrade = function(self, card)
+				if card.ability.extra.super then
+					card.ability.extra.mult = to_big(card.ability.extra.mult) * to_big(1.25)
+					
+					if card.ability.extra.scrPrc > 0.5 then
+						card.ability.extra.scrPrc = card.ability.extra.scrPrc - 0.1
+					end
+					
+					return { message = localize('k_upgrade_ex'), colour = G.C.MULT }
+				end
+			end,
+			
+			calculate = function(self, card, context)
+				if
+					not (context.blueprint
+					or context.retrigger_joker
+					or context.retrigger_joker_check)
+					and context.joker_type_destroyed
+					and not G.CONTROLLER.locks.selling_card
+					and context.card.ability.set == 'Joker'
+					and context.card.config.center.key == 'j_cir_smough'
+					and not card.ability.extra.super
+				then
+					card.ability.extra.spriteX = 4
+					card.ability.extra.mult = 1.5
+					card.ability.extra.super = true
+					card.ability.extra_value = 5
+					card:set_cost()
+					
+					CirnoMod.miscItems.flippyFlip.fStart(card)
+					
+					local cardRef = card
+					local selfRef = self
+					
+					return { func = function()
+							G.E_MANAGER:add_event(Event({
+								trigger = 'immediate',
+								blockable = true,
+								func = function()
+									selfRef.updateState(cardRef)
+									return true
+									end }))
+							
+							CirnoMod.miscItems.flippyFlip.fEnd(cardRef)
+							
+							G.E_MANAGER:add_event(Event({
+								trigger = 'immediate',
+								blockable = true,
+								func = function()
+									save_run()
+									return true
+									end }))
+						end }
+				end
+				
+				if
+					context.end_of_round
+					and card.ability.extra.super
+					and context.main_eval
+				then
+					if context.beat_boss then
+						return {
+							func = function ()
+								card:juice_up()
+								card.ability.extra.charges = card.ability.extra.charges + 1
+							end
+						}
+					end
+					
+					if
+						context.game_over
+						and card.ability.extra.charges > 1
+						and to_big(G.GAME.chips) / to_big(G.GAME.blind.chips) >= to_big(card.ability.extra.scrPrc)
+					then
+						G.E_MANAGER:add_event(Event({
+								func = function()
+									G.hand_text_area.blind_chips:juice_up()
+									G.hand_text_area.game_chips:juice_up()
+									play_sound('tarot1')
+									return true
+								end
+							}))
+						
+						return {
+							message = localize('k_saved_ex'),
+							saved = 'ph_cir_superOrnstein',
+							func = function ()
+								card.ability.extra.charges = card.ability.extra.charges - 1
+							end
+						}
+					end
+				end
+				
+				if
+					context.individual
+					and context.cardarea == G.play
+					and SMODS.has_enhancement(context.other_card, 'm_mult')
+				then
+					if card.ability.extra.super then
+						return { x_mult = to_big(card.ability.extra.mult) }
+					end
+					
+					return { mult = to_big(card.ability.extra.mult) }
+				end
+			end
+		},
 	}
 }
 

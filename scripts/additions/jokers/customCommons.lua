@@ -132,7 +132,7 @@ local jokerInfo = {
 			end,
 			
 			shouldReturnToHand = function(self, card)
-				local halfHandCount = math.floor(#G.play.cards / 2)
+				local halfHandCount = math.floor((#G.play.cards / 2) + 0.5)
 				local faceCount = 0
 				
 				for i, c in ipairs(G.play.cards) do
@@ -166,8 +166,7 @@ local jokerInfo = {
 				return ret
 			end,
 			
-			calculate = function(self, card, context)				
-			end
+			calculate = function(self, card, context)	 end
 		}
 	}
 }

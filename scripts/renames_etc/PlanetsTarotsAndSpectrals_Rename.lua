@@ -407,7 +407,7 @@ PTSloc.spectrals.c_ankh = { name = "Ankha",
 			"{C:red}destroy all other Jokers",
 			"{s:0.8,C:inactive}The year is 2021. A family member has",
 			"{s:0.8,C:inactive}just sent you a 'funny picture of a",
-			"{s:0.8,C:inactive}cute dancing cat.'"
+			"{s:0.8,C:inactive}cute dancing cat'"
 		}
 	}
 
@@ -437,7 +437,7 @@ else
 		"{C:red}-1{} hand size",
 		"{s:0.8,C:inactive}The hivemind of Chat produces",
 		"{s:0.8,C:inactive}many answers. Wrong ones",
-		"{s:0.8,C:inactive}usually, but answers nonetheless."
+		"{s:0.8,C:inactive}usually, but answers nonetheless"
 	}
 end
 
@@ -446,7 +446,7 @@ PTSloc.spectrals.c_deja_vu = { -- name = "Deja Vu",
 			"Add a {C:red}#1#",
 			"to {C:attention}1{} selected",
 			"card in your hand",
-			"{s:0.8,C:inactive}MULTi-track drifting."
+			"{s:0.8,C:inactive}MULTi-track drifting"
 		}
 	}
 
@@ -463,7 +463,7 @@ PTSloc.spectrals.c_trance = { name = "Overlap",
 		"{s:0.8,C:inactive}I knew that has a weird sorta love-hate relationship with Souls",
 		"{s:0.8,C:inactive}games & dropped CrossCode among various other things in common,",
 		"{s:0.8,C:inactive}I'd have -$69.90 US, as one of them would have charged me",
-		"{s:0.8,C:inactive}for two backseats over this bit."
+		"{s:0.8,C:inactive}for two backseats over this bit"
 		}
 	}
 
@@ -578,9 +578,48 @@ PTSloc.spectrals.c_sigil = { name = "Sigil",
 			"Converts all cards",
 			"in hand to a single",
 			"random {C:attention}suit",
-			"{s:0.8,C:inactive}English's one and only",
-			"{s:0.8,C:inactive}Han character"
+			"{s:0.8,C:inactive}English language's",
+			"{s:0.8,C:inactive}Singular Han character:",
+			"{s:0.8,C:inactive}\"Grief, miscarriage, loss\""
 		},
+	}
+
+PTSloc.spectrals.c_hex = { name = "Hex",
+		text = {
+			"Add {C:dark_edition}Polychrome{} to a",
+			"random {C:attention}Joker{}, destroy",
+			"all other Jokers",
+			"{s:0.8,C:inactive}It appears I have blundered",
+			"{s:0.8,C:inactive}by ordering \"desert\" at",
+			"{s:0.8,C:inactive}the fancy restaurant,",
+			"{s:0.8,C:inactive}I will now prceed to",
+			"{s:0.8,C:inactive}die to death"
+		}
+	}
+
+PTSloc.spectrals.c_medium = { name = "Medium",
+		text={
+			"Add a {C:purple}"..getSealName('purple'),
+			"to {C:attention}1{} selected",
+			"card in your hand",
+			"{s:0.8,C:inactive}\"Eeeh? Easy mode?",
+			"{s:0.8,C:inactive}Only kids play in",
+			"{s:0.8,C:inactive}easy mode! How lame!\""
+		}
+	}
+
+PTSloc.spectrals.c_incantation = { name = "Incantation",
+		text = {
+			"Destroy {C:attention}1{} random",
+			"card in your hand, add {C:attention}#1#",
+			"random {C:attention}Enhanced numbered",
+			"{C:attention}cards{} to your hand",
+			"{s:0.8,C:inactive}Alright buddy, you got two",
+			"{s:0.8,C:inactive}options here, you can be",
+			"{s:0.8,C:inactive}a saint or you can be a",
+			"{s:0.8,C:inactive}Grinch. Those are your",
+			"{s:0.8,C:inactive}two choices. Choose wisely"
+		}
 	}
 
 SMODS.Consumable:take_ownership('talisman', {

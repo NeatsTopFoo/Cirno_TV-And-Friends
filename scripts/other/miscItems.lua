@@ -118,6 +118,8 @@ miscItems.keysOfJokersToUpdateStateOnLoad = {
 	j_cir_crystalTap = true,
 	j_cir_b3313 = true,
 	j_cir_confusedRumi = true,
+	j_cir_smough = true,
+	j_cir_ornstein = true,
 	
 	j_cir_naro_l = true,
 	j_cir_arumia_l = true,
@@ -279,6 +281,7 @@ miscItems.colours = {
 	cirLucy = HEX('7BB083FF'),
 	cirNep = HEX('D066ADFF'),
 	cirUpgradedJkrClr = HEX('CCB35AFF'),
+	cirKeepsakeClr = HEX('A67C00FF'),
 	dmDark = HEX('395A2FFF'),
 	hanDark = HEX('312842FF'),
 	momoCyan = HEX('068170FF'),

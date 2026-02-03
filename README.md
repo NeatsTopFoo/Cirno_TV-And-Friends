@@ -3,9 +3,9 @@ A Balatro mod themed around [Cirno_TV](https://www.twitch.tv/Cirno_TV/), with va
 
 **WARNING:** Cirno_TV & Friends isn't explicitly an NSFW-oriented mod, but it does contain a handful of overt, (hopefully) stream-safe mature references in relation to community inside jokes (most particularly those with varying degrees of sexual connotation). This mod is *NOT* intended for children. By default, these (especially overt) mature references are significantly toned-down/altered, with the intent of having reduced mature references (in both number and intensity) encounterable in gameplay for anyone who wants to experience the mod, but is not particularly as interested in the some of the more mature references (and/or wants to stream it, but does not want to have that kind of stuff on their stream) - These changes can be adjusted in the mod's config settings, via the Mature References setting (In-game config setting changes require a game restart to take effect).
 
-![CTVaF Logo](https://i.imgur.com/CcRk9nq.png)
+![CTVaF Logo](https://i.imgur.com/jo1fNpN.png)
 
-**Cirno_TV & Friends** is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.expert), which retextures existing Jokers and adds some new ones, as well as various other changes such as some Joker names & descriptions, retextures of some enhancers & all blinds, and more!
+**Cirno_TV & Friends** is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://twitch.tv/NopeTooFast), which retextures existing Jokers and adds some new ones, as well as various other changes such as some Joker names & descriptions, retextures of some enhancers & all blinds, and more!
 
 DaemonTsun's art contributions are public domain - Some memes or pictures are not by him and copied as is, with some Jokers only being slightly edited. Further credits are available at the bottom of this README. Original Balatro art is property of LocalThunk.
 
@@ -17,16 +17,16 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 **Cirno_TV & Friends** currently:
 - Retextures:
-  - 148 Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
+  - All Jokers (Some get filtered/altered by the Mature Reference setting depending on what it is set to.)
   - All Blind Chips
   - All Seals
   - All Planet Cards
   - All Tarot Cards
-  - 24 Vouchers
-  - 22 Tags
-  - 21 Booster Packs
-  - 15 Decks
-  - 15 Spectral Cards
+  - All Spectral Cards
+  - All Tags
+  - All Decks
+  - 30 Vouchers
+  - 22 Booster Packs
   - 5 Enhancements
   - The title screen
 
@@ -34,23 +34,23 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
   - All Seals
   - All Planet Cards
   - All Tarot Cards
+  - All Spectral Cards
   - Most blinds
-  - A significant amount of retextured Jokers
-  - 24 Vouchers
-  - 22 Tags
-  - 15 Decks	
-  - 15 Spectral Cards
+  - Most retextured Jokers
+  - 30 Vouchers
+  - 23 Tags
+  - 15 Decks
   - 5 Enhancements
 
 - Adds:	
-  - Various fun flavour text to numerous items
-  - Some custom playing card skins
-  - 49 custom Jokers
+  - Various fun flavour text here and there
+  - Custom Deck skins, 1 for each suit
+  - 51 custom Jokers
   - 2 custom Spectral Cards
   - 1 custom Challenge
   - Sometimes, quitting is an option. :)
 
-All retextures and renames are optional and they're somewhat mix n' match (You can't have it rename some Jokers enabled in the texture pack and not others. You either get all Joker renames or none - But you do otherwise have decent control over it) - But all additions are fully optional.
+All retextures and renames are optional, generally mix n' match - All additions fully optional.
 
 ## Installation
 This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), [Steammodded](https://github.com/Steamodded/smods) & [Malverk](https://github.com/Eremel/Malverk). Without these dependencies, this mod will not function.

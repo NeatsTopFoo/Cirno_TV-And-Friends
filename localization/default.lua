@@ -6,7 +6,8 @@ local RV = {
 			k_upgradedjkr = 'Upgraded'
 		},
 		dictionary = {
-			k_upgradedjkr = 'Upgraded'
+			k_upgradedjkr = 'Upgraded',
+			ph_cir_superOrnstein = 'Saved by Super Ornstein'
 		},
 		v_text = {}
 	}
@@ -949,12 +950,13 @@ RV.descriptions.Joker.cir_j_confusedRumi_nPCardRebalanced = { name = "Confused R
 
 RV.descriptions.Joker.j_cir_tom_l_noPerfectionism = { name = "Tom",
 	text = {
-		"After each {C:attention}Boss Blind{},",
-		"scale all {C:joker}Joker{C:dark_edition} Editions{} by",
-		"a scalar of #1#",
-		"{s:0.8,C:inactive}Remember kids, when you fail",
-		"{s:0.8,C:inactive}to kill your assassination",
-		"{s:0.8,C:inactive}target,open the bible."
+		'After each {C:attention}Boss Blind{},',
+		'scale all {C:joker}Joker{C:dark_edition} Editions{} by',
+		'a scalar of #1#',
+		'{s:0.8}({s:0.8,C:dark_edition}Foil{s:0.8}/{s:0.8,C:dark_edition}Holographic{s:0.8}/{s:0.8,C:dark_edition}Polychrome{s:0.8} only)',
+		'{s:0.8,C:inactive}Remember kids, when you fail',
+		'{s:0.8,C:inactive}to kill your assassination',
+		'{s:0.8,C:inactive}target, open the bible'
 	}
 }
 
@@ -1016,7 +1018,7 @@ RV.descriptions.Joker.j_cir_vipDiamond_upg = { name = 'VIP Diamond',
 	}
 }
 
-RV.descriptions.Joker.j_cir_charismaticMistress_upg = {name = 'Modern-Day Makai\'s Charismatic Mistress',
+RV.descriptions.Joker.j_cir_charismaticMistress_upg = { name = 'Modern-Day Makai\'s Charismatic Mistress',
 	text = {
 		'This Joker gains {X:mult,C:white} X#1# {} Mult',
 		'per scoring {C:attention}Enhanced card{} played,',
@@ -1025,6 +1027,45 @@ RV.descriptions.Joker.j_cir_charismaticMistress_upg = {name = 'Modern-Day Makai\
 		'{s:0.8,C:inactive}"So bored. Go and bring',
 		'{s:0.8,C:inactive}someone interesting over"'
 	}
+}
+
+RV.descriptions.Joker.j_cir_super_smough = { name = 'Super Smough',
+	text = { {
+		'This {C:joker}Joker{} gains',
+        '{C:chips}+#1#{} Chips per',
+        'discarded {C:attention}face card',
+		'{C:inactive}(Currently {C:chips} +#2# {C:inactive} Chips)'
+		}, {
+		'Scored cards without an',
+		'{C:dark_edition}edition have a',
+		'{C:green}#3# in #4#{} chance',
+		'to become {C:dark_edition}Foil{},',
+		'{C:dark_edition}Holographic{}, or',
+		'{C:dark_edition}Polychrome'
+		}, {
+		'Scored cards with {C:dark_edition}editions',
+		'have their editions {C:attention}scaled',
+		'by a scalar of {C:attention}#5#',
+		'{s:0.8}({s:0.8,C:dark_edition}Foil{s:0.8}/{s:0.8,C:dark_edition}Holographic{s:0.8}/{s:0.8,C:dark_edition}Polychrome{s:0.8} only)',
+		'{s:0.8,C:inactive}Crunchy!'
+	} }
+}
+
+RV.descriptions.Joker.j_cir_super_ornstein = { name = 'Super Ornstein',
+	text = { {
+		'Scored {C:attention}#1#s',
+		'give {X:mult,C:white} X#2# {} Mult'
+		}, {
+		'Beating a {C:attention}Boss Blind',
+		'grants {C:attention}1{} charge',
+		'of Death prevention',
+		'Charges are only expended',
+		'if chips scored at at least',
+		'{C:attention}#3#%{} of required chips',
+		'{C:inactive}(Currently {C:attention}#4#{C:inactive} charges)',
+		'{s:0.8,C:inactive}"No, Bosses can\'t respawn',
+		'{s:0.8,C:inactive}in the randomiser"'
+	} }
 }
 
 RV.descriptions.Enhanced.m_glass_pFreeze = { name = "Ice Card",

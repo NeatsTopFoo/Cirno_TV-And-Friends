@@ -272,12 +272,27 @@ local configUI = function()
 												config = { align = 'tr', padding = 0.025 },
 												nodes = {
 													create_toggle({
-														label = "Planets, Tarots & Spectral Renames",
+														label = "Additional Custom Decks",
 														w = 1,
 														text_scale = 0.8,
 														ref_table = CirnoMod.config,
-														ref_value = 'planetTarotSpectralRenames',
-														-- callback = CirnoMod.callback_planetTarotSpectralRenamesToggle,
+														ref_value = 'addCustomDecks',
+														-- callback = CirnoMod.callback_addCustomDecksToggle,
+														active_colour = G.C.SECONDARY_SET.Spectral
+													})
+												}
+											},
+											{
+												n = G.UIT.R,
+												config = { align = 'tr', padding = 0.025 },
+												nodes = {
+													create_toggle({
+														label = "Art Credit Tooltips",
+														w = 1.,
+														text_scale = 0.75,
+														ref_table = CirnoMod.config,
+														ref_value = 'artCredits',
+														-- callback = CirnoMod.callback_artCreditsToggle,
 														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
@@ -387,12 +402,12 @@ local configUI = function()
 												config = { align = 'tr', padding = 0.025 },
 												nodes = {
 													create_toggle({
-														label = "Art Credit Tooltips",
-														w = 1.,
-														text_scale = 0.75,
+														label = "Planets, Tarots & Spectral Renames",
+														w = 1,
+														text_scale = 0.8,
 														ref_table = CirnoMod.config,
-														ref_value = 'artCredits',
-														-- callback = CirnoMod.callback_artCreditsToggle,
+														ref_value = 'planetTarotSpectralRenames',
+														-- callback = CirnoMod.callback_planetTarotSpectralRenamesToggle,
 														active_colour = G.C.SECONDARY_SET.Spectral
 													})
 												}
