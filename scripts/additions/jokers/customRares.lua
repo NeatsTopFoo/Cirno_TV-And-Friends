@@ -1193,7 +1193,7 @@ local jokerInfo = {
 				CirnoMod.miscItems.flippyFlip.fEnd(card)
 			end,
 			
-			calc_dollar_bonus = function(self, card)
+			calc_dollar_bonus = function(self, card, context)
 				if
 					not (context.blueprint
 					or context.retrigger_joker)

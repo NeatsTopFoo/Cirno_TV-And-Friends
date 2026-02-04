@@ -1078,7 +1078,7 @@ local jokerInfo = {
 				return ret
 			end,
 			
-			calc_dollar_bonus = function(self, card)
+			calc_dollar_bonus = function(self, card, context)
 				if to_big(card.ability.extra.EoR_dollars) > 0 then
 					return to_big(card.ability.extra.EoR_dollars)
 				end
