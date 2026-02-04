@@ -466,7 +466,7 @@ miscLoc.tags.tag_voucher = { name = "Clover Tag",
 			"to the next shop",
 			"{s:0.8,C:inactive}It's payday."
 		},
-	},
+	}
 
 --#endregion
 
