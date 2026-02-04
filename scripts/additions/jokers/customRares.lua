@@ -1200,7 +1200,7 @@ local jokerInfo = {
 				
 				if
 					not (context.blueprint
-					or context.retrigger_joker))
+					or context.retrigger_joker)
 				then
 					--[[ If calc_dollar_bonus is always called
 					during end of round eval regardless of if
