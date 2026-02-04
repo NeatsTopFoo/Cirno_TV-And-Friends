@@ -91,7 +91,7 @@ To enable textures:
 - The Cirno_TV & Friends mod is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.expert), additionally with some idea and art contributions from the Cirno_TV community discord (Including emotes by [Solgryn](https://twitch.tv/solgryn) & [RadicalHighway](https://twitch.tv/radicalhighway)) - (Additionally, some RadicalHighway art used as reference)
 - [Turpix](https://x.com/turpix_00) for [the art](https://www.nexusmods.com/balatro/mods/114) used for the Stone Joker.
 - [Muddleee for art edited for The Sun Tarot card](https://github.com/Muddieee/sun_is_sus).
-- The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art used for the DNA Joker (The art itself appears to not be credited to any specific contributing artist), as well as code for changing the card that appears on the title screen.
+- The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art which was edited to become the DNA Joker (Which was specifically drawn by Gote), as well as code for changing the card that appears on the title screen.
 - Code for a certain custom Legendary Joker was based off of a similar Joker in the [Cryptid](https://github.com/SpectralPack/Cryptid) mod, as well as the cycling mod badge Dynatext.
 - Code that changes the colours of the main menu vortex was based off of similar functionality in the [Trance](https://github.com/SpectralPack/Trance) mod.
 - [Aikoyori](https://bsky.app/profile/aikoyori.xyz), BreezeBuilder, Eremel, Somethingcom515 and many other members of the Balatro modding community for help with code & troubleshooting code issues.
