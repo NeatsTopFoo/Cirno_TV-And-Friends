@@ -1194,9 +1194,13 @@ local jokerInfo = {
 			end,
 			
 			calc_dollar_bonus = function(self, card, context)
+				if not context then
+					context = {}
+				end
+				
 				if
 					not (context.blueprint
-					or context.retrigger_joker)
+					or context.retrigger_joker))
 				then
 					--[[ If calc_dollar_bonus is always called
 					during end of round eval regardless of if
