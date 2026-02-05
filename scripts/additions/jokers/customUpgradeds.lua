@@ -3378,7 +3378,7 @@ local jokerInfo = {
 				}
 			},
 			
-			abiInit = function(card)
+			abiInit = function(card, orgRarity)
 				card.ability.extra = { originalRarity = orgRarity }
 				
 				card.ability.x_mult = 2
@@ -3386,11 +3386,11 @@ local jokerInfo = {
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card)
+				self.abiInit(card, orgRarity)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
-			end,
+			end,	
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
@@ -3402,7 +3402,7 @@ local jokerInfo = {
 					not card.ability.extra
 					or type(card.ability.extra) ~= 'table'
 				then
-					self.abiInit(card)
+					self.abiInit(card, 1)
 				end
 				
 				return { vars = { to_big(card.ability.x_mult) } }
@@ -5747,7 +5747,7 @@ for i, jkr in ipairs(jokerInfo.jokerConfigs) do
 	
 	jkr.locked_loc_vars = function(self, info_queue, card)
 		if CirnoMod.miscItems.isUnlockedAndDisc(G.P_CENTERS.c_cir_sPerfectionism_l) then
-			info_queue[#info_queue + 1] = copy_table(G.P_CENTERS.c_cir_sPerfectionism_l)
+			info_queue[#info_queue + 1] = SMODS.shallow_copy(G.P_CENTERS.c_cir_sPerfectionism_l)
 			info_queue[#info_queue].fake_card = true
 		else
 			info_queue[#info_queue + 1] = { key = 'questionMarkTooltip', set = 'Other' }

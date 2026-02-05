@@ -898,7 +898,7 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 						
 						if
 							decidedElement.unlocked
-							and CirnoMod.miscItems.keyGroupOfJokerKey(decidedElement.key) == 'allegations'
+							and CirnoMod.miscItems.jokerInKeyGroup(decidedElement.key, 'allegations')
 						then
 							materialiseColours = { G.C.GREEN, G.C.BLACK, G.C.GREEN, G.C.BLACK, G.C.GREEN }
 						else
@@ -1582,18 +1582,30 @@ miscItems.jkrKeyGroupTotalEncounters = function(groupName, stopAt1)
 	return RV
 end
 
-miscItems.keyGroupOfJokerKey = function(jkrKey)
+miscItems.keyGroupsOfJokerKey = function(jkrKey)
+	local RV = {}
+	
 	for k, t in pairs(CirnoMod.miscItems.jkrKeyGroups) do
 		if
 			t[jkrKey]
 			and (type(t[jkrKey]) ~= 'function'
 			or t[jkrKey]())
 		then
-			return k
+			RV[#RV + 1] = k
 		end
 	end
 	
-	return nil
+	return RV
+end
+
+miscItems.jokerInKeyGroup = function(jkrKey, group)
+	for i, v in ipairs(miscItems.keyGroupsOfJokerKey(jkrKey)) do
+		if v == group then
+			return true
+		end
+	end
+	
+	return false
 end
 
 miscItems.encounterJoker = function(jkrKey)

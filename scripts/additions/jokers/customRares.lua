@@ -747,9 +747,7 @@ local jokerInfo = {
 					
 					for i, jkr in ipairs(G.jokers.cards) do
 						if jkr.config.center.key ~= 'j_cir_rubberRoom' then
-							local jkrKeyGroup = CirnoMod.miscItems.keyGroupOfJokerKey(jkr.config.center.key)
-							
-							if jkrKeyGroup and jkrKeyGroup == 'unhinged' then
+							if CirnoMod.miscItems.jokerInKeyGroup(jkr.config.center.key, 'unhinged') then
 								counter = counter + 1
 							end
 						end

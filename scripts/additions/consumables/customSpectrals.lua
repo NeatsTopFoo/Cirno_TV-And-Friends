@@ -124,137 +124,144 @@ local spectralInfo = {
 					'{s:0.4,C:inactive}The factory must grow'
 				}
 				
-				if not card.fake_card then
-					local upJkrRet = nil
-					
-					if
-						G.jokers
-						and G.jokers.highlighted
-						and #G.jokers.highlighted > 0
+				local upJkrRet = nil
+				
+				if
+					G.jokers
+					and G.jokers.highlighted
+					and #G.jokers.highlighted > 0
+				then
+					if #G.jokers.highlighted > 1 then
+						compatibility[2] = 'Select only one Joker'
+					elseif
+						(G.jokers.highlighted[1].config.center.cir_upgradeInfo
+						and type(G.jokers.highlighted[1].config.center.cir_upgradeInfo) == 'function'
+						and G.jokers.highlighted[1].config.center:cir_upgradeInfo(G.jokers.highlighted[1])
+						and G.jokers.highlighted[1].config.center.cir_upgrade)
 					then
-						if #G.jokers.highlighted > 1 then
-							compatibility[2] = 'Select only one Joker'
-						elseif
-							(G.jokers.highlighted[1].config.center.cir_upgradeInfo
-							and type(G.jokers.highlighted[1].config.center.cir_upgradeInfo) == 'function'
-							and G.jokers.highlighted[1].config.center:cir_upgradeInfo(G.jokers.highlighted[1])
-							and G.jokers.highlighted[1].config.center.cir_upgrade)
-						then
-							CirnoMod.miscItems.descExtensionTooltips.eDT_cir_perfectionismSpecific.myText =G.jokers.highlighted[1].config.center:cir_upgradeInfo(G.jokers.highlighted[1])
+						CirnoMod.miscItems.descExtensionTooltips.eDT_cir_perfectionismSpecific.myText =G.jokers.highlighted[1].config.center:cir_upgradeInfo(G.jokers.highlighted[1])
+						
+						info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips.eDT_cir_perfectionismSpecific
+						
+						compatibility[1] = mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8)
+						compatibility[2] = ' '..localize('k_compatible')..' '
+					elseif
+						CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
+					then
+						if type(CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]) == 'function' then
+							upJkrRet = CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]()
 							
-							info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips.eDT_cir_perfectionismSpecific
+							if upJkrRet.clr then
+								compatibility[1] = upJkrRet.clr
+							end
 							
+							compatibility[2] = upJkrRet.msg
+						else
+							upJkrRet = CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
 							compatibility[1] = mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8)
 							compatibility[2] = ' '..localize('k_compatible')..' '
-						elseif
-							CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
-						then
-							if type(CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]) == 'function' then
-								upJkrRet = CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]()
-								
-								if upJkrRet.clr then
-									compatibility[1] = upJkrRet.clr
-								end
-								
-								compatibility[2] = upJkrRet.msg
-							else
-								upJkrRet = CirnoMod.miscItems.perfectionismUpgradable_Jokers[G.jokers.highlighted[1].config.center_key]
-								compatibility[1] = mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8)
-								compatibility[2] = ' '..localize('k_compatible')..' '
-							end
-						else
-							compatibility[2] = ' '..localize('k_incompatible')..' '
 						end
+					else
+						compatibility[2] = ' '..localize('k_incompatible')..' '
+					end
+				end
+				
+				if upJkrRet and not upJkrRet.frc_incompatible then
+					local upgTxtClrs = { G.C.CLEAR, G.C.FILTER }
+					
+					if CirnoMod.miscItems.getJokerRarityByKey(upJkrRet) == 'cir_UpgradedJkr' then
+						upgTxtClrs[1] = CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[CirnoMod.miscItems.getJokerRarityByKey(G.jokers.highlighted[1].config.center_key)] or CirnoMod.miscItems.colours.cirUpgradedJkrClr
+						upgTxtClrs[2] = G.C.WHITE
 					end
 					
-					if upJkrRet and not upJkrRet.frc_incompatible then
-						local upgTxtClrs = { G.C.CLEAR, G.C.FILTER }
-						
-						if CirnoMod.miscItems.getJokerRarityByKey(upJkrRet) == 'cir_UpgradedJkr' then
-							upgTxtClrs[1] = CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[CirnoMod.miscItems.getJokerRarityByKey(G.jokers.highlighted[1].config.center_key)] or CirnoMod.miscItems.colours.cirUpgradedJkrClr
-							upgTxtClrs[2] = G.C.WHITE
-						end
-						
-						info_queue[#info_queue + 1] = { key = 'perfectionismUpg',
-							set = 'Other',
-							vars = {
-								colours = upgTxtClrs,
-								CirnoMod.miscItems.getJokerNameByKey(G.jokers.highlighted[1].config.center.key),
-								CirnoMod.miscItems.obscureJokerNameIfLockedOrUndisc(upJkrRet)
-						} }
-					end
-					
-					ret.main_end = {
-							{
-								n = G.UIT.C,
+					info_queue[#info_queue + 1] = { key = 'perfectionismUpg',
+						set = 'Other',
+						vars = {
+							colours = upgTxtClrs,
+							CirnoMod.miscItems.getJokerNameByKey(G.jokers.highlighted[1].config.center.key),
+							CirnoMod.miscItems.obscureJokerNameIfLockedOrUndisc(upJkrRet)
+					} }
+				end
+				
+				ret.main_end = {
+						{
+							n = G.UIT.C,
+							config = { align = "bm", minh = 0.4 },
+							nodes = { {
+								n = G.UIT.R,
 								config = { align = "bm", minh = 0.4 },
-								nodes = { {
-									n = G.UIT.R,
-									config = { align = "bm", minh = 0.4 },
-									nodes = {
-										{
-											n = G.UIT.C, -- Spacer wrapper
-											config = {
-												r = 0.1,
-												padding = 0.0,
-												align = 'tm',
-												colour = G.C.CLEAR
-											},
-											nodes = {
-												{
-													-- Spacer
-													n = G.UIT.B,
-													config = {
-														colour = G.C.CLEAR,
-														w = 0.2,
-														h = 0.1
-													}
+								nodes = {
+									{
+										n = G.UIT.C, -- Spacer wrapper
+										config = {
+											r = 0.1,
+											padding = 0.0,
+											align = 'tm',
+											colour = G.C.CLEAR
+										},
+										nodes = {
+											{
+												-- Spacer
+												n = G.UIT.B,
+												config = {
+													colour = G.C.CLEAR,
+													w = 0.2,
+													h = 0.1
 												}
 											}
+										}
+									},
+									{
+										n = G.UIT.C,
+										config = { ref_table = card, align = "m", colour = compatibility[1], r = 0.05, padding = 0.06 },
+										nodes = {
+											{ n = G.UIT.T, config = { text = compatibility[2], colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
+										}
+									},
+									{
+										n = G.UIT.C, -- Spacer wrapper
+										config = {
+											r = 0.1,
+											padding = 0.0,
+											align = 'tm',
+											colour = G.C.CLEAR
 										},
-										{
-											n = G.UIT.C,
-											config = { ref_table = card, align = "m", colour = compatibility[1], r = 0.05, padding = 0.06 },
-											nodes = {
-												{ n = G.UIT.T, config = { text = compatibility[2], colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
-											}
-										},
-										{
-											n = G.UIT.C, -- Spacer wrapper
-											config = {
-												r = 0.1,
-												padding = 0.0,
-												align = 'tm',
-												colour = G.C.CLEAR
-											},
-											nodes = {
-												{
-													-- Spacer
-													n = G.UIT.B,
-													config = {
-														colour = G.C.CLEAR,
-														w = 0.2,
-														h = 0.1
-													}
+										nodes = {
+											{
+												-- Spacer
+												n = G.UIT.B,
+												config = {
+													colour = G.C.CLEAR,
+													w = 0.2,
+													h = 0.1
 												}
 											}
 										}
 									}
-								} }
-							}
+								}
+							} }
 						}
-					
-					for _, t in ipairs(descAppend) do
-						ret.main_end[1].nodes[#ret.main_end[1].nodes + 1] = {
-							n = G.UIT.R,
-							config = { align = "cm", padding = 0.03 },
-							nodes = SMODS.localize_box(loc_parse_string(t), {scale = 1.0})
-						}
+					}
+				
+				for _, t in ipairs(descAppend) do
+					ret.main_end[1].nodes[#ret.main_end[1].nodes + 1] = {
+						n = G.UIT.R,
+						config = { align = "cm", padding = 0.03 },
+						nodes = SMODS.localize_box(loc_parse_string(t), {scale = 1.0})
+					}
+				end
+				
+				if
+					not card.fake_card
+				then
+					if
+						not card.area
+						and card.area.config.type == 'title'
+					then
+						info_queue[#info_queue + 1] = CirnoMod.miscItems.getEditionScalingInfo({ type = 'example' }, card.ability.extra )
 					end
-					
-					info_queue[#info_queue + 1] = CirnoMod.miscItems.getEditionScalingInfo({ type = 'example' }, card.ability.extra )
-					
-					if CirnoMod.config.artCredits and not card.fake_card then
+				
+					if CirnoMod.config.artCredits then
 						info_queue[#info_queue + 1] = { key = "gA_NTF", set = "Other" }
 					end
 				end
