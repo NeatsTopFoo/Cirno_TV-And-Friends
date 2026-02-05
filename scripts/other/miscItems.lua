@@ -1653,7 +1653,7 @@ miscItems.obscureJokerTooltipIfNotEncountered = function(jkrKey, fake_card)
 	if CirnoMod.miscItems.hasEncounteredJoker(jkrKey) then
 		if G.P_CENTERS[jkrKey] then
 			if fake_card then
-				local ret = copy_table(G.P_CENTERS[jkrKey])
+				local ret = SMODS.shallow_copy(G.P_CENTERS[jkrKey])
 				ret.fake_card = true
 				return ret
 			end

@@ -2707,7 +2707,7 @@ local jokerInfo = {
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
-				info_queue[#info_queue + 1] = copy_table(G.P_CENTERS.c_wheel_of_fortune)
+				info_queue[#info_queue + 1] = SMODS.shallow_copy(G.P_CENTERS.c_wheel_of_fortune)
 				info_queue[#info_queue].fake_card = true
 				
 				-- Art credit tooltip
