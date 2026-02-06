@@ -579,10 +579,12 @@ local jokerInfo = {
 					
 					for i, jkr in ipairs(G.jokers.cards) do
 						if jkr.config.center.key ~= 'j_cir_onlyHaveThreeJokes' then
-							local jkrKeyGroup = CirnoMod.miscItems.keyGroupOfJokerKey(jkr.config.center.key)
+							local jkrKeyGroups = CirnoMod.miscItems.keyGroupsOfJokerKey(jkr.config.center.key)
 							
-							if jkrKeyGroup and extraTable.checkEm[jkrKeyGroup] then
-								counter = counter + 1
+							for i, v in ipairs(jkrKeyGroups) do
+								if v and extraTable.checkEm[v] then
+									counter = counter + 1
+								end
 							end
 						end
 					end
