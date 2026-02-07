@@ -1013,6 +1013,21 @@ local jokerInfo = {
 			abiInit = function(card, orgRarity, orgAbilityTbl, orgExtTable)
 				card.ability.x_mult = orgAbilityTbl.x_mult
 				card.ability.extra = orgExtTable
+				
+				if
+					not card.ability.extra
+				then
+					if
+						orgAbilityTbl
+						and type(orgAbilityTbl) == 'table'
+						and orgAbilityTbl.extra
+					then
+						card.ability.extra = orgAbilityTbl.extra
+					else
+						card.ability.extra = { discards = 0 }
+					end
+				end
+				
 				card.ability.extra.xmult = 2
 				card.ability.extra.EoR_dollars = 0
 				card.ability.extra.KoD_dollarsEarn = 1
@@ -1034,7 +1049,7 @@ local jokerInfo = {
 					not card.ability.extra
 					or type(card.ability.extra) ~= 'table'
 				then
-					self.abiInit(card, 4, { x_mult = 1 }, 1)
+					self.abiInit(card, 4, { x_mult = 1 }, { discards = 0 })
 				end
 				
 				local RT = { vars = {

@@ -399,6 +399,7 @@ local jokerInfo = {
 				if
 					full_UI_table
 					and full_UI_table.multi_box
+					and full_UI_table.multi_box[2]
 					and full_UI_table.multi_box[2][1]
 				then
 					full_UI_table.multi_box[2][2] = {}
