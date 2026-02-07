@@ -1362,7 +1362,7 @@ local jokerInfo = {
 			loc_txt = { name = 'The Somnolent',
 				text = { {
 					'{C:attention}Swaps{} between {X:chips,C:white}XChips{} & {X:mult,C:white}XMult',
-					'after each {C:blue}hand{} played',
+					'after drawing a new {C:blue}hand',
 					'{C:inactive}(Currently: {B:1,C:white}X#1#{C:inactive})'
 					}, {
 					'After {C:green}2-9{} cards {C:red}discarded{}',
