@@ -1414,21 +1414,6 @@ local jokerInfo = {
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
-				for i, cEnhKey in ipairs(card.ability.extra.ChipsRetrigger) do
-					info_queue[#info_queue + 1] = G.P_CENTERS[cEnhKey]
-				end
-				
-				for i, cEnhKey in ipairs(card.ability.extra.MultRetrigger) do
-					info_queue[#info_queue + 1] = G.P_CENTERS[cEnhKey]
-				end
-				
-				info_queue[#info_queue + 1] = G.P_CENTERS.m_wild
-				
-				-- Art credit tooltip
-				if CirnoMod.config.artCredits and not card.fake_card then
-					info_queue[#info_queue + 1] = { key = 'jA_Rumi', set = 'Other' }
-				end
-				
 				if
 					not card.ability.extra
 					or type(card.ability.extra) ~= 'table'
@@ -1445,6 +1430,21 @@ local jokerInfo = {
 						desiredSpriteState = 'Normal',
 						handWasPlayed = false
 					} } )
+				end
+				
+				for i, cEnhKey in ipairs(card.ability.extra.ChipsRetrigger) do
+					info_queue[#info_queue + 1] = G.P_CENTERS[cEnhKey]
+				end
+				
+				for i, cEnhKey in ipairs(card.ability.extra.MultRetrigger) do
+					info_queue[#info_queue + 1] = G.P_CENTERS[cEnhKey]
+				end
+				
+				info_queue[#info_queue + 1] = G.P_CENTERS.m_wild
+				
+				-- Art credit tooltip
+				if CirnoMod.config.artCredits and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_Rumi', set = 'Other' }
 				end
 				
 				return { vars = {
@@ -2467,8 +2467,17 @@ local jokerInfo = {
 					flavour2 = 'snack food, sticky FUCK!'
 				end
 				
+				local cardFlipCount = "[Current Joker Count - 1]"
+				
+				if
+					G.jokers
+					and G.jokers.cards
+				then
+					cardFlipCount = #G.jokers.cards - 1
+				end
+				
 				return { vars = {
-					#G.jokers.cards - 1,
+					cardFlipCount,
 					to_big(card.ability.extra.scalar),
 					card.ability.extra.rCounter,
 					flavour,
