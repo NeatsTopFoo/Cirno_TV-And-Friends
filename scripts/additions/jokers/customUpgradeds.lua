@@ -339,14 +339,24 @@ local jokerInfo = {
 				} }
 			},
 			
-			abiInit = function(card, orgRarity, orgExtTable)
+			abiInit = function(card, orgRarity, orgExtTable, orgAbilityTbl)
 				card.ability.extra = orgExtTable
+				
+				if
+					not card.ability.extra
+					and orgAbilityTbl
+					and type(orgAbilityTbl) == 'table'
+					and orgAbilityTbl.extra
+				then
+					card.ability.extra = orgAbilityTbl.extra
+				end
+				
 				card.ability.extra.originalRarity = orgRarity
 				card.ability.extra.odds = 4
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card,orgRarity, orgExtTable)
+				self.abiInit(card,orgRarity, orgExtTable, orgAbilityTbl)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -766,8 +776,18 @@ local jokerInfo = {
 				} }
 			},
 			
-			abiInit = function(card, orgRarity, orgExtTable)
+			abiInit = function(card, orgRarity, orgExtTable, orgAbilityTbl)
 				card.ability.extra = orgExtTable
+				
+				if
+					not card.ability.extra
+					and orgAbilityTbl
+					and type(orgAbilityTbl) == 'table'
+					and orgAbilityTbl.extra
+				then
+					card.ability.extra = orgAbilityTbl.extra
+				end
+				
 				card.ability.extra.soulY = card.ability.extra.soulX + 1
 				card.ability.extra.soulX = nil
 				card.ability.extra.originalRarity = orgRarity
@@ -782,7 +802,7 @@ local jokerInfo = {
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card, orgRarity, orgExtTable)
+				self.abiInit(card, orgRarity, orgExtTable, orgAbilityTbl)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -1349,8 +1369,8 @@ local jokerInfo = {
 				} }
 			},
 			
-			abiInit = function(card, orgRarity, orgExtTbl)
-				card.ability.extra = orgExtTable
+			abiInit = function(card, orgRarity, orgAbilityTbl)
+				card.ability.extra = orgAbilityTbl.extra
 				card.ability.extra.originalRarity = orgRarity
 				card.ability.extra.ChipsRetrigger = {
 					'm_bonus',
@@ -1370,7 +1390,7 @@ local jokerInfo = {
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card, orgRarity, orgExtTable)
+				self.abiInit(card, orgRarity, orgAbilityTbl)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -1398,7 +1418,7 @@ local jokerInfo = {
 					not card.ability.extra
 					or type(card.ability.extra) ~= 'table'
 				then
-					self.abiInit(card, 4, {
+					self.abiInit(card, 4, { extra = {
 						extra = 0.9,
 						xChips = 1,
 						xMult = 1,
@@ -1409,7 +1429,7 @@ local jokerInfo = {
 						chipsMultSoulSpritePos = { Normal = { x = 2, y = 1 }, Chips = { x = 2, y = 2 }, Mult = { x = 2, y = 3 } },
 						desiredSpriteState = 'Normal',
 						handWasPlayed = false
-					})
+					} } )
 				end
 				
 				return { vars = {
@@ -1956,8 +1976,18 @@ local jokerInfo = {
 				} }
 			},
 			
-			abiInit = function(card, orgRarity, orgExtTable)
+			abiInit = function(card, orgRarity, orgExtTable, orgAbilityTbl)
 				card.ability.extra = orgExtTable
+				
+				if
+					not card.ability.extra
+					and orgAbilityTbl
+					and type(orgAbilityTbl) == 'table'
+					and orgAbilityTbl.extra
+				then
+					card.ability.extra = orgAbilityTbl.extra
+				end
+				
 				card.ability.extra.originalRarity = orgRarity
 				
 				card.ability.extra.xChips = 1.11
@@ -1967,7 +1997,7 @@ local jokerInfo = {
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card, orgRarity, orgExtTable)
+				self.abiInit(card, orgRarity, orgExtTable, orgAbilityTbl)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -2143,15 +2173,25 @@ local jokerInfo = {
 				} }
 			},
 			
-			abiInit = function(card, orgRarity, orgExtTable)
+			abiInit = function(card, orgRarity, orgExtTable, orgAbilityTbl)
 				card.ability.extra = orgExtTable
+				
+				if
+					not card.ability.extra
+					and orgAbilityTbl
+					and type(orgAbilityTbl) == 'table'
+					and orgAbilityTbl.extra
+				then
+					card.ability.extra = orgAbilityTbl.extra
+				end
+				
 				card.ability.extra.originalRarity = orgRarity
 				
 				card.ability.extra.extra_KoS = 0.25
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card, orgRarity,orgExtTable)
+				self.abiInit(card, orgRarity,orgExtTable, orgAbilityTbl)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -2678,8 +2718,18 @@ local jokerInfo = {
 				} }
 			},
 			
-			abiInit = function(card, orgRarity, orgExtTable)
+			abiInit = function(card, orgRarity, orgExtTable, orgAbilityTbl)
 				card.ability.extra = orgExtTable
+				
+				if
+					not card.ability.extra
+					and orgAbilityTbl
+					and type(orgAbilityTbl) == 'table'
+					and orgAbilityTbl.extra
+				then
+					card.ability.extra = orgAbilityTbl.extra
+				end
+				
 				card.ability.extra.originalRarity = orgRarity
 				
 				card.ability.extra.growth = 1.25
@@ -2699,7 +2749,7 @@ local jokerInfo = {
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card, orgRarity, orgExtTable)
+				self.abiInit(card, orgRarity, orgExtTable, orgAbilityTbl)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -2985,8 +3035,18 @@ local jokerInfo = {
 				} }
 			},
 			
-			abiInit = function(card, orgRarity, orgExtTable)
+			abiInit = function(card, orgRarity, orgExtTable, orgAbilityTbl)
 				card.ability.extra = orgExtTable
+				
+				if
+					not card.ability.extra
+					and orgAbilityTbl
+					and type(orgAbilityTbl) == 'table'
+					and orgAbilityTbl.extra
+				then
+					card.ability.extra = orgAbilityTbl.extra
+				end
+				
 				card.ability.extra.originalRarity = orgRarity
 				
 				card.ability.extra.s_mult = to_big(card.ability.extra.s_mult) + to_big(2)
@@ -2994,7 +3054,7 @@ local jokerInfo = {
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card, orgRarity, orgExtTable)
+				self.abiInit(card, orgRarity, orgExtTable, orgAbilityTbl)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -3084,8 +3144,18 @@ local jokerInfo = {
 				} }
 			},
 			
-			abiInit = function(card, orgRarity, orgExtTable)
+			abiInit = function(card, orgRarity, orgExtTable, orgAbilityTbl)
 				card.ability.extra = orgExtTable
+				
+				if
+					not card.ability.extra
+					and orgAbilityTbl
+					and type(orgAbilityTbl) == 'table'
+					and orgAbilityTbl.extra
+				then
+					card.ability.extra = orgAbilityTbl.extra
+				end
+				
 				card.ability.extra.originalRarity = orgRarity
 				
 				card.ability.extra.s_mult = to_big(card.ability.extra.s_mult) + to_big(2)
@@ -3093,7 +3163,7 @@ local jokerInfo = {
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card, orgRarity, orgExtTable)
+				self.abiInit(card, orgRarity, orgExtTable, orgAbilityTbl)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -3182,8 +3252,18 @@ local jokerInfo = {
 				} }
 			},
 			
-			abiInit = function(card, orgRarity, orgExtTable)
+			abiInit = function(card, orgRarity, orgExtTable, orgAbilityTbl)
 				card.ability.extra = orgExtTable
+				
+				if
+					not card.ability.extra
+					and orgAbilityTbl
+					and type(orgAbilityTbl) == 'table'
+					and orgAbilityTbl.extra
+				then
+					card.ability.extra = orgAbilityTbl.extra
+				end
+				
 				card.ability.extra.originalRarity = orgRarity
 				
 				card.ability.extra.s_mult = to_big(card.ability.extra.s_mult) + to_big(2)
@@ -3191,7 +3271,7 @@ local jokerInfo = {
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card, orgRarity, orgExtTable)
+				self.abiInit(card, orgRarity, orgExtTable, orgAbilityTbl)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -3281,8 +3361,18 @@ local jokerInfo = {
 				} }
 			},
 			
-			abiInit = function(card, orgRarity, orgExtTable)
+			abiInit = function(card, orgRarity, orgExtTable, orgAbilityTbl)
 				card.ability.extra = orgExtTable
+				
+				if
+					not card.ability.extra
+					and orgAbilityTbl
+					and type(orgAbilityTbl) == 'table'
+					and orgAbilityTbl.extra
+				then
+					card.ability.extra = orgAbilityTbl.extra
+				end
+				
 				card.ability.extra.originalRarity = orgRarity
 				
 				card.ability.extra.s_mult = to_big(card.ability.extra.s_mult) + to_big(2)
@@ -3290,7 +3380,7 @@ local jokerInfo = {
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card, orgRarity, orgExtTable)
+				self.abiInit(card, orgRarity, orgExtTable, orgAbilityTbl)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -5173,15 +5263,25 @@ local jokerInfo = {
 				} }
 			},
 			
-			abiInit = function(card, orgRarity, orgExtTable)
+			abiInit = function(card, orgRarity, orgExtTable, orgAbilityTbl)
 				card.ability.extra = orgExtTable
+				
+				if
+					not card.ability.extra
+					and orgAbilityTbl
+					and type(orgAbilityTbl) == 'table'
+					and orgAbilityTbl.extra
+				then
+					card.ability.extra = orgAbilityTbl.extra
+				end
+				
 				card.ability.extra.growth = 2
 				card.ability.extra.odds = 10
 				card.ability.originalRarity = orgRarity
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card, orgRarity, orgExtTable)
+				self.abiInit(card, orgRarity, orgExtTable, orgAbilityTbl)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()

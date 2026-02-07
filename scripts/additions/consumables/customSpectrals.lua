@@ -373,8 +373,11 @@ local spectralInfo = {
 					
 					if
 						type(jkrRef.ability.extra) == 'table'
-						or (type(jkrRef.ability.extra) == 'number'
-						and jkrRef.ability.extra > 1)
+					then
+						orgExtraTable = copy_table(jkrRef.ability.extra)
+					elseif
+						type(jkrRef.ability.extra) == 'number'
+						and jkrRef.ability.extra > 1
 					then
 						orgExtraTable = jkrRef.ability.extra
 					end

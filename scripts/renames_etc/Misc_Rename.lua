@@ -654,7 +654,7 @@ miscLoc.vouchers.v_liquidation = { name = "Steam Summer Sale",
 			"All cards and packs in",
 			"shop are {C:attention}#1#%{} off",
 			"{s:0.8,C:inactive}There'll be 0% of your",
-			"{s:0.8,C:inactive}wallet left afterwards"
+			"{s:0.8,C:inactive}money left afterwards"
 		}
 	}
 

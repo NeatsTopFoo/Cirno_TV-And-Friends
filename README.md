@@ -72,8 +72,8 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), [
 
 To adjust config settings:
 - With the game open and on the main menu, open the *'Mods'* menu, next to *'Collection'*.
-- Locate and click on *'Cirno_TV & Friends'* in the list.
-- Navigate to the *'Config'* tab.
+- Locate *'Cirno_TV & Friends'* in the list and click on the **cog** to open the settings.
+- Navigate to the *'Config'* tab if it's not already on it.
 - Adjust settings as desired.
 - Restarting Balatro is required to apply changes. Steamodded adds a quick restart shortcut, which is Alt + F5.
 

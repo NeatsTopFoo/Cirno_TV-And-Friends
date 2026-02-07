@@ -396,15 +396,21 @@ local jokerInfo = {
 			generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 				SMODS.Center.generate_ui(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 				
-				full_UI_table.multi_box[2][2] = {}
-				
-				CirnoMod.miscItems.addUISpriteNode(full_UI_table.multi_box[2][2], AnimatedSprite(
-						0, 0, -- Sprite X & Y
-						0.8, 0.8, -- Sprite W & H
-						CirnoMod.miscItems.funnyAtlases.rumiSleep, -- Sprite Atlas
-						{ x = 0, y = 0 } -- Position in the Atlas
+				if
+					full_UI_table
+					and full_UI_table.multi_box
+					and full_UI_table.multi_box[2][1]
+				then
+					full_UI_table.multi_box[2][2] = {}
+					
+					CirnoMod.miscItems.addUISpriteNode(full_UI_table.multi_box[2][2], AnimatedSprite(
+							0, 0, -- Sprite X & Y
+							0.8, 0.8, -- Sprite W & H
+							CirnoMod.miscItems.funnyAtlases.rumiSleep, -- Sprite Atlas
+							{ x = 0, y = 0 } -- Position in the Atlas
+						)
 					)
-				)
+				end
 			end,
 			
 			blueprint_compat = true,
