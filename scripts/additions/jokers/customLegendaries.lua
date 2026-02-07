@@ -640,8 +640,10 @@ local jokerInfo = {
 					end
 					
 					if
-						card.ability.extra.handWasPlayed
-						and context.hand_drawn
+						card.ability.extra
+						and card.ability.extra.handWasPlayed
+						and (context.hand_drawn
+						or context.end_of_round)
 						and not context.retrigger_joker
 					then
 						-- print("Before Next Hand Test")

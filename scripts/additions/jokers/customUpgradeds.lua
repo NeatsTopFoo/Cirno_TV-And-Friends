@@ -1739,7 +1739,8 @@ local jokerInfo = {
 					if
 						card.ability.extra
 						and card.ability.extra.handWasPlayed
-						and context.hand_drawn
+						and (context.hand_drawn
+						or context.end_of_round)
 						and not context.retrigger_joker
 					then						
 						G.E_MANAGER:add_event(Event({
