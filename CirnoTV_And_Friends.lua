@@ -552,6 +552,24 @@ then
 				end
 			end
 		}, true )
+	
+	-- Fix for red seal not doing the reroll message on flash card, thanks to Somethingcom515
+	SMODS.Joker:take_ownership('j_flash', {
+        calculate = function(self, card, context)
+            if context.reroll_shop and not context.blueprint then
+                SMODS.scale_card(card, {
+                    ref_table = card.ability,
+                    ref_value = 'mult',
+                    scalar_value = 'extra',
+                    no_message = true
+                })
+                return {
+                    message = localize({type = 'variable', key = 'a_mult', vars = {card.ability.extra}}),
+                    colour = G.C.MULT,
+                }
+            end
+        end
+    }, true)
 end
 
 -- Additional Custom Consumables

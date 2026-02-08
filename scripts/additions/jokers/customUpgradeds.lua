@@ -1362,7 +1362,7 @@ local jokerInfo = {
 			loc_txt = { name = 'The Somnolent',
 				text = { {
 					'{C:attention}Swaps{} between {X:chips,C:white}XChips{} & {X:mult,C:white}XMult',
-					'after drawing a new {C:blue}hand',
+					'after {C:attention}drawing{} a new {C:blue}hand',
 					'{C:inactive}(Currently: {B:1,C:white}X#1#{C:inactive})'
 					}, {
 					'After {C:green}2-9{} cards {C:red}discarded{}',
@@ -2743,7 +2743,7 @@ local jokerInfo = {
 				} }
 			},
 			
-			abiInit = function(card, orgRarity, orgExtTable, orgAbilityTbl)
+			abiInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
 				card.ability.extra = orgExtTable
 				
 				if
@@ -2774,7 +2774,7 @@ local jokerInfo = {
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
-				self.abiInit(card, orgRarity, orgExtTable, orgAbilityTbl)
+				self.abiInit(self, card, orgRarity, orgExtTable, orgAbilityTbl)
 				
 				card.ability.extra_value = CirnoMod.miscItems.upgradedExtraValue[orgRarity]
 				card:set_cost()
@@ -2794,7 +2794,7 @@ local jokerInfo = {
 					not card.ability.extra
 					or type(card.ability.extra) ~= 'table'
 				then
-					self.abiInit(card, 4, { growth = 1, x_mult = 1 })
+					self.abiInit(self, card, 4, { growth = 1, x_mult = 1 })
 				end
 				
 				return { vars = {

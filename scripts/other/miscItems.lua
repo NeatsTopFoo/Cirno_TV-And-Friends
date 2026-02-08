@@ -1742,6 +1742,36 @@ miscItems.updateModAchievementDesc = function(achKey, newDescTable)
 		newDescTable)
 end
 
+--[[
+miscItems.undiscoverLock = function(card, doLock)
+	card.config.center.discovered = false
+	
+	if doLock then
+		card.config.center.unlocked = false
+	end
+	
+	for i, tbl in ipairs(G.P_LOCKED) do
+		if tbl.key == card.key then
+			G.P_LOCKED[i] = nil
+			break
+		end
+	end
+	
+	G:save_progress()
+end
+
+miscItems.findItemInJokerTable = function(tbl, jkrKey)
+	for i, tbl in ipairs(tbl) do
+		if tbl.key == jkrKey then
+			print(i)
+			return tbl
+		end
+	end
+	
+	print('Key "'..jkrKey..'" not found in given table.')
+end
+]]
+
 miscItems.perfectionismUpgradable_Jokers = {
 	j_crazy = function() return { msg = ' impossible ', frc_incompatible = true } end,
 	
