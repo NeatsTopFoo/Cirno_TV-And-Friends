@@ -2979,6 +2979,7 @@ local jokerInfo = {
 					if
 						not context.blueprint
 						and not context.result
+						and context.trigger_obj.ability -- nil check
 						and context.trigger_obj.ability.name == "The Wheel of Fortune"
 					then
 						card.ability.extra.x_mult = to_big(card.ability.extra.x_mult) + to_big(card.ability.extra.growth)
@@ -3013,6 +3014,7 @@ local jokerInfo = {
 					
 					if
 						card.ability.extra.containsFH
+						and context.trigger_obj.ability -- nil check
 						and context.trigger_obj.ability.effect == 'Lucky Card'
 						and context.result
 					then
