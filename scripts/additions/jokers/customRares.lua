@@ -601,6 +601,8 @@ local jokerInfo = {
 			loc_vars = function(self, info_queue, card)
 				self.updateCurMult(card.ability.extra)
 				
+				CirnoMod.miscItems.descExtensionTooltips['eDT_cir_allegations'].updateName()
+				
 				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_allegations']
 				
 				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_2max']
@@ -1170,7 +1172,7 @@ local jokerInfo = {
 				return ret
 			end,
 			
-			change_form = function(self, card, form)				
+			change_form = function(self, card, form)
 				CirnoMod.miscItems.flippyFlip.fStart(card)
 				
 				local formTarg = form
@@ -2097,6 +2099,11 @@ local jokerInfo = {
 					if RT then
 						return RT
 					end
+				end
+				
+				if context.create_shop_card then
+					card.config.center.pos.x = 0
+					card.children.center:set_sprite_pos(card.config.center.pos)
 				end
 			end
 		},

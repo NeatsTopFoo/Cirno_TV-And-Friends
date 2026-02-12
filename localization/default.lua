@@ -861,7 +861,7 @@ RV.descriptions.Joker.cir_b3313_4thFloor = { name = '4th Floor', text = {
 -- B3313 Full House Form
 RV.descriptions.Joker.cir_b3313_crescent = { name = 'Crescent Castle', text = {
 		'Earn {C:money}#1#{} at end of round per',
-		'{C:attention}face card{} played this round',
+		'{C:attention}face card{} scored this round',
 		'{C:inactive}(Currently {C:money}#2#{C:inactive})',
 		'{s:0.8,C:inactive}Our house, in the',
 		'{s:0.8,C:inactive}middle of our street.'

@@ -47,6 +47,10 @@ CirnoMod.extendedDescTooltip{
 		text = {}
 	},
 	
+	updateName = function()
+		SMODS.process_loc_text(G.localization.descriptions.extendedDescTooltip.eDT_cir_allegations, "name", CirnoMod.miscItems.getJokerNameByKey('j_bootstraps', '{C:red}Not Active{}').." Jokers")
+	end,
+	
 	generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 		if
 			CirnoMod.miscItems.jkrKeyGroups.allegations
