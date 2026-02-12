@@ -18,8 +18,9 @@ local jokerInfo = {
 			loc_txt = {
 				name = 'Lemon On A Pear',
 				text = {
-					'{C:mult}+#1#{} Mult per played hand',
-					'containing an {C:attention}unscored{} card',
+					'This {C:joker}Joker{} gains {C:mult}+#1#{} Mult',
+					'per played hand containing',
+					'an {C:attention}unscored{} card',
 					'{C:inactive}(Currently {C:mult}+#2#{C:inactive})',
 					'{s:0.8,C:inactive}Was drawn in celebration of',
 					'{s:0.8,C:inactive}reaching the halfway mark',

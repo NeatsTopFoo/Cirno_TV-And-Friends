@@ -3114,15 +3114,17 @@ local jokerInfo = {
 			
 			cir_upgradeInfo = function(self, card)
 				return {
-					'{C:diamonds_hc}'..card.ability.extra.suit..'{} cards give',
-					'{C:mult}+'..to_big(card.ability.s_mult)..'{} Mult',
+					'{C:diamonds_hc}'..card.ability.extra.suit..'{} give',
+					'{C:mult}+'..to_big(card.ability.extra.s_mult)..'{} Mult',
 					'And {C:attention}Queens',
-					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult)..'{} Mult',
+					'of {C:diamonds_hc}'..card.ability.extra.suit,
+					'{X:mult,C:white}X'..to_big(card.ability.extra.s_x_mult)..'{} Mult',
 					'->',
-					'{C:diamonds_hc}'..card.ability.extra.suit..'{} cards give',
-					'{C:mult}+'..to_big(card.ability.s_mult) + to_big(5)..'{} Mult',
+					'{C:diamonds_hc}'..card.ability.extra.suit..'{} give',
+					'{C:mult}+'..to_big(card.ability.extra.s_mult) + to_big(5)..'{} Mult',
 					'And {C:attention}Queens',
-					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult) + to_big(1)..'{} Mult'
+					'of {C:diamonds_hc}'..card.ability.extra.suit,
+					'{X:mult,C:white}X'..to_big(card.ability.extra.s_x_mult) + to_big(1)..'{} Mult'
 				}
 			end,
 			
@@ -3223,15 +3225,17 @@ local jokerInfo = {
 			
 			cir_upgradeInfo = function(self, card)
 				return {
-					'{C:hearts_hc}'..card.ability.extra.suit..'{} cards give',
-					'{C:mult}+'..to_big(card.ability.s_mult)..'{} Mult',
+					'{C:hearts_hc}'..card.ability.extra.suit..'{} give',
+					'{C:mult}+'..to_big(card.ability.extra.s_mult)..'{} Mult',
 					'And {C:attention}Kings',
-					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult)..'{} Mult',
+					'of {C:hearts_hc}'..card.ability.extra.suit,
+					'{X:mult,C:white}X'..to_big(card.ability.extra.s_x_mult)..'{} Mult',
 					'->',
-					'{C:hearts_hc}'..card.ability.extra.suit..'{} cards give',
-					'{C:mult}+'..to_big(card.ability.s_mult) + to_big(5)..'{} Mult',
+					'{C:hearts_hc}'..card.ability.extra.suit..'{} give',
+					'{C:mult}+'..to_big(card.ability.extra.s_mult) + to_big(5)..'{} Mult',
 					'And {C:attention}Kings',
-					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult) + to_big(1)..'{} Mult'
+					'of {C:hearts_hc}'..card.ability.extra.suit,
+					'{X:mult,C:white}X'..to_big(card.ability.extra.s_x_mult) + to_big(1)..'{} Mult'
 				}
 			end,
 			
@@ -3331,15 +3335,17 @@ local jokerInfo = {
 			
 			cir_upgradeInfo = function(self, card)
 				return {
-					'{C:spades_hc}'..card.ability.extra.suit..'{} cards give',
-					'{C:mult}+'..to_big(card.ability.s_mult)..'{} Mult',
+					'{C:spades_hc}'..card.ability.extra.suit..'{} give',
+					'{C:mult}+'..to_big(card.ability.extra.s_mult)..'{} Mult',
 					'And {C:attention}Queens',
-					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult)..'{} Mult',
+					'of {C:spades_hc}'..card.ability.extra.suit,
+					'{X:mult,C:white}X'..to_big(card.ability.extra.s_x_mult)..'{} Mult',
 					'->',
-					'{C:spades_hc}'..card.ability.extra.suit..'{} cards give',
-					'{C:mult}+'..to_big(card.ability.s_mult) + to_big(5)..'{} Mult',
+					'{C:spades_hc}'..card.ability.extra.suit..'{} give',
+					'{C:mult}+'..to_big(card.ability.extra.s_mult) + to_big(5)..'{} Mult',
 					'And {C:attention}Queens',
-					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult) + to_big(1)..'{} Mult'
+					'of {C:spades_hc}'..card.ability.extra.suit,
+					'{X:mult,C:white}X'..to_big(card.ability.extra.s_x_mult) + to_big(1)..'{} Mult'
 				}
 			end,
 			
@@ -3440,15 +3446,17 @@ local jokerInfo = {
 			
 			cir_upgradeInfo = function(self, card)
 				return {
-					'{C:clubs_hc}'..card.ability.extra.suit..'{} cards give',
-					'{C:mult}+'..to_big(card.ability.s_mult)..'{} Mult',
+					'{C:clubs_hc}'..card.ability.extra.suit..'{} give',
+					'{C:mult}+'..to_big(card.ability.extra.s_mult)..'{} Mult',
 					'And {C:attention}Queens',
-					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult)..'{} Mult',
+					'of {C:clubs_hc}'..card.ability.extra.suit,
+					'{X:mult,C:white}X'..to_big(card.ability.extra.s_x_mult)..'{} Mult',
 					'->',
-					'{C:clubs_hc}'..card.ability.extra.suit..'{} cards give',
-					'{C:mult}+'..to_big(card.ability.s_mult) + to_big(5)..'{} Mult',
+					'{C:clubs_hc}'..card.ability.extra.suit..'{} give',
+					'{C:mult}+'..to_big(card.ability.extra.s_mult) + to_big(5)..'{} Mult',
 					'And {C:attention}Queens',
-					'{X:mult,C:white}X'..to_big(card.ability.s_x_mult) + to_big(1)..'{} Mult'
+					'of {C:clubs_hc}'..card.ability.extra.suit,
+					'{X:mult,C:white}X'..to_big(card.ability.extra.s_x_mult) + to_big(1)..'{} Mult'
 				}
 			end,
 			
