@@ -6,7 +6,7 @@
 	"description": "Mod pack for Cirno_TV which adds retexture options for playing cards, multiple jokers, all blinds, some enhancers and more! All config changes apply on restart.",
 	"priority": 999,
 	"main_file": "CirnoTV_And_Friends.lua",
-	"version": "1.0.014",
+	"version": "1.0.015",
 	"dependencies": [
 		"Steamodded (>=1.0.0~BETA-0711a)",
 		"malverk (>=1.1.3)"
