@@ -859,7 +859,6 @@ if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball']
 				and (to_big(#G.consumeables.cards) + to_big(G.GAME.consumeable_buffer)) < to_big(G.consumeables.config.card_limit)
 				and context.individual
 				and context.cardarea == G.play
-				and context.other_card:can_calculate()
 				and not SMODS.has_enhancement(context.other_card, 'm_stone')
 			then
 				local checkFor = "8"
@@ -895,10 +894,10 @@ if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball']
 					end
 					
 					return ret
-				else
-					return { doNotRedSeal = true }
 				end
 			end
+			
+			return { doNotRedSeal = true }
 		end
 	}, not CirnoMod.config['8ballTo9ball'])
 end

@@ -792,19 +792,6 @@ SMODS.Voucher:take_ownership('telescope',{
 	end
 }, true)
 
-SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "text", {
-		"{C:planet}#1#{} cards in your",
-		"{C:attention}consumable{} area give",
-		"{X:red,C:white} X#2# {} Mult for their",
-		"specified {C:attention}poker hand",
-	})
-				
-SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "unlock", {
-		"Use a total of {C:attention}#1#",
-		"{C:planet}#2#{} cards from any",
-		"{C:planet}#3#",
-		"{C:inactive}(#2#)",
-	})
 
 SMODS.Voucher:take_ownership('observatory',{
 	loc_vars = function(self, info_queue, card)
@@ -823,22 +810,38 @@ SMODS.Voucher:take_ownership('observatory',{
 	end
 }, true)
 
-miscLoc.vouchers.v_observatory = { name = 'Observe-atory',
-		text = {
+if CirnoMod.config.planetsAreHus then
+	miscLoc.vouchers.v_observatory = { name = 'Observe-atory',
+			text = {
+				"{C:planet}#1#{} cards in your",
+				"{C:attention}consumable{} area give",
+				"{X:red,C:white} X#2# {} Mult for their",
+				"specified {C:attention}poker hand",
+				"{s:0.8,C:inactive}...I see.",
+				"{s:0.8,C:inactive}Wait, wrong emote"
+			},
+			unlock = {
+				"Use a total of {C:attention}#1#",
+				"{C:planet}#2#{} cards from any",
+				"{C:planet}#3#",
+				"{C:inactive}(#2#)"
+			}
+		}
+else
+	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "text", {
 			"{C:planet}#1#{} cards in your",
 			"{C:attention}consumable{} area give",
 			"{X:red,C:white} X#2# {} Mult for their",
 			"specified {C:attention}poker hand",
-			"{s:0.8,C:inactive}...I see.",
-			"{s:0.8,C:inactive}Wait, wrong emote"
-		},
-		unlock = {
-			"Use a total of {C:attention}#1#",
-			"{C:planet}#2#{} cards from any",
-			"{C:planet}#3#",
-			"{C:inactive}(#2#)"
-		}
-	}
+		})
+end
+				
+SMODS.process_loc_text(G.localization.descriptions.Voucher.v_observatory, "unlock", {
+		"Use a total of {C:attention}#1#",
+		"{C:planet}#2#{} cards from any",
+		"{C:planet}#3#",
+		"{C:inactive}(#2#)",
+	})
 
 if CirnoMod.config.planetsAreHus then
 	miscLoc.vouchers.v_planet_merchant = { name = "Hu Merchant",
@@ -881,17 +884,17 @@ else
 			"{C:attention}#1#X{} more frequently",
 			"in the shop",
 		})
-
-	SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "unlock", {
-			"Buy a total of",
-			"{C:attention}#1#{C:planet} #3#{} cards",
-			"from the shop",
-			"{C:inactive}(#2#)",
-		})
 end
 
+SMODS.process_loc_text(G.localization.descriptions.Voucher.v_planet_tycoon, "unlock", {
+		"Buy a total of",
+		"{C:attention}#1#{C:planet} #3#{} cards",
+		"from the shop",
+		"{C:inactive}(#2#)",
+	})
+
 SMODS.Voucher:take_ownership('planet_merchant',{
-	loc_vars = function(self, info_queue, card)
+	loc_vars = function(self, info_queue, card)		
 		return { vars = {
 			card.ability.extra_disp,
 			G.localization.misc.labels.planet
