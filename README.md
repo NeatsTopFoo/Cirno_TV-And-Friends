@@ -3,17 +3,17 @@ A Balatro mod themed around [Cirno_TV](https://www.twitch.tv/Cirno_TV/), with va
 
 **WARNING:** Cirno_TV & Friends isn't explicitly an NSFW-oriented mod, but it does contain a handful of overt, (hopefully) stream-safe mature references in relation to community inside jokes (most particularly those with varying degrees of sexual connotation). This mod is *NOT* intended for children. By default, these (especially overt) mature references are significantly toned-down/altered, with the intent of having reduced mature references (in both number and intensity) encounterable in gameplay for anyone who wants to experience the mod, but is not particularly as interested in the some of the more mature references (and/or wants to stream it, but does not want to have that kind of stuff on their stream) - These changes can be adjusted in the mod's config settings, via the Mature References setting (In-game config setting changes require a game restart to take effect).
 
-![CTVaF Logo](https://i.imgur.com/jo1fNpN.png)
+![CTVaF Logo](https://cdn.imgchest.com/files/a4fbe609d1a0.png)
 
 **Cirno_TV & Friends** is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://twitch.tv/NopeTooFast), which retextures existing Jokers and adds some new ones, as well as various other changes such as some Joker names & descriptions, retextures of some enhancers & all blinds, and more!
 
 DaemonTsun's art contributions are public domain - Some memes or pictures are not by him and copied as is, with some Jokers only being slightly edited. Further credits are available at the bottom of this README. Original Balatro art is property of LocalThunk.
 
-![Showcase of Blueprint](https://i.imgur.com/Y87Kxfm.png)
+![Showcase of Blueprint](https://cdn.imgchest.com/files/bfb40762d9ed.png)
 
-![Showcase of Gluttonous Joker](https://i.imgur.com/du2Qrgf.png)
+![Showcase of Gluttonous Joker](https://cdn.imgchest.com/files/04121faf45e1.png)
 
-![Showcase of Playing Cards](https://i.imgur.com/uiOWONu.png)
+![Showcase of Playing Cards](https://cdn.imgchest.com/files/1426dbd8b944.png)
 
 **Cirno_TV & Friends** currently:
 - Retextures:
