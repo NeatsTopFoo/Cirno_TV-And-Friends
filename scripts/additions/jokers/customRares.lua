@@ -1412,6 +1412,9 @@ local jokerInfo = {
 				if
 					context.before
 					and context.cardarea == G.jokers
+					and not context.blueprint
+					and not context.retrigger_joker
+					and not context.retrigger_joker_check
 				then
 					local contextRef = context
 					local handRef = G.play.cards
@@ -2428,7 +2431,8 @@ local jokerInfo = {
 			config = { extra = {
 					super = false,
 					chips = 0,
-					chipScaling = 5,
+					chipScaling = 10,
+					chipScaling_org = 10,
 					cardScalar = 0.5,
 					odds = 7,
 					spriteX = 1
@@ -2536,7 +2540,7 @@ local jokerInfo = {
 					if card.ability.extra.odds > 1 then
 						card.ability.extra.odds = card.ability.extra.odds - 1
 					else
-						card.ability.extra.chipScaling = to_big(card.ability.extra.chipScaling) + to_big(0.25)
+						card.ability.extra.chipScaling = to_big(card.ability.extra.chipScaling) + to_big(5)
 					end
 				end
 				
@@ -2562,7 +2566,8 @@ local jokerInfo = {
 					local cardRef = card
 					local selfRef = self
 					
-					card.ability.extra.chipScaling = 10
+					card.ability.extra.chipScaling = to_big(card.ability.extra.chipScaling) + to_big(card.ability.extra.chipScaling_org)
+					
 					card.ability.extra_value = 5
 					card:set_cost()
 					
@@ -2572,6 +2577,11 @@ local jokerInfo = {
 								blockable = true,
 								func = function()
 									selfRef.updateState(cardRef)
+									
+									SMODS.calculate_effect({
+										message = ' ',
+										sound = 'timpani'
+									}, cardRef)
 									return true
 									end }))
 							
@@ -2608,7 +2618,7 @@ local jokerInfo = {
 				then
 					if
 						context.other_card.edition
-						and CirnoMod.pullCardFHPEditionInfo(context.other_card)
+						and CirnoMod.miscItems.pullCardFHPEditionInfo(context.other_card)
 					then
 						local cardRef = context.other_card
 						
@@ -2725,6 +2735,8 @@ local jokerInfo = {
 						'[{C:attention}'..((card.ability.extra.scrPrc - 0.1) * 100)..'%{} score requirement for Death save'
 					}
 				end
+				
+				return nil
 			end,
 			
 			cir_upgrade = function(self, card)
@@ -2767,6 +2779,11 @@ local jokerInfo = {
 								blockable = true,
 								func = function()
 									selfRef.updateState(cardRef)
+									
+									SMODS.calculate_effect({
+										message = ' ',
+										sound = 'timpani'
+									}, cardRef)
 									return true
 									end }))
 							

@@ -404,7 +404,10 @@ local spectralInfo = {
 										message = localize('k_upgrade_ex'),
 										sound = upgSound
 									},jkrRef)
+									
 									jkrRef:set_ability(targetKey)
+									unlock_card(G.P_CENTERS[targetKey])
+									discover_card(G.P_CENTERS[targetKey])
 									
 									if
 										jkrRef.config.center.postPerfInit

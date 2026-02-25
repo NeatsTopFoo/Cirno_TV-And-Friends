@@ -1036,15 +1036,16 @@ RV.descriptions.Joker.j_cir_super_smough = { name = 'Super Smough',
         'discarded {C:attention}face card',
 		'{C:inactive}(Currently {C:chips} +#2# {C:inactive} Chips)'
 		}, {
-		'Scored cards without an',
-		'{C:dark_edition}edition have a',
-		'{C:green}#3# in #4#{} chance',
+		'Scored cards',
+		'without an {C:dark_edition}edition',
+		'have a {C:green}#3# in #4#{} chance',
 		'to become {C:dark_edition}Foil{},',
 		'{C:dark_edition}Holographic{}, or',
 		'{C:dark_edition}Polychrome'
 		}, {
-		'Scored cards with {C:dark_edition}editions',
-		'have their editions {C:attention}scaled',
+		'Scored cards with',
+		'{C:dark_edition}editions{} have their',
+		'editions {C:attention}scaled',
 		'by a scalar of {C:attention}#5#',
 		'{s:0.8}({s:0.8,C:dark_edition}Foil{s:0.8}/{s:0.8,C:dark_edition}Holographic{s:0.8}/{s:0.8,C:dark_edition}Polychrome{s:0.8} only)',
 		'{s:0.8,C:inactive}Crunchy!'

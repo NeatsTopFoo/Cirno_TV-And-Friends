@@ -2564,6 +2564,10 @@ local jokerInfo = {
 								juiceStrength = 0.1
 							}
 							
+							if qa_chainTbl.flipCount > #G.hand.cards then
+								qa_chainTbl.flipCount = #G.hand.cards
+							end
+							
 							G.hand.config.highlighted_limit = 0
 							G.hand:unhighlight_all()
 							
@@ -3873,6 +3877,10 @@ local jokerInfo = {
 			
 			blueprint_compat = true,
 			
+			econFormula = function()
+				return (G.GAME and G.GAME.round_resets.ante > 0 and to_big(G.GAME.round_resets.ante) or to_big(1)) / to_big(20)
+			end,
+			
 			loc_vars = function(self, info_queue, card)
 				if
 					not card.ability.extra
@@ -3881,7 +3889,7 @@ local jokerInfo = {
 					self.abiInit(card, 1)
 				end
 				
-				local xDol = (G.GAME and G.GAME.round_resets.ante or 1) / 20
+				local xDol = self.econFormula()
 				xDol = xDol + 1
 				
 				local ret = { vars = {
@@ -4003,7 +4011,7 @@ local jokerInfo = {
 					x_dollars = to_big(x_dollars) + to_big(1)
 					]]
 					
-					local x_dol_ret = math.floor(to_big(0.5) + to_big(to_big(G.GAME.dollars) * to_big((G.GAME and G.GAME.round_resets.ante or 1) / 20)))
+					local x_dol_ret = math.floor(to_big(0.5) + to_big(to_big(G.GAME.dollars) * to_big(self.econFormula())))
 					
 					return math.max(x_dol_ret, to_big(card.ability.extra.dol_fallback))
 				end
@@ -5211,9 +5219,13 @@ local jokerInfo = {
 			abiInit = function(card, orgRarity, orgAbilityTbl)
 				card.ability.extra = {
 					originalRarity = orgRarity,
-					xmult = to_big(math.max(orgAbilityTbl.mult, 2)) / to_big(2),
-					growth = 1
+					xmult = to_big(to_big(math.max(orgAbilityTbl.mult, 2)) / to_big(2)) * to_big(0.25),
+					growth = 0.25
 				}
+				
+				if to_big(card.ability.extra.xmult) < to_big(1) then
+					card.ability.extra.xmult = to_big(1)
+				end
 			end,
 			
 			postPerfInit = function(self, card, orgRarity, orgExtTable, orgAbilityTbl)
@@ -5248,7 +5260,7 @@ local jokerInfo = {
 				return {
 					'{X:mult,C:white}X'..to_big(card.ability.extra.growth)..'{} Mult scaling',
 					'->',
-					'{X:mult,C:white}X'..to_big(card.ability.extra.growth) + to_big(1)..'{} Mult scaling'
+					'{X:mult,C:white}X'..to_big(card.ability.extra.growth) + to_big(0.25)..'{} Mult scaling'
 				}
 			end,
 			

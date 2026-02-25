@@ -856,10 +856,10 @@ if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball']
 			if 
 				not context.end_of_round
 				and G.consumeables.cards
-				and (to_big(#G.consumeables.cards) + to_big(G.GAME.consumeable_buffer)) < to_big(G.consumeables.config.card_limit)
 				and context.individual
-				and context.cardarea == G.play
 				and not SMODS.has_enhancement(context.other_card, 'm_stone')
+				and (to_big(#G.consumeables.cards) + to_big(G.GAME.consumeable_buffer)) < to_big(G.consumeables.config.card_limit)
+				and context.cardarea == G.play
 			then
 				local checkFor = "8"
 				
@@ -869,9 +869,11 @@ if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball']
 				
 				if
 					context.other_card.base.value == checkFor
-					and (to_big(pseudorandom('8ball')) < to_big(G.GAME.probabilities.normal)/to_big(card.ability.extra) -- TODO: UPDATE TO NEW PROBABILITY READING METHOD
+					and (SMODS.pseudorandom_probability(card, '8ball', 1, to_big(card.ability.extra))
 					or context.retrigger_joker)
 				then
+					G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+					
 					local ret = {
 						extra = {
 							func = function()
@@ -880,6 +882,7 @@ if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball']
 								delay = 0.0,
 								func = (function()
 									SMODS.add_card({ set = 'Tarot' })
+									G.GAME.consumeable_buffer = 0
 									return true
 								end)}))
 							end

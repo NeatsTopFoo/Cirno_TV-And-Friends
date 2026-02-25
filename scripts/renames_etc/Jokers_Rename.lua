@@ -1604,9 +1604,15 @@ jokerLoc.nrmJkrs.j_astronomer = { name = "Marisa Kirisame",
     },
 	unlock = {
         "Discover every",
-        "{E:1,C:planet}#1#{} card",
+        "{E:1,C:planet}#1#{} card"
     }
 }
+
+SMODS.process_loc_text(G.localization.descriptions.Joker.j_astronomer, "unlock",
+	{
+        "Discover every",
+        "{E:1,C:planet}#1#{} card"
+	})
 
 SMODS.Joker:take_ownership('astronomer', {
 	set_badges = function(self, card, badges)
