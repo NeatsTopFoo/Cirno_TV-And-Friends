@@ -44,8 +44,8 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 
 - Adds:	
   - Various fun flavour text here and there
-  - Custom Deck skins, 1 for each suit
-  - 51 custom Jokers
+  - Custom Deck skins, 1 for each suit featuring custom Face cards and Aces
+  - 52 custom Jokers
   - 2 custom Spectral Cards
   - 1 custom Challenge
   - Sometimes, quitting is an option. :)
@@ -88,7 +88,7 @@ To enable textures:
 - Follow the steps outlined in **Installing this mod** again.
 
 ## Credits
-- The Cirno_TV & Friends mod is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.expert), additionally with some idea and art contributions from the Cirno_TV community discord (Including emotes by [Solgryn](https://twitch.tv/solgryn) & [RadicalHighway](https://twitch.tv/radicalhighway)) - (Additionally, some RadicalHighway art used as reference)
+- The Cirno_TV & Friends mod is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.social), additionally with some idea and art contributions from the Cirno_TV community discord (Including emotes by [Solgryn](https://twitch.tv/solgryn) & [RadicalHighway](https://twitch.tv/radicalhighway)) - (Additionally, some RadicalHighway art used as reference)
 - [Turpix](https://x.com/turpix_00) for [the art](https://www.nexusmods.com/balatro/mods/114) used for the Stone Joker.
 - [Muddleee for art edited for The Sun Tarot card](https://github.com/Muddieee/sun_is_sus).
 - The [Cardsauce](https://github.com/BarrierTrio/Cardsauce) mod for art which was edited to become the DNA Joker (Which was specifically drawn by Gote), as well as code for changing the card that appears on the title screen.

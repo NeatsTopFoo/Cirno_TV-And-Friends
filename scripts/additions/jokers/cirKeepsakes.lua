@@ -34,6 +34,10 @@ local jokerInfo = {
 		- Whatever I figure out for Demeorin
 		- Bingo Sheet
 		- True Dragon's Katana
+		- Whatever I figure out for Reimmomo
+		- Whatever I figure out for Octopimp
+		- Lucky Chloe
+		- Whatever I figure out for Vileelf
 	]]
 	jokerConfigs = {
 		-- Zayne

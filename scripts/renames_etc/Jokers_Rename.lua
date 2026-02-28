@@ -986,6 +986,36 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
 				CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_mr_bones')
 			end
+		end,
+		
+		calculate = function(self, card, context)
+			if context.end_of_round and context.game_over and context.main_eval then
+				if
+					(to_big(G.GAME.chips) / to_big(G.GAME.blind.chips)) >= to_big(0.25)
+				then
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							G.hand_text_area.blind_chips:juice_up()
+							G.hand_text_area.game_chips:juice_up()
+							play_sound('tarot1')
+							card:start_dissolve()
+							return true
+						end
+					}))
+					
+					local savedKey = 'ph_mr_bones'
+					
+					if CirnoMod.miscItems.atlasCheck(card) then
+						savedKey = 'ph_cir_excuses'
+					end
+					
+					return {
+						message = localize('k_saved_ex'),
+						saved = savedKey,
+						colour = G.C.RED
+					}
+				end
+			end
 		end
 	}, true)
 end

@@ -90,14 +90,21 @@ cirAch.sixSeven = {
 			description = {
 				'Reap the consequences of attempting',
 				'to play a hand consisting of a',
-				'six and a seven, in that order'
+				'six and a seven, in that order',
+				'(Or starting a seeded run with',
+				'a 67-esque seed)'
 			}
 		},
 		
 		hidden_text = true,
 		
 		unlock_condition = function(self, args)
-			return CirnoMod.sixSevenAttempted
+			if CirnoMod.sixSevenAttempted then
+				CirnoMod.sixSevenAttempted = false
+				return true
+			end
+			
+			return false
 		end
 	}
 }

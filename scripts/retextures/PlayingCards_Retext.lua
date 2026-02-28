@@ -20,8 +20,8 @@ local cardSuitRanks = {
 	}
 }
 
--- Which ranks to display in the 'customize deck' screen
-local cardRanksDisplay = { 'Jack', 'Queen', 'King' }
+-- Which ranks to display in the 'customize deck' screen, in the same order
+local cardRanksDisplay = { 'Ace', 'King', 'Queen', 'Jack' }
 
 for dKey, dSkin in pairs(cardSuitRanks) do
 	-- Establishes the graphic to use and sets it up so it can be read

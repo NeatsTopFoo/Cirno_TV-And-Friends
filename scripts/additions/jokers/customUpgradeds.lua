@@ -38,23 +38,26 @@ local jokerInfo = {
 	},
 	
 	--[[ TODO:
-		- Best Buds
-		- Four of a Kind
+		- Built Different, Single-Minded
+		- Whatever I name the Kaizur Upgrade
+		- Whatever I name the Octopimp Upgrade
+		- Best Buds (Showman)
+		- Four of a Kind (Flandre/Burnt)
 		- Whatever I name the Bootstraps upgrade
 		- Whatever I name the Blackboard upgrade
-		- God Gamer
-		- Baldi
-		- Dark Bead
-		- Lava Chicken
-		- Horse Gacha
-		- Cirno Duty
-		- Perfect Body Double
-		- Collection
-		- Cirno_TV & Friends
-		- Cokeman
-		- Sattaton
-		- Haurchefant
-		- Dev Backseating
+		- God Gamer (Sixth Sense)
+		- Baldi (Red Card)
+		- Dark Bead (Madness/Soul Spear) - No Joker kill
+		- Lava Chicken (Chicken Jockey/Luchador)
+		- Horse Gacha (Idolmaster Gacha/Mail-In Rebate)
+		- Cirno Duty (Imaginary Anomaly/Hallucination)
+		- Perfect Body Double (Devious Doppelganger) - Original Effect + Death Save
+		- Collection (Baseball Card) - Different bonuses per owned Jokers dependant on rarity
+		- Cirno_TV & Friends (Bully)
+		- Cokeman (Pepsiman/Diet Soda) - Regular Double Tags
+		- Sattaton (SachikoPants/Spare Trousers)
+		- Haurchefant (Smiley Face)
+		- Dev Backseating (Hack)
 	]]
 	jokerConfigs = {
 		-- The Villainess
@@ -2568,6 +2571,10 @@ local jokerInfo = {
 								qa_chainTbl.flipCount = #G.hand.cards
 							end
 							
+							if qa_chainTbl.flipCount < 1 then
+								qa_chainTbl.flipCount = 1
+							end
+							
 							G.hand.config.highlighted_limit = 0
 							G.hand:unhighlight_all()
 							
@@ -2579,7 +2586,7 @@ local jokerInfo = {
 							for i, jkr in ipairs (G.jokers.cards) do
 								if
 									jkr.edition
-									and jkr.ability.name ~= 'j_cir_qualityAssured'
+									and jkr.config.center.key ~= 'j_cir_qualityAssured'
 									and CirnoMod.miscItems.pullEditionModifierValue(jkr.edition) ~= nil
 								then
 									table.insert(qa_chainTbl.eligibleJkrs, jkr)
@@ -2983,8 +2990,7 @@ local jokerInfo = {
 					if
 						not context.blueprint
 						and not context.result
-						and context.trigger_obj.ability -- nil check
-						and context.trigger_obj.ability.name == "The Wheel of Fortune"
+						and context.trigger_obj.config.center.key == 'c_wheel_of_fortune'
 					then
 						card.ability.extra.x_mult = to_big(card.ability.extra.x_mult) + to_big(card.ability.extra.growth)
 						
@@ -3913,6 +3919,8 @@ local jokerInfo = {
 					ret.vars[8] = sealDenom
 				end
 				
+				info_queue[#info_queue + 1] = { key = 'gold_seal', set = 'Other' }
+				
 				if CirnoMod.config['artCredits'] and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = 'jA_DaemonTsun_BigNTFEdit', set = 'Other' }
 				end
@@ -4108,12 +4116,15 @@ local jokerInfo = {
 					'{s:0.8,C:inactive}through the windows'
 				}
 				
-				local other_joker, other_joker2
+				local other_joker = nil
+				local other_joker2 = nil
 				
-				for i = 1, #G.jokers.cards do
-					if G.jokers.cards[i] == card then
-						other_joker = G.jokers.cards[i + 1]
-						other_joker2 = G.jokers.cards[i + 2]
+				if G.GAME and G.jokers then
+					for i = 1, #G.jokers.cards do
+						if G.jokers.cards[i] == card then
+							other_joker = G.jokers.cards[i + 1]
+							other_joker2 = G.jokers.cards[i + 2]
+						end
 					end
 				end
 				
@@ -4371,16 +4382,8 @@ local jokerInfo = {
 				local ret1 = SMODS.blueprint_effect(card, other_joker, context, G.C.UI.TEXT_DARK)
 				local ret2 = SMODS.blueprint_effect(card, other_joker2, context, G.C.UI.TEXT_DARK)
 				
-				if ret1 and ret2 then
-					return SMODS.merge_effects(ret, ret2)
-				end
-				
-				if ret1 then
-					return ret1
-				end
-				
-				if ret2 then
-					return ret2
+				if ret1 or ret2 then
+					return SMODS.merge_effects{ ret1 or {}, ret2 or {} }
 				end
 			end
 		},
@@ -4430,8 +4433,13 @@ local jokerInfo = {
 					'{s:0.8,C:inactive}Finally, kerJoker'
 				}
 				
-				local other_joker = G.jokers.cards[2]
-				local other_joker2 = G.jokers.cards[#G.jokers.cards - 1]
+				local other_joker = nil
+				local other_joker2 = nil
+				
+				if G.GAME and G.jokers then
+					other_joker = G.jokers.cards[2]
+					other_joker2 = G.jokers.cards[#G.jokers.cards - 1]
+				end
 				
 				local compatible = other_joker and other_joker ~= card and (other_joker.config.center.blueprint_compat or (card.ability.extra.upgraded and (other_joker.calculate_dollar_bonus or other_joker.config.center.calc_dollar_bonus)))
 				
@@ -4677,18 +4685,11 @@ local jokerInfo = {
 				end
 				
 				local ret1 = SMODS.blueprint_effect(card, other_joker, context, CirnoMod.miscItems.colours.cirCyan)
+				
 				local ret2 = SMODS.blueprint_effect(card, other_joker2, context, CirnoMod.miscItems.colours.cirCyan)
 				
-				if ret1 and ret2 then
-					return SMODS.merge_effects(ret, ret2)
-				end
-				
-				if ret1 then
-					return ret1
-				end
-				
-				if ret2 then
-					return ret2
+				if ret1 or ret2 then
+					return SMODS.merge_effects{ ret1 or {}, ret2 or {} }
 				end
 			end
 		},
@@ -5911,7 +5912,7 @@ for i, jkr in ipairs(jokerInfo.jokerConfigs) do
 	jkr.set_card_type_badge = function(self, card, badges)
 		if CirnoMod.miscItems.isUnlockedAndDisc(card) then
 			badges[#badges + 1] = CirnoMod.miscItems.badges.upgradedJkr[(G.GAME and card.ability and card.ability.extra and card.ability.extra.orgRarity) or CirnoMod.miscItems.getJokerRarityByKey(self.upgradesFrom)]()
-			
+						
 			CirnoMod.miscItems.addBadgesToJokerByKey(badges, card.config.center.key)
 		end
 	end

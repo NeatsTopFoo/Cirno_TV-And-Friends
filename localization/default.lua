@@ -7,6 +7,7 @@ local RV = {
 		},
 		dictionary = {
 			k_upgradedjkr = 'Upgraded',
+			ph_cir_excuses = 'Saved by Excuses',
 			ph_cir_superOrnstein = 'Saved by Super Ornstein'
 		},
 		v_text = {}
@@ -104,6 +105,9 @@ RV.descriptions.Other = {
 		text = { creditSources.NTF }
 	},
 	eA_NTF = { name = creditSources.cr_EnhancerArt,
+		text = { creditSources.NTF }
+	},
+	cA_NTF = { name = creditSources.cr_CardArt,
 		text = { creditSources.NTF }
 	},
 	jA_LocalThunk_NTFEdit = { name = creditSources.cr_JokerArt,
@@ -683,7 +687,8 @@ RV.descriptions.Other = {
 	questionMarkTooltip = { name = '?????', text = { '?????' } },
 	blankHeader = { text = { '' } },
 	blankTooltip = { name = 'blankHeader', text = { '' } },
-	blankTooltipA = { name = '', text = { '' } }
+	blankTooltipA = { name = '', text = { '' } },
+	ignoreThis = { name = 'Ignore This', text = { 'Ignore this tooltip.' } }
 }
 
 RV.descriptions.Edition = {}
@@ -1067,6 +1072,17 @@ RV.descriptions.Joker.j_cir_super_ornstein = { name = 'Super Ornstein',
 		'{s:0.8,C:inactive}"No, Bosses can\'t respawn',
 		'{s:0.8,C:inactive}in the randomiser"'
 	} }
+}
+
+RV.descriptions.Joker.j_cir_moneyLaundry_Uncapped = { name = 'Money Laundry',
+	text = {
+		'After defeating a {C:attention}Boss',
+		'{C:attention}Blind{}, earn {C:money}#1#{} for every',
+		'{C:attention}non-end-of-round source',
+		'of {C:money}${} earned {C:attention}that ante',
+		'{C:inactive}(Currently {C:money}#3#{C:inactive})',
+		'{s:0.8,C:inactive}Tax evasion!'
+	}
 }
 
 RV.descriptions.Enhanced.m_glass_pFreeze = { name = "Ice Card",

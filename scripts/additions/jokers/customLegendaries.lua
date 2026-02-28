@@ -21,6 +21,13 @@ would be 365/2) & x1.5 mult if played hand contains a
 three of a kind of kings - That will likely be its own
 lua file.]]
 
+--[[
+	TODO:
+	- VileElf: All played heart cards without an edition become polychrome
+	- KaizurTV: 
+	- Octopimp: something chaotic
+]]
+
 local jokerInfo = {
 	isMultipleJokers = true,
 	
@@ -1125,8 +1132,7 @@ local jokerInfo = {
 					and context.pseudorandom_result -- Check for pseudorandom proc
 					and not context.result -- Check for failure
 					and context.trigger_obj -- nil check
-					and context.trigger_obj.ability -- nil check
-					and context.trigger_obj.ability.name == "The Wheel of Fortune"
+					and context.trigger_obj.config.center.key == 'c_wheel_of_fortune'
 				then
 					--[[
 					Add the xmult to grow by as defined in

@@ -20,8 +20,8 @@ local jokerInfo = {
 		- Endless Eight Joker
 		- Sonic '06 Joker
 		- Emotional Support Broken Man Joker
-		- Money laundry?
 		- Air fryer?
+		- Cameo Joker
 	]]
 	jokerConfigs = {
 		-- Crystal Tap
@@ -540,6 +540,22 @@ local jokerInfo = {
 			},
 			unlocked = false,
 			
+			in_pool = function(self, args)
+				local groupsToMatch = {'allegations', 'fingerGuns', 'TwoMax'}
+				
+				if G.GAME and G.jokers then
+					for i, jkr in ipairs(G.jokers.cards) do
+						if 
+							CirnoMod.miscItems.jokerInAnyOfTheseKeyGroups(jkr.config.center.key, groupsToMatch)
+						then
+							return true
+						end
+					end
+				end
+				
+				return false
+			end,
+			
 			pos = { x = 0, y = 2 },
 			cost = 8,
 			eternal_compat = true,
@@ -715,6 +731,18 @@ local jokerInfo = {
 				}
 			},
 			unlocked = false,
+			
+			in_pool = function(self, args)
+				if G.GAME and G.jokers then
+					for i, jkr in ipairs(G.jokers.cards) do
+						if CirnoMod.miscItems.jokerInKeyGroup(jkr.config.center.key, 'unhinged') then
+							return true
+						end
+					end
+				end
+				
+				return false
+			end,
 			
 			pos = { x = 1, y = 2 },
 			cost = 8,
@@ -1067,7 +1095,7 @@ local jokerInfo = {
 				elseif extraTable.currentForm == 'crescent' then
 					return { 
 						SMODS.signed_dollars(to_big(extraTable.formsInfo.crescent.monGain)),
-						extraTable.formsInfo.crescent.accruedMoney > 0 and SMODS.signed_dollars(to_big(extraTable.formsInfo.crescent.accruedMoney)) or '$0'
+						extraTable.formsInfo.crescent.accruedMoney > to_big(0) and SMODS.signed_dollars(to_big(extraTable.formsInfo.crescent.accruedMoney)) or '$0'
 					}
 				elseif extraTable.currentForm == 'forestMaze' then
 					local curProbability, chance1 = SMODS.get_probability_vars(card or self, 1, extraTable.formsInfo.forestMaze.chance1)
@@ -2847,6 +2875,106 @@ local jokerInfo = {
 					end
 					
 					return { mult = to_big(card.ability.extra.mult) }
+				end
+			end
+		},
+		-- Money Laundry
+		{
+			key = 'moneyLaundry',
+			matureRefLevel = 1,
+			
+			loc_txt = { name = 'Money Laundry',
+				text = {
+					'After defeating a {C:attention}Boss',
+					'{C:attention}Blind{}, earn {C:money}#1#{} for every',
+					'{C:attention}non-end-of-round source',
+					'of {C:money}${} earned {C:attention}that ante',
+					'{C:inactive}Caps at {C:money}#2#',
+					'{C:inactive}(Currently {C:money}#3#{C:inactive})',
+					'{s:0.8,C:inactive}Tax evasion!'
+				}
+			},
+			
+			config = {},			
+			pos = { x = 5, y = 2 },
+			cost = 4,
+			eternal_compat = true,
+			perishable_compat = true,			
+			blueprint_compat = false,
+			
+			loc_vars = function(self, info_queue, card)
+				-- Art credit tooltip
+				if CirnoMod.config.artCredits and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_NTF', set = 'Other' }
+				end
+				
+				local MLvars = { dolEarn = 1, dolCap = 20, dolAccrued = 0 }
+				local notInCollection = G.GAME and G.GAME.cir_moneyLaundry
+				
+				if notInCollection then
+					MLvars.dolEarn = to_big(G.GAME.cir_moneyLaundry.dolEarn)
+					MLvars.dolCap = to_big(G.GAME.cir_moneyLaundry.dolCap)
+					MLvars.dolAccrued = to_big(G.GAME.cir_moneyLaundry.dolAccrued)
+				end
+				
+				local ret = { vars = {
+					to_big(MLvars.dolEarn) > to_big(0) and SMODS.signed_dollars(to_big(MLvars.dolEarn)) or '$0',
+					to_big(MLvars.dolCap) > to_big(0) and SMODS.signed_dollars(to_big(MLvars.dolCap)) or '$0',
+					to_big(MLvars.dolAccrued) > to_big(0) and SMODS.signed_dollars(to_big(MLvars.dolAccrued)) or '$0'
+				} }
+				
+				if notInCollection and G.GAME.cir_moneyLaundry.uncapped then
+					ret.key = 'j_cir_moneyLaundry_Uncapped'
+				end
+				
+				return ret
+			end,
+			
+			cir_upgradeInfo = function(self, card)
+				if not G.GAME.cir_moneyLaundry.uncapped then
+					if to_big(G.GAME.cir_moneyLaundry.dolCap) < to_big(50) then
+						return {
+							'{C:money}$'..to_big(G.GAME.cir_moneyLaundry.dolCap)..'{} Cap',
+							'->',
+							'{C:money}$'..to_big(G.GAME.cir_moneyLaundry.dolCap) + to_big(5)..'{} Cap',
+							'{C:attention}Persists for rest of run{},',
+							'{C:attention}even if Joker is sold'
+						}
+					else
+						return {
+							'{C:money}$'..to_big(G.GAME.cir_moneyLaundry.dolCap)..'{} Cap',
+							'->',
+							'Uncapped',
+							'{C:attention}Persists for rest of run{},',
+							'{C:attention}even if Joker is sold',
+							'{C:red}Final upgrade'
+						}
+					end
+				end
+			end,
+			
+			cir_upgrade = function(self, card)
+				if not G.GAME.cir_moneyLaundry.uncapped then
+					if to_big(G.GAME.cir_moneyLaundry.dolCap) < to_big(50) then
+						G.GAME.cir_moneyLaundry.dolCap = to_big(G.GAME.cir_moneyLaundry.dolCap) + to_big(5)
+					else
+						G.GAME.cir_moneyLaundry.uncapped = true
+					end
+					
+					return { message = localize('k_upgrade_ex') }
+				end
+			end,
+			
+			calc_dollar_bonus = function(self, card, context)
+				if not context then
+					context = { beat_boss = G.GAME.blind.boss }
+				end
+				
+				if
+					context.beat_boss
+					and to_big(G.GAME.cir_moneyLaundry.dolAccrued) > to_big(0)
+				then
+					return to_big(G.GAME.cir_moneyLaundry.dolAccrued)
 				end
 			end
 		},

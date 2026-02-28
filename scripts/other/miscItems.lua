@@ -2,7 +2,7 @@ local miscItems = {
 	artCreditKeys = {},
 	creditLinks = {
 		daemonTsun = { type = 'BSky', link = 'https://bsky.app/profile/daemontsun.bsky.social' },
-		ntf_bsky = { type = 'BSky', link = 'https://bsky.app/profile/nopetoofast.bsky.expert' },
+		ntf_bsky = { type = 'BSky', link = 'https://bsky.app/profile/nopetoofast.bsky.social' },
 		ntf_twch = { type = 'Twitch', link = 'https://www.twitch.tv/NopeTooFast' },
 		cirnotv_bsky = { type = 'BSky', link = 'https://bsky.app/profile/cirnotv.bsky.social' },
 		cirnotv_twch = { type = 'Twitch', link = 'https://www.twitch.tv/Cirno_TV/' },
@@ -17,7 +17,7 @@ local miscItems = {
 		aikoyori = { type = 'BSky', link = 'https://bsky.app/profile/aikoyori.xyz' },
 		artbydefault = { type = 'BSky', link = 'https://bsky.app/profile/artbydefault.bsky.social' }
 	},
-	allFaceCards = { 'Jack', 'Queen', 'King' },
+	allFaceCards = { 'Jack', 'Queen', 'King', 'Ace' },
 	cardSuits = { 'Hearts', 'Clubs', 'Diamonds', 'Spades' },
 	cardRanksToValues_AceLow = {
 		['King'] = 10,
@@ -52,9 +52,11 @@ local miscItems = {
 	cirFriends = {
 		dm = 'Girl_DM_', -- Pay no attention as to how this list is ordered. There is no specific reasoning behind it.
 		cir = 'Cirno_TV',
+		vle = 'Vileelf',
 		han = 'HannahHyrule',
 		mom = 'ReimMomo',
 		rmi = 'ArumiaTheSleepy',
+		kzr = 'KaizurTV',
 		tom = 'UnsanityLIVE',
 		nrp = 'Naro',
 		thr = 'ThorW',
@@ -62,6 +64,7 @@ local miscItems = {
 		wls = 'Wolsk',
 		dme = 'Demeorin',
 		dck = 'Biggdeck',
+		oct = 'Octopimp',
 		ntf = 'NopeTooFast'
 	},
 	weirdArtCreditExceptionalCircumstanceKeys = {}, -- Some things seem to do weird things, like Wild cards.
@@ -102,6 +105,16 @@ local miscItems = {
 		end
 		
 		return { G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD }
+	end,
+	--[[ This is what compares the two colours to see if they're the same colour.
+	...This isn't really the best way to do what I'm trying to do, but... Eh? ]]
+	eq_col = function(x, y)
+		for i = 1, 4 do
+			if x[1] ~= y[1] then
+				return false
+			end
+		end
+		return true
 	end
 }
 
@@ -278,6 +291,7 @@ miscItems.colours = {
 	cirFaintLavender = HEX('ABA3CCFF'),
 	cirBlue = HEX('0766EBFF'),
 	cirCyan = HEX('0AD0F7FF'),
+	cirCyanAlt = HEX('11AEF7FF'), -- Needed to distinguish cirGuns badge from mod badge
 	cirLucy = HEX('7BB083FF'),
 	cirNep = HEX('D066ADFF'),
 	cirUpgradedJkrClr = HEX('CCB35AFF'),
@@ -287,7 +301,8 @@ miscItems.colours = {
 	momoCyan = HEX('068170FF'),
 	houAqua = HEX('62D9D9FF'),
 	bbBlack = HEX('000000FF'),
-	bbInvisText = HEX('00000000')
+	bbInvisText = HEX('00000000'),
+	whiteOnly = HEX('FFFFFFFF')
 }
 
 miscItems.creditLinkTypeToColour = {
@@ -308,6 +323,17 @@ miscItems.colours.cirDM = SMODS.Gradient({
 	colours = {
 		G.C.GREEN,
 		miscItems.colours.dmDark
+	}
+})
+
+miscItems.colours.cirVile = SMODS.Gradient({
+	key = 'cirVile',
+	colours = {
+		miscItems.colours.cirCyan,
+		miscItems.colours.cirNep,
+		G.C.JOKER_GREY,
+		miscItems.colours.cirNep,
+		miscItems.colours.cirCyan
 	}
 })
 
@@ -401,6 +427,77 @@ miscItems.colours.cirNope = SMODS.Gradient({
 	}
 })
 
+miscItems.checkSkinCard = function(cardRank)
+	for i, rank in ipairs(CirnoMod.miscItems.allFaceCards) do
+		if cardRank == rank then
+			return true
+		end		
+	end
+	return false
+end
+
+miscItems.suitRankToFriend_NmClr = {
+	Diamonds = {
+		Ace = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.kzr, CirnoMod.miscItems.colours.diamonds_hc, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end,
+		King = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.thr, CirnoMod.miscItems.colours.diamonds_hc, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end,
+		Queen = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.dm, CirnoMod.miscItems.colours.cirDM, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end,
+		Jack = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.hou, CirnoMod.miscItems.colours.cirHoudini, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end
+	},
+	
+	Hearts = {
+		Ace = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.mom, CirnoMod.miscItems.colours.cirMomo, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end,
+		King = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.han, CirnoMod.miscItems.colours.cirHan, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end,
+		Queen = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.ntf, CirnoMod.miscItems.colours.cirNope, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end,
+		Jack = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.rmi, CirnoMod.miscItems.colours.cirRumi, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end
+	},
+	
+	Clubs = {
+		Ace = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.vle, CirnoMod.miscItems.colours.cirVile, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end,
+		King = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.nrp, CirnoMod.miscItems.colours.cirNaro, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end,
+		Queen = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.cir, CirnoMod.miscItems.colours.cirNo, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end,
+		Jack = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.tom, G.C.GREEN, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end
+	},
+	
+	Spades = {
+		Ace = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.oct, G.C.PURPLE, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end,
+		King = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.wls, G.C.BLACK, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end,
+		Queen = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.dck, CirnoMod. miscItems.colours.cirDeck, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end,
+		Jack = function(textSize)
+				return create_badge(CirnoMod.miscItems.cirFriends.dme, CirnoMod.miscItems.colours.cirDeme, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+			end
+	}
+}
+
 miscItems.colours.cirUpgradedJkrClr_tbl = {
 	SMODS.Gradient({
 		key = 'cirUpgCmn',
@@ -438,9 +535,9 @@ miscItems.colours.cirUpgradedJkrClr_tbl = {
 miscItems.badges = {
 	allegations = function(bootstrapsName) return create_badge(bootstrapsName or 'You Forgot To Pass The Name In', G.C.GREEN, G.C.UI.TEXT_LIGHT, 0.8 ) end,
 	TwoMax = function() return create_badge("2 Max", miscItems.colours.cirNep, G.C.UI.TEXT_LIGHT, 0.8) end,
-	fingerGuns = function() return create_badge("cirGuns", miscItems.colours.cirCyan, G.C.UI.TEXT_LIGHT, 0.8 ) end,
+	fingerGuns = function() return create_badge("cirGuns", miscItems.colours.cirCyanAlt, G.C.UI.TEXT_LIGHT, 0.8) end,
 	unhinged = function() return create_badge("Unhinged", G.C.RED, G.C.UI.TEXT_LIGHT, 0.8 ) end,
-	chatBrainrot = function() return create_badge("Chat Brainrot", miscItems.colours.cirBlue, G.C.UI.TEXT_LIGHT, 0.8 ) end,
+	chatBrainrot = function() return create_badge("Chat Brainrot", miscItems.colours.cirBlue, G.C.UI.TEXT_LIGHT, 0.8) end,
 	upgradedJkr = {
 		function()
 			return CirnoMod.miscItems.createDynaTextBadge({ { string = 'Common' }, { string = 'Upgraded' } }, CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[1], nil, 1.3)
@@ -781,10 +878,12 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 	end
 	
 	viable_unlockables = SMODS.merge_lists({ viable_unlockables, {
+		{ set = 'Playing', key = "C_A", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" },
 		{ set = 'Playing', key = "C_K", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" },
 		{ set = 'Playing', key = "C_Q", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" },
 		{ set = 'Playing', key = "C_J", suit = 'Clubs', skin = "cir_noAndFriends_Clubs_skin_hc" },
 		
+		{ set = 'Playing', key = "D_A", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
 		{ set = 'Playing', key = "D_K", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
 		{ set = 'Playing', key = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
 		{ set = 'Playing', key = "D_Q", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
@@ -792,10 +891,12 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 		-- No problem here.
 		{ set = 'Playing', key = "D_J", suit = 'Diamonds', skin = "cir_noAndFriends_Diamonds_skin_hc" },
 		
+		{ set = 'Playing', key = "H_A", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" },
 		{ set = 'Playing', key = "H_K", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" },
 		{ set = 'Playing', key = "H_Q", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" },
 		{ set = 'Playing', key = "H_J", suit = 'Hearts', skin = "cir_noAndFriends_Hearts_skin_hc" },
 		
+		{ set = 'Playing', key = "S_A", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" },		
 		{ set = 'Playing', key = "S_K", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" },
 		{ set = 'Playing', key = "S_Q", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" },
 		{ set = 'Playing', key = "S_J", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" }
@@ -906,12 +1007,17 @@ miscItems.doTitleCardCycle = function(viable_unlockables, cardIn, SC_scale)
 						end
 						
 						if
-							decidedElement.key == 'j_caino'
-							or decidedElement.key == 'j_cir_villainess'
+							decidedElement.discovered
+							and decidedElement.unlocked
 						then
-							doRandomEdition = 'dm'
-						elseif decidedElement.discovered then
-							doRandomEdition = 'nrm'
+							if
+								decidedElement.key == 'j_caino'
+								or decidedElement.key == 'j_cir_villainess'
+							then
+								doRandomEdition = 'dm'
+							else
+								doRandomEdition = 'nrm'
+							end
 						else
 							doRandomEdition = nil
 						end
@@ -1239,7 +1345,17 @@ miscItems.isState = function(curGameState, stateToCheck)
 	end
 	return false
 end
+
+miscItems.isAnyOfTheseStates = function(curGameState, statesToCheck)
+	for i, state in ipairs(statesToCheck) do
+		if CirnoMod.miscItems.isState(curGameState, state) then
+			return true
+		end
+	end
 	
+	return false
+end
+
 miscItems.isStage = function(curGameStage, stageToCheck)
 	if
 		curGameStage
@@ -1539,9 +1655,6 @@ if CirnoMod.config.addCustomJokers then
 	miscItems.jkrKeyGroups.unhinged.j_cir_wolsk_l = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_tom_l = true
 	
-	miscItems.jkrKeyGroups.TwoMax.j_cir_smug = true
-	miscItems.jkrKeyGroups.TwoMax.j_cir_comfyVibes = true
-	
 	miscItems.jkrKeyGroups.unhinged.j_cir_villainess = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_captain = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_enthusiast = true
@@ -1551,9 +1664,16 @@ if CirnoMod.config.addCustomJokers then
 	miscItems.jkrKeyGroups.unhinged.j_cir_qualityAssured = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_sadist = true
 	
+	miscItems.jkrKeyGroups.TwoMax.j_cir_smug = true
+	miscItems.jkrKeyGroups.TwoMax.j_cir_comfyVibes = true
+	
 	miscItems.jkrKeyGroups.unhinged.j_cir_queenOfDiamonds = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_kingOfHearts = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_albedo = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_utsuho = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_obsessiveFace = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_charismaticMistress = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_smug = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_SPGP = true
 	
 	miscItems.jkrKeyGroups.fingerGuns.j_cir_platinum = true
@@ -1602,6 +1722,18 @@ miscItems.jokerInKeyGroup = function(jkrKey, group)
 	for i, v in ipairs(miscItems.keyGroupsOfJokerKey(jkrKey)) do
 		if v == group then
 			return true
+		end
+	end
+	
+	return false
+end
+
+miscItems.jokerInAnyOfTheseKeyGroups = function(jkrKey, groupsArray)
+	for i, v in ipairs(miscItems.keyGroupsOfJokerKey(jkrKey)) do
+		for _, grp in ipairs(groupsArray) do
+			if v == grp then
+				return true
+			end
 		end
 	end
 	

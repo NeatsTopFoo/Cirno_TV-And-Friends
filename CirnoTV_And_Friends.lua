@@ -190,6 +190,53 @@ CirnoMod.quittingIsAnOption = function()
 	return ret
 end
 
+CirnoMod.parseKey_ToCreditToolTip = function(keyToCheck, keyOnly)
+	local ret = { key = nil, set = 'Other' }
+	
+	--[[
+	If the key is present in the table of art keys,
+	return the necessary localisation data
+	Not the best way to facilitate this, but eh.]]
+	if CirnoMod.miscItems.artCreditKeys[keyToCheck] then
+		if type(CirnoMod.miscItems.artCreditKeys[keyToCheck]) == 'table' then
+			if
+				CirnoMod.config.planetsAreHus
+				and CirnoMod.miscItems.artCreditKeys[keyToCheck].planetsAreHus
+			then
+				ret.key = CirnoMod.miscItems.artCreditKeys[keyToCheck].planetsAreHus
+			elseif
+				CirnoMod.config.matureReferences_cyc == 3
+				and CirnoMod.miscItems.artCreditKeys[keyToCheck].nrmVer
+			then
+				ret.key = CirnoMod.miscItems.artCreditKeys[keyToCheck].nrmVer
+			elseif
+				CirnoMod.config.matureReferences_cyc >= 2
+				and CirnoMod.miscItems.artCreditKeys[keyToCheck].saferVer
+			then
+				ret.key = CirnoMod.miscItems.artCreditKeys[keyToCheck].saferVer
+			elseif CirnoMod.miscItems.artCreditKeys[keyToCheck].default then
+				ret.key = CirnoMod.miscItems.artCreditKeys[keyToCheck].default
+			end
+		else
+			ret.key = CirnoMod.miscItems.artCreditKeys[keyToCheck]
+		end
+	end
+	
+	if ret.key then
+		if keyOnly then
+			return ret.key
+		end
+		
+		return ret
+	end
+end
+
+CirnoMod.checkDeckSkinActive = function(suit)
+	if G.SETTINGS.CUSTOM_DECK and G.SETTINGS.CUSTOM_DECK.Collabs then -- Mostly sanity check
+		return G.SETTINGS.CUSTOM_DECK.Collabs[suit] == CirnoMod.miscItems.deckSkinNames[suit]
+	end
+end
+
 --[[
 Hate. Hate. Hate. Hate that we have to do this this
 way. Hatehatehatehatehate. I had a whole system set
@@ -202,7 +249,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 ...See the patcher toml and localization/en-us.lua
 for more info. Though for your sanity, it's probably
 best not to.]]
-CirnoMod.ParseVanillaCredit = function(card, specific_vars)
+CirnoMod.ParseVanillaCredit = function(card, specific_vars, cardBackup)
 	if
 		card.fake_card
 		or (not specific_vars
@@ -215,60 +262,30 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars)
 	--[[ Comes in from generate_card_ui() in common_events.lua,
 	which passes in _c and specific_vars (After checking if the
 	specified card isn't locked or undiscovered)]]
-	local RV = nil
 	local keyToCheck = card.key
 	
 	if
 		specific_vars -- This is nil when it's a Joker, but needed when its a playing card
-		and G.SETTINGS.CUSTOM_DECK -- Sanity check to make sure this is initialised
 	then
 		if
-			G.SETTINGS.CUSTOM_DECK.Collabs -- Another sanity check
-			and specific_vars.playing_card -- These are edge cases where specific_vars is passed and not nil, but these values aren't present.
+			specific_vars.playing_card -- These are edge cases where specific_vars is passed and not nil, but these values aren't present.
 			and specific_vars.suit
 			and specific_vars.value
 		then
 			if
-				G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit] == CirnoMod.miscItems.deckSkinNames[specific_vars.suit]
+				CirnoMod.checkDeckSkinActive(specific_vars.suit)
 				and CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit]]
+				and not cardBackup.ability.cir_face_infoKey
+				and CirnoMod.miscItems.checkSkinCard(specific_vars.value)
 			then
-				keyToCheck = CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit]].."_"..specific_vars.value.."_"..specific_vars.suit
-			else
-				
+				cardBackup:add_sticker('cir_face_infoKey', true)
 			end
+			
+			return nil
 		end
 	end
 	
-	--[[
-	If the key is present in the table of art keys,
-	return the necessary localisation data
-	Not the best way to facilitate this, but eh.]]
-	if CirnoMod.miscItems.artCreditKeys[keyToCheck] then
-		if type(CirnoMod.miscItems.artCreditKeys[keyToCheck]) == 'table' then
-			if
-				CirnoMod.config.planetsAreHus
-				and CirnoMod.miscItems.artCreditKeys[keyToCheck].planetsAreHus
-			then
-				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].planetsAreHus, set = 'Other' }
-			elseif
-				CirnoMod.config.matureReferences_cyc == 3
-				and CirnoMod.miscItems.artCreditKeys[keyToCheck].nrmVer
-			then
-				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].nrmVer, set = 'Other' }
-			elseif
-				CirnoMod.config.matureReferences_cyc >= 2
-				and CirnoMod.miscItems.artCreditKeys[keyToCheck].saferVer
-			then
-				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].saferVer, set = 'Other' }
-			elseif CirnoMod.miscItems.artCreditKeys[keyToCheck].default then
-				RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck].default, set = 'Other' }
-			end
-		else
-			RV = { key = CirnoMod.miscItems.artCreditKeys[keyToCheck], set = 'Other' }
-		end
-	end
-	
-	return RV
+	return CirnoMod.parseKey_ToCreditToolTip(keyToCheck)
 end
 
 --[[ Unneeded for now, but may be investigated should a new, similar issue arise that this functionality can solve.
@@ -285,6 +302,34 @@ if CirnoMod.config.playingCardTextures then
 	-- Runs the lua only if the setting is enabled in Steamodded mod config.
 	assert(SMODS.load_file("scripts/retextures/PlayingCards_Retext.lua"))()
 end
+
+-- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+CirnoMod.miscItems.faceInfoSticker = SMODS.Sticker{
+	key = 'face_infoKey',
+	loc_txt = { name = 'Placeholder', text = {
+		'This should not be visible.',
+		'If you are seeing this text,',
+		'please contact your system',
+		'administrator.'
+	} },
+	pos = { x = 4, y = 3 },
+	badge_colour = CirnoMod.miscItems.colours.whiteOnly,
+	sets = {},
+	loc_vars = function(self, info_queue, card)
+		local ret = { key = 'ignoreThis' }
+		local mySuit = card.base.suit
+		local myValue = card.base.value
+		
+		if
+			CirnoMod.checkDeckSkinActive(mySuit)
+			and CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[mySuit]]
+		then
+			ret.key = CirnoMod.parseKey_ToCreditToolTip(CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[mySuit]].."_"..myValue.."_"..mySuit, true)
+		end
+		
+		return ret
+	end
+}
 
 -- Texture Pack
 if CirnoMod.config.malverkReplacements then
@@ -1125,8 +1170,10 @@ Game.start_run = function(self, args)
 							and (G.GAME.pseudorandom.seed == '67'
 							or G.GAME.pseudorandom.seed == 'SIXSEVEN'
 							or G.GAME.pseudorandom.seed == '6SEVEN'
-							or G.GAME.pseudorandom.seed == 'SIX7')
+							or G.GAME.pseudorandom.seed == 'SIX7'
+							or G.GAME.pseudorandom.seed == '6767')
 						then
+							CirnoMod.sixSevenAttempted = true
 							G.STATE = G.STATES.GAME_OVER
 							G.STATE_COMPLETE = false
 						end
@@ -1177,26 +1224,55 @@ Game.start_run = function(self, args)
 	end
 	
 	oldRunStart(self, args)
+	
+	G.GAME.cir_moneyLaundry = G.GAME.cir_moneyLaundry or {
+			dolCap = to_big(20),
+			dolAccrued = to_big(0),
+			dolEarn = to_big(1),
+			lastRecordedAnte = 1,
+			uncapped = false
+		}
+	
+	for i, card in ipairs(G.playing_cards) do
+		if
+			CirnoMod.checkDeckSkinActive(card.base.suit)
+			and CirnoMod.miscItems.checkSkinCard(card.base.value)
+			and not card.ability.cir_face_infoKey
+		then
+			card:add_sticker('cir_face_infoKey', true)
+		end
+	end
 end
 
 local oldCreateCard = create_card
 function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
 	local RV = oldCreateCard(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
 		
-	--[[ Persistently track joker
-	encounters across unseeded runs. ]]
-	if
-		((not G.GAME.seeded)
-		or SMODS.config.seeded_unlocks)
-		and RV
-		and _type == 'Joker'
-		and CirnoMod.config.malverkReplacements
-	then
-		CirnoMod.miscItems.encounterJoker(RV.config.center.key)
+	if RV then
+		--[[ Persistently track joker
+		encounters across unseeded runs. ]]
+		if
+			((not G.GAME.seeded)
+			or SMODS.config.seeded_unlocks)
+			and _type == 'Joker'
+			and CirnoMod.config.malverkReplacements
+		then
+			CirnoMod.miscItems.encounterJoker(RV.config.center.key)
+		end
+		
+		if
+			(_type == 'Base'
+			or _type == 'Enhanced')
+			and CirnoMod.checkDeckSkinActive(RV.base.suit)
+			and CirnoMod.miscItems.checkSkinCard(RV.base.value)
+			and not RV.ability.cir_face_infoKey
+		then
+			RV:add_sticker('cir_face_infoKey', true)
+		end
+		
+		check_for_unlock({ type = 'cardCreate' })
+		return RV
 	end
-	
-	check_for_unlock({ type = 'cardCreate' })
-	return RV
 end
 
 --[[
@@ -1208,7 +1284,7 @@ end
 ]]
 
 local oldNewRound = new_round
-function new_round()
+function new_round()	
 	--[[
 	Check if challenges are on and the
 	challenge functions aren't empty]]
@@ -1336,20 +1412,67 @@ G.FUNCS.draw_from_play_to_discard = function(e)
 	old_dfptd(e)
 end
 
+CirnoMod.moneyLaundry_Increase = function()
+	if
+		G.GAME
+		and (to_big(G.GAME.cir_moneyLaundry.dolAccrued) < to_big(G.GAME.cir_moneyLaundry.dolCap)
+		or G.GAME.cir_moneyLaundry.uncapped)
+	then
+		G.GAME.cir_moneyLaundry.dolAccrued = to_big(G.GAME.cir_moneyLaundry.dolAccrued) + to_big(G.GAME.cir_moneyLaundry.dolEarn)
+		
+		local foundMoneyLaundries = SMODS.find_card('j_cir_moneyLaundry')
+			
+		if next(foundMoneyLaundries) then
+			for i, jkr in ipairs(foundMoneyLaundries) do
+				SMODS.calculate_effect({
+					message = to_big(G.GAME.cir_moneyLaundry.dolAccrued) > to_big(0) and SMODS.signed_dollars(to_big(G.GAME.cir_moneyLaundry.dolAccrued)) or '$0',
+					colour = G.C.MONEY,
+					doNotRedSeal = true
+				}, jkr)
+				
+				if
+					jkr.seal == 'Red'
+					and (to_big(G.GAME.cir_moneyLaundry.dolAccrued) < to_big(G.GAME.cir_moneyLaundry.dolCap)
+					or G.GAME.cir_moneyLaundry.uncapped)
+				then
+					SMODS.calculate_effect({ message = "Again!", doNotRedSeal = true }, jkr)
+					
+					G.GAME.cir_moneyLaundry.dolAccrued = to_big(G.GAME.cir_moneyLaundry.dolAccrued) + to_big(G.GAME.cir_moneyLaundry.dolEarn)
+					
+					SMODS.calculate_effect({
+						message = to_big(G.GAME.cir_moneyLaundry.dolAccrued) > to_big(0) and SMODS.signed_dollars(to_big(G.GAME.cir_moneyLaundry.dolAccrued)) or '$0',
+						colour = G.C.MONEY,
+						doNotRedSeal = true
+					}, jkr)
+				end
+			end
+		end
+	end
+end
+
+--[[ Migrating over to current_mod.calculate
+
 local old_smodsCalcContext = SMODS.calculate_context
 SMODS.calculate_context = function(context, return_table)
+	-- Ends the run if the player tries playing a 67 hand
 	if
 		not CirnoMod.config.suppress67Kill
 		and context.before
-		and #G.play.cards == 2
+		and ((#G.play.cards == 2
+		and G.play.cards[1].base.value == '6'
+		and G.play.cards[2].base.value == '7')
+		or (#G.play.cards == 4
 		and G.play.cards[1].base.value == '6'
 		and G.play.cards[2].base.value == '7'
+		and G.play.cards[3].base.value == '6'
+		and G.play.cards[4].base.value == '7'))
 	then
 		CirnoMod.sixSevenAttenpted = true
 		G.STATE = G.STATES.GAME_OVER
 		G.STATE_COMPLETE = false
 	end
 	
+	-- Removes redraw marker from redrawn cards
 	if
 		CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
 		and G.hand.cards
@@ -1362,6 +1485,7 @@ SMODS.calculate_context = function(context, return_table)
 		end
 	end
 	
+	-- Dedicated auto end-of-round undebuffing for Jokers that use it
 	if 
 		context.end_of_round
 		and G.jokers
@@ -1382,8 +1506,137 @@ SMODS.calculate_context = function(context, return_table)
 	
 	local ret = old_smodsCalcContext(context, return_table)
 	
+	if
+		not context.end_of_round
+		and not context.starting_shop
+		and ((ret
+		and ret.dollars)
+		or (context.other_ret
+		and context.other_ret.dollars)
+		or (context.cardarea == G.hand
+		and context.money_altered
+		and #context.cardarea.cards > 0
+		and to_big(context.amount) > to_big(0))
+		or (context.trigger_obj
+		and context.result
+		and context.identifier == 'lucky_money'))
+	then
+		CirnoMod.moneyLaundry_Increase()
+	end
+	
+	-- Resets money laundry accrued dollars on the next ante's first shop
+	if
+		context.starting_shop
+		and G.GAME.cir_moneyLaundry.lastRecordedAnte ~= G.GAME.round_resets.ante
+	then
+		G.GAME.cir_moneyLaundry.dolAccrued = to_big(0)
+		
+		G.GAME.cir_moneyLaundry.lastRecordedAnte = G.GAME.round_resets.ante
+	end
+	
 	if ret then
 		return ret
+	end
+end
+]]
+
+SMODS.current_mod.calculate = function(self, context)
+	-- Ends the run if the player tries playing a 67 hand
+	if
+		not CirnoMod.config.suppress67Kill
+		and context.before
+		and ((#G.play.cards == 2
+		and G.play.cards[1].base.value == '6'
+		and G.play.cards[2].base.value == '7')
+		or (#G.play.cards == 4
+		and G.play.cards[1].base.value == '6'
+		and G.play.cards[2].base.value == '7'
+		and G.play.cards[3].base.value == '6'
+		and G.play.cards[4].base.value == '7'))
+	then
+		CirnoMod.sixSevenAttenpted = true
+		G.STATE = G.STATES.GAME_OVER
+		G.STATE_COMPLETE = false
+	end
+	
+	-- Removes redraw marker from redrawn cards
+	if
+		CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
+		and G.hand.cards
+		and #G.hand.cards > 0
+	then
+		for i, c in ipairs(G.hand.cards) do
+			if c.beingRedrawn then
+				c.beingRedrawn = false
+			end
+		end
+	end
+	
+	-- Dedicated auto end-of-round undebuffing for Jokers that use it
+	if 
+		context.end_of_round
+		and G.jokers
+		and G.jokers.cards
+		and #G.jokers.cards > 0
+	then
+		for i, jkr in ipairs(G.jokers.cards) do
+			if
+				jkr.ability.debuff_sources
+				and next(jkr.ability.debuff_sources)
+				and jkr.ability.debuff_sources['cir_Jkr_autoEORUndebuff']
+			then
+				jkr:juice_up()
+				SMODS.debuff_card(jkr, false, 'cir_Jkr_autoEORUndebuff')
+			end
+		end
+	end
+	
+	--[[ Money Laundry debugging
+	if
+		context.money_altered
+		and not (context.from_tarot
+		or context.from_shop
+		or context.from_scoring
+		or context.from_consumeable)
+	then
+		print(tprint(context))
+	end
+	]]
+	
+	--[[ Attempts to capture every instance of money earning (non-end-of-round)
+	from enhancements, Jokers, etc. or at least, as many as possible
+	i.e. Gold Cards, Gold Seals, Business Card, Reserved Parking, Mail-in Rebate, To-Do List
+	For Money Laundry
+	]]
+	if
+		not context.end_of_round
+		and not context.starting_shop
+		and (((context.money_altered
+		and to_big(context.amount) > to_big(0))
+		and ((context.cardarea == G.hand -- Capture held in hand effects
+		and #context.cardarea.cards > 0
+		and not (CirnoMod.miscItems.isAnyOfTheseStates(G.STATE, { 9, 10, 11, 15, 17, 18, 999 }))) -- Avoid duplicate triggers in booster packs as a result of there actually being a hand
+		or (context.from_tarot -- Doesn't work?
+		or context.from_scoring
+		or context.from_consumeable)))
+		or context.selling_card
+		or (context.other_ret
+		and context.other_ret.dollars)
+		or (context.trigger_obj
+		and (context.result
+		and context.identifier == 'lucky_money'))) -- Discovered weird edge cases where context.from_tarot won't work?
+	then		
+		CirnoMod.moneyLaundry_Increase()
+	end
+	
+	-- Resets money laundry accrued dollars on the next ante's first shop
+	if
+		context.starting_shop
+		and G.GAME.cir_moneyLaundry.lastRecordedAnte ~= G.GAME.round_resets.ante
+	then
+		G.GAME.cir_moneyLaundry.dolAccrued = to_big(0)
+		
+		G.GAME.cir_moneyLaundry.lastRecordedAnte = G.GAME.round_resets.ante
 	end
 end
 
@@ -1405,53 +1658,67 @@ mod badge text cycle between the mod name and streamer(s)
 the thing is relevant to. This is largely lifted from
 Cryptid with some tweaks. ]]
 local SMcmb = SMODS.create_mod_badges
-function SMODS.create_mod_badges(obj, badges)
+function SMODS.create_mod_badges(obj, badges, card)
 	SMcmb(obj, badges)
 	
 	if 
-		not SMODS.no_mod_badges
-		and obj
-		and obj.cir_Friend
-		and (type(obj.cir_Friend) == 'string'
-		or type(obj.cir_Friend) == 'table')
+		obj
+		and #badges > 0
 	then
-		local badge_text = { { string = 'Cirno_TV & Friends' } }
+		local cir_badge = nil
+		local badgeColourToLookFor = CirnoMod.miscItems.colours.cirCyan
 		
-		if type(obj.cir_Friend) == 'table' then
-			for i, str in ipairs(obj.cir_Friend) do
-				table.insert(badge_text, { string = str })
-			end
-		else
-			badge_text[2] = { string = obj.cir_Friend }
-		end
-		
-		local cir_badge = CirnoMod.miscItems.createDynaTextBadge(badge_text, CirnoMod.miscItems.colours.cirCyan)
-		
-		--[[
-		And then this part is about looking through the badges for
-		the mod badge that Steamodded created by colour, yoinking
-		that and replacing it with what we just created.
-		
-		...Not really the best way to look for it, but... Eh? ]]
-		
-		-- This is what compares the two colours to see if they're the same colour.
-		local function eq_col(x, y)
-			for i = 1, 4 do
-				if x[1] ~= y[1] then
-					return false
+		if
+			not SMODS.no_mod_badges
+			and obj.cir_Friend
+			and (type(obj.cir_Friend) == 'string'
+			or type(obj.cir_Friend) == 'table')
+		then
+			local badge_text = { { string = 'Cirno_TV & Friends' } }
+			
+			if type(obj.cir_Friend) == 'table' then
+				for i, str in ipairs(obj.cir_Friend) do
+					table.insert(badge_text, { string = str })
 				end
+			else
+				badge_text[2] = { string = obj.cir_Friend }
 			end
-			return true
+			
+			cir_badge = CirnoMod.miscItems.createDynaTextBadge(badge_text, CirnoMod.miscItems.colours.cirCyan)
 		end
 		
-		--[[
-		This then looks through the badges and finds the first one matching
-		the mod badge colour, then replaces it with the created badge. ]]
-		for i = 1, #badges do
-			if eq_col(badges[i].nodes[1].config.colour, CirnoMod.miscItems.colours.cirCyan) then
-				badges[i].nodes[1].nodes[2].config.object:remove()
-				badges[i] = cir_badge
-				break
+		if
+			card
+			and card.ability
+			and card.ability.cir_face_infoKey
+		then
+			badgeColourToLookFor = CirnoMod.miscItems.colours.whiteOnly
+			
+			if
+				CirnoMod.checkDeckSkinActive(card.base.suit)
+				and CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[card.base.suit]]
+				and CirnoMod.miscItems.suitRankToFriend_NmClr[card.base.suit][card.base.value]
+				and type(CirnoMod.miscItems.suitRankToFriend_NmClr[card.base.suit][card.base.value]) == 'function'
+			then
+				cir_badge = CirnoMod.miscItems.suitRankToFriend_NmClr[card.base.suit][card.base.value](0.8)
+			end
+			
+			if not cir_badge then
+				cir_badge = create_badge('Ignore This', G.C.JOKER_GREY, G.C.UI.TEXT_DARK, 0.3)
+			end
+		end
+		
+		if cir_badge then
+			--[[
+			And then this part is about looking through the badges for
+			the mod badge that Steamodded created by colour, yoinking
+			that and replacing it with what we just created. ]]
+			for i = 1, #badges do
+				if CirnoMod.miscItems.eq_col(badges[i].nodes[1].config.colour, badgeColourToLookFor) then
+					badges[i].nodes[1].nodes[2].config.object:remove()
+					badges[i] = cir_badge
+					break
+				end
 			end
 		end
 	end

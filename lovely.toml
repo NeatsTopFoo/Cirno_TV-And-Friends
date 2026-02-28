@@ -265,7 +265,7 @@ payload = '''
 		and CirnoMod
 		and CirnoMod.config.artCredits
 	then
-		local PVC_RV = CirnoMod.ParseVanillaCredit(_c, specific_vars)
+		local PVC_RV = CirnoMod.ParseVanillaCredit(_c, specific_vars, card)
 		
 		if PVC_RV then
 			local ACEC = nil
@@ -304,6 +304,20 @@ end
 '''
 times = 1
 match_indent = true
+
+# Adjusting the SMODS.create_mod_badges call
+# to also pass in the card var for my hook
+# because I need the card itself, I can't
+# do what I'm trying to do with just the center
+# Thank you Aure, very cool
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "SMODS.create_mod_badges(card.config.center, badges)"
+position = "at"
+payload = "SMODS.create_mod_badges(card.config.center, badges, card)"
+times = 1
+match_indent = false
 
 # Quitting is an option.
 [[patches]]
