@@ -6,6 +6,7 @@ CirnoMod.extendedDescTooltip = SMODS.Center:extend{
 	class_prefix = 'eDT',
 	required_params = { 'key' },
 	pre_inject_class = function(self)
+		G.localization.descriptions[self.set] = {}
 		G.P_CENTER_POOLS[self.set] = {}
 	end,
 	

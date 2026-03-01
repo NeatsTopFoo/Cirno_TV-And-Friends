@@ -111,9 +111,10 @@ else
 	G.TITLE_SCREEN_CARD = G.P_CARDS.S_A
 end
 
--- These three are necessary function definition for above
--- title screen replacement stuff to both actually facilitate
--- the replacement and also make it not error because I'm giving it a string instead
+--[[ These three are necessary function definition for above
+title screen replacement stuff to both actually facilitate
+the replacement and also make it not error
+because I'm giving it a string instead ]]
 function G.FUNCS.title_screen_card(self, SC_scale)
 	if type(G.TITLE_SCREEN_CARD) == "table" then
 			return Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.TITLE_SCREEN_CARD, G.P_CENTERS.c_base)
@@ -1619,7 +1620,8 @@ SMODS.current_mod.calculate = function(self, context)
 		or (context.from_tarot -- Doesn't work?
 		or context.from_scoring
 		or context.from_consumeable)))
-		or context.selling_card
+		or (context.selling_card
+		and not #G.hand.cards > 0)
 		or (context.other_ret
 		and context.other_ret.dollars)
 		or (context.trigger_obj
