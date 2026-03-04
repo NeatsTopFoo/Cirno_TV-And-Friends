@@ -75,7 +75,7 @@ To adjust config settings:
 - Locate *'Cirno_TV & Friends'* in the list and click on the **cog** to open the settings.
 - Navigate to the *'Config'* tab if it's not already on it.
 - Adjust settings as desired.
-- Restarting Balatro is required to apply changes. Steamodded adds a quick restart shortcut, which is Alt + F5.
+- Restarting Balatro is required to apply changes. Steamodded adds a quick restart shortcut, which is Alt + F5. You can alternatively hold M.
 
 To enable textures:
 - With the game open, open the *Options* menu.

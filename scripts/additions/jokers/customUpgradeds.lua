@@ -301,6 +301,8 @@ local jokerInfo = {
 				then
 					if context.other_card.debuff then
 						return {
+							doNotRedSeal = true,
+							no_retrigger = true,
 							message = localize('k_debuffed'),
 							colour = G.C.RED,
 							sound = 'cancel'
@@ -1086,36 +1088,6 @@ local jokerInfo = {
 			eternal_compat = true,
 			perishable_compat = false,
 			
-			shouldReturnToHand = function(self, card)
-				for _, c in ipairs(G.play.cards) do
-					if c:can_calculate() and c:is_face() then return true end
-				end
-				
-				return false
-			end,
-			
-			returnToHand_func = function(self, card, isLastIteration, old_dfptd)
-				local ret = {}
-				
-				for i = 1, #G.play.cards do
-					if not G.play.cards[i].beingRedrawn then
-						if
-							G.play.cards[i]:can_calculate()
-							and G.play.cards[i]:is_face()
-							and SMODS.pseudorandom_probability(G.play.cards[i], 'redrawKoD', 1, card.ability.extra.redraw_odds)
-						then
-							G.play.cards[i].beingRedrawn = true
-							table.insert(ret, G.play.cards[i])
-							draw_card(G.play, G.hand or G.discard, i*100/#G.play.cards, 'down', false, G.play.cards[i], 0.1, false, false)
-						elseif isLastIteration then
-							draw_card(G.play, G.discard, i*100/#G.play.cards, 'down', false, G.play.cards[i])
-						end
-					end
-				end
-				
-				return ret
-			end,
-			
 			calc_dollar_bonus = function(self, card, context)
 				if to_big(card.ability.extra.EoR_dollars) > 0 then
 					return to_big(card.ability.extra.EoR_dollars)
@@ -1156,6 +1128,7 @@ local jokerInfo = {
 					and context.other_card
 					and context.other_card:is_face()
 				then
+					
 					if
 						context.individual
 						and context.other_card:can_calculate()
@@ -1165,17 +1138,37 @@ local jokerInfo = {
 						card.ability.extra.EoR_dollars = to_big(card.ability.extra.EoR_dollars) + to_big(card.ability.extra.KoD_dollarsEarn)
 					end
 					
-					if not context.cardarea == 'unscored' and context.repetition and SMODS.pseudorandom_probability(context.other_card, 'retriggerKoD', 1, card.ability.extra.retrigger_odds) then
+					if
+						context.repetition
+						and context.cardarea == G.play
+						and SMODS.pseudorandom_probability(context.other_card, 'retriggerKoD', 1, card.ability.extra.retrigger_odds)
+					then						
 						if context.other_card:can_calculate() then
 							return { repetitions = 1, colour = CirnoMod.miscItems.colours.cirThor }
 						else
 							return {
+								doNotRedSeal = true,
+								no_retrigger = true,
 								message = localize('k_debuffed'),
 								colour = G.C.RED,
 								message_card = context.other_card
 							}
 						end
 					end
+				end
+				
+				if
+					context.stay_flipped
+					and context.from_area == G.play
+					and context.other_card
+					and context.other_card:is_face()
+					and SMODS.pseudorandom_probability(context.other_card, 'redrawKoD', 1, card.ability.extra.redraw_odds)
+				then
+					return {
+						doNotRedSeal = true,
+						no_retrigger = true,
+						modify = { to_area = G.hand }
+					}
 				end
 				
 				if context.discard and not context.blueprint then
@@ -1566,36 +1559,7 @@ local jokerInfo = {
 				card.config.center.soul_pos = toChangeTo.newSoulPos
 				card.children.floating_sprite:set_sprite_pos(card.config.center.soul_pos)
 			end,
-			
-			shouldReturnToHand = function(self, card)
-				for _, c in ipairs(G.play.cards) do
-					if c:can_calculate() and SMODS.has_enhancement(c, 'm_wild') then return true end
-				end
-				
-				return false
-			end,
-			
-			returnToHand_func = function(self, card, isLastIteration, old_dfptd)
-				local ret = {}
-				
-				for i = 1, #G.play.cards do
-					if not G.play.cards[i].beingRedrawn then
-						if
-							G.play.cards[i]:can_calculate()
-							and SMODS.has_enhancement(G.play.cards[i], 'm_wild')
-						then
-							G.play.cards[i].beingRedrawn = true
-							table.insert(ret, G.play.cards[i])
-							draw_card(G.play, G.hand or G.discard, i*100/#G.play.cards, 'down', false, G.play.cards[i], 0.1, false, false)
-						elseif isLastIteration then
-							draw_card(G.play, G.discard, i*100/#G.play.cards, 'down', false, G.play.cards[i])
-						end
-					end
-				end
-				
-				return ret
-			end,
-			
+						
 			cir_upgradeInfo = function(self, card)
 				return {
 					'Create 5 random',
@@ -1615,16 +1579,30 @@ local jokerInfo = {
 			
 			calculate = function(self, card, context)
 				if
-					context.modify_scoring_hand
-					and context.main_eval
-					and not context.retrigger_joker
+					not context.retrigger_joker
 					and not context.retrigger_joker_check
 					and not context.blueprint
 					and context.other_card
 					and context.other_card:can_calculate()
 					and SMODS.has_enhancement(context.other_card, 'm_wild')
 				then
-					return { doNotRedSeal = true, no_retrigger = true, add_to_hand = true }
+					local cardHandRT = { doNotRedSeal = true, no_retrigger = true }
+					
+					if
+						context.modify_scoring_hand
+						and context.main_eval
+					then
+						cardHandRT.add_to_hand = true
+						return cardHandRT
+					end
+					
+					if
+						context.stay_flipped
+						and context.from_area == G.play
+					then
+						cardHandRT.modify = { to_area = G.hand }
+						return cardHandRT
+					end
 				end
 				
 				if
@@ -1640,6 +1618,8 @@ local jokerInfo = {
 								return { repetitions = 1, colour = CirnoMod.miscItems.colours.cirRumi }
 							else
 								return {
+									doNotRedSeal = true,
+									no_retrigger = true,
 									message = localize('k_debuffed'),
 									colour = G.C.RED,
 									message_card = context.other_card
@@ -3643,6 +3623,8 @@ local jokerInfo = {
 				then
 					if context.other_card.debuff then
 						return {
+							doNotRedSeal = true,
+							no_retrigger = true,
 							message = localiez('k_debuffed'),
 							colour = G.C.RED
 						}
@@ -4128,9 +4110,9 @@ local jokerInfo = {
 					end
 				end
 				
-				local compatible = other_joker and other_joker ~= card and (other_joker.config.center.blueprint_compat or (card.ability.extra.upgraded and (other_joker.calculate_dollar_bonus or other_joker.config.center.calc_dollar_bonus)))
+				local compatible = other_joker and other_joker ~= card and (CirnoMod.miscItems.checkBlueprintCompat(other_joker.config.center.blueprint_compat) or (card.ability.extra.upgraded and (other_joker.calculate_dollar_bonus or other_joker.config.center.calc_dollar_bonus)))
 				
-				local compatible2 = other_joker2 and other_joker2 ~= card and (other_joker2.config.center.blueprint_compat or (card.ability.extra.upgraded and (other_joker2.calculate_dollar_bonus or other_joker2.config.center.calc_dollar_bonus)))
+				local compatible2 = other_joker2 and other_joker2 ~= card and (CirnoMod.miscItems.checkBlueprintCompat(other_joker2.config.center.blueprint_compat) or (card.ability.extra.upgraded and (other_joker2.calculate_dollar_bonus or other_joker2.config.center.calc_dollar_bonus)))
 				
 				local fp_main_end = {
 						{
@@ -4441,9 +4423,9 @@ local jokerInfo = {
 					other_joker2 = G.jokers.cards[#G.jokers.cards - 1]
 				end
 				
-				local compatible = other_joker and other_joker ~= card and (other_joker.config.center.blueprint_compat or (card.ability.extra.upgraded and (other_joker.calculate_dollar_bonus or other_joker.config.center.calc_dollar_bonus)))
+				local compatible = other_joker and other_joker ~= card and (CirnoMod.miscItems.checkBlueprintCompat(other_joker.config.center.blueprint_compat) or (card.ability.extra.upgraded and (other_joker.calculate_dollar_bonus or other_joker.config.center.calc_dollar_bonus)))
 				
-				local compatible2 = other_joker2 and other_joker2 ~= card and (other_joker2.config.center.blueprint_compat or (card.ability.extra.upgraded and (other_joker2.calculate_dollar_bonus or other_joker2.config.center.calc_dollar_bonus)))
+				local compatible2 = other_joker2 and other_joker2 ~= card and (CirnoMod.miscItems.checkBlueprintCompat(other_joker2.config.center.blueprint_compat) or (card.ability.extra.upgraded and (other_joker2.calculate_dollar_bonus or other_joker2.config.center.calc_dollar_bonus)))
 				
 				local rs_main_end = {
 						{

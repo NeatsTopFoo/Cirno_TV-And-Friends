@@ -94,10 +94,7 @@ cMod_SMODSLoc.extra_tabs = assert(SMODS.load_file("scripts/UI_bs/steamodded_mod_
 --[[
 Change title screen logo to mod's logo & replace the ace that appears first with the blueprint joker (If the setting is enabled)
 Has corresponding patcher code in the lovely.toml]]
-if CirnoMod.config.titleLogo then
-	-- Replaces the Ace that appears at start with the Blueprint Joker.
-	G.TITLE_SCREEN_CARD = 'j_blueprint'
-	
+if CirnoMod.config.titleLogo then	
 	-- Title Screen Logo Texture
 	SMODS.Atlas {
 		key = "balatro",
@@ -106,33 +103,16 @@ if CirnoMod.config.titleLogo then
 		py = 216,
 		prefix_config = { key = false }
 	}
-else
-	-- Necessary for the below
-	G.TITLE_SCREEN_CARD = G.P_CARDS.S_A
-end
-
---[[ These three are necessary function definition for above
-title screen replacement stuff to both actually facilitate
-the replacement and also make it not error
-because I'm giving it a string instead ]]
-function G.FUNCS.title_screen_card(self, SC_scale)
-	if type(G.TITLE_SCREEN_CARD) == "table" then
-			return Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.TITLE_SCREEN_CARD, G.P_CENTERS.c_base)
-		elseif type(G.TITLE_SCREEN_CARD) == "string" then
-			return  Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS.empty, G.P_CENTERS[G.TITLE_SCREEN_CARD])
-		else
-			return Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS.S_A, G.P_CENTERS.c_base)
+	
+	-- Replaces the main menu Ace with Blueprint.
+	SMODS.current_mod.menu_cards = function()
+		if CirnoMod.config.titleLogo then
+			return {
+				{ key = 'j_blueprint' },
+				remove_original = true
+			}
+		end
 	end
-end
-
-function G.FUNCS.center_splash_screen_card(SC_scale)
-	return Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_joker'])
-end
-
-function G.FUNCS.splash_screen_card(card_pos, card_size)
-	return Card(card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
-				card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
-				card_size*G.CARD_W, card_size*G.CARD_H, pseudorandom_element(G.P_CARDS), G.P_CENTERS.c_base)
 end
 
 CirnoMod.quittingIsAnOption = function()
@@ -307,7 +287,7 @@ end
 -- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 CirnoMod.miscItems.faceInfoSticker = SMODS.Sticker{
 	key = 'face_infoKey',
-	loc_txt = { name = 'Placeholder', text = {
+	loc_txt = { name = '', text = {
 		'This should not be visible.',
 		'If you are seeing this text,',
 		'please contact your system',
@@ -1019,6 +999,81 @@ function CirnoMod.blueprint_calcDol_effect(copier, copied_card, context)
 	end
 end
 
+local titleCard_polyAndCycler = function()
+	if CirnoMod.config.titleLogo then
+		if not CirnoMod.didPolyCheck then
+			G.E_MANAGER:add_event(Event({
+					trigger = 'immediate',
+					blocking = false,
+					blockable = false,
+					func = function()
+						math.randomseed(os.time())
+						if math.random(4) == 1 then
+							local titleCard = nil
+							
+							for _, crd in ipairs(G.title_top.cards) do
+								if
+									crd.mod_flag
+									and crd.config.center.key == 'j_blueprint'
+								then
+									titleCard = crd
+									break
+								end
+							end
+							
+							if titleCard then
+								titleCard:set_edition({ polychrome = true }, true, true)
+								G.E_MANAGER:add_event(Event({
+										trigger = 'after',
+										delay = 0.75,
+										blocking = false,
+										blockable = false,
+										func = function()
+												titleCard:juice_up(0.3, 0.3)
+											return true
+										end
+									}))
+							end
+						end
+						return true
+					end
+				}))
+			CirnoMod.didPolyCheck = true
+		end
+		
+		CirnoMod.miscItems.cyclerRunning = false
+		
+		local mainMenuCycleEnforcer
+		mainMenuCycleEnforcer = Event({
+                trigger = 'after',
+				timer = 'UPTIME',
+                delay = 7.5,
+				blockable = true,
+				blocking = false,
+				func = function()
+					if
+						CirnoMod.miscItems.isStage(G.STAGE, G.STAGES.MAIN_MENU)
+					then
+						mainMenuCycleEnforcer.delay = 7.5
+						
+						if
+							not CirnoMod.miscItems.cyclerRunning
+						then
+							CirnoMod.miscItems.doTitleCardCycle(nil, 1)
+						end
+					else
+						mainMenuCycleEnforcer.delay = 20
+					end
+					
+					mainMenuCycleEnforcer.start_timer = false
+					return false
+				end
+			})
+		
+		G.E_MANAGER:add_event(mainMenuCycleEnforcer)
+	end
+end
+
 local main_menuRef = Game.main_menu -- Main_menu() hook
 function Game:main_menu(change_context)
 	CirnoMod.quipReplace()
@@ -1054,7 +1109,7 @@ function Game:main_menu(change_context)
 	
 	G.C.SECONDARY_SET.UIDefault = G.C.SECONDARY_SET.Spectral
 	
-	main_menuRef(self, change_context) -- Calls the normal manu_menu() function in Game.
+	main_menuRef(self, change_context) -- Calls the normal main_menu() function in Game.
 	
 	-- Set Tarot colour.
 	if
@@ -1097,30 +1152,14 @@ function Game:main_menu(change_context)
 		renamed or w/e.]]
 	end
 	
-	if CirnoMod.config.titleLogo then
-		G.E_MANAGER:add_event(Event({
-				trigger = 'immediate',
-				blocking = false,
-				blockable = false,
-				func = function()
-					math.randomseed(os.time())
-					if math.random(4) == 1 then
-						CirnoMod.titleCard:set_edition({ polychrome = true }, true, true)
-						G.E_MANAGER:add_event(Event({
-								trigger = 'after',
-								delay = 0.75,
-								blocking = false,
-								blockable = false,
-								func = function()
-										CirnoMod.titleCard:juice_up(0.3, 0.3)
-									return true
-								end
-							}))
-					end
-					return true
-				end
-			}))
-	end
+	titleCard_polyAndCycler()
+end
+
+local load_profRef = Game.load_profile
+function Game:load_profile(_profile)
+	load_profRef(self, _profile)
+	
+	titleCard_polyAndCycler()
 end
 
 --[[
@@ -1128,6 +1167,92 @@ Hooks for things like challenge functionality.
 Challenge functionality is a little weird and
 primarily facilitated by checking G.GAME.modifiers
 for the challenge id.]]
+local oldStartRunBtn = G.FUNCS.start_run
+G.FUNCS.start_run = function(e, args)
+	CirnoMod.startRunInterrupt = true
+	
+	local titleCard = nil
+	
+	if G.title_top then
+		for _, crd in ipairs(G.title_top.cards) do
+			if crd.mod_flag == 'CTVaF' then
+				titleCard = crd
+				break
+			end
+		end
+		
+		-- Attempt at preventing menu card resizing from carrying over to instantiations of that same card during the run
+		if titleCard then
+			local setH = 95
+			local setW = 71
+			
+			if not titleCard.config.center.display_size then
+				titleCard.config.center.display_size = { h = setH, w = setW }
+			else
+				titleCard.config.center.display_size.h = setH
+				titleCard.config.center.display_size.w = setW
+			end
+			
+			if titleCard.config.center.key == "j_half" then
+				titleCard.T.h = setH/1.7
+				titleCard.T.w = setW
+			elseif titleCard.config.center.key == "j_wee" then
+				titleCard.T.h = setH*0.7
+				titleCard.T.w = setW*0.7
+			elseif titleCard.config.center.key == "j_photograph" then
+				titleCard.T.h = setH/1.2
+				titleCard.T.w = setW
+			elseif titleCard.config.center.key == "j_square" then
+				setH = setW
+				titleCard.T.h = setH
+				titleCard.T.w = setW
+			end
+			
+			if titleCard.config.center.display_size and titleCard.config.center.display_size.h then
+				if titleCard.config.center.key == "j_half" then
+					titleCard.T.h = (G.CARD_H*(titleCard.config.center.display_size.h/95))/1.7
+				elseif titleCard.config.center.key == "j_wee" then
+					titleCard.T.h = (G.CARD_H*(titleCard.config.center.display_size.h/95))*0.7
+				elseif titleCard.config.center.key == "j_photograph" then
+					titleCard.T.h = (G.CARD_H*(titleCard.config.center.display_size.h/95))/1.2
+				elseif titleCard.config.center.key == "j_square" then
+					titleCard.T.h = G.CARD_W*(titleCard.config.center.display_size.w/71)
+				else
+					titleCard.T.h = G.CARD_H*(titleCard.config.center.display_size.h/95)
+				end			
+			elseif titleCard.config.center.pixel_size and titleCard.config.center.pixel_size.h then
+				if titleCard.config.center.key == "j_half" then
+					titleCard.T.h = (G.CARD_H*(titleCard.config.center.pixel_size.h/95))/1.7
+				elseif titleCard.config.center.key == "j_wee" then
+					titleCard.T.h = (G.CARD_H*(titleCard.config.center.pixel_size.h/95))*0.7
+				elseif titleCard.config.center.key == "j_photograph" then
+					titleCard.T.h = (G.CARD_H*(titleCard.config.center.pixel_size.h/95))/1.2
+				elseif titleCard.config.center.key == "j_square" then
+					titleCard.T.h = G.CARD_W*(titleCard.config.center.pixel_size.w/71)
+				else
+					titleCard.T.h = G.CARD_H*(titleCard.config.center.pixel_size.h/95)
+				end
+			end
+			
+			if titleCard.config.center.display_size and titleCard.config.center.display_size.w then
+				if titleCard.config.center.key == "j_wee" then
+					titleCard.T.w = (G.CARD_W*(titleCard.config.center.display_size.w/71))*0.7
+				else
+					titleCard.T.w = G.CARD_W*(titleCard.config.center.display_size.w/71)
+				end
+			elseif titleCard.config.center.pixel_size and titleCard.config.center.pixel_size.w then
+				if titleCard.config.center.key == "j_wee" then
+					titleCard.T.w = (G.CARD_W*(titleCard.config.center.pixel_size.w/71))*0.7
+				else
+					titleCard.T.w = G.CARD_W*(titleCard.config.center.pixel_size.w/71)
+				end
+			end
+		end
+	end
+	
+	oldStartRunBtn(e, args)
+end
+
 local oldRunStart = Game.start_run
 Game.start_run = function(self, args)
 	--[[
@@ -1243,6 +1368,40 @@ Game.start_run = function(self, args)
 			card:add_sticker('cir_face_infoKey', true)
 		end
 	end
+	
+	G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 0.1,
+			blocking = false,
+			blockable = true,
+			func = function()
+				CirnoMod.startRunInterrupt = false
+				CirnoMod.miscItems.cyclerRunning = false
+				return true
+			end
+		}))
+	
+	G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 0.5,
+			blocking = false,
+			blockable = true,
+			func = function()
+				CirnoMod.miscItems.cyclerRunning = false
+				return true
+			end
+		}))
+	
+	G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 1.0,
+			blocking = false,
+			blockable = true,
+			func = function()
+				CirnoMod.miscItems.cyclerRunning = false
+				return true
+			end
+		}))
 end
 
 local oldCreateCard = create_card
@@ -1366,7 +1525,7 @@ There appears to be no game function that can be
 hooked relating to when a shop phase starts
 ]]
 
--- Need this hook for Joker functionality
+--[[ Need this hook for Joker functionality
 local old_dfptd = G.FUNCS.draw_from_play_to_discard
 G.FUNCS.draw_from_play_to_discard = function(e)
 	local wasCalledOnce = false
@@ -1412,6 +1571,7 @@ G.FUNCS.draw_from_play_to_discard = function(e)
 	
 	old_dfptd(e)
 end
+]]
 
 CirnoMod.moneyLaundry_Increase = function()
 	if
@@ -1621,7 +1781,7 @@ SMODS.current_mod.calculate = function(self, context)
 		or context.from_scoring
 		or context.from_consumeable)))
 		or (context.selling_card
-		and not #G.hand.cards > 0)
+		and not (#G.hand.cards > 0))
 		or (context.other_ret
 		and context.other_ret.dollars)
 		or (context.trigger_obj
@@ -1634,11 +1794,17 @@ SMODS.current_mod.calculate = function(self, context)
 	-- Resets money laundry accrued dollars on the next ante's first shop
 	if
 		context.starting_shop
-		and G.GAME.cir_moneyLaundry.lastRecordedAnte ~= G.GAME.round_resets.ante
 	then
-		G.GAME.cir_moneyLaundry.dolAccrued = to_big(0)
+		if G.GAME.cir_moneyLaundry.lastRecordedAnte ~= G.GAME.round_resets.ante then
+			G.GAME.cir_moneyLaundry.dolAccrued = to_big(0)
+			
+			G.GAME.cir_moneyLaundry.lastRecordedAnte = G.GAME.round_resets.ante
+		end
 		
-		G.GAME.cir_moneyLaundry.lastRecordedAnte = G.GAME.round_resets.ante
+		if not CirnoMod.config.jkrVals[G.SETTINGS.profile].store.doneOneRunWMod then
+			CirnoMod.config.jkrVals[G.SETTINGS.profile].store.doneOneRunWMod = true
+			SMODS.save_mod_config(CirnoMod)
+		end
 	end
 end
 

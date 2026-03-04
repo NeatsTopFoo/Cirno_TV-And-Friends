@@ -955,6 +955,8 @@ local jokerInfo = {
 					['4thFloor'] = {
 						atlasX = 6,
 						rankChange = 1,
+						middleCardInd = nil,
+						isOdd = false,
 						funcName = 'calc_flush'
 					},
 					['crescent'] = {
@@ -1152,52 +1154,6 @@ local jokerInfo = {
 				end
 				
 				return RT
-			end,
-			
-			shouldReturnToHand = function(self, card)
-				--[[ Returns true if the card is in the correct form,
-				And if the amount of cards played is 5, 3 or 1 ]]
-				return (card.ability.extra.currentForm == '4thFloor'
-					or (card.ability.extra.currentForm == 'base'
-					and card.ability.extra.scoredHandName
-					and card.ability.extra.scoredHandName == 'Flush'))
-					and (#G.play.cards == 5
-					or #G.play.cards == 3
-					or #G.play.cards == 1)
-			end,
-			
-			returnToHand_func = function(self, card, isLastIteration, old_dfptd)
-				local ret = {}
-				local play_count = #G.play.cards
-				local cardToReturn = 1
-				local finalCount = 0
-				
-				if play_count == 5 then
-					cardToReturn = 3
-				elseif play_count == 3 then
-					cardToReturn = 2
-				end
-				
-				for i = 1, play_count do
-					-- Ensures we're not dealing with a destroyed card
-					if
-						not G.play.cards[i].beingRedrawn
-						and not G.play.cards[i].shattered
-						and not G.play.cards[i].destroyed
-					then
-						if i == cardToReturn then
-							-- If it's the middle card, return it to hand.
-							G.play.cards[i].beingRedrawn = true
-							table.insert(ret, G.play.cards[i])
-							draw_card(G.play, G.hand or G.discard, i*100/play_count, 'down', false, G.play.cards[i], 0.1, false, false)
-						elseif isLastIteration then
-							-- If it's any other card, discard as normal.
-							draw_card(G.play, G.discard, i*100/play_count, 'down', false, G.play.cards[i])
-						end
-					end
-				end
-				
-				return ret
 			end,
 			
 			change_form = function(self, card, form)
@@ -1526,22 +1482,23 @@ local jokerInfo = {
 			calc_flush = function(self, card, context, formTable)
 				if context.before and context.cardarea == G.jokers then
 					-- Captures if played hand has 5, 3 or 1 card(s)
-					local isOdd = (#G.play.cards == 5
+					formTable.isOdd = (#G.play.cards == 5
 						or #G.play.cards == 3
 						or #G.play.cards == 1)
 					
-					if isOdd then
+					if formTable.isOdd then
 						local handRef = G.play.cards
-						local middleCard = nil
 						local percent = 1
 						
 						if #G.play.cards == 5 then
-							middleCard = 3
+							formTable.middleCard = 3
 						elseif #G.play.cards == 3 then
-							middleCard = 2
+							formTable.middleCard = 2
 						else
-							middleCard = 1
+							formTable.middleCard = 1
 						end
+						
+						G.play.cards[formTable.middleCard].markForRedirect = true
 						
 						--[[ This setup looks odd, but if I don't do it this way,
 						it displaces the retrigger messages in instances where
@@ -1549,7 +1506,7 @@ local jokerInfo = {
 						return { func = function()
 							for i = 1, #handRef do
 								if
-									i ~= middleCard
+									i ~= formTable.middleCard
 									and handRef[i]:can_calculate()
 								then
 									CirnoMod.miscItems.flippyFlip.fStart(handRef[i], percent)
@@ -1558,12 +1515,12 @@ local jokerInfo = {
 							
 							for i = 1, #handRef do
 								if
-									i ~= middleCard
+									i ~= formTable.middleCard
 									and handRef[i]:can_calculate()
 								then
 									local amount = formTable.rankChange
 									
-									if i > middleCard then
+									if i > formTable.middleCard then
 										amount = -formTable.rankChange
 									end
 									
@@ -1586,7 +1543,7 @@ local jokerInfo = {
 							
 							for i = 1, #handRef do
 								if
-									i ~= middleCard
+									i ~= formTable.middleCard
 									and handRef[i]:can_calculate() 
 								then
 									CirnoMod.miscItems.flippyFlip.fEnd(handRef[i], percent)
@@ -1594,6 +1551,22 @@ local jokerInfo = {
 							end
 						end }
 					end
+				end
+				
+				if
+					context.stay_flipped
+					and context.from_area == G.play
+					and formTable.isOdd
+					and context.other_card
+					and context.other_card.markForRedirect
+				then			
+					context.other_card.markForRedirect = nil
+					
+					return {
+						doNotRedSeal = true,
+						no_retrigger = true,
+						modify = { to_area = G.hand }
+					}
 				end
 			end,
 			
@@ -1815,6 +1788,8 @@ local jokerInfo = {
 				then
 					if context.other_card.debuff then
 						return {
+							doNotRedSeal = true,
+							no_retrigger = true,
 							message = localize('k_debuffed'),
 							colour = G.C.RED,
 							sound = 'cancel'
@@ -2087,16 +2062,10 @@ local jokerInfo = {
 						context.before
 						or context.joker_main
 						or context.main_eval
+						or (context.stay_flipped
+						and context.from_area == G.play)
 						or (context.post_trigger
-						and not (CirnoMod.miscItems.isState(G.STATE, G.STATES.SHOP)
-						or CirnoMod.miscItems.isState(G.STATE, G.STATES.BLIND_SELECT)
-						or CirnoMod.miscItems.isState(G.STATE, G.STATES.NEW_ROUND)
-						or CirnoMod.miscItems.isState(G.STATE, G.STATES.TAROT_PACK)
-						or CirnoMod.miscItems.isState(G.STATE, G.STATES.PLANET_PACK)
-						or CirnoMod.miscItems.isState(G.STATE, G.STATES.SPECTRAL_PACK)
-						or CirnoMod.miscItems.isState(G.STATE, G.STATES.STANDARD_PACK)
-						or CirnoMod.miscItems.isState(G.STATE, G.STATES.BUFFOON_PACK)
-						or CirnoMod.miscItems.isState(G.STATE, 999)))
+						and not CirnoMod.miscItems.isAnyOfTheseStates(G.STATE, { G.STATES.SHOP, G.STATES.BLIND_SELECT, G.STATES.NEW_ROUND, G.STATES.TAROT_PACK, G.STATES.PLANET_PACK, G.STATES.SPECTRAL_PACK, G.STATES.STANDARD_PACK, G.STATES.BUFFOON_PACK, 999 }))
 						or context.cardarea == G.play
 						or (context.individual
 						and context.cardarea == G.hand)
@@ -2120,7 +2089,7 @@ local jokerInfo = {
 					formTable
 					and self[formTable.funcName]
 					and type(self[formTable.funcName]) == 'function'
-				then
+				then					
 					local RT = self[formTable.funcName](self, card, context, formTable)
 					
 					if context.b3313_formChange then

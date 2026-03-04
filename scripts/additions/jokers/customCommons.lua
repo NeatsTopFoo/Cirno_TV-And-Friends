@@ -113,7 +113,7 @@ local jokerInfo = {
 					info_queue[#info_queue + 1] = { key = 'jA_NTF', set = 'Other' }
 				end
 			end,
-			
+			config = { extra = { shouldReturnToHand = false } },
 			pos = { x = 1, y = 0},
 			cost = 5,
 			
@@ -132,42 +132,40 @@ local jokerInfo = {
 				return CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4
 			end,
 			
-			shouldReturnToHand = function(self, card)
-				local halfHandCount = math.floor((#G.play.cards / 2) + 0.5)
-				local faceCount = 0
-				
-				for i, c in ipairs(G.play.cards) do
-					if c:is_face() then
-						faceCount = faceCount + 1
-						
-						if faceCount >= halfHandCount then
-							return true
+			calculate = function(self, card, context)
+				if
+					context.before
+					and context.main_eval
+				then
+					card.ability.extra.shouldReturnToHand = false
+					
+					local halfHandCount = math.floor((#G.play.cards / 2) + 0.5)
+					local faceCount = 0
+					
+					for i, c in ipairs(G.play.cards) do
+						if c:is_face() then
+							faceCount = faceCount + 1
+							
+							if faceCount >= halfHandCount then
+								card.ability.extra.shouldReturnToHand = true
+								break
+							end
 						end
 					end
 				end
 				
-				return false
-			end,
-			
-			returnToHand_func = function(self, card, isLastIteration, old_dfptd)
-				local ret = {}
-				
-				for i = 1, #G.play.cards do
-					if
-						not G.play.cards[i].beingRedrawn
-						and not G.play.cards[i].shattered
-						and not G.play.cards[i].destroyed
-					then
-						G.play.cards[i].beingRedrawn = true
-						table.insert(ret, G.play.cards[i])
-						draw_card(G.play, G.hand or G.discard, i*100/#G.play.cards, 'down', false, G.play.cards[i], 0.1, false, false)
-					end
+				if
+					context.stay_flipped
+					and context.from_area == G.play
+					and card.ability.extra.shouldReturnToHand
+				then
+					return {
+						doNotRedSeal = true,
+						no_retrigger = true,
+						modify = { to_area = G.hand }
+					}
 				end
-				
-				return ret
-			end,
-			
-			calculate = function(self, card, context)	 end
+			end
 		}
 	}
 }

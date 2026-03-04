@@ -10,38 +10,6 @@ priority = 9999999
 # title screen stuff, potential challenges & additional Joker
 # functionality.
 
-# These two are intended to help facilitate title screen
-# replacements - Primarily replacing the Ace that appears at 
-# the start with the Blueprint joker (If the setting is enabled)
-# This is directly lifted from Cardsauce and will likely result in incompatibility with it.
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "local replace_card = Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS.S_A, G.P_CENTERS.c_base)"
-position = "at"
-payload = '''
-local replace_card = G.FUNCS.title_screen_card(self, SC_scale)
-
-if CirnoMod then
-	CirnoMod.titleCard = replace_card
-	CirnoMod.titleTop = self.title_top
-end
-
-local dissolveColours = function()
-	return CirnoMod and CirnoMod.miscItems.titleDissolveColours() or { G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD }
-end
-'''
-match_indent = true
-overwrite = false
-
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_joker'])"
-position = "at"
-payload = "SC = G.FUNCS.center_splash_screen_card(SC_scale)"
-match_indent = true
-
 # This is necessary for changing the vortex colours on the start screen.
 # Not exactly the same code, but it is somewhat directly lifted from
 # Trance, and will likely be incompatible with it as a result.
@@ -61,74 +29,40 @@ position = "at"
 payload = "{name = 'colour_2', ref_table = G.C.SPLASH, ref_value = 2},"
 match_indent = true
 
-# Gives the title screen card a 1 in 4 chance to be polychrome.
 [[patches]]
 [patches.pattern]
 target = "game.lua"
-pattern = "replace_card.ambient_tilt = 0.0"
-position = "after"
-payload = '''
-
-if
-	CirnoMod
-	and CirnoMod.config.titleLogo
-	and pseudorandom('titlePoly', 1, 4) < 2
-then
-	replace_card:set_edition('e_polychrome', true, true)
-end
-
-'''
-match_indent = true
-overwrite = false
-times = 1
-
-# If the title screen card was polychrome, remove it when
-# cycling to the first item
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "replace_card:start_dissolve({G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD})"
+pattern = '''if #viable_unlockables > 0 then 
+            local card
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 4.04,
+                func = (function()
+                    card = Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, nil, pseudorandom_element(viable_unlockables) or self.P_CENTERS.j_joker)
+                    card.no_ui = #viable_unlockables == 0
+                    card.states.visible = false
+                    replace_card.parent = nil
+                    replace_card:start_dissolve({G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD})
+                    return true
+            end)}))
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 1.04,
+                func = (function()
+                    card:start_materialize()
+                    self.title_top:emplace(card)
+                    return true
+            end)}))
+        end'''
 position = "at"
-payload = '''
-replace_card:start_dissolve(dissolveColours())
-
-if replace_card.edition then
-	replace_card:set_edition(nil, true, true)
-end
-
-'''
-match_indent = true
-times = 1
-
-# Adjusts the logic that cycles through cards in the main
-# menu screen to allow it to cycle for as long as the game
-# stays on the main menu, and will additionally include
-# every face card - This basically 
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "self.title_top:emplace(card)"
-position = "after"
-payload = '''
-
-if CirnoMod then
-	CirnoMod.miscItems.doTitleCardCycle(viable_unlockables, card, SC_scale)
-end
-
-'''
-match_indent = true
-overwrite = false
-times = 1
-
-# Allows cycling to happen if there is nothing to unlock.
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "if #viable_unlockables > 0 then"
-position = "at"
-payload = '''if #viable_unlockables == 0 then
-	CirnoMod.miscItems.doTitleCardCycle(viable_unlockables, replace_card, SC_scale)
-else'''
+payload = '''G.E_MANAGER:add_event(Event({
+	trigger = 'after',
+	delay = 4.04,
+	blockable = false,
+	blocking = false,
+	func = function()
+		CirnoMod.miscItems.doTitleCardCycle(viable_unlockables)
+	end}))'''
 match_indent = true
 times = 1
 
