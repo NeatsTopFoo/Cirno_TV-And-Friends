@@ -1737,12 +1737,13 @@ local jokerInfo = {
 							
 							if SMODS.pseudorandom_probability(card, '2negativeChance', 1, formTable.negativeChance) then
 								G.E_MANAGER:add_event(Event({
-											trigger = 'immediate',
-											blocking = true,
-											blockable = true,
-											func = function()
-												cardRef:set_edition('e_negative')
-											end }))
+									trigger = 'immediate',
+									blocking = true,
+									blockable = true,
+									func = function()
+										cardRef:set_edition('e_negative')
+									return true
+									end }))
 							else
 								G.E_MANAGER:add_event(Event({
 									trigger = 'immediate',
