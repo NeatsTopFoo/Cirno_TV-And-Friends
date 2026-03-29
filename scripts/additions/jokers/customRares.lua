@@ -1057,7 +1057,11 @@ local jokerInfo = {
 							string.sub(G.localization.descriptions.Enhanced.m_stone.name, 1, #G.localization.descriptions.Enhanced.m_stone.name - 5)
 						} } }
 				elseif extraTable.currentForm == 'peachCell' then
-					if curEdition.type ~= 'polychrome' then
+					if
+						not curEdition
+						or (curEdition
+						and curEdition.type ~= 'polychrome')
+					then
 						return { G.P_CENTERS.e_polychrome }
 					end
 				elseif extraTable.currentForm == 'floor3B' then
@@ -1950,7 +1954,7 @@ local jokerInfo = {
 					not context.blueprint
 					and not context.retrigger_joker
 					and not context.retrigger_joker_check
-					and context.before
+					and context.initial_scoring_step
 					and context.cardarea == G.jokers
 				then
 					return { balance = true }
