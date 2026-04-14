@@ -102,6 +102,9 @@ local miscItems = {
 		
 		return { G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD }
 	end,
+	baseValueCheck_IgnoreNoRank = function(card, value)
+		return not SMODS.has_no_rank(card) and card.base.value == value
+	end,
 	--[[ This is what compares the two colours to see if they're the same colour.
 	...This isn't really the best way to do what I'm trying to do, but... Eh? ]]
 	eq_col = function(x, y)
