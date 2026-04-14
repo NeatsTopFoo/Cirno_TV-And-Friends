@@ -1707,13 +1707,13 @@ SMODS.current_mod.calculate = function(self, context)
 		not CirnoMod.config.suppress67Kill
 		and context.before
 		and ((#G.play.cards == 2
-		and G.play.cards[1].base.value == '6'
-		and G.play.cards[2].base.value == '7')
+		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[1], '6')
+		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[2], '7'))
 		or (#G.play.cards == 4
-		and G.play.cards[1].base.value == '6'
-		and G.play.cards[2].base.value == '7'
-		and G.play.cards[3].base.value == '6'
-		and G.play.cards[4].base.value == '7'))
+		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[1], '6')
+		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[2], '7')
+		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[3], '6')
+		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[4], '7')))
 	then
 		CirnoMod.sixSevenAttenpted = true
 		G.STATE = G.STATES.GAME_OVER
