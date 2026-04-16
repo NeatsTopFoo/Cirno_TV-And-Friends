@@ -121,7 +121,8 @@ local jokerInfo = {
 				if
 					not (CirnoMod.config.jkrVals
 					and CirnoMod.config.jkrVals[G.SETTINGS.profile]
-					and CirnoMod.config.jkrVals[G.SETTINGS.profile].store CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4)
+					and CirnoMod.config.jkrVals[G.SETTINGS.profile].store
+					and CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4)
 					and (not CirnoMod.dabber
 					or CirnoMod.dabber and
 					CirnoMod.dabber.REMOVED)
