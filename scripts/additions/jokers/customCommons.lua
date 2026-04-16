@@ -119,7 +119,9 @@ local jokerInfo = {
 			
 			update = function(self, card, dt)
 				if
-					not CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4
+					not (CirnoMod.config.jkrVals
+					and CirnoMod.config.jkrVals[G.SETTINGS.profile]
+					and CirnoMod.config.jkrVals[G.SETTINGS.profile].store CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4)
 					and (not CirnoMod.dabber
 					or CirnoMod.dabber and
 					CirnoMod.dabber.REMOVED)
@@ -129,7 +131,7 @@ local jokerInfo = {
 			end,
 			
 			check_for_unlock = function(self, args)
-				return CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4
+				return CirnoMod.config.jkrVals and CirnoMod.config.jkrVals[G.SETTINGS.profile] and CirnoMod.config.jkrVals[G.SETTINGS.profile].store CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4
 			end,
 			
 			calculate = function(self, card, context)
