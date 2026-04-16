@@ -76,7 +76,7 @@ cirAch.gottem = {
 		hidden_text = true,
 		
 		unlock_condition = function(self, args)
-			return CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4
+			return CirnoMod.config.jkrVals and CirnoMod.config.jkrVals[G.SETTINGS.profile] and CirnoMod.config.jkrVals[G.SETTINGS.profile].store and CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4
 		end
 	}
 }
