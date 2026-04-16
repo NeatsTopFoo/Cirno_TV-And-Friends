@@ -1801,7 +1801,7 @@ SMODS.current_mod.calculate = function(self, context)
 			G.GAME.cir_moneyLaundry.lastRecordedAnte = G.GAME.round_resets.ante
 		end
 		
-		if not CirnoMod.config.jkrVals[G.SETTINGS.profile].store.doneOneRunWMod then
+		if not (CirnoMod.config.jkrVals and CirnoMod.config.jkrVals[G.SETTINGS.profile] and CirnoMod.config.jkrVals[G.SETTINGS.profile].store and CirnoMod.config.jkrVals[G.SETTINGS.profile].store.doneOneRunWMod) then
 			CirnoMod.config.jkrVals[G.SETTINGS.profile].store.doneOneRunWMod = true
 			SMODS.save_mod_config(CirnoMod)
 		end
