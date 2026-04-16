@@ -1896,7 +1896,10 @@ local leq_ref = love.quit
 love.quit = function()
 	
 	if 
-		not CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4
+		not (CirnoMod.config.jkrVals
+		and CirnoMod.config.jkrVals[G.SETTINGS.profile]
+		and CirnoMod.config.jkrVals[G.SETTINGS.profile].store
+		and CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4)
 		and love.keyboard.isDown{ 'lalt', 'ralt' }
 		and love.keyboard.isDown{ 'f4' }
 		and (CirnoMod.dabber ~= nil
