@@ -702,27 +702,44 @@ jokerLoc.nrmJkrs.j_blueprint = { -- name = "Blueprint",
 	}
 }
 
-jokerLoc.nrmJkrs.j_glass = { name = "Ice Joker",
-	text = {
+jokerLoc.nrmJkrs.j_glass = { name = "Ice Joker" }
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	jokerLoc.nrmJkrs.j_glass.text = {
 		"This Joker gains {X:mult,C:white} X#1# {} Mult",
         "for every {C:attention}#2#",
         "that is destroyed",
         "{C:inactive}(Currently {X:mult,C:white} X#3# {C:inactive} Mult)",
 		"{s:0.8,C:inactive}What's cooler than being cool?"
 	}
-}
-
-SMODS.Joker:take_ownership('glass', {
-	loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
-		
-		return { vars = {
-			to_big(card.ability.extra),
-			G.localization.descriptions.Enhanced.m_glass.name,
-			to_big(card.ability.x_mult)
-		} }
-	end
-}, true)
+	
+	SMODS.Joker:take_ownership('glass', {
+		loc_vars = function(self, info_queue, card)
+			info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
+			
+			if CirnoMod.miscItems.atlasCheck(card) then
+				return { vars = {
+					to_big(card.ability.extra),
+					G.localization.descriptions.Enhanced.m_glass.name,
+					to_big(card.ability.x_mult or 1)
+				} }
+			end
+			
+			return { vars = {
+				to_big(card.ability.extra),
+				to_big(card.ability.x_mult or 1)
+			} }
+		end
+	}, true)
+else
+	jokerLoc.nrmJkrs.j_glass.text = {
+		"This Joker gains {X:mult,C:white} X#1# {} Mult",
+        "for every {C:attention}"..G.localization.descriptions.Enhanced.m_glass.name,
+        "that is destroyed",
+        "{C:inactive}(Currently {X:mult,C:white} X#3# {C:inactive} Mult)",
+		"{s:0.8,C:inactive}What's cooler than being cool?"
+	}
+end
 
 jokerLoc.nrmJkrs.j_scary_face = { name = "Curly's Scary Face",
 	text = {
@@ -945,16 +962,16 @@ jokerLoc.nrmJkrs.j_business = { -- name = "Business Card"
     }
 }
 
---[[ Unsure what to do for Supernova.
-jokerLoc.nrmJkrs.j_supernova, "name", "Supernova")
 jokerLoc.nrmJkrs.j_supernova = { name = "Supernova",
 	text = {
 		"Adds the number of times",
         "{C:attention}poker hand{} has been",
-        "played this run to Mult"
+        "played this run to Mult",
+		"{s:0.8,C:inactive}Goats are a crucial",
+		"{s:0.8,C:inactive}ingredient when making",
+		"{s:0.8,C:inactive}nuclear bombs"
 	}
 }
-]]
 
 if CirnoMod.config.allowCosmeticTakeOwnership then
 	SMODS.Joker:take_ownership('supernova', {
@@ -1501,8 +1518,32 @@ jokerLoc.nrmJkrs.j_oops = { name = "Oops! All 6s",
 	}
 }
 
-jokerLoc.nrmJkrs.j_four_fingers = { name = "Four Panels",
-	text = {
+jokerLoc.nrmJkrs.j_four_fingers = { name = "Four Panels" }
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	jokerLoc.nrmJkrs.j_four_fingers.text = {
+		"All {C:attention}Flushes{} and",
+        "{C:attention}#1#s{} can be",
+        "made with {C:attention}4{} cards",
+		"{s:0.8,C:inactive}Do I look like I know",
+		"{s:0.8,C:inactive}what a .jpg is?",
+		"{s:0.8,C:inactive}I just want a picture of",
+		"{s:0.8,C:inactive}a god-dang hotdog"
+	}
+	
+	SMODS.Joker:take_ownership('four_fingers', {
+		set_badges = function(self, card, badges)
+			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
+				CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_four_fingers')
+			end
+		end,
+		
+		loc_vars = function(self, info_queue, card)
+			return { vars = { localize('Straight', 'poker_hands') } }
+		end
+	}, true)
+else
+	jokerLoc.nrmJkrs.j_four_fingers.text = {
 		"All {C:attention}Flushes{} and",
         "{C:attention}Straights{} can be",
         "made with {C:attention}4{} cards",
@@ -1511,16 +1552,6 @@ jokerLoc.nrmJkrs.j_four_fingers = { name = "Four Panels",
 		"{s:0.8,C:inactive}I just want a picture of",
 		"{s:0.8,C:inactive}a god-dang hotdog"
 	}
-}
-
-if CirnoMod.config.allowCosmeticTakeOwnership then
-	SMODS.Joker:take_ownership('four_fingers', {
-		set_badges = function(self, card, badges)
-			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
-				CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_four_fingers')
-			end
-		end
-	}, true)
 end
 
 jokerLoc.nrmJkrs.j_gros_michel = { name = "cirLami",
@@ -2081,27 +2112,30 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	jokerLoc.nrmJkrs.j_runner.text = {
         "Gains {C:chips}+#2#{} Chips",
         "if played hand",
-        "contains a {C:attention}Straight{}",
+        "contains a {C:attention}#3#{}",
         "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
-		"{s:0.8,C:inactive}#3#"
+		"{s:0.8,C:inactive}#4#"
     }
 	
 	SMODS.Joker:take_ownership('runner', {
 		loc_vars = function(self, info_queue, card)
-			local RT = { vars = { card.ability.extra.chips, card.ability.extra.chip_mod } }
+			local RT = { vars = { card.ability.extra.chips, 
+					card.ability.extra.chip_mod,
+					localize('Straight', 'poker_hands')
+				} }
 			
 			if
 				card.edition
 				and card.edition.key == 'e_polychrome'
 			then
-				RT.vars[3] = "Rainbow splits, PB inbound!"
+				RT.vars[4] = "Rainbow splits, PB inbound!"
 			elseif
 				card.edition
 				and card.edition.key == 'e_negative'
 			then
-				RT.vars[3] = "Wow, gold splits!"
+				RT.vars[4] = "Wow, gold splits!"
 			else
-				RT.vars[3] = "Keep going, you're at PB pace"
+				RT.vars[4] = "Keep going, you're at PB pace"
 			end
 			
 			return RT
@@ -2296,8 +2330,27 @@ jokerLoc.grnJkr.j_green_joker = { name = "4chan",
 	}
 }
 
-jokerLoc.nrmJkrs.j_superposition = { name = "Discerning Tastes",
-	text = {
+jokerLoc.nrmJkrs.j_superposition = { name = "Discerning Tastes" }
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	jokerLoc.nrmJkrs.j_superposition.text = {
+		"Create a {C:tarot}Tarot{} card if",
+        "poker hand contains an",
+        "{C:attention}Ace{} and a {C:attention}#1#{}",
+        "{C:inactive}(Must have room)",
+		"{s:0.8,C:inactive}You know, {s:0.8,E:1,C:inactive}Cirno star star star POI",
+		"{s:0.8,C:inactive}and {s:0.8,E:1,C:inactive}JOHN CENA{s:0.8,C:inactive} seem to make pretty",
+		"{s:0.8,C:inactive}interesting choices when it",
+		"{s:0.8,C:inactive}comes to women."
+	}
+	
+	SMODS.Joker:take_ownership('superposition', {
+		loc_vars = function(self, info_queue, card)
+			return { vars = { localize('Straight', 'poker_hands') } }
+		end
+	}, true)
+else
+	jokerLoc.nrmJkrs.j_superposition.text = {
 		"Create a {C:tarot}Tarot{} card if",
         "poker hand contains an",
         "{C:attention}Ace{} and a {C:attention}Straight{}",
@@ -2307,7 +2360,7 @@ jokerLoc.nrmJkrs.j_superposition = { name = "Discerning Tastes",
 		"{s:0.8,C:inactive}interesting choices when it",
 		"{s:0.8,C:inactive}comes to women."
 	}
-}
+end
 
 jokerLoc.nrmJkrs.j_todo_list = { name = "Sub Goals",
 	text = {
@@ -2520,23 +2573,34 @@ if CirnoMod.config.allowCosmeticTakeOwnership then
 	}, true)
 end
 
-jokerLoc.nrmJkrs.j_shortcut = { name = "Impossible Crossword",
-	text = {
-		"Allows {C:attention}Straights{} to be",
+jokerLoc.nrmJkrs.j_shortcut = { name = "Impossible Crossword" }
+
+if CirnoMod.config.allowCosmeticTakeOwnership then
+	jokerLoc.nrmJkrs.j_shortcut.text = {
+		"Allows {C:attention}#1#s{} to be",
         "made with gaps of {C:attention}1 rank",
         "{C:inactive}(ex: {C:attention}10 8 6 5 3{C:inactive})",
         "{s:0.8,C:inactive}Stop stalling, Cirno"
 	}
-}
-
-if CirnoMod.config.allowCosmeticTakeOwnership then
+	
 	SMODS.Joker:take_ownership('shortcut', {
 		set_badges = function(self, card, badges)
 			if CirnoMod.miscItems.atlasCheck(card) and CirnoMod.miscItems.isUnlockedAndDisc(card) then
 				CirnoMod.miscItems.addBadgesToJokerByKey(badges, 'j_shortcut')
 			end
+		end,
+		
+		loc_vars = function(self, info_queue, card)
+			return { vars = { localize('Straight', 'poker_hands') } }
 		end
 	}, true)
+else
+	jokerLoc.nrmJkrs.j_shortcut.text = {
+		"Allows {C:attention}Straights{} to be",
+        "made with gaps of {C:attention}1 rank",
+        "{C:inactive}(ex: {C:attention}10 8 6 5 3{C:inactive})",
+        "{s:0.8,C:inactive}Stop stalling, Cirno"
+	}
 end
 
 jokerLoc.lgndJkrs.j_hologram = { name = "\"Hologram\"",

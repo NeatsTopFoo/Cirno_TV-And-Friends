@@ -20,8 +20,17 @@ local cardSuitRanks = {
 	}
 }
 
+if
+	SMODS.Mods.BalatroDarkMode
+	and not CirnoMod.config.ignoreDarkModeCompat
+then
+	cardSuitRanks.skin_1.path = 'Additional/cir_Cards_1_darkCompat.png'
+end
+
 -- Which ranks to display in the 'customize deck' screen, in the same order
 local cardRanksDisplay = { 'Ace', 'King', 'Queen', 'Jack' }
+
+CirnoMod.miscItems.deckSkins = {}
 
 for dKey, dSkin in pairs(cardSuitRanks) do
 	-- Establishes the graphic to use and sets it up so it can be read
@@ -37,7 +46,7 @@ for dKey, dSkin in pairs(cardSuitRanks) do
 		if dSkin[Csuit] then
 			local thisSkinKey = Csuit.."_"..dKey
 			
-			SMODS.DeckSkin{
+			CirnoMod.miscItems.deckSkins[thisSkinKey] = SMODS.DeckSkin{
 				key = thisSkinKey, -- See palette key.
 				suit = Csuit,
 				loc_txt = {
@@ -65,7 +74,28 @@ for dKey, dSkin in pairs(cardSuitRanks) do
 						their high contrast variants.]]
 						hc_default = true
 					}
-				}
+				},
+				has_ds_card_ui = function(card, deckskin, palette)
+					if CirnoMod.miscItems.AKQJ_Shorthander[card.base.value] then 
+						if not card.ability.cir_face_infoKey then
+							card:add_sticker('cir_face_infoKey', true)
+						end
+						
+						return true
+					end
+				end,
+				generate_ds_card_ui = function(card, deckskin, palette, info_queue, desc_nodes, specific_vars, full_UI_table)
+					card.dsPrev = true
+					
+					local artistKey = 'ds_DaemonTsun'
+					
+					if card.base.value == 'Ace' then
+						artistKey = 'ds_NTF'
+					end
+					
+					localize{type = 'other', key = 'ds_ArtBy', nodes = desc_nodes, vars = {}} 
+					localize{type = 'other', key = artistKey, nodes = desc_nodes, vars = {}}
+				end
 			}
 		
 			-- Adds the name of each deck skin as it will be internally referred to for art credit detection

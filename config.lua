@@ -23,9 +23,9 @@ return {
 	['startedModOnce'] = false,
 	['quittingIsAnOption'] = true,
 	['testVar'] = false,
-	['jkrVals'] = {
-		{ store = {}, encountered = {} },
-		{ store = {}, encountered = {} },
-		{ store = {}, encountered = {} }
+	['jkrVals'] = { -- Being deprecated
+		{ store = { friendDeckUnlocks = {} }, encountered = {} },
+		{ store = { friendDeckUnlocks = {} }, encountered = {} },
+		{ store = { friendDeckUnlocks = {} }, encountered = {} }
 	}
 }

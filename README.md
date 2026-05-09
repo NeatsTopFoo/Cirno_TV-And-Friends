@@ -45,8 +45,9 @@ DaemonTsun's art contributions are public domain - Some memes or pictures are no
 - Adds:	
   - Various fun flavour text here and there
   - Custom Deck skins, 1 for each suit featuring custom Face cards and Aces
-  - 52 custom Jokers
-  - 2 custom Spectral Cards
+  - 69 custom Jokers (6 unique to Custom Decks)
+  - 5 custom Decks
+  - 4 custom Spectral Cards
   - 1 custom Challenge
   - Sometimes, quitting is an option. :)
 
@@ -61,11 +62,13 @@ This mod requires [Lovely](https://github.com/ethangreen-dev/lovely-injector), [
 **Installing Malverk:**
 - After following the previously linked tutorial, download the latest version of Malverk from its releases page - At the time of writing, getting Malverk's "Source code" .zip *should* be fine (and is recommended) unless that page explicitly states something specific for you to download instead.
 - Either by extracting the contents of or otherwise opening the Malverk .zip, you should get a folder of the same name as the zip file (or similar). Move that folder to the .../Balatro/mods directory you created in the previous tutorial.
+- As of Steamodded 1501a, *extracting the zip file is no longer required*. You may simply place the zip file into your mods directory.
 - (To be safe) Ensure that Balatro runs properly. 
 
 **Installing Cirno_TV & Friends:**
 - Download the latest version of this mod from the releases page.
 - Either by extracting the contents of or otherwise opening this mod's .zip, you should get a folder of the same name as the zip file (or similar). Move that folder to the .../Balatro/mods directory you created in the previous tutorial.
+- As of Steamodded 1501a, *extracting the zip file is no longer required*. You may simply place the zip file into your mods directory.
 
 **First-Time Setup:**
 *Changes may not immediately appear* as the majority of changes need to be enabled via Malverk's textures menu, with other minor changes enabled in this mod's config menu.
@@ -85,7 +88,7 @@ To enable textures:
 **Updating this mod:**
 - If this mod has since added any new dependencies since the last time you downloaded it (We probably won't? But generally it's safer to check than be confused why things broke later, and for whatever reason the possibility isn't zero), get those dependencies and ensure Balatro runs.
 - Delete any previous version of this mod that exists in the .../Balatro/mods directory.
-- Follow the steps outlined in **Installing this mod** again.
+- Follow the steps outlined in **Installing this mod** again - For any file conflicts, overwrite all existing files.
 
 ## Credits
 - The Cirno_TV & Friends mod is a collaborative effort between [DaemonTsun](https://bsky.app/profile/daemontsun.bsky.social) & [NοpeTooFast](https://bsky.app/profile/nopetoofast.bsky.social), additionally with some idea and art contributions from the Cirno_TV community discord (Including emotes by [Solgryn](https://twitch.tv/solgryn) & [RadicalHighway](https://twitch.tv/radicalhighway)) - (Additionally, some RadicalHighway art used as reference)
@@ -96,5 +99,5 @@ To enable textures:
 - Code that changes the colours of the main menu vortex was based off of similar functionality in the [Trance](https://github.com/SpectralPack/Trance) mod.
 - [Aikoyori](https://bsky.app/profile/aikoyori.xyz), BreezeBuilder, Eremel, Somethingcom515 and many other members of the Balatro modding community for help with code & troubleshooting code issues.
 - [Cirno_TV](https://www.twitch.tv/Cirno_TV/) for the art used for the Misprint Joker.
-- [artbydefault](https://bsky.app/profile/artbydefault.bsky.social), [Yuniiho](https://www.twitch.tv/yuniiho), [Zenko404](https://www.twitch.tv/zenko404), [Yakitsuki](https://www.twitch.tv/yakitsuki/), [Chocpocalypse (NSFW Warning)](https://x.com/Chocpocalypse), Touhou Cannonball, & CloudxMiku for art used as reference
+- [Girl_DM_](https://www.twitch.tv/Girl_DM_), [artbydefault](https://bsky.app/profile/artbydefault.bsky.social), [Yuniiho](https://www.twitch.tv/yuniiho), [Zenko404](https://www.twitch.tv/zenko404), [Yakitsuki](https://www.twitch.tv/yakitsuki/), [Chocpocalypse (NSFW Warning)](https://x.com/Chocpocalypse), Touhou Cannonball, & CloudxMiku for art used as reference
 - There's also credits included as part of in-game tooltips to any cards that are edited & added; Which are optionally disableable in the mod's config menu, which also contains a non-exhaustive credits tab.

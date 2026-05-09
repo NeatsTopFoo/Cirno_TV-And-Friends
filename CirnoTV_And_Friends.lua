@@ -1,4 +1,4 @@
-local cMod_SMODSLoc = SMODS.find_mod("CTVaF")[1]
+local cMod_SMODSLoc = SMODS.Mods.CTVaF
 
 cMod_SMODSLoc.optional_features = function()
 	return {
@@ -9,12 +9,22 @@ end
 
 SMODS.Sound:register_global()
 
-CirnoMod = {}
+CirnoMod = { funcQueue_mainMenu = {} }
 CirnoMod.id = cMod_SMODSLoc.id
 CirnoMod.path = cMod_SMODSLoc.path
 CirnoMod.config = cMod_SMODSLoc.config
 
 CirnoMod.miscItems = assert(SMODS.load_file("scripts/other/miscItems.lua"))()
+
+for k, clrFunc in pairs(CirnoMod.miscItems.FriendToClr_Raw) do
+	CirnoMod.miscItems.friendDeckBadgeClrs[k] = SMODS.Gradient{
+		key = k..'deckClr',
+		colours = SMODS.merge_lists{
+			{ CirnoMod.miscItems.colours.cirKeepsakeClr },
+			clrFunc()
+		}
+	}
+end
 
 --[[ My understanding of the way Talisman works is
 that you have to run every major component of a
@@ -27,9 +37,8 @@ is around, then it defaults io its to_big().
 This way, you can just run everything through to_big()
 and it will work.
 ...It's very stupid. It's also the second best
-solution. The first best solution is to mark Talisman
-as a conflicting mod and wait until Talisman implements
-a better method :^)
+solution. The first best solution is to use Amulet and/or
+SpectraLib.
 But people have been asking me about Talisman compatibility,
 so this... Shooould work? For now? I hope? This mod
 is primarily just a texture pack in the first place,
@@ -37,9 +46,9 @@ so]]
 to_big = to_big or function(x) return x end
 
 if
-	#SMODS.find_mod("soj") > 0
+	#SMODS.find_mod("SealsOnEverything") > 0
 then
-	CirnoMod.miscItems.otherModPresences.isSealsOnJokersPresent = true
+	CirnoMod.miscItems.otherModPresences.isSealsOnEverythingPresent = true
 end
 
 CirnoMod.miscItems.getLocColour = function(colourNameStr, defaultColourStr)
@@ -105,7 +114,7 @@ if CirnoMod.config.titleLogo then
 	}
 	
 	-- Replaces the main menu Ace with Blueprint.
-	SMODS.current_mod.menu_cards = function()
+	cMod_SMODSLoc.menu_cards = function()
 		if CirnoMod.config.titleLogo then
 			return {
 				{ key = 'j_blueprint' },
@@ -119,53 +128,7 @@ CirnoMod.quittingIsAnOption = function()
 	local ret = nil
 	
 	if CirnoMod.config.quittingIsAnOption then
-		ret = {n=G.UIT.ROOT, config={align = "cm", padding = 0.05, colour = G.C.CLEAR}, nodes={ {
-			n = G.UIT.C,
-			config = { align = "cm" },
-			nodes = {{
-				n = G.UIT.R,
-				config = { align = "cm" },
-				nodes = {
-					create_option_cycle({label = localize('b_set_gamespeed'),scale = 0.8, options = {0.5, 1, 2, 4}, opt_callback = 'change_gamespeed', current_option = (G.SETTINGS.GAMESPEED == 0.5 and 1 or G.SETTINGS.GAMESPEED == 4 and 4 or G.SETTINGS.GAMESPEED + 1)}),
-					
-					create_option_cycle({w = 5, label = localize('b_set_play_discard_pos'),scale = 0.8, options = localize('ml_play_discard_pos_opt'), opt_callback = 'change_play_discard_position', current_option = (G.SETTINGS.play_button_pos)}),
-					
-					G.F_RUMBLE and create_toggle({label = localize('b_set_rumble'), ref_table = G.SETTINGS, ref_value = 'rumble'}) or nil,
-					
-					create_slider({label = localize('b_set_screenshake'),w = 4, h = 0.4, ref_table = G.SETTINGS, ref_value = 'screenshake', min = 0, max = 100}),
-					
-					create_toggle({label = localize('ph_display_stickers'), ref_table = G.SETTINGS, ref_value = 'run_stake_stickers'}),
-					
-					create_toggle({label = localize('b_high_contrast_cards'), ref_table = G.SETTINGS, ref_value = 'colourblind_option', callback = G.FUNCS.refresh_contrast_mode}),
-					
-					create_toggle({label = localize('b_reduced_motion'), ref_table = G.SETTINGS, ref_value = 'reduced_motion'}),
-					
-					G.F_CRASH_REPORTS and create_toggle({label = localize('b_set_crash_reports'), ref_table = G.SETTINGS, ref_value = 'crashreports', info = localize('ml_crash_report_info')}) or nil,
-					
-					{
-						n = G.UIT.R, -- Spacer wrapper
-						config = {
-							r = 0.1,
-							padding = 0.0,
-							align = 'tm',
-							colour = G.C.CLEAR
-						},
-						nodes = {
-							{
-								-- Spacer
-								n = G.UIT.B,
-								config = {
-									colour = G.C.CLEAR,
-									w = 0.05,
-									h = 0.35
-								}
-							}
-						}
-					},
-					
-					UIBox_button{button = 'quit', colour = G.C.RED, label = {localize('b_quit_cap')}, scale = 0.7}
-			}}}}
-		}}
+		ret = UIBox_button{button = 'quit', colour = G.C.RED, label = {localize('b_quit_cap')}, scale = 0.7}
 	end
 	
 	return ret
@@ -254,16 +217,28 @@ CirnoMod.ParseVanillaCredit = function(card, specific_vars, cardBackup)
 			and specific_vars.value
 		then
 			if
-				CirnoMod.checkDeckSkinActive(specific_vars.suit)
+				not SMODS.has_no_rank(cardBackup)
+				and CirnoMod.checkDeckSkinActive(specific_vars.suit)
 				and CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit]]
 				and not cardBackup.ability.cir_face_infoKey
 				and CirnoMod.miscItems.checkSkinCard(specific_vars.value)
 			then
 				cardBackup:add_sticker('cir_face_infoKey', true)
+			elseif
+				cardBackup.ability.cir_face_infoKey
+				and not (CirnoMod.checkDeckSkinActive(specific_vars.suit)
+				and CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[specific_vars.suit]])
+			then
+				cardBackup.ability.cir_face_infoKey = nil
 			end
 			
 			return nil
 		end
+	end
+	
+	-- Attempt at fixing the main menu text thing
+	if keyToCheck and string.sub(keyToCheck, 1, 2) == 'b_' then
+		return nil
 	end
 	
 	return CirnoMod.parseKey_ToCreditToolTip(keyToCheck)
@@ -296,12 +271,18 @@ CirnoMod.miscItems.faceInfoSticker = SMODS.Sticker{
 	pos = { x = 4, y = 3 },
 	badge_colour = CirnoMod.miscItems.colours.whiteOnly,
 	sets = {},
+	no_collection = true,
 	loc_vars = function(self, info_queue, card)
-		local ret = { key = 'ignoreThis' }
+		local ret = { key = 'faceInfoSticker' }
 		local mySuit = card.base.suit
 		local myValue = card.base.value
 		
 		if
+			card.dsPrev
+			or not CirnoMod.config.artCredits
+		then
+			ret.key = 'cir_forRemoval'
+		elseif
 			CirnoMod.checkDeckSkinActive(mySuit)
 			and CirnoMod.miscItems.deckSkinWhich[G.SETTINGS.CUSTOM_DECK.Collabs[mySuit]]
 		then
@@ -333,7 +314,7 @@ end
 
 -- Additional Custom Jokers
 if CirnoMod.config.addCustomJokers then
-	local jkrLoadTable = {}
+	CirnoMod.jkrLoadTable = {}
 	
 	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'cmn')
 	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'upgCmn')
@@ -343,6 +324,9 @@ if CirnoMod.config.addCustomJokers then
 	
 	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'rare')
 	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'upgRare')
+	
+	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'kpsk')
+	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'upgKpsk')
 	
 	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'lgnd')
 	table.insert(CirnoMod.miscItems.jkrLoadOrder, 'upgLgnd')
@@ -416,11 +400,11 @@ if CirnoMod.config.addCustomJokers then
 								Jkr_.loadOrder
 								and type(Jkr_.loadOrder) == 'string'
 							then
-								if not jkrLoadTable[Jkr_.loadOrder] then
-									jkrLoadTable[Jkr_.loadOrder] = {}
+								if not CirnoMod.jkrLoadTable[Jkr_.loadOrder] then
+									CirnoMod.jkrLoadTable[Jkr_.loadOrder] = {}
 								end
 								
-								table.insert(jkrLoadTable[Jkr_.loadOrder], Jkr_)
+								table.insert(CirnoMod.jkrLoadTable[Jkr_.loadOrder], Jkr_)
 							else
 								SMODS.Joker(Jkr_)
 							end
@@ -441,8 +425,8 @@ if CirnoMod.config.addCustomJokers then
 							jokerInfo.jokerConfig.loadOrder
 							and type(jokerInfo.jokerConfig.loadOrder) == 'string'
 						then
-							if not jkrLoadTable[jokerInfo.jokerConfig.loadOrder] then
-								jkrLoadTable[jokerInfo.jokerConfig.loadOrder] = {}
+							if not CirnoMod.jkrLoadTable[jokerInfo.jokerConfig.loadOrder] then
+								CirnoMod.jkrLoadTable[jokerInfo.jokerConfig.loadOrder] = {}
 							end
 							
 							table.insert(jkrLoadOrder[jokerInfo.jokerConfig.loadOrder], jokerInfo.jokerConfig)
@@ -456,17 +440,95 @@ if CirnoMod.config.addCustomJokers then
 			end
 		end	
 	end
+end
+
+-- Additional Custom Decks
+if CirnoMod.config.addCustomDecks then
+	local deckInfo = assert(SMODS.load_file('scripts/additions/customDecks.lua'))()
 	
+	cMod_SMODSLoc.custom_card_areas = function(_G)
+		CirnoMod.keepsake_area = nil
+		
+		if CirnoMod.miscItems.friendDeckKeys[_G.GAME.selected_back_key.key] then
+			_G.keepsake_area = CardArea(
+				_G.consumeables.T.x + 2.6, _G.consumeables.T.y + 2.93,
+				_G.CARD_W * 1.075, _G.jokers.T.h * 1.05, {
+					card_limit = 1,
+					type = 'joker',
+					highlight_limit = 1,
+					align_buttons = true,
+					no_card_count = true
+				}
+			)
+			CirnoMod.keepsake_area = _G.keepsake_area
+			
+			G.E_MANAGER:add_event(Event({
+				trigger = 'after',
+				blockable = true,
+				delay = 0.1,
+				func = (function()
+					if
+						#G.keepsake_area.cards <= 0
+						and G.GAME.selected_back.effect.center.keepsake_key
+						and G.P_CENTERS[G.GAME.selected_back.effect.center.keepsake_key]
+					then
+						local createdKeepsake = SMODS.add_card(G.GAME.selected_back.effect.center.keepsake_args or {
+							area = G.keepsake_area,
+							key = G.GAME.selected_back.effect.center.keepsake_key,
+							edition = SMODS.poll_edition{ no_negative = true }
+						})
+						
+						--[[
+						createdKeepsake:add_to_deck()
+						G.keepsake_area:emplace(createdKeepsake)
+						]]
+						
+						--[[
+						if
+							not G.P_CENTERS[G.GAME.selected_back.effect.center.keepsake_key].unlocked
+						then
+							--[[ Have to do all this horseplay
+							to force the keepsake to unlock if your
+							first run of this deck is seeded
+							local oldSeededUnlocksVal = SMODS.config.seeded_unlocks
+							SMODS.config.seeded_unlocks = true
+							SMODS.save_mod_config(SMODS)
+							
+							unlock_card(G.P_CENTERS[G.GAME.selected_back.effect.center.keepsake_key])
+							discover_card(G.P_CENTERS[G.GAME.selected_back.effect.center.keepsake_key])
+							
+							SMODS.config.seeded_unlocks = oldSeededUnlocksVal
+							SMODS.save_mod_config(SMODS)
+							
+							updateVisibleCards()
+						end
+						]]
+					end
+					return true
+				end)}))
+		end
+	end
+	
+	if deckInfo.deckConfigs and #deckInfo.deckConfigs > 0 then
+		for i, deck in ipairs (deckInfo.deckConfigs) do
+			SMODS.Back(deck)
+			table.insert(CirnoMod.miscItems.keysOfAllCirnoModItems, 'b_cir_'..deck.key)
+		end
+	end
+end
+
+if CirnoMod.jkrLoadTable then
 	for i, tbl in ipairs(CirnoMod.miscItems.jkrLoadOrder) do
-		if jkrLoadTable[tbl] and #jkrLoadTable[tbl] > 0 then
-			for i, _jkr in ipairs(jkrLoadTable[tbl]) do
+		if CirnoMod.jkrLoadTable[tbl] and #CirnoMod.jkrLoadTable[tbl] > 0 then
+			for i, _jkr in ipairs(CirnoMod.jkrLoadTable[tbl]) do
 				SMODS.Joker(_jkr)
 			end
 		end
 	end
 	
+	CirnoMod.jkrLoadTable = nil
 end
-	
+
 --[[ Hooks into the normal calculate_seal()
 to facilitate Red Seal Joker functionality
 and deal with instances of ]]
@@ -559,11 +621,14 @@ function Card:calculate_seal(context)
 	return oldSealCalc(self, context)
 end
 
+-- Mail-In Rebate & Flash Card Red Seal Fixes
 if
-	CirnoMod.miscItems.otherModPresences.isSealsOnJokersPresent == false
+	CirnoMod.miscItems.otherModPresences.isSealsOnEverythingPresent == false
 then
 	-- Fix for a weird-interaction with red seal on Mail-In Rebate
 	SMODS.Joker:take_ownership('mail', {
+			name = 'cir_sealedInRebate',
+			
 			calculate = function(self, card, context)
 				if
 					context.discard
@@ -581,6 +646,8 @@ then
 	
 	-- Fix for red seal not doing the reroll message on flash card, thanks to Somethingcom515
 	SMODS.Joker:take_ownership('j_flash', {
+		name = 'cir_flash_seal',
+		
         calculate = function(self, card, context)
             if context.reroll_shop and not context.blueprint then
                 SMODS.scale_card(card, {
@@ -590,7 +657,7 @@ then
                     no_message = true
                 })
                 return {
-                    message = localize({type = 'variable', key = 'a_mult', vars = {card.ability.extra}}),
+                    message = localize({type = 'variable', key = 'a_mult', vars = {to_big(card.ability.extra)}}),
                     colour = G.C.MULT,
                 }
             end
@@ -665,7 +732,15 @@ Negative across playing cards. ]]
 if CirnoMod.config.negativePCardsBalancing then
 	-- Adjusts Negative to make it always score.
 	SMODS.Edition:take_ownership('negative', {
-		always_scores = true 
+		always_scores = true,
+		
+		loc_vars = function(self, info_queue, card)
+			return { vars = { self.card_limit or card.card_limit or 1,
+					G.localization.descriptions.Joker.j_splash.name,
+					string.sub(G.localization.descriptions.Enhanced.m_stone.name, 1, #G.localization.descriptions.Enhanced.m_stone.name - 5)
+					}
+				}
+		end
 	}, true)
 	
 	--[[ Rewrites copy_card() to strip Negative if the
@@ -677,6 +752,15 @@ if CirnoMod.config.negativePCardsBalancing then
 		if CirnoMod.miscItems.isNegativePlayingCard(returnCard) then
 			returnCard:set_edition(nil, true, true)
 		end
+		
+		G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			blockable = true,
+			delay = 0.01,
+			func = function()
+				updateVisibleCards()
+				return true
+			end}))
 		
 		return returnCard
 	end
@@ -863,10 +947,14 @@ end
 
 if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball'] then
 	SMODS.Joker:take_ownership('8_ball', {
+		name = 'cir_8or9_ball',
+		
 		loc_vars = function(self, info_queue, card)
+			local numerator, denominator = SMODS.get_probability_vars(card or self, 1, card.ability.extra)
+			
 			local ret = { vars = {
-				''..(G.GAME and to_big(G.GAME.probabilities.normal) or 1), -- TODO: UPDATE TO NEW PROBABILITY READING METHOD
-				card.ability.extra
+				numerator,
+				denominator
 			} }
 			
 			if CirnoMod.config['8ballTo9ball'] then
@@ -887,14 +975,14 @@ if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball']
 				and (to_big(#G.consumeables.cards) + to_big(G.GAME.consumeable_buffer)) < to_big(G.consumeables.config.card_limit)
 				and context.cardarea == G.play
 			then
-				local checkFor = "8"
+				local checkFor = 8
 				
 				if CirnoMod.config['8ballTo9ball'] and CirnoMod.miscItems.atlasCheck(card) then
-					checkFor = "9"
+					checkFor = 9
 				end
 				
 				if
-					context.other_card.base.value == checkFor
+					context.other_card:get_id() == checkFor
 					and (SMODS.pseudorandom_probability(card, '8ball', 1, to_big(card.ability.extra))
 					or context.retrigger_joker)
 				then
@@ -906,11 +994,11 @@ if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball']
 							G.E_MANAGER:add_event(Event({
 								trigger = 'before',
 								delay = 0.0,
-								func = (function()
+								func = function()
 									SMODS.add_card({ set = 'Tarot' })
 									G.GAME.consumeable_buffer = 0
 									return true
-								end)}))
+								end}))
 							end
 						},
 						focus = card,
@@ -925,8 +1013,6 @@ if CirnoMod.config.allowCosmeticTakeOwnership or CirnoMod.config['8ballTo9ball']
 					return ret
 				end
 			end
-			
-			return { doNotRedSeal = true }
 		end
 	}, not CirnoMod.config['8ballTo9ball'])
 end
@@ -996,6 +1082,342 @@ function CirnoMod.blueprint_calcDol_effect(copier, copied_card, context)
 	
 	if copied_card.config.center.calc_dollar_bonus then
 		return copied_card.config.center:calc_dollar_bonus(copied_card, context)
+	end
+end
+
+CirnoMod.moneyLaundry_Increase = function()
+	if
+		G.GAME
+		and (to_big(G.GAME.cir_moneyLaundry.dolAccrued) < to_big(G.GAME.cir_moneyLaundry.dolCap)
+		or G.GAME.cir_moneyLaundry.uncapped)
+	then
+		G.GAME.cir_moneyLaundry.dolAccrued = to_big(G.GAME.cir_moneyLaundry.dolAccrued) + to_big(G.GAME.cir_moneyLaundry.dolEarn)
+		
+		local foundMoneyLaundries = SMODS.find_card('j_cir_moneyLaundry')
+			
+		if next(foundMoneyLaundries) then
+			for i, jkr in ipairs(foundMoneyLaundries) do
+				SMODS.calculate_effect({
+					message = to_big(G.GAME.cir_moneyLaundry.dolAccrued) > to_big(0) and SMODS.signed_dollars(to_big(G.GAME.cir_moneyLaundry.dolAccrued)) or '$0',
+					colour = G.C.MONEY,
+					doNotRedSeal = true
+				}, jkr)
+				
+				if
+					jkr.seal == 'Red'
+					and (to_big(G.GAME.cir_moneyLaundry.dolAccrued) < to_big(G.GAME.cir_moneyLaundry.dolCap)
+					or G.GAME.cir_moneyLaundry.uncapped)
+				then
+					SMODS.calculate_effect({ message = "Again!", doNotRedSeal = true }, jkr)
+					
+					G.GAME.cir_moneyLaundry.dolAccrued = to_big(G.GAME.cir_moneyLaundry.dolAccrued) + to_big(G.GAME.cir_moneyLaundry.dolEarn)
+					
+					SMODS.calculate_effect({
+						message = to_big(G.GAME.cir_moneyLaundry.dolAccrued) > to_big(0) and SMODS.signed_dollars(to_big(G.GAME.cir_moneyLaundry.dolAccrued)) or '$0',
+						colour = G.C.MONEY,
+						doNotRedSeal = true
+					}, jkr)
+				end
+			end
+		end
+	end
+end
+
+CirnoMod.wheelFailureIncrease = function()
+	if
+		G.GAME
+	then
+		if not G.GAME.wheelFailures then
+			G.GAME.wheelFailures = to_big(0)
+		end
+		
+		local foundNopes = SMODS.merge_lists{
+			SMODS.find_card('j_cir_nope_l'),
+			SMODS.find_card('j_cir_sadist')
+		}
+		
+		if next(foundNopes) then
+			for i, nope in ipairs(foundNopes) do
+				if i == 1 then
+					SMODS.scale_card(nope, {
+							ref_table = G.GAME,
+							ref_value = 'wheelFailures',
+							operation = function(ref_table, ref_value, initial, change)
+								ref_table[ref_value] = initial + to_big(1)
+							end,
+							block_overrides = { value = true, scalar = true },
+							no_message = true
+						})
+				end
+				
+				SMODS.calculate_effect(nope.config.center:onWheelFail(nope), nope)
+				
+				if nope.seal == 'Red' then
+					SMODS.scale_card(nope, {
+							ref_table = G.GAME,
+							ref_value = 'wheelFailures',
+							operation = function(ref_table, ref_value, initial, change)
+								ref_table[ref_value] = initial + to_big(1)
+							end,
+							block_overrides = { value = true, scalar = true },
+							no_message = true
+						})
+					
+					SMODS.calculate_effect(nope.config.center:onWheelFail(nope), nope)
+				end
+			end
+		else
+			G.GAME.wheelFailures = to_big(G.GAME.wheelFailures) + to_big(1)
+		end
+	end
+end
+
+cMod_SMODSLoc.calculate = function(self, context)
+	-- Ends the run if the player tries playing a 67 hand
+	if
+		not CirnoMod.config.suppress67Kill
+		and context.before
+		and ((#G.play.cards == 2
+		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[1], '6')
+		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[2], '7'))
+		or (#G.play.cards == 4
+		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[1], '6')
+		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[2], '7')
+		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[3], '6')
+		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[4], '7')))
+	then
+		CirnoMod.sixSevenAttenpted = true
+		G.STATE = G.STATES.GAME_OVER
+		G.STATE_COMPLETE = false
+	end
+	
+	if
+		context.before
+		and not G.GAME.seeded
+		and not CirnoMod.miscItems.friendDeckKeys[G.GAME.selected_back_key.key]
+		and #context.full_hand > 2
+		and CirnoMod.miscItems.get_cir_data('store').friendDeckUnlockCount
+		and CirnoMod.miscItems.get_cir_data('store').friendDeckUnlockCount < 16
+		and CirnoMod.miscItems.AKQJ_Shorthander[CirnoMod.miscItems.ID_To_String[context.full_hand[1]:get_id()]]
+	then
+		local allSame = CirnoMod.miscItems.cardShorthander(context.full_hand[1])
+		
+		for _i, pCard in ipairs(context.full_hand) do
+			if
+				SMODS.has_no_rank(pCard)
+				or SMODS.has_no_suit(pCard)
+				or (_i > 1
+				and CirnoMod.miscItems.cardShorthander(pCard) ~= allSame)
+			then
+				-- print('hand invalid for friend deck unlock')
+				allSame = nil
+				break
+			end
+		end
+		
+		if
+			allSame
+			and not CirnoMod.miscItems.get_cir_data('store').friendDeckUnlocks[allSame]
+		then
+			-- print('set '..allSame)
+			G.PROFILES[G.SETTINGS.profile].cir_data.store.friendDeckUnlocks[allSame] = true
+			
+			G.PROFILES[G.SETTINGS.profile].cir_data.store.friendDeckUnlockCount = CirnoMod.miscItems.getKeyedTableLength(G.PROFILES[G.SETTINGS.profile].cir_data.store.friendDeckUnlocks)
+			
+			G:save_progress()
+		end
+	end
+	
+	-- Dedicated auto end-of-round undebuffing for Jokers that use it
+	if 
+		context.end_of_round
+		and G.jokers
+		and G.jokers.cards
+		and #G.jokers.cards > 0
+	then
+		for i, jkr in ipairs(G.jokers.cards) do
+			if
+				jkr.ability.debuff_sources
+				and next(jkr.ability.debuff_sources)
+				and jkr.ability.debuff_sources.cir_Jkr_autoEORUndebuff
+			then
+				jkr:juice_up()
+				SMODS.debuff_card(jkr, false, 'cir_Jkr_autoEORUndebuff')
+			end
+		end
+	end
+	
+	if
+		G.GAME
+		and G.GAME.EoA_cardUndebuff
+		and context.ante_change
+		and context.ante_end
+	then
+		for i, pCard in ipairs(G.deck.cards) do
+			if
+				pCard.ability.debuff_sources
+				and next(pCard.ability.debuff_sources)
+				and pCard.ability.debuff_sources.cir_crd_autoEOAUndebuff
+			then
+				SMODS.debuff_card(pCard, false, 'cir_crd_autoEOAUndebuff')
+			end
+		end
+	end
+	
+	--[[ Money Laundry debugging
+	if
+		context.money_altered
+		and not (context.from_tarot
+		or context.from_shop
+		or context.from_scoring
+		or context.from_consumeable)
+	then
+		print(tprint(context))
+	end
+	]]
+	
+	--[[ Attempts to capture every instance of money earning (non-end-of-round)
+	from enhancements, Jokers, etc. or at least, as many as possible
+	i.e. Gold Cards, Gold Seals, Business Card, Reserved Parking, Mail-in Rebate, To-Do List
+	For Money Laundry
+	]]
+	if
+		not context.end_of_round
+		and not context.starting_shop
+		and (((context.money_altered
+		and to_big(context.amount) > to_big(0))
+		and ((context.cardarea == G.hand -- Capture held in hand effects
+		and #context.cardarea.cards > 0
+		and not (CirnoMod.miscItems.isAnyOfTheseStates(G.STATE, { 9, 10, 11, 15, 17, 18, 999 }))) -- Avoid duplicate triggers in booster packs as a result of there actually being a hand
+		or (context.from_tarot -- Doesn't work?
+		or context.from_scoring
+		or context.from_consumeable)))
+		or (context.selling_card
+		and not (#G.hand.cards > 0))
+		or (context.other_ret
+		and context.other_ret.dollars)
+		or (context.trigger_obj
+		and (context.result
+		and context.identifier == 'lucky_money')))
+	then		
+		CirnoMod.moneyLaundry_Increase()
+	end
+	
+	-- Resets money laundry accrued dollars on the next ante's first shop
+	if
+		context.starting_shop
+	then
+		if G.GAME.cir_moneyLaundry.lastRecordedAnte ~= G.GAME.round_resets.ante then
+			G.GAME.cir_moneyLaundry.dolAccrued = to_big(0)
+			
+			G.GAME.cir_moneyLaundry.lastRecordedAnte = G.GAME.round_resets.ante
+		end
+		
+		if
+			not CirnoMod.miscItems.get_cir_data('store').doneOneRunWMod
+		then
+			G.PROFILES[G.SETTINGS.profile].cir_data.store.doneOneRunWMod = true
+			G:save_progress()
+		end
+	end
+	
+	if
+		not context.blueprint
+		and context.pseudorandom_result
+		and not context.result
+		and context.trigger_obj
+		and context.trigger_obj.config
+		and context.trigger_obj.config.center -- Yes, these nil checks are required to prevent a crash
+		and context.trigger_obj.config.center.key == 'c_wheel_of_fortune'
+	then
+		CirnoMod.wheelFailureIncrease()
+	end
+	
+	if G.GAME.cir_banned_objects and #G.GAME.cir_banned_objects > 0 then
+		local removeCount = 0
+		
+		for _, entry in ipairs(G.GAME.cir_banned_objects) do
+			local getSourceObj = entry.source.obj_key == 'back' and G.GAME.selected_back.effect.center or G.P_CENTERS[entry.source.obj_key]
+			
+			if
+				getSourceObj
+				and getSourceObj[entry.source.func_name]
+				and type(getSourceObj[entry.source.func_name]) == 'function'
+				and getSourceObj[entry.source.func_name](context)
+			then
+				G.GAME.banned_keys[entry.key] = nil
+				entry.to_remove = true
+				removeCount = removeCount + 1
+			end
+		end
+		
+		while removeCount > 0 do
+			for i = 1, #G.GAME.cir_banned_objects do
+				if
+					G.GAME.cir_banned_objects[i]
+					and G.GAME.cir_banned_objects[i].to_remove
+				then
+					table.remove(G.GAME.cir_banned_objects, i)
+					removeCount = removeCount - 1
+				end
+			end
+		end
+	end
+end
+
+CirnoMod.ban_obj = function(key, source_table)
+	if G.GAME and key and not G.GAME.banned_keys[key] then
+		if not source_table then
+			G.GAME.banned_keys[key] = true
+		else
+			if
+				source_table.obj_key
+				and source_table.func_name
+				and (G.P_CENTERS[source_table.obj_key]
+				or source_table.obj_key == 'back')
+			then
+				local getSourceObj = source_table.obj_key == 'back' and G.GAME.selected_back.effect.center or G.P_CENTERS[source_table.obj_key]
+				
+				if
+					getSourceObj
+					and getSourceObj[source_table.func_name]
+					and type(getSourceObj[source_table.func_name]) == 'function'
+				then
+					table.insert(G.GAME.cir_banned_objects, {
+						key = key,
+						source = source_table
+					})
+					
+					return true
+				end
+			end
+		end
+	end
+end
+
+CirnoMod.addItemToGuaranteeQueue = function(key, type)
+	if not G.GAME or not key or not type then return end
+	
+	if #G.GAME.cir_guarantee_queue > 0 then
+		for _, guarantee in ipairs(G.GAME.cir_guarantee_queue) do
+			if guarantee.key == key then
+				return false
+			end
+		end
+	end
+	
+	table.insert(G.GAME.cir_guarantee_queue, { key = key, type = type })
+	return true
+end
+
+CirnoMod.add_to_infoQueue = function(c, card, loc_vars, specific_vars, info_queue, card_type, badges, main_start, main_end)
+	if
+		G.GAME
+		and G.GAME.selected_back_key
+		and G.GAME.selected_back.effect.center.add_to_infoQueue
+		and type(G.GAME.selected_back.effect.center.add_to_infoQueue) == 'function'
+	then
+		G.GAME.selected_back.effect.center.add_to_infoQueue(card or c, G.GAME.selected_back, info_queue, specific_vars)
 	end
 end
 
@@ -1111,20 +1533,25 @@ function Game:main_menu(change_context)
 	
 	main_menuRef(self, change_context) -- Calls the normal main_menu() function in Game.
 	
-	-- Set Tarot colour.
-	if
-		CirnoMod.config.malverkReplacements
-		and CirnoMod.miscItems.colours.tarot
-	then
-		G.C.SECONDARY_SET.Tarot = CirnoMod.miscItems.colours.tarot
+	if CirnoMod.config.malverkReplacements then
+		-- Set Tarot colour.
+		if CirnoMod.miscItems.colours.tarot then
+			G.C.SECONDARY_SET.Tarot = CirnoMod.miscItems.colours.tarot
+		end
+		
+		-- Set Planet colour (If Planets Are Hus is active)
+		if
+			CirnoMod.config.planetsAreHus
+			and CirnoMod.miscItems.colours.planet
+		then
+			G.C.SECONDARY_SET.Planet = CirnoMod.miscItems.colours.planet
+		end
 	end
 	
-	-- Set Planet colour (If Planets Are Hus is active)
-	if
-		CirnoMod.config.planetsAreHus
-		and CirnoMod.miscItems.colours.planet
-	then
-		G.C.SECONDARY_SET.Planet = CirnoMod.miscItems.colours.planet
+	if #CirnoMod.funcQueue_mainMenu > 0 then
+		while #CirnoMod.funcQueue_mainMenu > 0 do
+			table.remove(CirnoMod.funcQueue_mainMenu, 1)()
+		end
 	end
 	
 	if CirnoMod.config.additionalChallenges then
@@ -1152,6 +1579,7 @@ function Game:main_menu(change_context)
 		renamed or w/e.]]
 	end
 	
+	CirnoMod.miscItems.profileStoredVarsInitCheck()
 	titleCard_polyAndCycler()
 end
 
@@ -1159,7 +1587,24 @@ local load_profRef = Game.load_profile
 function Game:load_profile(_profile)
 	load_profRef(self, _profile)
 	
+	CirnoMod.miscItems.profileStoredVarsInitCheck()
 	titleCard_polyAndCycler()
+end
+
+local old_highlight = Card.highlight
+function Card.highlight(self, is_highlighted)
+	if
+		is_highlighted
+		and self.config.center.cir_btn_use
+		and type(self.config.center.cir_btn_use) == 'function'
+	then
+		self.children.cir_btn_use = CirnoMod.miscItems.cir_buttonUI(self)
+	elseif self.children.cir_btn_use then
+		self.children.cir_btn_use:remove()
+		self.children.cir_btn_use = nil
+	end
+	
+	return old_highlight(self, is_highlighted)
 end
 
 --[[
@@ -1167,6 +1612,94 @@ Hooks for things like challenge functionality.
 Challenge functionality is a little weird and
 primarily facilitated by checking G.GAME.modifiers
 for the challenge id.]]
+--[[
+local old_smAddToPool = SMODS.add_to_pool
+SMODS.add_to_pool = function(prototype_obj, args)
+	if
+		prototype_obj.key
+		and G.GAME
+		and G.GAME.cir_banned_objects
+		and G.GAME.cir_banned_objects[prototype_obj.key]
+	then
+		if
+			G.GAME.cir_banned_objects[prototype_obj.key].pool_override
+			and type(G.GAME.cir_banned_objects[prototype_obj.key].pool_override) == 'function'
+		then
+			return G.GAME.cir_banned_objects[prototype_obj.key].pool_override(prototype_obj, args)
+		else
+			return false
+		end
+	end
+	
+	return old_smAddToPool(prototype_obj, args)
+end
+]]
+
+local old_smShowman = SMODS.showman
+function SMODS.showman(card_key)
+	if next(SMODS.find_card('j_cir_best_buds')) then
+		return true
+	end
+	
+	return old_smShowman(card_key)
+end
+
+local old_smCUT = SMODS.create_unlock_text
+function SMODS.create_unlock_text(center)
+	if center then
+		if
+			center.rarity == 'cir_keepsake_r'
+			or center.key == 'j_cir_dawnbreaker'
+		then
+			return 'Keepsake'
+		end
+	end
+	
+	return old_smCUT(center)
+end
+
+local old_CFU = check_for_unlock
+function check_for_unlock(args)
+	local doSave = false
+	
+	if args.type then
+		if args.type == 'win_deck' then
+			if 
+				G.GAME
+				and not G.GAME.seeded
+				and CirnoMod.miscItems.get_cir_data('store', true)
+				and string.sub(G.GAME.selected_back_key, 1, 6) == 'b_cir_'
+			then
+				if not G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks then
+					G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks = {}
+					doSave = true
+				end
+				
+				if type(G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key]) ~= 'table' then
+					G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key] = {}
+					doSave = true
+				end
+				
+				if G.GAME.applied_stakes and #G.GAME.applied_stakes > 0 then
+					for _, applied_stake in ipairs(G.GAME.applied_stakes) do
+						G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key][applied_stake] = G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key][applied_stake] or 0
+						
+						G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key][applied_stake] = G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key][applied_stake] + 1
+						
+						doSave = true
+					end
+				end
+			end
+		end
+	end
+	
+	if doSave then
+		G:save_progress()
+	end
+	
+	old_CFU(args)
+end
+
 local oldStartRunBtn = G.FUNCS.start_run
 G.FUNCS.start_run = function(e, args)
 	CirnoMod.startRunInterrupt = true
@@ -1320,36 +1853,51 @@ Game.start_run = function(self, args)
 		CirnoMod.miscItems.pickRandShopFlavour()
 	end
 	
+	G.E_MANAGER:add_event(Event({
+		trigger = 'after',
+		delay = 0.1,
+		blocking = false,
+		blockable = true,
+		func = function()
+			if G.GAME and G.GAME.selected_back then
+				if
+					type(G.GAME.selected_back.effect.center.cir_onStartLoad) == 'function'
+				then
+					G.GAME.selected_back.effect.center.cir_onStartLoad()
+				end
+				return true
+			end
+			
+			return false
+		end }))
+	
+	oldRunStart(self, args)
+	
 	--[[ YEP,
 	THIS IS HOW WE'RE DOING THIS NOW.
 	BLAME THUNK.]]
-	if
-		CirnoMod.miscItems.keysOfJokersToUpdateStateOnLoad
-	then
-		G.E_MANAGER:add_event(Event({
-			trigger = 'after',
-			delay = 0.1,
-			blocking = false,
-			blockable = true,
-			func = function()
-				if G.jokers then
-					for i, jkr in ipairs(G.jokers.cards) do
+	G.E_MANAGER:add_event(Event({
+		trigger = 'after',
+		delay = 0.1,
+		blocking = false,
+		blockable = true,
+		func = function()
+			if G.jokers then
+				for i, area in ipairs(SMODS.get_card_areas('jokers')) do
+					for _, jkr in ipairs(area.cards) do
 						if
-							CirnoMod.miscItems.keysOfJokersToUpdateStateOnLoad[jkr.config.center.key]
-							and jkr.config.center.updateState
-							and type(jkr.config.center.updateState) == 'function'
+							jkr.config.center.cir_updateState
+							and type(jkr.config.center.cir_updateState) == 'function'
 						then
-							jkr.config.center.updateState(jkr)
+							jkr.config.center.cir_updateState(jkr)
 						end
 					end
-					return true
 				end
-				return false
+				return true
 			end
-		}))
-	end
-	
-	oldRunStart(self, args)
+			return false
+		end
+	}))
 	
 	G.GAME.cir_moneyLaundry = G.GAME.cir_moneyLaundry or {
 			dolCap = to_big(20),
@@ -1359,9 +1907,15 @@ Game.start_run = function(self, args)
 			uncapped = false
 		}
 	
+	G.GAME.cir_guarantee_queue = G.GAME.cir_guarantee_queue or {}
+	G.GAME.cir_banned_objects = G.GAME.cir_banned_objects or {}
+	
+	G.GAME.wheelFailures = G.GAME.wheelFailures and to_big(G.GAME.wheelFailures) or to_big(0)
+	
 	for i, card in ipairs(G.playing_cards) do
 		if
-			CirnoMod.checkDeckSkinActive(card.base.suit)
+			not SMODS.has_no_rank(card)
+			and CirnoMod.checkDeckSkinActive(card.base.suit)
 			and CirnoMod.miscItems.checkSkinCard(card.base.value)
 			and not card.ability.cir_face_infoKey
 		then
@@ -1406,9 +1960,47 @@ end
 
 local oldCreateCard = create_card
 function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
-	local RV = oldCreateCard(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
+	
+	--[[ Todo - Future effect that guarantees the appearance of a soul card in the next arcana/tarot pack
+	if
+		soulable
+		and (_type == 'Tarot'
+		or _type == 'Spectral'
+		or _type == 'Tarot_Planet')
+		and next(SMODS.find_card())
+	then
+		forced_key = 'c_soul'
 		
-	if RV then
+		G.GAME.cir_skip_guarantee_queue = true
+	end
+	]]
+	
+	if
+		not G.GAME.cir_skip_guarantee_queue
+		and G.GAME.cir_guarantee_queue
+		and #G.GAME.cir_guarantee_queue > 0
+	then
+		for i = 1, #G.GAME.cir_guarantee_queue do
+			local queued_obj = table.remove(G.GAME.cir_guarantee_queue, 1)
+			
+			if not G.GAME.banned_keys[queued_obj.key] then
+				if _type == queued_obj.type then
+					forced_key = queued_obj.key
+					break
+				end
+				
+				table.insert(G.GAME.cir_guarantee_queue, queued_obj)
+			end
+		end
+	end
+	
+	if G.GAME.cir_skip_guarantee_queue then
+		G.GAME.cir_skip_guarantee_queue = false
+	end
+	
+	local ret = oldCreateCard(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
+	
+	if ret then
 		--[[ Persistently track joker
 		encounters across unseeded runs. ]]
 		if
@@ -1417,21 +2009,22 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
 			and _type == 'Joker'
 			and CirnoMod.config.malverkReplacements
 		then
-			CirnoMod.miscItems.encounterJoker(RV.config.center.key)
+			CirnoMod.miscItems.encounterJoker(ret.config.center.key)
 		end
 		
 		if
 			(_type == 'Base'
 			or _type == 'Enhanced')
-			and CirnoMod.checkDeckSkinActive(RV.base.suit)
-			and CirnoMod.miscItems.checkSkinCard(RV.base.value)
-			and not RV.ability.cir_face_infoKey
+			and not SMODS.has_no_rank(ret)
+			and CirnoMod.checkDeckSkinActive(ret.base.suit)
+			and CirnoMod.miscItems.checkSkinCard(ret.base.value)
+			and not ret.ability.cir_face_infoKey
 		then
-			RV:add_sticker('cir_face_infoKey', true)
+			ret:add_sticker('cir_face_infoKey', true)
 		end
 		
 		check_for_unlock({ type = 'cardCreate' })
-		return RV
+		return ret
 	end
 end
 
@@ -1525,289 +2118,13 @@ There appears to be no game function that can be
 hooked relating to when a shop phase starts
 ]]
 
---[[ Need this hook for Joker functionality
+--[[
 local old_dfptd = G.FUNCS.draw_from_play_to_discard
 G.FUNCS.draw_from_play_to_discard = function(e)
-	local wasCalledOnce = false
-	local redrawJkrs = {}
-	local redrawCards = {}
-	
-	for i, k in ipairs(CirnoMod.miscItems.returnToHand_Jokers) do
-		local FCR = SMODS.find_card(k)
 		
-		if next(FCR) then
-			for i_, jkr in ipairs(FCR) do
-				table.insert(redrawJkrs, jkr)
-			end
-		end
-	end
-	
-	if #redrawJkrs > 0 then
-		for _, card in ipairs(redrawJkrs) do
-			if
-				card.config.center.shouldReturnToHand
-				and type(card.config.center.shouldReturnToHand) == 'function'
-				and card.config.center:shouldReturnToHand(card)
-				and card.config.center.returnToHand_func
-				and type(card.config.center.returnToHand_func) == 'function'
-			then
-				local jkrRet = card.config.center:returnToHand_func(card, _ == #redrawJkrs, old_dfptd)
-				wasCalledOnce = true
-				
-				if jkrRet and #jkrRet > 0 then
-					SMODS.merge_lists({ redrawCards, jkrRet })
-				end
-			end
-		end
-	end
-	
-	if wasCalledOnce then
-		for _, c in ipairs(redrawCards) do
-			c.beingRedrawn = false
-		end
-		
-		return
-	end
-	
 	old_dfptd(e)
 end
 ]]
-
-CirnoMod.moneyLaundry_Increase = function()
-	if
-		G.GAME
-		and (to_big(G.GAME.cir_moneyLaundry.dolAccrued) < to_big(G.GAME.cir_moneyLaundry.dolCap)
-		or G.GAME.cir_moneyLaundry.uncapped)
-	then
-		G.GAME.cir_moneyLaundry.dolAccrued = to_big(G.GAME.cir_moneyLaundry.dolAccrued) + to_big(G.GAME.cir_moneyLaundry.dolEarn)
-		
-		local foundMoneyLaundries = SMODS.find_card('j_cir_moneyLaundry')
-			
-		if next(foundMoneyLaundries) then
-			for i, jkr in ipairs(foundMoneyLaundries) do
-				SMODS.calculate_effect({
-					message = to_big(G.GAME.cir_moneyLaundry.dolAccrued) > to_big(0) and SMODS.signed_dollars(to_big(G.GAME.cir_moneyLaundry.dolAccrued)) or '$0',
-					colour = G.C.MONEY,
-					doNotRedSeal = true
-				}, jkr)
-				
-				if
-					jkr.seal == 'Red'
-					and (to_big(G.GAME.cir_moneyLaundry.dolAccrued) < to_big(G.GAME.cir_moneyLaundry.dolCap)
-					or G.GAME.cir_moneyLaundry.uncapped)
-				then
-					SMODS.calculate_effect({ message = "Again!", doNotRedSeal = true }, jkr)
-					
-					G.GAME.cir_moneyLaundry.dolAccrued = to_big(G.GAME.cir_moneyLaundry.dolAccrued) + to_big(G.GAME.cir_moneyLaundry.dolEarn)
-					
-					SMODS.calculate_effect({
-						message = to_big(G.GAME.cir_moneyLaundry.dolAccrued) > to_big(0) and SMODS.signed_dollars(to_big(G.GAME.cir_moneyLaundry.dolAccrued)) or '$0',
-						colour = G.C.MONEY,
-						doNotRedSeal = true
-					}, jkr)
-				end
-			end
-		end
-	end
-end
-
---[[ Migrating over to current_mod.calculate
-
-local old_smodsCalcContext = SMODS.calculate_context
-SMODS.calculate_context = function(context, return_table)
-	-- Ends the run if the player tries playing a 67 hand
-	if
-		not CirnoMod.config.suppress67Kill
-		and context.before
-		and ((#G.play.cards == 2
-		and G.play.cards[1].base.value == '6'
-		and G.play.cards[2].base.value == '7')
-		or (#G.play.cards == 4
-		and G.play.cards[1].base.value == '6'
-		and G.play.cards[2].base.value == '7'
-		and G.play.cards[3].base.value == '6'
-		and G.play.cards[4].base.value == '7'))
-	then
-		CirnoMod.sixSevenAttenpted = true
-		G.STATE = G.STATES.GAME_OVER
-		G.STATE_COMPLETE = false
-	end
-	
-	-- Removes redraw marker from redrawn cards
-	if
-		CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
-		and G.hand.cards
-		and #G.hand.cards > 0
-	then
-		for i, c in ipairs(G.hand.cards) do
-			if c.beingRedrawn then
-				c.beingRedrawn = false
-			end
-		end
-	end
-	
-	-- Dedicated auto end-of-round undebuffing for Jokers that use it
-	if 
-		context.end_of_round
-		and G.jokers
-		and G.jokers.cards
-		and #G.jokers.cards > 0
-	then
-		for i, jkr in ipairs(G.jokers.cards) do
-			if
-				jkr.ability.debuff_sources
-				and next(jkr.ability.debuff_sources)
-				and jkr.ability.debuff_sources['cir_Jkr_autoEORUndebuff']
-			then
-				jkr:juice_up()
-				SMODS.debuff_card(jkr, false, 'cir_Jkr_autoEORUndebuff')
-			end
-		end
-	end
-	
-	local ret = old_smodsCalcContext(context, return_table)
-	
-	if
-		not context.end_of_round
-		and not context.starting_shop
-		and ((ret
-		and ret.dollars)
-		or (context.other_ret
-		and context.other_ret.dollars)
-		or (context.cardarea == G.hand
-		and context.money_altered
-		and #context.cardarea.cards > 0
-		and to_big(context.amount) > to_big(0))
-		or (context.trigger_obj
-		and context.result
-		and context.identifier == 'lucky_money'))
-	then
-		CirnoMod.moneyLaundry_Increase()
-	end
-	
-	-- Resets money laundry accrued dollars on the next ante's first shop
-	if
-		context.starting_shop
-		and G.GAME.cir_moneyLaundry.lastRecordedAnte ~= G.GAME.round_resets.ante
-	then
-		G.GAME.cir_moneyLaundry.dolAccrued = to_big(0)
-		
-		G.GAME.cir_moneyLaundry.lastRecordedAnte = G.GAME.round_resets.ante
-	end
-	
-	if ret then
-		return ret
-	end
-end
-]]
-
-SMODS.current_mod.calculate = function(self, context)
-	-- Ends the run if the player tries playing a 67 hand
-	if
-		not CirnoMod.config.suppress67Kill
-		and context.before
-		and ((#G.play.cards == 2
-		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[1], '6')
-		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[2], '7'))
-		or (#G.play.cards == 4
-		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[1], '6')
-		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[2], '7')
-		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[3], '6')
-		and CirnoMod.miscItems.baseValueCheck_IgnoreNoRank(G.play.cards[4], '7')))
-	then
-		CirnoMod.sixSevenAttenpted = true
-		G.STATE = G.STATES.GAME_OVER
-		G.STATE_COMPLETE = false
-	end
-	
-	-- Removes redraw marker from redrawn cards
-	if
-		CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
-		and G.hand.cards
-		and #G.hand.cards > 0
-	then
-		for i, c in ipairs(G.hand.cards) do
-			if c.beingRedrawn then
-				c.beingRedrawn = false
-			end
-		end
-	end
-	
-	-- Dedicated auto end-of-round undebuffing for Jokers that use it
-	if 
-		context.end_of_round
-		and G.jokers
-		and G.jokers.cards
-		and #G.jokers.cards > 0
-	then
-		for i, jkr in ipairs(G.jokers.cards) do
-			if
-				jkr.ability.debuff_sources
-				and next(jkr.ability.debuff_sources)
-				and jkr.ability.debuff_sources['cir_Jkr_autoEORUndebuff']
-			then
-				jkr:juice_up()
-				SMODS.debuff_card(jkr, false, 'cir_Jkr_autoEORUndebuff')
-			end
-		end
-	end
-	
-	--[[ Money Laundry debugging
-	if
-		context.money_altered
-		and not (context.from_tarot
-		or context.from_shop
-		or context.from_scoring
-		or context.from_consumeable)
-	then
-		print(tprint(context))
-	end
-	]]
-	
-	--[[ Attempts to capture every instance of money earning (non-end-of-round)
-	from enhancements, Jokers, etc. or at least, as many as possible
-	i.e. Gold Cards, Gold Seals, Business Card, Reserved Parking, Mail-in Rebate, To-Do List
-	For Money Laundry
-	]]
-	if
-		not context.end_of_round
-		and not context.starting_shop
-		and (((context.money_altered
-		and to_big(context.amount) > to_big(0))
-		and ((context.cardarea == G.hand -- Capture held in hand effects
-		and #context.cardarea.cards > 0
-		and not (CirnoMod.miscItems.isAnyOfTheseStates(G.STATE, { 9, 10, 11, 15, 17, 18, 999 }))) -- Avoid duplicate triggers in booster packs as a result of there actually being a hand
-		or (context.from_tarot -- Doesn't work?
-		or context.from_scoring
-		or context.from_consumeable)))
-		or (context.selling_card
-		and not (#G.hand.cards > 0))
-		or (context.other_ret
-		and context.other_ret.dollars)
-		or (context.trigger_obj
-		and (context.result
-		and context.identifier == 'lucky_money'))) -- Discovered weird edge cases where context.from_tarot won't work?
-	then		
-		CirnoMod.moneyLaundry_Increase()
-	end
-	
-	-- Resets money laundry accrued dollars on the next ante's first shop
-	if
-		context.starting_shop
-	then
-		if G.GAME.cir_moneyLaundry.lastRecordedAnte ~= G.GAME.round_resets.ante then
-			G.GAME.cir_moneyLaundry.dolAccrued = to_big(0)
-			
-			G.GAME.cir_moneyLaundry.lastRecordedAnte = G.GAME.round_resets.ante
-		end
-		
-		if not (CirnoMod.config.jkrVals and CirnoMod.config.jkrVals[G.SETTINGS.profile] and CirnoMod.config.jkrVals[G.SETTINGS.profile].store and CirnoMod.config.jkrVals[G.SETTINGS.profile].store.doneOneRunWMod) then
-			CirnoMod.config.jkrVals[G.SETTINGS.profile].store.doneOneRunWMod = true
-			SMODS.save_mod_config(CirnoMod)
-		end
-	end
-end
-
 local old_sm_bp_eff = SMODS.blueprint_effect
 SMODS.blueprint_effect = function(copier, copied_card, context, msg_colour)
 	local ret = old_sm_bp_eff(copier, copied_card, context)
@@ -1821,19 +2138,28 @@ SMODS.blueprint_effect = function(copier, copied_card, context, msg_colour)
 	end
 end
 
---[[ This is the functionality that should make the
+--[[ All this is the functionality that should make the
 mod badge text cycle between the mod name and streamer(s)
 the thing is relevant to. This is largely lifted from
-Cryptid with some tweaks. ]]
-local SMcmb = SMODS.create_mod_badges
-function SMODS.create_mod_badges(obj, badges, card)
-	SMcmb(obj, badges)
+Cryptid, with a bajillion different tweaks because I
+need the card var for part of what I'm trying to do here. ]]
+local old_smCreateModBadges = SMODS.create_mod_badges
+function SMODS.create_mod_badges(obj, badges)
+	CirnoMod.create_mod_badges(obj,badges)
+end
+
+CirnoMod.create_mod_badges = function(obj, badges, card)	
+	old_smCreateModBadges(obj, badges)
 	
 	if 
 		obj
+		and (obj.unlocked
+		or card
+		and card.ability
+		and card.ability.cir_face_infoKey)
 		and #badges > 0
 	then
-		local cir_badge = nil
+		local badgesToAdd = {}
 		local badgeColourToLookFor = CirnoMod.miscItems.colours.cirCyan
 		
 		if
@@ -1852,7 +2178,28 @@ function SMODS.create_mod_badges(obj, badges, card)
 				badge_text[2] = { string = obj.cir_Friend }
 			end
 			
-			cir_badge = CirnoMod.miscItems.createDynaTextBadge(badge_text, CirnoMod.miscItems.colours.cirCyan)
+			table.insert(badgesToAdd, CirnoMod.miscItems.createDynaTextBadge(badge_text, CirnoMod.miscItems.colours.cirCyan))
+		end
+		
+		if
+			obj.key
+			and CirnoMod.miscItems.friendDeckKeys[obj.key]
+			and obj.cir_Friend
+		then
+			-- local badgeClrTable = { CirnoMod.miscItems.colours.cirKeepsakeClr }
+			local dckBadgeClr = nil
+			
+			if type(obj.cir_Friend) == 'string' then
+				dckBadgeClr = CirnoMod.miscItems.friendDeckBadgeClrs[obj.cir_Friend]
+			elseif type(obj.cir_Friend) == 'table' then
+				dckBadgeClr = CirnoMod.miscItems.friendDeckBadgeClrs[obj.cir_Friend[1]]
+			end
+			
+			table.insert(badgesToAdd,
+				create_badge('Friend Deck',
+					dckBadgeClr,
+					G.C.UI.TEXT_LIGHT,
+					0.8))
 		end
 		
 		if
@@ -1868,15 +2215,15 @@ function SMODS.create_mod_badges(obj, badges, card)
 				and CirnoMod.miscItems.suitRankToFriend_NmClr[card.base.suit][card.base.value]
 				and type(CirnoMod.miscItems.suitRankToFriend_NmClr[card.base.suit][card.base.value]) == 'function'
 			then
-				cir_badge = CirnoMod.miscItems.suitRankToFriend_NmClr[card.base.suit][card.base.value](0.8)
+				table.insert(badgesToAdd, CirnoMod.miscItems.suitRankToFriend_NmClr[card.base.suit][card.base.value](0.8))
 			end
 			
-			if not cir_badge then
-				cir_badge = create_badge('Ignore This', G.C.JOKER_GREY, G.C.UI.TEXT_DARK, 0.3)
+			if #badgesToAdd <= 0 then
+				table.insert(badgesToAdd, create_badge('Face Info Sticker', G.C.JOKER_GREY, G.C.UI.TEXT_DARK, 0.3))
 			end
 		end
 		
-		if cir_badge then
+		if #badgesToAdd > 0 then
 			--[[
 			And then this part is about looking through the badges for
 			the mod badge that Steamodded created by colour, yoinking
@@ -1884,8 +2231,14 @@ function SMODS.create_mod_badges(obj, badges, card)
 			for i = 1, #badges do
 				if CirnoMod.miscItems.eq_col(badges[i].nodes[1].config.colour, badgeColourToLookFor) then
 					badges[i].nodes[1].nodes[2].config.object:remove()
-					badges[i] = cir_badge
+					badges[i] = badgesToAdd[1]
 					break
+				end
+			end
+			
+			if #badgesToAdd > 1 then
+				for bInd = 2, #badgesToAdd do
+					badges[#badges + 1] = badgesToAdd[bInd]
 				end
 			end
 		end
@@ -1896,19 +2249,16 @@ local leq_ref = love.quit
 love.quit = function()
 	
 	if 
-		not (CirnoMod.config.jkrVals
-		and CirnoMod.config.jkrVals[G.SETTINGS.profile]
-		and CirnoMod.config.jkrVals[G.SETTINGS.profile].store
-		and CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4)
+		not CirnoMod.miscItems.get_cir_data('store').dabber_altf4
 		and love.keyboard.isDown{ 'lalt', 'ralt' }
 		and love.keyboard.isDown{ 'f4' }
 		and (CirnoMod.dabber ~= nil
 		or (CirnoMod.dabber
 		and not CirnoMod.dabber.REMOVED))
 	then
-		CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4 = true
-		SMODS.save_mod_config(CirnoMod)
+		G.PROFILES[G.SETTINGS.profile].cir_data.store.dabber_altf4 = true
+		G:save_progress()
 	end
-	
+
 	return leq_ref()
 end

@@ -2,7 +2,7 @@
 CirnoMod.replaceDef.locChanges = {
 	deckLoc = {},
 	planetLoc = {},
-	enhancerLoc = {},
+	enhancedLoc = {},
 	sealLoc = {},
 	blindsLoc = {},
 	tarotLoc = {},
@@ -99,7 +99,7 @@ if CirnoMod.config['enhancerRenames'] then
 		   handled.
 	==================================================]]
 	
-	CirnoMod.miscItems.filterTable(enhLoc.enhancers, CirnoMod.replaceDef.locChanges.enhancerLoc, CirnoMod.replaceDef.enhancerReplacementKeys)
+	CirnoMod.miscItems.filterTable(enhLoc.enhancers, CirnoMod.replaceDef.locChanges.enhancedLoc, CirnoMod.replaceDef.enhancerReplacementKeys)
 	CirnoMod.replaceDef.locChanges.sealLoc = copy_table(enhLoc.seals)
 	
 	--[[ Leaving these uncommented because I've only tested it in the Collection
@@ -325,8 +325,6 @@ if CirnoMod.config['miscRenames'] then
 	CirnoMod.replaceDef.locChanges.voucherLoc = miscLoc.vouchers
 	CirnoMod.replaceDef.locChanges.tagLoc = miscLoc.tags
 	
-	-- TODO: Vouchers
-	
 	-- Function that randomises shop flavour text based on the pool defined in the rename file
 	CirnoMod.miscItems.pickRandShopFlavour = function()
 		SMODS.process_loc_text(G.localization.misc.dictionary, "ph_improve_run", pseudorandom_element(CirnoMod.miscItems.miscRenameTables.shopFlavourPool, pseudoseed('shopFlavourRand')))
@@ -528,7 +526,7 @@ AltTexture({
 	path = CirnoMod.replaceDef.getPath("enhancer"),
 	original_sheet = true,
 	keys = CirnoMod.replaceDef.enhancerReplacementKeys,
-	localization = CirnoMod.replaceDef.locChanges.enhancerLoc,
+	localization = CirnoMod.replaceDef.locChanges.enhancedLoc,
 	loc_txt = {
 		name = 'Enhancers'
 	}

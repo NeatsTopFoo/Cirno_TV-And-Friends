@@ -19,6 +19,22 @@ local miscItems = {
 	},
 	allFaceCards = { 'Jack', 'Queen', 'King', 'Ace' },
 	cardSuits = { 'Hearts', 'Clubs', 'Diamonds', 'Spades' },
+	ID_To_String = {
+		'nil',
+		'2',
+		'3',
+		'4',
+		'5',
+		'6',
+		'7',
+		'8',
+		'9',
+		'10',
+		'Jack',
+		'Queen',
+		'King',
+		'Ace'
+	},
 	cardRanksToValues_AceLow = {
 		['King'] = 10,
 		['Queen'] = 10,
@@ -49,6 +65,18 @@ local miscItems = {
 		['3'] = 3,
 		['2'] = 2
 	},
+	AKQJ_Shorthander = {
+		['Ace'] = 'A',
+		['King'] = 'K',
+		['Queen'] = 'Q',
+		['Jack'] = 'J'
+	},
+	SuitShorthander = {
+		['Diamonds'] = 'D',
+		['Hearts'] = 'H',
+		['Clubs'] = 'C',
+		['Spades'] = 'S'
+	},
 	cirFriends = {
 		dm = 'Girl_DM_', -- Pay no attention as to how this list is ordered. There is no specific reasoning behind it.
 		cir = 'Cirno_TV',
@@ -67,6 +95,40 @@ local miscItems = {
 		oct = 'Octopimp',
 		ntf = 'NopeTooFast'
 	},
+	cirFriend_Short = {
+		dm = 'DM',
+		cir = 'Cirno',
+		vle = 'Vileelf',
+		han = 'Hannah',
+		mom = 'Momo',
+		rmi = 'Rumi',
+		kzr = 'Kaizur',
+		tom = 'Tom',
+		nrp = 'Naro',
+		thr = 'ThorW',
+		hou = 'Houdini',
+		wls = 'Wolsk',
+		dme = 'Demeorin',
+		dck = 'Biggdeck',
+		oct = 'Octo',
+		ntf = 'Nope'
+	},
+	-- For the cardarea initialisation check
+	friendDeckKeys = {
+		b_cir_flesh = true,
+		b_cir_frozen = true,
+		b_cir_pirate = true,
+		b_cir_narp = true,
+		b_cir_fate = true,
+		b_cir_zzz = true,
+		b_cir_cryptic = true,
+		b_cir_big = true,
+		b_cir_theGuy = true,
+		b_cir_snek = true,
+		b_cir_hack = true,
+		b_cir_sycophant = true
+		-- TODO: momo, kaizur, vileelf, octo
+	},
 	-- debugTables = {},
 	weirdArtCreditExceptionalCircumstanceKeys = {}, -- Some things seem to do weird things, like Wild cards.
 	descExtensionTooltips = {},
@@ -84,8 +146,24 @@ local miscItems = {
 	mlvrk_tex_keys = {},
 	funnyAtlases = {},
 	otherAtlases = {},
+	otherModPresences = {},
 	switchKeys = {},
 	switchTables = {},
+	force_remove_cir_badge = {
+		j_greedy_joker = true,
+		j_lusty_joker = true,
+		j_wrathful_joker = true,
+		j_gluttenous_joker = true,
+		j_sly = true,
+		j_ceremonial = true,
+		j_raised_fist = true,
+		j_supernova = true,
+		j_vampire = true,
+		j_golden = true,
+		j_flash = true,
+		j_certificate = true,
+		j_glass = true
+	},
 	createErrorLocTxt = function(custName) return { name = custName or 'ERROR', text = {
 			'This text should {C:red}not{} be visible.',
 			'If you are seeing this, please contact',
@@ -102,11 +180,25 @@ local miscItems = {
 		
 		return { G.C.BLACK, G.C.ORANGE, G.C.RED, G.C.GOLD }
 	end,
+	cardShorthander = function(card)
+		if
+			card
+			and card.base.suit
+			and CirnoMod.miscItems.ID_To_String[card:get_id()]
+		then
+			if CirnoMod.miscItems.AKQJ_Shorthander[CirnoMod.miscItems.ID_To_String[card:get_id()]] then
+				return CirnoMod.miscItems.AKQJ_Shorthander[CirnoMod.miscItems.ID_To_String[card:get_id()]]..'_'..CirnoMod.miscItems.SuitShorthander[card.base.suit]
+			end
+			
+			return CirnoMod.miscItems.SuitShorthander[card.base.suit]..'_'..CirnoMod.miscItems.ID_To_String[card:get_id()]
+		end
+	end,
 	baseValueCheck_IgnoreNoRank = function(card, value)
 		return not SMODS.has_no_rank(card) and card.base.value == value
 	end,
-	--[[ This is what compares the two colours to see if they're the same colour.
-	...This isn't really the best way to do what I'm trying to do, but... Eh? ]]
+	--[[ This is what compares the two colours in a badge to see if
+	they're	the same colour. 	...This isn't really the best way
+	to do what I'm trying to do, but... Eh? ]]
 	eq_col = function(x, y)
 		for i = 1, 4 do
 			if x[1] ~= y[1] then
@@ -114,8 +206,141 @@ local miscItems = {
 			end
 		end
 		return true
+	end,
+	get_cir_data = function(sub_table, nil_check)
+		if sub_table then
+			return (G.PROFILES[G.SETTINGS.profile]
+			and G.PROFILES[G.SETTINGS.profile].cir_data
+			and G.PROFILES[G.SETTINGS.profile].cir_data[sub_table]) or (not nil_check and {})
+		end
+		
+		return (G.PROFILES[G.SETTINGS.profile]
+		and G.PROFILES[G.SETTINGS.profile].cir_data) or (not nil_check and {})
 	end
 }
+
+miscItems.profileStoredVarsInitCheck = function()
+	local doSave = false
+	if not G.PROFILES[G.SETTINGS.profile].cir_data then
+		if CirnoMod.config.jkrVals[G.SETTINGS.profile] then
+			G.PROFILES[G.SETTINGS.profile].cir_data = copy_table(CirnoMod.config.jkrVals[G.SETTINGS.profile])
+		else
+			G.PROFILES[G.SETTINGS.profile].cir_data = {}
+		end
+		
+		doSave = true
+	end
+	
+	if G.PROFILES[G.SETTINGS.profile].cir_data then
+		if not G.PROFILES[G.SETTINGS.profile].cir_data.store then
+			if
+				CirnoMod.config.jkrVals[G.SETTINGS.profile]
+				and CirnoMod.config.jkrVals[G.SETTINGS.profile].store
+			then
+				G.PROFILES[G.SETTINGS.profile].cir_data.store = copy_table(CirnoMod.config.jkrVals[G.SETTINGS.profile].store)
+			else
+				G.PROFILES[G.SETTINGS.profile].cir_data.store = { friendDeckUnlocks = {} }
+			end
+			
+			doSave = true
+		end
+		
+		if not G.PROFILES[G.SETTINGS.profile].cir_data.encountered then
+			if
+				CirnoMod.config.jkrVals[G.SETTINGS.profile]
+				and CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered
+			then
+				G.PROFILES[G.SETTINGS.profile].cir_data.encountered = copy_table(CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered)
+			else
+				G.PROFILES[G.SETTINGS.profile].cir_data.encountered = {}
+			end
+			
+			doSave = true
+		end
+		
+		if not G.PROFILES[G.SETTINGS.profile].cir_data.store.friendDeckUnlockCount then
+			G.PROFILES[G.SETTINGS.profile].cir_data.store.friendDeckUnlockCount = 0
+			doSave = true
+		end
+		
+		if not G.PROFILES[G.SETTINGS.profile].cir_data.store.friendDeckUnlocks then
+			G.PROFILES[G.SETTINGS.profile].cir_data.store.friendDeckUnlocks = {}
+			doSave = true
+		end
+		
+		if not G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks then
+			G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks = {}
+			doSave = true
+		end
+	end
+	
+	if CirnoMod.config.jkrVals[G.SETTINGS.profile] then
+		CirnoMod.config.jkrVals[G.SETTINGS.profile] = nil
+		doSave = true
+		
+		--[[
+		if not CirnoMod.config.jkrVals[G.SETTINGS.profile].store then
+			CirnoMod.config.jkrVals[G.SETTINGS.profile].store = { friendDeckUnlocks = {} }
+			doSave = true
+		end
+		
+		if not CirnoMod.config.jkrVals[G.SETTINGS.profile].store.friendDeckUnlockCount then
+			CirnoMod.config.jkrVals[G.SETTINGS.profile].store.friendDeckUnlockCount = 0
+			doSave = true
+		end
+		
+		if not CirnoMod.config.jkrVals[G.SETTINGS.profile].store.friendDeckUnlocks then
+			CirnoMod.config.jkrVals[G.SETTINGS.profile].store.friendDeckUnlocks = {}
+			doSave = true
+		end
+		
+		if not CirnoMod.config.jkrVals[G.SETTINGS.profile].store.wonDecks then
+			CirnoMod.config.jkrVals[G.SETTINGS.profile].store.wonDecks = {}
+			doSave = true
+		end
+		
+		if not CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered then
+			CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered = {}
+			doSave = true
+		end
+		]]
+	end
+	
+	if doSave then
+		SMODS.save_mod_config(CirnoMod)
+		G:save_progress()
+	end
+end
+
+miscItems.modify_suit = function(card, amount, manual_sprites)
+    local other_suit
+    for k, v in pairs(SMODS.Suit.obj_buffer) do
+        if v == card.base.suit then
+            if amount > 0 then
+                for i=1, amount do
+                    if k+1 > #SMODS.Suit.obj_buffer then
+                        k = 1
+                        other_suit = SMODS.Suit.obj_buffer[1]
+                    else
+                        k = k+1
+                        other_suit = SMODS.Suit.obj_buffer[k+1]
+                    end
+                end
+            else
+                for i=1, -amount do
+                    if k <= 1 then
+                        k = #SMODS.Suit.obj_buffer
+                        other_suit = SMODS.Suit.obj_buffer[#SMODS.Suit.obj_buffer]
+                    else
+                        k = k-1
+                        other_suit = SMODS.Suit.obj_buffer[k-1]
+                    end
+                end
+            end
+        end
+    end
+    return SMODS.change_base(card, other_suit, nil, manual_sprites)
+end
 
 miscItems.cirGunsSpriteX = 0
 
@@ -125,31 +350,10 @@ miscItems.upgradedExtraValue = {
 	12,
 	15
 }
-
-miscItems.keysOfJokersToUpdateStateOnLoad = {
-	j_cir_crystalTap = true,
-	j_cir_b3313 = true,
-	j_cir_confusedRumi = true,
-	j_cir_smough = true,
-	j_cir_ornstein = true,
-	
-	j_cir_naro_l = true,
-	j_cir_arumia_l = true,
-	j_cir_wolsk_l = true,
-	
-	j_cir_comfyVibes = true,
-	j_cir_somnolent = true,
-	j_cir_qualityAssured = true
-}
-
-miscItems.otherModPresences = {
-	isSealsOnJokersPresent = false,
-	isTalismanPresent = false
-}
 	
 miscItems.matureReferencesOpt = { "(Hopefully) Safest", "Some", "All" } -- These are the options that appear on the new cycle option for mature references.
 
--- Table containing keys of jokers and what contexts should be ignored for red seal retriggers
+-- Table containing keys of jokers and what contexts should be ignored for red seal retriggers, should be deprecated in the future at some point maybe, this is a dumb solution to what was the problem at the time don't do this
 miscItems.redSealRetriggerIgnoreTable = {
 		j_fortune_teller = { 'using_consumeable' },
 		j_cir_naro_l = { 'using_consumeable' },
@@ -294,7 +498,7 @@ miscItems.colours = {
 	cirLucy = HEX('7BB083FF'),
 	cirNep = HEX('D066ADFF'),
 	cirUpgradedJkrClr = HEX('CCB35AFF'),
-	cirKeepsakeClr = HEX('A67C00FF'),
+	cirKeepsakeClr = HEX('CC7812FF'),
 	dmDark = HEX('395A2FFF'),
 	hanDark = HEX('312842FF'),
 	momoCyan = HEX('068170FF'),
@@ -316,6 +520,36 @@ miscItems.creditLinkTypeToColour = {
 for _, c in ipairs(miscItems.cardSuits) do
 	miscItems.colours[string.lower(c)..'_hc'] = G.C.SO_2[c]
 end
+
+miscItems.FriendToClr_Raw = {
+	Girl_DM_ = function() return { G.C.GREEN, CirnoMod.miscItems.colours.dmDark } end,
+	Cirno_TV = function() return {
+		CirnoMod.miscItems.colours.cirCyan,
+		CirnoMod.miscItems.colours.cirBlue
+	} end,
+	Vileelf = function() return {
+		CirnoMod.miscItems.colours.cirCyan,
+		CirnoMod.miscItems.colours.cirNep,
+		G.C.JOKER_GREY,
+		CirnoMod.miscItems.colours.cirNep,
+		CirnoMod.miscItems.colours.cirCyan
+	} end,
+	HannahHyrule = function() return { G.C.PURPLE, CirnoMod.miscItems.colours.hanDark } end,
+	ReimMomo = function() return { G.C.PURPLE, CirnoMod.miscItems.colours.momoCyan } end,
+	ArumiaTheSleepy = function() return { G.C.RED, CirnoMod.miscItems.colours.cirCyan } end,
+	KaizurTV = function() return { CirnoMod.miscItems.colours.diamonds_hc } end,
+	UnsanityLIVE = function() return { G.C.GREEN } end,
+	Naro = function() return { G.C.RED, CirnoMod.miscItems.colours.cirNep, G.C.BLUE } end,
+	ThorW = function() return { CirnoMod.miscItems.colours.diamonds_hc } end,
+	Houdini111 = function() return { G.C.ORANGE, CirnoMod.miscItems.colours.houAqua } end,
+	Wolsk = function() return { CirnoMod.miscItems.colours.cirCyan, G.C.PURPLE } end,
+	Demeorin = function() return { G.C.RED, G.C.BLACK } end,
+	Biggdeck = function() return { G.C.PURPLE, G.C.RED, G.C.GREEN } end,
+	Octopimp = function() return { G.C.PURPLE } end,
+	NopeTooFast = function() return { G.C.PURPLE, CirnoMod.miscItems.colours.cirNep } end 
+}
+
+miscItems.friendDeckBadgeClrs = {}
 
 miscItems.colours.cirDM = SMODS.Gradient({
 	key = 'cirDM',
@@ -426,6 +660,25 @@ miscItems.colours.cirNope = SMODS.Gradient({
 	}
 })
 
+miscItems.FriendToClr = {
+	Girl_DM_ = function() return CirnoMod.miscItems.colours.cirDM end,
+	Cirno_TV = function() return CirnoMod.miscItems.colours.cirNo end,
+	Vileelf = function() return CirnoMod.miscItems.colours.cirVile end,
+	HannahHyrule = function() return CirnoMod.miscItems.colours.cirHan end,
+	ReimMomo = function() return CirnoMod.miscItems.colours.cirMomo end,
+	ArumiaTheSleepy = function() return  CirnoMod.miscItems.colours.cirRumi end,
+	KaizurTV = function() return CirnoMod.miscItems.colours.diamonds_hc end,
+	UnsanityLIVE = function() return G.C.GREEN end,
+	Naro = function() return CirnoMod.miscItems.colours.cirNaro end,
+	ThorW = function() return CirnoMod.miscItems.colours.diamonds_hc end,
+	Houdini111 = function() return CirnoMod.miscItems.colours.cirHoudini end,
+	Wolsk = function() return CirnoMod.miscItems.colours.cirWolsk end,
+	Demeorin = function() return CirnoMod.miscItems.colours.cirDeme end,
+	Biggdeck = function() return CirnoMod.miscItems.colours.cirDeck end,
+	Octopimp = function() return G.C.PURPLE end,
+	NopeTooFast = function() return CirnoMod.miscItems.colours.cirNope end 
+}
+
 miscItems.checkBlueprintCompat = function(compatVar)
 	return compatVar == nil
 		or compatVar == true
@@ -440,64 +693,72 @@ miscItems.checkSkinCard = function(cardRank)
 	return false
 end
 
+miscItems.changeVarWhileRespectingAdditions = function(var, orgVal, newVal)
+	local preservedAddition = math.max(to_big(var) - to_big(orgVal), to_big(0))
+	
+	var = to_big(newVal) + to_big(preservedAddition)
+	
+	return var
+end
+
 miscItems.suitRankToFriend_NmClr = {
 	Diamonds = {
 		Ace = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.kzr, CirnoMod.miscItems.colours.diamonds_hc, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.kzr, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.kzr](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end,
 		King = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.thr, CirnoMod.miscItems.colours.diamonds_hc, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.thr, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.thr](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end,
 		Queen = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.dm, CirnoMod.miscItems.colours.cirDM, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.dm, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.dm](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end,
 		Jack = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.hou, CirnoMod.miscItems.colours.cirHoudini, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.hou, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.hou](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end
 	},
 	
 	Hearts = {
 		Ace = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.mom, CirnoMod.miscItems.colours.cirMomo, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.mom, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.mom](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end,
 		King = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.han, CirnoMod.miscItems.colours.cirHan, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.han, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.han](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end,
 		Queen = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.ntf, CirnoMod.miscItems.colours.cirNope, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.ntf, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.ntf](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end,
 		Jack = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.rmi, CirnoMod.miscItems.colours.cirRumi, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.rmi, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.rmi](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end
 	},
 	
 	Clubs = {
 		Ace = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.vle, CirnoMod.miscItems.colours.cirVile, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.vle, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.vle](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end,
 		King = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.nrp, CirnoMod.miscItems.colours.cirNaro, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.nrp, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.nrp](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end,
 		Queen = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.cir, CirnoMod.miscItems.colours.cirNo, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.cir, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.cir](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end,
 		Jack = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.tom, G.C.GREEN, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.tom, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.tom](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end
 	},
 	
 	Spades = {
 		Ace = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.oct, G.C.PURPLE, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.oct, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.oct](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end,
 		King = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.wls, G.C.BLACK, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.wls, CirnoMod.miscItems.colours.cirWolsk, G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end,
 		Queen = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.dck, CirnoMod. miscItems.colours.cirDeck, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.dck, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.dck](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end,
 		Jack = function(textSize)
-				return create_badge(CirnoMod.miscItems.cirFriends.dme, CirnoMod.miscItems.colours.cirDeme, G.C.UI.TEXT_LIGHT, textSize or 0.8)
+				return create_badge(CirnoMod.miscItems.cirFriends.dme, CirnoMod.miscItems.FriendToClr[CirnoMod.miscItems.cirFriends.dme](), G.C.UI.TEXT_LIGHT, textSize or 0.8)
 			end
 	}
 }
@@ -533,6 +794,14 @@ miscItems.colours.cirUpgradedJkrClr_tbl = {
 			G.C.RARITY[4],
 			miscItems.colours.cirUpgradedJkrClr
 		}
+	}),
+	
+	SMODS.Gradient({
+		key = 'cirUpgKpsk',
+		colours = {
+			miscItems.colours.cirKeepsakeClr,
+			miscItems.colours.cirUpgradedJkrClr
+		}
 	})
 }
 
@@ -558,6 +827,10 @@ miscItems.badges = {
 		function()
 			return CirnoMod.miscItems.createDynaTextBadge({ { string = 'Legendary' }, { string = 'Upgraded' } }, CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[4], nil, 1.3)
 		end,
+		
+		cir_keepsake_r = function()
+			return CirnoMod.miscItems.createDynaTextBadge({ { string = 'Keepsake' }, { string = 'Upgraded' } }, CirnoMod.miscItems.colours.cirUpgradedJkrClr_tbl[5], nil, 1.3)
+		end
 	}
 }
 
@@ -820,6 +1093,64 @@ miscItems.addItemToTableIfNotDuplicate = function(t, item)
 	table.insert(t, item)
 end
 
+miscItems.unhighlightAllJokerAreas = function(additionalAreas, ignoreAreas)
+	jkrAreas = SMODS.get_card_areas('jokers')
+	
+	if additionalAreas then
+		jkrAreas = SMODS.merge_lists{ jkrAreas, additionalAreas }
+	end
+	
+	for _, area in ipairs(jkrAreas) do
+		local skip = false
+		if ignoreAreas and #ignoreAreas > 0 then
+			for i, ignore in ipairs(ignoreAreas) do
+				if area == ignore then skip = true break end
+			end
+		end
+		
+		if not skip then
+			if area.unhighlight_all and type(area.unhighlight_all) == 'function' then
+				area:unhighlight_all()
+			end
+		end
+	end
+end
+
+miscItems.create_open_booster = function(b_key, args)
+	if b_key then
+		local args = args or {}
+		if args.clear_stored_back_key and G.GAME then
+			G.GAME.selected_back.effect.config.open_booster = nil
+		end
+		if args.save_action then
+			save_with_action(args.save_action)
+		end
+		local booster = SMODS.create_card{ key = b_key, area = G.play }
+		booster.T.x = G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2
+		booster.T.y = G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2
+		booster.T.w = G.CARD_W * 1.27
+		booster.T.h = G.CARD_H * 1.27
+		booster.cost = 0
+		G.FUNCS.use_card({ config = { ref_table = booster } }, args.mute, args.use_card_nosave)
+		booster:start_materialize()
+	end
+end
+
+function updateVisibleCards()
+	for _, card in pairs(G.I.CARD) do
+        if card.set_sprites and not card.params.texture_pack then
+            local _center = G.P_CENTERS[card.config.center_key]
+            if _center.atlas or G.ASSET_ATLAS[_center.set] then
+                card.children.center.scale = {
+                    x=G.ASSET_ATLAS[_center.atlas or _center.set].px,
+                    y=G.ASSET_ATLAS[_center.atlas or _center.set].py
+                }
+            end
+            card:set_sprites(_center)
+        end
+    end
+end
+
 function Card:visualDissolve(dissolve_colours, silent, dissolve_time_fac, no_juice)
     if self.skip_destroy_animation then
         G.E_MANAGER:add_event(Event({
@@ -890,6 +1221,18 @@ function Card:visualDissolve(dissolve_colours, silent, dissolve_time_fac, no_jui
         blockable = false,
         delay =  1.051*dissolve_time,
     }))
+end
+
+miscItems.indexedTableContainsItem = function(t, item)
+	if #t > 0 then
+		for i = 1, #t do
+			if t[i] == item then
+				return true
+			end
+		end
+	end
+	
+	return false
 end
 
 miscItems.doTitleCardCycle = function(viable_unlockables, attemptNo) -- , SC_scale)	
@@ -1027,7 +1370,7 @@ miscItems.doTitleCardCycle = function(viable_unlockables, attemptNo) -- , SC_sca
 			or v.set == 'Planet'
 			or v.set == 'Spectral')
 			-- or v.set == 'Enhanced' Remove enhancements for now
-			and CirnoMod.config.jkrVals[G.SETTINGS.profile].store.doneOneRunWMod)
+			and CirnoMod.miscItems.get_cir_data('store').doneOneRunWMod)
 			or ((v.set == 'Joker'
 			and CirnoMod.miscItems.hasEncounteredJoker(v.key)))--)
 			and not v.demo
@@ -1090,6 +1433,7 @@ miscItems.doTitleCardCycle = function(viable_unlockables, attemptNo) -- , SC_sca
 			'j_cir_nope_l',
 			'j_cir_naro_l',
 			'j_cir_arumia_l',
+			'j_cir_vileelf_l',
 			'j_cir_houdini_l',
 			'j_cir_wolsk_l',
 			'j_cir_demeorin_l',
@@ -1100,6 +1444,7 @@ miscItems.doTitleCardCycle = function(viable_unlockables, attemptNo) -- , SC_sca
 			'j_cir_enthusiast',
 			'j_cir_challenger',
 			'j_cir_somnolent',
+			'j_cir_maiden',
 			'j_cir_anon',
 			'j_cir_enigma',
 			'j_cir_catboy',
@@ -1138,19 +1483,6 @@ miscItems.doTitleCardCycle = function(viable_unlockables, attemptNo) -- , SC_sca
 		{ set = 'Playing', key = "S_Q", rank = "Queen", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" },
 		{ set = 'Playing', key = "S_J", rank = "Jack", suit = 'Spades', skin = "cir_noAndFriends_Spades_skin_hc" }
 	} })
-	
-	-- Used for increased randomisation variety
-	local isInLastFive = function(decidedElement)
-			if #lastFive > 0 then
-				for i = 1, #lastFive do
-					if lastFive[i] == decidedElement.key then
-						return true
-					end
-				end
-			end
-			
-			return false
-		end
 	
 	local cycleEvent
 	cycleEvent = Event({
@@ -1203,8 +1535,8 @@ miscItems.doTitleCardCycle = function(viable_unlockables, attemptNo) -- , SC_sca
 						CirnoMod.miscItems.debugTables.forceNextMenuKey = nil
 					else
 						-- Enforce uniqueness
-						for i = 1, 5 do
-							if not isInLastFive(decidedElement) then
+						for i = 1, 10 do
+							if not CirnoMod.miscItems.indexedTableContainsItem(lastFive, decidedElement) then
 								if decidedElement.set == 'Playing' then
 									if G.SETTINGS.CUSTOM_DECK.Collabs[decidedElement.suit] == decidedElement.skin then
 										texPack_ProbablyNotActive = false
@@ -1213,17 +1545,19 @@ miscItems.doTitleCardCycle = function(viable_unlockables, attemptNo) -- , SC_sca
 								else
 									if
 										decidedElement.unlocked
-										and (decidedElement.atlas
-										or (decidedElement.config
-										and decidedElement.config.center
-										and decidedElement.config.center.atlas))
 									then
-										if CirnoMod.miscItems.atlasCheck(decidedElement) then
+										if
+											(decidedElement.atlas
+											or (decidedElement.config
+											and decidedElement.config.center
+											and decidedElement.config.center.atlas))
+											and CirnoMod.miscItems.atlasCheck(decidedElement)
+										then
 											texPack_ProbablyNotActive = false
 											break
 										else
 											texPack_ProbablyNotActive = true
-											if i >= 5 then
+											if i >= 10 then
 												return false
 											end
 										end
@@ -1513,17 +1847,80 @@ miscItems.getEditionScalingInfo = function(edition, scalar)
 end
 
 miscItems.scaleEdition_FHP = function(card, scalar)
+	local sTable = { val = scalar }
+	local scaleTable = nil
+	local localizeKey = nil
+	
 	if card.edition.type == 'foil' then
-		card.edition.chips = to_big(card.edition.chips) + to_big(50) * to_big(scalar)
-		return card.edition.chips..' Chips'
+		scaleTable = {
+				ref_table = card.edition,
+				ref_value = 'chips',
+				operation = function(ref_table, ref_value, initial, change)
+					ref_table[ref_value] = to_big(initial) + (to_big(50) * to_big(scalar))
+				end,
+				scalar_table = sTable,
+				scalar_value = 'val',
+				no_message = true
+			}
 	elseif card.edition.type == 'holo' then
-		card.edition.mult = to_big(card.edition.mult) + to_big(10) * to_big(scalar)
-		local ret = localize{ type = 'variable', key = 'a_mult', vars = { card.edition.mult } }
-		return string.sub(ret, 2, #ret)
+		scaleTable = {
+				ref_table = card.edition,
+				ref_value = 'mult',
+				operation = function(ref_table, ref_value, initial, change)
+					ref_table[ref_value] = to_big(initial) + (to_big(10) * to_big(scalar))
+				end,
+				scalar_table = sTable,
+				scalar_value = 'val',
+				no_message = true
+			}
+		
+		localizeKey = 'a_mult'
 	elseif card.edition.type == 'polychrome' then
-		card.edition.x_mult = to_big(card.edition.x_mult) + to_big(0.5) * to_big(scalar)
-		return localize{ type = 'variable', key = 'a_xmult', vars = { card.edition.x_mult } }
+		scaleTable = {
+				ref_table = card.edition,
+				ref_value = 'x_mult',
+				operation = function(ref_table, ref_value, initial, change)
+					ref_table[ref_value] = to_big(initial) + (to_big(0.5) * to_big(scalar))
+				end,
+				scalar_table = sTable,
+				scalar_value = 'val',
+				no_message = true
+			}
+		
+		localizeKey = 'a_xmult'
 	end
+	
+	if scaleTable then
+		SMODS.scale_card(card, scaleTable)
+		
+		card.ability.extra = card.ability.extra or {}
+		card.ability.extra.editionScaling = {}
+		
+		if card.edition.type == 'foil' then
+			card.ability.extra.editionScaling.chips = card.edition.chips
+			return card.edition.chips..' Chips'
+		end
+		
+		if localizeKey then
+			if card.edition.type == 'holo' then
+				local ret = localize{
+					type = 'variable',
+					key = localizeKey,
+					vars = { card.edition[scaleTable.ref_value] } }
+				
+				card.ability.extra.editionScaling.mult = card.edition.mult
+				
+				return string.sub(ret, 2, #ret)
+			else
+				card.ability.extra.editionScaling.x_mult = card.edition.x_mult
+				return localize{
+					type = 'variable',
+					key = localizeKey,
+					vars = { card.edition[scaleTable.ref_value] } }
+			end
+		end
+	end
+	
 end
 
 miscItems.manuallyAnimateAtlasItem = function(UINodeConfigTable)
@@ -1676,16 +2073,25 @@ miscItems.isStage = function(curGameStage, stageToCheck)
 end
 
 miscItems.roundEvalDollarCalc = {
-	part = function(CDBret, dollars_, pitch_, card_, i_)
-		local RV = { i = i_ + 1, pitch = pitch_, dollars = dollars_ + CDBret }
-		add_round_eval_row({dollars = CDBret, bonus = true, name='joker'..RV.i, pitch = RV.pitch, card = card_})
-		RV.pitch = RV.pitch + 0.06
+	part = function(CDBret, CDBret_opts, dollars_, pitch_, card_, i_)
+		local ret = { i = i_ + 1, pitch = pitch_, dollars = dollars_ + CDBret }
+		if not CDBret_opts.no_eval_row then
+			add_round_eval_row{
+				dollars = CDBret,
+				bonus = true,
+				name='joker'..ret.i,
+				pitch = ret.pitch,
+				card = card_,
+				loc_opts = CDBret_opts
+			}
+			ret.pitch = ret.pitch + 0.06
+		end
 		dollars_ = dollars_ + CDBret
-		return RV
+		return ret
 	end,
 	
-	full = function(CDBret, dollars_, pitch_, card_, i_)
-		local RV = CirnoMod.miscItems.roundEvalDollarCalc.part(CDBret, dollars_, pitch_, card_, i_)
+	full = function(CDBret, CDBret_opts, dollars_, pitch_, card_, i_)
+		local ret = CirnoMod.miscItems.roundEvalDollarCalc.part(CDBret, CDBret_opts, dollars_, pitch_, card_, i_)
 		
 		if
 			card_.seal
@@ -1693,10 +2099,10 @@ miscItems.roundEvalDollarCalc = {
 		then
 			SMODS.calculate_effect({ message = localize('k_again_ex'), colour = G.C.FILTER, card = card_ }, card_)
 			
-			RV = CirnoMod.miscItems.roundEvalDollarCalc.part(CDBret, RV.dollars, RV.pitch, card_, RV.i)
+			ret = CirnoMod.miscItems.roundEvalDollarCalc.part(CDBret, CDBret_opts, ret.dollars, ret.pitch, card_, ret.i)
 		end
 		
-		return RV
+		return ret
 	end
 }
 
@@ -1783,6 +2189,80 @@ end
 
 miscItems.getJokerRarityByKey = function(jkrKey)
 	return G.P_CENTERS[jkrKey].config and G.P_CENTERS[jkrKey].config.center and G.P_CENTERS[jkrKey].config.center.rarity or G.P_CENTERS[jkrKey].rarity
+end
+
+miscItems.cir_buttonUI = function(card)
+	return UIBox { definition = {
+		n = G.UIT.ROOT,
+		config = { colour = G.C.CLEAR },
+		nodes = { {
+			n = G.UIT.C,
+			config = {
+				align = 'cm',
+				padding = 0.15,
+				r = 0.08,
+				hover = true,
+				shadow = true,
+				colour = card.btn_clr or G.C.MULT,
+				button = 'cir_btn_use',
+				func = 'cir_btn_can_use',
+				ref_table = card
+			},
+			nodes = { {
+				n = G.UIT.R,
+				nodes = {
+					{
+						n = G.UIT.B,
+						config = { w = 0.05, h = 0.7 }
+					}, {
+						n = G.UIT.C,
+						config = { align = 'bm' },
+						nodes = { {
+							n = G.UIT.T,
+							config = {
+								align = 'bm',
+								text = card.btn_txt or localize('b_use'),
+								colour = G.C.UI.TEXT_LIGHT,
+								scale = 0.5
+							}
+						} }
+					}, {
+						n = G.UIT.B,
+						config = { w = 0.05, h = 0.7 }
+					}
+				}
+			} }
+		} }
+	},
+    config = {
+      align = 'bm',
+      major = card,
+      parent = card,
+      offset = { x = 0, y = -0.465 }
+    } }
+end
+
+G.FUNCS.cir_btn_use = function(e)
+	if
+		e.config.ref_table.config.center.cir_btn_use
+		and type(e.config.ref_table.config.center.cir_btn_use) == 'function'
+	then
+		e.config.ref_table.config.center:cir_btn_use(e.config.ref_table)
+	end
+end
+
+G.FUNCS.cir_btn_can_use = function(e)
+	local can_use = false
+	
+	if
+		e.config.ref_table.config.center.cir_btn_use
+		and type(e.config.ref_table.config.center.cir_btn_can_use) == 'function'
+	then
+		can_use = e.config.ref_table.config.center:cir_btn_can_use(e.config.ref_table)
+	end
+	
+	e.config.button = can_use and 'cir_btn_use' or nil
+	e.config.colour = can_use and (e.config.ref_table.config.center.cir_btn_clr or G.C.MULT) or G.C.UI.BACKGROUND_INACTIVE
 end
 
 miscItems.jkrKeyGroups.allegations = {}
@@ -1958,8 +2438,11 @@ end
 if CirnoMod.config.addCustomJokers then
 	miscItems.jkrKeyGroups.TwoMax.j_cir_naro_l = true
 	
+	miscItems.jkrKeyGroups.chatBrainrot.j_cir_moneyLaundry = true
+	
 	miscItems.jkrKeyGroups.unhinged.j_cir_crazyFace = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_confusedRumi = true
+	miscItems.jkrKeyGroups.unhinged.j_cir_moneyLaundry = true
 	
 	miscItems.jkrKeyGroups.unhinged.j_cir_nope_l = true
 	miscItems.jkrKeyGroups.unhinged.j_cir_arumia_l = true
@@ -1996,12 +2479,11 @@ miscItems.jkrKeyGroupTotalEncounters = function(groupName, stopAt1)
 	if miscItems.jkrKeyGroups[groupName] then
 		for k, v in pairs(miscItems.jkrKeyGroups[groupName]) do
 			if
-				CirnoMod.config.jkrVals[G.SETTINGS.profile]
-				and CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered[k]
+				CirnoMod.miscItems.get_cir_data('encountered')[k]
 				and (type(v) ~= 'function'
 				or v())
 			then
-				RV = RV + CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered[k]
+				RV = RV + G.PROFILES[G.SETTINGS.profile].cir_data.encountered[k]
 			end
 		
 			if stopAt1 and RV > 0 then
@@ -2053,18 +2535,17 @@ end
 
 miscItems.encounterJoker = function(jkrKey, noSave)
 	if
-		CirnoMod.config.jkrVals[G.SETTINGS.profile]
-		and CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered
+		CirnoMod.miscItems.get_cir_data('encountered', true)
 	then
-		if not CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered[jkrKey] then
-			CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered[jkrKey] = 0
+		if not G.PROFILES[G.SETTINGS.profile].cir_data.encountered[jkrKey] then
+			G.PROFILES[G.SETTINGS.profile].cir_data.encountered[jkrKey] = 0
 		end
 		
-		CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered[jkrKey] = CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered[jkrKey] + 1
+		G.PROFILES[G.SETTINGS.profile].cir_data.encountered[jkrKey] = G.PROFILES[G.SETTINGS.profile].cir_data.encountered[jkrKey] + 1
 		
 		-- For bulk
 		if not noSave then
-			SMODS.save_mod_config(CirnoMod)
+			G:save_progress()
 		end
 		
 		return true
@@ -2075,11 +2556,9 @@ end
 
 miscItems.hasEncounteredJoker = function(jkrKey)
 	if
-		CirnoMod.config.jkrVals[G.SETTINGS.profile]
-		and CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered
-		and CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered[jkrKey]
+		CirnoMod.miscItems.get_cir_data('encountered')[jkrKey]
 	then
-		return CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered[jkrKey] > 0
+		return G.PROFILES[G.SETTINGS.profile].cir_data.encountered[jkrKey] > 0
 	end
 	
 	return false
@@ -2093,7 +2572,7 @@ miscItems.obscureJokerNameIfNotEncountered = function(jkrKey)
 	if CirnoMod.miscItems.hasEncounteredJoker(jkrKey) then
 		return CirnoMod.miscItems.getJokerNameByKey(jkrKey)
 	else
-		return '?????'
+		return localize('k_unknown')
 	end
 end
 
@@ -2123,19 +2602,19 @@ miscItems.obscureJokerNameIfLockedOrUndisc = function(jkrKey)
 	if CirnoMod.miscItems.isUnlockedAndDisc(G.P_CENTERS[jkrKey]) then
 		return CirnoMod.miscItems.getJokerNameByKey(jkrKey)
 	else
-		return '?????'
+		return localize('k_unknown')
 	end
 end
 
-miscItems.obscureStringIfJokerKeyLockedOrUndisc = function(string, jkrKey)
+miscItems.obscureStringIfJokerKeyLockedOrUndisc = function(string, jkrKey, fallback_string)
 	if not G.P_CENTERS[jkrKey] then
-		return '[INVALID KEY]'
+		return fallback_string or '[INVALID KEY]'
 	end
 	
 	if CirnoMod.miscItems.isUnlockedAndDisc(G.P_CENTERS[jkrKey]) then
 		return string
 	else
-		return '?????'
+		return localize('k_unknown')
 	end
 end
 
@@ -2143,7 +2622,7 @@ miscItems.obscureStringIfNoneInJokerKeyGroupEncountered = function(string, group
 	if CirnoMod.miscItems.jkrKeyGroupTotalEncounters(groupName, true) > 0 then
 		return string
 	else
-		return '?????'
+		return localize('k_unknown')
 	end
 end
 
@@ -2168,6 +2647,16 @@ miscItems.isUsingAnyCustomAtlas = function(card)
 	end
 	
 	return false
+end
+
+miscItems.getKeyedTableLength = function(t)
+	local ret = 0
+	
+	for k, v in pairs(t) do
+		ret = ret + 1
+	end
+	
+	return ret
 end
 
 miscItems.isUnlockedAndDisc = function(card)
@@ -2202,16 +2691,16 @@ miscItems.encounterAllDiscoveredJokersOnce = function()
 		end
 	end
 	
-	SMODS.save_mod_config(CirnoMod)
+	G:save_progress()
 	
-	return CirnoMod.config.jkrVals[G.SETTINGS.profile].encountered
+	return G.PROFILES[G.SETTINGS.profile].cir_data.encountered
 end
 
 miscItems.SetJkrValVar = function(primVarName, secVarName, value, profNum)
 	profNum = profNum or G.SETTINGS.profile
 	
-	CirnoMod.config.jkrVals[profNum][primVarName][secVarName] = value
-	SMODS.save_mod_config(CirnoMod)
+	G.PROFILES[profNum].cir_data[primVarName][secVarName] = value
+	G:save_progress()
 end
 
 miscItems.undiscoverLock = function(card, doLock)
@@ -2276,8 +2765,21 @@ miscItems.perfectionismUpgradable_Jokers = {
 	
 	j_cir_b3313 = function() return { msg = ' no ', frc_incompatible = true } end,
 	
-	j_scary_face = 'j_cir_crazyFace'
+	j_cir_ollie = function() return { msg = ' impossible ', frc_incompatible = true } end,
+	
+	j_scary_face = 'j_cir_crazyFace',
+	
+	j_cir_cokeman = function() return { msg = ' seriously? ', frc_incompatible = true } end
 }
+
+local unimplementedUpg = function() return { msg = ' planned, but unimplemented :( ', clr = mix_colours(G.C.FILTER, G.C.JOKER_GREY, 0.8), frc_incompatible = true } end
+local plannedUpg = {
+	'j_madness', 'j_bootstraps', 'j_blackboard', 'j_sixth_sense', 'j_red_card', 'j_mail', 'j_hallucination', 'j_devious', 'j_baseball', 'j_bull', 'j_trouesrs', 'j_smiley'
+}
+
+for i, unim in ipairs(plannedUpg) do
+	miscItems.perfectionismUpgradable_Jokers[unim] = unimplementedUpg
+end
 
 -- These are surprise tools that will help us later. :)
 miscItems.funnyAtlases.cirGuns = SMODS.Atlas({
@@ -2425,5 +2927,17 @@ SMODS.DrawStep{
 	end,
 	conditions = { vortex = false, facing = 'front' }
 }
+
+SMODS.DrawStep {
+	key = 'cir_use_btn',
+	order = -30, -- before the Card is drawn
+	func = function(card, layer)
+		if card.children.cir_btn_use then
+			card.children.cir_btn_use:draw()
+		end
+	end
+}
+
+SMODS.draw_ignore_keys.cir_use_btn = true
 
 return miscItems

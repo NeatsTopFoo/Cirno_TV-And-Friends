@@ -66,35 +66,59 @@ payload = '''G.E_MANAGER:add_event(Event({
 match_indent = true
 times = 1
 
-# Deleting profile also resets encountered Jokers.
-# Have to patch it instead of hooking because it
-# seems there's a fork inside the function that
-# looks like it might branch to not deleting
-# the profile.
+# Adds Keepsake cardarea to Joker evaluation
 [[patches]]
 [patches.pattern]
-target = "button_callbacks.lua"
-pattern = "G.PROFILES[G.focused_profile] = {}"
-position = "after"
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "-- TARGET: add your own CardAreas for joker evaluation"
+position = 'before'
 payload = '''
-	if CirnoMod and CirnoMod.config.jkrVals[G.focused_profile] then
-		CirnoMod.config.jkrVals[G.focused_profile] = { store = {}, encountered = {} }
-	end
+if CirnoMod and CirnoMod.keepsake_area then table.insert(t, CirnoMod.keepsake_area) end
 '''
 match_indent = true
 overwrite = false
 times = 1
 
-# Makes an adjustment to Midas Mask to allow
-# it to be properly comboed with a certain Joker.
+# Puts to_big in scale_card stuff in case Talisman doesn't update
+# Yes, you should use Amulet and/or SpectraLib.
+# I am maintaining compatibility because my players want
+# Cryptid compat and I don't have the energy to deal with
+# them. But use Amulet, please.
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "SMODS.additive_scaling(args.ref_table, args.ref_value, initial, -1 * scalar_value)"
+position = 'at'
+payload = "SMODS.additive_scaling(args.ref_table, args.ref_value, initial, to_big(-1) * to_big(scalar_value))"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "ref_table[ref_value] = initial + modifier"
+position = 'at'
+payload = "ref_table[ref_value] = to_big(initial) + to_big(modifier)"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "ref_table[ref_value] = initial * modifier"
+position = 'at'
+payload = "ref_table[ref_value] = to_big(initial) * to_big(modifier)"
+match_indent = true
+times = 1
+
+# Adjusts set_cost() to return
+# the initially determined cost
 [[patches]]
 [patches.pattern]
 target = "card.lua"
-pattern = '''for k, v in ipairs(context.scoring_hand) do
-                            if v:is_face() then'''
-position = "at"
-payload = '''for k, v in ipairs(context.scoring_hand) do
-	if v:is_face() and not SMODS.has_enhancement(v, 'm_gold') then'''
+pattern = "self.sell_cost_label = self.facing == 'back' and '?' or self.sell_cost"
+position = "after"
+payload = "return self.cost"
 match_indent = true
 overwrite = false
 times = 1
@@ -122,6 +146,22 @@ match_indent = true
 overwrite = false
 times = 1
 
+# Allows for a custom-defined can_sell_card
+# function in custom Card objects
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''not SMODS.is_eternal(self, {from_sell = true}) then'''
+position = "after"
+payload = '''local obj = self.config.center
+if self.ability.set ~= "Enhanced" and obj.can_sell and type(obj.can_sell) == 'function' then
+	local o, t = obj:can_sell(self, context)
+	if o ~= nil or t ~= nil then return o, t end
+end'''
+match_indent = true
+overwrite = false
+times = 1
+
 # Upgraded Jokers will materialise with the
 # same colours they're destroyed with
 # This is never seen during a run, as
@@ -139,28 +179,54 @@ match_indent = true
 overwrite = false
 times = 1
 
-
 # Adjusts dollar calculation at the end of round to account for the presence of red seals.
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
 pattern = '''
-i = i+1
-add_round_eval_row({dollars = ret, bonus = true, name='joker'..i, pitch = pitch, card = _card})
-pitch = pitch + 0.06
+if not ret_opts.no_eval_row then
+    i = i+1
+    add_round_eval_row({dollars = ret, bonus = true, name='joker'..i, pitch = pitch, card = _card, loc_opts = ret_opts})
+    pitch = pitch + 0.06
+end
 dollars = dollars + ret
 '''
 position = "at"
 payload = '''
-				if CirnoMod then
-					cModDolCalc = CirnoMod.miscItems.roundEvalDollarCalc.full(ret, dollars, pitch, _card, i)
-					i = cModDolCalc.i
-					dollars = cModDolCalc.dollars
-					-- Patched by Cirno_TV & Friends Mod
-				end
+cModDolCalc = CirnoMod.miscItems.roundEvalDollarCalc.full(ret, ret_opts, dollars, pitch, _card, i)
+i = cModDolCalc.i
+dollars = cModDolCalc.dollars
+-- Patched by Cirno_TV & Friends Mod
 '''
 times = 1
-match_indent = false
+match_indent = true
+
+# Thank you, very cool
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''if not SMODS.config.seeded_unlocks and (G.GAME.seeded or G.GAME.challenge) then return end'''
+position = "at"
+payload = '''if not SMODS.config.seeded_unlocks and (G.GAME.seeded or G.GAME.challenge) and not force_unlock then return end'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "function unlock_card(card)"
+position = "at"
+payload = "function unlock_card(card, force_unlock)"
+times = 1
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "function discover_card(card)"
+position = "at"
+payload = "function discover_card(card, force_unlock)"
+times = 1
+match_indent = true
 
 # Fixes generate_card_ui() 
 # Credit to Breezebuilder for figuring this out
@@ -186,39 +252,61 @@ match_indent = true
 # Captures when a card UI tooltip is being generated
 # and checks to see if it should add the credit
 # tooltip based on the item's key.
+# Additionally removes the tooltip designated for removal.
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
 pattern = "for _, v in ipairs(info_queue) do"
 position = "before"
 payload = '''
-
-	if
-		card_type ~= 'Locked'
-		and card_type ~= 'Undiscovered'
-		and CirnoMod
-		and CirnoMod.config.artCredits
-	then
-		local PVC_RV = CirnoMod.ParseVanillaCredit(_c, specific_vars, card)
+	if CirnoMod then
+		if CirnoMod.add_to_infoQueue then
+			CirnoMod.add_to_infoQueue(_c, card, loc_vars, specific_vars, info_queue, card_type, badges, main_start, main_end)
+		end
 		
-		if PVC_RV then
-			local ACEC = nil
+		if
+			card_type ~= 'Locked'
+			and card_type ~= 'Undiscovered'
+			and CirnoMod.config.artCredits
+		then
+			local PVC_RV = CirnoMod.ParseVanillaCredit(_c, specific_vars, card)
 			
-			if
-				CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key]
-			then
-				ACEC = CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key](_c, loc_vars, specific_vars, info_queue, card_type, badges, main_start, main_end)
+			if PVC_RV then
+				local ACEC = nil
+				
+				if
+					CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key]
+				then
+					ACEC = CirnoMod.miscItems.weirdArtCreditExceptionalCircumstanceKeys[_c.key](_c, loc_vars, specific_vars, info_queue, card_type, badges, main_start, main_end)
+				end
+				
+				if
+					not ACEC
+					or ACEC and ACEC.doNotInfoQueue
+				then
+					info_queue[#info_queue + 1] = PVC_RV
+				end
 			end
 			
-			if
-				not ACEC
-				or ACEC and ACEC.doNotInfoQueue
-			then
-				info_queue[#info_queue + 1] = PVC_RV
+			local indToRemove = nil
+			
+			for passes = 0, 5 do
+				for i, tTip in ipairs(info_queue) do
+					if tTip.key == 'cir_forRemoval' then
+						indToRemove = i
+						break
+					end
+				end
+				
+				if not indToRemove then
+					break
+				else
+					info_queue[indToRemove] = nil
+					indToRemove = nil
+				end
 			end
 		end
 	end
-	
 '''
 times = 1
 match_indent = false
@@ -239,29 +327,34 @@ end
 times = 1
 match_indent = true
 
-# Adjusting the SMODS.create_mod_badges call
-# to also pass in the card var for my hook
+# Overwriting the SMODS.create_mod_badges calls
+# with my own, because I need a card var,
 # because I need the card itself, I can't
 # do what I'm trying to do with just the center
-# Thank you Aure, very cool
+# so while a hook is workable, just only until
+# something else hooks it with higher priority
+# and doesn't pass the card var I need, so I
+# must demand the highest priority just for
+# a card var
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
 pattern = "SMODS.create_mod_badges(card.config.center, badges)"
 position = "at"
-payload = "SMODS.create_mod_badges(card.config.center, badges, card)"
+payload = "CirnoMod.create_mod_badges(card.config.center, badges, card)"
 times = 1
-match_indent = false
+match_indent = true
 
 # Quitting is an option.
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
-pattern = '''return {n=G.UIT.ROOT, config={align = "cm", padding = 0.05, colour = G.C.CLEAR}, nodes={'''
-position = "at"
-payload = '''return CirnoMod and CirnoMod.quittingIsAnOption() or {n=G.UIT.ROOT, config={align = "cm", padding = 0.05, colour = G.C.CLEAR}, nodes={'''
+pattern = '''G.F_CRASH_REPORTS and create_toggle({label = localize('b_set_crash_reports'), ref_table = G.SETTINGS, ref_value = 'crashreports', info = localize('ml_crash_report_info')}) or nil,'''
+position = "after"
+payload = '''CirnoMod and CirnoMod.quittingIsAnOption() or nil,'''
 match_indent = true
 times = 1
+overwrite = false
 
 # Intercepts the code that creates Rarity badges
 # on Jokers for the purpose of making them into
@@ -271,18 +364,135 @@ times = 1
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
-pattern = '''badges[#badges + 1] = create_badge(((card.ability.name == 'Pluto' or card.ability.name == 'Ceres' or card.ability.name == 'Eris') and localize('k_dwarf_planet')) or (card.ability.name == 'Planet X' and localize('k_planet_q') or card_type),card_type_colour, nil, 1.2)'''
+pattern = '''badges[#badges + 1] = create_badge(((card.ability.name == 'Pluto' or card.ability.name == 'Ceres' or card.ability.name == 'Eris') and localize('k_dwarf_planet')) or (card.ability.name == 'Planet X' and localize('k_planet_q') or card_type), card_type_colour, card_type_text_colour, 1.2)'''
 position = "at"
 payload = '''if
 	type(card_type) == 'string'
 	and CirnoMod.miscItems.atlasCheck(card)
 	and CirnoMod.miscItems.itmReferenceTable[card.config.center.key]
 then
-	badges[#badges + 1] = CirnoMod.miscItems.createDynaTextBadge(SMODS.merge_lists({ { card_type } }, CirnoMod.miscItems.itmReferenceTable[card.config.center.key]), card_type_colour, nil, 1.3)
+	badges[#badges + 1] = CirnoMod.miscItems.createDynaTextBadge(SMODS.merge_lists({ { card_type } }, CirnoMod.miscItems.itmReferenceTable[card.config.center.key]), card_type_colour, card_type_text_colour, 1.3)
 else
-	badges[#badges + 1] = create_badge(((card.ability.name == 'Pluto' or card.ability.name == 'Ceres' or card.ability.name == 'Eris') and localize('k_dwarf_planet')) or (card.ability.name == 'Planet X' and localize('k_planet_q') or card_type), card_type_colour, nil, 1.2)
+	badges[#badges + 1] = create_badge(((card.ability.name == 'Pluto' or card.ability.name == 'Ceres' or card.ability.name == 'Eris') and localize('k_dwarf_planet')) or (card.ability.name == 'Planet X' and localize('k_planet_q') or card_type), card_type_colour, card_type_text_colour, 1.2)
 end'''
 match_indent = true
+times = 1
+
+# Getting mod badges on random vanilla Jokers
+# that are either being taken ownership of and
+# being told to suppress the mod badge, or are
+# just not being taken ownership of at all.
+# In lieu of an actual fix, I'm just going to
+# manually force the badges on the offending
+# Jokers to just not be added.
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = "for i, mod in ipairs(mods) do"
+position = "after"
+payload = '''
+
+if
+	not (mod.id == 'CTVaF' and CirnoMod.miscItems.force_remove_cir_badge[obj.key]) 
+then
+'''
+match_indent = true
+times = 1
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''{n=G.UIT.B, config={h=0.1,w=0.03}},
+                }}
+              }}'''
+position = "after"
+payload = "end"
+match_indent = true
+times = 1
+overwrite = false
+
+# Allow context.setting_ability to access
+# pre-converted ability table
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/overrides.lua"]'''
+pattern = "set_ability(self, center, initial, delay_sprites)"
+position = "before"
+payload = "local old_ability = self.ability and SMODS.shallow_copy(self.ability) or {}"
+match_indent = true
+times = 1
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/overrides.lua"]'''
+pattern = "SMODS.calculate_context({setting_ability = true, old = old_center.key, new = self.config.center_key, other_card = self, unchanged = old_center.key == self.config.center.key})"
+position = "at"
+payload = "SMODS.calculate_context({setting_ability = true, old = old_center.key, new = self.config.center_key, other_card = self, unchanged = old_center.key == self.config.center.key, old_ability = old_ability})"
+match_indent = true
+times = 1
+
+# Add blind_select context call
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.5,
+        func = function()
+          G.shop:remove()
+          G.shop = nil
+          G.SHOP_SIGN:remove()
+          G.SHOP_SIGN = nil
+          G.STATE_COMPLETE = false
+          G.STATE = G.STATES.BLIND_SELECT
+          G.CONTROLLER.locks.toggle_shop = nil
+          return true
+        end
+      }))'''
+position = "after"
+payload = '''
+G.E_MANAGER:add_event(Event({
+	trigger = 'after',
+	delay = 0.1,
+	func = function()
+		SMODS.calculate_context({ cir_blind_select = true })
+		return true
+	end }))
+'''
+match_indent = true
+overwrite = false
+times = 1
+
+# "Fix" an issue with boosters made in context.blind_select
+# not saving properly
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''if saveTable and saveTable.ACTION then
+        G.E_MANAGER:add_event(Event({delay = 0.5, trigger = 'after', blocking = false,blockable = false,func = (function() 
+            G.E_MANAGER:add_event(Event({func = (function() 
+                G.E_MANAGER:add_event(Event({func = (function() '''
+position = "after"
+payload = '''				if
+					saveTable.ACTION.type
+					and saveTable.ACTION.type == 'cir_booster'
+					and saveTable.ACTION.b_key
+				then
+					CirnoMod.miscItems.create_open_booster(saveTable.ACTION.b_key, { 
+							save_action = {
+									type = 'cir_booster',
+									b_key = saveTable.ACTION.b_key
+								},
+							clear_stored_back_key = true,
+							nosave = true
+						})
+					return true
+				end
+'''
+match_indent = true
+overwrite = false
 times = 1
 
 # Makes a bunch of the normally red buttons blue!
@@ -352,10 +562,10 @@ match_indent = false
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
-pattern = '''create_option_cycle({options = ordered_names, opt_callback = 'change_viewed_back', current_option = 1, colour = G.C.RED, w = 4.5, focus_args = {snap_to = true}, mid = '''
+pattern = '''create_option_cycle({options = ordered_names, opt_callback = 'change_viewed_back', current_option = 1, colour = G.ACTIVE_MOD_UI and (G.ACTIVE_MOD_UI.ui_config or {}).collection_option_cycle_colour or G.C.RED, w = 4.5, focus_args = {snap_to = true}, mid = '''
 position = "at"
 payload = '''
-create_option_cycle({options = ordered_names, opt_callback = 'change_viewed_back', current_option = 1, colour = G.C.SECONDARY_SET.UIDefault or G.C.RED, w = 4.5, focus_args = {snap_to = true}, mid = 
+create_option_cycle({options = ordered_names, opt_callback = 'change_viewed_back', current_option = 1, colour =  G.ACTIVE_MOD_UI and (G.ACTIVE_MOD_UI.ui_config or {}).collection_option_cycle_colour or G.C.SECONDARY_SET.UIDefault or G.C.RED, w = 4.5, focus_args = {snap_to = true}, mid = 
 '''
 times = 1
 match_indent = false
@@ -385,10 +595,26 @@ match_indent = false
 [[patches]]
 [patches.pattern]
 target = '''=[SMODS _ "src/ui.lua"]'''
-pattern = "colour = G.C.RED,"
+pattern = '''local collab_cycle = create_option_cycle({options = loc_options, w = 5.5, cycle_shoulders = true, curr_suit = _suit, opt_callback = 'change_collab', current_option = current_option, colour = G.C.RED, focus_args = {snap_to = true, nav = 'wide'}})'''
 position = "at"
-payload = "colour = G.C.SECONDARY_SET.UIDefault or G.C.RED,"
-match_indent = false
+payload = '''local collab_cycle = create_option_cycle({options = loc_options, w = 5.5, cycle_shoulders = true, curr_suit = _suit, opt_callback = 'change_collab', current_option = current_option, colour = G.C.SECONDARY_SET.UIDefault or G.C.RED, focus_args = {snap_to = true, nav = 'wide'}})'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/ui.lua"]'''
+pattern = '''colour = G.ACTIVE_MOD_UI and (G.ACTIVE_MOD_UI.ui_config or {}).collection_option_cycle_colour or G.C.RED,'''
+position = "at"
+payload = '''colour = G.ACTIVE_MOD_UI and (G.ACTIVE_MOD_UI.ui_config or {}).collection_option_cycle_colour or G.C.SECONDARY_SET.UIDefault or G.C.RED,'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/overrides.lua"]'''
+pattern = '''colour = G.ACTIVE_MOD_UI and (G.ACTIVE_MOD_UI.ui_config or {}).collection_option_cycle_colour or G.C.RED,'''
+position = "at"
+payload = '''colour = G.ACTIVE_MOD_UI and (G.ACTIVE_MOD_UI.ui_config or {}).collection_option_cycle_colour or G.C.SECONDARY_SET.UIDefault or G.C.RED,'''
+match_indent = true
 
 [[patches]]
 [patches.pattern]
@@ -401,9 +627,9 @@ match_indent = false
 [[patches]]
 [patches.pattern]
 target = '''=[SMODS _ "src/ui.lua"]'''
-pattern = '''create_option_cycle({options = options, w = 4.5, cycle_shoulders = true, opt_callback = 'SMODS_card_collection_page', current_option = 1, colour = G.C.RED, no_pips = true, focus_args = {snap_to = true, nav = 'wide'}})'''
+pattern = '''create_option_cycle({options = options, w = 4.5, cycle_shoulders = true, opt_callback = 'SMODS_card_collection_page', current_option = 1, colour = G.ACTIVE_MOD_UI and (G.ACTIVE_MOD_UI.ui_config or {}).collection_option_cycle_colour or G.C.RED, no_pips = true, focus_args = {snap_to = true, nav = 'wide'}})'''
 position = "at"
-payload = '''create_option_cycle({options = options, w = 4.5, cycle_shoulders = true, opt_callback = 'SMODS_card_collection_page', current_option = 1, colour = G.C.SECONDARY_SET.UIDefault or G.C.RED, no_pips = true, focus_args = {snap_to = true, nav = 'wide'}})'''
+payload = '''create_option_cycle({options = options, w = 4.5, cycle_shoulders = true, opt_callback = 'SMODS_card_collection_page', current_option = 1, colour = G.ACTIVE_MOD_UI and (G.ACTIVE_MOD_UI.ui_config or {}).collection_option_cycle_colour or G.C.SECONDARY_SET.UIDefault or G.C.RED, no_pips = true, focus_args = {snap_to = true, nav = 'wide'}})'''
 match_indent = false
 
 # Makes the extra tooltip thingies work

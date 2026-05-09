@@ -42,7 +42,7 @@ local jokerInfo = {
 			just says 'Stone card' in the description.]]
 			loc_vars = function(self, info_queue, card)
 				-- Art credit tooltip
-				if CirnoMod.config['artCredits'] and not card.fake_card then
+				if CirnoMod.config.artCredits and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_Unknown_LocalThunkEdit", set = "Other" }
 				end
 				

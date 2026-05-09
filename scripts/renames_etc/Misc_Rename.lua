@@ -783,7 +783,7 @@ else
 		})
 end
 
-SMODS.Voucher:take_ownership('telescope',{
+SMODS.Voucher:take_ownership('telescope', {
 	loc_vars = function(self, info_queue, card)
 		return { vars = {
 			G.localization.descriptions.Other.p_celestial_normal.name,

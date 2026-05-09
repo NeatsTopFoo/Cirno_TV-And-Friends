@@ -10,8 +10,6 @@ local jokerInfo = {
 	},
 	
 	--[[ TODO:
-		- Fixer; X1 Mult for every unique face card
-		- Ornstein & Smough Joker pair that respectively become Super Ornstein & Super Smough when the other of the two is destroyed (not sold)
 		- Redacted '██████' Joker whose effects are not clear, highly unpredictable and inconsistent, heavily RNG-based but also extremely confusing (Note, Mario the Idea vs. Mario the Man)
 		- Mac n' Cheese Joker; Every 2 Boss Blinds, if there's room, creates a Ketchup (Seltzer). Gains x0.1 mult every time a ketchup runs out.
 		- Bloodborne on PC Joker: Dithering between the effect of "Sell this Joker during a blind to draw 2x hand size to card", "In X rounds, sell this Joker to multiply your number of discards by 1.5" & "Sell this Joker during a blind to discard all held cards and draw a new hand (If deck is empty, refresh deck)."
@@ -22,6 +20,7 @@ local jokerInfo = {
 		- Emotional Support Broken Man Joker
 		- Air fryer?
 		- Cameo Joker
+		- Tazuna Hayakawa: X2 legendary consumable rate, destroyed when the Soul is used
 	]]
 	jokerConfigs = {
 		-- Crystal Tap
@@ -68,7 +67,7 @@ local jokerInfo = {
 			end,
 			]]
 			
-			updateState = function(jkr)
+			cir_updateState = function(jkr)
 				if
 					jkr.ability
 					and jkr.children
@@ -802,7 +801,7 @@ local jokerInfo = {
 				
 				info_queue[#info_queue + 1] = CirnoMod.miscItems.descExtensionTooltips['eDT_cir_unhinged']
 				
-				--[Art credit tooltip
+				-- Art credit tooltip
 				if CirnoMod.config.artCredits and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
 				end
@@ -815,7 +814,7 @@ local jokerInfo = {
 					return { vars = { 'being ', 'unhinged' } }
 				end
 				
-				return { vars = { '', '?????' } }
+				return { vars = { '', localize('k_unknown') } }
 			end,
 			
 			cir_upgradeInfo = function(self, card)
@@ -882,10 +881,10 @@ local jokerInfo = {
 			matureRefLevel = 1,
 			cir_Friend = CirnoMod.miscItems.cirFriends.cir,
 			
-			loc_txt = CirnoMod.miscItems.createErrorLocTxt('B3313'),
+			loc_txt = CirnoMod.miscItems.createErrorLocTxt(),
 			
 			pos = { x = 0, y = 0 },
-			cost = 17,
+			cost = 13,
 			eternal_compat = true,
 			perishable_compat = false,
 			
@@ -1012,17 +1011,14 @@ local jokerInfo = {
 			end,
 			]]
 			
-			updateState = function(jkr)
+			cir_updateState = function(jkr)
 				if
 					jkr.ability.extra.currentForm ~= 'base'
-					and (CirnoMod.miscItems.isState(G.STATE, G.STATES.SHOP)
-					or CirnoMod.miscItems.isState(G.STATE, G.STATES.BLIND_SELECT)
-					or CirnoMod.miscItems.isState(G.STATE, 999)
-					or CirnoMod.miscItems.isState(G.STATE, G.STATES.TAROT_PACK)
-					or CirnoMod.miscItems.isState(G.STATE, G.STATES.PLANET_PACK)
-					or CirnoMod.miscItems.isState(G.STATE, G.STATES.SPECTRAL_PACK)
-					or CirnoMod.miscItems.isState(G.STATE, G.STATES.STANDARD_PARK)
-					or CirnoMod.miscItems.isState(G.STATE, G.STATES.BUFFOON_PACK))
+					and CirnoMod.miscItems.isAnyOfTheseStates(G.STATE, {
+						G.STATES.SHOP , G.STATES.BLIND_SELECT, 999,
+						G.STATES.TAROT_PACK, G.STATES.PLANET_PACK,
+						G.STATES.SPECTRAL_PACK, G.STATES.STANDARD_PARK,
+						G.STATES.BUFFOON_PACK })
 				then
 					jkr.ability.extra.currentForm = 'base'
 				end
@@ -1188,6 +1184,10 @@ local jokerInfo = {
 					context = {}
 				end
 				
+				local ret_opts = {
+					key = 'cir_b3313_'..card.ability.extra.currentForm
+				}
+				
 				if
 					not (context.blueprint
 					or context.retrigger_joker)
@@ -1202,14 +1202,14 @@ local jokerInfo = {
 				end
 				
 				if to_big(card.ability.extra.formsInfo.crescent.accruedMoney) > 0 then
-					local RV = to_big(card.ability.extra.formsInfo.crescent.accruedMoney)
+					local ret = to_big(card.ability.extra.formsInfo.crescent.accruedMoney)
 					
-					return RV
+					return ret, ret_opts
 				end
 			end,
 			
 			jkr_shouldSkipRedSeal = function(self, context, card)
-				return CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
+				return G.STATE ~= G.STATES.HAND_PLAYED
 					or context.other_context.first_hand_drawn
 			end,
 			
@@ -1217,10 +1217,10 @@ local jokerInfo = {
 				-- Looks to see if the played hand is 3, 3, Ace, 3
 				if context.before and context.cardarea == G.jokers then
 					formTable.threeThreeOneThree = (#G.play.cards == 4
-						and G.play.cards[1].base.value == "3"
-						and G.play.cards[2].base.value == "3"
-						and G.play.cards[3].base.value == "Ace"
-						and G.play.cards[4].base.value == "3")
+						and G.play.cards[1]:get_id() == 3
+						and G.play.cards[2]:get_id() == 3
+						and G.play.cards[3]:get_id() == 14
+						and G.play.cards[4]:get_id() == 3)
 				end
 				
 				--[[ Assigns the random enhancement to played 3s
@@ -1232,8 +1232,8 @@ local jokerInfo = {
 					and context.individual
 					and context.cardarea == G.play
 					and context.other_card:can_calculate()
-					and (context.other_card.base.value == "3"
-					or context.other_card.base.value == "Ace")
+					and (context.other_card:get_id() == 3
+					or context.other_card:get_id() == 14)
 					and not next(SMODS.get_enhancements(context.other_card))
 				then
 					local formTable_ = formTable
@@ -1274,13 +1274,10 @@ local jokerInfo = {
 					-- Gives the X3.313 mult if the hand is 3, 3, Ace, 3
 					if formTable.threeThreeOneThree then
 						if
-							card.seal
-							and card.seal == 'Red'
+							context.retrigger_joker
+							or not (card.seal
+							and card.seal == 'Red')
 						then
-							if context.retrigger_joker then
-								formTable.threeThreeOneThree = false
-							end
-						else
 							formTable.threeThreeOneThree = false
 						end
 						
@@ -1406,7 +1403,7 @@ local jokerInfo = {
 				then
 					local contextRef = context
 					local handRef = G.play.cards
-					local findLowest = CirnoMod.miscItems.cardRanksToValues_AceLow[G.play.cards[1].base.value]
+					local findLowest = CirnoMod.miscItems.cardRanksToValues_AceLow[CirnoMod.miscItems.ID_To_String[G.play.cards[1]:get_id()]]
 					local entireHandDebuffed = true
 					local percent = 1
 					
@@ -1426,8 +1423,8 @@ local jokerInfo = {
 								handRef[i]:can_calculate()
 								and not SMODS.has_no_rank(handRef[i])
 							then
-								if CirnoMod.miscItems.cardRanksToValues_AceLow[handRef[i].base.value] < findLowest then
-									findLowest = CirnoMod.miscItems.cardRanksToValues_AceLow[handRef[i].base.value]
+								if CirnoMod.miscItems.cardRanksToValues_AceLow[CirnoMod.miscItems.ID_To_String[handRef[i]:get_id()]] or 999 < findLowest then
+									findLowest = CirnoMod.miscItems.cardRanksToValues_AceLow[CirnoMod.miscItems.ID_To_String[handRef[i]:get_id()]]
 								end
 								
 								if
@@ -1460,15 +1457,16 @@ local jokerInfo = {
 								and handRef[i]:can_calculate()
 								and not SMODS.has_no_rank(handRef[i])
 							then
+								local cardRef = handRef[i]
+								
+								SMODS.change_base(cardRef, nil, pseudorandom_element(formTable.rankTable, pseudoseed('uncannyRanks')), true)
+								
 								G.E_MANAGER:add_event(Event({
 									trigger = 'immediate',
 									blocking = true,
 									blockable = true,
 									func = function()
-										local cardRef = handRef[i]
-										
-										SMODS.change_base(cardRef, nil, pseudorandom_element(formTable.rankTable, pseudoseed('uncannyRanks')))
-										
+										cardRef:set_sprites(nil, cardRef.config.card)
 										return true
 										end }))
 								
@@ -1528,16 +1526,17 @@ local jokerInfo = {
 										amount = -formTable.rankChange
 									end
 									
+									local cardRef = handRef[i]
+									local amount_ = amount
+									
+									SMODS.modify_rank(cardRef, amount_, true)
+									
 									G.E_MANAGER:add_event(Event({
 									trigger = 'immediate',
 									blocking = true,
 									blockable = true,
 									func = function()
-										local cardRef = handRef[i]
-										local amount_ = amount
-										
-										SMODS.modify_rank(cardRef, amount_)
-										
+										cardRef:set_sprites(nil, cardRef.config.card)
 										return true
 										end }))
 								end
@@ -1589,7 +1588,13 @@ local jokerInfo = {
 						juiceCard = context.blueprint_card
 					end
 					
-					formTable.accruedMoney = to_big(formTable.accruedMoney) + to_big(formTable.monGain)
+					SMODS.scale_card(card, {
+						ref_table = formTable,
+						ref_value = 'accruedMoney',
+						scalar_value = 'monGain',
+						no_message = true
+					})
+					
 					return { func = function()
 						juiceCard:juice_up()
 					end }
@@ -1603,7 +1608,7 @@ local jokerInfo = {
 					and context.scoring_hand
 					and context.scoring_hand[1] == context.other_card
 				then
-					local firstCardChips = to_big(CirnoMod.miscItems.cardRanksToValues_AceHigh[context.other_card.base.value])
+					local firstCardChips = to_big(CirnoMod.miscItems.cardRanksToValues_AceHigh[CirnoMod.miscItems.ID_To_String[context.other_card:get_id()]])
 					
 					local e_Table = SMODS.get_enhancements(context.other_card)
 					local replacesBase = false
@@ -1644,9 +1649,12 @@ local jokerInfo = {
 				
 				if context.joker_main and context.cardarea == G.jokers then
 					local mCard = context.blueprint_card or card
-					local mColour = G.C.MULT
+					local mColour = context.cir_bp_col or G.C.MULT
 					
-					if context.blueprint then
+					if
+						context.blueprint
+						and not context.cir_bp_col
+					then
 						if mCard.ability.name == "Brainstorm" then
 							mColour = G.C.RED
 						else
@@ -1655,51 +1663,25 @@ local jokerInfo = {
 					end
 					
 					local RT = {}
-					local xmultsRequired = 0
+					local doRet = false
 					
-					if SMODS.pseudorandom_probability(card, 'forestMazeOne', 1, formTable.chance1) then
-						xmultsRequired = 1
-					end
-					
-					if SMODS.pseudorandom_probability(card, 'forestMazeTwo', 1, formTable.chance2) then
-						xmultsRequired = xmultsRequired + 1
-					end
-					
-					if SMODS.pseudorandom_probability(card, 'forestMazeThree', 1, formTable.chance3) then
-						xmultsRequired = xmultsRequired + 1
-					end
-					
-					if SMODS.pseudorandom_probability(card, 'forestMazeFour', 1, formTable.chance4) then
-						xmultsRequired = xmultsRequired + 1
-					end
-					
-					-- .-.
-					if xmultsRequired > 0 then
-						RT.xmult = to_big(formTable.xmult)
-						
-						if xmultsRequired > 1 then
-							RT.extra = {
-							xmult = to_big(formTable.xmult),
-							message_card = mCard,
-							colour = mColour }
+					for i = 1, 4 do
+						if SMODS.pseudorandom_probability(card, 'forestMaze'..i, 1, formTable['chance'..i]) then
+							doRet = true
 							
-							if xmultsRequired > 2 then
-								RT.extra.extra = {
+							RT = SMODS.merge_effects{ RT, {
 								xmult = to_big(formTable.xmult),
 								message_card = mCard,
-								colour = mColour }
-								
-								if xmultsRequired == 4 then
-									RT.extra.extra.extra = {
-									xmult = to_big(formTable.xmult),
-									message_card = mCard,
-									colour = mColour }
-								end
-							end
+								colour = mColour
+							} }
+						else
+							break
 						end
 					end
 					
-					return RT
+					if doRet then
+						return RT
+					end
 				end
 			end,
 			
@@ -1732,7 +1714,7 @@ local jokerInfo = {
 					
 					for i, c in ipairs(G.play.cards) do
 						if
-							c.base.value == "2"
+							c:get_id() == 2
 							and not c.edition
 							and c:can_calculate()
 							and not SMODS.has_no_rank(c)
@@ -1788,7 +1770,7 @@ local jokerInfo = {
 					and context.individual
 					and context.cardarea == G.hand
 					and context.other_card
-					and context.other_card.base.value == "2"
+					and context.other_card:get_id() == 2
 					and not SMODS.has_no_rank(context.other_card)
 				then
 					if context.other_card.debuff then
@@ -1837,7 +1819,7 @@ local jokerInfo = {
 					
 					if
 						not cardRef.edition
-						and (cardRef.base.value == "Queen"
+						and (cardRef:get_id() == 12
 						or formTable.parsedKingsJacks[cardRef])
 						and not formTable.queenPolycule[cardRef]						
 					then
@@ -1889,8 +1871,8 @@ local jokerInfo = {
 								end }
 						end
 					elseif
-						cardRef.base.value == "King"
-						or cardRef.base.value == "Jack"
+						cardRef:get_id() == 13
+						or cardRef:get_id() == 11
 						and not formTable.parsedKingsJacks[cardRef]
 					then
 						formTable.parsedKingsJacks[cardRef] = true
@@ -1907,9 +1889,9 @@ local jokerInfo = {
 									blocking = true,
 									blockable = true,
 									func = function()
-										if cardRef.base.value == "King" then
+										if cardRef:get_id() == 13 then
 											SMODS.modify_rank(cardRef, -1)
-										elseif cardRef.base.value == "Jack" then
+										elseif cardRef:get_id() == 11 then
 											SMODS.modify_rank(cardRef, 1)
 										end
 										
@@ -1968,11 +1950,13 @@ local jokerInfo = {
 							c:can_calculate()
 							and not SMODS.has_no_rank(c)
 						then
-							combinedBaseValue = to_big(combinedBaseValue) + to_big(CirnoMod.miscItems.cardRanksToValues_AceHigh[c.base.value])
+							combinedBaseValue = to_big(combinedBaseValue) + to_big(CirnoMod.miscItems.cardRanksToValues_AceHigh[CirnoMod.miscItems.ID_To_String[c:get_id()]] or 0)
 						end
 					end
 					
-					return { mult = to_big(combinedBaseValue) }
+					if combinedBaseValue > to_big(0) then
+						return { mult = to_big(combinedBaseValue) }
+					end
 				end
 			end,
 			
@@ -1985,7 +1969,7 @@ local jokerInfo = {
 					and context.cardarea == G.play
 					and context.other_card:can_calculate()
 					and context.other_card:is_suit("Clubs")
-					and context.other_card.base.value == "Queen"
+					and context.other_card:get_id() == 12
 					and not next(SMODS.get_enhancements(context.other_card))
 				then
 					local formTable_ = formTable
@@ -2026,7 +2010,7 @@ local jokerInfo = {
 				then
 					if card.ability.extra.currentForm ~= 'base' then
 						cardRef.ability.extra.currentForm = 'base'
-						self.updateState(card)
+						self.cir_updateState(card)
 					end
 					
 					card.ability.extra.formsInfo.crescent.accruedMoney = 0
@@ -2151,7 +2135,7 @@ local jokerInfo = {
 				end
 				
 				if CirnoMod.config.negativePCardsBalancing then
-					ret.key = 'cir_j_confusedRumi_nPCardRebalanced'
+					ret.key = 'j_cir_confusedRumi_nPCardRebalanced'
 					
 					info_queue[#info_queue + 1] = { key = 'e_negative_playing_card',
 						set = 'Edition',
@@ -2177,7 +2161,7 @@ local jokerInfo = {
 			end,
 			
 			cir_upgradeInfo = function(self, card)
-				if card.ability.extra.upToHands > 1 then
+				if to_big(card.ability.extra.upToHands) > to_big(1) then
 					return {
 						'During the first {C:attention}'..to_big(card.ability.extra.upToHands)..'{} hands',
 						'->',
@@ -2195,14 +2179,15 @@ local jokerInfo = {
 			cir_upgrade = function(self, card)
 				card.ability.extra.upToHands = to_big(card.ability.extra.upToHands) + to_big(1)
 				
-				self.updateState(card)
+				self.cir_updateState(card)
 				
 				return { message = localize('k_upgrade_ex') }
 			end,
 			
-			updateState = function(jkr)
+			cir_updateState = function(jkr)
 				if
-					CirnoMod.miscItems.isState(G.STATE, G.STATES.SELECTING_HAND)
+					G.GAME
+					and G.GAME.blind.in_blind
 					and to_big(G.GAME.current_round.hands_played) < to_big(jkr.ability.extra.upToHands)
 				then
 					juice_card_until(jkr, function()
@@ -2230,8 +2215,7 @@ local jokerInfo = {
 				end
 				
 				if
-					context.main_eval
-					and context.before
+					context.before
 					and to_big(G.GAME.current_round.hands_played) < to_big(card.ability.extra.upToHands)
 				then
 					local handRef = G.play.cards
@@ -2390,7 +2374,6 @@ local jokerInfo = {
 			calculate = function(self, card, context)
 				if
 					context.debuff_hand
-					and context.main_eval
 					and context.scoring_name == card.ability.extra.pHand
 				then
 					return { debuff = true }
@@ -2479,7 +2462,7 @@ local jokerInfo = {
 				return ret
 			end,
 			
-			updateState = function(card)
+			cir_updateState = function(card)
 				if
 					card.ability
 					and card.children
@@ -2578,7 +2561,7 @@ local jokerInfo = {
 								trigger = 'immediate',
 								blockable = true,
 								func = function()
-									selfRef.updateState(cardRef)
+									selfRef.cir_updateState(cardRef)
 									
 									SMODS.calculate_effect({
 										message = ' ',
@@ -2659,13 +2642,14 @@ local jokerInfo = {
 			loc_txt = { name = 'Ornstein',
 				text = { {
 					'Scored {C:attention}#1#s',
+					'and {C:attention}#2#s',
 					'give an additional',
-					'{C:mult}+#2#{} Mult'
+					'{C:mult}+#3#{} Mult'
 					}, {
 					'If {C:attention}#3#{} is present,',
 					'this {C:joker}Joker{} becomes',
 					'{C:attention}Super Ornstein{} when',
-					'{C:attention}#3#{} is {C:red}destroyed',
+					'{C:attention}#4#{} is {C:red}destroyed',
 					'{s:0.8,C:inactive}Famously short for',
 					'{s:0.8,C:inactive}"Ornate Stone"'
 				} }
@@ -2681,29 +2665,30 @@ local jokerInfo = {
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
 				local ret = { vars = {
-					G.localization.descriptions.Enhanced.m_mult.name,
+					localize{ type = 'name_text', set = 'Enhanced', key = 'm_mult' },
+					localize{ type = 'name_text', set = 'Enhanced', key = 'm_lucky' },
 					to_big(card.ability.extra.mult)
 				} }
 				
 				info_queue[#info_queue + 1] = G.P_CENTERS.m_mult
 				
 				if card.ability.extra.super then
-					ret.vars[3] = card.ability.extra.scrPrc * 100
-					ret.vars[4] = card.ability.extra.charges
+					ret.vars[#ret.vars + 1] = card.ability.extra.scrPrc * 100
+					ret.vars[#ret.vars + 1] = card.ability.extra.charges
 					
 					ret.key = 'j_cir_super_ornstein'
 				else
-					ret.vars[3] = CirnoMod.miscItems.obscureJokerNameIfLockedOrUndisc('j_cir_smough')
+					ret.vars[#ret.vars + 1] = CirnoMod.miscItems.obscureJokerNameIfLockedOrUndisc('j_cir_smough')
 				end
 				
-				if CirnoMod.config['artCredits'] and not card.fake_card then
+				if CirnoMod.config.artCredits and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_MIYAZAKI", set = "Other" }
 				end
 				
 				return ret
 			end,
 			
-			updateState = function(card)
+			cir_updateState = function(card)
 				if
 					card.ability
 					and card.children
@@ -2780,7 +2765,7 @@ local jokerInfo = {
 								trigger = 'immediate',
 								blockable = true,
 								func = function()
-									selfRef.updateState(cardRef)
+									selfRef.cir_updateState(cardRef)
 									
 									SMODS.calculate_effect({
 										message = ' ',
@@ -2842,7 +2827,8 @@ local jokerInfo = {
 				if
 					context.individual
 					and context.cardarea == G.play
-					and SMODS.has_enhancement(context.other_card, 'm_mult')
+					and (SMODS.has_enhancement(context.other_card, 'm_mult')
+					or SMODS.has_enhancement(context.other_card, 'm_lucky'))
 				then
 					if card.ability.extra.super then
 						return { x_mult = to_big(card.ability.extra.mult) }
@@ -2911,6 +2897,7 @@ local jokerInfo = {
 							'{C:money}$'..to_big(G.GAME.cir_moneyLaundry.dolCap)..'{} Cap',
 							'->',
 							'{C:money}$'..to_big(G.GAME.cir_moneyLaundry.dolCap) + to_big(5)..'{} Cap',
+							'{C:attention}Affects all copies',
 							'{C:attention}Persists for rest of run{},',
 							'{C:attention}even if Joker is sold'
 						}
@@ -2918,7 +2905,8 @@ local jokerInfo = {
 						return {
 							'{C:money}$'..to_big(G.GAME.cir_moneyLaundry.dolCap)..'{} Cap',
 							'->',
-							'Uncapped',
+							'{C:attention}Uncapped',
+							'{C:attention}Affects all copies',
 							'{C:attention}Persists for rest of run{},',
 							'{C:attention}even if Joker is sold',
 							'{C:red}Final upgrade'
@@ -2952,6 +2940,299 @@ local jokerInfo = {
 				end
 			end
 		},
+		-- Fixer
+		{
+			key = 'fixer',
+			matureRefLevel = 1,
+			cir_Friend = { CirnoMod.miscItems.cirFriends.cir, CirnoMod.miscItems.cirFriends.dm, CirnoMod.miscItems.cirFriends.ntf },
+			
+			loc_txt = { name = 'Fixer',
+				text = {
+					'This {C:joker}Joker{} gives {X:mult,C:white} X#1# {} Mult',
+					'for every {C:attention}unique Ace &',
+					'{C:attention}Face card{} in played hand',
+					'{s:0.8,C:inactive}#2#',
+					'{s:0.8,C:inactive}#3#',
+					'{s:0.8,C:inactive}#4#',
+					'{s:0.8,C:inactive}#5#'
+				},
+				unlock = {
+					'Unlock the {E:1,C:attention}#1# Deck{},',
+					'{E:1,C:attention}#2# Deck{},',
+					'& {E:1,C:attention}#3# Deck{}',
+					'{C:inactive}(#4#/3)'
+				}
+			},
+			unlocked = false,
+			
+			config = { extra = {
+					x_mult = 1,
+					fAceCardCount = 0,
+					flv_lastFiveIdeas = {},
+					flv_potentialCollabs = {
+						Noita = {
+							DM = { CirnoMod.miscItems.cirFriend_Short.tom },
+							Cirno = { CirnoMod.miscItems.cirFriend_Short.oct }
+						},
+						REPO = {
+							Rumi = {
+								CirnoMod.miscItems.cirFriend_Short.cir, CirnoMod.miscItems.cirFriend_Short.mom, CirnoMod.miscItems.cirFriend_Short.nrp
+							}
+						},
+						['(any game)'] = {
+							Momo = {
+								CirnoMod.miscItems.cirFriend_Short.wls,
+								CirnoMod.miscItems.cirFriend_Short.dme,
+								CirnoMod.miscItems.cirFriend_Short.kzr,
+								CirnoMod.miscItems.cirFriend_Short.dm
+							},
+							Tom = {
+								CirnoMod.miscItems.cirFriend_Short.mom,
+								CirnoMod.miscItems.cirFriend_Short.tom,
+								CirnoMod.miscItems.cirFriend_Short.han
+							},
+							Hannah = {
+								CirnoMod.miscItems.cirFriend_Short.mom,
+								CirnoMod.miscItems.cirFriend_Short.dm
+							},
+							Octo = {
+								CirnoMod.miscItems.cirFriend_Short.mom,
+								CirnoMod.miscItems.cirFriend_Short.han,
+								CirnoMod.miscItems.cirFriend_Short.tom,
+								CirnoMod.miscItems.cirFriend_Short.wls
+							}
+						}
+					},
+					flv_particles = {
+						{
+							config = { namesLine = 1, gameLine = 3 },
+							text = {
+								'A %s & %s',
+								'collab where they',
+								'play %s',
+								'sounds like a fun time'
+							}
+						}, {
+							config = { namesLine = 3, gameLine = 2 },
+							text = {
+								'Do you think a',
+								'%s collab between',
+								'%s & %s',
+								'is a shout?'
+							}
+						}, {
+							config = { namesLine = 2, gameLine = 3 },
+							text = {
+								'Would a',
+								'%s & %s',
+								'%s',
+								'collab work?'
+							}
+						}, {
+							config = { namesLine = 3, gameLine = 2 },
+							text = {
+								'I think a potential',
+								'%s collab between',
+								'%s & %s',
+								'could be fun'
+							}
+						}, {
+							config = { namesLine = 1, gameLine = 3 },
+							text = {
+								'If %s & %s',
+								'collabed and did',
+								'%s, would that',
+								'be a good idea?'
+							}
+						}
+					},
+					flv_fallback = {
+						{
+							'Collab machine',
+							'broke, try again',
+							'in like 10 seconds',
+							'or smth'
+						}, {
+							'Error: No collab ideas.',
+							'If this error persists,',
+							'please contact your',
+							'system administrator'
+						}, {
+							'',
+							'...',
+							'Ran out of',
+							'ideas, whoops'
+						}, {
+							'You must',
+							'construct',
+							'additional',
+							'pylons'
+						}
+					}
+				} },			
+			pos = { x = 4, y = 2 },
+			cost = 5,
+			eternal_compat = true,
+			perishable_compat = false,			
+			blueprint_compat = true,
+			
+			generate_flavour_txt = function(extTbl)
+				if extTbl and extTbl.flv_particles then
+					local ret = {}
+					local passed = false
+					
+					for passes = 0, 10 do
+						local gameTbl, gameName = pseudorandom_element(extTbl.flv_potentialCollabs, pseudoseed('fxr_flv'))
+						local name2_tbl, name1 = pseudorandom_element(gameTbl, pseudoseed('fxr_flv'))
+						local name2 = pseudorandom_element(name2_tbl, pseudoseed('fxr_flv'))
+						
+						local clbShort = name1..'_'..name2..'_'..gameName
+						local particleTbl = pseudorandom_element(extTbl.flv_particles, pseudoseed('fxr_flv'))
+						
+						for i, line in ipairs(particleTbl.text) do
+							if i == particleTbl.config.namesLine then
+								table.insert(ret, string.format(line, name1, name2))
+							elseif i == particleTbl.config.gameLine then
+								table.insert(ret, string.format(line, gameName))
+							else
+								table.insert(ret, line)
+							end
+						end
+						
+						if
+							not CirnoMod.miscItems.indexedTableContainsItem(extTbl.flv_lastFiveIdeas, clbShort)
+						then
+							passed = true
+							table.insert(extTbl.flv_lastFiveIdeas, clbShort)
+							
+							if #extTbl.flv_lastFiveIdeas >= 5 then
+								table.remove(extTbl.flv_lastFiveIdeas, 1)
+							end
+							break
+						else
+							ret = {}
+						end
+					end
+					
+					if not passed then
+						ret = pseudorandom_element(extTbl.flv_fallback, pseudoseed('fxr_flv'))
+					end
+					
+					return ret
+				end
+			end,
+			
+			loc_vars = function(self, info_queue, card)
+				-- Art credit tooltip
+				if CirnoMod.config.artCredits and not card.fake_card then
+					info_queue[#info_queue + 1] = { key = 'jA_DaemonTsun_BigNTFEdit', set = 'Other' }
+				end
+				
+				return { vars = SMODS.merge_lists{
+					{ card.ability.extra.x_mult },
+					self.generate_flavour_txt(card.ability.extra) }
+				}
+			end,
+			
+			locked_loc_vars = function(self, info_queue, card)
+				local count = 0
+				
+				if 
+					CirnoMod.miscItems.get_cir_data('store').friendDeckUnlocks
+				then
+					for k, _ in pairs(G.PROFILES[G.SETTINGS.profile].cir_data.store.friendDeckUnlocks) do
+						if
+							k == 'Q_D'
+							or k == 'Q_H'
+							or k == 'Q_C'
+						then
+							count = count + 1
+						end
+					end
+				end
+				
+				return { vars = {
+					CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Flesh', 'b_cir_flesh'),
+					CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Frozen', 'b_cir_frozen'),
+					CirnoMod.miscItems.obscureStringIfJokerKeyLockedOrUndisc('Sycophant', 'b_cir_sycophant'),
+					count
+				} }				
+			end,
+			
+			check_for_unlock = function(self, args)
+				if 
+					CirnoMod.miscItems.get_cir_data('store').friendDeckUnlocks
+				then
+					local count = 0
+				
+					if  G.PROFILES[G.SETTINGS.profile].cir_data.store.friendDeckUnlockCount then
+						for k, _ in pairs(G.PROFILES[G.SETTINGS.profile].cir_data.store.friendDeckUnlocks) do
+							if
+								k == 'Q_D'
+								or k == 'Q_H'
+								or k == 'Q_C'
+							then
+								count = count + 1
+							end
+						end
+						
+						return count >= 3
+					end
+				end
+			end,
+			
+			cir_upgradeInfo = function(self, card)
+				return {
+					'{X:mult,C:white} X'..to_big(card.ability.extra.x_mult)..' {} Mult per',
+					'{C:attention}unique Ace & Face card',
+					'in played hand',
+					'->',
+					'{X:mult,C:white} X'..to_big(card.ability.extra.x_mult)+to_big(1)..' {} Mult per',
+					'{C:attention}unique Ace & Face card',
+					'in played hand'
+				}
+			end,
+			
+			cir_upgrade = function(self, card)
+				card.ability.extra.x_mult = to_big(card.ability.extra.x_mult) + to_big(1)
+				
+				return { message = localize('k_upgrade_ex') }
+			end,
+			
+			calculate = function(self, card, context)
+				if
+					context.before
+					and not context.blueprint
+					and not context.retrigger_joker
+					and not context.retrigger_joker_check
+				then
+					local uniqueFAceCards = {}
+					local curShortHand = nil
+					card.ability.extra.fAceCardCount = to_big(0)
+					
+					for i, pCard in ipairs(G.play.cards) do
+						if
+							pCard:is_face()
+							or pCard:get_id() == 14
+						then
+							curShortHand = CirnoMod.miscItems.cardShorthander(pCard)
+							
+							if not uniqueFAceCards[curShortHand] then
+								card.ability.extra.fAceCardCount = to_big(card.ability.extra.fAceCardCount) + to_big(1)
+								uniqueFAceCards[curShortHand] = true
+							end
+						end
+					end
+				end
+				
+				if
+					context.joker_main
+					and to_big(card.ability.extra.fAceCardCount) > to_big(1)
+				then
+					return { x_mult = to_big(card.ability.extra.x_mult) * to_big(card.ability.extra.fAceCardCount) }
+				end
+			end
+		}
 	}
 }
 

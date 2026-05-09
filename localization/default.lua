@@ -1,6 +1,6 @@
 local creditSources = {}
 local RV = {
-	descriptions = { Joker = {}, Enhanced = {} },
+	descriptions = { Joker = {}, Enhanced = {}, Spectral = {} },
 	misc = {
 		labels = {
 			k_upgradedjkr = 'Upgraded'
@@ -20,15 +20,17 @@ local replaceIntents = {
 	splash = G.localization.descriptions.Joker.j_splash.name
 }
 
-if CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone then
-	replaceIntents.stone = string.sub(CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name, 1, #CirnoMod.replaceDef.locChanges.enhancerLoc.m_stone.name - 5)
+if CirnoMod.replaceDef.locChanges.enhancedLoc.m_stone then
+	replaceIntents.stone = string.sub(CirnoMod.replaceDef.locChanges.enhancedLoc.m_stone.name, 1, #CirnoMod.replaceDef.locChanges.enhancedLoc.m_stone.name - 5)
 end
 	
 --#region What will go in the top of an art credit tooltip.
 creditSources.cr_JokerArt = "Joker Art By"
 creditSources.cr_JokerArtCr = "Joker Art Credit"
+creditSources.cr_KeepsakeArt = "Keepsake Art Credit"
+creditSources.cr_KeepsakeArtCr = "Keepsake Art Credit"
 creditSources.cr_DeckArt = "Deck Art By"
-creditSources.cr_EnhancerArt = "Enhancer Art By"
+creditSources.cr_EnhancedArt = "Enhancement Art By"
 creditSources.cr_SealArt = "Seal Art By"
 creditSources.cr_CardArt = "Card Art By"
 creditSources.cr_BoosterArt = "Booster Art By"
@@ -38,7 +40,8 @@ creditSources.cr_GenericArtCr = "Art Credit"
 
 --#region Individuals to be credited
 -- Boo this individual please.
-creditSources.NTF = "{s:0.8,X:cirNope,C:white,E:2}NopeTooFast{s:0.8}"
+creditSources.NTF = "{s:0.8,X:cirNope,C:white,E:2} NopeTooFast {s:0.8}"
+creditSources.NTF_Big = "{X:cirNope,C:white,E:2} NopeTooFast "
 
 -- Edit however you want, idk how you want it
 creditSources.DTsun = "DaemonTsun"
@@ -46,13 +49,13 @@ creditSources.DTsun = "DaemonTsun"
 --[[
 Have to do underscores here because X doesn't work with spaces.
 As a result, we end up with this nonsense.]]
-creditSources.CommunityContrib = "{s:0.6,X:inactive,C:white}(Cirno_TV{s:0.6,X:inactive,C:cirBgInactive}_{s:0.6,X:inactive,C:white}Community-Contributed{s:0.6,X:inactive,C:cirBgInactive}_{s:0.6,X:inactive,C:white}Idea)"
+creditSources.CommunityContrib = "{s:0.6,X:inactive,C:white}(Cirno_TV{s:0.6,X:inactive,C:cirBgInactive}_{s:0.6,X:inactive,C:white} Community-Contributed{s:0.6,X:inactive,C:cirBgInactive}_{s:0.6,X:inactive,C:white}Idea) "
 creditSources.masthir = "Masthir"
 creditSources.sanglune = "Sanglune"
 
 -- The funny increases exponentially.
-creditSources.CirnoTV = "{s:0.8,X:cirCyan,C:white}Cirno_TV{s:0.8}"
-creditSources.CirnoTV_smol = "{s:0.6,X:cirCyan,C:white}Cirno_TV"
+creditSources.CirnoTV = "{s:0.8,X:cirCyan,C:white} Cirno_TV {s:0.8}"
+creditSources.CirnoTV_smol = "{s:0.6,X:cirCyan,C:white} Cirno_TV "
 
 creditSources.artdef = "artbydefault"
 creditSources.yakitsuki = "Yakitsuki"
@@ -67,7 +70,7 @@ creditSources.muddle = "Muddleee"
 creditSources.hatotoou = "Hatotoou"
 creditSources.notovia = "Notovia"
 creditSources.thunk = "LocalThunk"
-creditSources.unknown = "{s:0.8,X:black,C:white}Unknown{s:0.8}"
+creditSources.unknown = "{s:0.8,X:black,C:white} Unknown {s:0.8}"
 --#endregion
 
 
@@ -82,14 +85,19 @@ RV.descriptions.Other = {
 	Or at least, how I thought it did because now it's no longer consistent
 	The contempt I feel for this setup is beyond human comprehension.
 	Why are things this way? Why must LocalThunk torment us so? In this
-	essay I will]]
+	essay I will
 	Joker_Art_By = { text = { creditSources.cr_JokerArt } },
+	Keepsake_Art_By = { text = { creditSources.cr_KeepsakeArt } },
 	Deck_Art_By = { text = { creditSources.cr_DeckArt } },
-	Enhancer_Art_By = { text = { creditSources.cr_EnhancerArt } },
+	Enhancement_Art_By = { text = { creditSources.cr_EnhancedArt } },
 	Seal_Art_By = { text = { creditSources.cr_SealArt } },
 	Card_Art_By = { text = { creditSources.cr_CardArt } },
 	Booster_Art_By = { text = { creditSources.cr_BoosterArt } },
 	Generic_Art_By = { text = { creditSources.cr_GenericArt } },
+	]]
+	ds_ArtBy = { text = { '{C:inactive}'..creditSources.cr_CardArt } },
+	ds_DaemonTsun = { text = { creditSources.DTsun } },
+	ds_NTF = { text = { creditSources.NTF_Big } },
 	
 	----- Me -----
 	jA_NTF = { name = creditSources.cr_JokerArt,
@@ -101,10 +109,22 @@ RV.descriptions.Other = {
 			creditSources.NTF
 		}
 	},
+	kA_NTF_Rend = { name = creditSources.cr_KeepsakeArtCr,
+		text = {
+			"{s:0.8}Rendition by",
+			creditSources.NTF
+		}
+	},
 	gA_NTF = { name = creditSources.cr_GenericArt,
 		text = { creditSources.NTF }
 	},
-	eA_NTF = { name = creditSources.cr_EnhancerArt,
+	gA_NTF_Rend = { name = creditSources.cr_GenericArtCr,
+		text = {
+			"{s:0.8}Rendition by",
+			creditSources.NTF
+		}
+	},
+	eA_NTF = { name = creditSources.cr_EnhancedArt,
 		text = { creditSources.NTF }
 	},
 	cA_NTF = { name = creditSources.cr_CardArt,
@@ -122,7 +142,7 @@ RV.descriptions.Other = {
 			"{s:0.8}by "..creditSources.NTF
 		}
 	},
-	eA_LocalThunk_NTFEdit = { name = creditSources.cr_EnhancerArt,
+	eA_LocalThunk_NTFEdit = { name = creditSources.cr_EnhancedArt,
 		text = {
 			"{s:0.8}"..creditSources.thunk..", edited",
 			"{s:0.8}by "..creditSources.NTF
@@ -161,7 +181,7 @@ RV.descriptions.Other = {
 	dA_DaemonTsun = { name = creditSources.cr_DeckArt,
 		text = {"{s:0.8}"..creditSources.DTsun}
 	},
-	eA_DaemonTsun = { name = creditSources.cr_EnhancerArt,
+	eA_DaemonTsun = { name = creditSources.cr_EnhancedArt,
 		text = {"{s:0.8}"..creditSources.DTsun}
 	},
 	sA_DaemonTsun = { name = creditSources.cr_SealArt,
@@ -582,7 +602,7 @@ RV.descriptions.Other = {
 	jA_Unknown = { name = creditSources.cr_JokerArt,
 		text = {creditSources.unknown}
 	},
-	eA_Unknown = { name = creditSources.cr_EnhancerArt,
+	eA_Unknown = { name = creditSources.cr_EnhancedArt,
 		text = {creditSources.unknown}
 	},
 	jA_Unknown_LocalThunkEdit = { name = creditSources.cr_JokerArt,
@@ -601,6 +621,16 @@ RV.descriptions.Other = {
 		text = {
 			"{s:0.8}"..creditSources.DTsun..",",
 			"{s:0.8}"..creditSources.CirnoTV
+		}
+	},
+	kA_zayne = { name = creditSources.cr_KeepsakeArtCr,
+		text = {
+			'{s:0.8}This is Zayne, from',
+			'{s:0.8}the mobile otome game',
+			'{s:0.8}Love & Deepspace.',
+			'{s:0.6}Papergames are okay with',
+			'{s:0.6}this, right?',
+			'{s:0.6}'
 		}
 	},
 	
@@ -688,7 +718,30 @@ RV.descriptions.Other = {
 	blankHeader = { text = { '' } },
 	blankTooltip = { name = 'blankHeader', text = { '' } },
 	blankTooltipA = { name = '', text = { '' } },
-	ignoreThis = { name = 'Ignore This', text = { 'Ignore this tooltip.' } }
+	ignoreThis = { name = 'Ignore This', text = { 'Ignore this tooltip.' } },
+	cir_pirate_gold = { name = 'Pirate Deck Effect', text = { '{C:money}+$1{} on create' } },
+	cir_forRemoval = { name = 'This Should Not Be Visible', text = {
+			'If you are seeing this text,',
+			'please contact your system',
+			'administrator.'
+		} },
+	faceInfoSticker = { name = 'Face Card Info', text = {
+			'Is automatically added',
+			'to {C:attention}Faces{} and {C:attention}Aces',
+			'if the {C:cirCyan,E:1}Cirno_TV Deck Skin',
+			'is active, to show which',
+			'card represents who'
+		} },
+	extraDenominator = { name = 'Denumerator Addition', text = {
+			'(ex: {C:green}1 in 3',
+			'{C:green}+1 denumeraator',
+			'= {C:green}1 in 4{})'
+		} },
+	flesh_coupon_odds = { name = 'Flesh Deck Addition', text = {
+			'Has a {C:green}#1# in #2#{} chance',
+			'to create another',
+			'{C:attention}#3#'
+		} }
 }
 
 RV.descriptions.Edition = {}
@@ -937,7 +990,7 @@ RV.descriptions.Joker.cir_b3313_floor3B = { name = 'Floor 3B', text = {
 	}
 }
 
-RV.descriptions.Joker.cir_j_confusedRumi_nPCardRebalanced = { name = "Confused Rumi",
+RV.descriptions.Joker.j_cir_confusedRumi_nPCardRebalanced = { name = "Confused Rumi",
 	text = {
 		'During the first {C:attention}#1#{C:blue}#2#{} of a round,',
 		'Convert all played {C:attention}left{} cards',
@@ -1060,15 +1113,16 @@ RV.descriptions.Joker.j_cir_super_smough = { name = 'Super Smough',
 RV.descriptions.Joker.j_cir_super_ornstein = { name = 'Super Ornstein',
 	text = { {
 		'Scored {C:attention}#1#s',
-		'give {X:mult,C:white} X#2# {} Mult'
+		'and {C:attention}#2#s',
+		'give {X:mult,C:white} X#3# {} Mult'
 		}, {
 		'Beating a {C:attention}Boss Blind',
 		'grants {C:attention}1{} charge',
 		'of Death prevention',
 		'Charges are only expended',
 		'if chips scored at at least',
-		'{C:attention}#3#%{} of required chips',
-		'{C:inactive}(Currently {C:attention}#4#{C:inactive} charges)',
+		'{C:attention}#4#%{} of required chips',
+		'{C:inactive}(Currently {C:attention}#5#{C:inactive} charges)',
 		'{s:0.8,C:inactive}"No, Bosses can\'t respawn',
 		'{s:0.8,C:inactive}in the randomiser"'
 	} }
@@ -1085,6 +1139,96 @@ RV.descriptions.Joker.j_cir_moneyLaundry_Uncapped = { name = 'Money Laundry',
 	}
 }
 
+RV.descriptions.Joker.j_cir_tdkatana_upg = { name = 'True Dragon\'s Katana', text = { {
+		'{C:attention}#1#{} per {C:attention}Blind{} and {C:attention}Shop{},',
+		'select a {C:attention}Joker{} and/or',
+		'{C:attention}Consumable{}, then use the',
+		'button on this {C:cirKeepsakeClr}Keepsake',
+		'to {C:red}destroy{} it/them',
+		'{C:inactive}(Currently {C:cirNope}#2#{C:inactive}/{C:cirNope}#3#{C:inactive})'
+		}, {
+		'This {C:cirKeepsakeClr}Keepsake{} gains',
+		'{X:mult,C:white} X#5# {} Mult when it',
+		'is used to {C:red}destroy',
+		'something',
+		'{C:inactive}(Currently {X:mult,C:white} X#6# {C:inactive} Mult)',
+		'{s:0.8,C:inactive}"He is not the Dragon. I am."'
+	} }
+}
+
+RV.descriptions.Joker.j_cir_tdkatana_et = { name = 'True Dragon\'s Katana', text = { {
+		'{C:attention}#1#{} per {C:attention}Blind{} and {C:attention}Shop{},',
+		'select a {C:attention}Joker{} and/or',
+		'{C:attention}Consumable{}, then use the',
+		'button on this {C:cirKeepsakeClr}Keepsake',
+		'to {C:red}destroy{} it/them',
+		'{C:inactive}(Currently {C:cirNope}#2#{C:inactive}/{C:cirNope}#3#{C:inactive})'
+		}, {
+		'After a {C:attention}Boss Blind{},',
+		'gain {C:attention}1 Charge',
+		' ',
+		'Expend charges to destroy',
+		'{C:attention,E:1}Eternal{} items',
+		'{C:inactive}(Currently {C:attention}#4#{C:inactive} Charges)'
+		}, {
+		'This {C:cirKeepsakeClr}Keepsake{} gains',
+		'{C:mult}+#5#{} Mult when it',
+		'is used to {C:red}destroy',
+		'something',
+		'{C:inactive}(Currently {C:mult}+#6#{C:inactive} Mult)',
+		'{s:0.8,C:inactive}"He is not the Dragon. I am."'
+	} }
+}
+
+RV.descriptions.Joker.j_cir_tdkatana_et_upg = { name = 'True Dragon\'s Katana', text = { {
+		'{C:attention}#1#{} per {C:attention}Blind{} and {C:attention}Shop{},',
+		'select a {C:attention}Joker{} and/or',
+		'{C:attention}Consumable{}, then use the',
+		'button on this {C:cirKeepsakeClr}Keepsake',
+		'to {C:red}destroy{} it/them',
+		'{C:inactive}(Currently {C:cirNope}#2#{C:inactive}/{C:cirNope}#3#{C:inactive})'
+		}, {
+		'After a {C:attention}Boss Blind{},',
+		'gain {C:attention}1 Charge',
+		' ',
+		'Expend charges to destroy',
+		'{C:attention,E:1}Eternal{} items',
+		'{C:inactive}(Currently {C:attention}#4#{C:inactive} Charges)'
+		}, {
+		'This {C:cirKeepsakeClr}Keepsake{} gains',
+		'{X:mult,C:white} X#5# {} Mult when it',
+		'is used to {C:red}destroy',
+		'something',
+		'{C:inactive}(Currently {X:mult,C:white} X#6# {C:inactive} Mult)',
+		'{s:0.8,C:inactive}"He is not the Dragon. I am."'
+	} }
+}
+
+RV.descriptions.Joker.j_cir_candyCookieChocolate_upg = { name = 'Candy Cookie Chocolate', text = { {
+		'During the first {C:attention}#1#{C:blue}#2#{}/{C:red}#3#{} of',
+		'a round, {C:attention}playing or discarding{} a hand',
+		'{C:attention}containing{} your {C:attention}most played hand{} gives',
+		'this {C:cirKeepsakeClr}Keepsake {C:blue}+1{} stored {C:blue}hand{},',
+		'{C:attention}playing or discarding{} a hand {C:attention}containing',
+		'your {C:attention}least played hand{} gives',
+		'this {C:cirKeepsakeClr}Keepsake {C:red}+1{} stored {C:red}discard{}',
+		'{C:inactive}(Currently {C:blue}+#4# hands{C:inactive}, {C:red}+#5# discards{C:inactive},',
+		'{C:inactive}Most: {C:attention}#6#{C:inactive}, Least: {C:attention}#7#{C:inactive})'
+		}, {
+		'Stored {C:red}hands{} & {C:blue}discards{} give',
+		'{C:attention}half{} their stored value',
+		'as {X:purple,C:white}XScore',
+		'{C:inactive}(Currently {X:purple,C:white} X#8# {C:inactive})'
+		}, {
+		'During a blind, use the button on',
+		'this {C:cirKeepsakeClr}Keepsake{} to immediately gain',
+		'all stored {C:blue}hands{} & {C:red}discards{} for',
+		'the {C:attention}remainder of that blind',
+		'{s:0.8,C:inactive}Blame Rumi for getting this song',
+		'{s:0.8,C:inactive}stuck in my head'
+	} }
+}
+
 RV.descriptions.Enhanced.m_glass_pFreeze = { name = "Ice Card",
 	text = {
 		"{X:chips,C:white} X#1# {} Chips",
@@ -1096,6 +1240,22 @@ RV.descriptions.Enhanced.m_glass_pFreeze = { name = "Ice Card",
 RV.descriptions.Enhanced.m_glass_pFreeze_NoCir = { name = "Glass Card",
 	text = RV.descriptions.Enhanced.m_glass_pFreeze.text
 }
+
+RV.descriptions.Spectral.c_perf_kpsk = { name = 'Perfectionism', text = {
+	'{E:1,C:cirUpgradedJkrClr}Upgrades{} the currently',
+	'selected {C:cirKeepsakeClr}Keepsake',
+	'or {C:attention}Joker'
+} }
+
+RV.descriptions.Spectral.c_tomfoolery_soe = { name = 'Tomfoolery',
+ text = { 
+	'Shuffles {C:dark_edition}editions{} and {C:attention}seals',
+	'across both {C:attentions}cards{} and {C:attention}Jokers',
+	'{s:0.8}(Will not transfer {s:0.8,C:dark_edition}Negative{s:0.8} from {s:0.8,C:attention}Jokers',
+	'{s:0.8}to {s:0.8,C:attention}cards{s:0.8}, but can transfer it from',
+	'{s:0.8}from {s:0.8,C:attention}cards{s:0.8} to {s:0.8,C:attention}Jokers{s:0.8})',
+	'{s:0.8,C:inactive}Go on. Which one is it under?'
+ } }
 
 --[[
 This just populates the localization vars for extended desc tooltips,
@@ -1115,7 +1275,7 @@ SMODS.process_loc_text() spontaneously
 stopped working for stone card related
 things.]]
 if
-	CirnoMod.config['enhancerRenames']
+	CirnoMod.config['EnhancementRenames']
 then	
 	-- RV.descriptions.Enhanced = { m_stone = { name = "Whump Card" } }
 	RV.misc.dictionary.k_plus_stone = "+1 "..replaceIntents.stone

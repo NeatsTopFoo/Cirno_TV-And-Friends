@@ -34,7 +34,7 @@ local jokerInfo = {
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
-				if CirnoMod.config['artCredits'] and not card.fake_card then
+				if CirnoMod.config.artCredits and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = 'jA_NTF', set = 'Other' }
 				end
 				
@@ -46,9 +46,9 @@ local jokerInfo = {
 			
 			cir_upgradeInfo = function(self, card)
 				return {
-					'{C:mult}'..to_big(card.ability.extra.growth)..'{} Mult scaling',
+					'{C:mult}+'..to_big(card.ability.extra.growth)..'{} Mult scaling',
 					'->',
-					'{C:mult}'..to_big(card.ability.extra.growth) * to_big(2)..'{} Mult scaling'
+					'{C:mult}+'..to_big(card.ability.extra.growth) * to_big(2)..'{} Mult scaling'
 				}
 			end,
 			
@@ -61,10 +61,14 @@ local jokerInfo = {
 			calculate = function(self, card, context)
 				if
 					context.before
-					and context.main_eval
 					and #context.full_hand ~= #context.scoring_hand
 				then
-					card.ability.extra.mult = to_big(card.ability.extra.mult) + to_big(card.ability.extra.growth)
+					SMODS.scale_card(card, {
+						ref_table = card.ability.extra,
+						ref_value = 'mult',
+						scalar_value = 'growth',
+						no_message = true
+					})
 					
 					return {
 							extra = { 
@@ -109,7 +113,7 @@ local jokerInfo = {
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
-				if CirnoMod.config['artCredits'] and not card.fake_card then
+				if CirnoMod.config.artCredits and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = 'jA_NTF', set = 'Other' }
 				end
 			end,
@@ -119,10 +123,10 @@ local jokerInfo = {
 			
 			update = function(self, card, dt)
 				if
-					not (CirnoMod.config.jkrVals
-					and CirnoMod.config.jkrVals[G.SETTINGS.profile]
-					and CirnoMod.config.jkrVals[G.SETTINGS.profile].store
-					and CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4)
+					not (G.PROFILES[G.SETTINGS.profile] 
+					and G.PROFILES[G.SETTINGS.profile].cir_data
+					and G.PROFILES[G.SETTINGS.profile].cir_data.store
+					and G.PROFILES[G.SETTINGS.profile].cir_data.store.dabber_altf4)
 					and (not CirnoMod.dabber
 					or CirnoMod.dabber and
 					CirnoMod.dabber.REMOVED)
@@ -132,14 +136,11 @@ local jokerInfo = {
 			end,
 			
 			check_for_unlock = function(self, args)
-				return CirnoMod.config.jkrVals and CirnoMod.config.jkrVals[G.SETTINGS.profile] and CirnoMod.config.jkrVals[G.SETTINGS.profile].store and CirnoMod.config.jkrVals[G.SETTINGS.profile].store.dabber_altf4
+				return CirnoMod.miscItems.get_cir_data('store').dabber_altf4
 			end,
 			
 			calculate = function(self, card, context)
-				if
-					context.before
-					and context.main_eval
-				then
+				if context.before then
 					card.ability.extra.shouldReturnToHand = false
 					
 					local halfHandCount = math.floor((#G.play.cards / 2) + 0.5)
