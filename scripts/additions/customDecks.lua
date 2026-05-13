@@ -823,6 +823,7 @@ for i, dck in ipairs(deckInfo.deckConfigs) do
 			dck.check_for_unlock = function(self, args)
 				if
 					self.friendCard
+					and G.PROFILES[G.SETTINGS.profile].cir_data
 					and G.PROFILES[G.SETTINGS.profile].cir_data.store.friendDeckUnlocks[self.friendCard]
 					and self.keepsake_key
 				then
