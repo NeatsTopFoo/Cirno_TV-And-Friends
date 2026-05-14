@@ -474,12 +474,14 @@ local spectralInfo = {
 				
 				local eligibleJokers = {}
 				
-				for i, jkr in ipairs (jkrArea.cards) do
-					if
-						jkr.edition
-						and CirnoMod.miscItems.pullEditionModifierValue(jkr.edition) ~= nil
-					then
-						table.insert(eligibleJokers, jkr)
+				if jkrArea then
+					for i, jkr in ipairs (jkrArea.cards) do
+						if
+							jkr.edition
+							and CirnoMod.miscItems.pullEditionModifierValue(jkr.edition) ~= nil
+						then
+							table.insert(eligibleJokers, jkr)
+						end
 					end
 				end
 				

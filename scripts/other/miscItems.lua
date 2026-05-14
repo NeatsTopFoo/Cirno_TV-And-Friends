@@ -274,6 +274,7 @@ miscItems.profileStoredVarsInitCheck = function()
 		end
 	end
 	
+	-- Deprecation of the old saved value system in mod config
 	if CirnoMod.config.jkrVals[G.SETTINGS.profile] then
 		CirnoMod.config.jkrVals[G.SETTINGS.profile] = nil
 		doSave = true

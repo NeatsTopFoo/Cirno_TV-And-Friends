@@ -821,10 +821,12 @@ for i, dck in ipairs(deckInfo.deckConfigs) do
 		
 		if not dck.check_for_unlock then
 			dck.check_for_unlock = function(self, args)
+				local dataStore = CirnoMod.miscItems.get_cir_data('store')
+				
 				if
 					self.friendCard
-					and G.PROFILES[G.SETTINGS.profile].cir_data
-					and G.PROFILES[G.SETTINGS.profile].cir_data.store.friendDeckUnlocks[self.friendCard]
+					and dataStore.friendDeckUnlocks
+					and dataStore.friendDeckUnlocks[self.friendCard]
 					and self.keepsake_key
 				then
 					G.E_MANAGER:add_event(Event({
