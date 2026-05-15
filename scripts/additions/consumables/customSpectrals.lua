@@ -493,17 +493,19 @@ local spectralInfo = {
 				then
 					table.insert(eligibleJokers, G.keepsake_area.cards[1])
 				end
-				
-				local cardRef = card
-				local jkrRef = pseudorandom_element(eligibleJokers, pseudoseed('randJokerScale'..G.GAME.round_resets.ante))
-				
-				SMODS.calculate_effect({
-						message = CirnoMod.miscItems.scaleEdition_FHP(jkrRef, cardRef.ability.extra),
-						message_card = jkrRef,
-						colour = CirnoMod.miscItems.cardEditionTypeToColour(jkrRef) or G.C.FILTER,
-						sound = CirnoMod.miscItems.cardEditionTypeToSfx(jkrRef) or 'generic1',
-						volume = 0.5
-					}, cardRef)
+
+				if #eligibleJokers > 0 then
+					local cardRef = card
+					local jkrRef = pseudorandom_element(eligibleJokers, pseudoseed('randJokerScale'..G.GAME.round_resets.ante))
+					
+					SMODS.calculate_effect({
+							message = CirnoMod.miscItems.scaleEdition_FHP(jkrRef, cardRef.ability.extra),
+							message_card = jkrRef,
+							colour = CirnoMod.miscItems.cardEditionTypeToColour(jkrRef) or G.C.FILTER,
+							sound = CirnoMod.miscItems.cardEditionTypeToSfx(jkrRef) or 'generic1',
+							volume = 0.5
+						}, cardRef)
+				end
 			end
 		},
 		-- Tomfoolery
