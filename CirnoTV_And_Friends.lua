@@ -1668,7 +1668,7 @@ function check_for_unlock(args)
 				G.GAME
 				and not G.GAME.seeded
 				and CirnoMod.miscItems.get_cir_data('store', true)
-				and string.sub(G.GAME.selected_back_key, 1, 6) == 'b_cir_'
+				and string.sub(G.GAME.selected_back_key.key, 1, 6) == 'b_cir_'
 			then
 				if not G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks then
 					G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks = {}
