@@ -1675,16 +1675,16 @@ function check_for_unlock(args)
 					doSave = true
 				end
 				
-				if type(G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key]) ~= 'table' then
-					G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key] = {}
+				if type(G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key.key]) ~= 'table' then
+					G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key.key] = {}
 					doSave = true
 				end
 				
 				if G.GAME.applied_stakes and #G.GAME.applied_stakes > 0 then
 					for _, applied_stake in ipairs(G.GAME.applied_stakes) do
-						G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key][applied_stake] = G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key][applied_stake] or 0
+						G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key.key][applied_stake] = G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key.key][applied_stake] or 0
 						
-						G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key][applied_stake] = G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key][applied_stake] + 1
+						G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key.key][applied_stake] = G.PROFILES[G.SETTINGS.profile].cir_data.store.wonDecks[G.GAME.selected_back_key.key][applied_stake] + 1
 						
 						doSave = true
 					end
