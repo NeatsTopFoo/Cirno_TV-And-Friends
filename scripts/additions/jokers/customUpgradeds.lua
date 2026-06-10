@@ -6987,12 +6987,14 @@ local jokerInfo = {
 			getFinalDupeMult = function(self, card)
 				local ret = 1
 				local existing_joker_keys = {}
-				
-				for _, jkr in ipairs(G.jokers.cards) do
-					if existing_joker_keys[jkr.config.center.key] then
-						ret = to_big(ret) + to_big(card.ability.extra.dupeMult)
-					else
-						existing_joker_keys[jkr.config.center.key] = true
+
+				if G.jokers and G.jokers.cards then
+					for _, jkr in ipairs(G.jokers.cards) do
+						if existing_joker_keys[jkr.config.center.key] then
+							ret = to_big(ret) + to_big(card.ability.extra.dupeMult)
+						else
+							existing_joker_keys[jkr.config.center.key] = true
+						end
 					end
 				end
 				
