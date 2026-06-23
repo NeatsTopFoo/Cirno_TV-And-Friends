@@ -215,7 +215,7 @@ local deckInfo = {
 						add_round_eval_row{
 							dollars = back.effect.config.overkillDol,
 							bonus = true,
-							text = 'Overkill (' .. string.format("%.0f", (to_big(overkillAm) / to_big(G.GAME.cir_storeBlindReq)) * to_big(100)) .. '%)',
+              text = 'Overkill (' .. string.format("%g", (to_big(overkillAm) / to_big(G.GAME.cir_storeBlindReq)) * to_big(100)) .. '%)'
 							text_colour = CirnoMod.miscItems.colours.cirDM,
 							text_scale = 0.6,
 							name = 'custom',
