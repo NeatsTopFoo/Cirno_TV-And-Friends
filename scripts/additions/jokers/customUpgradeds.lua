@@ -3842,7 +3842,7 @@ local jokerInfo = {
 					and context.other_card:get_id() == 12
 					and context.other_card:is_suit('Diamonds'))
 					or (context.retrigger_joker_check
-					and card.ability.extra.dm_jokers[context.other_card.config.center.key])
+					and card.ability.extra.dm_jokers[context.other_joker.config.center.key])
 				then
 					return { repetitions = to_big(card.ability.extra.dmRepetitions), colour = CirnoMod.miscItems.colours.cirNope }
 				end
