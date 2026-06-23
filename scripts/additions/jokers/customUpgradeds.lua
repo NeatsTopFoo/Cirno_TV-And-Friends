@@ -2603,7 +2603,7 @@ local jokerInfo = {
 			end,
 			
 			blueprint_compat = true,
-			loc_vars = function(self, info_queue, card)
+			loc_vars = function(self, info_queue, card)				
 				info_queue[#info_queue + 1] = { key = 'e_negative_consumable', set = 'Edition', config = { extra = 1 } }
 				
 				-- Art credit tooltip
@@ -3074,6 +3074,13 @@ local jokerInfo = {
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
+				if
+					not card.ability.extra
+					or type(card.ability.extra) ~= 'table'
+				then
+					self.abiInit(self, card, 4, { })
+				end
+				
 				local numerator, denominator = SMODS.get_probability_vars(card or self, card.ability.extra.oddsNom, card.ability.extra.oddsDenom, 'kaizurRT')
 				
 				local aceNumerator, aceDenominator = SMODS.get_probability_vars(card or self, 1, self:getAceDenom(card), 'kaizurAceHand')
@@ -3268,6 +3275,13 @@ local jokerInfo = {
 			
 			blueprint_compat = true,
 			loc_vars = function(self, info_queue, card)
+				if
+					not card.ability.extra
+					or type(card.ability.extra) ~= 'table'
+				then
+					self.abiInit(self, card, 4, { noPerf = { scalar = 1 }, rCounter = 0 })
+				end
+				
 				-- Art credit tooltip
 				if CirnoMod.config.artCredits and not card.fake_card then
 					info_queue[#info_queue + 1] = { key = "jA_NTF", set = "Other" }
@@ -6987,7 +7001,7 @@ local jokerInfo = {
 			getFinalDupeMult = function(self, card)
 				local ret = 1
 				local existing_joker_keys = {}
-
+				
 				if G.jokers and G.jokers.cards then
 					for _, jkr in ipairs(G.jokers.cards) do
 						if existing_joker_keys[jkr.config.center.key] then
