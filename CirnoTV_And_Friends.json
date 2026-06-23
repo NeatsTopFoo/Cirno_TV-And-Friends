@@ -8,7 +8,7 @@
 	"main_file": "CirnoTV_And_Friends.lua",
 	"icon_path": "modicon.png",
 	"no_marquee": true,
-	"version": "1.003.129",
+	"version": "1.003.130",
 	"dependencies": [
 		"Steamodded (>=1.0.0~BETA-1620a)",
 		"malverk (>=1.1.3)"
