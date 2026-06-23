@@ -3078,7 +3078,7 @@ local jokerInfo = {
 					not card.ability.extra
 					or type(card.ability.extra) ~= 'table'
 				then
-					self.abiInit(self, card, 4, { })
+					self.abiInit(self, card, 4, { oddsNom = 2, oddsDenom = 7, retriggers = 1 })
 				end
 				
 				local numerator, denominator = SMODS.get_probability_vars(card or self, card.ability.extra.oddsNom, card.ability.extra.oddsDenom, 'kaizurRT')
