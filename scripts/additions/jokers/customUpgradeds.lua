@@ -2552,9 +2552,7 @@ local jokerInfo = {
 						context.other_card:get_id() == 13
 						and context.other_card:is_suit('Spades')
 					then
-						scaleTable = 'extra_KoS'
-					else
-						scaleTable = 'extra'
+						scaleTable.scalar_table = card.ability.extra.extra_KoS
 					end
 					
 					SMODS.scale_card(context.other_card, scaleTable)
