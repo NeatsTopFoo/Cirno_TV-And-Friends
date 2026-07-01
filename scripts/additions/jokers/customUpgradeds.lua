@@ -3466,7 +3466,7 @@ local jokerInfo = {
 				
 				return { vars = {
 					G.localization.descriptions.Tarot.c_wheel_of_fortune.name,
-					G.GAME and to_big(G.GAME.wheelFailures) or 1,
+					G.GAME and to_big(G.GAME.wheelFailures) > 1 and to_big(G.GAME.wheelFailures) or 1,
 					localize(card.ability.extra.handType, 'poker_hands'),
 					to_big(card.ability.extra.stored.chips),
 					to_big(card.ability.extra.stored.mult),
@@ -3854,7 +3854,7 @@ local jokerInfo = {
 					and context.other_card:get_id() == 12
 					and context.other_card:is_suit('Diamonds'))
 					or (context.retrigger_joker_check
-					and card.ability.extra.dm_jokers[context.other_joker.config.center.key])
+					and card.ability.extra.dm_jokers[context.other_joker and context.other_joker.config.center.key or nil])
 				then
 					return { repetitions = to_big(card.ability.extra.dmRepetitions), colour = CirnoMod.miscItems.colours.cirNope }
 				end
