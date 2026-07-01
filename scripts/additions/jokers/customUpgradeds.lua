@@ -3466,7 +3466,7 @@ local jokerInfo = {
 				
 				return { vars = {
 					G.localization.descriptions.Tarot.c_wheel_of_fortune.name,
-					G.GAME and to_big(G.GAME.wheelFailures) > 1 and to_big(G.GAME.wheelFailures) or 1,
+					G.GAME and to_big(G.GAME.wheelFailures) > to_big(1) and to_big(G.GAME.wheelFailures) or 1,
 					localize(card.ability.extra.handType, 'poker_hands'),
 					to_big(card.ability.extra.stored.chips),
 					to_big(card.ability.extra.stored.mult),
